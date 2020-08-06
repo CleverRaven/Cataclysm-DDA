@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UISTATE_H
-#define UISTATE_H
+#ifndef CATA_SRC_UISTATE_H
+#define CATA_SRC_UISTATE_H
 
 #include <list>
 #include <map>
@@ -14,7 +14,6 @@
 
 class item;
 
-
 struct advanced_inv_pane_save_state {
     public:
         int sort_idx = 1;
@@ -25,7 +24,7 @@ struct advanced_inv_pane_save_state {
         bool in_vehicle = false;
 
         template<typename JsonStream>
-        void serialize( JsonStream &json, std::string prefix ) const {
+        void serialize( JsonStream &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
             json.member( prefix + "filter", filter );
             json.member( prefix + "area_idx", area_idx );
@@ -33,7 +32,7 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "in_vehicle", in_vehicle );
         }
 
-        void deserialize( JsonObject &jo, std::string prefix ) {
+        void deserialize( const JsonObject &jo, const std::string &prefix ) {
             jo.read( prefix + "sort_idx", sort_idx );
             jo.read( prefix + "filter", filter );
             jo.read( prefix + "area_idx", area_idx );
@@ -44,8 +43,8 @@ struct advanced_inv_pane_save_state {
 
 struct advanced_inv_save_state {
     public:
-        int exit_code = 0;
-        int re_enter_move_all = 0;
+        aim_exit exit_code = aim_exit::none;
+        aim_entry re_enter_move_all = aim_entry::START;
         int aim_all_location = 1;
 
         bool active_left = true;
@@ -57,7 +56,7 @@ struct advanced_inv_save_state {
         advanced_inv_pane_save_state pane_right;
 
         template<typename JsonStream>
-        void serialize( JsonStream &json, std::string prefix ) const {
+        void serialize( JsonStream &json, const std::string &prefix ) const {
             json.member( prefix + "active_left", active_left );
             json.member( prefix + "last_popup_dest", last_popup_dest );
 
@@ -67,7 +66,7 @@ struct advanced_inv_save_state {
             pane_right.serialize( json, prefix + "pane_right_" );
         }
 
-        void deserialize( JsonObject &jo, std::string prefix ) {
+        void deserialize( JsonObject &jo, const std::string &prefix ) {
             jo.read( prefix + "active_left", active_left );
             jo.read( prefix + "last_popup_dest", last_popup_dest );
 
@@ -90,8 +89,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -103,8 +100,8 @@ class uistatedata
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        itype_id adv_inv_container_type = "null";
-        itype_id adv_inv_container_content_type = "null";
+        itype_id adv_inv_container_type = itype_id::NULL_ID();
+        itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
         advanced_inv_save_state transfer_save;
@@ -142,6 +139,8 @@ class uistatedata
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
         std::vector<recipe_id> recent_recipes;
+
+        bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
@@ -200,6 +199,7 @@ class uistatedata
             json.member( "hidden_recipes", hidden_recipes );
             json.member( "favorite_recipes", favorite_recipes );
             json.member( "recent_recipes", recent_recipes );
+            json.member( "bionic_ui_sort_mode", bionic_sort_mode );
 
             json.member( "input_history" );
             json.start_object();
@@ -243,6 +243,7 @@ class uistatedata
             jo.read( "hidden_recipes", hidden_recipes );
             jo.read( "favorite_recipes", favorite_recipes );
             jo.read( "recent_recipes", recent_recipes );
+            jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,
@@ -276,4 +277,4 @@ class uistatedata
 };
 extern uistatedata uistate;
 
-#endif
+#endif // CATA_SRC_UISTATE_H

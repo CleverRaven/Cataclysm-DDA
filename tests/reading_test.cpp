@@ -1,15 +1,20 @@
-#include <cstdio>
+#include "catch/catch.hpp"
+
+#include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "debug.h"
 #include "item.h"
 #include "itype.h"
-#include "morale.h"
-#include "player_helpers.h"
-#include "skill.h"
+#include "morale_types.h"
 #include "type_id.h"
+#include "value_ptr.h"
+
+class player;
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -20,6 +25,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "player has some unidentified books" ) {
         item &book1 = dummy.i_add( item( "novel_western" ) );
@@ -43,6 +49,8 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
     avatar dummy;
+    dummy.set_body();
+    dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "a fun book" ) {
         item &book = dummy.i_add( item( "novel_western" ) );
@@ -112,6 +120,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
@@ -156,6 +165,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 {
     avatar dummy;
+    dummy.worn.push_back( item( "backpack" ) );
 
     // Easy, medium, and hard books
     item &child = dummy.i_add( item( "child_book" ) );
@@ -242,6 +252,8 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
+    dummy.set_body();
+    dummy.worn.push_back( item( "backpack" ) );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 
@@ -259,7 +271,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 
     SECTION( "you cannot read in darkness" ) {
-        dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
+        dummy.add_env_effect( efftype_id( "darkness" ), bodypart_id( "eyes" ), 3, 1_hours );
         REQUIRE( dummy.fine_detail_vision_mod() > 4 );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
@@ -296,10 +308,10 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read without enough skill to understand the book" ) {
-            dummy.set_skill_level( skill_id( "cooking" ), 7 );
+            dummy.set_skill_level( skill_id( "chemistry" ), 5 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
-            expect_reasons = { "cooking 8 needed to understand.  You have 7" };
+            expect_reasons = { "chemistry 6 needed to understand.  You have 5" };
             CHECK( reasons == expect_reasons );
         }
 

@@ -10,9 +10,11 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "connects_to": "COUNTER",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
+    "crafting_pseudo_item": "rock_forge_pseudo",
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -34,6 +36,7 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "connects_to": "COUNTER",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -64,8 +67,9 @@
     "required_str": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
-    "//connects_to": "COUNTER",
+    "connects_to": "COUNTER",
     "open": "f_counter_gate_o",
+    "crafting_pseudo_item": "medium_surface_pseudo",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
       "str_min": 12,
@@ -84,7 +88,7 @@
     "color": "blue",
     "move_cost_mod": 2,
     "required_str": 4,
-    "//connects_to": "COUNTER",
+    "connects_to": "COUNTER",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "close": "f_counter_gate_c",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
@@ -106,6 +110,7 @@
     "move_cost_mod": 1,
     "coverage": 45,
     "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
@@ -135,6 +140,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "looks_like": "f_lab_bench",
+    "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
     "deconstruct": {
       "items": [
@@ -169,6 +175,7 @@
     "move_cost_mod": 0,
     "required_str": 3,
     "deployed_item": "leather_tarp",
+    "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "leather_tarp", "count": 1 } ] },
     "bash": {
@@ -191,6 +198,7 @@
     "move_cost_mod": 0,
     "required_str": 3,
     "deployed_item": "plastic_sheet",
+    "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
     "bash": {
@@ -213,6 +221,7 @@
     "move_cost_mod": 0,
     "required_str": 3,
     "deployed_item": "fiber_mat",
+    "crafting_pseudo_item": "large_surface_pseudo",
     "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
     "deconstruct": { "items": [ { "item": "fiber_mat", "count": 1 } ] },
     "bash": {
@@ -237,6 +246,7 @@
     "required_str": -1,
     "deployed_item": "tourist_table",
     "looks_like": "f_table",
+    "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
@@ -263,6 +273,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": 5,
+    "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -311,5 +322,39 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.85, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_table",
+    "name": "metal table",
+    "description": "A serviceable but simple table made of scrap metal.",
+    "symbol": "T",
+    "color": "light_gray",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 8,
+    "crafting_pseudo_item": "medium_surface_pseudo",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "FLAT_SURF", "SHORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 2 },
+        { "item": "scrap", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300L" }
   }
 ]

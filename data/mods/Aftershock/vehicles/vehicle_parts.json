@@ -10,22 +10,8 @@
     "location": "center",
     "durability": 200,
     "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
-    "size": 1200,
+    "size": 600,
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "afs_hauling_space",
-    "copy-from": "cargo_space",
-    "name": { "str": "hauling space" },
-    "looks_like": "cargo_space",
-    "item": "afs_hauling_space",
-    "location": "center",
-    "durability": 400,
-    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
   {
     "type": "vehicle_part",
@@ -48,21 +34,6 @@
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 4 }
-  },
-  {
-    "id": "laser_cannon",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted laser cannon" },
-    "item": "laser_cannon",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "looks_like": "laser_rifle",
-    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
   },
   {
     "type": "vehicle_part",
@@ -232,16 +203,6 @@
     ]
   },
   {
-    "id": "afs_roof_external_tank",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": { "str": "roof-mounted external tank (200L)" },
-    "item": "55gal_drum",
-    "location": "on_roof",
-    "extend": { "flags": [ "ON_ROOF" ] },
-    "size": 200000
-  },
-  {
     "id": "afs_mounted_external_tank",
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
@@ -327,5 +288,27 @@
     "copy-from": "afs_lightweight_frame",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "solar_panel_v3",
+    "copy-from": "solar_panel",
+    "name": "quantum solar panel",
+    "looks_like": "solar_panel_v2",
+    "proportional": { "epower": 6.0 },
+    "item": "solar_panel_v3",
+    "durability": 40,
+    "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
+    },
+    "extend": { "flags": [ "NO_REPAIR" ] },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 4 ] },
+      { "item": "steel_chunk", "count": [ 4, 4 ] },
+      { "item": "scrap", "count": [ 4, 4 ] },
+      { "item": "solar_cell", "count": [ 2, 8 ] }
+    ]
   }
 ]

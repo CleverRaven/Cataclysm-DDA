@@ -1,9 +1,15 @@
 #pragma once
-#ifndef TYPE_ID_H
-#define TYPE_ID_H
+#ifndef CATA_SRC_TYPE_ID_H
+#define CATA_SRC_TYPE_ID_H
 
 #include "int_id.h"
 #include "string_id.h"
+
+class achievement;
+using achievement_id = string_id<achievement>;
+
+class activity_type;
+using activity_id = string_id<activity_type>;
 
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
@@ -31,6 +37,12 @@ using efftype_id = string_id<effect_type>;
 class scent_type;
 using scenttype_id = string_id<scent_type>;
 
+class ascii_art;
+using ascii_art_id = string_id<ascii_art>;
+
+class disease_type;
+using diseasetype_id = string_id<disease_type>;
+
 class emit;
 using emit_id = string_id<emit>;
 
@@ -56,6 +68,9 @@ using harvest_id = string_id<harvest_list>;
 
 class item_category;
 using item_category_id = string_id<item_category>;
+
+struct itype;
+using itype_id = string_id<itype>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
@@ -98,6 +113,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class profession;
+using profession_id = string_id<profession>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 
@@ -118,6 +140,12 @@ using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+class move_mode;
+using move_mode_id = string_id<move_mode>;
+
+class proficiency;
+using proficiency_id = string_id<proficiency>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -154,6 +182,9 @@ using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
+struct weather_type;
+using weather_type_id = string_id<weather_type>;
+
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 
@@ -164,4 +195,4 @@ struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
 
-#endif // TYPE_ID_H
+#endif // CATA_SRC_TYPE_ID_H

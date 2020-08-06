@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
 
-#include "catch/catch.hpp"
 #include "point.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.
@@ -35,7 +36,7 @@ TEST_CASE( "point_hash_distribution", "[hash]" )
     for( int x = -MAX_COORDINATE; x <= MAX_COORDINATE; ++x ) {
         for( int y = -MAX_COORDINATE; y <= MAX_COORDINATE; ++y ) {
             element_count++;
-            found_hashes.push_back( std::hash<point> {}( { x, y } ) );
+            found_hashes.push_back( std::hash<point> {}( point{ x, y } ) );
         }
     }
     CHECK( count_unique_elements( found_hashes ) > element_count * 0.9 );

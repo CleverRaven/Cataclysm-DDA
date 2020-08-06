@@ -18,11 +18,6 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_city_building_no_rotate",
-    "copy-from": "generic_city_building"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "park",
     "copy-from": "park",
     "sym": "\u00EE"

@@ -1,15 +1,16 @@
 #pragma once
-#ifndef FIELD_H
-#define FIELD_H
+#ifndef CATA_SRC_FIELD_H
+#define CATA_SRC_FIELD_H
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "enums.h"
 #include "field_type.h"
-
-class effect;
+#include "type_id.h"
 
 /**
  * An active or passive effect existing on a tile.
@@ -42,6 +43,7 @@ class field_entry
         mongroup_id monster_spawn_group() const;
 
         float light_emitted() const;
+        float local_light_override() const;
         float translucency() const;
         bool is_transparent() const;
         int convection_temperature_mod() const;
@@ -60,6 +62,7 @@ class field_entry
         int get_field_intensity() const;
         // Allows you to modify the intensity of the current field entry.
         int set_field_intensity( int new_intensity );
+        void mod_field_intensity( int mod );
 
         /// @returns @ref age.
         time_duration get_field_age() const;
@@ -89,7 +92,7 @@ class field_entry
         }
 
         bool gas_can_spread() {
-            return is_field_alive() && type.obj().phase == GAS && type.obj().percent_spread > 0;
+            return is_field_alive() && type.obj().phase == phase_id::GAS && type.obj().percent_spread > 0;
         }
 
         time_duration get_underwater_age_speedup() const {
@@ -199,4 +202,4 @@ class field
         field_type_id _displayed_field_type;
 };
 
-#endif
+#endif // CATA_SRC_FIELD_H

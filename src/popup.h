@@ -1,16 +1,18 @@
 #pragma once
-#ifndef POPUP_H
-#define POPUP_H
+#ifndef CATA_SRC_POPUP_H
+#define CATA_SRC_POPUP_H
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "color.h"
+#include "point.h"
 #include "string_formatter.h"
 
 class ui_adaptor;
@@ -171,6 +173,11 @@ class query_popup
          * Specify the default message color.
          **/
         query_popup &default_color( const nc_color &d_color );
+        /**
+         * Specify the desired keyboard mode. Used in keybindings menu to assign
+         * actions to input events of the approriate type of the parent UI.
+         */
+        query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -214,6 +221,7 @@ class query_popup
         bool cancel;
         bool ontop;
         bool fullscr;
+        keyboard_mode pref_kbd_mode;
 
         struct button {
             button( const std::string &text, const point & );
@@ -231,6 +239,7 @@ class query_popup
 
         static std::vector<std::vector<std::string>> fold_query(
                     const std::string &category,
+                    keyboard_mode pref_kbd_mode,
                     const std::vector<query_option> &options,
                     int max_width, int horz_padding );
         void invalidate_ui() const;
@@ -278,4 +287,4 @@ class static_popup : public query_popup
         std::shared_ptr<ui_adaptor> ui;
 };
 
-#endif
+#endif // CATA_SRC_POPUP_H

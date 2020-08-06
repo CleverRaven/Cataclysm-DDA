@@ -11,6 +11,7 @@
       { "item": "dress_shirt" },
       { "item": "chestguard_hard" },
       { "item": "cape_fp" },
+      { "item": "fanny" },
       { "item": "armguard_hard" },
       { "item": "legguard_hard" },
       { "item": "gloves_rubber" },
@@ -29,8 +30,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "medium_disposable_cell", "prob": 90 },
-      { "group": "snacks_fancy", "prob": 30, "charges": 2 },
-      { "group": "snacks", "prob": 20, "charges": 2 }
+      { "item": "foodplace_snack_bar", "container-item": "fanny" },
+      { "item": "foodplace_snack_bar" }
     ]
   }
 ]

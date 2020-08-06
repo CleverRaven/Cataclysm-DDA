@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "sewage_treatment_palette",
     "terrain": {
-      " ": [ "t_dirt", "t_grass" ],
-      "?": "t_shrub",
+      " ": "t_region_groundcover",
+      "?": "t_region_shrub",
       ")": "t_water_pool_shallow",
       ".": "t_pavement",
       "_": "t_sidewalk",
@@ -30,25 +30,26 @@
       "b": "t_door_metal_pickable",
       "e": "t_door_metal_locked",
       "D": "t_door_glass_c",
-      "6": "t_console_broken",
       "+": "t_door_c",
       ",": "t_floor",
       "M": "t_metal_floor",
       "<": "t_ladder_up",
       ">": "t_stairs_down",
-      "%": "t_machinery_heavy",
-      "$": "t_machinery_light",
+      "%": "t_thconc_floor",
+      "$": "t_thconc_floor",
       "{": "t_thconc_floor",
       "R": "t_thconc_floor",
       "J": "t_current_trans",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "F": "t_potential_trans",
       "7": "t_metal_floor",
       "4": "t_metal_floor",
       "g": "t_metal_floor",
-      "Y": "t_switchgear_s"
-    }
+      "Y": "t_switchgear_s",
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
   },
   {
     "type": "palette",
@@ -86,7 +87,6 @@
       "H": "t_sconc_wall",
       "2": "t_sewage_pipe",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "Y": "t_switchgear_s",
       "&": "t_sewage_pump",
       "-": "t_wall_glass",
@@ -94,11 +94,19 @@
       "a": "t_railing_v",
       "|": "t_chainfence",
       "C": "t_chaingate_l",
-      "$": "t_machinery_light",
-      "@": "t_machinery_heavy",
-      "v": "t_machinery_old",
+      "$": "t_thconc_floor",
+      "@": "t_thconc_floor",
+      "v": "t_thconc_floor",
       "+": "t_door_c",
-      "6": "t_console_broken"
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": {
+      "$": "f_machinery_light",
+      "@": "f_machinery_heavy",
+      "v": "f_machinery_old",
+      "G": "f_generator_broken",
+      "6": "f_console_broken"
     }
   },
   {
@@ -539,7 +547,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "palettes": [ "sewage_treatment_sewer_palette" ],
-      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_yellow", "Q": "t_privacy_fence" },
+      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_metal_yellow", "Q": "t_privacy_fence" },
       "furniture": {
         "{": "f_utility_shelf",
         "w": "f_workbench",

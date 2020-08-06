@@ -8,5 +8,55 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_olight",
+    "name": "wooden floor, overhead light",
+    "description": "Interlocking wooden tiles that are more than likely treated against fire, with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_flat_roof",
+    "looks_like": "t_floor",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "splinter", "count": [ 2, 8 ] },
+        { "item": "nail", "charges": [ 5, 10 ] },
+        { "item": "glass_shard", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] },
+        { "item": "glass_shard", "count": [ 8, 16 ] }
+      ]
+    }
   }
 ]

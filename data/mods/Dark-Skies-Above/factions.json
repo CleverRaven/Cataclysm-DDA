@@ -2,20 +2,15 @@
   {
     "type": "MONSTER_FACTION",
     "name": "neworder",
-    "neutral": [ "small_animal", "fish" ],
-    "friendly": [ "neworder_civ", "neworder_bot" ]
+    "neutral": [ "small_animal", "fish", "animal" ],
+    "friendly": [ "neworder_bot" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "neworder_bot",
     "base_faction": "neworder",
-    "friendly": [ "neworder", "neworder_civ" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "//": "human civilians belonging to the new order",
-    "name": "neworder_civ",
-    "neutral": [ "human", "animal", "fish", "neworder" ]
+    "neutral": [ "stray" ],
+    "friendly": [ "neworder" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -31,7 +26,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "stray",
-    "//": "largely neutral to non-humans and things that don't belong to the order",
-    "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog", "spiderant" ]
+    "//": "largely neutral to animals and things that don't live",
+    "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog", "neworder_bot" ]
   }
 ]

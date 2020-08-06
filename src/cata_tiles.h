@@ -1,34 +1,34 @@
 #pragma once
-#ifndef CATA_TILES_H
-#define CATA_TILES_H
+#ifndef CATA_SRC_CATA_TILES_H
+#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
-#include <memory>
 #include <map>
+#include <memory>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "sdl_wrappers.h"
 #include "animation.h"
 #include "creature.h"
+#include "enums.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
 #include "options.h"
-#include "weather.h"
-#include "enums.h"
-#include "weighted_list.h"
-#include "point.h"
 #include "pimpl.h"
+#include "point.h"
+#include "sdl_wrappers.h"
+#include "sdl_geometry.h"
+#include "type_id.h"
+#include "weather.h"
+#include "weighted_list.h"
 
-class Creature;
-class player;
-class pixel_minimap;
+class Character;
 class JsonObject;
-
-using itype_id = std::string;
+class pixel_minimap;
 
 extern void set_displaybuffer_rendertarget();
 
@@ -38,6 +38,7 @@ struct tile_type {
     weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
+    bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
 
@@ -237,10 +238,10 @@ class tileset_loader
         void load( const std::string &tileset_id, bool precheck );
 };
 
-enum text_alignment {
-    TEXT_ALIGNMENT_LEFT,
-    TEXT_ALIGNMENT_CENTER,
-    TEXT_ALIGNMENT_RIGHT,
+enum class text_alignment : int {
+    left,
+    center,
+    right,
 };
 
 struct formatted_text {
@@ -252,7 +253,7 @@ struct formatted_text {
         : text( text ), color( color ), alignment( alignment ) {
     }
 
-    formatted_text( const std::string &text, int color, direction direction );
+    formatted_text( const std::string &text, int color, direction text_direction );
 };
 
 /** type used for color blocks overlays.
@@ -266,7 +267,7 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
     public:
-        cata_tiles( const SDL_Renderer_Ptr &render );
+        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -315,8 +316,14 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
@@ -479,25 +486,26 @@ class cata_tiles
         static std::vector<options_manager::id_and_option> build_display_list();
     protected:
         template <typename maptype>
-        void tile_loading_report( const maptype &tiletypemap, const std::string &label,
+        void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename arraytype>
-        void tile_loading_report( const arraytype &array, int array_length, const std::string &label,
+        void tile_loading_report( const arraytype &array, int array_length, TILE_CATEGORY category,
                                   const std::string &prefix = "" );
         template <typename basetype>
-        void tile_loading_report( size_t count, const std::string &label, const std::string &prefix );
+        void tile_loading_report( size_t count, TILE_CATEGORY category, const std::string &prefix );
         /**
          * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
          * to an id string (result of id_func must be convertible to string).
          */
         template<typename Iter, typename Func>
-        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label,
+        void lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY category,
                          const std::string &prefix );
         /** Lighting */
         void init_light();
 
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
+        const GeometryRenderer_Ptr &geometry;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;
@@ -581,4 +589,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif
+#endif // CATA_SRC_CATA_TILES_H

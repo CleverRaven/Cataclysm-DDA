@@ -6,6 +6,6 @@
       "houses": { "wizard_tower_1": 10, "wizard_tower_2": 20 },
       "shops": { "magic_shop": 100, "used_bookstore": 225, "magic_academy": 150 }
     },
-    "field_coverage": { "other": { "f_boulder_large": 0.6667, "f_glow_boulder": 0.3333 } }
+    "field_coverage": { "other": { "f_boulder_large": 0.98, "f_glow_boulder": 0.02 } }
   }
 ]

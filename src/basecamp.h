@@ -1,39 +1,41 @@
 #pragma once
-#ifndef BASECAMP_H
-#define BASECAMP_H
+#ifndef CATA_SRC_BASECAMP_H
+#define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
 #include <list>
-#include <memory>
-#include <vector>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
+#include "craft_command.h"
 #include "inventory.h"
+#include "map.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "requirements.h"
 #include "translations.h"
-#include "memory_fast.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
+class character_id;
 class npc;
 class time_duration;
 
-enum class farm_ops;
+enum class farm_ops : int;
 class item;
-class map;
 class mission_data;
 class recipe;
-class requirements_data;
-class tinymap;
 
 struct expansion_data {
     std::string type;
     std::map<std::string, int> provides;
     std::map<std::string, int> in_progress;
-    tripoint pos;
+    tripoint_abs_omt pos;
     // legacy camp level, replaced by provides map and set to -1
     int cur_level;
 
@@ -42,7 +44,6 @@ struct expansion_data {
 using npc_ptr = shared_ptr_fast<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
-using itype_id = std::string;
 
 namespace catacurses
 {
@@ -80,7 +81,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir = point_zero;
+const point base_dir{};
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
@@ -115,13 +116,13 @@ class basecamp
 {
     public:
         basecamp();
-        basecamp( const std::string &name_, const tripoint &omt_pos );
+        basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos );
         basecamp( const std::string &name_, const tripoint &bb_pos_,
                   const std::vector<point> &directions_,
                   const std::map<point, expansion_data> &expansions_ );
 
         inline bool is_valid() const {
-            return !name.empty() && omt_pos != tripoint_zero;
+            return !name.empty() && omt_pos != tripoint_abs_omt();
         }
         inline int board_x() const {
             return bb_pos.x;
@@ -129,7 +130,7 @@ class basecamp
         inline int board_y() const {
             return bb_pos.y;
         }
-        inline tripoint camp_omt_pos() const {
+        inline tripoint_abs_omt camp_omt_pos() const {
             return omt_pos;
         }
         inline const std::string &camp_name() const {
@@ -138,19 +139,19 @@ class basecamp
         tripoint get_bb_pos() const {
             return bb_pos;
         }
-        void validate_bb_pos( tripoint new_abs_pos ) {
+        void validate_bb_pos( const tripoint &new_abs_pos ) {
             if( bb_pos == tripoint_zero ) {
                 bb_pos = new_abs_pos;
             }
         }
-        void set_bb_pos( tripoint new_abs_pos ) {
+        void set_bb_pos( const tripoint &new_abs_pos ) {
             bb_pos = new_abs_pos;
         }
         void set_by_radio( bool access_by_radio );
 
         std::string board_name() const;
         std::vector<point> directions;
-        std::vector<tripoint> fortifications;
+        std::vector<tripoint_abs_omt> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
@@ -158,10 +159,10 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void abandon_camp();
-        void add_expansion( const std::string &terrain, const tripoint &new_pos );
-        void add_expansion( const std::string &bldg, const tripoint &new_pos,
+        void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
+        void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
-        void define_camp( const tripoint &p, const std::string &camp_type = "default" );
+        void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
         // upgrade levels
@@ -184,7 +185,8 @@ class basecamp
         // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
         bool validate_sort_points();
         // Validates the expansion data
-        expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos );
+        expansion_data parse_expansion( const std::string &terrain,
+                                        const tripoint_abs_omt &new_pos );
         /**
          * Invokes the zone manager and validates that the necessary sort zones exist.
          */
@@ -232,7 +234,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( const item &result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,
@@ -242,9 +244,9 @@ class basecamp
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
         std::string gathering_description( const std::string &bldg );
-        /// Returns a string for the number of plants that are harvestable, plots ready to plany,
+        /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
-        std::string farm_description( const tripoint &farm_pos, size_t &plots_count,
+        std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
                                       farm_ops operation );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
@@ -286,8 +288,8 @@ class basecamp
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint &omt_tgt );
-        void start_farm_op( const point &dir, const tripoint &omt_tgt, farm_ops op );
+        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
+        void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
@@ -324,7 +326,7 @@ class basecamp
         * @param omt_tgt the overmap pos3 of the farm_ops
         * @param op whether to plow, plant, or harvest
         */
-        bool farm_return( const std::string &task, const tripoint &omt_tgt, farm_ops op );
+        bool farm_return( const std::string &task, const tripoint_abs_omt &omt_tgt, farm_ops op );
         void fortifications_return();
 
         void combat_mission_return( const std::string &miss );
@@ -346,7 +348,7 @@ class basecamp
         void add_resource( const itype_id &camp_resource );
         bool resources_updated = false;
         // omt pos
-        tripoint omt_pos;
+        tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs;
         // location of associated bulletin board in abs coords
         tripoint bb_pos;
@@ -378,4 +380,4 @@ class basecamp_action_components
         std::unique_ptr<tinymap> map_; // Used for by-radio crafting
 };
 
-#endif
+#endif // CATA_SRC_BASECAMP_H

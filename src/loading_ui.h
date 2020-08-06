@@ -1,9 +1,8 @@
 #pragma once
-#ifndef LOADING_UI_H
-#define LOADING_UI_H
+#ifndef CATA_SRC_LOADING_UI_H
+#define CATA_SRC_LOADING_UI_H
 
 #include <memory>
-#include <vector>
 #include <string>
 
 class background_pane;
@@ -41,4 +40,4 @@ class loading_ui
         void show();
 };
 
-#endif
+#endif // CATA_SRC_LOADING_UI_H

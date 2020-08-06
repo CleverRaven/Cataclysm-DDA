@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAIN_MENU_H
-#define MAIN_MENU_H
+#ifndef CATA_SRC_MAIN_MENU_H
+#define CATA_SRC_MAIN_MENU_H
 
 #include <cstddef>
 #include <string>
@@ -8,12 +8,14 @@
 
 #include "cursesdef.h"
 #include "input.h"
+#include "point.h"
 #include "worldfactory.h"
+#include "enums.h"
 
 class main_menu
 {
     public:
-        main_menu() : ctxt( "MAIN_MENU" ) { }
+        main_menu() : ctxt( "MAIN_MENU", keyboard_mode::keychar ) { }
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
 
@@ -103,9 +105,15 @@ class main_menu
 
         void init_windows();
 
+        /* holiday functions and member variables*/
+        static bool is_easter( int day, int month, int year );
+        holiday get_holiday_from_time();
+
+        holiday current_holiday = holiday::none;
+
         static std::string halloween_spider();
         std::string halloween_graves();
 };
 
-#endif
+#endif // CATA_SRC_MAIN_MENU_H
 

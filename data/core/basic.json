@@ -10,11 +10,10 @@
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "category": "food",
-    "name": "water",
-    "name_plural": "water",
+    "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
-    "weight": 250,
-    "volume": 1,
+    "weight": "250 g",
+    "volume": "250 ml",
     "price": 50,
     "symbol": "~",
     "color": "light_blue",
@@ -23,6 +22,6 @@
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ],
-    "use_action": "BLECH_BECAUSE_UNCLEAN"
+    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
   }
 ]

@@ -53,7 +53,8 @@
       { "group": "plumbing_clothing", "prob": 100 },
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
-      [ "survnote", 1 ]
+      [ "survnote", 1 ],
+      [ "pipe_fittings", 70 ]
     ]
   },
   {

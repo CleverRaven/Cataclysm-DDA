@@ -1,11 +1,12 @@
 [
   {
     "type": "material",
-    "ident": "titanium",
+    "id": "titanium",
     "name": "Titanium",
     "density": 10,
     "bash_resist": 4,
     "cut_resist": 9,
+    "bullet_resist": 7,
     "acid_resist": 14,
     "fire_resist": 4,
     "elec_resist": 8,
@@ -17,7 +18,7 @@
   },
   {
     "type": "material",
-    "ident": "graphene_weave",
+    "id": "graphene_weave",
     "name": "Graphene Weave",
     "density": 10,
     "specific_heat_liquid": 0.82,
@@ -25,6 +26,7 @@
     "latent_heat": 273,
     "bash_resist": 3,
     "cut_resist": 3,
+    "bullet_resist": 2,
     "acid_resist": 5,
     "fire_resist": 5,
     "elec_resist": 0,

@@ -1,10 +1,9 @@
 #pragma once
-#ifndef MONFACTION_H
-#define MONFACTION_H
+#ifndef CATA_SRC_MONFACTION_H
+#define CATA_SRC_MONFACTION_H
 
 #include <unordered_map>
 
-#include "int_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -37,4 +36,4 @@ class monfaction
         mf_attitude attitude( const mfaction_id &other ) const;
 };
 
-#endif
+#endif // CATA_SRC_MONFACTION_H

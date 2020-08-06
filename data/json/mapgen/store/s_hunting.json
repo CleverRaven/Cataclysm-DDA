@@ -33,7 +33,7 @@
         "........4..............."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": "t_region_groundcover",
         " ": "t_floor",
         ",": "t_thconc_floor",
         "y": "t_thconc_floor",
@@ -48,16 +48,16 @@
         "|": "t_wall_w",
         "-": "t_wall_w",
         "~": "t_window_bars_alarm",
-        "C": "t_console_broken",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "C": "f_console_broken",
         "#": "f_counter",
         "%": "f_sink",
         "R": "f_rack",
         "r": "f_warehouse_shelf",
-        "O": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
-        "o": [ "f_crate_c", "f_crate_c", "f_crate_c", "f_crate_o" ],
+        "O": [ [ "f_crate_c", 3 ], "f_crate_o" ],
+        "o": [ [ "f_crate_c", 3 ], "f_crate_o" ],
         "X": "f_safe_l",
         "x": "f_safe_l",
         "B": "f_bulletin",

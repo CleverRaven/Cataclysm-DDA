@@ -24,6 +24,7 @@
     "dodge": 5,
     "armor_bash": 2,
     "armor_cut": 12,
+    "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
     "death_function": [ "NORMAL" ],

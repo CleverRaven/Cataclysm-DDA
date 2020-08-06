@@ -12,16 +12,19 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
+#include <algorithm>
 #include <cassert>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <algorithm>
 #include <cstring>
-#include <chrono>
 #include <ctime>
 #include <exception>
-#include <map>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -29,24 +32,26 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "catch/catch.hpp"
+#include "color.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "worldfactory.h"
-#include "color.h"
-#include "options.h"
-#include "output.h"
 #include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
-#include "cata_utility.h"
-#include "calendar.h"
+#include "weather.h"
+#include "worldfactory.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -140,17 +145,19 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = avatar();
-    g->u.create( PLTYPE_NOW );
+    get_avatar() = avatar();
+    get_avatar().create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    get_map() = map();
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
-    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    map &here = get_map();
+    // TODO: fix point types
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
-    g->weather.update_weather();
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -214,7 +221,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 {
     std::string option_user_dir = extract_argument( arg_vec, "--user-dir=" );
     if( option_user_dir.empty() ) {
-        return "./";
+        return "./test_user_dir/";
     }
     if( !string_ends_with( option_user_dir, "/" ) ) {
         option_user_dir += "/";
@@ -287,6 +294,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

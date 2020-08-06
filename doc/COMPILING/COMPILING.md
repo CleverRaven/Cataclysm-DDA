@@ -91,6 +91,7 @@ Given you're building from source you have a number of choices to make:
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
   * `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
+  * `PREFIX=DIR` - causes `make install` to place binaries and data files to DIR (see note below)
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
@@ -106,6 +107,9 @@ The above will build a debug-enabled curses version for the architecture you are
 
 **Note on debug**:
 You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
+
+**Note on PREFIX**:
+PREFIX specifies a directory which will be the prefix for binaries, resources, and documentation files. Compiling with PREFIX means cataclysm will read files from PREFIX directory. This can be overridden with --datadir (e.g. if you used PREFIX=DIR in earlier build, then specify --datadir DIR/share/cataclysm-dda).
 
 ## Compiling localization files
 
@@ -449,11 +453,6 @@ ncurses (with wide character support enabled) and gettext are needed if you want
 For Homebrew:
 
     brew install gettext ncurses
-    brew link --force gettext ncurses
-
-Then, after compiling, be sure to unlink these libraries to prevent conflicts with the OS X shared libraries:
-
-    brew unlink gettext ncurses
 
 For MacPorts:
 
@@ -493,6 +492,7 @@ The Cataclysm source is compiled using `make`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
+* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
@@ -538,7 +538,7 @@ Pass the ``--help`` flag to list options.
 
 ### dmg distribution
 
-You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you will need Python first. If you are on Mac OS X >= 10.8, Python 2.7 is pre-installed with the OS. If you are on an older version of OS X, you can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
+You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you may need to install Python first. You can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
 
     # This install pip. It might not be required if it is already installed.
     curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python

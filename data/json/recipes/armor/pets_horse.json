@@ -47,7 +47,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
   },
   {
     "result": "leather_armor_horse",
@@ -77,6 +77,8 @@
         [ "wax", 6 ],
         [ "tallow", 24 ],
         [ "mutant_tallow", 24 ],
+        [ "human_tallow", 24 ],
+        [ "demihuman_tallow", 24 ],
         [ "tallow_tainted", 24 ],
         [ "vinegar", 30 ],
         [ "pine_bough", 60 ]
@@ -93,7 +95,7 @@
     "difficulty": 4,
     "time": "210 m",
     "using": [ [ "sewing_standard", 75 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "armor_blarmor", 3 ] ] ]
+    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_demihuman", 39 ] ], [ [ "armor_blarmor", 3 ] ] ]
   },
   {
     "result": "leatherbone_armor_horse",
@@ -107,7 +109,7 @@
     "autolearn": true,
     "byproducts": [ [ "rag", 6 ] ],
     "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "leather_armor_horse", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 39, "LIST" ] ], [ [ "leather_armor_horse", 1 ] ] ]
   },
   {
     "result": "leatherbone_armor_horse",
@@ -115,8 +117,8 @@
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skill_used": "cooking",
-    "difficulty": 3,
+    "skill_used": "chemistry",
+    "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "525 m",
     "book_learn": [
@@ -134,7 +136,7 @@
       [ [ "water", 30 ], [ "water_clean", 30 ] ],
       [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
       [ [ "salt", 150 ] ],
-      [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
+      [ [ "bone_sturdy", 39, "LIST" ] ],
       [ [ "leather", 105 ], [ "tanned_hide", 17 ] ]
     ]
   },

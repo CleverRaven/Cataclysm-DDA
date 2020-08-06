@@ -1,13 +1,15 @@
 #pragma once
-#ifndef FACTION_H
-#define FACTION_H
+#ifndef CATA_SRC_FACTION_H
+#define CATA_SRC_FACTION_H
 
 #include <bitset>
-#include <vector>
 #include <map>
 #include <set>
 #include <string>
+#include <tuple>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "character_id.h"
 #include "color.h"
@@ -16,15 +18,15 @@
 #include "type_id.h"
 
 // TODO: Redefine?
-#define MAX_FAC_NAME_SIZE 40
+static constexpr int MAX_FAC_NAME_SIZE = 40;
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 class faction;
 
@@ -83,7 +85,7 @@ class faction_template
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
-        std::string currency; // itype_id of the faction currency
+        itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
         std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
@@ -135,4 +137,4 @@ class faction_manager
         faction *get( const faction_id &id, bool complain = true );
 };
 
-#endif
+#endif // CATA_SRC_FACTION_H

@@ -155,7 +155,7 @@
       [ "small_repairkit", 20 ],
       [ "grapnel", 5 ],
       [ "misc_repairkit", 15 ],
-      [ "toolbox", 20 ],
+      { "group": "tools_toolbox", "prob": 20 },
       [ "crowbar", 25 ],
       [ "machete", 25 ],
       [ "ax", 25 ],
@@ -192,7 +192,7 @@
       [ "remington_870", 10 ],
       [ "mossberg_500", 5 ],
       [ "shotgun_d", 5 ],
-      [ "pipebomb", 10 ],
+      [ "improvised_pipebomb", 10 ],
       [ "molotov", 10 ],
       [ "longbow", 5 ],
       [ "recurbow", 15 ],
@@ -204,9 +204,6 @@
       [ "rifle_scope", 20 ],
       [ "pistol_scope", 10 ],
       [ "improve_sights", 20 ],
-      [ "combatsaw_off", 5 ],
-      [ "helsing", 5 ],
-      [ "tihar", 5 ],
       [ "ashot", 5 ]
     ]
   },
@@ -260,7 +257,7 @@
   {
     "id": "TALK_EVAC_MERCHANT",
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal...", "no": "Welcome..." }
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal…", "no": "Welcome…" }
   },
   {
     "id": "TALK_EVAC_MERCHANT_NEW",
@@ -612,7 +609,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
-    "item": "jar_glass",
+    "item": "jar_glass_sealed",
     "count": 100,
     "end": {
       "effect": [

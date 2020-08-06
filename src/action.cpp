@@ -1,7 +1,7 @@
 #include "action.h"
 
-#include <climits>
 #include <algorithm>
+#include <climits>
 #include <istream>
 #include <iterator>
 #include <memory>
@@ -9,10 +9,15 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
+#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -21,19 +26,16 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
+#include "ret_val.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "ret_val.h"
-#include "type_id.h"
-#include "point.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -118,7 +120,7 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard_char );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -294,6 +296,8 @@ std::string action_ident( action_id act )
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
             return "whitelist_enemy";
+        case ACTION_WORKOUT:
+            return "workout";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:
@@ -589,20 +593,21 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 
 bool can_butcher_at( const tripoint &p )
 {
+    Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( qual_BUTCHER );
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
-    auto items = g->m.i_at( p );
+    const int factor = player_character.max_quality( qual_BUTCHER );
+    const int factorD = player_character.max_quality( qual_CUT_FINE );
+    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
-    for( auto &items_it : items ) {
+    const inventory &crafting_inv = player_character.crafting_inventory();
+    for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
+        } else if( player_character.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -611,73 +616,79 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
+    Character &player_character = get_player_character();
+    map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( flag_SWIMMABLE, p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
+            return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
+            return player_character.swim_speed() < 500 ||
+                   player_character.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( flag_GOES_DOWN, p );
+        return here.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( flag_GOES_UP, p );
+        return here.has_flag( flag_GOES_UP, p );
     }
 }
 
 bool can_examine_at( const tripoint &p )
 {
-    if( g->m.veh_at( p ) ) {
+    map &here = get_map();
+    if( here.veh_at( p ) ) {
         return true;
     }
-    if( g->m.has_flag( flag_CONSOLE, p ) ) {
+    if( here.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
-    if( g->m.has_items( p ) ) {
+    if( here.has_items( p ) ) {
         return true;
     }
-    const furn_t &xfurn_t = g->m.furn( p ).obj();
-    const ter_t &xter_t = g->m.ter( p ).obj();
+    const furn_t &xfurn_t = here.furn( p ).obj();
+    const ter_t &xter_t = here.ter( p ).obj();
 
-    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
+    if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
     } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
     Creature *c = g->critter_at( p );
-    if( c != nullptr && p != g->u.pos() ) {
+    if( c != nullptr && !c->is_avatar() ) {
         return true;
     }
 
-    const trap &tr = g->m.tr_at( p );
-    return tr.can_see( p, g->u );
+    return here.can_see_trap_at( p, get_player_character() );
 }
 
 static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
-    const optional_vpart_position vp = g->m.veh_at( p );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return g->m.has_items( p ) || veh_has_items;
+    return here.has_items( p ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
 {
+    map &here = get_map();
+    tripoint player_pos = get_player_character().pos();
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
+            return here.open_door( p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
-            const optional_vpart_position vp = g->m.veh_at( p );
+            const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
-                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
-                   g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
+                             veh_pointer_or_null( here.veh_at( player_pos ) ) != &vp->vehicle() ) >= 0 ) ||
+                   here.close_door( p, !here.is_outside( player_pos ), true );
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -712,37 +723,39 @@ action_id handle_action_menu()
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+    if( !player_character.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
-        if( !g->u.controlling_vehicle ) {
+        if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( CMM_RUN ) ) {
+    if( player_character.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
+    if( player_character.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
+    map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    if( g->m.veh_at( g->u.pos() ) ) {
+    if( here.veh_at( player_character.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
         action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( pos != g->u.pos() ) {
+    for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+        if( pos != player_character.pos() ) {
             // Check for actions that work on nearby tiles
             if( can_interact_at( ACTION_OPEN, pos ) ) {
                 action_weightings[ACTION_OPEN] = 200;
@@ -921,6 +934,7 @@ action_id handle_action_menu()
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
+            REGISTER_ACTION( ACTION_WORKOUT );
             REGISTER_ACTION( ACTION_BIONICS );
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
@@ -948,19 +962,11 @@ action_id handle_action_menu()
             title += ": " + catgname;
         }
 
-        int width = 0;
-        for( auto &cur_entry : entries ) {
-            width = std::max( width, utf8_width( cur_entry.txt ) );
-        }
-        //border=2, selectors=3, after=3 for balance.
-        width += 2 + 3 + 3;
-        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                                std::min( width, TERMX - 2 ), title, entries );
-
-        g->draw();
+        uilist smenu;
+        smenu.settext( title );
+        smenu.entries = entries;
+        smenu.query();
+        const int selection = smenu.ret;
 
         if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
@@ -1004,19 +1010,11 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_SAVE );
     REGISTER_ACTION( ACTION_DEBUG );
 
-    int width = 0;
-    for( auto &entry : entries ) {
-        width = std::max( width, utf8_width( entry.txt ) );
-    }
-    //border=2, selectors=3, after=3 for balance.
-    width += 2 + 3 + 3;
-    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
-                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( point( std::max( ix, 0 ), std::max( iy, 0 ) ),
-                            std::min( width, TERMX - 2 ), _( "MAIN MENU" ), entries );
-
-    g->draw();
+    uilist smenu;
+    smenu.settext( _( "MAIN MENU" ) );
+    smenu.entries = entries;
+    smenu.query();
+    int selection = smenu.ret;
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
@@ -1027,7 +1025,7 @@ action_id handle_main_menu()
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE" );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
@@ -1047,11 +1045,12 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
-                g->u.facing = FD_RIGHT;
+                facing = FacingDirection::RIGHT;
             } else if( vec->x < 0 ) {
-                g->u.facing = FD_LEFT;
+                facing = FacingDirection::LEFT;
             }
             return vec;
         } else if( action == "pause" ) {
@@ -1070,7 +1069,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + g->u.pos() : dir;
+    return dir ? *dir + get_player_character().pos() : dir;
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1086,31 +1085,35 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical )
 {
-    // Highlight nearby terrain according to the highlight function
-    if( allowed != nullptr ) {
-        cata::optional<tripoint> single;
-        bool highlighted = false;
-        for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
+    std::vector<tripoint> valid;
+    avatar &player_character = get_avatar();
+    map &here = get_map();
+    if( allowed ) {
+        for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
             if( allowed( pos ) ) {
-                if( !highlighted ) {
-                    single = pos;
-                    highlighted = true;
-                } else {
-                    single = cata::nullopt;
-                }
-                g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
+                valid.emplace_back( pos );
             }
         }
-        if( highlighted ) {
-            wrefresh( g->w_terrain );
-        } else if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) ) {
-            add_msg( failure_message );
-            return cata::nullopt;
-        }
-        if( get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" ) && single ) {
-            return single;
-        }
     }
+
+    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    if( valid.empty() && auto_select ) {
+        add_msg( failure_message );
+        return cata::nullopt;
+    } else if( valid.size() == 1 && auto_select ) {
+        return valid.back();
+    }
+
+    shared_ptr_fast<game::draw_callback_t> hilite_cb;
+    if( !valid.empty() ) {
+        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            for( const tripoint &pos : valid ) {
+                here.drawsq( g->w_terrain, player_character, pos,
+                             true, true, player_character.pos() + player_character.view_offset );
+            }
+        } );
+        g->add_draw_callback( hilite_cb );
+    }
+
     return choose_adjacent( message, allow_vertical );
 }

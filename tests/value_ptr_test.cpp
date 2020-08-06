@@ -1,4 +1,7 @@
 #include "catch/catch.hpp"
+
+#include <utility>
+
 #include "value_ptr.h"
 
 TEST_CASE( "value_ptr copy constructor", "[value_ptr]" )

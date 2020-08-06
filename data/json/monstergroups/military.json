@@ -33,6 +33,7 @@
       { "monster": "mon_zombie_flamer", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 }
     ]
   },

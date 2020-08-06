@@ -1,11 +1,15 @@
 #include "field_type.h"
 
+#include <cstdlib>
+
 #include "bodypart.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "int_id.h"
+#include "json.h"
+#include "string_id.h"
 
 namespace io
 {
@@ -160,6 +164,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
                   fallback_intensity_level.monster_spawn_group );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
+        optional( jao, was_loaded, "light_override", intensity_level.local_light_override,
+                  fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
@@ -237,12 +243,15 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
               description_affix::DESCRIPTION_AFFIX_IN );
     if( jo.has_member( "phase" ) ) {
-        phase = jo.get_enum_value<phase_id>( "phase", PNULL );
+        phase = jo.get_enum_value<phase_id>( "phase", phase_id::PNULL );
     }
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
+    optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
+
+    optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
 
     bash_info.load( jo, "bash", map_bash_info::field );
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
@@ -265,7 +274,7 @@ void field_type::finalize()
 void field_type::check() const
 {
     int i = 0;
-    for( auto &intensity_level : intensity_levels ) {
+    for( const field_intensity_level &intensity_level : intensity_levels ) {
         i++;
         if( intensity_level.name.empty() ) {
             debugmsg( "Intensity level %d defined for field type \"%s\" has empty name.", i, id.c_str() );
@@ -310,6 +319,7 @@ const std::vector<field_type> &field_types::get_all()
 field_type_id fd_null,
               fd_blood,
               fd_bile,
+              fd_extinguisher,
               fd_gibs_flesh,
               fd_gibs_veggy,
               fd_web,
@@ -318,7 +328,6 @@ field_type_id fd_null,
               fd_sap,
               fd_sludge,
               fd_fire,
-              fd_rubble,
               fd_smoke,
               fd_toxic_gas,
               fd_tear_gas,
@@ -333,17 +342,12 @@ field_type_id fd_null,
               fd_acid_vent,
               fd_plasma,
               fd_laser,
-              fd_spotlight,
               fd_dazzling,
               fd_blood_veggy,
               fd_blood_insect,
               fd_blood_invertebrate,
               fd_gibs_insect,
               fd_gibs_invertebrate,
-              fd_cigsmoke,
-              fd_weedsmoke,
-              fd_cracksmoke,
-              fd_methsmoke,
               fd_bees,
               fd_incendiary,
               fd_relax_gas,
@@ -367,6 +371,7 @@ void field_types::set_field_type_ids()
     fd_null = field_type_id( "fd_null" );
     fd_blood = field_type_id( "fd_blood" );
     fd_bile = field_type_id( "fd_bile" );
+    fd_extinguisher = field_type_id( "fd_extinguisher" );
     fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
     fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
     fd_web = field_type_id( "fd_web" );
@@ -375,7 +380,6 @@ void field_types::set_field_type_ids()
     fd_sap = field_type_id( "fd_sap" );
     fd_sludge = field_type_id( "fd_sludge" );
     fd_fire = field_type_id( "fd_fire" );
-    fd_rubble = field_type_id( "fd_rubble" );
     fd_smoke = field_type_id( "fd_smoke" );
     fd_toxic_gas = field_type_id( "fd_toxic_gas" );
     fd_tear_gas = field_type_id( "fd_tear_gas" );
@@ -390,17 +394,12 @@ void field_types::set_field_type_ids()
     fd_acid_vent = field_type_id( "fd_acid_vent" );
     fd_plasma = field_type_id( "fd_plasma" );
     fd_laser = field_type_id( "fd_laser" );
-    fd_spotlight = field_type_id( "fd_spotlight" );
     fd_dazzling = field_type_id( "fd_dazzling" );
     fd_blood_veggy = field_type_id( "fd_blood_veggy" );
     fd_blood_insect = field_type_id( "fd_blood_insect" );
     fd_blood_invertebrate = field_type_id( "fd_blood_invertebrate" );
     fd_gibs_insect = field_type_id( "fd_gibs_insect" );
     fd_gibs_invertebrate = field_type_id( "fd_gibs_invertebrate" );
-    fd_cigsmoke = field_type_id( "fd_cigsmoke" );
-    fd_weedsmoke = field_type_id( "fd_weedsmoke" );
-    fd_cracksmoke = field_type_id( "fd_cracksmoke" );
-    fd_methsmoke = field_type_id( "fd_methsmoke" );
     fd_bees = field_type_id( "fd_bees" );
     fd_incendiary = field_type_id( "fd_incendiary" );
     fd_relax_gas = field_type_id( "fd_relax_gas" );

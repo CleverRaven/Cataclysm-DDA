@@ -114,7 +114,7 @@
     "id": "TALK_REFUGEE_Mangalpreet_1_firstmeet",
     "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
-      { "text": "I'm a traveller actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },

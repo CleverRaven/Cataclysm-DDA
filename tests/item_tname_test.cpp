@@ -1,9 +1,16 @@
-#include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
+
+#include <memory>
+#include <set>
+#include <string>
+
+#include "calendar.h"
+#include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static const std::string flag_COLD( "COLD" );
 static const std::string flag_DIAMOND( "DIAMOND" );
@@ -40,7 +47,8 @@ static const skill_id skill_survival( "survival" );
 
 TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 {
-    g->u.empty_traits();
+    Character &player_character = get_player_character();
+    player_character.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
         item coffee = item( "coffee_pod" );
@@ -48,8 +56,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( coffee.has_flag( flag_HIDDEN_POISON ) );
 
         WHEN( "avatar has level 2 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 2 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 2 );
+            player_character.set_skill_level( skill_survival, 2 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 2 );
 
             THEN( "they cannot see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod" );
@@ -57,8 +65,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 3 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 3 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 3 );
+            player_character.set_skill_level( skill_survival, 3 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 3 );
 
             THEN( "they see it is poisonous" ) {
                 CHECK( coffee.tname() == "Kentucky coffee pod (poisonous)" );
@@ -73,8 +81,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         REQUIRE( mushroom.has_flag( flag_HIDDEN_HALLU ) );
 
         WHEN( "avatar has level 4 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 4 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 4 );
+            player_character.set_skill_level( skill_survival, 4 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 4 );
 
             THEN( "they cannot see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (fresh)" );
@@ -82,8 +90,8 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
         }
 
         WHEN( "avatar has level 5 survival skill" ) {
-            g->u.set_skill_level( skill_survival, 5 );
-            REQUIRE( g->u.get_skill_level( skill_survival ) == 5 );
+            player_character.set_skill_level( skill_survival, 5 );
+            REQUIRE( player_character.get_skill_level( skill_survival ) == 5 );
 
             THEN( "they see it is hallucinogenic" ) {
                 CHECK( mushroom.tname() == "mushroom (hallucinogenic) (fresh)" );
@@ -234,7 +242,6 @@ TEST_CASE( "wet item", "[item][tname][wet]" )
 
 TEST_CASE( "filthy item", "[item][tname][filthy]" )
 {
-    override_option opt( "FILTHY_MORALE", "true" );
     item rag( "rag" );
     rag.set_flag( flag_FILTHY );
     REQUIRE( rag.is_filthy() );
@@ -377,6 +384,13 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 {
     GIVEN( "a gun with potential fouling" ) {
         item gun( "hk_mp5" );
+
+        Character &player_character = get_player_character();
+        // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
+        player_character.clear_mutations();
+        REQUIRE( gun.get_sizing( player_character ) == item::sizing::ignore );
+        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
+        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );

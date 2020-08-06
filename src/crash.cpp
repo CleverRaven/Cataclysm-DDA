@@ -2,17 +2,15 @@
 
 #if defined(BACKTRACE)
 
-#include <cstdlib>
 #include <csignal>
 #include <cstdio>
+#include <cstdlib>
 #include <exception>
 #include <initializer_list>
-#include <typeinfo>
 #include <iostream>
-#include <map>
 #include <sstream>
 #include <string>
-#include <utility>
+#include <typeinfo>
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

@@ -917,8 +917,107 @@
       { "trait": "SAVANT", "prob": 10 },
       { "trait": "SCHIZOPHRENIC", "prob": 10 },
       { "trait": "SQUEAMISH", "prob": 10 },
-      { "trait": "TRIGGERHAPPY", "prob": 10 },
       { "group": "Appearance_demographics", "prob": 100 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "PATCHFUR", "prob": 50 },
+      { "trait": "LEATHER_FEET", "prob": 50 },
+      { "trait": "SKINFOLDS", "prob": 50 },
+      { "trait": "HAULER", "prob": 50 },
+      { "trait": "WEAKJOINTS", "prob": 50 },
+      { "trait": "UPLIFTED" },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "SPECAILIZED_DIET", "prob": 50 },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "CRUSHINGFEET", "prob": 50 },
+      { "trait": "HERBIVORE", "prob": 50 },
+      { "trait": "FACEBUMPS", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "MUT_TANK", "prob": 50 },
+      { "trait": "TUSKS", "prob": 50 },
+      { "distribution": [ { "trait": "SHORTFUR" }, { "trait": "MEDIUMFUR" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_mastodon_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_MASTODON" },
+      { "distribution": [ { "trait": "ELEPHANTINE" }, { "trait": "ELEPHANTINE_OK" } ] },
+      { "trait": "MUT_TANK2", "prob": 50 },
+      { "trait": "GIGANTIC", "prob": 20 },
+      { "trait": "GIGANTIC_OK", "prob": 20 },
+      { "trait": "TUSKS_POINTED", "prob": 50 },
+      {
+        "distribution": [
+          { "trait": "TRUMPET" },
+          { "collection": [ { "trait": "BIG_FOOD" }, { "trait": "LARGE_DIET" }, { "trait": "FLUSH" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_migo",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "PATCHFUR", "prob": 50 },
+      { "trait": "LEATHER_FEET", "prob": 50 },
+      { "trait": "SKINFOLDS", "prob": 50 },
+      { "trait": "HAULER", "prob": 50 },
+      { "trait": "WEAKJOINTS", "prob": 50 },
+      { "trait": "UPLIFTED" },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "SPECAILIZED_DIET", "prob": 50 },
+      { "trait": "ELEPHANTINE_SMELL", "prob": 50 },
+      { "trait": "CRUSHINGFEET", "prob": 50 },
+      { "trait": "HERBIVORE", "prob": 50 },
+      { "trait": "FACEBUMPS", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_migo_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "MIGO_BREATHE", "prob": 50 },
+      { "trait": "SHOUT1", "prob": 50 },
+      { "trait": "NEURAL_IMPROVEMENT", "prob": 50 },
+      { "trait": "ENHANCED_REACTIONS", "prob": 50 },
+      { "trait": "QUICKENING", "prob": 50 },
+      { "distribution": [ { "trait": "NEURAL_IMPROVEMENT" }, { "trait": "EXPANDED_CONSCIOUSNESS" } ] },
+      { "distribution": [ { "trait": "WARM_NATURED" }, { "trait": "MOUTH_TENDRILS" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_migo_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_YUGGOTH" },
+      { "distribution": [ { "trait": "UPLIFTED" }, { "trait": "ALIEN_INT" } ] },
+      { "trait": "MIGO_HEAT_RESIST", "prob": 50 },
+      { "trait": "OTHERWORLDLY_GRACE", "prob": 20 },
+      { "trait": "NEW_MUSCLES", "prob": 20 },
+      { "trait": "MUSCLE_FIBER", "prob": 50 },
+      {
+        "distribution": [
+          { "trait": "MIGO_EARS" },
+          { "collection": [ { "trait": "NEW_MUSCLES" }, { "trait": "MUSCLE_FIBER" }, { "trait": "DETACHMENT" } ] }
+        ]
+      }
     ]
   }
 ]

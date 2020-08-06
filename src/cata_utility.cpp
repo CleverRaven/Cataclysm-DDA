@@ -1,26 +1,26 @@
 #include "cata_utility.h"
 
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
-#include <string>
+#include <cstdio>
 #include <exception>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
+#include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "mapsharing.h"
+#include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "units.h"
-#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -44,6 +44,19 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
+
 int modulo( int v, int m )
 {
     // C++11: negative v and positive m result in negative v%m (or 0),
@@ -61,7 +74,7 @@ bool isBetween( int test, int down, int up )
 bool lcmatch( const std::string &str, const std::string &qry )
 {
     if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );
 
@@ -126,7 +139,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
 
 double logarithmic( double t )
 {
-    return 1 / ( 1 + exp( -t ) );
+    return 1 / ( 1 + std::exp( -t ) );
 }
 
 double logarithmic_range( int min, int max, int pos )
@@ -189,96 +202,6 @@ const char *velocity_units( const units_type vel_units )
         }
     }
     return "error: unknown units!";
-}
-
-const char *weight_units()
-{
-    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
-}
-
-const char *volume_units_abbr()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return pgettext( "Volume unit", "c" );
-    } else if( vol_units == "l" ) {
-        return pgettext( "Volume unit", "L" );
-    } else {
-        return pgettext( "Volume unit", "qt" );
-    }
-}
-
-const char *volume_units_long()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return _( "cup" );
-    } else if( vol_units == "l" ) {
-        return _( "liter" );
-    } else {
-        return _( "quart" );
-    }
-}
-
-double convert_velocity( int velocity, const units_type vel_units )
-{
-    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-    // internal units to mph conversion
-    double ret = static_cast<double>( velocity ) / 100;
-
-    if( type == "km/h" ) {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                // mph to km/h conversion
-                ret *= 1.609f;
-                break;
-            case VU_WIND:
-                // mph to m/s conversion
-                ret *= 0.447f;
-                break;
-        }
-    } else if( type == "t/t" ) {
-        ret /= 4;
-    }
-
-    return ret;
-}
-
-double convert_weight( const units::mass &weight )
-{
-    double ret = to_gram( weight );
-    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
-}
-
-double convert_volume( int volume )
-{
-    return convert_volume( volume, nullptr );
-}
-
-double convert_volume( int volume, int *out_scale )
-{
-    double ret = volume;
-    int scale = 0;
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        ret *= 0.004;
-        scale = 1;
-    } else if( vol_units == "l" ) {
-        ret *= 0.001;
-        scale = 2;
-    } else {
-        ret *= 0.00105669;
-        scale = 2;
-    }
-    if( out_scale != nullptr ) {
-        *out_scale = scale;
-    }
-    return ret;
 }
 
 double temp_to_celsius( double fahrenheit )
@@ -476,7 +399,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );

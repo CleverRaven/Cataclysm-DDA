@@ -1,13 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
 #include "item.h"
 #include "enums.h"
 #include "cata_utility.h"
-#include "game.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "point.h"
@@ -25,8 +25,8 @@ static bool is_nearly( float value, float expected )
 
 static void set_map_temperature( int new_temperature )
 {
-    g->weather.temperature = new_temperature;
-    g->weather.clear_temp_cache();
+    get_weather().temperature = new_temperature;
+    get_weather().clear_temp_cache();
 }
 
 TEST_CASE( "Item spawns with right thermal attributes" )
@@ -55,7 +55,7 @@ TEST_CASE( "Rate of temperature change" )
     // Don't bother with times shorter than this
 
     // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
-    // Processing intervals should be kept below 1 hour to avoid this.
+    // IMPORTANT: Processing intervals should be kept below 1 hour to avoid this.
 
     // Sections:
     // Water bottle (realisticity check)
@@ -129,6 +129,7 @@ TEST_CASE( "Rate of temperature change" )
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 33.5 C
         CHECK( is_nearly( meat1.temperature, 30673432 ) );
@@ -272,17 +273,20 @@ TEST_CASE( "Temperature controlled location" )
 
         set_map_temperature( 0 ); // -17 C
 
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
 
         calendar::turn = to_turn<int>( calendar::turn + 2_hours + 3_minutes );
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr, temperature_flag::TEMP_HEATER );
+        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+                                        temperature_flag::HEATER );
 
         CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
     }

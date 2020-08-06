@@ -1,13 +1,16 @@
 #pragma once
-#ifndef GAMEMODE_TUTORIAL_H
-#define GAMEMODE_TUTORIAL_H
+#ifndef CATA_SRC_GAMEMODE_TUTORIAL_H
+#define CATA_SRC_GAMEMODE_TUTORIAL_H
 
-#include "gamemode.h"
-#include "enum_conversions.h"
-
+#include <functional>
+#include <iosfwd>
 #include <map>
 
-enum special_game_id : int;
+#include "enums.h"
+#include "gamemode.h"
+
+template <typename E> struct enum_traits;
+
 enum action_id : int;
 
 enum class tut_lesson : int {
@@ -53,8 +56,8 @@ struct hash<tut_lesson> {
 } // namespace std
 
 struct tutorial_game : public special_game {
-        special_game_id id() override {
-            return SGAME_TUTORIAL;
+        special_game_type id() override {
+            return special_game_type::TUTORIAL;
         }
         bool init() override;
         void per_turn() override;
@@ -68,6 +71,4 @@ struct tutorial_game : public special_game {
         std::map<tut_lesson, bool> tutorials_seen;
 };
 
-class JsonObject;
-
-#endif // GAMEMODE_TUTORIAL_H
+#endif // CATA_SRC_GAMEMODE_TUTORIAL_H

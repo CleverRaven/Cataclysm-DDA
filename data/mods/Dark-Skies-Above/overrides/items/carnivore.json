@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "copy-from": "brain_cooked",
     "looks_like": "offal_cooked",
-    "name": { "str": "cooked brains", "str_pl": "cooked brains" },
+    "name": { "str_sp": "cooked brains" },
     "description": "Now you can emulate a zombie!  Preparing brain for eating is challenging, and this doesn't seem to be the best way to do it."
   },
   {

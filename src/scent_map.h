@@ -1,21 +1,24 @@
 #pragma once
-#ifndef SCENT_H
-#define SCENT_H
+#ifndef CATA_SRC_SCENT_MAP_H
+#define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <set>
 #include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
+#include "json.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 
-class map;
 class game;
+class map;
 
 namespace catacurses
 {
@@ -29,7 +32,7 @@ class scent_type
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
-        bool was_loaded;
+        bool was_loaded = false;
 
         scenttype_id id;
         std::set<species_id> receptive_species;
@@ -60,7 +63,7 @@ class scent_map
         void update( const tripoint &center, map &m );
         void reset();
         void decay();
-        void shift( int sm_shift_x, int sm_shift_y );
+        void shift( const point &sm_shift );
 
         /**
          * Get the scent value at the given position.
@@ -77,9 +80,9 @@ class scent_map
         scenttype_id get_type( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
-        bool inbounds( const point &p ) const {
-            return inbounds( tripoint( p, 0 ) );
-        }
+        bool inbounds( const point &p ) const;
 };
 
-#endif
+scent_map &get_scent();
+
+#endif // CATA_SRC_SCENT_MAP_H

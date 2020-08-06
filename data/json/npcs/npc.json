@@ -68,6 +68,17 @@
   },
   {
     "type": "npc",
+    "id": "farmer",
+    "//": "A farmer survivor, friendly but suspicious.",
+    "name_suffix": "farmer",
+    "class": "NC_FARMER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NC_FARMER",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "true_foodperson",
     "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
     "name_unique": "Foodperson",

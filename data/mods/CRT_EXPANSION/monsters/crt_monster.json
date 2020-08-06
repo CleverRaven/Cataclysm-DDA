@@ -35,7 +35,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -78,7 +77,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -108,6 +106,7 @@
     "dodge": 1,
     "armor_cut": 15,
     "armor_stab": 30,
+    "armor_bullet": 30,
     "armor_acid": 4,
     "vision_day": 25,
     "vision_night": 3,
@@ -116,7 +115,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_leaper",
@@ -178,6 +177,7 @@
     "dodge": 5,
     "armor_bash": 10,
     "armor_cut": 10,
+    "armor_bullet": 8,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie",
@@ -201,7 +201,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "BLEED", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_pack",
@@ -231,20 +231,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BLEED",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "CLIMBS",
-      "FILTHY",
-      "SWARMS"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY", "SWARMS" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -290,7 +277,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "BLEED",
       "FILTHY"
     ]
   }

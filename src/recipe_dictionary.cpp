@@ -3,24 +3,25 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <unordered_map>
 #include <utility>
 
 #include "cata_algo.h"
 #include "cata_utility.h"
+#include "debug.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "output.h"
-#include "skill.h"
-#include "uistate.h"
-#include "debug.h"
 #include "json.h"
-#include "optional.h"
+#include "output.h"
 #include "player.h"
 #include "requirements.h"
-#include "units.h"
+#include "skill.h"
 #include "string_id.h"
+#include "uistate.h"
+#include "units.h"
+#include "value_ptr.h"
 
 recipe_dictionary recipe_dict;
 
@@ -70,7 +71,7 @@ bool string_id<recipe>::is_valid() const
 
 const recipe &recipe_dictionary::get_uncraft( const itype_id &id )
 {
-    auto iter = recipe_dict.uncraft.find( recipe_id( id ) );
+    auto iter = recipe_dict.uncraft.find( recipe_id( id.str() ) );
     return iter != recipe_dict.uncraft.end() ? iter->second : null_recipe;
 }
 
@@ -131,13 +132,9 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
          ++rec_id ) {
-        std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
-            if( !*r || *rec_id != r->ident() || r->obsolete ) {
-                return false;
-            }
-
-            res.push_back( r );
-            return true;
+        std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ),
+        [&rec_id]( const recipe * r ) {
+            return *r && !( *rec_id != r->ident() || r->obsolete );
         } );
     }
 
@@ -157,8 +154,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( r->result_name(), txt );
 
             case search_type::skill:
-                return lcmatch( r->required_skills_string( nullptr ), txt ) ||
-                       lcmatch( r->skill_used->name(), txt );
+                return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
 
             case search_type::primary_skill:
                 return lcmatch( r->skill_used->name(), txt );
@@ -194,7 +190,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
-    for( const auto elem : recipes ) {
+    for( const recipe *elem : recipes ) {
         include( elem, src.get_custom_difficulty( elem ) );
     }
 }
@@ -248,7 +244,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         if( subcat.empty() ) {
             return false;
         } else {
-            for( auto &e : iter->second ) {
+            for( const recipe *e : iter->second ) {
                 if( e->subcategory == subcat ) {
                     return false;
                 }
@@ -394,9 +390,9 @@ void recipe_dictionary::find_items_on_loops()
     std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
     for( const std::vector<itype_id> &loop : loops ) {
         std::string error_message =
-            "loop in comestible recipes detected: " + loop.back();
+            "loop in comestible recipes detected: " + loop.back().str();
         for( const itype_id &i : loop ) {
-            error_message += " -> " + i;
+            error_message += " -> " + i.str();
             items_on_loops.insert( i );
         }
         error_message += ".  Such loops can be broken by either removing or altering "
@@ -427,21 +423,22 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
+            int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
+                      r.difficulty );
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result() ) ) ) {
-            recipe_dict.uncraft[ recipe_id( r.result() ) ] = r;
+        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result().str() ) ) ) {
+            recipe_dict.uncraft[ recipe_id( r.result().str() ) ] = r;
         }
     }
 
     // add pseudo uncrafting recipes
     for( const itype *e : item_controller->all() ) {
         const itype_id id = e->get_id();
-        const recipe_id rid = recipe_id( id );
+        const recipe_id rid = recipe_id( id.str() );
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {

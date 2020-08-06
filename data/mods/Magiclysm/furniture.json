@@ -46,8 +46,8 @@
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
-        { "item": "orichalcum_lump", "count": [ 0, 3 ], "prob": 5 },
-        { "item": "orichalcum_sliver", "count": [ 1, 8 ], "prob": 20 }
+        { "item": "orichalcum_lump", "count": [ 0, 2 ] },
+        { "item": "orichalcum_sliver", "count": [ 4, 10 ] }
       ]
     }
   },
@@ -226,6 +226,24 @@
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_candelabra",
+    "name": "candelabra of everlasting candles",
+    "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "light_emitted": 40,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "str_min": 20,
+      "str_max": 40,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   }
 ]

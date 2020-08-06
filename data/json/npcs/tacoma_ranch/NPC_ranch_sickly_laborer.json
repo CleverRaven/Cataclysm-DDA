@@ -13,7 +13,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1",
-    "dynamic_line": "Please leave me alone...",
+    "dynamic_line": "Please leave me alone…",
     "responses": [
       { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
@@ -30,13 +30,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_HIRE",
-    "dynamic_line": "I don't know what you could do.  I've tried everything.  Just give me time...",
+    "dynamic_line": "I don't know what you could do.  I've tried everything.  Just give me time…",
     "responses": [ { "text": "OK.", "topic": "TALK_RANCH_ILL_1" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_ILL_1_SICK",
-    "dynamic_line": "I keep getting sick!  At first I thought it was something I ate but now it seems like I can't keep anything down...",
+    "dynamic_line": "I keep getting sick!  At first I thought it was something I ate but now it seems like I can't keep anything down…",
     "responses": [ { "text": "Uhm.", "topic": "TALK_RANCH_ILL_1" } ]
   }
 ]

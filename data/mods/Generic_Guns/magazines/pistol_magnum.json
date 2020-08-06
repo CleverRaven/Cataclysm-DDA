@@ -5,7 +5,6 @@
     "type": "MAGAZINE",
     "name": { "str": "magnum pistol magazine" },
     "description": "An 8 round magazine for use with semi-automatic magnum pistols.",
-    "delete": { "ammo_type": "44" },
     "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ]
   }
 ]

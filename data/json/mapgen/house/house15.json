@@ -34,7 +34,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { "%": "t_region_shrub_fruit", "!": "t_region_groundcover_urban", "'": "t_concrete" },
-      "furniture": { "!": "f_bluebell", "$": "f_treadmill" },
+      "furniture": { "!": "f_bluebell", "$": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "place_loot": [ { "group": "livingroom", "x": [ 7, 16 ], "y": [ 7, 9 ], "chance": 90, "repeat": [ 1, 6 ] } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 2, 21 ], "chance": 5 } ]
     }
@@ -89,25 +89,39 @@
         "                        ",
         "                        ",
         "        ||||||||        ",
-        "       ||......||       ",
+        "       ||JJWZJJ||       ",
         "      ||........||      ",
         " ||||||..........|||||| ",
+        " |1...........2.......| ",
+        " |........UU.z........| ",
+        " |........%%..........| ",
+        " |........%<..........| ",
+        " |........%%..........| ",
         " |....................| ",
-        " |.......zUzU.........| ",
-        " |.......%%%%%........| ",
-        " |.......%.<.%........| ",
-        " |.................z..| ",
-        " |....................| ",
-        " |.....zz.............| ",
-        " |....................| ",
-        " ||||||..JJWJZJ..|||||| ",
+        " |........z...........| ",
+        " |..........z.........| ",
+        " ||||||...Fzg.z..|||||| ",
         "      ||||||||||||      ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 30 ],
+            [ "8x8_gym_N", 30 ],
+            [ "8x8_gym_E", 30 ],
+            [ "room_6x6_brewer_E", 10 ],
+            [ "7x7_tent_indoors", 5 ],
+            [ "room_7x7_recroom_E", 30 ],
+            [ "room_6x6_junk_E", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 50 ], [ "room_8x8_hobby_W", 50 ] ] }
+      }
     }
   }
 ]

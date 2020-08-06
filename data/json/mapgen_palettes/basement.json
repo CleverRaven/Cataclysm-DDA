@@ -136,13 +136,13 @@
       "*": "t_door_c",
       "^": "t_door_locked_interior",
       "5": "t_card_military",
-      "6": "t_console_broken",
       "<": "t_stairs_up",
       "M": "t_wall_metal",
       "|": "t_reinforced_glass",
       "/": "t_door_curtain_c",
       "W": "t_water_dispenser"
     },
+    "furniture": { "6": "f_console_broken" },
     "toilets": { "&": {  } }
   },
   {
@@ -157,6 +157,7 @@
       "%": "t_wall_w"
     },
     "furniture": {
+      "a": "f_fireplace",
       "A": "f_stool",
       "F": "f_home_furnace",
       "J": "f_counter",

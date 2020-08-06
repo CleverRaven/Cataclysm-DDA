@@ -1,17 +1,17 @@
 #pragma once
-#ifndef SHADOWCASTING_H
-#define SHADOWCASTING_H
+#ifndef CATA_SRC_SHADOWCASTING_H
+#define CATA_SRC_SHADOWCASTING_H
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <string>
 
 #include "game_constants.h"
 #include "lightmap.h"
-#include "point.h"
 
+struct point;
 struct tripoint;
 
 // For light we store four values, depending on the direction that the light
@@ -19,8 +19,11 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant {
-    NE, SE, SW, NW,
+enum class quadrant : int {
+    NE,
+    SE,
+    SW,
+    NW,
     default_ = NE
 };
 
@@ -47,7 +50,7 @@ struct four_quadrants {
     friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
-                        result.values.begin(), std::multiplies<float>() );
+                        result.values.begin(), std::multiplies<>() );
         return result;
     }
 
@@ -81,7 +84,7 @@ struct four_quadrants {
 // We merge all of the absorption values by taking their cumulative average.
 inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
 {
-    return numerator / static_cast<float>( exp( transparency * distance ) );
+    return numerator / std::exp( transparency * distance );
 }
 inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {
@@ -123,4 +126,4 @@ void cast_zlight(
     const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, T numerator );
 
-#endif
+#endif // CATA_SRC_SHADOWCASTING_H

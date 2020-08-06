@@ -300,8 +300,7 @@
         "**********~~~***********"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        "*": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -316,6 +315,7 @@
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "&": "f_counter_gate_c",
         "@": "f_mannequin",
@@ -575,9 +575,8 @@
         "************************"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "&": "t_grass",
+        "*": "t_region_groundcover_urban",
+        "&": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_brick_wall",
         ".": "t_floor",
@@ -588,15 +587,16 @@
         "H": "t_sidewalk",
         "O": "t_window",
         "T": "t_sidewalk",
-        "^": "t_tree",
-        "r": "t_grass",
-        "z": "t_shrub",
+        "^": "t_region_tree",
+        "r": "t_region_groundcover_urban",
+        "z": "t_region_shrub",
         "|": "t_brick_wall",
         "~": "t_sidewalk",
-        "R": "t_grass",
+        "R": "t_region_groundcover_urban",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "@": "f_mannequin",
         "H": "f_chair",
@@ -608,7 +608,7 @@
         "d": "f_desk",
         "f": "f_indoor_plant",
         "h": "f_chair",
-        "r": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "r": "f_region_flower",
         "s": "f_sink",
         "u": "f_trashcan",
         "y": "f_indoor_plant_y"

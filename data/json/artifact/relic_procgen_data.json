@@ -1,0 +1,158 @@
+[
+  {
+    "type": "relic_procgen_data",
+    "id": "cult",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN", "base_power": 50 } ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -1, "max_value": 1, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -100,
+        "max_value": 25,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "spoon" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "netherum_tunnels",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN", "base_power": 50 } ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -1, "max_value": 1, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -100,
+        "max_value": 25,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "spoon" } ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "alien_reality",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN", "base_power": 50 } ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -1, "max_value": 1, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -100,
+        "max_value": 25,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      }
+    ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" }, { "weight": 100, "value": "active_enchantment" } ],
+    "items": [ { "weight": 100, "item": "spoon" } ]
+  }
+]

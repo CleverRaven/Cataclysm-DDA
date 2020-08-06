@@ -148,12 +148,12 @@ void for_each_dir_entry( const std::string &path, Function function )
 
     const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( const auto entry = readdir( root ) ) {
+    while( const dirent *entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
@@ -185,7 +185,7 @@ bool is_directory_stat( const std::string &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
@@ -315,7 +315,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( directories ) + n_dirs,    std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( results )     + n_results, std::end( results ) );
     }
 

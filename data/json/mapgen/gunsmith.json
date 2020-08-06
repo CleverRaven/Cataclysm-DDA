@@ -38,7 +38,7 @@
       ],
       "terrain": {
         "#": "t_floor",
-        "%": "t_shrub",
+        "%": "t_region_shrub",
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",
         "-": "t_wall_w",
@@ -52,12 +52,12 @@
         "d": "t_pavement",
         "s": "t_sidewalk",
         "w": "t_window_bars_alarm",
-        "x": "t_console_broken",
         "|": "t_wall_w",
         "<": "t_stairs_up",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "x": "f_console_broken",
         "#": "f_counter",
         "C": "f_sofa",
         "E": "f_desk",

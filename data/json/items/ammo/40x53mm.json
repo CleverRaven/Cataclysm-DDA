@@ -3,18 +3,23 @@
     "abstract": "40x53mm_grenade",
     "type": "AMMO",
     "name": { "str": "40x53mm grenade" },
+    "weight": "340 g",
+    "volume": "137 ml",
+    "longest_side": "112 mm",
     "price": 10000,
-    "price_postapoc": 40000,
+    "price_postapoc": 6000,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "count": 10,
     "stack_size": 1,
     "ammo_type": "40x53mm",
-    "range": 40,
-    "damage": 80,
+    "range": 60,
+    "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
+    "casing": "40x53mm_m169_casing",
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -23,13 +28,8 @@
     "type": "AMMO",
     "name": { "str": "40x53mm M1001" },
     "description": "40x53mm canister shot loaded with 17 grain flechettes.",
-    "weight": "340 g",
-    "volume": "137 ml",
-    "range": 12,
-    "damage": 150,
-    "pierce": 10,
+    "damage": { "damage_type": "bullet", "amount": 150, "armor_penetration": 10 },
     "recoil": 1000,
-    "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
   },
   {
@@ -38,12 +38,9 @@
     "type": "AMMO",
     "name": { "str": "40x53mm M430A1" },
     "description": "A high velocity 40x53mm HEDP grenade.  It can penetrate 3 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
-    "weight": "340 g",
     "volume": "132 ml",
-    "damage": 250,
-    "pierce": 45,
-    "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "EXPLOSIVE", "FRAG" ] }
+    "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
+    "extend": { "effects": [ "EXPLOSIVE_m430a1" ] }
   },
   {
     "id": "40x53mm_buckshot_m169",
@@ -51,12 +48,9 @@
     "type": "AMMO",
     "name": { "str": "40x53mm buckshot" },
     "description": "An improvised 40x53mm buckshot load somewhat resembling M576.",
-    "weight": "340 g",
     "range": 10,
-    "damage": 100,
-    "pierce": 4,
+    "damage": { "damage_type": "bullet", "amount": 100, "armor_penetration": 4 },
     "recoil": 1200,
-    "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
   },
   {
@@ -65,12 +59,9 @@
     "type": "AMMO",
     "name": { "str": "40x53mm slug" },
     "description": "An improvised 40x53mm load resembling an oversized shotgun slug.",
-    "weight": "340 g",
     "range": 10,
-    "damage": 130,
-    "pierce": 6,
-    "recoil": 1200,
-    "casing": "40x53mm_m169_casing"
+    "damage": { "damage_type": "bullet", "amount": 130, "armor_penetration": 6 },
+    "recoil": 1200
   },
   {
     "id": "40x53mm_flechette_m169",
@@ -78,12 +69,9 @@
     "type": "AMMO",
     "name": { "str": "40x53mm flechette" },
     "description": "An improvised 40x53mm flechette load containing 100 steel darts.",
-    "weight": "340 g",
     "range": 10,
-    "damage": 85,
-    "pierce": 6,
+    "damage": { "damage_type": "bullet", "amount": 85, "armor_penetration": 6 },
     "recoil": 1200,
-    "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
   }
 ]

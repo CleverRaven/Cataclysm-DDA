@@ -399,7 +399,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_beds_standard_NW",
-    "description": "Let's furnish the north west bedroom with regular beds.",
+    "description": "Let's furnish the northwest bedroom with regular beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -492,7 +492,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_beds_straw_NW",
-    "description": "Let's furnish the north west bedroom with straw beds.",
+    "description": "Let's furnish the northwest bedroom with straw beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -553,7 +553,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_shelter_beds_makeshift_NW",
-    "description": "Let's furnish the north west bedroom with makeshift beds.",
+    "description": "Let's furnish the northwest bedroom with makeshift beds.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -704,8 +704,7 @@
             [ "solar_panel", 4 ],
             [ "reinforced_solar_panel", 4 ],
             [ "solar_panel_v2", 2 ],
-            [ "reinforced_solar_panel_v2", 2 ],
-            [ "solar_panel_v3", 1 ]
+            [ "reinforced_solar_panel_v2", 2 ]
           ],
           [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
           [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],

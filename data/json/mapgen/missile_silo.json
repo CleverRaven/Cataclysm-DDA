@@ -69,7 +69,7 @@
     "om_terrain": [ "silo_1" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         "                        ",
@@ -97,29 +97,13 @@
         "                        "
       ],
       "terrain": {
+        " ": "t_rock",
         "*": "t_missile",
         "`": "t_hole",
         "|": "t_metal_railing",
         "-": "t_metal_railing",
         "~": "t_metal_floor",
-        ".": "t_floor",
-        "&": "t_floor",
-        "1": "t_floor",
-        "a": "t_floor",
-        "b": "t_floor",
-        "B": "t_floor",
-        "c": "t_floor",
-        "l": "t_floor",
-        "r": "t_floor",
-        "f": "t_floor",
-        "e": "t_floor",
-        "s": "t_floor",
-        "S": "t_floor",
-        "t": "t_floor",
-        "T": "t_floor",
         "W": "t_water_dispenser",
-        "C": "t_floor",
-        "6": "t_floor",
         "=": "t_door_locked",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
@@ -127,8 +111,7 @@
         "$": "t_elevator",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
-        "X": "t_card_military",
-        "x": "t_console_broken"
+        "X": "t_card_military"
       },
       "furniture": {
         "d": "f_desk",
@@ -146,7 +129,8 @@
         "S": "f_sink",
         "6": "f_shower",
         "b": "f_bookcase",
-        "1": "f_speaker_cabinet"
+        "1": "f_speaker_cabinet",
+        "x": "f_console_broken"
       },
       "items": {
         "r": { "item": "trash_cart", "chance": 50, "repeat": 2 },
@@ -227,16 +211,18 @@
         "0": "t_reinforced_glass_shutter",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
+        "%": "t_floor",
+        "x": "t_floor",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
         "=": "t_door_locked",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
-        "%": "t_machinery_electronic",
         "X": "t_card_military"
       },
       "furniture": {
+        "%": "f_machinery_electronic",
+        "x": "f_console_broken",
         "d": "f_desk",
         "c": "f_chair",
         "a": "f_air_conditioner",
@@ -323,7 +309,7 @@
         "5": "t_floor",
         "6": "t_floor",
         "a": "t_floor",
-        "g": "t_generator_broken",
+        "g": "t_floor",
         "h": "t_switchgear_s",
         "i": "t_station_disc",
         "j": "t_current_trans",
@@ -331,16 +317,24 @@
         "0": "t_reinforced_glass_shutter_open",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
+        "x": "t_floor",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
-        "%": "t_machinery_electronic",
+        "%": "t_floor",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "X": "t_mdoor_frame",
         "Y": "t_card_military"
       },
-      "furniture": { "a": "f_air_conditioner", "5": "f_utility_shelf", "6": "f_locker", "4": "f_speaker_cabinet" },
+      "furniture": {
+        "g": "f_generator_broken",
+        "%": "f_machinery_electronic",
+        "a": "f_air_conditioner",
+        "x": "f_console_broken",
+        "5": "f_utility_shelf",
+        "6": "f_locker",
+        "4": "f_speaker_cabinet"
+      },
       "items": { "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 60 } },
       "place_graffiti": [
         {
@@ -437,14 +431,14 @@
         "t": { "item": "trash_cart", "chance": 60 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
         "L": [
-          { "item": "guns_rifle_milspec", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_milspec", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "ammo_milspec", "chance": 40, "repeat": [ 1, 2 ] }
+          { "item": "guns_rifle_milspec", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "mags_milspec", "chance": 80, "repeat": [ 1, 2 ] },
+          { "item": "ammo_milspec", "chance": 100, "repeat": [ 15, 60 ] }
         ],
         "r": [
-          { "item": "grenades", "chance": 65, "repeat": [ 1, 2 ] },
+          { "item": "grenades", "chance": 100, "repeat": [ 3, 9 ] },
           { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] },
-          { "item": "gear_soldier_sidearm", "chance": 70, "repeat": [ 1, 2 ] }
+          { "item": "gear_soldier_sidearm", "chance": 90, "repeat": [ 1, 2 ] }
         ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
@@ -499,10 +493,17 @@
         "Y": "t_card_military",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
-        "%": "t_machinery_electronic"
+        "x": "t_rock_floor",
+        "%": "t_rock_floor"
       },
-      "furniture": { "1": "f_speaker_cabinet", "4": "f_speaker_cabinet", "a": "f_air_conditioner", "c": "f_chair" },
+      "furniture": {
+        "x": "f_console_broken",
+        "%": "f_machinery_electronic",
+        "1": "f_speaker_cabinet",
+        "4": "f_speaker_cabinet",
+        "a": "f_air_conditioner",
+        "c": "f_chair"
+      },
       "computers": {
         "6": {
           "name": "Missile Controls",

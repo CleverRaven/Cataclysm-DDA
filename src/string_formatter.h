@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STRING_FORMATTER_H
-#define STRING_FORMATTER_H
+#ifndef CATA_SRC_STRING_FORMATTER_H
+#define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
 #include <string>
@@ -425,4 +425,4 @@ string_format( T &&format, Args &&...args )
 }
 /**@}*/
 
-#endif
+#endif // CATA_SRC_STRING_FORMATTER_H

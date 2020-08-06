@@ -1,12 +1,15 @@
 #include "itype.h"
 
+#include <cstdlib>
 #include <utility>
 
 #include "debug.h"
-#include "player.h"
-#include "translations.h"
 #include "item.h"
+#include "player.h"
 #include "ret_val.h"
+#include "translations.h"
+
+#include "math_defines.h"
 
 struct tripoint;
 
@@ -38,7 +41,7 @@ std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
     // (Maybe gases too?  There are no gases at the moment)
-    if( phase == LIQUID ) {
+    if( phase == phase_id::LIQUID ) {
         quantity = 1;
     }
     return name.translated( quantity );
@@ -75,7 +78,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
-    for( auto &method : use_methods ) {
+    for( const auto &method : use_methods ) {
         const int val = method.second.call( p, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;

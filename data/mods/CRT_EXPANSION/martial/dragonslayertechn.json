@@ -20,7 +20,7 @@
     ],
     "down_dur": 2,
     "messages": [ "Your swing makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "50% moves, 77% Bash, 77% Cut, 77% Stab, Down two turns, STR (SS+) greatly reduces action cost and adds overall damage (S)"
+    "description": "50% AP cost, 77% DMG, Down (2), STR (SS) greatly reduces AP cost and adds (S) DMG"
   },
   {
     "type": "technique",
@@ -44,7 +44,7 @@
     ],
     "messages": [ "Your momentum causes your weapon to strike %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
-    "description": "15% moves, 35% damage, wide arc, STR (SS+) dramatically reduces action cost, and adds a (A) damage bonus, min 4 melee"
+    "description": "15% AP cost, 35% DMG, wide arc, STR (SS) reduces AP cost, and adds (A) DMG, melee (4)"
   },
   {
     "type": "technique",
@@ -56,9 +56,9 @@
     "crit_tec": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.35 },
-      { "stat": "damage", "type": "bash", "scale": 1.05 },
-      { "stat": "damage", "type": "cut", "scale": 1.25 },
-      { "stat": "damage", "type": "stab", "scale": 1.05 }
+      { "stat": "damage", "type": "bash", "scale": 1.15 },
+      { "stat": "damage", "type": "cut", "scale": 1.15 },
+      { "stat": "damage", "type": "stab", "scale": 1.15 }
     ],
     "flat_bonuses": [
       { "stat": "movecost", "scaling-stat": "str", "scale": -15 },
@@ -68,6 +68,6 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.15 }
     ],
     "messages": [ "You wind up the sword and release a well placed swing at %s", "<npcname> chops %s" ],
-    "description": "Crit only, 35% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "Crit!, 35% AP cost, 115% DMG, STR (SS) and DEX (SS) reduces AP cost and PER (B) adds DMG, melee (2)"
   }
 ]

@@ -1,11 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <algorithm> // std::find
 #include <cstdio> // log redirection
-#include <cstdlib> // abort
 #include <functional> // std::greater
+#include <initializer_list>
+#include <iterator>
 #include <utility> // std::move
 #include <vector> // range-insert testing
 
-#include "catch/catch.hpp"
 #include "colony_list_test_helpers.h"
 #include "list.h"
 
@@ -300,7 +302,7 @@ TEST_CASE( "list insert and erase", "[list]" )
     }
 
     SECTION( "erase randomly till half empty" ) {
-        int count = 0;
+        size_t count = 0;
         do {
             for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ) {
                 if( ( xor_rand() & 7 ) == 0 ) {
@@ -315,7 +317,7 @@ TEST_CASE( "list insert and erase", "[list]" )
 
         CHECK( test_list.size() == 500000 - count );
 
-        for( int i = 0; i < count; i++ ) {
+        for( size_t i = 0; i < count; i++ ) {
             test_list.push_front( 1 );
         }
 
@@ -431,7 +433,7 @@ TEST_CASE( "list insert and erase", "[list]" )
         CHECK( prev_capacity != test_list.capacity() );
         CHECK( test_list.capacity() == 1000 );
 
-        int count = 0;
+        size_t count = 0;
         for( int loop1 = 0; loop1 < 50000; loop1++ ) {
             for( int loop = 0; loop < 10; loop++ ) {
                 if( ( xor_rand() & 7 ) == 0 ) {
@@ -582,7 +584,7 @@ TEST_CASE( "list sort and reverse", "[list]" )
     }
 
     SECTION( "greater than (predicate)" ) {
-        test_list.sort( std::greater<int>() );
+        test_list.sort( std::greater<>() );
 
         bool passed = true;
         int previous = 65535;

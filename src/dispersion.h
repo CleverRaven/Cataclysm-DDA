@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DISPERSION_H
-#define DISPERSION_H
+#ifndef CATA_SRC_DISPERSION_H
+#define CATA_SRC_DISPERSION_H
 
 #include <iosfwd>
 #include <vector>
@@ -30,4 +30,4 @@ class dispersion_sources
         friend std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources );
 };
 
-#endif
+#endif // CATA_SRC_DISPERSION_H

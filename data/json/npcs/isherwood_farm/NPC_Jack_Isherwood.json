@@ -97,7 +97,7 @@
       { "item": "cheese_hard", "prob": 50 },
       { "item": "vinegar", "prob": 55 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "jar_sauerkraut_pickled", "prob": 50 },
+      { "item": "sauerkraut", "prob": 50, "charges": 4, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -258,7 +258,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK_TOPICS",
-    "dynamic_line": "Go on ...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "I'm here to deliver some resources.",
@@ -311,8 +311,8 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
-    "item": "jar_3l_glass",
-    "count": 20,
+    "item": "jar_3l_glass_sealed",
+    "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_JACK_2",
@@ -322,7 +322,7 @@
     },
     "dialogue": {
       "describe": "I could use some help scavenging.",
-      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 20 large three liter jars?  I'll give you some preserves in exchange.",
+      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 10 large three liter jars?  I'll give you some preserves in exchange.",
       "accepted": "Thank you.  It's important to preserve foods while we can.",
       "rejected": "Oh well.  I'll see if I can find another way, thanks.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",

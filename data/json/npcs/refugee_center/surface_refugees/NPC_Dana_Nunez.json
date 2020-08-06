@@ -355,7 +355,7 @@
     "type": "GENERIC",
     "copy-from": "sourdough_starter",
     "looks_like": "sourdough_starter",
-    "name": { "str": "Dana's family sourdough starter", "str_pl": "Dana's family sourdough starter" },
+    "name": { "str_sp": "Dana's family sourdough starter" },
     "description": "This crusty old jar has a glow-in-the-dark millennium falcon decal on the side, and a label that reads, \"Landough Calrisean.  Dana's.  Do not touch on pain of death\".  It's been abandoned for some time and doesn't look like it could be readily salvaged as a sourdough culture, but maybe an experienced sourdough baker could manage it."
   },
   {

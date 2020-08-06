@@ -5,14 +5,14 @@
     "name": "HOOK",
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.85 },
-      { "stat": "damage", "type": "bash", "scale": 0.66 },
-      { "stat": "damage", "type": "cut", "scale": 0.76 },
-      { "stat": "damage", "type": "stab", "scale": 0.86 }
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.88 },
+      { "stat": "damage", "type": "stab", "scale": 0.88 }
     ],
     "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -0.25 } ],
     "down_dur": 2,
     "messages": [ "Your hooking attack makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "85% moves, 66% Bash, 76% Cut, 86% Stab, Down two turns, STR (C) greatly reduces action cost"
+    "description": "85% AP, 88% DMG, Down (2), STR (C) reduces AP cost"
   },
   {
     "type": "technique",
@@ -36,7 +36,7 @@
     ],
     "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
-    "description": "75% moves, 60% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
+    "description": "75% AP, 60% DMG, WIDE AOE, STR (S) reduces AP cost, and adds a (C) DMG, melee (4)"
   },
   {
     "type": "technique",
@@ -48,9 +48,8 @@
     "crit_tec": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 1.18 },
-      { "stat": "damage", "type": "bash", "scale": 1.05 },
       { "stat": "damage", "type": "cut", "scale": 1.25 },
-      { "stat": "damage", "type": "stab", "scale": 1.05 }
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
     "flat_bonuses": [
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 },
@@ -60,7 +59,7 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.15 }
     ],
     "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
-    "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "CRIT!, 118% AP, 125% Cut/Stab, DEX (D) and PER (E) reduces AP cost and adds (B) DMG, melee (2)"
   },
   {
     "type": "technique",
@@ -70,21 +69,14 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.18 },
-      { "stat": "damage", "type": "bash", "scale": 1.2 },
-      { "stat": "damage", "type": "cut", "scale": 1.1 },
-      { "stat": "damage", "type": "stab", "scale": 1.05 }
-    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.11 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ],
     "flat_bonuses": [
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 },
       { "stat": "movecost", "scaling-stat": "str", "scale": -0.125 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.15 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.15 }
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.25 }
     ],
     "messages": [ "You grip your weapon with two hands and slam it into %s", "<npcname> smashes their weapon onto %s" ],
-    "description": "Crit only, 110% move cost, 120% Bash, 105% Stab, 110% Cut, DEX (C) and STR (D) reduces action cost and increases overall (C) damage, min 2 melee"
+    "description": "CRIT!, 110% AP, 120% Bash, DEX (C) and STR (D) reduces AP cost and adds (C) Arpen, melee (2)"
   },
   {
     "type": "technique",
@@ -106,7 +98,7 @@
       "You lunge forward with all your weight and swing upwards at %s",
       "<npcname> swings upwards with all their weight at %s"
     ],
-    "description": "Crit only, 120% moves, 125% damage, Stun for 1.5 turns, STR (A) dramatically reduces action cost, min melee 1"
+    "description": "Crit!, 120% AP, 125% damage, Stun (1), STR (A) reduces AP cost, melee (1)"
   },
   {
     "type": "technique",
@@ -127,7 +119,7 @@
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.1 }
     ],
     "messages": [ "You quickly shove %s out of the way", "<npcname> quickly shoves %s" ],
-    "description": "65% moves, dramatically reduced damage, knockback 2 tiles, stun 1 turn, STR (D) and DEX (E) reduce action cost"
+    "description": "65% AP, REDUCED DMG, knockback (2), stun (1), STR (D) and DEX (E) reduce AP cost"
   },
   {
     "type": "technique",
@@ -136,11 +128,11 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "knockback_dist": 2,
+    "knockback_dist": 3,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scale": 1.1 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
     "flat_bonuses": [
@@ -148,7 +140,7 @@
       { "stat": "movecost", "scaling-stat": "dex", "scale": -0.15 }
     ],
     "messages": [ "You quickly shove %s out of the way with your weapon", "<npcname> quickly shoves %s" ],
-    "description": "75% moves, no cut damage, 110% Bash and Stab damage, knockback 2 tiles, STR (B) and DEX (C) reduce action cost, min melee 1"
+    "description": "75% AP, 110% DMG, knockback (3), STR (B) and DEX (C) reduce AP cost, melee (1)"
   },
   {
     "type": "technique",
@@ -161,6 +153,6 @@
     "weighting": 2,
     "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.1 }, { "stat": "damage", "type": "stab", "scale": 1.15 } ],
     "messages": [ "You stab into %s and rake your blade out", "<npcname> tears into %s flesh" ],
-    "description": "Crit only, 110% Cut, 115% Stab, min melee 2"
+    "description": "CRIT!, 115% Cut/Stab, melee (2)"
   }
 ]

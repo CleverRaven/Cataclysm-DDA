@@ -1,8 +1,18 @@
-#include "avatar.h"
 #include "catch/catch.hpp"
+
+#include <cstdlib>
+#include <memory>
+#include <string>
+#include <utility>
+
+#include "avatar.h"
+#include "calendar.h"
+#include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -65,6 +75,7 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
 TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "some rotten food" ) {
@@ -231,6 +242,7 @@ TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
 TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "cat food" ) {
@@ -261,6 +273,7 @@ TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
 TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "dog food" ) {
@@ -292,6 +305,7 @@ TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
 TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes good" ) {
@@ -373,7 +387,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
         }
 
         WHEN( "character has just eaten one" ) {
-            dummy.eat( toastem );
+            dummy.consume( toastem );
 
             THEN( "the next one is less enjoyable" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -381,7 +395,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
             }
 
             AND_WHEN( "character has eaten another one" ) {
-                dummy.eat( toastem );
+                dummy.consume( toastem );
 
                 THEN( "the one after that is even less enjoyable" ) {
                     actual_fun = dummy.fun_for( toastem );
@@ -395,6 +409,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
 TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes bad" ) {
@@ -412,7 +427,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
                 // Needs 1 kJ per negative fun unit to nullify bad taste
                 dummy.set_power_level( 10_kJ );
                 REQUIRE( garlic_fun < -10 );
-                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste remains" ) {
                     actual_fun = dummy.fun_for( garlic );
@@ -423,7 +438,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
             WHEN( "it has enough power" ) {
                 REQUIRE( garlic_fun >= -20 );
                 dummy.set_power_level( 20_kJ );
-                REQUIRE( dummy.get_power_level() > units::from_kilojoule( abs( garlic_fun ) ) );
+                REQUIRE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
 
                 THEN( "the bad taste is nullified" ) {
                     actual_fun = dummy.fun_for( garlic );

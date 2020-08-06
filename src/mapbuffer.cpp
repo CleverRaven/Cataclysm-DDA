@@ -13,14 +13,16 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "path_info.h"
 #include "popup.h"
+#include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "game_constants.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -32,7 +34,7 @@ static std::string find_quad_path( const std::string &dirname, const tripoint &o
 static std::string find_dirname( const tripoint &om_addr )
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
+    return string_format( "%s/maps/%d.%d.%d", PATH_INFO::world_base_save_path(), segment_addr.x,
                           segment_addr.y, segment_addr.z );
 }
 
@@ -64,11 +66,6 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
     return true;
 }
 
-bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
-}
-
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
     const bool result = add_submap( p, sm.get() );
@@ -76,11 +73,6 @@ bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
         sm.release();
     }
     return result;
-}
-
-bool mapbuffer::add_submap( int x, int y, int z, std::unique_ptr<submap> &sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
 }
 
 void mapbuffer::remove_submap( tripoint addr )
@@ -92,11 +84,6 @@ void mapbuffer::remove_submap( tripoint addr )
     }
     delete m_target->second;
     submaps.erase( m_target );
-}
-
-submap *mapbuffer::lookup_submap( int x, int y, int z )
-{
-    return lookup_submap( tripoint( x, y, z ) );
 }
 
 submap *mapbuffer::lookup_submap( const tripoint &p )
@@ -118,13 +105,14 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( g->get_world_base_save_path() + "/maps" );
+    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
+    map &here = get_map();
+    const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
     static_popup popup;
 
@@ -160,7 +148,7 @@ void mapbuffer::save( bool delete_after_save )
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
+        const bool zlev_del = !map_has_zlevels && om_addr.z != get_map().get_abs_sub().z;
         save_quad( dirname, quad_path, om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
@@ -297,11 +285,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                int locx = jsin.get_int();
-                int locy = jsin.get_int();
-                int locz = jsin.get_int();
+                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
                 jsin.end_array();
-                submap_coordinates = tripoint( locx, locy, locz );
+                submap_coordinates = loc;
             } else {
                 sm->load( jsin, submap_member_name, version );
             }

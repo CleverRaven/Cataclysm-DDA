@@ -21,8 +21,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 
 #pragma once
-#ifndef LIST_H
-#define LIST_H
+#ifndef CATA_SRC_LIST_H
+#define CATA_SRC_LIST_H
 
 #define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
 #define LIST_BLOCK_MAX 2048
@@ -203,7 +203,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 group_pointer_type last_endpoint_group, block_pointer, last_searched_group;
                 size_type size;
 
-                struct ebco_pair2 : allocator_type { // empty-base-class optimisation
+                struct ebco_pair2 : allocator_type { // empty-base-class optimization
                     size_type capacity; // Total element capacity of all initialized groups
                     explicit ebco_pair2( const size_type number_of_elements ) noexcept: capacity(
                             number_of_elements ) {}
@@ -781,7 +781,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -793,7 +793,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -885,7 +885,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_reverse_iterator
+                    assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -962,11 +962,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         group_vector groups;
         node_base end_node;
         node_pointer_type
-        last_endpoint; // last_endpoint being NULL means no elements have been constructed, but there may still be groups available due to clear() or reservee()
+        last_endpoint; // last_endpoint being NULL means no elements have been constructed, but there may still be groups available due to clear() or reserve()
         iterator end_iterator; // end_iterator is always the last entry point in last group in list (or one past the end of group)
         iterator begin_iterator;
 
-        // Packaging the group allocator with least-used member variables, for empty-base-class optimisation
+        // Packaging the group allocator with least-used member variables, for empty-base-class optimization
         struct ebco_pair1 : node_pointer_allocator_type {
             size_type total_number_of_elements;
             explicit ebco_pair1( const size_type total_num_elements ) noexcept: total_number_of_elements(
@@ -2467,4 +2467,4 @@ inline void swap( list<swap_element_type, swap_element_allocator_type> &a,
 #undef LIST_ALLOCATE_INITIALIZATION
 #undef LIST_DEALLOCATE
 
-#endif // LIST_H
+#endif // CATA_SRC_LIST_H

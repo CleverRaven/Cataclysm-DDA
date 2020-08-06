@@ -23,6 +23,7 @@
     "melee_cut": 5,
     "armor_bash": 4,
     "armor_cut": 5,
+    "armor_bullet": 4,
     "armor_acid": 3,
     "armor_fire": 15,
     "vision_day": 10,
@@ -69,6 +70,7 @@
     "melee_cut": 14,
     "armor_bash": 6,
     "armor_cut": 12,
+    "armor_bullet": 10,
     "armor_acid": 5,
     "armor_fire": 15,
     "vision_day": 10,
@@ -77,7 +79,7 @@
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
     "id": "mon_zombie_scorched",
@@ -102,6 +104,7 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "armor_cut": 9,
+    "armor_bullet": 7,
     "armor_acid": 3,
     "armor_fire": 15,
     "vision_day": 10,
@@ -110,6 +113,6 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   }
 ]

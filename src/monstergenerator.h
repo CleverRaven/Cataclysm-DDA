@@ -1,24 +1,28 @@
 #pragma once
-#ifndef MONSTERGENERATOR_H
-#define MONSTERGENERATOR_H
+#ifndef CATA_SRC_MONSTERGENERATOR_H
+#define CATA_SRC_MONSTERGENERATOR_H
 
 #include <map>
-#include <vector>
+#include <memory>
 #include <string>
+#include <vector>
 
+#include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
-#include "string_id.h"
-#include "enum_bitset.h"
-#include "generic_factory.h"
+#include "translations.h"
 #include "type_id.h"
 
-class JsonObject;
+template<typename T>
+class generic_factory;
+
 class Creature;
+class JsonObject;
 class monster;
 struct dealt_projectile_attack;
+template <typename T> class string_id;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -110,5 +114,6 @@ class MonsterGenerator
 };
 
 void load_monster_adjustment( const JsonObject &jsobj );
+void reset_monster_adjustment();
 
-#endif
+#endif // CATA_SRC_MONSTERGENERATOR_H

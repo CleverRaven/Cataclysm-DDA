@@ -26,7 +26,7 @@
   },
   {
     "type": "item_action",
-    "id": "picklock",
+    "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
   },
   {
@@ -156,11 +156,6 @@
   },
   {
     "type": "item_action",
-    "id": "enzlave",
-    "name": { "str": "Create a zombie slave" }
-  },
-  {
-    "type": "item_action",
     "id": "fireweapon_off",
     "name": { "str": "Turn on" }
   },
@@ -256,6 +251,11 @@
   },
   {
     "type": "item_action",
+    "id": "ANTIASTHMATIC",
+    "name": { "str": "Take" }
+  },
+  {
+    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -307,6 +307,11 @@
   {
     "type": "item_action",
     "id": "CABLE_ATTACH",
+    "name": { "str": "Attach" }
+  },
+  {
+    "type": "item_action",
+    "id": "TOW_ATTACH",
     "name": { "str": "Attach" }
   },
   {
@@ -746,6 +751,11 @@
   },
   {
     "type": "item_action",
+    "id": "FITNESS_CHECK",
+    "name": "Check health metrics"
+  },
+  {
+    "type": "item_action",
     "id": "deploy_tent",
     "name": { "str": "Put up" }
   },
@@ -826,11 +836,6 @@
   },
   {
     "type": "item_action",
-    "id": "ROYAL_JELLY",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -888,11 +893,6 @@
     "type": "item_action",
     "id": "THORAZINE",
     "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "THROWABLE_EXTINGUISHER_ACT",
-    "name": { "str": "Extinguish a fire" }
   },
   {
     "type": "item_action",
@@ -981,11 +981,6 @@
   },
   {
     "type": "item_action",
-    "id": "bandolier",
-    "name": { "str": "Store/unload ammo" }
-  },
-  {
-    "type": "item_action",
     "id": "consume_drug",
     "name": { "str": "Consume" }
   },
@@ -1046,11 +1041,6 @@
   },
   {
     "type": "item_action",
-    "id": "ups_based_armor",
-    "name": { "str": "Activate/deactivate" }
-  },
-  {
-    "type": "item_action",
     "id": "CATTLEFODDER",
     "name": { "str": "Place" }
   },
@@ -1092,11 +1082,6 @@
   {
     "type": "item_action",
     "id": "STRONG_ANTIBIOTIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "PANACEA",
     "name": { "str": "Take" }
   },
   {

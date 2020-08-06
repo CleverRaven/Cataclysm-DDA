@@ -1,41 +1,44 @@
 #include "clzones.h"
 
+#include <algorithm>
 #include <climits>
 #include <iosfwd>
 #include <iterator>
-#include <list>
-#include <tuple>
 #include <string>
-#include <algorithm>
+#include <tuple>
 
 #include "avatar.h"
 #include "cata_utility.h"
 #include "construction.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "faction.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "item.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
-#include "messages.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "output.h"
+#include "path_info.h"
+#include "player.h"
+#include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
-#include "uistate.h"
+#include "value_ptr.h"
 #include "vehicle.h"
-#include "item.h"
-#include "player.h"
 #include "vpart_position.h"
-#include "faction.h"
 
 static const std::string flag_FIREWOOD( "FIREWOOD" );
+
+static const item_category_id item_category_food( "food" );
 
 zone_manager::zone_manager()
 {
@@ -93,6 +96,12 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
+    types.emplace( zone_type_id( "AUTO_EAT" ),
+                   zone_type( translate_marker( "Auto Eat" ),
+                              translate_marker( "Items in this zone will be automatically eaten during a long activity if you get hungry." ) ) );
+    types.emplace( zone_type_id( "AUTO_DRINK" ),
+                   zone_type( translate_marker( "Auto Drink" ),
+                              translate_marker( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
 
 }
 
@@ -240,17 +249,18 @@ loot_options::query_loot_result loot_options::query_loot()
 
 plot_options::query_seed_result plot_options::query_seed()
 {
-    player &p = g->u;
+    Character &player_character = get_player_character();
 
-    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
+    map &here = get_map();
     const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
-            g->m.getabs( p.pos() ), 60 );
+            here.getabs( player_character.pos() ), 60 );
     for( const tripoint &elem : zone_src_set ) {
-        tripoint elem_loc = g->m.getlocal( elem );
-        for( item &it : g->m.i_at( elem_loc ) ) {
+        tripoint elem_loc = here.getlocal( elem );
+        for( item &it : here.i_at( elem_loc ) ) {
             if( it.is_seed() ) {
                 seed_inv.push_back( &it );
             }
@@ -263,10 +273,10 @@ plot_options::query_seed_result plot_options::query_seed()
 
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const auto &seed_entry = seed_entries[seed_index];
-        const auto &new_seed = std::get<0>( seed_entry );
-        std::string new_mark;
+        const itype_id &new_seed = std::get<0>( seed_entry );
+        itype_id new_mark;
 
-        item it = item( itype_id( new_seed ) );
+        item it = item( new_seed );
         if( it.is_seed() ) {
             new_mark = it.type->seed->fruit_id;
         } else {
@@ -282,9 +292,9 @@ plot_options::query_seed_result plot_options::query_seed()
         }
     } else if( seed_index == 0 ) {
         // No seeds
-        if( !seed.empty() || !mark.empty() ) {
-            seed.clear();
-            mark.clear();
+        if( !seed.is_empty() || !mark.is_empty() ) {
+            seed = itype_id();
+            mark = itype_id();
             return changed;
         } else {
             return successful;
@@ -362,8 +372,8 @@ std::string blueprint_options::get_zone_name_suggestion() const
 
 std::string plot_options::get_zone_name_suggestion() const
 {
-    if( !seed.empty() ) {
-        auto type = itype_id( seed );
+    if( !seed.is_empty() ) {
+        const itype_id type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
             return it.type->seed->plant_name.translated();
@@ -388,8 +398,9 @@ std::vector<std::pair<std::string, std::string>> blueprint_options::get_descript
 std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Plant seed: " ),
-                                          !seed.empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
+    options.emplace_back(
+        std::make_pair( _( "Plant seed: " ),
+                        !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
     return options;
 }
@@ -554,7 +565,7 @@ void zone_manager::cache_data()
 {
     area_cache.clear();
 
-    for( auto &elem : zones ) {
+    for( const zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
         }
@@ -563,7 +574,8 @@ void zone_manager::cache_data()
         auto &cache = area_cache[type_hash];
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range( elem.get_start_point(), elem.get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range<tripoint>( elem.get_start_point(),
+                elem.get_end_point() ) ) {
             cache.insert( p );
         }
     }
@@ -572,8 +584,9 @@ void zone_manager::cache_data()
 void zone_manager::cache_vzones()
 {
     vzone_cache.clear();
-    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
-    for( auto elem : vzones ) {
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
+    for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
         }
@@ -584,7 +597,8 @@ void zone_manager::cache_vzones()
         // TODO: looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
-        for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
+        for( const tripoint &p : tripoint_range<tripoint>( elem->get_start_point(),
+                elem->get_end_point() ) ) {
             cache.insert( p );
         }
     }
@@ -611,8 +625,9 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
     std::unordered_set<tripoint> res;
-    for( const tripoint elem : g->m.points_in_radius( g->m.getlocal( where ), radius ) ) {
-        const zone_data *zone = get_zone_at( g->m.getabs( elem ) );
+    map &here = get_map();
+    for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
+        const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
             continue;
@@ -649,7 +664,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
                              const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -658,7 +673,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -693,7 +708,8 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
             return &zone;
         }
     }
-    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
@@ -704,7 +720,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
+    const zone_data *zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
     if( !zone || !it ) {
         return false;
     }
@@ -721,7 +737,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
 
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -736,7 +752,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -794,7 +810,7 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
-    const item_category &cat = it.get_category();
+    const item_category &cat = it.get_category_of_contents();
 
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
         if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {
@@ -821,20 +837,18 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return *cat.zone();
     }
 
-    if( cat.get_id() == "food" ) {
-        const bool preserves = it.is_food_container() && it.type->container->preserves;
-
+    if( cat.get_id() == item_category_food ) {
         // skip food without comestible, like MREs
         if( const item *it_food = it.get_food() ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
-                if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+                if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( !preserves && it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+            if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }
@@ -886,9 +900,10 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
             return &zone;
         }
     }
-    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto zone = *it;
+        const zone_data *zone = *it;
         if( zone->get_faction() != fac ) {
             continue;
         }
@@ -911,7 +926,8 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
-    g->m.register_vehicle_zone( &vehicle, g->get_levz() );
+    map &here = get_map();
+    here.register_vehicle_zone( &vehicle, here.get_abs_sub().z );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones();
@@ -919,11 +935,12 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
 
 void zone_manager::add( const std::string &name, const zone_type_id &type, const faction_id &fac,
                         const bool invert, const bool enabled, const tripoint &start,
-                        const tripoint &end, shared_ptr_fast<zone_options> options )
+                        const tripoint &end, const shared_ptr_fast<zone_options> &options )
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+    map &here = get_map();
+    if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
         if( start == end && query_yn( _( "Bind this zone to the cargo part here?" ) ) ) {
@@ -975,7 +992,7 @@ bool zone_manager::remove( zone_data &zone )
         removed_vzones.push_back( old_zone );
     }
 
-    if( !g->m.deregister_vehicle_zone( zone ) ) {
+    if( !get_map().deregister_vehicle_zone( zone ) ) {
         debugmsg( "Tried to remove a zone from an unloaded vehicle" );
         return false;
     }
@@ -1038,9 +1055,10 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
         }
     }
 
-    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1054,15 +1072,16 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
 {
     auto zones = std::vector<ref_const_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }
     }
 
-    auto vzones = g->m.get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1144,7 +1163,7 @@ void zone_data::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1157,7 +1176,7 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -1187,21 +1206,22 @@ void zone_manager::zone_edited( zone_data &zone )
 
 void zone_manager::revert_vzones()
 {
+    map &here = get_map();
     for( auto zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             vp->vehicle().zones_dirty = false;
-            g->m.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z );
             cache_vzones();
         }
     }
     for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
-    for( auto zone : added_vzones ) {
+    for( zone_data *zone : added_vzones ) {
         remove( *zone );
     }
 }

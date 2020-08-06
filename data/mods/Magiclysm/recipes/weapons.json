@@ -15,7 +15,7 @@
     "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "q_staff", 1 ] ],
-      [ [ "jar_glass", 2 ] ],
+      [ [ "jar_glass_sealed", 2 ] ],
       [ [ "rune_magus", 2 ] ],
       [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
     ]
@@ -312,9 +312,14 @@
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "reflexrecurvebow", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 1 ] ] ]
+    "components": [
+      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ],
+      [ [ "gold_small", 1 ] ],
+      [ [ "orichalcum_ingot", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

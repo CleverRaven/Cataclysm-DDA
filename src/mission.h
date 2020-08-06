@@ -1,38 +1,39 @@
 #pragma once
-#ifndef MISSION_H
-#define MISSION_H
+#ifndef CATA_SRC_MISSION_H
+#define CATA_SRC_MISSION_H
 
+#include <algorithm>
 #include <functional>
-#include <iosfwd>
 #include <map>
-#include <unordered_map>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "enums.h"
-#include "npc_favor.h"
-#include "overmap.h"
-#include "item_group.h"
-#include "string_id.h"
-#include "mtype.h"
-#include "type_id.h"
 #include "game_constants.h"
+#include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"
+#include "overmap.h"
 #include "point.h"
+#include "string_id.h"
+#include "talker.h"
+#include "translations.h"
+#include "type_id.h"
 
-class avatar;
-class mission;
 class Creature;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-class overmapbuffer;
+class avatar;
 class item;
-class npc;
+class mission;
+class overmapbuffer;
+class player;
 template<typename T> struct enum_traits;
 
 enum npc_mission : int;
@@ -85,13 +86,13 @@ struct enum_traits<mission_goal> {
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
-    static bool never( const tripoint & ) {
+    static bool never( const tripoint_abs_omt & ) {
         return false;
     }
-    static bool always( const tripoint & ) {
+    static bool always( const tripoint_abs_omt & ) {
         return true;
     }
-    static bool near_town( const tripoint & );
+    static bool near_town( const tripoint_abs_omt & );
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -145,7 +146,7 @@ struct mission_target_params {
     mission *mission_pointer;
 
     bool origin_u = true;
-    cata::optional<tripoint> offset;
+    cata::optional<tripoint_rel_omt> offset;
     cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
@@ -162,21 +163,25 @@ struct mission_target_params {
 
 namespace mission_util
 {
-tripoint random_house_in_closest_city();
-tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss );
-bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb );
-tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see, int target_z = 0 );
-tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see,
-                        int target_z = 0 );
-tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                               bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
+tripoint_abs_omt random_house_in_closest_city();
+tripoint_abs_omt target_closest_lab_entrance( const tripoint_abs_omt &origin, int reveal_rad,
+        mission *miss );
+bool reveal_road( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
+                  overmapbuffer &omb );
+tripoint_abs_omt reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
+                                int target_z = 0 );
+tripoint_abs_omt target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
+                                bool must_see, int target_z = 0 );
+tripoint_abs_omt target_om_ter_random(
+    const std::string &omter, int reveal_rad, mission *miss, bool must_see, int range,
+    tripoint_abs_omt loc = overmap::invalid_tripoint );
 void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
-tripoint get_om_terrain_pos( const mission_target_params &params );
+cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
+tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,
@@ -186,11 +191,14 @@ bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *
 
 struct mission_goal_condition_context {
     mission_goal_condition_context() = default;
-    player *alpha = nullptr;
-    npc *beta = nullptr;
+    std::unique_ptr<talker> alpha;
+    std::unique_ptr<talker> beta;
     std::vector<mission *> missions_assigned;
     mutable std::string reason;
     bool by_radio = false;
+    talker *actor( const bool is_beta ) const {
+        return ( is_beta ? beta : alpha ).get();
+    }
 };
 
 struct mission_type {
@@ -218,15 +226,15 @@ struct mission_type {
         bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
-        itype_id item_id = "null";
+        itype_id item_id = itype_id::NULL_ID();
         Group_tag group_id = "null";
-        itype_id container_id = "null";
+        itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
-        itype_id empty_container = "null";
+        itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
         character_id target_npc_id;
@@ -236,7 +244,7 @@ struct mission_type {
         string_id<oter_type_t> target_id;
         mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
 
-        std::function<bool( const tripoint & )> place = mission_place::always;
+        std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;
         std::function<void( mission * )> end = mission_end::standard;
         std::function<void( mission * )> fail = mission_fail::standard;
@@ -263,7 +271,7 @@ struct mission_type {
          * around tripoint p, see @ref mission_start.
          * Returns @ref MISSION_NULL if no suitable type could be found.
          */
-        static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
+        static mission_type_id get_random_id( mission_origin origin, const tripoint_abs_omt &p );
         /**
          * Get all mission types at once.
          */
@@ -288,7 +296,7 @@ struct mission_type {
 class mission
 {
     public:
-        enum class mission_status {
+        enum class mission_status : int {
             yet_to_start,
             in_progress,
             success,
@@ -312,11 +320,11 @@ class mission
         int uid;
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
-        tripoint target;
+        tripoint_abs_omt target;
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
-        int item_count;
+        int item_count = 0;
         // Destination type to be reached
         string_id<oter_type_t> target_id;
         // The type of NPC you are to recruit
@@ -328,16 +336,17 @@ class mission
         // Monster species that are to be killed
         species_id monster_species;
         // The number of monsters you need to kill
-        int monster_kill_goal;
+        int monster_kill_goal = 0;
         // The kill count you need to reach to complete mission
-        int kill_count_to_reach;
+        int kill_count_to_reach = 0;
         time_point deadline;
         // ID of a related npc
         character_id npc_id;
         // IDs of the protagonist/antagonist factions
-        int good_fac_id, bad_fac_id;
+        int good_fac_id = 0;
+        int bad_fac_id = 0;
         // How much have we completed?
-        int step;
+        int step = 0;
         // What mission do we get after this succeeds?
         mission_type_id follow_up;
         // The id of the player that has accepted this mission.
@@ -356,15 +365,15 @@ class mission
         time_point get_deadline() const;
         std::string get_description() const;
         bool has_target() const;
-        const tripoint &get_target() const;
+        const tripoint_abs_omt &get_target() const;
         const mission_type &get_type() const;
         bool has_follow_up() const;
         mission_type_id get_follow_up() const;
         int get_value() const;
         int get_id() const;
-        const std::string &get_item_id() const;
+        const itype_id &get_item_id() const;
         character_id get_npc_id() const;
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
@@ -381,7 +390,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
-        void set_target( const tripoint &p );
+        void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         /*@}*/
 
@@ -413,7 +422,7 @@ class mission
          * Returns the new mission.
          */
         static mission *reserve_new( const mission_type_id &type, const character_id &npc_id );
-        static mission *reserve_random( mission_origin origin, const tripoint &p,
+        static mission *reserve_random( mission_origin origin, const tripoint_abs_omt &p,
                                         const character_id &npc_id );
         /**
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
@@ -473,4 +482,4 @@ struct enum_traits<mission::mission_status> {
     static constexpr mission::mission_status last = mission::mission_status::num_mission_status;
 };
 
-#endif
+#endif // CATA_SRC_MISSION_H

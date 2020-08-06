@@ -36,7 +36,7 @@
     "book_learn": [ [ "metal_legends", 2 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "con_mix", 50 ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ "demon_chitin_piece", 10 ] ]
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "demon_chitin_piece", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -46,7 +46,7 @@
     "skill_used": "spellcraft",
     "difficulty": 3,
     "time": "16 m",
-    "autolearn": "true",
+    "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ] ] ]

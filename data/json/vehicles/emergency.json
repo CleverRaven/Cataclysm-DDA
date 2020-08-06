@@ -151,6 +151,7 @@
       { "x": -2, "y": 0, "chance": 25, "item_groups": [ "ambulance_equipment" ] },
       { "x": -3, "y": 0, "chance": 15, "items": [ "bandages" ] },
       { "x": -3, "y": 0, "chance": 15, "items": [ "1st_aid" ] },
+      { "x": -3, "y": 0, "chance": 15, "items": [ "ifak" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "adrenaline_injector" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "oxycodone" ] },
       { "x": -3, "y": 0, "chance": 5, "items": [ "tramadol" ] },
@@ -179,6 +180,7 @@
       { "x": 0, "y": 0, "part": "seat" },
       { "x": 0, "y": 0, "part": "seatbelt" },
       { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 0, "part": "stereo" },
       { "x": 0, "y": 0, "part": "dashboard" },
       { "x": 0, "y": 0, "part": "vehicle_clock" },
       { "x": 0, "y": 0, "part": "vehicle_alarm" },
@@ -678,13 +680,28 @@
         "x": -5,
         "y": -1,
         "chance": 7,
-        "items": [ "fire_ax", "hammer_sledge", "hammer_sledge_short", "shovel", "throw_extinguisher" ]
+        "items": [ "fire_ax", "hammer_sledge", "hammer_sledge_short", "shovel", "throw_extinguisher", "ny_hook", "pike_pole" ]
       },
-      { "x": -5, "y": 3, "chance": 1, "items": [ "fire_ax", "chainsaw_off", "halligan", "throw_extinguisher" ] },
+      {
+        "x": -5,
+        "y": 3,
+        "chance": 1,
+        "items": [ "fire_ax", "chainsaw_off", "halligan", "throw_extinguisher", "ny_hook", "pike_pole" ]
+      },
       { "x": -6, "y": 0, "chance": 1, "items": [ "nomex_suit", "nomex_hood", "nomex_gloves", "nomex_socks" ] },
-      { "x": -6, "y": -1, "chance": 5, "items": [ "halligan", "crowbar", "hammer_sledge", "hammer_sledge_short" ] },
+      {
+        "x": -6,
+        "y": -1,
+        "chance": 5,
+        "items": [ "halligan", "crowbar", "hammer_sledge", "hammer_sledge_short", "ny_hook", "pike_pole" ]
+      },
       { "x": -6, "y": 2, "chance": 1, "items": [ "entry_suit", "mask_gas", "smoxygen_tank" ] },
-      { "x": -6, "y": 3, "chance": 5, "items": [ "halligan", "crowbar", "shovel", "rope_30", "throw_extinguisher" ] }
+      {
+        "x": -6,
+        "y": 3,
+        "chance": 5,
+        "items": [ "halligan", "crowbar", "shovel", "rope_30", "throw_extinguisher", "ny_hook", "pike_pole" ]
+      }
     ]
   },
   {

@@ -65,7 +65,9 @@
       { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
-      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   },
@@ -80,6 +82,7 @@
       { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "office_holepunch", "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
       { "item": "survnote", "prob": 10 },
@@ -133,7 +136,7 @@
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
-      { "item": "1st_aid" },
+      { "item": "ifak" },
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
@@ -141,6 +144,24 @@
       { "item": "mre_macaronimarinara_box" },
       { "item": "mre_meatball_box" },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic" }
+    ]
+  },
+  {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a premium survival kit",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "bottle_folding" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "picklocks" },
+      { "item": "lifestraw" },
+      { "item": "pocket_survival" },
+      { "item": "solarpack" },
+      { "item": "handflare", "count": 4 }
     ]
   },
   {
