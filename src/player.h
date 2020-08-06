@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "bodypart.h"
-#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -53,6 +52,7 @@ class npc;
 class profession;
 class recipe;
 class recipe_subset;
+class time_duration;
 class vehicle;
 struct bionic;
 struct damage_unit;

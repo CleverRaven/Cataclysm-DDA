@@ -15,7 +15,6 @@
 #include "json.h"
 #include "npc.h"
 #include "string_id.h"
-#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 

@@ -8,13 +8,13 @@
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
-#include "translations.h"
 #include "type_id.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
 class JsonIn;
 class JsonOut;
+class translation;
 
 /**
  * @name BODYTEMP

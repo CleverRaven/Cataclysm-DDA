@@ -22,7 +22,6 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
-#include "json.h"
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
@@ -30,10 +29,11 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 class Item_factory;
+class JsonIn;
+class JsonObject;
 class body_part_set;
 class item;
 class player;

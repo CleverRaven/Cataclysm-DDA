@@ -16,7 +16,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
 #include "optional.h"
@@ -34,6 +33,9 @@ class item;
 class nc_color;
 class player;
 struct dream;
+
+enum game_message_type : int;
+
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
 

@@ -22,7 +22,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"

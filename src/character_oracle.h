@@ -4,13 +4,13 @@
 
 #include <string>
 
-#include "behavior.h"
 #include "behavior_oracle.h"
 
 class Character;
 
 namespace behavior
 {
+enum class status_t : char;
 
 class character_oracle_t : public oracle_t
 {

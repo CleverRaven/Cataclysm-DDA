@@ -12,17 +12,13 @@
 
 #include "calendar.h"
 #include "character.h"
-#include "color.h"
 #include "coordinates.h"
-#include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "json.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -38,8 +34,14 @@ class item;
 class item_location;
 class mission;
 class monster;
+class nc_color;
 class npc;
 class talker;
+namespace catacurses
+{
+class window;
+}
+enum class character_type : int;
 
 namespace debug_menu
 {

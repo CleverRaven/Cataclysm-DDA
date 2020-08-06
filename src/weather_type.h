@@ -11,11 +11,11 @@
 #include "calendar.h"
 #include "color.h"
 #include "field.h"
-#include "json.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonObject;
 template <typename E> struct enum_traits;
 template<typename T>
 class generic_factory;

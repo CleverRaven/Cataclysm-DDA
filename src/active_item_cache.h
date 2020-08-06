@@ -4,7 +4,6 @@
 
 #include <iosfwd>
 #include <list>
-#include <system_error>
 #include <unordered_map>
 #include <vector>
 

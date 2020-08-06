@@ -5,9 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "faction.h"
-#include "npc.h"
-#include "talker.h"
 #include "talker_character.h"
 #include "type_id.h"
 

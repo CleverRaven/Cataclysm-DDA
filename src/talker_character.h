@@ -7,12 +7,11 @@
 #include <string>
 #include <vector>
 
-#include "character_id.h"
 #include "coordinates.h"
-#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
+class character_id;
 class faction;
 class item;
 class mission;
@@ -110,6 +109,7 @@ class talker_character: public talker
         void shout( const std::string &speech = "", bool order = false ) override;
 
     protected:
+        talker_character() = default;
         player *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

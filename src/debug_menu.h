@@ -4,7 +4,6 @@
 
 #include <functional>
 #include <iosfwd>
-#include <system_error>
 
 #include "enum_traits.h"
 
