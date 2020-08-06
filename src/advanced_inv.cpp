@@ -246,7 +246,6 @@ inline std::string advanced_inventory::get_location_key( aim_location area )
 void advanced_inventory::init()
 {
     for( advanced_inv_area &square : squares ) {
-        // FIXME!!! needs per-pane squares
         square.init( panes[right].owner, trademode );
     }
 
@@ -705,7 +704,18 @@ void advanced_inventory::recalc_pane( side p )
     pane.items.clear();
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
-    if( pane.get_area() == AIM_ALL ) {
+    // For NPC shopkeepers, skip some checks add all items in PICKUP_RANGE instead
+    if( pane.get_area() == AIM_ALL && pane.owner->is_npc() && 
+        dynamic_cast<npc *>( pane.owner )->mission == NPC_MISSION_SHOPKEEP ) {
+        
+        advanced_inv_area &square = squares[ AIM_ALL ];
+        map &m = get_map();
+        for( map_cursor &cursor : map_selector( pane.owner->pos(), PICKUP_RANGE ) ) {
+            const advanced_inv_area::itemstack &stacks = square.i_stacked( m.i_at( tripoint( cursor ) ) );
+            pane.add_items_from_stacks( stacks, square, false );
+        }
+
+    } else if( pane.get_area() == AIM_ALL ) {
         advanced_inv_area &alls = squares[AIM_ALL];
         advanced_inventory_pane &there = panes[-p + 1];
         advanced_inv_area &other = squares[there.get_area()];
@@ -721,7 +731,7 @@ void advanced_inventory::recalc_pane( side p )
             // a specific square, filter out items that are already on that square.
             // e.g. left pane AIM_ALL, right pane AIM_NORTH. The user holds the
             // enter key down in the left square and moves all items to the other side.
-            const bool same = other.is_same( s );
+            const bool same = !trademode && other.is_same( s );
 
             // Deal with squares with ground + vehicle storage
             // Also handle the case when the other tile covers vehicle

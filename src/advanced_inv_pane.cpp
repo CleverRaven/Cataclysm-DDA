@@ -244,7 +244,12 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
-        for( size_t x = 0; x < stacks.size(); ++x ) {
+        add_items_from_stacks( stacks, square, is_in_vehicle );
+    }
+}
+
+void advanced_inventory_pane::add_items_from_stacks( const advanced_inv_area::itemstack &stacks, advanced_inv_area &square, bool is_in_vehicle ) {
+    for( size_t x = 0; x < stacks.size(); ++x ) {
             advanced_inv_listitem it( stacks[x], x, square.id, is_in_vehicle );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
@@ -260,13 +265,12 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.weight += it.weight;
             }
             if( ( trademode && !it.items.front()->is_owned_by( *owner ) ) || 
-                ( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>(owner), *it.items.front() ) ) ||
-                ( trader->is_npc() && !_wants_to_buy( *dynamic_cast<npc *>(owner), *it.items.front() ) ) ) {
+                ( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>( owner ), *it.items.front() ) ) ||
+                ( trader->is_npc() && !_wants_to_buy( *dynamic_cast<npc *>( trader ), *it.items.front() ) ) ) {
                 continue;
             }
             items.push_back( it );
         }
-    }
 }
 
 void advanced_inventory_pane::fix_index()

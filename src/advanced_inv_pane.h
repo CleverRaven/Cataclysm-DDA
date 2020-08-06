@@ -96,6 +96,7 @@ class advanced_inventory_pane
         bool recalc = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
+        void add_items_from_stacks( const advanced_inv_area::itemstack &stacks, advanced_inv_area &square, bool is_in_vehicle );
         /**
          * Makes sure the @ref index is valid (if possible).
          */
