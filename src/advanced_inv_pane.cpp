@@ -25,20 +25,22 @@
 #   include <SDL_keyboard.h>
 #endif
 
-namespace {
+namespace
+{
 
-bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::limbo_t &limbo ) {
+bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::limbo_t &limbo )
+{
     item &front = *it.items.front();
     if( front.count_by_charges() ) {
         int amount = front.charges;
-        if( it.items.front()->get_var( "aim_trade_amount", 0 ) >= amount) {
+        if( it.items.front()->get_var( "aim_trade_amount", 0 ) >= amount ) {
             return true;
         }
     } else {
-        auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto el) {
-                return el.first.front().get_item() == it.items.front();
+        auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto el ) {
+            return el.first.front().get_item() == it.items.front();
 
-            });
+        } );
         if( present != limbo.end() ) {
             it.stacks -= present->second;
         }
@@ -49,7 +51,8 @@ bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::
     return false;
 }
 
-bool _wants_to_sell( npc &np, item &it ) {
+bool _wants_to_sell( npc &np, item &it )
+{
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
     if( it.is_owned_by( np ) && np.wants_to_sell( it, val, market_price ) ) {
@@ -58,7 +61,8 @@ bool _wants_to_sell( npc &np, item &it ) {
     return false;
 }
 
-bool _wants_to_buy( npc &np, item &it ) {
+bool _wants_to_buy( npc &np, item &it )
+{
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
     if( np.wants_to_sell( it, val, market_price ) ) {
@@ -69,7 +73,8 @@ bool _wants_to_buy( npc &np, item &it ) {
 
 } // namespace
 
-void advanced_inventory_pane::init( Character *_owner, Character *_trader ) {
+void advanced_inventory_pane::init( Character *_owner, Character *_trader )
+{
     owner = _owner;
     trader = _trader;
     trademode = ( _owner != _trader );
@@ -152,7 +157,9 @@ static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> it
 }
 
 /** gets the inventory from the Character that is interactible via advanced inventory management */
-static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who, const advanced_inventory_pane &pane, advanced_inv_area &square ) {
+static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who,
+        const advanced_inventory_pane &pane, advanced_inv_area &square )
+{
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
 
@@ -162,7 +169,7 @@ static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who, con
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
-                    worn_item.contents.all_items_top() ) ) {
+                 worn_item.contents.all_items_top() ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, square.pos, false );
             if( _aim_traded_all( adv_it, pane.limbo ) ) {
                 continue;
@@ -227,8 +234,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
     } else if( square.id == AIM_TRADE ) {
         int index = 0;
-        for( auto &li : limbo) {
-            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, square.pos, false );
+        for( auto &li : limbo ) {
+            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, square.pos,
+                                      false );
             items.push_back( it );
         }
     } else {
@@ -248,29 +256,31 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     }
 }
 
-void advanced_inventory_pane::add_items_from_stacks( const advanced_inv_area::itemstack &stacks, advanced_inv_area &square, const tripoint &pos, bool is_in_vehicle ) {
+void advanced_inventory_pane::add_items_from_stacks( const advanced_inv_area::itemstack &stacks,
+        advanced_inv_area &square, const tripoint &pos, bool is_in_vehicle )
+{
     for( size_t x = 0; x < stacks.size(); ++x ) {
-            advanced_inv_listitem it( stacks[x], x, square.id, pos, is_in_vehicle );
-            if( is_filtered( *it.items.front() ) ) {
-                continue;
-            }
-            if( _aim_traded_all( it, limbo ) ) {
-                continue;
-            }
-            if( is_in_vehicle ) {
-                square.volume_veh += it.volume;
-                square.weight_veh += it.weight;
-            } else {
-                square.volume += it.volume;
-                square.weight += it.weight;
-            }
-            if( ( trademode && !it.items.front()->is_owned_by( *owner ) ) || 
-                ( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>( owner ), *it.items.front() ) ) ||
-                ( trader->is_npc() && !_wants_to_buy( *dynamic_cast<npc *>( trader ), *it.items.front() ) ) ) {
-                continue;
-            }
-            items.push_back( it );
+        advanced_inv_listitem it( stacks[x], x, square.id, pos, is_in_vehicle );
+        if( is_filtered( *it.items.front() ) ) {
+            continue;
         }
+        if( _aim_traded_all( it, limbo ) ) {
+            continue;
+        }
+        if( is_in_vehicle ) {
+            square.volume_veh += it.volume;
+            square.weight_veh += it.weight;
+        } else {
+            square.volume += it.volume;
+            square.weight += it.weight;
+        }
+        if( ( trademode && !it.items.front()->is_owned_by( *owner ) ) ||
+            ( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>( owner ), *it.items.front() ) ) ||
+            ( trader->is_npc() && !_wants_to_buy( *dynamic_cast<npc *>( trader ), *it.items.front() ) ) ) {
+            continue;
+        }
+        items.push_back( it );
+    }
 }
 
 void advanced_inventory_pane::fix_index()

@@ -96,7 +96,7 @@ class advanced_inventory_pane
         bool recalc = false;
 
         void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
-        void add_items_from_stacks( const advanced_inv_area::itemstack &stacks, 
+        void add_items_from_stacks( const advanced_inv_area::itemstack &stacks,
                                     advanced_inv_area &square, const tripoint &pos,
                                     bool is_in_vehicle );
         /**

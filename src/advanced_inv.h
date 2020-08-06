@@ -204,9 +204,9 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges( aim_location stcarea, aim_location destarea, 
-                                        const advanced_inv_listitem &sitem,
-                                        const std::string &action, int &amount );
+        bool query_charges( aim_location stcarea, aim_location destarea,
+                            const advanced_inv_listitem &sitem,
+                            const std::string &action, int &amount );
 };
 
 #endif // CATA_SRC_ADVANCED_INV_H

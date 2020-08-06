@@ -68,9 +68,11 @@ static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 static const skill_id skill_barter( "barter" );
 
-namespace {
-bool _char_can_stash( Character *who, item &it, int amount ) {
-    if (who->is_npc() && dynamic_cast<npc *>( who )->mission == NPC_MISSION_SHOPKEEP ) {
+namespace
+{
+bool _char_can_stash( Character *who, item &it, int amount )
+{
+    if( who->is_npc() && dynamic_cast<npc *>( who )->mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
     if( it.count_by_charges() ) {
@@ -83,9 +85,10 @@ bool _char_can_stash( Character *who, item &it, int amount ) {
     return false;
 }
 
-int _stack_price( Character &buyer, Character &seller, item &it, int amount ) {
+int _stack_price( Character &buyer, Character &seller, item &it, int amount )
+{
     npc *np_p = buyer.is_npc() ? dynamic_cast<npc *>( &buyer ) : dynamic_cast<npc *>( &seller );
-    if ( np_p->will_exchange_items_freely() ) {
+    if( np_p->will_exchange_items_freely() ) {
         return 0;
     }
     faction *fac = np_p->get_faction();
@@ -153,7 +156,7 @@ advanced_inventory::advanced_inventory( Character *_trader )
 
 advanced_inventory::~advanced_inventory()
 {
-    if( !trademode) {
+    if( !trademode ) {
         save_settings( false );
     }
     if( save_state->exit_code != aim_exit::re_entry ) {
@@ -264,10 +267,11 @@ void advanced_inventory::init()
     }
 }
 
-bool advanced_inventory::finish_trade() {
+bool advanced_inventory::finish_trade()
+{
     npc *np_p = dynamic_cast<npc *>( panes[ side::left ].owner );
     const int maxdebt = std::max( np_p->max_willing_to_owe() - np_p->op_of_u.owed, 0 );
-    const int maxcredit = std::max( np_p->max_credit_extended() + np_p->op_of_u.owed, 0);
+    const int maxcredit = std::max( np_p->max_credit_extended() + np_p->op_of_u.owed, 0 );
     bool trade_ok = false;
     if( balance < 0 && maxcredit < -balance ) {
         if( maxcredit == 0 ) {
@@ -278,8 +282,8 @@ bool advanced_inventory::finish_trade() {
         return false;
     } else if( balance > 0 && maxdebt < balance ) {
         trade_ok = query_yn(
-                    _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
-                    format_money( maxdebt )
+                       _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                       format_money( maxdebt )
                    );
         return trade_ok;
     } else {
@@ -296,7 +300,8 @@ bool advanced_inventory::finish_trade() {
     return trade_ok;
 }
 
-void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from ) {
+void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from )
+{
     for( auto &el : from ) {
         if( el.first.front()->count_by_charges() ) {
             item transfered = *el.first.front();
@@ -305,7 +310,7 @@ void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane:
             transfered.erase_var( "aim_trade_amount" );
             transfered.set_owner( to );
             to.i_add( transfered );
-            
+
             el.first.front()->erase_var( "aim_trade_amount" );
             el.first.front()->charges -= amount;
             if( el.first.front()->charges <= 0 ) {
@@ -323,7 +328,8 @@ void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane:
     }
 }
 
-void advanced_inventory::trade_cleanup() {
+void advanced_inventory::trade_cleanup()
+{
     for( int s = 0; s < side::NUM_PANES; s++ ) {
         for( auto &el : panes[ s ].limbo ) {
             el.first.front()->erase_var( "aim_trade_amount" );
@@ -707,9 +713,9 @@ void advanced_inventory::recalc_pane( side p )
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     // For NPC shopkeepers, skip some checks add all items in PICKUP_RANGE instead
-    if( pane.get_area() == AIM_ALL && pane.owner->is_npc() && 
+    if( pane.get_area() == AIM_ALL && pane.owner->is_npc() &&
         dynamic_cast<npc *>( pane.owner )->mission == NPC_MISSION_SHOPKEEP ) {
-        
+
         advanced_inv_area &square = squares[ AIM_ALL ];
         map &m = get_map();
         for( map_cursor &cursor : map_selector( pane.owner->pos(), PICKUP_RANGE ) ) {
@@ -1264,13 +1270,20 @@ void advanced_inventory::redraw_sidebar()
             npc *np_p = dynamic_cast<npc *>( panes[ side::left ].owner );
             int owed = np_p->op_of_u.owed;
             const std::string label = _( "Trading" );
-            const std::string balstr = string_format( balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ), format_money( std::abs( balance ) ) );
-            const std::string owestr = string_format( _( "%s owes you %s" ), np_p->disp_name(), format_money( owed ) );
-            mvwprintz( head, point( getmaxx( head ) * .50F - label.size() * .5F, 0 ), c_yellow, _( "%s" ), label );
-            mvwprintz( head, point( getmaxx( head ) * .25F - lname.size() * .5F, getmaxy( head ) * .5F ), c_white, _( "%s" ), lname );
-            mvwprintz( head, point( getmaxx( head ) * .75F - rname.size() * .5F, getmaxy( head ) * .5F ), c_white, _( "%s" ), rname );
-            mvwprintz( head, point( getmaxx( head ) * .50F - balstr.size() * .5F, getmaxy( head ) * .5F ), balance >= -owed ? c_light_green : c_red, _( "%s" ), balstr );
-            mvwprintz( head, point( getmaxx( head ) * .50F - owestr.size() * .5F, getmaxy( head ) * .75F ), c_white, _( "%s" ), owestr );
+            const std::string balstr = string_format( balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
+                                       format_money( std::abs( balance ) ) );
+            const std::string owestr = string_format( _( "%s owes you %s" ), np_p->disp_name(),
+                                       format_money( owed ) );
+            mvwprintz( head, point( getmaxx( head ) * .50F - label.size() * .5F, 0 ), c_yellow, _( "%s" ),
+                       label );
+            mvwprintz( head, point( getmaxx( head ) * .25F - lname.size() * .5F, getmaxy( head ) * .5F ),
+                       c_white, _( "%s" ), lname );
+            mvwprintz( head, point( getmaxx( head ) * .75F - rname.size() * .5F, getmaxy( head ) * .5F ),
+                       c_white, _( "%s" ), rname );
+            mvwprintz( head, point( getmaxx( head ) * .50F - balstr.size() * .5F, getmaxy( head ) * .5F ),
+                       balance >= -owed ? c_light_green : c_red, _( "%s" ), balstr );
+            mvwprintz( head, point( getmaxx( head ) * .50F - owestr.size() * .5F, getmaxy( head ) * .75F ),
+                       c_white, _( "%s" ), owestr );
         } else {
             Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
         }
@@ -1290,7 +1303,8 @@ void advanced_inventory::redraw_sidebar()
 void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
-    if( !trademode && ( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) ) {
+    if( !trademode && ( panes[left].get_area() == changeSquare ||
+                        panes[right].get_area() == changeSquare ) ) {
         if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( dpane.get_area() == changeSquare ) {
@@ -1543,8 +1557,9 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 }
 
 bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
-                                            advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
-                                            int amount_to_move ) {
+        advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
+        int amount_to_move )
+{
 
     bool from_vehicle = sitem->from_vehicle;
     aim_location srcarea = sitem->area;
@@ -1554,16 +1569,16 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
     const bool by_charges = it.count_by_charges();
     advanced_inventory_pane::limbo_t::iterator present = spane.limbo.end();
     if( !by_charges ) {
-        present = std::find_if( spane.limbo.begin(), spane.limbo.end(), [&it]( const auto el) {
+        present = std::find_if( spane.limbo.begin(), spane.limbo.end(), [&it]( const auto el ) {
             return el.first.front().get_item() == &it;
-        });
+        } );
     }
-    const int amount_already = by_charges ? it.get_var( "aim_trade_amount", 0 ) : 
-                                present != spane.limbo.end() ? present->second : 0;
+    const int amount_already = by_charges ? it.get_var( "aim_trade_amount", 0 ) :
+                               present != spane.limbo.end() ? present->second : 0;
     if( srcarea != AIM_TRADE ) {
         const bool npc_can_stash = _char_can_stash( dpane.owner, it, amount_to_move );
         if( spane_is_npc || npc_can_stash ) {
-            if( amount_already == 0) {
+            if( amount_already == 0 ) {
                 // get item_location for the entire stack
                 // FIXME: is this the best way/place?
                 advanced_inventory_pane::limbo_entry_t newstack;
@@ -1572,7 +1587,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
                         newstack.first.emplace_back( *spane.owner, itm );
                     } else if( from_vehicle ) {
                         newstack.first.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                itm );
+                                                     itm );
                     } else {
                         newstack.first.emplace_back( map_cursor( sitem->pos ), itm );
                     }
@@ -1602,7 +1617,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
         }
         if( new_amount <= 0 ) {
             it.erase_var( "aim_trade_amount" );
-            spane.limbo.erase(spane.limbo.begin() + sitem->idx);
+            spane.limbo.erase( spane.limbo.begin() + sitem->idx );
         }
         const int stack_price = _stack_price( *dpane.owner, *spane.owner, it, amount_to_move );
         practice -= stack_price;
@@ -1623,7 +1638,8 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         return colstart + ( src == advanced_inventory::side::left ? w_width / 2 : 0 );
     };
     avatar &player_character = get_avatar();
-    if( !spane.owner->is_npc() && ( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) ) {
+    if( !spane.owner->is_npc() && ( spane.get_area() == AIM_INVENTORY ||
+                                    spane.get_area() == AIM_WORN ) ) {
         item_location loc( player_character, sitem->items.front() );
         // Setup a "return to AIM" activity. If examining the item creates a new activity
         // (e.g. reading, reloading, activating), the new activity will be put on top of
@@ -1876,7 +1892,9 @@ void advanced_inventory::display()
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
-                if( spane.get_area() == dpane.get_area() && spane.in_vehicle() != dpane.in_vehicle() && !trademode ) {
+                if( spane.get_area() == dpane.get_area() && 
+                    spane.in_vehicle() != dpane.in_vehicle() &&
+                    !trademode ) {
                     swap_panes();
                     // disallow for dragged vehicles
                 } else if( spane.get_area() != AIM_DRAGGED ) {
@@ -2022,7 +2040,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     return true;
 }
 
-bool advanced_inventory::query_charges( aim_location srcarea, aim_location destarea, 
+bool advanced_inventory::query_charges( aim_location srcarea, aim_location destarea,
                                         const advanced_inv_listitem &sitem,
                                         const std::string &action, int &amount )
 {
@@ -2104,8 +2122,8 @@ bool advanced_inventory::query_charges( aim_location srcarea, aim_location desta
         // FIXME: this is super ugly
         const int realcount = by_charges ? it.charges : sitem.stacks;
         const int tradedcount = sitem.items.front()->get_var( "aim_trade_amount", 0 );
-        const int count = srcarea == AIM_TRADE ? tradedcount : 
-                          destarea == AIM_TRADE ? realcount - tradedcount : 
+        const int count = srcarea == AIM_TRADE ? tradedcount :
+                          destarea == AIM_TRADE ? realcount - tradedcount :
                           realcount;
 
         const char *msg = nullptr;
