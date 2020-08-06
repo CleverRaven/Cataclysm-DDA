@@ -439,7 +439,7 @@ int relic::power_level( const relic_procgen_id &ruleset ) const
 
 bool relic::has_activation() const
 {
-    return active_effects.size() != 0;
+    return !active_effects.empty();
 }
 
 int relic_procgen_data::power_level( const enchantment &ench ) const
