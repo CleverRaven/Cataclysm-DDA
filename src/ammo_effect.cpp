@@ -3,7 +3,6 @@
 #include <set>
 
 #include "debug.h"
-#include "field_type.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
