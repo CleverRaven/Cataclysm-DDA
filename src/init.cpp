@@ -76,6 +76,7 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"

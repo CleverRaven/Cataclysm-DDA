@@ -32,6 +32,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;

@@ -8,6 +8,7 @@
 #include "cuboid_rectangle.h"
 #include "input.h"
 #include "output.h"
+#include "posix_time.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui_manager.h"

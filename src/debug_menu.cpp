@@ -1,6 +1,5 @@
 #include "debug_menu.h"
 
-
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
@@ -41,6 +40,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -73,6 +73,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"

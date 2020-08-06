@@ -10,8 +10,10 @@
 #include "wcwidth.h"
 
 #if defined(_WIN32)
-#include "mmsystem.h"
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
+#endif
+#include "mmsystem.h"
 #endif
 
 //copied from SDL2_ttf code

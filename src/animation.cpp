@@ -19,6 +19,7 @@
 #include "player.h"
 #include "point.h"
 #include "popup.h"
+#include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
