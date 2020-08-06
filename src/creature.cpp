@@ -1598,157 +1598,157 @@ static void set_part_helper( Creature &c, const bodypart_id &id,
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_hp_cur );
+    return get_part_helper( *this, id, &bodypart::get_hp_cur );
 }
 
 int Creature::get_part_hp_max( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_hp_max );
+    return get_part_helper( *this, id, &bodypart::get_hp_max );
 }
 
 int Creature::get_part_healed_total( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_healed_total );
+    return get_part_helper( *this, id, &bodypart::get_healed_total );
 }
 
 int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_damage_disinfected );
+    return get_part_helper( *this, id, &bodypart::get_damage_disinfected );
 }
 
 int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_damage_bandaged );
+    return get_part_helper( *this, id, &bodypart::get_damage_bandaged );
 }
 
 const encumbrance_data &Creature::get_part_encumbrance_data( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_encumbrance_data );
+    return get_part_helper( *this, id, &bodypart::get_encumbrance_data );
 }
 
 int Creature::get_part_drench_capacity( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_drench_capacity );
+    return get_part_helper( *this, id, &bodypart::get_drench_capacity );
 }
 
 int Creature::get_part_wetness( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_wetness );
+    return get_part_helper( *this, id, &bodypart::get_wetness );
 }
 
 int Creature::get_part_temp_cur( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_temp_cur );
+    return get_part_helper( *this, id, &bodypart::get_temp_cur );
 }
 
 int Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_temp_conv );
+    return get_part_helper( *this, id, &bodypart::get_temp_conv );
 }
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_frotbite_timer );
+    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::get_wetness_percentage );
+    return get_part_helper( *this, id, &bodypart::get_wetness_percentage );
 }
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_hp_cur, set );
+    set_part_helper( *this, id, &bodypart::set_hp_cur, set );
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_hp_max, set );
+    set_part_helper( *this, id, &bodypart::set_hp_max, set );
 }
 
 void Creature::set_part_healed_total( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_healed_total, set );
+    set_part_helper( *this, id, &bodypart::set_healed_total, set );
 }
 
 void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_damage_disinfected, set );
+    set_part_helper( *this, id, &bodypart::set_damage_disinfected, set );
 }
 
 void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_damage_bandaged, set );
+    set_part_helper( *this, id, &bodypart::set_damage_bandaged, set );
 }
 
 void Creature::set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set )
 {
-    set_part_helper( *this, id, bodypart::set_encumbrance_data, set );
+    set_part_helper( *this, id, &bodypart::set_encumbrance_data, set );
 }
 
 void Creature::set_part_wetness( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_wetness, set );
+    set_part_helper( *this, id, &bodypart::set_wetness, set );
 }
 
 void Creature::set_part_temp_cur( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_temp_cur, set );
+    set_part_helper( *this, id, &bodypart::set_temp_cur, set );
 }
 
 void Creature::set_part_temp_conv( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_temp_conv, set );
+    set_part_helper( *this, id, &bodypart::set_temp_conv, set );
 }
 
 void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
 {
-    set_part_helper( *this, id, bodypart::set_frostbite_timer, set );
+    set_part_helper( *this, id, &bodypart::set_frostbite_timer, set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_hp_cur, mod );
+    set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_hp_max, mod );
+    set_part_helper( *this, id, &bodypart::mod_hp_max, mod );
 }
 
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_healed_total, mod );
+    set_part_helper( *this, id, &bodypart::mod_healed_total, mod );
 }
 
 void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_damage_disinfected, mod );
+    set_part_helper( *this, id, &bodypart::mod_damage_disinfected, mod );
 }
 
 void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_damage_bandaged, mod );
+    set_part_helper( *this, id, &bodypart::mod_damage_bandaged, mod );
 }
 
 void Creature::mod_part_wetness( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_wetness, mod );
+    set_part_helper( *this, id, &bodypart::mod_wetness, mod );
 }
 
 void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_temp_cur, mod );
+    set_part_helper( *this, id, &bodypart::mod_temp_cur, mod );
 }
 
 void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_temp_conv, mod );
+    set_part_helper( *this, id, &bodypart::mod_temp_conv, mod );
 }
 
 void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 {
-    set_part_helper( *this, id, bodypart::mod_frostbite_timer, mod );
+    set_part_helper( *this, id, &bodypart::mod_frostbite_timer, mod );
 }
 
 void Creature::set_all_parts_temp_cur( int set )
@@ -1798,7 +1798,7 @@ bool Creature::has_atleast_one_wet_part() const
 
 bool Creature::is_part_at_max_hp( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, bodypart::is_at_max_hp );
+    return get_part_helper( *this, id, &bodypart::is_at_max_hp );
 }
 
 bodypart_id Creature::get_random_body_part( bool main ) const
