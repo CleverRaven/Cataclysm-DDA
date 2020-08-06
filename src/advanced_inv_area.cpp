@@ -21,7 +21,6 @@
 #include "item_contents.h"
 #include "map.h"
 #include "mapdata.h"
-#include "npc.h"
 #include "optional.h"
 #include "translations.h"
 #include "trap.h"
@@ -33,10 +32,11 @@
 
 int advanced_inv_area::get_item_count() const
 {
+    Character &player_character = get_player_character();
     if( id == AIM_INVENTORY ) {
-        return owner->inv.size();
+        return player_character.inv.size();
     } else if( id == AIM_WORN ) {
-        return owner->worn.size();
+        return player_character.worn.size();
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
@@ -58,10 +58,10 @@ advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint 
 {
 }
 
-void advanced_inv_area::init( Character *_owner, bool trademode )
+void advanced_inv_area::init( bool trademode )
 {
-    owner = _owner;
-    pos = owner->pos() + off;
+    avatar &player_character = get_avatar();
+    pos = player_character.pos() + off;
     veh = nullptr;
     vstor = -1;
     // must update in main function
@@ -79,12 +79,7 @@ void advanced_inv_area::init( Character *_owner, bool trademode )
         case AIM_TRADE:
             canputitemsloc = trademode;
             break;
-        case AIM_DRAGGED: {
-            // FIXME: NPCs can't drag vehicles?
-            if( owner != &get_player_character() ) {
-                break;
-            }
-            avatar &player_character = get_avatar();
+        case AIM_DRAGGED:
             if( player_character.get_grab_type() != object_type::VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
@@ -112,11 +107,7 @@ void advanced_inv_area::init( Character *_owner, bool trademode )
                 desc[0] = _( "No dragged vehicle!" );
             }
             break;
-        }
-        case AIM_CONTAINER: {
-            if( owner != &get_player_character() ) {
-                break;
-            }
+        case AIM_CONTAINER:
             // set container position based on location
             set_container_position();
             // location always valid, actual check is done in canputitems()
@@ -126,16 +117,10 @@ void advanced_inv_area::init( Character *_owner, bool trademode )
                 desc[0] = _( "Invalid container!" );
             }
             break;
-        }
-        case AIM_ALL: {
-            // hack: disallow AIM_ALL for allied NPCs to prevent item teleportation
-            if( owner->is_npc() && dynamic_cast<npc *>(owner)->is_player_ally() ) {
-                break;
-            }
+        case AIM_ALL:
             desc[0] = _( "All 9 squares" );
             canputitemsloc = true;
             break;
-        }
         case AIM_SOUTHWEST:
         case AIM_SOUTH:
         case AIM_SOUTHEAST:
@@ -145,10 +130,6 @@ void advanced_inv_area::init( Character *_owner, bool trademode )
         case AIM_NORTHWEST:
         case AIM_NORTH:
         case AIM_NORTHEAST: {
-            // FIXME: maybe only disable cardinal directions for shopkeepers?
-            if( owner != &get_player_character() ) {
-                break;
-            }
             const cata::optional<vpart_reference> vp =
                 here.veh_at( pos ).part_with_feature( "CARGO", false );
             if( vp ) {
@@ -192,7 +173,7 @@ void advanced_inv_area::init( Character *_owner, bool trademode )
 
     // trap?
     const trap &tr = here.tr_at( pos );
-    if( tr.can_see( pos, *owner ) && !tr.is_benign() ) {
+    if( tr.can_see( pos, player_character ) && !tr.is_benign() ) {
         flags.append( _( " TRAP" ) );
     }
 
@@ -212,7 +193,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     // should be a specific location instead
     assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return owner->free_space();
+        return get_player_character().free_space();
     }
     return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }

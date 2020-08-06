@@ -246,7 +246,7 @@ inline std::string advanced_inventory::get_location_key( aim_location area )
 void advanced_inventory::init()
 {
     for( advanced_inv_area &square : squares ) {
-        square.init( panes[right].owner, trademode );
+        square.init( trademode );
     }
 
     panes[left].save_state = &save_state->pane;
