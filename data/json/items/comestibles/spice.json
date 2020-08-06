@@ -156,6 +156,25 @@
     "color": "red"
   },
   {
+    "type": "COMESTIBLE",
+    "id": "garlic_powder",
+    "name": { "str_sp": "garlic powder" },
+    "weight": "300 mg",
+    "color": "white",
+    "spoils_in": "600 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "container": "bottle_plastic_small",
+    "healthy": 1,
+    "description": "Garlic powder, a cooking spice.",
+    "price": 6,
+    "charges": 100,
+    "material": [ "garlic" ],
+    "//": "10 cloves worth for it to fit in the bottle",
+    "volume": "250 ml",
+    "fun": -2
+  },
+  {
     "id": "artificial_sweetener",
     "copy-from": "sugar",
     "type": "COMESTIBLE",
