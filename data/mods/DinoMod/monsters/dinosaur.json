@@ -392,11 +392,11 @@
     "name": { "str_sp": "Camarasaurus" },
     "copy-from": "mon_apatosaurus",
     "speed": 60,
-    "armor_bash": 5,
+    "armor_cut": 3,
+    "armor_bullet": 3,
     "zombify_into": "mon_zamarasaurus",
-    "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
-    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
+    "description": "Huge four-legged dinosaur with a square head and a shorter neck and tail than similar dinosaurs.",
+    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -672,6 +672,7 @@
       "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "BASHES",
+      "DESTROYS",
       "WARM"
     ],
     "harvest": "mammal_large_leather",
@@ -707,7 +708,7 @@
     "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
