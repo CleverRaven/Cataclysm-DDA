@@ -5031,11 +5031,8 @@ units::length item::length() const
     }
     if( is_container() ) {
         units::length max = is_soft() ? 0_mm : type->longest_side;
-        for( auto it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            units::length it_length = it->length();
-            if( it_length > max ) {
-                max = it_length;
-            }
+        for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            max = std::max( it->length(), max );
         }
         return max;
     }
