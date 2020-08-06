@@ -385,8 +385,8 @@ std::unique_ptr<mattack_actor> bite_actor::clone() const
     return std::make_unique<bite_actor>( *this );
 }
 
-gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
-    targeting_sound( _( "beep-beep-beep!" ) )
+gun_actor::gun_actor() : description( to_translation( "The %1$s fires its %2$s!" ) ),
+    targeting_sound( to_translation( "beep-beep-beep!" ) )
 {
 }
 
@@ -419,16 +419,10 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     obj.read( "move_cost", move_cost );
 
-    if( obj.read( "description", description ) ) {
-        description = _( description );
-    }
-    if( obj.read( "failure_msg", failure_msg ) ) {
-        failure_msg = _( failure_msg );
-    }
-    if( obj.read( "no_ammo_sound", no_ammo_sound ) ) {
-        no_ammo_sound = _( no_ammo_sound );
-    } else {
-        no_ammo_sound = _( "Click." );
+    obj.read( "description", description );
+    obj.read( "failure_msg", failure_msg );
+    if( !obj.read( "no_ammo_sound", no_ammo_sound ) ) {
+        no_ammo_sound = to_translation( "Click." );
     }
 
     obj.read( "targeting_cost", targeting_cost );
@@ -440,10 +434,8 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
     obj.read( "targeting_timeout", targeting_timeout );
     obj.read( "targeting_timeout_extend", targeting_timeout_extend );
 
-    if( obj.read( "targeting_sound", targeting_sound ) ) {
-        targeting_sound = _( targeting_sound );
-    } else {
-        targeting_sound = _( "Beep." );
+    if( !obj.read( "targeting_sound", targeting_sound ) ) {
+        targeting_sound = to_translation( "Beep." );
     }
 
     obj.read( "targeting_volume", targeting_volume );
@@ -502,7 +494,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) ) {
-            add_msg_if_player_sees( z, _( failure_msg ), z.name() );
+            add_msg_if_player_sees( z, failure_msg.translated(), z.name() );
         }
         return;
     }
@@ -517,7 +509,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     if( not_targeted || not_laser_locked ) {
         if( targeting_volume > 0 && !targeting_sound.empty() ) {
             sounds::sound( z.pos(), targeting_volume, sounds::sound_t::alarm,
-                           _( targeting_sound ) );
+                           targeting_sound );
         }
         if( not_targeted ) {
             z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout ) );
@@ -560,7 +552,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     if( !gun.ammo_sufficient() ) {
         if( !no_ammo_sound.empty() ) {
-            sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( no_ammo_sound ) );
+            sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }
         return;
     }
@@ -579,7 +571,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.weapon = gun;
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    add_msg_if_player_sees( z, m_warning, _( description ), z.name(), tmp.weapon.tname() );
+    add_msg_if_player_sees( z, m_warning, description.translated(), z.name(), tmp.weapon.tname() );
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
 

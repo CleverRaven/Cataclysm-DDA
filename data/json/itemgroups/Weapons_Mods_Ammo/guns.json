@@ -604,6 +604,7 @@
       [ "m202_flash", 100 ],
       [ "m74_clip", 150 ],
       { "item": "m3_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
+      { "item": "m4_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
       { "item": "AT4", "prob": 50, "charges-min": 1, "charges-max": 1 },
       [ "84x246mm_he", 100 ],
       [ "84x246mm_hedp", 80 ],
