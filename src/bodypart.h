@@ -235,7 +235,7 @@ class bodypart
         int get_temp_cur() const;
         int get_temp_conv() const;
 
-        encumbrance_data get_encumbrance_data() const;
+        const encumbrance_data &get_encumbrance_data() const;
 
         void set_hp_cur( int set );
         void set_hp_max( int set );
@@ -247,7 +247,7 @@ class bodypart
         void set_temp_conv( int set );
         void set_frostbite_timer( int set );
 
-        void set_encumbrance_data( encumbrance_data set );
+        void set_encumbrance_data( const encumbrance_data &set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );

@@ -1571,9 +1571,19 @@ static T get_part_helper( const Creature &c, const bodypart_id &id,
     }
 }
 
+namespace
+{
+template<typename T>
+class type_identity
+{
+    public:
+        using type = T;
+};
+} // namespace
+
 template<typename T>
 static void set_part_helper( Creature &c, const bodypart_id &id,
-                             void( bodypart::* set )( T ), T val )
+                             void( bodypart::* set )( T ), typename type_identity<T>::type val )
 {
     bodypart *const part = c.get_part( id );
     if( part ) {
@@ -1606,7 +1616,7 @@ int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
     return get_part_helper( *this, id, bodypart::get_damage_bandaged );
 }
 
-encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+const encumbrance_data &Creature::get_part_encumbrance_data( const bodypart_id &id ) const
 {
     return get_part_helper( *this, id, bodypart::get_encumbrance_data );
 }
@@ -1666,7 +1676,7 @@ void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
     set_part_helper( *this, id, bodypart::set_damage_bandaged, set );
 }
 
-void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+void Creature::set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set )
 {
     set_part_helper( *this, id, bodypart::set_encumbrance_data, set );
 }

@@ -633,7 +633,7 @@ class Creature : public location, public viewer
 
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
-        encumbrance_data get_part_encumbrance_data( const bodypart_id &id )const;
+        const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
 
         void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
@@ -641,7 +641,7 @@ class Creature : public location, public viewer
         void set_part_damage_disinfected( const bodypart_id &id, int set );
         void set_part_damage_bandaged( const bodypart_id &id, int set );
 
-        void set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set );
+        void set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set );
 
         void set_part_wetness( const bodypart_id &id, int set );
         void set_part_temp_cur( const bodypart_id &id, int set );
