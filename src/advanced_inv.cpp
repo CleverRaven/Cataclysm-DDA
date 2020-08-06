@@ -303,6 +303,10 @@ bool advanced_inventory::finish_trade()
 void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from )
 {
     for( auto &el : from ) {
+        if( el.first.front().get_item() == nullptr ) {
+            // item disappeared somehow. perhaps we already traded its parent container
+            continue;
+        }
         if( el.first.front()->count_by_charges() ) {
             item transfered = *el.first.front();
             int amount = transfered.get_var( "aim_trade_amount", 0 );
@@ -1892,7 +1896,7 @@ void advanced_inventory::display()
         } else if( action == "TOGGLE_VEH" ) {
             if( squares[spane.get_area()].can_store_in_vehicle() ) {
                 // swap the panes if going vehicle will show the same tile
-                if( spane.get_area() == dpane.get_area() && 
+                if( spane.get_area() == dpane.get_area() &&
                     spane.in_vehicle() != dpane.in_vehicle() &&
                     !trademode ) {
                     swap_panes();
