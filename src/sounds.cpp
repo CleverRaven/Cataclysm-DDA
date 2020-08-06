@@ -16,6 +16,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -33,6 +34,9 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
 
