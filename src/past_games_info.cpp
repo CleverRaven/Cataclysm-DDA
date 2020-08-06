@@ -88,6 +88,7 @@ void past_games_info::ensure_loaded()
         sortable_filenames.emplace_back( join( components, "-" ), filename );
     }
 
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
     std::sort( sortable_filenames.begin(), sortable_filenames.end() );
 
     for( const std::pair<std::string, std::string> &filename_pair : sortable_filenames ) {
