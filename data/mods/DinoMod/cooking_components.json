@@ -26,6 +26,7 @@
         [ "egg_stegosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
         [ "egg_diplodocus", 1 ],
+        [ "egg_camarasaurus", 1 ],
         [ "egg_apatosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
         [ "egg_eoraptor", 1 ],
@@ -37,6 +38,7 @@
         [ "egg_corythosaurus", 1 ],
         [ "egg_edmontosaurus", 1 ],
         [ "egg_dimorphodon", 1 ],
+        [ "egg_pteranodon", 1 ],
         [ "egg_dilophosaurus", 1 ],
         [ "egg_ceratosaurus", 1 ]
       ]
