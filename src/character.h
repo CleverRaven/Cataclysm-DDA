@@ -1212,6 +1212,8 @@ class Character : public Creature, public visitable<Character>
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
+
+        void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {

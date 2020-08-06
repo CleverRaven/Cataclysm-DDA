@@ -4662,6 +4662,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         BONESETTING,
         TREAT_WOUNDS,
         RAD_AWAY,
+        BLOOD_ANALYSIS,
     };
 
     bool adjacent_couch = false;
@@ -4746,6 +4747,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
     amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
     amenu.addentry( RAD_AWAY, true, 'r', _( "Check radiation level" ) );
+    amenu.addentry( BLOOD_ANALYSIS, true, 'b', _( "Conduct blood analysis" ) );
 
     amenu.query();
 
@@ -4993,6 +4995,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( "RADIOACTIVE" ) );
             }
+            break;
+        }
+
+        case BLOOD_ANALYSIS: {
+            patient.moves -= 500;
+            patient.conduct_blood_analysis();
+            patient.add_msg_player_or_npc( m_info,
+                                           _( "The autodoc analyzed your blood." ),
+                                           _( "The autodoc analyzed <npcname>'s blood." ) );
             break;
         }
 
