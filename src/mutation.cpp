@@ -5,7 +5,6 @@
 #include <memory>
 #include <unordered_set>
 
-#include "activity_type.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"

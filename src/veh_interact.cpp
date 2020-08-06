@@ -24,7 +24,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
-#include "clzones.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"

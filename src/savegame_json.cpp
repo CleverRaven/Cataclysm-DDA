@@ -25,7 +25,6 @@
 
 #include "active_item_cache.h"
 #include "activity_actor.h"
-#include "activity_type.h"
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"

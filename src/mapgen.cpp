@@ -14,7 +14,6 @@
 #include <stdexcept>
 #include <unordered_map>
 
-#include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -59,6 +58,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"

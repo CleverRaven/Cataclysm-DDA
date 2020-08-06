@@ -7,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"

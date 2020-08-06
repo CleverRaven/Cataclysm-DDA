@@ -17,6 +17,7 @@
 #include "addiction.h"
 #include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"

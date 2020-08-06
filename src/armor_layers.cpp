@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "bodypart.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character.h"

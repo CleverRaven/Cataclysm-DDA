@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"

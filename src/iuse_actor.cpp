@@ -15,7 +15,7 @@
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "assign.h"
-#include "avatar.h" // IWYU pragma
+#include "avatar.h" // IWYU pragma: keep
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"

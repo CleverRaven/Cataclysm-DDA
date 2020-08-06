@@ -21,7 +21,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
-#include "item_category.h" // IWYU pragma
+#include "item_category.h" // IWYU pragma: keep
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"

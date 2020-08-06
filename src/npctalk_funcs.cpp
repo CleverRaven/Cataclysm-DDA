@@ -5,12 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"

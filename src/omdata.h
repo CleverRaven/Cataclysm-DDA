@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "assign.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"

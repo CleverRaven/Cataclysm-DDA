@@ -7,7 +7,6 @@
 #include <memory>
 #include <unordered_map>
 
-#include "activity_type.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
