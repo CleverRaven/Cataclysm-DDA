@@ -748,7 +748,7 @@
     "default_faction": "dimorphodon",
     "symbol": "D",
     "color": "light_gray_yellow",
-    "volume": "1.5 L",
+    "volume": "1500 ml",
     "weight": "2 kg",
     "bodytype": "bird",
     "material": [ "flesh" ],
