@@ -106,7 +106,7 @@ void past_games_info::ensure_loaded()
         stats_tracker &stats = game.stats();
         event_multiset &events = stats.get_events( event_type::player_gets_achievement );
         const event_multiset::summaries_type &counts = events.counts();
-        for( const std::pair<cata::event::data_type, event_summary> &p : counts ) {
+        for( const std::pair<const cata::event::data_type, event_summary> &p : counts ) {
             const cata::event::data_type &event_data = p.first;
             auto ach_it = event_data.find( "achievement" );
             auto enabled_it = event_data.find( "achievements_enabled" );
