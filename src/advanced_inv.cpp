@@ -142,7 +142,6 @@ advanced_inventory::advanced_inventory( Character *_trader )
     if( _trader != nullptr ) {
         panes[ side::left ].init( _trader, &get_player_character() );
         panes[ side::right ].init( &get_player_character(), _trader );
-        trader = _trader;
         trademode = true;
     } else {
         panes[ side::left ].init( &get_player_character(), &get_player_character() );
@@ -266,7 +265,7 @@ void advanced_inventory::init()
 }
 
 bool advanced_inventory::finish_trade() {
-    npc *np_p = dynamic_cast<npc *>( trader );
+    npc *np_p = dynamic_cast<npc *>( panes[ side::left ].owner );
     const int maxdebt = std::max( np_p->max_willing_to_owe() - np_p->op_of_u.owed, 0 );
     const int maxcredit = std::max( np_p->max_credit_extended() + np_p->op_of_u.owed, 0);
     bool trade_ok = false;
@@ -291,6 +290,7 @@ bool advanced_inventory::finish_trade() {
         trade_transfer( *panes[ side::left ].owner, panes[ side::right ].limbo );
 
         np_p->op_of_u.owed += balance;
+        get_player_character().practice( skill_barter, practice / 10000 );
     }
 
     return trade_ok;
@@ -1249,11 +1249,11 @@ void advanced_inventory::redraw_sidebar()
         if( trademode ) {
             const std::string rname = panes[ side::right ].owner->disp_name();
             const std::string lname = panes[ side::left ].owner->disp_name();
-            npc *np_p = dynamic_cast<npc *>( trader );
+            npc *np_p = dynamic_cast<npc *>( panes[ side::left ].owner );
             int owed = np_p->op_of_u.owed;
             const std::string label = _( "Trading" );
             const std::string balstr = string_format( balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ), format_money( std::abs( balance ) ) );
-            const std::string owestr = string_format( _( "%s owes you %s" ), trader->disp_name(), format_money( owed ) );
+            const std::string owestr = string_format( _( "%s owes you %s" ), np_p->disp_name(), format_money( owed ) );
             mvwprintz( head, point( getmaxx( head ) * .50F - label.size() * .5F, 0 ), c_yellow, _( "%s" ), label );
             mvwprintz( head, point( getmaxx( head ) * .25F - lname.size() * .5F, getmaxy( head ) * .5F ), c_white, _( "%s" ), lname );
             mvwprintz( head, point( getmaxx( head ) * .75F - rname.size() * .5F, getmaxy( head ) * .5F ), c_white, _( "%s" ), rname );
@@ -1549,7 +1549,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
     const int amount_already = by_charges ? it.get_var( "aim_trade_amount", 0 ) : 
                                 present != spane.limbo.end() ? present->second : 0;
     if( srcarea != AIM_TRADE ) {
-        const bool npc_can_stash = _char_can_stash( trader, it, amount_to_move );
+        const bool npc_can_stash = _char_can_stash( dpane.owner, it, amount_to_move );
         if( spane_is_npc || npc_can_stash ) {
             if( amount_already == 0) {
                 // get item_location for the entire stack
@@ -1573,9 +1573,11 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
             if( by_charges ) {
                 it.set_var( "aim_trade_amount", amount_already + amount_to_move );
             }
-            balance += sign * _stack_price( *dpane.owner, *spane.owner, it, amount_to_move );
+            const int stack_price = _stack_price( *dpane.owner, *spane.owner, it, amount_to_move );
+            practice += stack_price;
+            balance += sign * stack_price;
         } else {
-            popup( _( "%s can't stash %dx %s" ), trader->disp_name(), amount_to_move, it.tname() );
+            popup( _( "%s can't stash %dx %s" ), dpane.owner->disp_name(), amount_to_move, it.tname() );
             return false;
         }
     } else {
@@ -1590,7 +1592,9 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
             it.erase_var( "aim_trade_amount" );
             spane.limbo.erase(spane.limbo.begin() + sitem->idx);
         }
-        balance -= sign * _stack_price( *dpane.owner, *spane.owner, it, amount_to_move );
+        const int stack_price = _stack_price( *dpane.owner, *spane.owner, it, amount_to_move );
+        practice -= stack_price;
+        balance -= sign * stack_price;
     }
     recalc = true;
     return false;

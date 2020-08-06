@@ -86,8 +86,8 @@ class advanced_inventory
         bool always_recalc = false;
 
         bool trademode = false;
-        Character *trader = nullptr;
         int balance = 0;
+        int practice = 0;
 
         /**
          * Which panels is active (item moved from there).
@@ -159,7 +159,7 @@ class advanced_inventory
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         bool finish_trade();
-        void trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from);
+        void trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from );
         void trade_cleanup();
         /**
          * Translate an action ident from the input context to an aim_location.
