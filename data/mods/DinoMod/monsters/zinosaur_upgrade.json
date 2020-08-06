@@ -513,7 +513,7 @@
     "vision_night": 30,
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zalbertosaurus_shady",
     "name": { "str_sp": "shady Albertosaurus" },
@@ -540,7 +540,7 @@
     "vision_night": 40,
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zallosaurus_shady",
     "name": { "str_sp": "shady Allosaurus" },
@@ -566,7 +566,7 @@
     "vision_night": 40,
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zutahraptor_shady",
     "name": { "str_sp": "shady Utahraptor" },
@@ -579,7 +579,7 @@
     "vision_night": 40,
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zeratosaurus_shady",
     "name": { "str_sp": "shady Ceratosaurus" },
@@ -592,7 +592,7 @@
     "vision_night": 40,
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_skinosaurus",
     "name": { "str": "skeletal Spinosaurus zombie" },
@@ -721,7 +721,7 @@
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_seinonychus",
     "name": { "str_sp": "Deino Bones" },
@@ -771,7 +771,7 @@
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_seratosaurus",
     "name": { "str": "Bone Dragon" },
