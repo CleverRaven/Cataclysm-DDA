@@ -383,15 +383,8 @@ void DynamicDataLoader::initialize()
     add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
         mission_type::load_mission_type( jo, src );
     } );
-<<<<<<< HEAD
     add( "butchery_requirement", &butchery_requirements::load_butchery_req );
-    add( "harvest", []( const JsonObject & jo, const std::string & src ) {
-        harvest_list::load( jo, src );
-    } );
-=======
     add( "harvest", &harvest_list::load_harvest_list );
->>>>>>> Move harvest to generic factory
-
     add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster_attack( jo, src );
     } );

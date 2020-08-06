@@ -58,8 +58,6 @@ void harvest_entry::load( const JsonObject &jo )
     optional( jo, was_loaded, "mass_ratio", mass_ratio, 0.00f );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "faults", faults );
-    optional( jo, was_loaded, "butchery_requirements", butchery_requirements_,
-              butchery_requirements_id( "default" ) );
 }
 
 void harvest_entry::deserialize( JsonIn &jsin )
@@ -89,6 +87,8 @@ void harvest_list::load( const JsonObject &obj, const std::string & )
     mandatory( obj, was_loaded, "id", id );
     mandatory( obj, was_loaded, "entries", entries_ );
 
+    optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
+              butchery_requirements_id( "default" ) );
     optional( obj, was_loaded, "message", message_ );
 }
 
