@@ -533,6 +533,14 @@
     ]
   },
   {
+    "id": "m16a3",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M16A3" },
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
     "id": "m231pfw",
     "copy-from": "m16a4",
     "type": "GUN",
