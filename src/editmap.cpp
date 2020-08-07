@@ -1,14 +1,13 @@
 #include "editmap.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <tuple>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -16,11 +15,13 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "field.h"
@@ -34,8 +35,8 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
@@ -46,7 +47,6 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
-#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"

@@ -4,36 +4,43 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "map_selector.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <limits>
 #include <map>

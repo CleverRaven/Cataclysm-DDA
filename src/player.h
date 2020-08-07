@@ -6,12 +6,14 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -34,14 +36,14 @@
 #include "type_id.h"
 #include "weighted_list.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class basecamp;
 class dispersion_sources;
 class effect;
 class faction;
 class inventory;
-class JsonIn;
-class JsonObject;
-class JsonOut;
 class ma_technique;
 class map;
 class monster;
@@ -50,9 +52,10 @@ class npc;
 class profession;
 class recipe;
 class recipe_subset;
+class time_duration;
 class vehicle;
-
 struct bionic;
+struct damage_unit;
 struct dealt_projectile_attack;
 struct item_comp;
 struct itype;

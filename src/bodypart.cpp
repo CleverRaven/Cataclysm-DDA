@@ -11,7 +11,6 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "pldata.h"
 #include "type_id.h"
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );

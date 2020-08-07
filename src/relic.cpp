@@ -2,13 +2,17 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <set>
 
 #include "creature.h"
-#include "enum_traits.h"
+#include "debug.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 

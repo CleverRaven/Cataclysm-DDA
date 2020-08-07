@@ -1,7 +1,8 @@
 #include "panels.h"
 
-#include <array>
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iosfwd>
 #include <iterator>
@@ -13,14 +14,12 @@
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
-#include "behavior_oracle.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
-#include "character_oracle.h"
 #include "character_martial_arts.h"
+#include "character_oracle.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
@@ -30,6 +29,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "magic.h"
@@ -42,8 +42,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -52,9 +52,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );

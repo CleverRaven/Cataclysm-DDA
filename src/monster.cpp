@@ -6,9 +6,12 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "bodypart.h"
+#include "catacharset.h"
 #include "character.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -44,6 +47,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -52,6 +56,8 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "viewer.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );

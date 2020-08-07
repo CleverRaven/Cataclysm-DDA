@@ -1,6 +1,11 @@
+#include <algorithm>
+#include <memory>
+
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -8,6 +13,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "player.h"
+#include "talker.h"
 #include "talker_avatar.h"
 
 static const efftype_id effect_pacified( "pacified" );
@@ -19,6 +25,11 @@ static const bionic_id bio_face_mask( "bio_face_mask" );
 static const bionic_id bio_voice( "bio_voice" );
 
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+
+talker_avatar::talker_avatar( avatar *new_me )
+{
+    me_chr = new_me;
+}
 
 std::vector<std::string> talker_avatar::get_topics( bool )
 {

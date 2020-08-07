@@ -3,12 +3,14 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"

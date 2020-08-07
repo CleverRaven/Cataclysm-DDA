@@ -11,15 +11,15 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "debug.h"
+#include "character.h"
 #include "game.h"
 #include "input.h"
+#include "memory_fast.h"
+#include "optional.h"
 #include "output.h"
-#include "player.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "ui_manager.h"
 #include "sdltiles.h"
+#include "string_input_popup.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>

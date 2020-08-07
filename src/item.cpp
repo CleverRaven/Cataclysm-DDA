@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <tuple>
+#include <unordered_set>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -28,12 +29,13 @@
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
 #include "color.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
+#include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
 #include "faction.h"
@@ -57,10 +59,12 @@
 #include "iuse_actor.h"
 #include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -70,7 +74,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -93,6 +96,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -5023,13 +5027,19 @@ units::mass item::weight( bool, bool integral ) const
 
 units::length item::length() const
 {
-    if( made_of( phase_id::LIQUID ) || is_soft() ) {
+    if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
         return 0_mm;
     }
     if( is_corpse() ) {
         return units::default_length_from_volume<int>( corpse->volume );
     }
-    return type->longest_side;
+
+    units::length max = is_soft() ? 0_mm : type->longest_side;
+    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        max = std::max( it->length(), max );
+    }
+
+    return max;
 }
 
 units::volume item::corpse_volume( const mtype *corpse ) const

@@ -33,6 +33,7 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -59,8 +60,6 @@ class optional_vpart_position;
 class player;
 class relic_procgen_data;
 class submap;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 class zone_data;
 struct fragment_cloud;
@@ -69,13 +68,15 @@ struct partial_con;
 struct rl_vec2d;
 struct spawn_data;
 struct trap;
+template<typename Tripoint>
+class tripoint_range;
 
 enum class special_item_type : int;
 class npc_template;
 class tileray;
 class vpart_reference;
-struct mongroup;
 struct MonsterGroupResult;
+struct mongroup;
 struct projectile;
 struct veh_collision;
 template<typename T>

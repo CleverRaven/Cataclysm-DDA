@@ -4,21 +4,26 @@
 
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "activity_type.h"
+#include "calendar.h"
 #include "clone_ptr.h"
-#include "item_location.h"
 #include "item.h"
+#include "item_location.h"
+#include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
-class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
+class avatar;
 class player_activity;
 
 class activity_actor

@@ -7,8 +7,8 @@
 #include <string>
 #include <tuple>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -25,9 +25,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"

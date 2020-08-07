@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <memory>
@@ -17,18 +18,21 @@
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
-class Character;
 class spell;
 class time_duration;
+struct requirement_data;
+
 namespace cata
 {
 class event;

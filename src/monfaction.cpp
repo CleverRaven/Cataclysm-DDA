@@ -1,5 +1,6 @@
 #include "monfaction.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <queue>

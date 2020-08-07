@@ -1,8 +1,5 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <iostream>
 #include <iterator>
 #include <set>
@@ -13,12 +10,14 @@
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
+#include "game.h" // IWYU pragma: associated
 #include "init.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
-#include "material.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -28,6 +27,7 @@
 #include "stomach.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"

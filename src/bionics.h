@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>
@@ -14,15 +15,17 @@
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class Character;
 class player;
 
 enum class character_stat : char;
