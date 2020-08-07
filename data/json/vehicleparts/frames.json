@@ -380,6 +380,76 @@
     "symbol": "h"
   },
   {
+    "id": "frame_horizontal_right",
+    "looks_like": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_horizontal_right",
+    "looks_like": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_light_horizontal_right",
+    "looks_like": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdframe_horizontal_right",
+    "looks_like": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_right",
+    "looks_like": "xlframe_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_horizontal_left",
+    "looks_like": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_horizontal_left",
+    "looks_like": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_light_horizontal_left",
+    "looks_like": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdframe_horizontal_left",
+    "looks_like": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_left",
+    "looks_like": "xlframe_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "frame_horizontal_2",
     "looks_like": "frame_horizontal",
     "copy-from": "frame",
@@ -518,6 +588,76 @@
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_2_right",
+    "looks_like": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_horizontal_2_right",
+    "looks_like": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_light_horizontal_2_right",
+    "looks_like": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdframe_horizontal_2_right",
+    "looks_like": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_2_right",
+    "looks_like": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_horizontal_2_left",
+    "looks_like": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_horizontal_2_left",
+    "looks_like": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_light_horizontal_2_left",
+    "looks_like": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdframe_horizontal_2_left",
+    "looks_like": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_2_left",
+    "looks_like": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "="
   },
   {
     "id": "frame_ne",
