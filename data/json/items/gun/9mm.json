@@ -846,6 +846,35 @@
     "longest_side": "221 mm"
   },
   {
+    "id": "p226_9mm",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "SIG P226 MK25" },
+    "description": "The P226 MK25 is a full-size semi-automatic DA/SA, short-recoil operated pistol with corrosion resitant internal coating, and an engraved anchor on the side of the slide.",
+    "weight": "804 g",
+    "volume": "570 ml",
+    "longest_side": "237 mm",
+    "price": 100000,
+    "price_postapoc": 4500,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p226mag_10rd_9mm", "p226mag_15rd_9mm" ]
+      }
+    ]
+  },
+  {
     "id": "hi_power_9mm",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
