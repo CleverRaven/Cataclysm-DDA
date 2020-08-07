@@ -617,6 +617,7 @@
     "name": { "str": "batwing zombie" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.",
     "copy-from": "mon_zombie",
+    "categories": [  ],
     "upgrades": { "half_life": 28, "into": "mon_zombie_brute_winged" },
     "extend": { "flags": [ "FLIES" ] }
   },
