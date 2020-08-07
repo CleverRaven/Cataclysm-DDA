@@ -410,7 +410,7 @@
       "type": "dialogue",
       "context": "kindred",
       "value": "yes",
-      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself? This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
+      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself?  This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
       "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
     },
     "responses": [
