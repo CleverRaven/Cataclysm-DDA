@@ -412,10 +412,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
-static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+static void draw_minimap( const avatar &u, const catacurses::window &w_minimap, const int width,
+                          const int height )
 {
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, width, height );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -1358,9 +1359,9 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
-        const int offset = getmaxx( w ) - 6;
+        const int offset = getmaxx( w ) - 14;
         const tripoint_abs_omt curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 13, 5 );
     }
     wnoutrefresh( w );
 }
@@ -1488,29 +1489,32 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    draw_minimap( u, w );
+    const int text_left = 12;
+    draw_minimap( u, w, text_left - 3, 5 );
     // wielded item
-    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
+    trim_and_print( w, point( text_left, 0 ), getmaxx( w ) - text_left, c_light_gray, u.weapname() );
     // style
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
+    mvwprintz( w, point( text_left, 1 ), c_light_gray, "%s",
+               u.martial_arts_data->selected_style_name( u ) );
     // location
-    mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
+    mvwprintz( w, point( text_left, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
     // weather
     if( get_map().get_abs_sub().z < 0 ) {
-        mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
+        mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, point( 8, 3 ), get_weather().weather_id->color, get_weather().weather_id->name );
+        mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
+                   get_weather().weather_id->name );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
                 get_avatar().fine_detail_vision_mod() );
-    mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
+    mvwprintz( w, point( text_left, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
+    mvwprintz( w, point( text_left, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
@@ -1554,7 +1558,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     werase( w );
 
-    draw_minimap( u, w );
+    draw_minimap( u, w, 5, 5 );
     draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
