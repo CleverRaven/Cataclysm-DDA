@@ -126,6 +126,8 @@
     "volume": "2850 ml",
     "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",
     "longest_side": "775 mm",
+    "price": 271900,
+    "price_postapoc": 3500,
     "color": "dark_gray",
     "ammo": [ "300blk" ],
     "dispersion": 160,
