@@ -434,7 +434,7 @@
     "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor.",
     "dispersion": 125,
     "price_postapoc": 3000,
-    "built_in_mods": [ "suppressor", "rifle_scope", "bipod" ]
+    "default_mods": [ "suppressor", "rifle_scope", "bipod" ]
   },
   {
     "id": "m4a1",
