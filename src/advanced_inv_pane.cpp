@@ -65,7 +65,7 @@ bool _wants_to_buy( npc &np, item &it )
 {
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
-    return np.wants_to_sell( it, val, market_price );
+    return np.wants_to_buy( it, val, market_price );
 }
 
 } // namespace

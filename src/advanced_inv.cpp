@@ -112,14 +112,14 @@ int _stack_price( Character &buyer, Character &seller, item &it, int amount )
 
 } // namespace
 
-bool create_advanced_inv( Character *_trader )
+bool create_advanced_inv( Character *_trader, const std::string &deal )
 {
-    advanced_inventory advinv( _trader );
+    advanced_inventory advinv( _trader, deal );
     return advinv.display();
 }
 
 // *INDENT-OFF*
-advanced_inventory::advanced_inventory( Character *_trader )
+advanced_inventory::advanced_inventory( Character *_trader, const std::string &deal )
     : recalc( true )
     , src( left )
     , dest( right )
@@ -150,6 +150,7 @@ advanced_inventory::advanced_inventory( Character *_trader )
         panes[ side::left ].init( _trader, &get_player_character() );
         panes[ side::right ].init( &get_player_character(), _trader );
         trademode = true;
+        tradetype = deal;
     } else {
         panes[ side::left ].init( &get_player_character(), &get_player_character() );
         panes[ side::right ].init( &get_player_character(), &get_player_character() );
@@ -1281,13 +1282,12 @@ void advanced_inventory::redraw_sidebar()
             const std::string lname = panes[ side::left ].owner->disp_name();
             npc *np_p = dynamic_cast<npc *>( panes[ side::left ].owner );
             int owed = np_p->op_of_u.owed;
-            const std::string label = _( "Trading" );
             const std::string balstr = string_format( balance >= 0 ? _( "Credit %s" ) : _( "Debt %s" ),
                                        format_money( std::abs( balance ) ) );
             const std::string owestr = string_format( _( "%s owes you %s" ), np_p->disp_name(),
                                        format_money( owed ) );
-            mvwprintz( head, point( getmaxx( head ) * .50F - label.size() * .5F, 0 ), c_yellow, _( "%s" ),
-                       label );
+            mvwprintz( head, point( getmaxx( head ) * .50F - tradetype.size() * .5F, 0 ), c_yellow, _( "%s" ),
+                       tradetype );
             mvwprintz( head, point( getmaxx( head ) * .25F - lname.size() * .5F, getmaxy( head ) * .5F ),
                        c_white, _( "%s" ), lname );
             mvwprintz( head, point( getmaxx( head ) * .75F - rname.size() * .5F, getmaxy( head ) * .5F ),

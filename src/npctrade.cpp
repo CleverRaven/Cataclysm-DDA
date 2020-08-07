@@ -677,7 +677,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     np.drop_invalid_inventory();
 
     if( get_option<bool>( "AIM_TRADE" ) ) {
-        return create_advanced_inv( &np );
+        return create_advanced_inv( &np, deal );
     }
 
     trading_window trade_win;

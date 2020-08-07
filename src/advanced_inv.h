@@ -25,7 +25,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
 };
 
 class Character;
-bool create_advanced_inv( Character *_trader = nullptr );
+bool create_advanced_inv( Character *_trader = nullptr, const std::string &deal = std::string() );
 
 /**
  * Cancels ongoing move all action.
@@ -36,7 +36,7 @@ void cancel_aim_processing();
 class advanced_inventory
 {
     public:
-        advanced_inventory( Character *_trader );
+        advanced_inventory( Character *_trader, const std::string &deal );
         ~advanced_inventory();
 
         bool display();
@@ -89,6 +89,7 @@ class advanced_inventory
         bool trademode = false;
         int balance = 0;
         int practice = 0;
+        std::string tradetype;
 
         /**
          * Which panels is active (item moved from there).
