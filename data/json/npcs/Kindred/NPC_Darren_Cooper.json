@@ -160,7 +160,7 @@
         }
       },
       {
-        "text": "Wait, Cooper? I met a woman who mentioned you, Brigitte.  She said you're dangerous.",
+        "text": "Wait, Cooper?  I met a woman who mentioned you, Brigitte.  She said you're dangerous.",
         "topic": "TALK_COOPER_INTRODUCTION_QUERY",
         "condition": {
           "and": [
