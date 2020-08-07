@@ -258,6 +258,7 @@
     "name": { "str": "batwing zombie brute" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.  The rest has also stretched and grown hideously, swollen muscles ripping through taut flesh like random vines bursting out of a tomato.",
     "copy-from": "mon_zombie_brute",
+    "proportional": { "hp": 0.8, "weight": 0.8 },
     "extend": { "flags": [ "FLIES" ] }
   },
   {
@@ -618,6 +619,7 @@
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.",
     "copy-from": "mon_zombie",
     "categories": [  ],
+    "proportional": { "hp": 0.8, "weight": 0.8 },
     "upgrades": { "half_life": 28, "into": "mon_zombie_brute_winged" },
     "extend": { "flags": [ "FLIES" ] }
   },
