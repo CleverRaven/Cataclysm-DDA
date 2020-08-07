@@ -150,7 +150,7 @@
         }
       },
       {
-        "text": "Just a traveller, trying to survive.  What about you? Scavenging?",
+        "text": "Just a traveller, trying to survive.  What about you?  Scavenging?",
         "topic": "TALK_COOPER_INTRODUCTION",
         "condition": {
           "and": [
