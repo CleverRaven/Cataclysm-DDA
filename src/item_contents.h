@@ -74,9 +74,9 @@ class item_contents
         std::list<const item *> all_items_top() const;
 
         /** returns a list of pointers to all items recursively that are not mods */
-        std::list<item *> item_contents::all_standard_items_ptr();
+        std::list<item *> all_standard_items_ptr();
         /** returns a list of pointers to all items recursively that are not mods */
-        std::list<const item *> item_contents::all_standard_items_ptr() const;
+        std::list<const item *> all_standard_items_ptr() const;
         // returns a list of pointers to all items inside recursively
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
         // returns a list of pointers to all items inside recursively
