@@ -831,9 +831,19 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_17rd_9x19mm" ]
+        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
       }
     ]
+  },
+  {
+    "id": "m18",
+    "copy-from": "m17",
+    "type": "GUN",
+    "name": { "str": "M18" },
+    "description": "The M18 is a compact, semi-automatic, short recoil operated pistol derived from the SIG Sauer P320 Carry, used by US Armed Forces.",
+    "weight": "737 g",
+    "volume": "457 ml",
+    "longest_side": "221 mm"
   },
   {
     "id": "hi_power_9mm",
