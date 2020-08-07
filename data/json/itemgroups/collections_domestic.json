@@ -1014,6 +1014,7 @@
       { "item": "gloves_rubber", "prob": 20 },
       { "item": "mask_dust", "prob": 65 },
       { "item": "towel", "prob": 40 },
+      { "item": "plastic_sheet", "prob": 40 },
       { "item": "bottle_plastic", "prob": 10 },
       { "item": "bottle_plastic_small", "prob": 5 },
       { "item": "sewing_kit", "prob": 47 },

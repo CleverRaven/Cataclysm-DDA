@@ -137,6 +137,7 @@
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
       [ "sandpaper", 50 ],
+      [ "plastic_sheet", 50 ],
       [ "shovel_snow", 10 ],
       [ "shovel_snow_plastic", 15 ],
       [ "hose_garden", 20 ]
