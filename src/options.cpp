@@ -1535,8 +1535,8 @@ void options_manager::add_options_interface()
        );
 
     add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
-         translate_marker( "Number of messages to preserve in the history.  '0' keeps all messages." ),
-         0, 10000, 255
+         translate_marker( "Number of messages to preserve in the history, and when saving." ),
+         1, 10000, 255
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",

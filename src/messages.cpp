@@ -192,10 +192,8 @@ class messages_impl
             }
 
             unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
-            if( message_limit > 0 ) {
-                while( messages.size() > message_limit ) {
-                    messages.pop_front();
-                }
+            while( messages.size() > message_limit ) {
+                messages.pop_front();
             }
 
             messages.emplace_back( m );
