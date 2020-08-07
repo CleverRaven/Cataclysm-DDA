@@ -43,6 +43,7 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "past_games_info.h"
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
@@ -446,6 +447,10 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.member( "scores", scores );
 
     jsout.end_object();
+
+    // Having written a new memorial file, we need to ensure that
+    // past_games_info now takes that into account
+    clear_past_games();
 }
 
 void memorial_logger::notify( const cata::event &e )

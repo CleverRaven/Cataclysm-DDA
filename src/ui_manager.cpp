@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "cursesdef.h"
+#include "game.h"
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
@@ -189,6 +190,9 @@ void ui_adaptor::redraw()
 
 void ui_adaptor::redraw_invalidated()
 {
+    if( test_mode ) {
+        return;
+    }
     ui_stack_t ui_stack_copy = ui_stack;
     // apply deferred resizing
     auto first = ui_stack_copy.rbegin();
