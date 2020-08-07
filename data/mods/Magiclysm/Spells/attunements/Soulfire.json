@@ -28,5 +28,39 @@
     "sound_id": "fire_spell",
     "sound_variant": "strong",
     "energy_source": "MANA"
+  },
+  {
+    "id": "soul_afterburner_effect_1",
+    "type": "SPELL",
+    "name": "Soul Afterburner Move Increase Effect",
+    "description": "The additional effect from the Soul Afterburner spell that increases your moves.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT" ],
+    "effect": "mod_moves",
+    "min_damage": 750,
+    "damage_increment": 50,
+    "max_damage": 5000,
+    "max_level": 35
+  },
+  {
+    "id": "soul_afterburner",
+    "type": "SPELL",
+    "name": "Soul Afterburner",
+    "description": "You burn a small portion of your soul to gain a large burst of speed.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL" ],
+    "effect": "target_attack",
+    "min_damage": 2,
+    "max_damage": 2,
+    "min_dot": 3,
+    "dot_increment": 0.21,
+    "max_dot": 7,
+    "min_duration": 500,
+    "max_duration": 500,
+    "max_level": 35,
+    "difficulty": 6,
+    "base_casting_time": 5,
+    "spell_class": "SOULFIRE",
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ]
   }
 ]
