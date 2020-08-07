@@ -1534,6 +1534,11 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
+    add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
+         translate_marker( "Number of messages to preserve in the history.  '0' keeps all messages." ),
+         0, 10000, 255
+       );
+
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
