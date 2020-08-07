@@ -41,7 +41,7 @@
     "name": { "str_sp": "M2HB Browning HMG" },
     "description": "A heavy machine gun used by the US Military from its inception to the Cataclysm, and even rarely by Cataclysm survivors.  Its massive size and design make it impossible to use unless deployed or mounted to a vehicle.",
     "weight": "38000 g",
-    "volume": "20040 ml",
+    "volume": "9020 ml",
     "longest_side": "165 cm",
     "price": 1800000,
     "price_postapoc": 10000,
