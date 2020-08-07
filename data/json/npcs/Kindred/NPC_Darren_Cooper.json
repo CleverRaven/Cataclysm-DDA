@@ -99,8 +99,8 @@
         "type": "dialogue",
         "context": "first_meeting",
         "value": "yes",
-        "yes": "How do you do. Name's Cooper. What's your- wait... that's the Mark of the Seer on your hand. You're Kindred. So I guess you know who I am then.",
-        "no": "How do you do. Name's Cooper. And you are?"
+        "yes": "How do you do.  Name's Cooper.  What's your- wait...  that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
+        "no": "How do you do.  Name's Cooper.  And you are?"
       },
       "yes": {
         "u_has_trait": "seer_mark",
@@ -121,14 +121,14 @@
           "context": "cooper",
           "value": "yes",
           "no": "What do you want, Kindred?",
-          "yes": "Kindred. What can I do for you?"
+          "yes": "Kindred.  What can I do for you?"
         }
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
       {
-        "text": "I do. Brigitte told me about you, and what you've done.",
+        "text": "I do.  Brigitte told me about you, and what you've done.",
         "topic": "TALK_KNOWS_COOPER1",
         "condition": {
           "and": [
@@ -139,7 +139,7 @@
         }
       },
       {
-        "text": "I can't say that I do. Should I?",
+        "text": "I can't say that I do.  Should I?",
         "topic": "TALK_COOPER_NOTFMLR",
         "condition": {
           "and": [
@@ -150,7 +150,7 @@
         }
       },
       {
-        "text": "Just a traveller, trying to survive. What about you? Scavenging?",
+        "text": "Just a traveller, trying to survive.  What about you? Scavenging?",
         "topic": "TALK_COOPER_INTRODUCTION",
         "condition": {
           "and": [
@@ -160,7 +160,7 @@
         }
       },
       {
-        "text": "Wait, Cooper? I met a woman who mentioned you, Brigitte. She said you're dangerous.",
+        "text": "Wait, Cooper? I met a woman who mentioned you, Brigitte.  She said you're dangerous.",
         "topic": "TALK_COOPER_INTRODUCTION_QUERY",
         "condition": {
           "and": [
@@ -206,7 +206,7 @@
         }
       },
       {
-        "text": "Hey Cooper, I was just checking in. I'll go now.",
+        "text": "Hey Cooper, I was just checking in.  I'll go now.",
         "topic": "TALK_DONE",
         "condition": {
           "and": [
@@ -249,7 +249,7 @@
         }
       },
 	  {
-        "text": "I've been thinking about what you do. I can't let you keep hurting people. You have to be stopped.",
+        "text": "I've been thinking about what you do.  I can't let you keep hurting people.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT",
         "condition": {
           "and": [
@@ -270,7 +270,7 @@
         }
       },
       {
-        "text": "You mentioned that you have a goal. What is that exactly?",
+        "text": "You mentioned that you have a goal.  What is that exactly?",
         "topic": "TALK_COOPER_GOAL",
         "condition": {
           "and": [
@@ -294,11 +294,11 @@
     "speaker_effect": { "effect": { "u_add_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
     "responses": [
       {
-        "text": "I want to hear your side of the story. You make it sound like it's not so cut and dry.",
+        "text": "I want to hear your side of the story.  You make it sound like it's not so cut and dry.",
         "topic": "TALK_COOPERS_SIDE"
       },
       {
-        "text": "You kill innocent people and butcher them like animals. I don't care what you say. You have to be stopped.",
+        "text": "You kill innocent people and butcher them like animals.  I don't care what you say.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT"
       }
     ]
@@ -306,17 +306,17 @@
   {
    "type": "talk_topic",
    "id": "TALK_COOPER_INTRODUCTION_QUERY",
-   "dynamic_line": "I see. Would you like to hear my side, or is your mind made up already?",
+   "dynamic_line": "I see.  Would you like to hear my side, or is your mind made up already?",
    "responses": [
-   { "text": "I'm curious. Go on.", "topic": "TALK_COOPERS_SIDE" },
+   { "text": "I'm curious.  Go on.", "topic": "TALK_COOPERS_SIDE" },
    { "text": "She told me to stop you, and that's what I'll do.", "topic": "TALK_COOPER_FIGHT" },
-   { "text": "I don't care about any of this. Bye.", "topic": "TALK_DONE" }
+   { "text": "I don't care about any of this.  Bye.", "topic": "TALK_DONE" }
    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COOPERS_SIDE",
-    "dynamic_line": "I met Brigitte shortly after everything collapsed. Seeing so much death and insanity around me... it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around. For that, I am grateful to her. But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road. By the time the animals are done with those, there is barely any Song left to be used. It's not enough. I had to leave, to work on my own. To do what's necessary.",
+    "dynamic_line": "I met Brigitte shortly after everything collapsed.  Seeing so much death and insanity around me...  it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around.  For that, I am grateful to her.  But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road.  By the time the animals are done with those, there is barely any Song left to be used.  It's not enough.  I had to leave, to work on my own.  To do what's necessary.",
     "responses": [
       {
         "text": "What do you mean by 'necessary' ?",
@@ -342,7 +342,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_NECESSARY",
-    "dynamic_line": "People will die in this world overrun with monsters. There is no avoiding it. But I can give those deaths meaning, allow them to help the world after death, more than they could in life. It brings me no pleasure, but... yes, some must give their life for the greater good. It's the only way. Wish there was an alternative, but it must be done. I only take people from this world to save it. Make no mistake though, the only people that I... kill are those who would not survive anyway.",
+    "dynamic_line": "People will die in this world overrun with monsters.  There is no avoiding it.  But I can give those deaths meaning, allow them to help the world after death, more than they could in life.  It brings me no pleasure, but...  yes, some must give their life for the greater good.  It's the only way.  Wish there was an alternative, but it must be done.  I only take people from this world to save it.  Make no mistake though, the only people that I...  kill are those who would not survive anyway.",
 	"speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       {
@@ -355,14 +355,14 @@
         "topic": "TALK_COOPER_KILL_PLAYER"
       },
       {
-        "text": "You're just a murderer with a shoddy excuse. I can't let you keep doing this.",
+        "text": "You're just a murderer with a shoddy excuse.  I can't let you keep doing this.",
         "topic": "TALK_COOPER_FIGHT"
       },
       {
-        "text": "You have a point. Sacrifices must be made. It takes a strong will to realize that.",
+        "text": "You have a point.  Sacrifices must be made.  It takes a strong will to realize that.",
         "topic": "TALK_COOPER_AGREE"
       },
-      { "text": "This is mad. How can you possibly know what you do will work?", "topic": "TALK_COOPER_WORK" }
+      { "text": "This is mad.  How can you possibly know what you do will work?", "topic": "TALK_COOPER_WORK" }
     ]
   },
   {
@@ -373,19 +373,19 @@
       "type": "dialogue",
       "context": "kindred",
       "value": "yes",
-      "no": "I can't allow you to stop me. If you try, I'll have no option but to fight you. But know that should you win, you'll be ridding the world of the only hope it has.",
-      "yes": "I knew a Kindred would not understand. But I can't allow you to stop me. If you try, I'll have no option but to fight you. But know that should you win, you'll be ridding the world of the only hope it has."
+      "no": "I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has.",
+      "yes": "I knew a Kindred would not understand.  But I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has."
     },
     "responses": [
       {
-        "text": "All I'm ridding the world of is a dangerous madman. Now die.",
+        "text": "All I'm ridding the world of is a dangerous madman.  Now die.",
 		"topic": "TALK_DONE",
 		"effect": [
 		 "hostile",
 		 { "u_add_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" }
 		 ]
       },
-      { "text": "This is a waste of time not worth the risk. I'm out of here.", "topic": "TALK_DONE" }
+      { "text": "This is a waste of time not worth the risk.  I'm out of here.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -396,11 +396,11 @@
       "type": "dialogue",
       "context": "kindred",
       "value": "yes",
-      "yes": "You're like me then, Kindred. I'm glad I'm not the only one who realizes what's necessary. Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
-      "no": "I'm glad you realize the necessity of the burden I bear. Maybe someday we'll join our forces, but for now, I have to do this alone."
+      "yes": "You're like me then, Kindred.  I'm glad I'm not the only one who realizes what's necessary.  Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
+      "no": "I'm glad you realize the necessity of the burden I bear.  Maybe someday we'll join our forces, but for now, I have to do this alone."
     },
     "speaker_effect": { "effect": { "u_add_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } },
-    "responses": [ { "text": "I won't delay you any longer. Good luck on your mission.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I won't delay you any longer.  Good luck on your mission.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -410,12 +410,12 @@
       "type": "dialogue",
       "context": "kindred",
       "value": "yes",
-      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself? This hypocrisy is why I set off on my own. Stop wasting my time and get out of my way.",
-      "no": "I know it's hard to comprehend when you can't hear the song. The bones hold power, you just don't hear it yet. But you will, eventually."
+      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself? This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
+      "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
     },
     "responses": [
       {
-        "text": "I did not mean to offend you. I'm sure you have your reasons and know what you're doing.",
+        "text": "I did not mean to offend you.  I'm sure you have your reasons and know what you're doing.",
         "topic": "TALK_COOPER_AGREE"
       },
 	  {
@@ -424,7 +424,7 @@
 	  "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
 	  },
       {
-        "text": "Brigitte was right. I can't reason with you. You have to be stopped.",
+        "text": "Brigitte was right.  I can't reason with you.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT",
         "condition": { "and": [
 		{"u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
@@ -433,7 +433,7 @@
 		}
       },
       {
-        "text": "You're rambling. I can't let you keep hurting people. This ends now.",
+        "text": "You're rambling.  I can't let you keep hurting people.  This ends now.",
         "topic": "TALK_COOPER_FIGHT",
         "condition": { "and": [
 		{ "not": {"u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
@@ -441,13 +441,13 @@
 		]
 		}
       },
-      { "text": "This is a waste of time. I'm leaving.", "topic": "TALK_DONE" }
+      { "text": "This is a waste of time.  I'm leaving.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_NOTFMLR",
-    "dynamic_line": "Brigitte did not mention me? I'm surprised. Perhaps she's starting to understand I was right. I was with her for a time, learned from her. I'm still on her side, but she doesn't realize it yet.",
+    "dynamic_line": "Brigitte did not mention me? I'm surprised.  Perhaps she's starting to understand I was right.  I was with her for a time, learned from her.  I'm still on her side, but she doesn't realize it yet.",
     "responses": [ { "text": "You know Brigitte? What happened with you two?", "topic": "TALK_COOPERS_SIDE" } ]
   },
   {
@@ -456,14 +456,14 @@
     "dynamic_line": "I scavenge only so I can survive, but I have a much greater goal than just to live.",
     "speaker_effect": { "effect": { "u_add_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { "text": "A... goal? What do you mean? What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
-      { "text": "Uh, okay then. I have to go now; have a nice day.", "topic": "TALK_DONE" }
+      { "text": "A...  goal? What do you mean? What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
+      { "text": "Uh, okay then.  I have to go now; have a nice day.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_GOAL",
-    "dynamic_line": "Something changed during the Collapse - the apocalypse, if you prefer that. The way the dead rise again and again, it's tied to their bones - notice that only when you pulp and crush them properly do they actually die. A woman I met - Brigitte was her name - taught me how to use the power. We call it the Song, since if you know how, you can hear it, a quiet hum in the bones. If I collect enough Song, the concentrated power can reverse the Cataclysm. Undo all of this.",
+    "dynamic_line": "Something changed during the Collapse - the apocalypse, if you prefer that.  The way the dead rise again and again, it's tied to their bones - notice that only when you pulp and crush them properly do they actually die.  A woman I met - Brigitte was her name - taught me how to use the power.  We call it the Song, since if you know how, you can hear it, a quiet hum in the bones.  If I collect enough Song, the concentrated power can reverse the Cataclysm.  Undo all of this.",
     "speaker_effect": {
       "effect": [
         { "u_lose_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" },
@@ -473,10 +473,10 @@
     "responses": [
       { "text": "What proof could you possibly have of this? That any of this is true?", "topic": "TALK_COOPER_WORK" },
       {
-        "text": "You mentioned a woman, Brigitte. Why isn't she with you? What happened?",
+        "text": "You mentioned a woman, Brigitte.  Why isn't she with you? What happened?",
         "topic": "TALK_COOPERS_SIDE"
       },
-      { "text": "That's insane. I'm going.", "topic": "TALK_DONE" }
+      { "text": "That's insane.  I'm going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -488,7 +488,7 @@
       "context": "cooper",
       "value": "yes",
       "no": "Sorry, but I don't know you that well and I'd rather not go into that.",
-      "yes": "I was born here in New England, lived here all my life. Was an accountant before the Collapse, if you can believe that. There wasn't really special about my life before I learned about the Song, so there really isn't much to say."
+      "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really special about my life before I learned about the Song, so there really isn't much to say."
     },
     "responses": [
       {
@@ -502,7 +502,7 @@
         "condition": {"u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
       },
       {
-        "text": "I see. Thanks for sharing.",
+        "text": "I see.  Thanks for sharing.",
 		"topic": "TALK_KINDRED_COOPER",
         "condition": {"u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
       }
@@ -517,12 +517,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_KILL_PLAYER",
-    "dynamic_line": "No. You seem like you have a chance of surviving in this world, it wouldn't be right to try and harm you. Plus, you took the time to actually hear me out, so there is a chance one day you'll hear the Song the same way I do.",
+    "dynamic_line": "No.  You seem like you have a chance of surviving in this world, it wouldn't be right to try and harm you.  Plus, you took the time to actually hear me out, so there is a chance one day you'll hear the Song the same way I do.",
     "responses": [
 	 { "text": "Nevertheless, I can't allow you to keep killing people.", "topic": "TALK_COOPER_FIGHT" },
-	 { "text": "I'm glad you see it that way. Perhaps one day, I will understand.", "topic": "TALK_COOPER_AGREE", "condition": { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } } },
+	 { "text": "I'm glad you see it that way.  Perhaps one day, I will understand.", "topic": "TALK_COOPER_AGREE", "condition": { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } } },
 	 { "text": "Maybe one day I will.", "topic": "TALK_COOPER_AGREE", "condition": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
-	 { "text": "This is a waste of time. I'm leaving", "topic": "TALK_DONE" }
+	 { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
 	 ]
   }
 ]
