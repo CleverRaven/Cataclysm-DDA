@@ -34,10 +34,10 @@
   {
     "id": "field_dress",
     "type": "requirement",
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "qualities": [ { "id": "SURFACE", "level": 2 }, { "id": "CUT", "level": 1 } ]
   },
   {
-    "id": "full_butchery_large",
+    "id": "full_butchery_large_no_surface",
     "type": "requirement",
     "//": "omit butcher quality because it is checked separately",
     "qualities": [
@@ -48,27 +48,27 @@
     ]
   },
   {
-    "id": "butchery_large",
+    "id": "butchery_large_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
-    "id": "dissect_large",
+    "id": "dissect_large_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
-    "id": "butchery_small",
+    "id": "butchery_small_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
-    "id": "dissect_small",
+    "id": "dissect_small_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
-    "id": "field_dress",
+    "id": "field_dress_no_surface",
     "type": "requirement",
     "qualities": [ { "id": "CUT", "level": 1 } ]
   }
