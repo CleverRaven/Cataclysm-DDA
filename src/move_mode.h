@@ -4,13 +4,14 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "color.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-
 template<typename T>
 class generic_factory;
 

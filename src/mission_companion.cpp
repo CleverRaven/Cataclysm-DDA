@@ -1,25 +1,26 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -39,9 +40,8 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
-#include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -50,7 +50,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "skill.h"
@@ -62,6 +61,8 @@
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+class character_id;
 
 static const efftype_id effect_riding( "riding" );
 

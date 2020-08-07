@@ -1,6 +1,7 @@
-#include "cursesdef.h" // IWYU pragma: associated
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cuboid_rectangle.h"
+#include "cursesdef.h" // IWYU pragma: associated
+#include "point.h"
+#include "sdltiles.h" // IWYU pragma: associated
 
 #if defined(TILES)
 
@@ -52,8 +53,8 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"

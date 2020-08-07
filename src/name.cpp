@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "enum_traits.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"

@@ -2,11 +2,13 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cstddef>
 #include <initializer_list>
 #include <string>
+#include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
@@ -14,10 +16,9 @@
 #include "string_id.h"
 #include "translations.h"
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
-
 template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order

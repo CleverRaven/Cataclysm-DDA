@@ -3,8 +3,11 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -29,6 +32,9 @@
 #include "value_ptr.h"
 
 class Item_factory;
+class JsonIn;
+class JsonObject;
+class body_part_set;
 class item;
 class player;
 struct tripoint;

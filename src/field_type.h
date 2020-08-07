@@ -18,7 +18,9 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
+#include "int_id.h"
 #include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

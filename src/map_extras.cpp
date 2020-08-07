@@ -1,6 +1,8 @@
 #include "map_extras.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>

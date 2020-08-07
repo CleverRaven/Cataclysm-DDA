@@ -1,14 +1,16 @@
-#include "game.h"
-#include "game_constants.h"
-#include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include <memory>
+
+#include "item.h"
+#include "magic.h"
 #include "npc.h"
-#include "npctrade.h"
-#include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "talker_character.h"
 #include "vehicle.h"
+
+class time_duration;
 
 std::string talker_character::disp_name() const
 {

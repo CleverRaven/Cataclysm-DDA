@@ -16,10 +16,12 @@
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
+class JsonIn;
 class JsonObject;
 class item;
 class time_duration;
-class Character;
+template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
     none = 0,

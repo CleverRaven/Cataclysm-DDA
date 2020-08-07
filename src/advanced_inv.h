@@ -13,6 +13,7 @@
 #include "cursesdef.h"
 
 class Character;
+class advanced_inv_listitem;
 class input_context;
 class item;
 struct advanced_inv_save_state;

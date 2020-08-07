@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <string>
 #include <climits>
+#include <map>
+#include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "type_id.h"
 #include "weather_type.h"
 
-struct tripoint;
 class JsonObject;
+struct tripoint;
 
 struct w_point {
     double temperature = 0;

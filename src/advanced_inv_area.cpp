@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cstring>
 #include <iterator>
+#include <list>
 #include <memory>
 #include <set>
 #include <string>
@@ -11,6 +12,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "avatar.h"
+#include "character.h"
 #include "enums.h"
 #include "field.h"
 #include "field_type.h"
@@ -22,10 +24,13 @@
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "pimpl.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

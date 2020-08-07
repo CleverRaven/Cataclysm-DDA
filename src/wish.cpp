@@ -1,5 +1,3 @@
-#include "debug_menu.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
@@ -7,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
@@ -14,6 +13,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h" // IWYU pragma: associated
+#include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -36,6 +37,9 @@
 #include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
+
+class ui_adaptor;
+template <typename T> class string_id;
 
 class wish_mutate_callback: public uilist_callback
 {

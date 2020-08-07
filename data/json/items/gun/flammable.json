@@ -8,6 +8,7 @@
     "description": "A large flamethrower with substantial gas reserves.  Very menacing and deadly.",
     "weight": "1587 g",
     "volume": "4 L",
+    "longest_side": "100 cm",
     "price": 80000,
     "price_postapoc": 6000,
     "to_hit": -1,

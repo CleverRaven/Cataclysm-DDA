@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,10 +15,12 @@
 #include "inventory.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class player;
 class vpart_info;
@@ -99,6 +102,7 @@ class veh_interact
         int highlight_part = -1;
 
         struct install_info_t;
+
         std::unique_ptr<install_info_t> install_info;
 
         vehicle *veh;

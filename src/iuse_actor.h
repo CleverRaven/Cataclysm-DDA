@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_IUSE_ACTOR_H
 #define CATA_SRC_IUSE_ACTOR_H
 
+#include <algorithm>
 #include <climits>
 #include <map>
 #include <memory>
@@ -10,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "color.h"
 #include "coordinates.h"
 #include "damage.h"
@@ -23,6 +25,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class item;

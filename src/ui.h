@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_UI_H
 #define CATA_SRC_UI_H
 
+#include <functional>
 #include <initializer_list>
 #include <map>
 #include <memory>
@@ -13,11 +14,11 @@
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "input.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "input.h"
 
 class translation;
 
@@ -361,6 +362,7 @@ class pointmenu_cb : public uilist_callback
 {
     private:
         struct impl_t;
+
         pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );

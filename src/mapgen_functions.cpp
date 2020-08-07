@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
@@ -12,13 +13,13 @@
 
 #include "calendar.h"
 #include "character_id.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"

@@ -1,17 +1,18 @@
 #include "npctrade.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <memory>
 #include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "advanced_inv.h"
 #include "avatar.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -21,11 +22,9 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
-#include "item_category.h"
-#include "item_contents.h"
+#include "item_category.h" // IWYU pragma: keep
 #include "map_selector.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"

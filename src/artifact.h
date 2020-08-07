@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "itype.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;

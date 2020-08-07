@@ -61,6 +61,7 @@
 #include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -68,6 +69,7 @@
 #include "sounds.h"
 #include "speech.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -77,6 +79,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "viewer.h"
 #include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );

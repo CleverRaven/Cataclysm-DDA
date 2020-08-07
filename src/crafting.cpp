@@ -11,11 +11,12 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -26,6 +27,7 @@
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
@@ -53,7 +55,6 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "proficiency.h"
@@ -69,6 +70,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"

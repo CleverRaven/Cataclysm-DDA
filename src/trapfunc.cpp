@@ -1,5 +1,3 @@
-#include "trap.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <memory>
@@ -10,6 +8,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -35,6 +34,9 @@
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h" // IWYU pragma: associated
+#include "units.h"
+#include "viewer.h"
 
 static const skill_id skill_throw( "throw" );
 

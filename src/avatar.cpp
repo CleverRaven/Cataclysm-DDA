@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
@@ -55,7 +56,6 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -68,6 +68,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -119,9 +120,6 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-
-class JsonIn;
-class JsonOut;
 
 avatar::avatar()
 {

@@ -8,6 +8,7 @@
 
 #include "calendar.h"
 #include "event_subscriber.h"
+#include "optional.h"
 #include "string_formatter.h"
 #include "type_id.h"
 

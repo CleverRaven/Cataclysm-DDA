@@ -11,7 +11,6 @@
 #include "game.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"

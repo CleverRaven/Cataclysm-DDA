@@ -1,7 +1,6 @@
 #include "npc.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -10,9 +9,9 @@
 #include <memory>
 
 #include "auto_pickup.h"
-#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -33,8 +32,8 @@
 #include "game_inventory.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -43,7 +42,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
@@ -51,13 +49,12 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -74,6 +71,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"

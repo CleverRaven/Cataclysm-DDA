@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAPDATA_H
 #define CATA_SRC_MAPDATA_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cstddef>
@@ -11,9 +12,12 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 class JsonObject;

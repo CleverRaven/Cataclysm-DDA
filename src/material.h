@@ -12,6 +12,7 @@
 
 #include "fire.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class material_type;

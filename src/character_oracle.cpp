@@ -1,15 +1,13 @@
-#include <array>
-#include <list>
 #include <memory>
+#include <vector>
 
 #include "behavior.h"
-#include "character_oracle.h"
-#include "bodypart.h"
 #include "character.h"
-#include "inventory.h"
+#include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
 #include "ret_val.h"
+#include "type_id.h"
 #include "value_ptr.h"
 #include "weather.h"
 

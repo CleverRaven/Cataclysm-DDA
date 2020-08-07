@@ -1,7 +1,4 @@
 // Monster movement code; essentially, the AI
-
-#include "monster.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
@@ -15,6 +12,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
@@ -27,14 +25,15 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "monster.h" // IWYU pragma: associated
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -43,7 +42,9 @@
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
