@@ -875,6 +875,36 @@
     ]
   },
   {
+    "id": "sp2022",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "SIG Pro SP2022 9mm" },
+    "description": "This is a polymer-frame, semi-automatic, DA/SA operated pistol, featuring a Picatinny rail, and a Nitron stainless steel slide.",
+    "weight": "822 g",
+    "volume": "514 ml",
+    "longest_side": "221 mm",
+    "price": 50000,
+    "price_postapoc": 3750,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 480,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "magazine_well": "250 ml",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "sp2022mag_10rd_9mm", "sp2022mag_12rd_9mm", "sp2022mag_15rd_9mm" ]
+      }
+    ]
+  },
+  {
     "id": "hi_power_9mm",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
