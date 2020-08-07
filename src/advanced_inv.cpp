@@ -109,10 +109,10 @@ int _stack_price( Character &buyer, Character &seller, item &it, int amount )
 
 } // namespace
 
-void create_advanced_inv( Character *_trader )
+bool create_advanced_inv( Character *_trader )
 {
     advanced_inventory advinv( _trader );
-    advinv.display();
+    return advinv.display();
 }
 
 // *INDENT-OFF*
@@ -138,7 +138,7 @@ advanced_inventory::advanced_inventory( Character *_trader )
         { AIM_ALL,       point( 22, 3 ), tripoint_zero,       _( "Surrounding area" ),   _( "AL" ),  "A", "ITEMS_AROUND",    AIM_ALL},
         { AIM_CONTAINER, point( 22, 1 ), tripoint_zero,       _( "Container" ),          _( "CN" ),  "C", "ITEMS_CONTAINER", AIM_CONTAINER},
         { AIM_WORN,      point( 25, 3 ), tripoint_zero,       _( "Worn Items" ),         _( "WR" ),  "W", "ITEMS_WORN",      AIM_WORN},
-        { AIM_TRADE,     point( 22, 2 ), tripoint_zero,       _( "Trade" ),              _( "TR" ),  "T", "ITEMS_TRADE",     AIM_TRADE}
+        { AIM_TRADE,     point( 22, 2 ), tripoint_zero,       _( "Trade list" ),         _( "TR" ),  "T", "ITEMS_TRADE",     AIM_TRADE}
     }
 } )
 {
@@ -156,9 +156,7 @@ advanced_inventory::advanced_inventory( Character *_trader )
 
 advanced_inventory::~advanced_inventory()
 {
-    if( !trademode ) {
-        save_settings( false );
-    }
+    save_settings( false );
     if( save_state->exit_code != aim_exit::re_entry ) {
         save_state->exit_code = aim_exit::okay;
     }
@@ -279,16 +277,18 @@ bool advanced_inventory::finish_trade()
         } else {
             popup( _( "Sorry, I'm only willing to extend you %s in credit." ), format_money( maxcredit ) );
         }
-        return false;
     } else if( balance > 0 && maxdebt < balance ) {
         trade_ok = query_yn(
                        _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                        format_money( maxdebt )
                    );
-        return trade_ok;
+        if( trade_ok ) {
+            balance = maxdebt;
+        }
     } else {
         trade_ok = query_yn( _( "Looks like a deal!  Accept this trade?" ) );
     }
+
     if( trade_ok ) {
         trade_transfer( *panes[ side::right ].owner, panes[ side::left ].limbo );
         trade_transfer( *panes[ side::left ].owner, panes[ side::right ].limbo );
@@ -308,20 +308,25 @@ void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane:
             continue;
         }
         if( el.first.front()->count_by_charges() ) {
-            item transfered = *el.first.front();
-            int amount = transfered.get_var( "aim_trade_amount", 0 );
+            item &original = *el.first.front();
+            const int amount = original.get_var( "aim_trade_amount", 0 );
+            el.first.front()->erase_var( "aim_trade_amount" );
+            item transfered( original );
             transfered.charges = amount;
-            transfered.erase_var( "aim_trade_amount" );
             transfered.set_owner( to );
             to.i_add( transfered );
 
-            el.first.front()->erase_var( "aim_trade_amount" );
-            el.first.front()->charges -= amount;
-            if( el.first.front()->charges <= 0 ) {
+            original.charges -= amount;
+            if( original.charges <= 0 ) {
                 el.first.front().remove_item();
             }
         } else {
             for( int i = 0; i < el.second; i++ ) {
+                if( el.first.at( i ).get_item() == nullptr ) {
+                    // item from stack disappeared somehow. this shouldn't happen
+                    debugmsg( "Item in tradelist was unexpectedly nullptr" );
+                    continue;
+                }
                 item &transfered = *el.first.at( i );
                 transfered.set_owner( to );
                 to.i_add( transfered );
@@ -500,7 +505,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             const int tradeamount = it.get_var( "aim_trade_amount", 0 );
             const int fakecharges = pane.get_area() != AIM_TRADE ? it.charges - tradeamount : tradeamount;
             if( stolen ) {
-                item_name = string_format( "%s %s", stolen_string, it.display_name( fakecharges ) );
+                item_name = string_format( "%s %s", stolen_string, it.display_name( 1, fakecharges ) );
             } else {
                 item_name = it.display_name( 1, fakecharges );
             }
@@ -716,7 +721,7 @@ void advanced_inventory::recalc_pane( side p )
     pane.items.clear();
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
-    // For NPC shopkeepers, skip some checks add all items in PICKUP_RANGE instead
+    // For NPC shopkeepers, skip some checks and add all items in PICKUP_RANGE instead
     if( pane.get_area() == AIM_ALL && pane.owner->is_npc() &&
         dynamic_cast<npc *>( pane.owner )->mission == NPC_MISSION_SHOPKEEP ) {
 
@@ -1689,7 +1694,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     }
 }
 
-void advanced_inventory::display()
+bool advanced_inventory::display()
 {
     init();
 
@@ -1700,6 +1705,7 @@ void advanced_inventory::display()
 
     exit = false;
     recalc = true;
+    bool trade_ok = false;
 
     std::unique_ptr<string_input_popup> spopup;
     std::unique_ptr<ui_adaptor> ui;
@@ -1763,7 +1769,7 @@ void advanced_inventory::display()
     while( !exit ) {
         if( player_character.moves < 0 ) {
             do_return_entry();
-            return;
+            return false;
         }
         dest = src == advanced_inventory::side::left ? advanced_inventory::side::right :
                advanced_inventory::side::left;
@@ -1870,7 +1876,8 @@ void advanced_inventory::display()
             trade_cleanup();
             exit = true;
         } else if( action == "QUIT" ) {
-            exit = finish_trade();
+            trade_ok = finish_trade();
+            exit = trade_ok;
         } else if( action == "PAGE_DOWN" ) {
             spane.scroll_page( linesPerPage, +1 );
         } else if( action == "PAGE_UP" ) {
@@ -1915,6 +1922,8 @@ void advanced_inventory::display()
             }
         }
     }
+
+    return trade_ok;
 }
 
 class query_destination_callback : public uilist_callback
@@ -2124,9 +2133,10 @@ bool advanced_inventory::query_charges( aim_location srcarea, aim_location desta
     // Now we have the final amount. Query if requested or limited room left.
     if( action == "MOVE_VARIABLE_ITEM" || amount < input_amount ) {
         // FIXME: this is super ugly
-        const int realcount = by_charges ? it.charges : sitem.stacks;
+        const int realcount = by_charges;
         const int tradedcount = sitem.items.front()->get_var( "aim_trade_amount", 0 );
-        const int count = srcarea == AIM_TRADE ? tradedcount :
+        const int count = !by_charges ? sitem.stacks :
+                          srcarea == AIM_TRADE ? tradedcount :
                           destarea == AIM_TRADE ? realcount - tradedcount :
                           realcount;
 

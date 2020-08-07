@@ -55,20 +55,14 @@ bool _wants_to_sell( npc &np, item &it )
 {
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
-    if( it.is_owned_by( np ) && np.wants_to_sell( it, val, market_price ) ) {
-        return true;
-    }
-    return false;
+    return it.is_owned_by( np ) && np.wants_to_sell( it, val, market_price );
 }
 
 bool _wants_to_buy( npc &np, item &it )
 {
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
-    if( np.wants_to_sell( it, val, market_price ) ) {
-        return true;
-    }
-    return false;
+    return np.wants_to_sell( it, val, market_price );
 }
 
 } // namespace

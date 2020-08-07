@@ -24,7 +24,7 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
 };
 
 class Character;
-void create_advanced_inv( Character *_trader = nullptr );
+bool create_advanced_inv( Character *_trader = nullptr );
 
 /**
  * Cancels ongoing move all action.
@@ -38,7 +38,7 @@ class advanced_inventory
         advanced_inventory( Character *_trader );
         ~advanced_inventory();
 
-        void display();
+        bool display();
 
         /**
          * Converts from screen relative location to game-space relative location
@@ -204,7 +204,7 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges( aim_location stcarea, aim_location destarea,
+        bool query_charges( aim_location srcarea, aim_location destarea,
                             const advanced_inv_listitem &sitem,
                             const std::string &action, int &amount );
 };
