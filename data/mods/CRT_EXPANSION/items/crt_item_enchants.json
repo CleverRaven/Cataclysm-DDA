@@ -1,22 +1,13 @@
 [
   {
-    "id": "light_healing",
+    "id": "sword_healing",
     "type": "SPELL",
-    "name": "Cure Light Wounds",
-    "description": "Heals a little bit of damage on the target.",
-    "valid_targets": [ "self", "ally" ],
-    "min_damage": -5,
-    "max_damage": -20,
+    "name": "Blade Rush",
+    "description": "Heals some light damage to the character.",
+    "valid_targets": [ "self" ],
+    "min_damage": -3,
+    "max_damage": -8,
     "damage_increment": -1.0,
-    "max_level": 10,
-    "min_range": 0,
-    "max_range": 4,
-    "range_increment": 0.75,
-    "effect": "target_attack",
-    "base_casting_time": 300,
-    "base_energy_cost": 800,
-    "flags": [ "SOMATIC", "VERBAL" ],
-    "difficulty": 2,
-    "energy_source": "MANA"
+    "effect": "target_attack"
   }
 ]

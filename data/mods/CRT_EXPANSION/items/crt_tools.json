@@ -112,7 +112,7 @@
             { "value": "ARMOR_ELEC", "add": -20 }
           ]
         },
-        { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "light_healing" } ] }
+        { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "sword_healing" } ] }
       ]
     },
     "weight": "12 kg",
