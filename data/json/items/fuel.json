@@ -228,7 +228,7 @@
     "count": 250,
     "stack_size": 200,
     "phase": "liquid",
-    "container": "jerrycan",
+    "container": "pressurized_tank",
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "light_red",
