@@ -111,7 +111,7 @@
             { "value": "DEXTERITY", "add": 2 },
             { "value": "ARMOR_ELEC", "add": -20 }
           ],
-          "hit_you_effect": [ { "id": "sword_healing" } ]
+          "hit_you_effect": [ { "id": "sword_healing", "hit_self": true } ]
         }
       ]
     },
