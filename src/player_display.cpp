@@ -1,7 +1,6 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>
@@ -10,15 +9,22 @@
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
+#include "int_id.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -28,7 +34,9 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const skill_id skill_swimming( "swimming" );
 

@@ -2,13 +2,17 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <set>
 
 #include "creature.h"
-#include "enum_traits.h"
+#include "debug.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -30,6 +34,19 @@ namespace io
         abort();
     }
     // *INDENT-ON*
+template<>
+std::string enum_to_string<relic_recharge>( relic_recharge type )
+{
+    // *INDENT-OFF*
+    switch( type ) {
+        case relic_recharge::none: return "none";
+        case relic_recharge::periodic: return "periodic";
+        case relic_recharge::num: break;
+    }
+    // *INDENT-ON*
+    debugmsg( "Invalid relic recharge type" );
+    abort();
+}
 } // namespace io
 
 namespace
@@ -139,6 +156,24 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 
         item_weights.add( it, weight );
     }
+
+    for( const JsonObject &jo_inner : jo.get_array( "active_procgen_values" ) ) {
+        int weight = 0;
+        mandatory( jo_inner, was_loaded, "weight", weight );
+        relic_procgen_data::enchantment_active val;
+        val.load( jo_inner );
+
+        active_procgen_values.add( val, weight );
+    }
+
+    for( const JsonObject &jo_inner : jo.get_array( "charge_types" ) ) {
+        int weight = 0;
+        mandatory( jo_inner, was_loaded, "weight", weight );
+        relic_charge_template charge;
+        charge.load( jo_inner );
+
+        charge_values.add( charge, weight );
+    }
 }
 
 void relic_procgen_data::generation_rules::load( const JsonObject &jo )
@@ -160,6 +195,73 @@ void relic_procgen_data::deserialize( JsonIn &jsin )
     load( jobj );
 }
 
+void relic_charge_template::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void relic_charge_template::load( const JsonObject &jo )
+{
+    int tmp_power = 0;
+
+    const JsonObject max_charge = jo.get_object( "max_charges" );
+    max_charge.read( "range", max_charges );
+    max_charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    const JsonObject charge = jo.get_object( "charges" );
+    charge.read( "range", init_charges );
+    charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    const JsonObject init_charge = jo.get_object( "charges_per_use" );
+    init_charge.read( "range", charges_per_use );
+    init_charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    jo.read( "recharge_type", type );
+    jo.read( "time", time );
+}
+
+relic_charge_info relic_charge_template::generate() const
+{
+    relic_charge_info ret;
+    ret.max_charges = rng( max_charges.first, max_charges.second );
+    ret.charges_per_use = rng( charges_per_use.first, charges_per_use.second );
+    ret.charges = std::min( rng( init_charges.first, init_charges.second ), ret.max_charges );
+    ret.activation_time = rng( time.first, time.second );
+    ret.type = type;
+    ret.power = power_level;
+    return ret;
+}
+
+void relic_charge_info::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void relic_charge_info::load( const JsonObject &jo )
+{
+    jo.read( "charges", charges );
+    jo.read( "charges_per_use", charges_per_use );
+    jo.read( "max_charges", max_charges );
+    jo.read( "recharge_type", type );
+    jo.read( "last_charge", last_charge );
+    jo.read( "time", activation_time );
+}
+
+void relic_charge_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "charges", charges );
+    jsout.member( "charges_per_use", charges_per_use );
+    jsout.member( "max_charges", max_charges );
+    jsout.member( "recharge_type", type );
+    jsout.member( "last_charge", last_charge );
+    jsout.member( "time", activation_time );
+    jsout.end_object();
+}
+
 void relic::load( const JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
@@ -179,8 +281,11 @@ void relic::load( const JsonObject &jo )
             add_passive_effect( ench );
         }
     }
+    jo.read( "charge_info", charge );
+    if( jo.has_member( "charges_per_activation" ) ) {
+        charge.charges_per_use = jo.get_int( "charges_per_activation", 1 );
+    }
     jo.read( "name", item_name_override );
-    charges_per_activation = jo.get_int( "charges_per_activation", 1 );
     moves = jo.get_int( "moves", 100 );
 }
 
@@ -195,7 +300,6 @@ void relic::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves", moves );
-    jsout.member( "charges_per_activation", charges_per_activation );
     // item_name_override is not saved, in case the original json text changes:
     // in such case names read back from a save wouold no longer be properly translated.
 
@@ -217,16 +321,81 @@ void relic::serialize( JsonOut &jsout ) const
         jsout.end_array();
     }
 
+    jsout.member( "charge_info", charge );
+
     jsout.end_object();
 }
 
-int relic::activate( Creature &caster, const tripoint &target ) const
+int relic::activate( Creature &caster, const tripoint &target )
 {
+    if( charge.charges_per_use != 0 && charges() - charge.charges_per_use < 0 ) {
+        caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
+        return 0;
+    }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
         sp.get_spell( sp.level ).cast_all_effects( caster, target );
     }
-    return charges_per_activation;
+    charge.charges -= charge.charges_per_use;
+    return charge.charges_per_use;
+}
+
+int relic::charges() const
+{
+    return charge.charges;
+}
+
+int relic::charges_per_use() const
+{
+    return charge.charges_per_use;
+}
+
+int relic::max_charges() const
+{
+    return charge.max_charges;
+}
+
+// Adds num charges to the relic, as long as it doesn't exceed max_charges
+static void add_charges( relic_charge_info &rel, int num = 1 )
+{
+    if( rel.charges + num <= rel.max_charges ) {
+        rel.charges += num;
+    }
+}
+
+void relic::try_recharge()
+{
+    if( charge.charges == charge.max_charges ) {
+        return;
+    }
+    switch( charge.type ) {
+        case relic_recharge::none: {
+            return;
+        }
+        case relic_recharge::periodic: {
+            if( calendar::turn - charge.last_charge >= charge.activation_time ) {
+                add_charges( charge );
+                break;
+            }
+            return;
+        }
+        case relic_recharge::num: {
+            debugmsg( "Attempted to recharge relic with invalid recharge type" );
+            return;
+        }
+    }
+
+    charge.last_charge = calendar::turn;
+}
+
+relic_charge_info::relic_charge_info()
+{
+    last_charge = calendar::turn;
+}
+
+void relic::overwrite_charge( const relic_charge_info &info )
+{
+    charge = info;
 }
 
 int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
@@ -266,6 +435,7 @@ int relic::power_level( const relic_procgen_id &ruleset ) const
     for( const fake_spell &sp : active_effects ) {
         total_power_level += ruleset->power_level( sp );
     }
+    total_power_level += charge.power;
     return total_power_level;
 }
 
@@ -452,6 +622,10 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 break;
             }
         }
+    }
+    const relic_charge_template *charge = charge_values.pick();
+    if( charge != nullptr ) {
+        ret.overwrite_charge( charge->generate() );
     }
 
     return ret;

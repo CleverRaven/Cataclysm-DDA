@@ -6,6 +6,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -13,12 +14,9 @@
 #include <vector>
 
 #include "bodypart.h"
-#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
-#include "color.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -28,7 +26,6 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -39,38 +36,40 @@
 #include "type_id.h"
 #include "weighted_list.h"
 
-class basecamp;
-class effect;
-class faction;
-class inventory;
-class map;
-class npc;
-class recipe;
-struct pathfinding_settings;
-struct requirement_data;
-
-enum class recipe_filter_flags : int;
-struct itype;
-
-class recipe_subset;
-
-enum action_id : int;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class basecamp;
 class dispersion_sources;
-struct bionic;
-struct dealt_projectile_attack;
+class effect;
+class faction;
+class inventory;
+class ma_technique;
+class map;
+class monster;
+class nc_color;
+class npc;
 class profession;
+class recipe;
+class recipe_subset;
+class time_duration;
+class vehicle;
+struct bionic;
+struct damage_unit;
+struct dealt_projectile_attack;
+struct item_comp;
+struct itype;
+struct pathfinding_settings;
+struct requirement_data;
+struct tool_comp;
 struct trap;
+struct w_point;
+
+enum action_id : int;
+enum game_message_type : int;
+enum class recipe_filter_flags : int;
 
 nc_color encumb_color( int level );
-enum game_message_type : int;
-class ma_technique;
-class vehicle;
-struct item_comp;
-struct tool_comp;
-struct w_point;
 
 /** @relates ret_val */
 template<>
@@ -346,22 +345,7 @@ class player : public Character
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T>
-        bool can_lift( const T &obj ) const {
-            // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
-            int str = get_str();
-            if( mounted_creature ) {
-                auto mons = mounted_creature.get();
-                str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
-            }
-            const int npc_str = get_lift_assist();
-            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-                str *= 1.35;
-            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
-                str /= 1.35;
-            }
-            return str + npc_str >= obj.lift_strength();
-        }
+        template <typename T> bool can_lift( const T &obj ) const;
         /**
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
@@ -568,4 +552,8 @@ class player : public Character
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
 };
+
+extern template bool player::can_lift<item>( const item &obj ) const;
+extern template bool player::can_lift<vehicle>( const vehicle &obj ) const;
+
 #endif // CATA_SRC_PLAYER_H

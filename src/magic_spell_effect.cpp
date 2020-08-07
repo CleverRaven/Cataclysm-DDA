@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,13 +33,16 @@
 #include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
-#include "monstergenerator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
 #include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -792,7 +796,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     }
 
     if( energy_source == "MANA" ) {
-        p->magic.mod_mana( *p, healing );
+        p->magic->mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
         p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {

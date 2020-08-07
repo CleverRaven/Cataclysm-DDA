@@ -1,7 +1,6 @@
 #include "mapbuffer.h"
 
 #include <algorithm>
-#include <exception>
 #include <functional>
 #include <set>
 #include <sstream>

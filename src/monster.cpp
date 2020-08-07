@@ -6,9 +6,12 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "bodypart.h"
+#include "catacharset.h"
 #include "character.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -44,6 +47,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -52,6 +56,8 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "viewer.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -1904,6 +1910,9 @@ float monster::stability_roll() const
             break;
         case creature_size::medium:
             break; // keep default
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     int stability = dice( type->melee_sides, type->melee_dice ) + size_bonus;
@@ -1964,6 +1973,9 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case creature_size::huge:
             return 2.0f;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            return 0.0f;
     }
 
     return 0.0f;

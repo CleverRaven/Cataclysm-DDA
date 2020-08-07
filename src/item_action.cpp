@@ -13,7 +13,6 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "clone_ptr.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -21,10 +20,12 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -346,8 +347,8 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( u );
-    u.inv.unsort();
+    u.inv->restack( u );
+    u.inv->unsort();
 }
 
 std::string use_function::get_type() const

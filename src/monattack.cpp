@@ -61,6 +61,7 @@
 #include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -68,6 +69,7 @@
 #include "sounds.h"
 #include "speech.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -77,6 +79,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "viewer.h"
 #include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -2708,17 +2711,16 @@ bool mattack::grab( monster *z )
     const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
-    if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
-        dodged_grab ) {
+    if( pl->can_grab_break( cur_weapon ) && dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data.selected_has_weapon( pl->weapon.typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->weapon.typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
-            ma_technique tech = pl->martial_arts_data.get_grab_break_tec( cur_weapon );
+            ma_technique tech = pl->martial_arts_data->get_grab_break_tec( cur_weapon );
             target->add_msg_player_or_npc( m_info, _( tech.avatar_message ), _( tech.npc_message ), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
@@ -5221,7 +5223,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data.selected_has_weapon( foe->weapon.typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->weapon.typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );

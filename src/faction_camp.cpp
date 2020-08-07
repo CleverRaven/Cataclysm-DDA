@@ -11,16 +11,17 @@
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -36,6 +37,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "kill_tracker.h"
@@ -50,11 +52,13 @@
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "omdata.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -71,9 +75,11 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -1999,7 +2005,7 @@ void basecamp::start_setup_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = get_player_character().inv;
+        inventory tgt_inv = *get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
@@ -2042,7 +2048,7 @@ void basecamp::start_relay_hide_site()
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = get_player_character().inv;
+        inventory tgt_inv = *get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );

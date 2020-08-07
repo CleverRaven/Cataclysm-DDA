@@ -1,5 +1,4 @@
 #include "lightmap.h" // IWYU pragma: associated
-#include "shadowcasting.h" // IWYU pragma: associated
 
 #include <cmath>
 #include <cstdlib>
@@ -11,6 +10,8 @@
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
+#include "debug.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -21,13 +22,14 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "point.h"
+#include "shadowcasting.h" // IWYU pragma: associated
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -36,6 +38,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );

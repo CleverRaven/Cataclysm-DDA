@@ -1,7 +1,6 @@
 #include "npc.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -10,9 +9,9 @@
 #include <memory>
 
 #include "auto_pickup.h"
-#include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -33,8 +32,8 @@
 #include "game_inventory.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -43,7 +42,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
@@ -51,13 +49,12 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "options.h"
 #include "pathfinding.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -74,6 +71,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -326,7 +324,7 @@ void npc::randomize( const npc_class_id &type )
     }
 
     weapon   = item( "null", 0 );
-    inv.clear();
+    inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
     personality.collector  = rng( -1, 10 );
@@ -453,8 +451,8 @@ void npc::randomize( const npc_class_id &type )
     }
     // Add spells for magiclysm mod
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
-        this->magic.learn_spell( spell_pair.first, *this, true );
-        spell &sp = this->magic.get_spell( spell_pair.first );
+        this->magic->learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }
@@ -592,9 +590,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
 void starting_inv( npc &who, const npc_class_id &type )
 {
     std::list<item> res;
-    who.inv.clear();
+    who.inv->clear();
     if( item_group::group_is_defined( type->carry_override ) ) {
-        who.inv += item_group::items_from( type->carry_override );
+        *who.inv += item_group::items_from( type->carry_override );
         return;
     }
 
@@ -647,7 +645,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     for( auto &it : res ) {
         it.set_owner( who );
     }
-    who.inv += res;
+    *who.inv += res;
 }
 
 void npc::revert_after_activity()
@@ -1469,17 +1467,17 @@ std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy 
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
+    return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
 
 std::vector<spell_id> npc::spells_offered_to( player &p )
 {
     std::vector<spell_id> teachable;
-    for( const spell_id &sp : magic.spells() ) {
-        const spell &teacher_spell = magic.get_spell( sp );
-        if( p.magic.can_learn_spell( p, sp ) ) {
-            if( p.magic.knows_spell( sp ) ) {
-                const spell &student_spell = p.magic.get_spell( sp );
+    for( const spell_id &sp : magic->spells() ) {
+        const spell &teacher_spell = magic->get_spell( sp );
+        if( p.magic->can_learn_spell( p, sp ) ) {
+            if( p.magic->knows_spell( sp ) ) {
+                const spell &student_spell = p.magic->get_spell( sp );
                 if( student_spell.is_max_level() ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
@@ -1737,8 +1735,8 @@ void npc::shop_restock()
     }
 
     has_new_items = true;
-    inv.clear();
-    inv.push_back( ret );
+    inv->clear();
+    inv->push_back( ret );
 }
 
 int npc::minimum_item_value() const
@@ -1753,7 +1751,7 @@ void npc::update_worst_item_value()
 {
     worst_item_value = 99999;
     // TODO: Cache this
-    int inv_val = inv.worst_item_value( this );
+    int inv_val = inv->worst_item_value( this );
     if( inv_val < worst_item_value ) {
         worst_item_value = inv_val;
     }
@@ -1944,7 +1942,7 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller( get_pain() );
+    return inv->has_enough_painkiller( get_pain() );
 }
 
 bool npc::took_painkiller() const

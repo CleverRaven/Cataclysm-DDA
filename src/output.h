@@ -10,6 +10,7 @@
 #include <functional>
 #include <iterator>
 #include <locale>
+#include <map>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -21,10 +22,11 @@
 #include "enums.h"
 #include "item.h"
 #include "line.h"
+#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "units.h"
+#include "units_fwd.h"
 
 struct input_event;
 

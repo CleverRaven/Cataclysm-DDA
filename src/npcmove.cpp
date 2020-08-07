@@ -1,5 +1,3 @@
-#include "npc.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -21,7 +19,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -49,29 +46,29 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
+#include "talker.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-class talker;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -3124,7 +3121,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
 
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
-             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
+             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
              units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
              units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
 
@@ -3133,7 +3130,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
-    invslice slice = inv.slice();
+    invslice slice = inv->slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
@@ -3719,7 +3716,7 @@ void npc::heal_self()
 void npc::use_painkiller()
 {
     // First, find the best painkiller for our pain level
-    item *it = inv.most_appropriate_painkiller( get_pain() );
+    item *it = inv->most_appropriate_painkiller( get_pain() );
 
     if( it->is_null() ) {
         debugmsg( "NPC tried to use painkillers, but has none!" );

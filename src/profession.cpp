@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -18,10 +19,12 @@
 #include "json.h"
 #include "magic.h"
 #include "options.h"
+#include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
+#include "visitable.h"
 
 namespace
 {
@@ -518,8 +521,8 @@ std::map<spell_id, int> profession::spells() const
 void profession::learn_spells( avatar &you ) const
 {
     for( const std::pair<spell_id, int> spell_pair : spells() ) {
-        you.magic.learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic.get_spell( spell_pair.first );
+        you.magic->learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }

@@ -1,29 +1,29 @@
 #include "player.h"
 
 #include <algorithm>
-#include <array>
-#include <bitset>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
-#include <limits>
 #include <map>
 #include <memory>
-#include <ostream>
 #include <string>
 #include <unordered_map>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
-#include "craft_command.h"
-#include "cursesdef.h"
+#include "color.h"
+#include "coordinates.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -33,25 +33,20 @@
 #include "fault.h"
 #include "field_type.h"
 #include "game.h"
-#include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
-#include "lightmap.h"
 #include "line.h"
-#include "magic.h"
-#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale.h"
@@ -62,10 +57,10 @@
 #include "output.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
-#include "pickup.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "pldata.h"
 #include "profession.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
@@ -77,14 +72,15 @@
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bite( "bite" );
@@ -377,8 +373,8 @@ void player::process_turn()
     for( auto &style : autolearn_martialart_types() ) {
         const matype_id &ma( style );
 
-        if( !martial_arts_data.has_martialart( ma ) && can_autolearn( ma ) ) {
-            martial_arts_data.add_martialart( ma );
+        if( !martial_arts_data->has_martialart( ma ) && can_autolearn( ma ) ) {
+            martial_arts_data->add_martialart( ma );
             add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
@@ -666,7 +662,7 @@ std::string player::get_category_dream( const std::string &cat,
 std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
-    const invslice &stacks = inv.slice();
+    const invslice &stacks = inv->slice();
     for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
@@ -691,7 +687,7 @@ std::list<item *> player::get_radio_items()
 std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;
-    const invslice &stacks = inv.slice();
+    const invslice &stacks = inv->slice();
     for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.is_artifact() ) {
@@ -831,7 +827,7 @@ void player::pause()
         }
     }
     // on-pause effects for martial arts
-    martial_arts_data.ma_onpause_effects( *this );
+    martial_arts_data->ma_onpause_effects( *this );
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
@@ -926,7 +922,7 @@ void player::on_dodge( Creature *source, float difficulty )
     difficulty = std::max( difficulty, 0.0f );
     practice( skill_dodge, difficulty * 2, difficulty );
 
-    martial_arts_data.ma_ondodge_effects( *this );
+    martial_arts_data->ma_ondodge_effects( *this );
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
@@ -2560,6 +2556,26 @@ player::wear( item &to_wear, bool interactive )
     return result;
 }
 
+template <typename T>
+bool player::can_lift( const T &obj ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_str();
+    if( mounted_creature ) {
+        auto mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
+    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
+        str *= 1.35;
+    } else if( has_trait( trait_id( "BADBACK" ) ) ) {
+        str /= 1.35;
+    }
+    return str + npc_str >= obj.lift_strength();
+}
+template bool player::can_lift<item>( const item &obj ) const;
+template bool player::can_lift<vehicle>( const vehicle &obj ) const;
+
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
@@ -2879,6 +2895,8 @@ void player::use( item_location loc )
         } else {
             add_msg( m_info, need_splint.str() );
         }
+    } else if( used.is_relic() ) {
+        invoke_item( &used, loc.position() );
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
@@ -2892,20 +2910,20 @@ void player::reassign_item( item &it, int invlet )
         item *prev = invlet_to_item( invlet );
         if( prev != nullptr ) {
             remove_old = it.typeId() != prev->typeId();
-            inv.reassign_item( *prev, it.invlet, remove_old );
+            inv->reassign_item( *prev, it.invlet, remove_old );
         }
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = inv.assigned_invlet.find( it.invlet );
-        bool found = iter != inv.assigned_invlet.end();
+        const auto iter = inv->assigned_invlet.find( it.invlet );
+        bool found = iter != inv->assigned_invlet.end();
         if( found ) {
-            inv.assigned_invlet.erase( iter );
+            inv->assigned_invlet.erase( iter );
         }
         if( invlet && ( !found || it.invlet != invlet ) ) {
-            inv.assigned_invlet[invlet] = it.typeId();
+            inv->assigned_invlet[invlet] = it.typeId();
         }
-        inv.reassign_item( it, invlet, remove_old );
+        inv->reassign_item( it, invlet, remove_old );
     }
 }
 
@@ -3428,7 +3446,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
         if( !unwield() ) {
             return false;
         }
-        inv.unsort();
+        inv->unsort();
     }
 
     // for holsters, we should not include the cost of wielding the holster itself
@@ -3441,8 +3459,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
     mv += item_retrieve_cost( weapon, container, penalties, base_cost );

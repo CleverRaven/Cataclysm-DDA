@@ -10,11 +10,13 @@
 #include "requirements.h"
 #include "type_id.h"
 
+class Character;
 class JsonIn;
 class JsonOut;
 class inventory;
 class item;
-class Character;
+struct item_comp;
+struct tool_comp;
 template<typename T> struct enum_traits;
 
 /**

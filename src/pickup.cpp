@@ -1,7 +1,6 @@
 #include "pickup.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -11,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -41,17 +41,20 @@
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "sdltiles.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;

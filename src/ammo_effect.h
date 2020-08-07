@@ -7,10 +7,10 @@
 #include <vector>
 
 #include "explosion.h"
-#include "field_type.h"
 #include "string_id.h"
 #include "type_id.h"
 
+extern field_type_id fd_null;
 class JsonObject;
 
 struct ammo_effect {

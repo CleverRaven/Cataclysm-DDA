@@ -2,35 +2,42 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
+#include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
 #include <limits>
-#include <memory>
-#include <array>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "pimpl.h"
-#include "units.h"
-#include "item_category.h"
+#include "ret_val.h"
+#include "translations.h"
 #include "ui.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
 class string_input_popup;
-struct tripoint;
 class ui_adaptor;
+struct point;
+struct tripoint;
+template <typename Point> struct inclusive_rectangle;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -42,8 +49,8 @@ enum class scroll_direction : int {
     BACKWARD = -1
 };
 
-struct navigation_mode_data;
 struct inventory_input;
+struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

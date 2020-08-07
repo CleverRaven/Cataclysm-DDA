@@ -1,11 +1,13 @@
 #include "damage.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <numeric>
 #include <utility>
 
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -13,7 +15,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-#include "cata_utility.h"
+#include "units.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {

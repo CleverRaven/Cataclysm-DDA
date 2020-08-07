@@ -1,5 +1,3 @@
-#include "npctalk.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
 #include <memory>
@@ -11,11 +9,12 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -30,27 +29,26 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
 #include "npctrade.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
 #include "ui.h"
+#include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -930,19 +928,19 @@ void talk_function::start_training( npc &p )
         time = calc_skill_training_time( p, skill );
         name = skill.str();
     } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data.has_martialart( style ) ) {
+               !you.martial_arts_data->has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
     } else if( p.chatbin.dialogue_spell != spell_id() ) {
-        const spell &temp_spell = p.magic.get_spell( sp_id );
-        const bool knows = you.magic.knows_spell( sp_id );
+        const spell &temp_spell = p.magic->get_spell( sp_id );
+        const bool knows = you.magic->knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                                            temp_spell.get_level() );
         name = temp_spell.id().str();
         expert_multiplier = knows ? temp_spell.get_level() -
-                            you.magic.get_spell( sp_id ).get_level() : 1;
+                            you.magic->get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -952,7 +950,7 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
+            const int time_int = you.magic->time_to_learn_spell( you, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
 

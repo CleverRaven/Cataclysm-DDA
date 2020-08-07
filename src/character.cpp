@@ -4,10 +4,12 @@
 #include <cctype>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <ostream>
 #include <type_traits>
 
 #include "action.h"
@@ -18,7 +20,9 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_martial_arts.h"
 #include "colony.h"
+#include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -34,14 +38,18 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
+#include "gun_mode.h"
 #include "int_id.h"
+#include "inventory.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -64,8 +72,8 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
-#include "recipe_dictionary.h"
 #include "proficiency.h"
+#include "recipe_dictionary.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -80,16 +88,20 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "viewer.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 struct dealt_projectile_attack;
 
@@ -1753,8 +1765,6 @@ void Character::process_turn()
     }
 
     Creature::process_turn();
-
-    enchantment_cache.activate_passive( *this );
 }
 
 void Character::recalc_hp()
@@ -1777,7 +1787,8 @@ void Character::recalc_hp()
 
 int Character::get_part_hp_max( const bodypart_id &id ) const
 {
-    return enchantment_cache.modify_value( enchant_vals::mod::MAX_HP, Creature::get_part_hp_max( id ) );
+    return enchantment_cache->modify_value( enchant_vals::mod::MAX_HP,
+                                            Creature::get_part_hp_max( id ) );
 }
 
 void Character::update_body_wetness( const w_point &weather )
@@ -1891,7 +1902,7 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache.modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
+    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
 
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
@@ -2242,7 +2253,7 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return enchantment_cache.modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
+    return enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
 }
 
 void Character::set_power_level( const units::energy &npower )
@@ -2293,6 +2304,58 @@ bool Character::has_max_power() const
 bool Character::enough_power_for( const bionic_id &bid ) const
 {
     return get_power_level() >= bid->power_activate;
+}
+
+void Character::conduct_blood_analysis()
+{
+    std::vector<std::string> effect_descriptions;
+    std::vector<nc_color> colors;
+
+    for( auto &elem : *effects ) {
+        if( elem.first->get_blood_analysis_description().empty() ) {
+            continue;
+        }
+        effect_descriptions.emplace_back( elem.first->get_blood_analysis_description() );
+        colors.emplace_back( elem.first->get_rating() == e_good ? c_green : c_red );
+    }
+
+    const int win_w = 46;
+    size_t win_h = 0;
+    catacurses::window w;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        win_h = std::min( static_cast<size_t>( TERMY ),
+                          std::max<size_t>( 1, effect_descriptions.size() ) + 2 );
+        w = catacurses::newwin( win_h, win_w,
+                                point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
+        if( effect_descriptions.empty() ) {
+            trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
+        } else {
+            for( size_t line = 1; line < ( win_h - 1 ) && line <= effect_descriptions.size(); ++line ) {
+                trim_and_print( w, point( 2, line ), win_w - 3, colors[line - 1], effect_descriptions[line - 1] );
+            }
+        }
+        wnoutrefresh( w );
+    } );
+    input_context ctxt( "BLOOD_TEST_RESULTS" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    bool stop = false;
+    // Display new messages
+    g->invalidate_main_ui_adaptor();
+    while( !stop ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "CONFIRM" || action == "QUIT" ) {
+            stop = true;
+        }
+    }
 }
 
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
@@ -2467,8 +2530,8 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
 
     new_item_it->on_wear( *this );
 
-    inv.update_invlet( *new_item_it );
-    inv.update_cache_with_item( *new_item_it );
+    inv->update_invlet( *new_item_it );
+    inv->update_cache_with_item( *new_item_it );
 
     recalc_sight_limits();
     calc_encumbrance();
@@ -2549,7 +2612,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv->assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -2707,7 +2770,7 @@ const item &Character::i_at( int position ) const
         }
     }
 
-    return inv.find_item( position );
+    return inv->find_item( position );
 }
 
 item &Character::i_at( int position )
@@ -2729,7 +2792,7 @@ int Character::get_item_position( const item *it ) const
         p++;
     }
 
-    return inv.position_by_item( it );
+    return inv->position_by_item( it );
 }
 
 item Character::i_rem( const item *it )
@@ -2754,7 +2817,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv.assign_empty_invlet( it, *this );
+    inv->assign_empty_invlet( it, *this );
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
@@ -2828,7 +2891,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
 
 invlets_bitset Character::allocated_invlets() const
 {
-    invlets_bitset invlets = inv.allocated_invlets();
+    invlets_bitset invlets = inv->allocated_invlets();
 
     invlets.set( weapon.invlet );
     for( const auto &w : worn ) {
@@ -3223,7 +3286,7 @@ units::mass Character::weight_capacity() const
         ret += 22500_gram;
     }
 
-    ret = enchantment_cache.modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
+    ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
     if( ret < 0_gram ) {
         ret = 0_gram;
@@ -3487,7 +3550,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 void Character::drop_invalid_inventory()
 {
     bool dropped_liquid = false;
-    for( const std::list<item> *stack : inv.const_slice() ) {
+    for( const std::list<item> *stack : inv->const_slice() ) {
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
@@ -3780,7 +3843,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
-    martial_arts_data.reset_style();
+    martial_arts_data->reset_style();
     weapon   = item( "null", 0 );
 
     set_body();
@@ -3794,15 +3857,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item( "string_36", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "string_36", 0 ) );
+        inv->add_item( item( "snare_trigger", 0 ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item( "rope_6", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "rope_6", 0 ) );
+        inv->add_item( item( "snare_trigger", 0 ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item( "beartrap", 0 ) );
+        inv->add_item( item( "beartrap", 0 ) );
     }
     mission::on_creature_death( *this );
 }
@@ -3967,7 +4030,7 @@ units::mass Character::get_weight() const
     } );
 
     ret += bodyweight();       // The base weight of the player's body
-    ret += inv.weight();           // Weight of the stored inventory
+    ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
@@ -4985,7 +5048,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic.update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -5413,8 +5476,8 @@ needs_rates Character::calc_needs_rates() const
         rates.thirst *= 0.25f;
     }
 
-    rates.fatigue = enchantment_cache.modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
-    rates.thirst = enchantment_cache.modify_value( enchant_vals::mod::THIRST, rates.thirst );
+    rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
+    rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
 }
@@ -7024,7 +7087,7 @@ bool Character::pour_into( item &container, item &liquid )
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
     liquid.charges -= container.fill_with( *liquid.type, amount );
-    inv.unsort();
+    inv->unsort();
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );
@@ -7394,7 +7457,7 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
-    return enchantment_cache.modify_value( enchant_vals::mod::REGEN_HP, final_rate );
+    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -7608,6 +7671,9 @@ int Character::height() const
             return init_height + 50;
         case creature_size::huge:
             return init_height + 100;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Character has invalid size class." );
+            return 0;
     }
 
     debugmsg( "Invalid size class" );
@@ -7623,7 +7689,7 @@ int Character::get_bmr() const
     const double base_bmr_calc = metabolic_rate_base() * activity_level * ( units::to_gram<int>
                                  ( bodyweight() / 100.0 ) +
                                  ( 6.25 * height() ) - ( 5 * age() ) + equation_constant );
-    return std::ceil( enchantment_cache.modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
+    return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -7844,7 +7910,7 @@ int Character::get_stamina_max() const
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     int maxStamina = get_option< int >( player_max_stamina );
     maxStamina *= Character::mutation_value( max_stamina_modifier );
-    maxStamina = enchantment_cache.modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
+    maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
 }
 
@@ -7921,7 +7987,7 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
-    stamina_recovery = enchantment_cache.modify_value( enchant_vals::mod::REGEN_STAMINA,
+    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
@@ -8366,7 +8432,7 @@ int Character::get_shout_volume() const
         noise = std::max( minimum_noise, noise );
     }
 
-    noise = enchantment_cache.modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
+    noise = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( underwater ) {
@@ -8626,12 +8692,12 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache to all inventory items
-    enchantment_cache = inv.get_active_enchantment_cache( *this );
+    *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
         return VisitResponse::NEXT;
@@ -8649,7 +8715,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -8663,7 +8729,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -8672,8 +8738,8 @@ void Character::recalculate_enchantment_cache()
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
         bool round_output ) const
 {
-    modify += enchantment_cache.get_value_add( value );
-    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    modify += enchantment_cache->get_value_add( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
     if( round_output ) {
         modify = std::round( modify );
     }
@@ -8993,7 +9059,7 @@ int Character::get_armor_fire( const bodypart_id &bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target );
+    enchantment_cache->cast_hit_you( *this, target );
 }
 
 ret_val<bool> Character::can_wield( const item &it ) const
@@ -9053,7 +9119,7 @@ bool Character::unwield()
         return false;
     }
 
-    inv.unsort();
+    inv->unsort();
 
     return true;
 }
@@ -9091,7 +9157,7 @@ std::string Character::weapname() const
 void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source );
+    enchantment_cache->cast_hit_me( *this, source );
 }
 
 /*
@@ -9252,8 +9318,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             int reflex_mod = has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
             const bool dodged_grab = rng( 0, reflex_mod * get_dex() ) > rng( 0, 10 );
 
-            if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                dodged_grab ) {
+            if( has_grab_break_tec() && dodged_grab ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        source->disp_name() );
@@ -9660,7 +9725,7 @@ std::vector<item *> Character::inv_dump()
     for( auto &i : worn ) {
         ret.push_back( &i );
     }
-    inv.dump( ret );
+    inv->dump( ret );
     return ret;
 }
 
@@ -10066,7 +10131,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 void Character::migrate_items_to_storage( bool disintegrate )
 {
-    inv.visit_items( [&]( const item * it ) {
+    inv->visit_items( [&]( const item * it ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
                 debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
@@ -10078,7 +10143,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
         }
         return VisitResponse::SKIP;
     } );
-    inv.clear();
+    inv->clear();
 }
 
 std::string Character::is_snuggling() const
@@ -10368,7 +10433,7 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
     if( quantity <= 0 ) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount( it, quantity, filter );
+    std::list<item> tmp = inv->use_amount( it, quantity, filter );
     ret.splice( ret.end(), tmp );
     return ret;
 }
@@ -10680,7 +10745,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, cons
 void Character::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
+    magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -10688,7 +10753,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
+    magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -11416,7 +11481,7 @@ int Character::intimidation() const
     if( has_effect( effect_drunk ) ) {
         ret -= 4;
     }
-    ret = enchantment_cache.modify_value( enchant_vals::mod::SOCIAL_INTIMIDATE, ret );
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_INTIMIDATE, ret );
     return ret;
 }
 

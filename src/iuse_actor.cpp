@@ -13,13 +13,12 @@
 
 #include "action.h"
 #include "activity_handlers.h"
-#include "ammo.h"
+#include "activity_type.h"
 #include "assign.h"
-#include "avatar.h"
+#include "avatar.h" // IWYU pragma: keep
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
@@ -34,15 +33,16 @@
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -58,25 +58,23 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
-#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -85,6 +83,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -140,8 +139,6 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
-
-class npc;
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -2135,8 +2132,8 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
         uilist_entry entry( sp_id.obj().name.translated() );
-        if( p.magic.knows_spell( sp_id ) ) {
-            const spell sp = p.magic.get_spell( sp_id );
+        if( p.magic->knows_spell( sp_id ) ) {
+            const spell sp = p.magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
             if( sp.is_max_level() ) {
                 entry.ctxt += _( " (Max)" );
@@ -2145,7 +2142,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
                 know_it_all = false;
             }
         } else {
-            if( p.magic.can_learn_spell( p, sp_id ) ) {
+            if( p.magic->can_learn_spell( p, sp_id ) ) {
                 entry.ctxt = _( "Study to Learn" );
                 know_it_all = false;
             } else {
@@ -2172,9 +2169,9 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( action < 0 ) {
         return 0;
     }
-    const bool knows_spell = p.magic.knows_spell( spells[action] );
+    const bool knows_spell = p.magic->knows_spell( spells[action] );
     player_activity study_spell( ACT_STUDY_SPELL,
-                                 p.magic.time_to_learn_spell( p, spells[action] ) );
+                                 p.magic->time_to_learn_spell( p, spells[action] ) );
     study_spell.str_values = {
         "", // reserved for "until you gain a spell level" option [0]
         "learn"
@@ -2199,7 +2196,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
         study_spell.values[0] = 0; // reserved for xp
-        study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
+        study_spell.values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
     p.assign_activity( study_spell, false );

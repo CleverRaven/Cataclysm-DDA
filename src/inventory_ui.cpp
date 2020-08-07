@@ -4,35 +4,43 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "map_selector.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -169,7 +177,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -812,8 +820,8 @@ void inventory_column::prepare_paging( const std::string &filter )
                     Character &player_character = get_player_character();
                     // Place favorite items and items with an assigned inventory letter first,
                     // since the player cared enough to assign them
-                    const bool left_has_invlet = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
-                    const bool right_has_invlet = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
+                    const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
+                    const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
                     if( left_has_invlet != right_has_invlet ) {
                         return left_has_invlet;
                     }
@@ -1297,7 +1305,7 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( std::list<item> *elem : character.inv.slice() ) {
+    for( std::list<item> *elem : character.inv->slice() ) {
         add_items( own_inv_column, [&character]( item * it ) {
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );

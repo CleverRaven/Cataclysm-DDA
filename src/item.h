@@ -23,12 +23,14 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
@@ -36,6 +38,7 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class enchantment;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -54,6 +57,7 @@ struct mtype;
 struct tripoint;
 template<typename T>
 class ret_val;
+template <typename T> struct enum_traits;
 
 namespace enchant_vals
 {
@@ -844,8 +848,14 @@ class item : public visitable<item>
         void set_rot( time_duration val );
 
         /**
-         * Get time left to rot, ignoring fridge.
-         * Returns time to rot if item is able to, max int - N otherwise,
+         * Get minimum time for this item or any of its contents to rot, ignoring
+         * fridge. If this item is a container, its spoil multiplier is taken into
+         * account, but the spoil multiplier of the parent container of this item,
+         * if any, is not.
+         *
+         * If this item does not rot and none of its contents rot either, the function
+         * returns INT_MAX - N,
+         *
          * where N is
          * 3 for food,
          * 2 for medication,
@@ -1352,6 +1362,8 @@ class item : public visitable<item>
          * @param dt type of damage (or DT_NULL)
          */
         void on_damage( int qty, damage_type dt );
+
+        bool use_relic( Character &guy, const tripoint &pos );
 
         /**
          * Name of the item type (not the item), with proper plural.

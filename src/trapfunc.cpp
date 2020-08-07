@@ -1,5 +1,3 @@
-#include "trap.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <memory>
@@ -10,6 +8,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -35,6 +34,9 @@
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
+#include "trap.h" // IWYU pragma: associated
+#include "units.h"
+#include "viewer.h"
 
 static const skill_id skill_throw( "throw" );
 
@@ -410,6 +412,9 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 case creature_size::huge:
                     chance = 1;
                     break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
+                    break;
             }
             if( one_in( chance ) ) {
                 if( seen ) {
@@ -509,6 +514,9 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     break;
                 case creature_size::huge:
                     chance = 2;
+                    break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );

@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -19,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "dialogue_chatbin.h"
@@ -41,7 +43,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class JsonIn;
 class JsonObject;

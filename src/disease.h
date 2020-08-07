@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "json.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class disease_type

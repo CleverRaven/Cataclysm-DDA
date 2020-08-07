@@ -1,28 +1,29 @@
 #include "pathfinding.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
 #include <queue>
 #include <set>
-#include <array>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "point.h"
 #include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "line.h"
-#include "type_id.h"
-#include "point.h"
 
 enum astar_state {
     ASL_NONE,

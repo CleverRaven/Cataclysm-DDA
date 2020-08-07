@@ -5,26 +5,28 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
 #include "active_item_cache.h"
 #include "bionics.h"
-#include "mutation.h"
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "string_id.h"
 #include "submap.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -459,7 +461,7 @@ VisitResponse visitable<Character>::visit_items(
         }
     }
 
-    return ch->inv.visit_items( func );
+    return ch->inv->visit_items( func );
 }
 
 /** @relates visitable */
@@ -623,7 +625,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = ch->inv.remove_items_with( filter, count );
+    res = ch->inv->remove_items_with( filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;

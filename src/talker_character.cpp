@@ -1,14 +1,16 @@
-#include "game.h"
-#include "game_constants.h"
-#include "messages.h"
-#include "monster.h"
-#include "mtype.h"
+#include <memory>
+
+#include "item.h"
+#include "magic.h"
 #include "npc.h"
-#include "npctrade.h"
-#include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "talker_character.h"
 #include "vehicle.h"
+
+class time_duration;
 
 std::string talker_character::disp_name() const
 {
@@ -122,7 +124,7 @@ bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 
 bool talker_character::knows_spell( const spell_id &sp ) const
 {
-    return me_chr->magic.knows_spell( sp );
+    return me_chr->magic->knows_spell( sp );
 }
 
 int talker_character::get_skill_level( const skill_id &skill ) const

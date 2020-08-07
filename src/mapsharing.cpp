@@ -4,7 +4,6 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "cata_utility.h"
 #include "filesystem.h"
 #include "ofstream_wrapper.h"
 

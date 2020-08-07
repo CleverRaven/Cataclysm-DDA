@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
@@ -33,15 +34,15 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "material.h"
-#include "math_defines.h"
-#include "messages.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -50,10 +51,11 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pimpl.h"
 #include "player.h"
-#include "player_activity.h"
 #include "point.h"
 #include "projectile.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -64,6 +66,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -445,7 +448,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
 target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
         bool no_fail, bool no_mana )
 {
-    return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
+    return mode_spell( you, you.magic->get_spell( sp ), no_fail, no_mana );
 }
 
 static double occupied_tile_fraction( creature_size target_size )
@@ -461,6 +464,9 @@ static double occupied_tile_fraction( creature_size target_size )
             return 0.75;
         case creature_size::huge:
             return 1.0;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     return 0.5;
@@ -479,6 +485,9 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
                 return occupied_tile_fraction( creature_size::large );
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );

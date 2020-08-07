@@ -1,21 +1,34 @@
 #include "item_pocket.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <utility>
+
 #include "ammo.h"
-#include "assign.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting.h"
+#include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
-#include "player.h"
-#include "point.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 
 namespace io
 {
@@ -294,8 +307,6 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
         item( "water", calendar::turn_zero, 1 ),
-        item( "water_acid", calendar::turn_zero, 1 ),
-        item( "water_acid_weak", calendar::turn_zero, 1 )
     };
     if( !data->watertight ) {
         return false;

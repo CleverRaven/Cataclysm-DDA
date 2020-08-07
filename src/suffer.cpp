@@ -25,11 +25,11 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -40,6 +40,7 @@
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
@@ -53,7 +54,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -1572,7 +1575,7 @@ bool Character::irradiate( float rads, bool bypass )
             it->irradiation += delta;
 
             // If in inventory (not worn), don't print anything.
-            if( inv.has_item( *it ) ) {
+            if( inv->has_item( *it ) ) {
                 continue;
             }
 
@@ -1959,6 +1962,6 @@ int Character::addiction_level( add_type type ) const
 int  Character::leak_level( const std::string &flag ) const
 {
     int leak_level = 0;
-    leak_level = inv.leak_level( flag );
+    leak_level = inv->leak_level( flag );
     return leak_level;
 }

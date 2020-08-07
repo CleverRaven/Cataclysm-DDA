@@ -6,17 +6,17 @@
 #include <initializer_list>
 #include <list>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -35,9 +35,11 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -50,6 +52,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 
@@ -1429,7 +1433,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
         if( spane.get_area() == AIM_INVENTORY ) {
-            player_character.inv.restack( player_character );
+            player_character.inv->restack( player_character );
         }
         recalc = true;
     } else {
@@ -1457,7 +1461,7 @@ void advanced_inventory::display()
     init();
 
     avatar &player_character = get_avatar();
-    player_character.inv.restack( player_character );
+    player_character.inv->restack( player_character );
 
     input_context ctxt{ register_ctxt() };
 

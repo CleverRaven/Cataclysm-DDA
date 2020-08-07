@@ -397,20 +397,20 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS = -Ipch -Winvalid-pch
-  PCH_H = pch/pch.hpp
+  PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include pch.hpp
-    PCH_P = pch/pch.hpp.gch
+    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCH_P = $(PCH_H).gch
   else
-    PCH_P = pch/pch.hpp.pch
+    PCH_P = $(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
     # ccache won't wort with clang unless it supports -fno-pch-timestamp
     ifeq ($(CCACHE), 1)
-      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o $(ODIR)/__bla__.o - 2>&1)
-      ifneq ($(.SHELLSTATUS), 0)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1 || echo fail)
+      ifneq ($(CLANGVER),)
         PCHFLAGS = ""
         PCH_H = ""
         PCH_P = ""
@@ -934,7 +934,7 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/pch.hpp.{gch,pch}
+	rm -f pch/*pch.hpp.{gch,pch,d}
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1118,7 +1118,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

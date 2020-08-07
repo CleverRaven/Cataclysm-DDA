@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -34,15 +35,17 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
@@ -146,7 +149,6 @@ void Creature::reset_bonuses()
     cut_mult = 1.0f;
 
     melee_quiet = false;
-    grab_resist = 0;
     throw_resist = 0;
 }
 
@@ -257,6 +259,9 @@ bool Creature::sees( const Creature &critter ) const
                     break;
                 case creature_size::huge:
                     size_modifier = 0.15f;
+                    break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Creature has invalid size class." );
                     break;
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
@@ -483,6 +488,9 @@ int Creature::size_melee_penalty() const
             return -10;
         case creature_size::huge:
             return -20;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Creature has invalid size class." );
+            return 0;
     }
 
     debugmsg( "Invalid target size %d", get_size() );
@@ -1861,10 +1869,6 @@ bool Creature::get_melee_quiet() const
 {
     return melee_quiet;
 }
-int Creature::get_grab_resist() const
-{
-    return grab_resist;
-}
 
 int Creature::get_throw_resist() const
 {
@@ -1986,10 +1990,6 @@ void Creature::set_cut_mult( float ncutmult )
 void Creature::set_melee_quiet( bool nquiet )
 {
     melee_quiet = nquiet;
-}
-void Creature::set_grab_resist( int ngrabres )
-{
-    grab_resist = ngrabres;
 }
 void Creature::set_throw_resist( int nthrowres )
 {

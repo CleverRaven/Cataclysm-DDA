@@ -34,7 +34,8 @@ enum class butcher_type : int {
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
-    DISSECT         // dissect a corpse for CBMs
+    DISSECT,        // dissect a corpse for CBMs
+    NUM_TYPES       // always keep at the end, number of butchery types
 };
 
 enum class do_activity_reason : int {

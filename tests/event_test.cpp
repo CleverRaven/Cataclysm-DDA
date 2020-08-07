@@ -9,6 +9,7 @@
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
+#include "event_subscriber.h"
 #include "string_id.h"
 #include "type_id.h"
 

@@ -340,11 +340,6 @@
     "rating": "good"
   },
   {
-    "type": "recipe",
-    "result": "reloaded_270",
-    "obsolete": true
-  },
-  {
     "id": "tool_rdx_charge",
     "type": "TOOL",
     "category": "weapons",
@@ -566,26 +561,6 @@
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
   {
-    "type": "recipe",
-    "result": "tool_anfo_charge",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "tool_rdx_charge",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_laser_pack",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "unbio_blaster_gun",
-    "obsolete": true
-  },
-  {
     "id": "bio_blaster",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -730,36 +705,6 @@
     "flags": [ "NO_UNLOAD" ]
   },
   {
-    "type": "recipe",
-    "result": "fertilizer_bomb",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "lsd",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "sheet_neoprene",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "acid",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "water_acid",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "lye_powder",
-    "obsolete": true
-  },
-  {
     "id": "ftk93",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -837,11 +782,6 @@
     "stack_size": 40,
     "count": 20,
     "effects": [ "COOKOFF", "RECYCLED" ]
-  },
-  {
-    "type": "recipe",
-    "result": "flamethrower_simple",
-    "obsolete": true
   },
   {
     "id": "wheel_steerable",
@@ -1084,26 +1024,6 @@
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
-    "result": "double_plutonium_core",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "ring",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "pipebomb",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "tool_black_powder_charge",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
     "id": "tool_black_powder_charge",
     "type": "TOOL",
     "category": "weapons",
@@ -1164,66 +1084,6 @@
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": 1
-  },
-  {
-    "type": "recipe",
-    "result": "pipe_combination_gun",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_308",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "surv_carbine_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_3006",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "tihar",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "helsing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "pneumatic_shotgun",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_launcher",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rebar_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "heavy_rail_rifle",
-    "obsolete": true
-  },
-  {
-    "result": "nailrifle",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_mod",
-    "obsolete": true
   },
   {
     "id": "mounted_mininuke_launcher",
@@ -1687,10 +1547,5 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
-  },
-  {
-    "type": "recipe",
-    "result": "foot_crank",
-    "obsolete": true
   }
 ]
