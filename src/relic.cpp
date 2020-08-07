@@ -334,7 +334,9 @@ int relic::activate( Creature &caster, const tripoint &target )
     }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+        spell casting = sp.get_spell( sp.level );
+        casting.cast_all_effects( caster, target );
+        caster.add_msg_if_player( casting.message() );
     }
     charge.charges -= charge.charges_per_use;
     return charge.charges_per_use;
@@ -437,6 +439,11 @@ int relic::power_level( const relic_procgen_id &ruleset ) const
     }
     total_power_level += charge.power;
     return total_power_level;
+}
+
+bool relic::has_activation() const
+{
+    return !active_effects.empty();
 }
 
 int relic_procgen_data::power_level( const enchantment &ench ) const
@@ -623,9 +630,12 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
             }
         }
     }
-    const relic_charge_template *charge = charge_values.pick();
-    if( charge != nullptr ) {
-        ret.overwrite_charge( charge->generate() );
+
+    if( ret.has_activation() ) {
+        const relic_charge_template *charge = charge_values.pick();
+        if( charge != nullptr ) {
+            ret.overwrite_charge( charge->generate() );
+        }
     }
 
     return ret;

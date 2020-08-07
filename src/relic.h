@@ -195,6 +195,9 @@ class relic
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
+
+        bool has_activation() const;
+
         void try_recharge();
 
         void load( const JsonObject &jo );
