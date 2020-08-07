@@ -330,6 +330,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 7 } } ]
   },
   {
+    "id": "p228mag_13rd_9x19mm",
+    "type": "MAGAZINE",
+    "name": { "str": "P228/P229 9x19mm magazine" },
+    "description": "A 13 round double stack box magazine for the SIG Sauer P228 or P229.",
+    "weight": "85 g",
+    "volume": "250 ml",
+    "price": 4999,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "9mm" ],
+    "capacity": 13,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 13 } } ]
+  },
+  {
     "id": "p320mag_17rd_9x19mm",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",

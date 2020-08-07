@@ -775,6 +775,36 @@
     ]
   },
   {
+    "id": "m11",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str": "M11" },
+    "description": "The M11 is a compact semi-automatic, short recoil operated pistol, also known as the P228.",
+    "weight": "825 g",
+    "volume": "505 ml",
+    "longest_side": "216 mm",
+    "price": 95000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 480,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "p228mag_13rd_9x19mm" ]
+      }
+    ]
+  },
+  {
     "id": "m17",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
