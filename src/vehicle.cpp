@@ -1,13 +1,10 @@
 #include "vehicle.h" // IWYU pragma: associated
-#include "vpart_position.h" // IWYU pragma: associated
-#include "vpart_range.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <complex>
-#include <cstdint>
 #include <cstdlib>
 #include <list>
 #include <memory>
@@ -15,9 +12,11 @@
 #include <queue>
 #include <set>
 #include <sstream>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -25,7 +24,10 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "creature.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -37,13 +39,13 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -54,16 +56,21 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "submap.h"
 #include "translations.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
+#include "vpart_position.h" // IWYU pragma: associated
+#include "vpart_range.h" // IWYU pragma: associated
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

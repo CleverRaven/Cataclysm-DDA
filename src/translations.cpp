@@ -4,10 +4,10 @@
 #include <clocale>
 #include <cstdlib>
 #include <functional>
+#include <locale>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
-#include <cstdlib>
 
 #define __STRICT_ANSI__
 #endif
@@ -23,7 +23,6 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "cursesdef.h"
 #include "json.h"
 #include "name.h"
 #include "output.h"

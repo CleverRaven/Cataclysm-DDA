@@ -1,22 +1,22 @@
 #include "output.h"
 
-#include <cerrno>
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
 #include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <array>
-#include <memory>
 #include <type_traits>
-#include <cmath>
+#include <vector>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -28,14 +28,13 @@
 #include "line.h"
 #include "name.h"
 #include "options.h"
+#include "point.h"
 #include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
-#include "units.h"
 #include "units_utility.h"
-#include "point.h"
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)

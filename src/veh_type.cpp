@@ -10,7 +10,6 @@
 
 #include "ammo.h"
 #include "assign.h"
-#include "cata_utility.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"

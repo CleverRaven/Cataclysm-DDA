@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <cassert>
+#include <cstddef>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <string>
@@ -9,16 +11,17 @@
 #include "advanced_inv_pagination.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
 #include "map.h"
 #include "options.h"
-#include "player.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+
+class item_category;
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>

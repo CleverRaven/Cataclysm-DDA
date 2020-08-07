@@ -11,7 +11,6 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "mapdata.h"
 #include "string_id.h"
 #include "translations.h"
 

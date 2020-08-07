@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
+#include <algorithm>
 #include <set>
 #include <string>
 #include <tuple>
@@ -12,9 +13,11 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "hash_utils.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class effect_type;
 class player;
 
 enum game_message_type : int;

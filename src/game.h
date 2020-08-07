@@ -33,8 +33,10 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Character;
 class Creature_tracker;
 class item;
+class location;
 class spell_events;
 class viewer;
 
@@ -92,8 +94,6 @@ enum safe_mode_type {
 enum body_part : int;
 enum action_id : int;
 
-struct special_game;
-
 class achievements_tracker;
 class avatar;
 class event_bus;
@@ -107,10 +107,11 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 struct WORLD;
+struct special_game;
+template<typename Tripoint>
+class tripoint_range;
 
 using WORLDPTR = WORLD *;
 class live_view;
@@ -118,9 +119,8 @@ class loading_ui;
 class overmap;
 class scent_map;
 class timed_event_manager;
-struct visibility_variables;
-
 class ui_adaptor;
+struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
 

@@ -1,9 +1,11 @@
 #include "options.h"
 
+#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,6 +19,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
@@ -41,7 +44,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>

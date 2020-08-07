@@ -1,10 +1,23 @@
 #include "achievement.h"
 
+#include <cassert>
+#include <cstdlib>
+#include <set>
+#include <tuple>
+#include <utility>
+
+#include "color.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "past_games_info.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+
+template <typename E> struct enum_traits;
 
 // Some details about how achievements work
 // ========================================

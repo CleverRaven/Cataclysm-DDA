@@ -2,14 +2,21 @@
 #ifndef CATA_SRC_WEATHER_TYPE_H
 #define CATA_SRC_WEATHER_TYPE_H
 
-#include <string>
+#include <algorithm>
 #include <climits>
+#include <string>
+#include <vector>
 
 #include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
 #include "field.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonObject;
+template <typename E> struct enum_traits;
 template<typename T>
 class generic_factory;
 

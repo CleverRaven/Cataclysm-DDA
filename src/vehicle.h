@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VEHICLE_H
 #define CATA_SRC_VEHICLE_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -29,9 +30,11 @@
 #include "line.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -46,8 +49,10 @@ class vehicle;
 class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
+class zone_data;
 struct itype;
 struct uilist_entry;
+template <typename E> struct enum_traits;
 template <typename T> class visitable;
 
 enum vpart_bitflags : int;

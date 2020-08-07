@@ -1,10 +1,7 @@
-#include "dialogue.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -17,7 +14,6 @@
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -27,20 +23,19 @@
 #include "color.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "dialogue_chatbin.h"
+#include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
-#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -50,11 +45,7 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "mission_companion.h"
-#include "monster.h"
-#include "mtype.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
@@ -75,8 +66,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

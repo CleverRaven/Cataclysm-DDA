@@ -1,9 +1,7 @@
 #include "teleport.h"
 
-#include <cmath>
 #include <memory>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -18,6 +16,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "viewer.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );

@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <algorithm>
 #include <istream>
 #include <list>
 #include <map>
@@ -14,7 +15,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "effect.h"
@@ -24,11 +27,12 @@
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -40,6 +44,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "past_games_info.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
 #include "skill.h"

@@ -14,13 +14,15 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_id.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 recipe_dictionary recipe_dict;

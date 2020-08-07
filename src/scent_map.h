@@ -13,7 +13,11 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
+
+struct point;
+struct tripoint;
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 

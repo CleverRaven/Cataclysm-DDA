@@ -28,6 +28,7 @@
       [ "sm_extinguisher", 7 ],
       [ "extinguisher", 2 ],
       [ "1st_aid", 5 ],
+      [ "plastic_sheet", 12 ],
       [ "survival_kit", 3 ],
       { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
       [ "screwdriver", 8 ],

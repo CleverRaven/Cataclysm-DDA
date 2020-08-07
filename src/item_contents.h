@@ -7,6 +7,7 @@
 #include <list>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -22,13 +23,13 @@ class Character;
 class JsonIn;
 class JsonOut;
 class item;
-struct tripoint;
 class item;
 class item_location;
+class iteminfo_query;
 class player;
 class pocket_data;
-
 struct iteminfo;
+struct tripoint;
 struct tripoint;
 
 class item_contents
@@ -262,6 +263,7 @@ class item_contents
         std::list<item_pocket> contents;
 
         struct item_contents_helper;
+
         friend struct item_contents_helper;
 };
 

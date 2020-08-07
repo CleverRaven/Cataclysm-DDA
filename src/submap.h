@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_SUBMAP_H
 #define CATA_SRC_SUBMAP_H
 
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <memory>
-#include <vector>
-#include <string>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
@@ -26,10 +27,10 @@ class JsonIn;
 class JsonOut;
 class basecamp;
 class map;
-struct trap;
-struct ter_t;
-struct furn_t;
 class vehicle;
+struct furn_t;
+struct ter_t;
+struct trap;
 
 struct spawn_point {
     point pos;

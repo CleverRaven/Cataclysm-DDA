@@ -10,10 +10,9 @@
 
 #include "coordinates.h"
 
-class avatar;
 class JsonIn;
 class JsonOut;
-
+class avatar;
 struct point;
 struct tripoint;
 
