@@ -13,6 +13,7 @@
       { "monster": "mon_zombie_shady", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_biter", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_winged", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_shrieker", "freq": 90, "cost_multiplier": 5 },
       { "monster": "mon_zombie_acidic", "freq": 80, "cost_multiplier": 2 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 25 },
@@ -48,6 +49,7 @@
     "monsters": [
       { "monster": "mon_zombie_brute_grappler", "freq": 330, "cost_multiplier": 10 },
       { "monster": "mon_zombie_brute_ninja", "freq": 265, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_brute_winged", "freq": 265, "cost_multiplier": 10 },
       { "monster": "mon_zombie_hulk", "freq": 265, "cost_multiplier": 50 },
       { "monster": "mon_gas_zombie", "freq": 140, "cost_multiplier": 10 }
     ]
