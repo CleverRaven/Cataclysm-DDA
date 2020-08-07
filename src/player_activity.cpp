@@ -268,9 +268,9 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
+    p.increase_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
-        p.increase_activity_level( actor->get_type()->exertion_level() );
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
@@ -334,6 +334,14 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+}
+
+float player_activity::exertion_level() const
+{
+    if( actor ) {
+        return actor->exertion_level();
+    }
+    return type->exertion_level();
 }
 
 template <typename T>
