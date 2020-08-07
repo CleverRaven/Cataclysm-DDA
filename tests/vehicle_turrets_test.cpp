@@ -67,10 +67,11 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
             REQUIRE( veh );
 
-            const int idx = veh->install_part( point_zero, e->get_id(), true );
+            const int idx = veh->install_part( point_zero, e->get_id(), "", true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
+            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), "",
+                                        true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo =
@@ -81,7 +82,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );
 
-                auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
+                auto tank_idx = veh->install_part( point_zero, tank->get_id(), "", true );
                 REQUIRE( tank_idx >= 0 );
                 REQUIRE( veh->part( tank_idx ).ammo_set( ammo->default_ammotype() ) );
 

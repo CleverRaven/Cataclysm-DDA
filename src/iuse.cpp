@@ -9170,10 +9170,10 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             }
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item( *it ) );
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_veh->install_part( vcoords, source_part );
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords, item( *it ) );
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
             target_veh->install_part( vcoords, target_part );
 
             if( p->has_item( *it ) ) {
@@ -9406,13 +9406,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item( *it ) );
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = here.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords, item( *it ) );
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
