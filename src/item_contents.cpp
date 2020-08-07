@@ -981,6 +981,26 @@ std::list<const item *> item_contents::all_items_top() const
     return ret;
 }
 
+std::list<item *> item_contents::all_standard_items_ptr()
+{
+    std::list<item *> ret;
+    for( const item_pocket::pocket_type pk_type : avail_types ) {
+        std::list<item *> top{ all_items_top_recursive( pk_type ) };
+        ret.insert( ret.end(), top.begin(), top.end() );
+    }
+    return ret;
+}
+
+std::list<const item *> item_contents::all_standard_items_ptr() const
+{
+    std::list<const item *> ret;
+    for( const item_pocket::pocket_type pk_type : avail_types ) {
+        std::list<const item *> top{ all_items_top_recursive( pk_type ) };
+        ret.insert( ret.end(), top.begin(), top.end() );
+    }
+    return ret;
+}
+
 std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
 {
     return all_items_top_recursive( pk_type );
