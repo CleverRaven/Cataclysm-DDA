@@ -35,6 +35,7 @@
       { "item": "m9", "prob": 30, "charges": [ 0, 15 ] },
       { "item": "m11", "prob": 3, "charges": [ 0, 13 ] },
       { "item": "m17", "prob": 65, "charges": [ 0, 17 ] },
+      { "item": "m18", "prob": 30, "charges": [ 0, 17 ] },
       { "item": "glock_19", "prob": 3, "charges": [ 0, 15 ] },
       { "item": "m1911_MEU", "prob": 2, "charges": [ 0, 7 ] }
     ]
@@ -423,7 +424,8 @@
       { "item": "manual_stabbing", "prob": 5, "count": 64 },
       { "item": "manual_rifle", "prob": 5, "count": 64 },
       { "item": "m11", "prob": 1, "count": 16 },
-      { "item": "m17", "prob": 3, "count": 32 }
+      { "item": "m17", "prob": 3, "count": 32 },
+      { "item": "m18", "prob": 2, "count": 16 }
     ]
   },
   {
