@@ -1581,7 +1581,10 @@ static T get_part_helper( const Creature &c, const bodypart_id &id,
     if( part ) {
         return ( part->*get )();
     } else {
-        return ( bodypart().*get )();
+        // If the bodypart doesn't exist, return the appropriate accessor on the null bodypart.
+        // Static null bodypart variable, otherwise the compiler notes the possible return of local variable address (#42798).
+        static const bodypart bp_null;
+        return ( bp_null.*get )();
     }
 }
 
