@@ -63,11 +63,10 @@
         "...4...................."
       ],
       "terrain": {
-        ".": [ [ "t_grass", 5 ], "t_dirt" ],
+        ".": "t_region_groundcover_urban",
         ",": "t_floor",
         "|": "t_wall_w",
         "s": "t_sidewalk",
-        "P": "t_console_broken",
         "D": "t_door_c",
         "g": "t_wall_glass_alarm",
         "G": "t_door_glass_c",
@@ -75,7 +74,15 @@
         "4": "t_gutter_downspout",
         "A": "t_atm"
       },
-      "furniture": { "c": "f_displaycase", "t": "f_toilet", "h": "f_chair", "V": "f_vending_c", "S": "f_sink", "L": "f_locker" },
+      "furniture": {
+        "P": "f_console_broken",
+        "c": "f_displaycase",
+        "t": "f_toilet",
+        "h": "f_chair",
+        "V": "f_vending_c",
+        "S": "f_sink",
+        "L": "f_locker"
+      },
       "toilets": { "t": { "//": "no values needed here" } },
       "items": {
         "c": { "item": "ic_merch", "chance": 20 },
@@ -132,13 +139,12 @@
         ">": "t_stairs_down",
         "#": "t_wall_w",
         ",": "t_thconc_floor",
-        "k": "t_generator_broken",
-        "P": "t_console_broken",
         "D": "t_door_locked",
         "g": "t_wall_glass_alarm",
         "&": "t_flat_roof",
         "=": "t_flat_roof"
       },
+      "furniture": { "P": "f_console_broken", "k": "f_generator_broken" },
       "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
       "items": {
         "c": { "item": "electronics", "chance": 40 },

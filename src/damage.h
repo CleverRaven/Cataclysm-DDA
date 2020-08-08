@@ -2,19 +2,21 @@
 #ifndef CATA_SRC_DAMAGE_H
 #define CATA_SRC_DAMAGE_H
 
+#include <algorithm>
 #include <array>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
-#include "type_id.h"
 #include "calendar.h"
+#include "type_id.h"
 
-class item;
-class monster;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
+class JsonOut;
+class item;
+class monster;
 
 enum body_part : int;
 
@@ -95,7 +97,7 @@ class damage_over_time_data
         std::vector<bodypart_str_id> bps;
         int amount;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         void load( const JsonObject &obj );
 
@@ -105,7 +107,7 @@ class damage_over_time_data
 
 struct dealt_damage_instance {
     std::array<int, NUM_DT> dealt_dams;
-    body_part bp_hit;
+    bodypart_id bp_hit;
 
     dealt_damage_instance();
     void set_damage( damage_type dt, int amount );

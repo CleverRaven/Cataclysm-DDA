@@ -5,7 +5,7 @@
     "dynamic_line": "OK, this is gonna sound crazy but I, like, I knew this was going to happen.  Like, before it did.  You can even ask my psychic except, like, I think she's dead now.  I told her about my dreams a week before the world ended.  Serious!",
     "responses": [
       { "text": "What were your dreams?", "topic": "BGSS_DREAMER_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -68,5 +68,21 @@
       { "text": "Poor Filthy Dan.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "Thanks for telling me that stuff.  <end_talking>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "CWH_DREAMER_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "So, like, there were some really bad riots, okay?  Everyone got realy violent and nasty, and to be honest, I was on a bit of a spirit journey for a lot of it and I don't really remember too well.  But the weirdest part is, nobody even *cared* about each other.  It's like all our caring got sucked away.  I think it was some kind of negative energy thing.  And also that made the dead, like, come back to life and stuff.  Plus, like, there were some monsters?  I'm not really sure how they fit in.",
+    "responses": [
+      { "text": "You seem to know a lot, what do you think caused it all?", "topic": "CWH_DREAMER_IDEAS2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_DREAMER_IDEAS2",
+    "type": "talk_topic",
+    "dynamic_line": "That's a tough one, but I keep thinking back to this dream I had like, a year before it all started.  I dreamed there was this big ball of evil energy that was just waiting to suck up all the good thoughts on the earth and turn us into monsters and things?  So I guess that's what I think happened.  Everything else just seems too far-fetched, you know?",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

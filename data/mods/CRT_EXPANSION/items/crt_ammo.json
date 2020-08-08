@@ -7,7 +7,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A round tin of small light grain .177 lead pellets.  These are common, tipped field pellets that can deal some light damage but are generally used for plinking.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "200ml",
     "weight": "2 g",
     "ammo_type": "pellets",
@@ -25,7 +25,7 @@
     "type": "AMMO",
     "name": "domed HP pellets",
     "description": "A stable, heavier grain lead pellet with the purpose of expanding upon hitting a target for maximized damage, the dome shape allows it to pack quite a punch for something so small",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
     "relative": { "price": 300, "damage": { "damage_type": "stab", "amount": 6, "armor_penetration": 1 }, "dispersion": -20 }
@@ -37,7 +37,7 @@
     "name": "tipped HP pellets",
     "//": "Based off of the Gamo Redfire pellet, the plastic tip pushes back into the lead pleet to cause a greater deformation and ballooning effect; makes birds explode!",
     "description": "A medium grain lead pellet tipped with a pointed bit of hard plastic with the purpose of maximum expansion upon hitting a target.",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
     "relative": { "price": 200, "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 3 } }
@@ -48,7 +48,7 @@
     "type": "AMMO",
     "name": "alloy pellets",
     "description": "An gimmicky alloy pellet with the purpose of reaching a higher velocity than a normal lead pellet for breaking the sound barrier resulting in an extremely loud crack, not so useful for stealth.",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
     "relative": { "price": 500, "damage": { "damage_type": "stab", "armor_penetration": 2 }, "loudness": 25, "dispersion": 20 }

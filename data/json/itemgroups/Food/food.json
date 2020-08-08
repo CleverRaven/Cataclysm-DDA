@@ -6,11 +6,11 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "jar_glass", "prob": 10 },
-      { "item": "jar_3l_glass", "prob": 10 },
+      { "item": "jar_glass_sealed", "prob": 10 },
+      { "item": "jar_3l_glass_sealed", "prob": 10 },
       { "item": "cheese_hard", "prob": 5 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "jar_sauerkraut_pickled", "prob": 5 },
+      { "item": "sauerkraut", "prob": 5, "charges": 4, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 20, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -52,8 +52,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "birdfood", "prob": 10 },
-      { "item": "dogfood", "prob": 45, "container-item": "can_medium" },
-      { "item": "catfood", "prob": 45, "container-item": "can_food" }
+      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
+      { "item": "dogfood_dry", "prob": 10, "charges": 12, "container-item": "bag_plastic" },
+      { "item": "catfood_dry", "prob": 10, "charges": 12, "container-item": "bag_plastic" }
     ]
   },
   {
@@ -83,6 +85,7 @@
     "entries": [
       { "item": "yeast", "prob": 50 },
       { "item": "sugar", "prob": 40 },
+      { "item": "artificial_sweetener", "prob": 10 },
       { "item": "sprinkles", "prob": 5 },
       { "item": "salt", "prob": 40 },
       { "item": "pepper", "prob": 30 },
@@ -213,6 +216,7 @@
       { "item": "toastem3", "prob": 35 },
       { "item": "toasterpastryfrozen", "prob": 20 },
       { "item": "sugar", "prob": 20 },
+      { "item": "artificial_sweetener", "prob": 5 },
       { "item": "lemonade_powder", "prob": 5 },
       { "item": "molasses", "prob": 10 },
       { "item": "can_cheese", "prob": 40 },
@@ -224,7 +228,7 @@
       { "item": "cooking_oil", "prob": 30 },
       { "item": "cooking_oil2", "prob": 30 },
       { "item": "veggy_pickled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "jar_sauerkraut_pickled", "prob": 5 },
+      { "item": "sauerkraut", "prob": 5, "charges": 4, "container-item": "jar_glass_sealed" },
       { "item": "sports_drink", "prob": 10 },
       { "item": "protein_shake", "prob": 10 },
       { "item": "dogfood", "prob": 5, "container-item": "can_medium" },
@@ -335,8 +339,8 @@
       { "item": "cooking_oil2", "prob": 20 },
       { "item": "honey_bottled", "prob": 15 },
       { "item": "honey_glassed", "prob": 5 },
-      { "item": "jar_glass", "prob": 20 },
-      { "item": "jar_3l_glass", "prob": 30 },
+      { "item": "jar_glass_sealed", "prob": 20 },
+      { "item": "jar_3l_glass_sealed", "prob": 30 },
       { "item": "vinegar", "prob": 15 }
     ]
   },
@@ -454,6 +458,7 @@
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
       { "item": "tea_raw", "prob": 10 },
+      { "item": "tea_green_raw", "prob": 5 },
       { "item": "coffee_raw", "prob": 15 },
       { "item": "choco_coffee_beans", "prob": 10 },
       { "item": "salt", "prob": 10 },
@@ -796,6 +801,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }

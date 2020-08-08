@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "itype.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonOut;
@@ -123,7 +124,6 @@ class it_artifact_armor : public itype
 
 itype_id new_artifact();
 itype_id new_natural_artifact( artifact_natural_property prop );
-itype_id architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
 void load_artifacts( const std::string &path );

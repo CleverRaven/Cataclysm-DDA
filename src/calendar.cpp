@@ -8,6 +8,7 @@
 #include <limits>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -60,11 +61,37 @@ double default_daylight_level()
     return 100.0;
 }
 
+time_duration lunar_month()
+{
+    return 29.530588853 * 1_days;
+}
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<moon_phase>( moon_phase phase_num )
+{
+    switch( phase_num ) {
+        case moon_phase::MOON_NEW: return "MOON_NEW";
+        case moon_phase::MOON_WAXING_CRESCENT: return "MOON_WAXING_CRESCENT";
+        case moon_phase::MOON_HALF_MOON_WAXING: return "MOON_HALF_MOON_WAXING";
+        case moon_phase::MOON_WAXING_GIBBOUS: return "MOON_WAXING_GIBBOUS";
+        case moon_phase::MOON_FULL: return "MOON_FULL";
+        case moon_phase::MOON_WANING_CRESCENT: return "MOON_WANING_CRESCENT";
+        case moon_phase::MOON_HALF_MOON_WANING: return "MOON_HALF_MOON_WANING";
+        case moon_phase::MOON_WANING_GIBBOUS: return "MOON_WANING_GIBBOUS";
+        case moon_phase::MOON_PHASE_MAX: break;
+    }
+    debugmsg( "Invalid moon_phase %d", phase_num );
+    abort();
+}
+// *INDENT-ON*
+} // namespace io
+
 moon_phase get_moon_phase( const time_point &p )
 {
-    static constexpr time_duration synodic_month = 29.530588853 * 1_days;
-    const time_duration moon_phase_duration =
-        calendar::season_from_default_ratio() * synodic_month;
+    const time_duration moon_phase_duration = calendar::season_from_default_ratio() * lunar_month();
     // Switch moon phase at noon so it stays the same all night
     const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
@@ -192,29 +219,28 @@ double current_daylight_level( const time_point &p )
 float sunlight( const time_point &p, const bool vision )
 {
     const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    const double daylight_level = current_daylight_level( p );
+    const double daylight = current_daylight_level( p );
 
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
-                          0;
+    const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
 
     if( is_night( p ) ) {
         return moonlight;
     } else if( is_dawn( p ) ) {
+        const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
         const double percent = ( now - sunrise ) / twilight_duration;
-        return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
+        return moonlight * ( 1. - percent ) + daylight * percent;
     } else if( is_dusk( p ) ) {
+        const time_duration sunset = time_past_midnight( ::sunset( p ) );
         const double percent = ( now - sunset ) / twilight_duration;
-        return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
+        return daylight * ( 1. - percent ) + moonlight * percent;
     } else {
-        return daylight_level;
+        return daylight;
     }
 }
 

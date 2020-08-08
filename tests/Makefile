@@ -23,6 +23,25 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
+ifndef PCH
+  PCH = 1
+endif
+
+ifndef CLANG
+  CLANG = 0
+endif
+
+ifeq ($(PCH), 1)
+PCHFLAGS += -DCATA_CATCH_PCH
+PCH_H = pch/tests-pch.hpp
+ifeq ($(CLANG), 0)
+PCH_P = $(PCH_H).gch
+else
+PCH_P = $(PCH_H).pch
+CXXFLAGS += -Wno-unused-macros
+endif
+endif
+
 ifeq ($(TARGETSYSTEM), WINDOWS)
   TEST_TARGET = $(BUILD_PREFIX)cata_test.exe
 else
@@ -34,21 +53,25 @@ tests: $(TEST_TARGET)
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
+	rm -f pch/*pch.hpp.{gch,pch,d}
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: %.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
 
-.PHONY: clean check tests
+.PHONY: clean check tests precompile_header
 
 .SECONDARY: $(OBJS)
 

@@ -88,10 +88,10 @@ class font_loader
         /// @throws std::exception upon any kind of error.
         void load() {
             const std::string fontdata = PATH_INFO::fontdata();
-            const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
             if( file_exist( fontdata ) ) {
                 load_throws( fontdata );
             } else {
+                const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
                 load_throws( legacy_fontdata );
                 assure_dir_exist( PATH_INFO::config_dir() );
                 save( fontdata );

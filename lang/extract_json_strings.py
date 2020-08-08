@@ -15,6 +15,7 @@ parser = OptionParser()
 parser.add_option("-v", "--verbose", dest="verbose", help="be verbose")
 (options, args) = parser.parse_args()
 
+
 # Exceptions
 class WrongJSONItem(Exception):
     def __init__(self, msg, item):
@@ -23,6 +24,7 @@ class WrongJSONItem(Exception):
 
     def __str__(self):
         return ("---\nJSON error\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
+
 
 # there may be some non-json files in data/raw
 not_json = {os.path.normpath(i) for i in {
@@ -47,17 +49,24 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/mods/Tanks/monsters.json"
 }}
 
+
 def warning_supressed(filename):
     for i in warning_suppressed_list:
         if filename.startswith(i):
             return True
     return False
 
+
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
+}}
+
+# ignore these directories and their subdirectories
+ignore_directories = {os.path.normpath(dir) for dir in {
+    "data/mods/TEST_DATA",
 }}
 
 # these objects have no translatable strings
@@ -94,6 +103,7 @@ ignorable = {
     "palette",
     "region_overlay",
     "region_settings",
+    "relic_procgen_data",
     "requirement",
     "rotatable_symbol",
     "SCENARIO_BLACKLIST",
@@ -115,7 +125,6 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
-    "achievement",
     "activity_type",
     "AMMO",
     "ammunition_type",
@@ -144,6 +153,7 @@ automatically_convertible = {
     "MONSTER",
     "morale_type",
     "npc",
+    "proficiency",
     "npc_class",
     "overmap_land_use_code",
     "overmap_terrain",
@@ -163,7 +173,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+    "weather_type"
 }
 
 # for these objects a plural form is needed
@@ -198,6 +209,7 @@ use_format_strings = {
 # For handling grammatical gender
 all_genders = ["f", "m", "n"]
 
+
 def gender_options(subject):
     return [subject + ":" + g for g in all_genders]
 
@@ -205,10 +217,15 @@ def gender_options(subject):
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
 
-def extract_harvest(item):
-    outfile = get_outfile("harvest")
-    if "message" in item:
-        writestr(outfile, item["message"])
+def extract_achievement(a):
+    outfile = get_outfile(a["type"])
+    for f in ("name", "description"):
+        if f in a:
+            writestr(outfile, a[f])
+    for req in a.get("requirements", ()):
+        if "description" in req:
+            writestr(outfile, req["description"])
+
 
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
@@ -225,16 +242,25 @@ def extract_bodypart(item):
     if "hp_bar_ui_text" in item:
         writestr(outfile, item["hp_bar_ui_text"])
 
+
 def extract_clothing_mod(item):
     outfile = get_outfile("clothing_mod")
     writestr(outfile, item["implement_prompt"])
     writestr(outfile, item["destroy_prompt"])
+
 
 def extract_construction(item):
     outfile = get_outfile("construction")
     writestr(outfile, item["description"])
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
+
+
+def extract_harvest(item):
+    outfile = get_outfile("harvest")
+    if "message" in item:
+        writestr(outfile, item["message"])
+
 
 def extract_material(item):
     outfile = get_outfile("material")
@@ -252,8 +278,9 @@ def extract_material(item):
         writestr(outfile, item["dmg_adj"][2])
         writestr(outfile, item["dmg_adj"][3])
         wrote = True
-    if not wrote and not "copy-from" in item :
-        print("WARNING: {}: no mandatory field in item: {}".format("/data/json/materials.json", item))        
+    if not wrote and "copy-from" not in item:
+        print("WARNING: {}: no mandatory field in item: {}".format("/data/json/materials.json", item))
+
 
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
@@ -272,14 +299,57 @@ def extract_martial_art(item):
     static_buffs = item.get("static_buffs", list())
     onmove_buffs = item.get("onmove_buffs", list())
     ondodge_buffs = item.get("ondodge_buffs", list())
-    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs
+    onattack_buffs = item.get("onattack_buffs", list())
+    onpause_buffs = item.get("onpause_buffs", list())
+    onblock_buffs = item.get("onblock_buffs", list())
+    ongethit_buffs = item.get("ongethit_buffs", list())
+    onmiss_buffs = item.get("onmiss_buffs", list())
+    oncrit_buffs = item.get("oncrit_buffs", list())
+    onkill_buffs = item.get("onkill_buffs", list())
+
+    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs + onattack_buffs + onpause_buffs + onblock_buffs + ongethit_buffs + onmiss_buffs + oncrit_buffs + onkill_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:
-            c="Description of buff for martial art '{}'".format(name)
+            c = "Description of buff for martial art '{}'".format(name)
         else:
-            c="Description of buff '{}' for martial art '{}'".format(buff["name"], name)
+            c = "Description of buff '{}' for martial art '{}'".format(buff["name"], name)
         writestr(outfile, buff["description"], comment=c)
+
+
+def extract_move_mode(item):
+    outfile = get_outfile("move_modes")
+    # Move mode name
+    name = item["name"]
+    writestr(outfile, name, comment="Move mode name")
+    # The character in the move menu
+    character = item["character"]
+    writestr(outfile, character, comment="Move mode character in move mode menu")
+    # The character in the panels
+    pchar = item["panel_char"]
+    writestr(outfile, pchar, comment="movement-type")
+    # Successful change message
+    change_good_none = item["change_good_none"]
+    writestr(outfile, change_good_none, comment="Successfully switch to this move mode, no steed")
+    # Successful change message (animal steed)
+    change_good_animal = item["change_good_animal"]
+    writestr(outfile, change_good_animal, comment="Successfully switch to this move mode, animal steed")
+    # Successful change message (mech steed)
+    change_good_mech = item["change_good_mech"]
+    writestr(outfile, change_good_mech, comment="Successfully switch to this move mode, mech steed")
+    if "change_bad_none" in item:
+        # Failed change message
+        change_bad_none = item["change_bad_none"]
+        writestr(outfile, change_bad_none, comment="Failure to switch to this move mode, no steed")
+    if "change_bad_animal" in item:
+        # Failed change message (animal steed)
+        change_bad_animal = item["change_bad_animal"]
+        writestr(outfile, change_bad_animal, comment="Failure to switch to this move mode, animal steed")
+    if "change_bad_mech" in item:
+        # Failed change message (mech steed)
+        change_bad_mech = item["change_bad_mech"]
+        writestr(outfile, change_bad_mech, comment="Failure to switch to this move mode, mech steed")
+
 
 def extract_effect_type(item):
     # writestr will not write string if it is None.
@@ -358,10 +428,12 @@ def extract_effect_type(item):
         writestr(outfile, msg, context="memorial_male")
         writestr(outfile, msg, context="memorial_female")
     else:
-        writestr(outfile, msg, context="memorial_male",
-          comment="Male memorial remove log for effect(s) '{}'.".format(', '.join(name)))
-        writestr(outfile, msg, context="memorial_female",
-          comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(
+            outfile, msg, context="memorial_male",
+            comment="Male memorial remove log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(
+            outfile, msg, context="memorial_female",
+            comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
 
 
 def extract_gun(item):
@@ -434,6 +506,7 @@ def extract_professions(item):
         writestr(outfile, item["description"], context="prof_desc_female",
                  comment="Profession (female {}) description".format(nm))
 
+
 def extract_scenarios(item):
     outfile = get_outfile("scenario")
     # writestr will not write string if it is None.
@@ -468,6 +541,7 @@ def extract_scenarios(item):
             found = item.get(f, None)
             writestr(outfile, found)
 
+
 def extract_mapgen(item):
     outfile = get_outfile("mapgen")
     # writestr will not write string if it is None.
@@ -491,6 +565,7 @@ def extract_mapgen(item):
                 if "access_denied" in v:
                     writestr(outfile, v.get("access_denied"),
                              comment="Computer access denied warning")
+
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
@@ -522,6 +597,7 @@ def extract_recipe_group(item):
         for i in item.get("recipes"):
             writestr(outfile, i.get("description"))
 
+
 def extract_gendered_dynamic_line_optional(line, outfile):
     if "gendered_line" in line:
         msg = line["gendered_line"]
@@ -531,12 +607,14 @@ def extract_gendered_dynamic_line_optional(line, outfile):
             context = " ".join(context_list)
             writestr(outfile, msg, context=context)
 
+
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
         extract_dynamic_line(line[member], outfile)
 
-dynamic_line_string_keys = {
-# from `simple_string_conds` in `condition.h`
+
+dynamic_line_string_keys = [
+    # from `simple_string_conds` in `condition.h`
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
     "has_no_available_mission", "has_available_mission", "has_many_available_missions",
@@ -547,9 +625,10 @@ dynamic_line_string_keys = {
     "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
     "u_driving", "npc_driving",
     "has_pickup_list", "is_by_radio", "has_reason",
-# yes/no strings for complex conditions, 'and' list
+    # yes/no strings for complex conditions, 'and' list
     "yes", "no", "and"
-}
+]
+
 
 def extract_dynamic_line(line, outfile):
     if type(line) == list:
@@ -562,6 +641,7 @@ def extract_dynamic_line(line, outfile):
     elif type(line) == str:
         writestr(outfile, line)
 
+
 def extract_talk_effects(effects, outfile):
     if type(effects) != list:
         effects = [effects]
@@ -569,6 +649,7 @@ def extract_talk_effects(effects, outfile):
         if type(eff) == dict:
             if "u_buy_monster" in eff and "name" in eff:
                 writestr(outfile, eff["name"], comment="Nickname for creature '{}'".format(eff["u_buy_monster"]))
+
 
 def extract_talk_response(response, outfile):
     if "text" in response:
@@ -590,6 +671,7 @@ def extract_talk_response(response, outfile):
     if "effect" in response:
         extract_talk_effects(response["effect"], outfile)
 
+
 def extract_talk_topic(item):
     outfile = get_outfile("talk_topic")
     if "dynamic_line" in item:
@@ -600,11 +682,13 @@ def extract_talk_topic(item):
     if "effect" in item:
         extract_talk_effects(item["effect"], outfile)
 
+
 def extract_trap(item):
     outfile = get_outfile("trap")
     writestr(outfile, item["name"])
     if "vehicle_data" in item and "sound" in item["vehicle_data"]:
         writestr(outfile, item["vehicle_data"]["sound"], comment="Trap-vehicle collision message for trap '{}'".format(item["name"]))
+
 
 def extract_missiondef(item):
     outfile = get_outfile("mission_def")
@@ -641,6 +725,7 @@ def extract_missiondef(item):
     if "fail" in item and "effect" in item["fail"]:
         extract_talk_effects(item["fail"]["effect"], outfile)
 
+
 def extract_mutation(item):
     outfile = get_outfile("mutation")
 
@@ -653,7 +738,7 @@ def extract_mutation(item):
     else:
         writestr(outfile, found)
 
-    simple_fields = [ "description" ]
+    simple_fields = ["description"]
 
     for f in simple_fields:
         found = item.get(f)
@@ -678,6 +763,7 @@ def extract_mutation(item):
     if "spawn_item" in item:
         writestr(outfile, item.get("spawn_item").get("message"))
 
+
 def extract_mutation_category(item):
     outfile = get_outfile("mutation_category")
 
@@ -686,12 +772,12 @@ def extract_mutation_category(item):
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, found, comment="Mutation class name")
 
-    simple_fields = [ "mutagen_message",
-                      "iv_message",
-                      "iv_sleep_message",
-                      "iv_sound_message",
-                      "junkie_message"
-                    ]
+    simple_fields = ["mutagen_message",
+                     "iv_message",
+                     "iv_sleep_message",
+                     "iv_sound_message",
+                     "junkie_message"
+                     ]
 
     for f in simple_fields:
         found = item.get(f)
@@ -716,6 +802,7 @@ def extract_vehspawn(item):
     for st in found:
         writestr(outfile, st.get("description"), comment="Vehicle Spawn Description")
 
+
 def extract_recipe_category(item):
     outfile = get_outfile("recipe_category")
 
@@ -737,6 +824,7 @@ def extract_recipe_category(item):
         writestr(outfile, subcat_name,
                  comment="Crafting recipes subcategory of '{}' category".format(cat_name))
 
+
 def extract_gate(item):
     outfile = get_outfile("gates")
     messages = item.get("messages", {})
@@ -745,21 +833,25 @@ def extract_gate(item):
         writestr(outfile, v,
                  comment="'{}' action message of some gate object.".format(k))
 
+
 def extract_field_type(item):
     outfile = get_outfile("field_type")
     for fd in item.get("intensity_levels"):
-       if "name" in fd:
-           writestr(outfile,fd.get("name"))
-            
+        if "name" in fd:
+            writestr(outfile, fd.get("name"))
+
+
 def extract_ter_furn_transform_messages(item):
-	outfile = get_outfile("ter_furn_transform_messages")
-	writestr(outfile,item.get("fail_message"))
-	for terrain in item.get("terrain"):
-		writestr(outfile,terrain.get("message"))
+    outfile = get_outfile("ter_furn_transform_messages")
+    writestr(outfile, item.get("fail_message"))
+    for terrain in item.get("terrain"):
+        writestr(outfile, terrain.get("message"))
+
 
 def extract_skill_display_type(item):
     outfile = get_outfile("skill_display_type")
-    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
+    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["id"]))
+
 
 def extract_fault(item):
     outfile = get_outfile("fault")
@@ -773,32 +865,37 @@ def extract_fault(item):
         if "success_msg" in method:
             writestr(outfile, method["success_msg"], format_strings=True, comment="success message for mending method '{}' of fault '{}'".format(method["name"], item["name"]))
 
+
 def extract_snippets(item):
     outfile = get_outfile("snippet")
-    text = item["text"];
+    text = item["text"]
     if type(text) is not list:
-        text = [text];
+        text = [text]
     for snip in text:
         if type(snip) is str:
             writestr(outfile, snip)
         else:
             writestr(outfile, snip["text"])
 
+
 # these objects need to have their strings specially extracted
 extract_specials = {
-    "harvest" : extract_harvest,
+    "achievement": extract_achievement,
     "body_part": extract_bodypart,
     "clothing_mod": extract_clothing_mod,
+    "conduct": extract_achievement,
     "construction": extract_construction,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
+    "harvest": extract_harvest,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
     "mission_definition": extract_missiondef,
     "monster_attack": extract_monster_attack,
+    "movement_mode": extract_move_mode,
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
     "profession": extract_professions,
@@ -843,7 +940,8 @@ if not os.path.exists(to_dir):
 
 # clean any old extracted strings, it will all be redone
 for filename in os.listdir(to_dir):
-    if not filename.endswith(".py"): continue
+    if not filename.endswith(".py"):
+        continue
     f = os.path.join(to_dir, filename)
     os.remove(f)
 
@@ -856,6 +954,7 @@ def tlcomment(fs, string):
     if len(string) > 0:
         for line in string.splitlines():
             fs.write("#~ {}\n".format(line))
+
 
 def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
@@ -870,6 +969,7 @@ def gettextify(string, context=None, plural=None):
         else:
             return "_(%r)\n" % string
 
+
 def writestr(filename, string, context=None, format_strings=False, comment=None, pl_fmt=False):
     "Wrap the string and write to the file."
     if type(string) is list:
@@ -882,7 +982,7 @@ def writestr(filename, string, context=None, format_strings=False, comment=None,
                 comment = string["//~"]
             else:
                 comment = "{}\n{}".format(comment, string["//~"])
-        context = string.get( "ctxt" )
+        context = string.get("ctxt")
         str_pl = None
         if pl_fmt:
             if "str_pl" in string:
@@ -911,7 +1011,7 @@ def writestr(filename, string, context=None, format_strings=False, comment=None,
         else:
             str_pl = None
     elif string is None:
-        return;
+        return
     else:
         raise WrongJSONItem("ERROR: value is not a string, dict, list, or None", string)
 
@@ -923,10 +1023,12 @@ def writestr(filename, string, context=None, format_strings=False, comment=None,
         # we must tell xgettext this explicitly
         if not format_strings and ("%" in str_singular or (str_pl is not None and "%" in str_pl)):
             fs.write("# xgettext:no-python-format\n")
-        fs.write(gettextify(str_singular,context=context,plural=str_pl))
+        fs.write(gettextify(str_singular, context=context, plural=str_pl))
+
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
+
 
 use_action_msgs = {
     "activate_msg",
@@ -963,13 +1065,15 @@ use_action_msgs = {
     "gerund"
 }
 
+
 def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
     for f in sorted(use_action_msgs):
         if type(use_action) is dict and f in use_action:
             if it_name:
-                writestr(outfile, use_action[f],
-                  comment="Use action {} for {}.".format(f, it_name), **kwargs)
+                writestr(
+                    outfile, use_action[f],
+                    comment="Use action {} for {}.".format(f, it_name), **kwargs)
     # Recursively check sub objects as they may contain more messages.
     if type(use_action) is list:
         for i in use_action:
@@ -978,14 +1082,16 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
         for (k, v) in sorted(use_action.items(), key=lambda x: x[0]):
             extract_use_action_msgs(outfile, v, it_name, kwargs)
 
-found_types = set();
+
+found_types = set()
 known_types = ignorable | use_format_strings | extract_specials.keys() | automatically_convertible
+
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
     and write them to the appropriate file."""
-    if not "type" in item:
+    if "type" not in item:
         return
     object_type = item["type"]
     found_types.add(object_type)
@@ -1003,7 +1109,7 @@ def extract(item, infilename):
     if object_type not in known_types:
         print("WARNING: known_types does not contain object type '{}'".format(object_type))
     wrote = False
-    name = item.get("name") # Used in gettext comments below.
+    name = item.get("name")  # Used in gettext comments below.
     # Don't extract any record with name = "none".
     if name and name == "none":
         return
@@ -1080,7 +1186,7 @@ def extract(item, infilename):
         wrote = True
     if "message" in item:
         writestr(outfile, item["message"], format_strings=True,
-                 comment="Message for {} '{}'".format(object_type, name), **kwargs )
+                 comment="Message for {} '{}'".format(object_type, name), **kwargs)
         wrote = True
     if "messages" in item:
         for message in item["messages"]:
@@ -1091,12 +1197,12 @@ def extract(item, infilename):
             writestr(outfile, mod_loc[0], **kwargs)
             wrote = True
     if "info" in item:
-       c = "Please leave anything in <angle brackets> unchanged."
-       writestr(outfile, item["info"], comment=c, **kwargs)
-       wrote = True
+        c = "Please leave anything in <angle brackets> unchanged."
+        writestr(outfile, item["info"], comment=c, **kwargs)
+        wrote = True
     if "verb" in item:
-       writestr(outfile, item["verb"], **kwargs)
-       wrote = True
+        writestr(outfile, item["verb"], **kwargs)
+        wrote = True
     if "special_attacks" in item:
         special_attacks = item["special_attacks"]
         for special_attack in special_attacks:
@@ -1109,17 +1215,12 @@ def extract(item, infilename):
                          .format(name, special_attack.get("spell_id")), **kwargs)
                 wrote = True
     if "footsteps" in item:
-       writestr(outfile, item["footsteps"], **kwargs)
-       wrote = True
-    if not wrote and not "copy-from" in item:
+        writestr(outfile, item["footsteps"], **kwargs)
+        wrote = True
+    if not wrote and "copy-from" not in item:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
-def is_official_mod(full_path):
-    for i in official_mods:
-        if full_path.find(i) != -1:
-            return True
-    return False
 
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
@@ -1127,12 +1228,14 @@ def extract_all_from_dir(json_dir):
     allfiles = os.listdir(json_dir)
     allfiles.sort()
     dirs = []
-    skiplist = [ os.path.normpath(".gitkeep") ]
+    skiplist = [os.path.normpath(".gitkeep")]
     for f in allfiles:
         full_name = os.path.join(json_dir, f)
         if os.path.isdir(full_name):
             dirs.append(f)
         elif f in skiplist or full_name in ignore_files:
+            continue
+        elif any(full_name.startswith(dir) for dir in ignore_directories):
             continue
         elif f.endswith(".json"):
             if full_name in git_files_list:
@@ -1145,6 +1248,7 @@ def extract_all_from_dir(json_dir):
                 print("Skipping file: '{}'".format(f))
     for d in dirs:
         extract_all_from_dir(os.path.join(json_dir, d))
+
 
 def extract_all_from_file(json_file):
     "Extract translatable strings from every object in the specified file."
@@ -1165,9 +1269,10 @@ def extract_all_from_file(json_file):
         print(E)
         exit(1)
 
+
 def prepare_git_file_list():
     command_str = "git ls-files"
-    res = None;
+    res = None
     if platform == "win32":
         res = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     else:
@@ -1196,5 +1301,7 @@ if len(known_types - found_types) != 0:
     print("WARNING: type {} not found in any JSON objects".format(known_types - found_types))
 if len(needs_plural - found_types) != 0:
     print("WARNING: type {} from needs_plural not found in any JSON objects".format(needs_plural - found_types))
+
+print("Output files in %s" % to_dir)
 
 # done.

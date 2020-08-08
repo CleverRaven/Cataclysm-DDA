@@ -13,6 +13,7 @@
       [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
       [ "car_mini", 400 ],
+      [ "car_hybrid", 500 ],
       [ "beetle", 500 ],
       [ "bicycle", 800 ],
       [ "bicycle_dirt", 200 ],
@@ -57,7 +58,8 @@
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -97,7 +99,9 @@
       [ "cube_van", 500 ],
       [ "cube_van_cheap", 500 ],
       [ "hippie_van", 500 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "car_hybrid", 500 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -113,6 +117,7 @@
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 500 ],
       [ "car_sports", 1000 ],
       [ "car_sports_electric", 300 ],
       [ "pickup", 600 ],
@@ -147,7 +152,8 @@
       [ "surv_car", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
-      [ "4x4_car", 400 ]
+      [ "4x4_car", 400 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -159,6 +165,7 @@
       [ "car_hatch", 500 ],
       [ "car_mini", 250 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "beetle", 300 ],
       [ "car_sports", 100 ],
       [ "car_sports_electric", 50 ],
@@ -179,7 +186,9 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "wheelbarrow", 100 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -190,7 +199,8 @@
       [ "pickup", 300 ],
       [ "bicycle_dirt", 100 ],
       [ "motorcycle_cross", 75 ],
-      [ "motorcycle_enduro", 150 ]
+      [ "motorcycle_enduro", 150 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -225,6 +235,7 @@
       [ "car_anmlcmpt", 100 ],
       [ "car_hatch", 500 ],
       [ "electric_car", 750 ],
+      [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
       [ "golf_cart", 300 ],
       [ "scooter", 300 ],
@@ -240,7 +251,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -284,7 +296,8 @@
       [ "tractor_reaper", 1000 ],
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
-      [ "excavator", 500 ]
+      [ "excavator", 500 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -327,6 +340,7 @@
       [ "car_hatch", 750 ],
       [ "car_chassis", 2000 ],
       [ "electric_car", 400 ],
+      [ "car_hybrid", 400 ],
       [ "car_sports", 400 ],
       [ "car_sports_electric", 100 ],
       [ "car_racing_electric", 5 ],
@@ -350,6 +364,7 @@
       [ "car_sports", 200 ],
       [ "suv", 400 ],
       [ "car_mini", 250 ],
+      [ "car_hybrid", 200 ],
       [ "rv", 250 ],
       [ "meth_lab", 50 ],
       [ "beetle", 400 ],
@@ -369,6 +384,7 @@
       [ "car_hatch", 475 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 100 ],
+      [ "car_hybrid", 100 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
@@ -392,6 +408,7 @@
       [ "suv", 400 ],
       [ "rv", 200 ],
       [ "car_sports", 300 ],
+      [ "car_hybrid", 200 ],
       [ "cube_van_cheap", 200 ],
       [ "pickup", 500 ],
       [ "hippie_van", 300 ]
@@ -409,10 +426,12 @@
       [ "car_hatch", 500 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
+      [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
       [ "motorcycle", 500 ],
       [ "superbike", 50 ],
-      [ "motorcycle_sidecart", 300 ]
+      [ "motorcycle_sidecart", 300 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -570,6 +589,7 @@
       [ "car", 2000 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -600,6 +620,7 @@
       [ "4x4_car", 200 ],
       [ "car_sports_electric", 100 ],
       [ "car_mini", 375 ],
+      [ "car_hybrid", 200 ],
       [ "beetle", 750 ],
       [ "car", 1500 ],
       [ "car_hatch", 750 ],
@@ -614,7 +635,8 @@
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
-      [ "car_sports", 30 ]
+      [ "car_sports", 30 ],
+      [ "underlift_tow_truck", 10 ]
     ]
   },
   {
@@ -630,6 +652,7 @@
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -666,6 +689,7 @@
       [ "car", 2000 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
       [ "car_mini", 400 ],
@@ -692,6 +716,7 @@
       [ "car", 2000 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
+      [ "car_hybrid", 400 ],
       [ "car_mini", 250 ],
       [ "suv", 800 ],
       [ "suv_electric", 200 ],
@@ -711,8 +736,8 @@
     "vehicles": [
       [ "car", 500 ],
       [ "electric_car", 100 ],
+      [ "car_hybrid", 100 ],
       [ "car_sports", 300 ],
-      [ "car_sports_atomic", 100 ],
       [ "car_sports_electric", 300 ],
       [ "suv", 500 ],
       [ "suv_electric", 500 ],

@@ -10,7 +10,6 @@
 
 #include "ammo.h"
 #include "assign.h"
-#include "cata_utility.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -27,6 +26,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
@@ -71,6 +71,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "OPAQUE", VPFLAG_OPAQUE },
     { "OPENABLE", VPFLAG_OPENABLE },
     { "SEATBELT", VPFLAG_SEATBELT },
+    { "SIMPLE_PART", VPFLAG_SIMPLE_PART },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },
@@ -760,7 +761,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
                    _( "Has level <color_cyan>%1$d %2$s</color> quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg += string_format( _( " and is rated at <color_cyan>%1$d %2$s</color>" ),
-                                  static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
+                                  static_cast<int>( convert_weight( lifting_quality_to_mass( qual.second ) ) ),
                                   weight_units() );
         }
         msg += ".\n";
@@ -1075,7 +1076,7 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
-            const auto base = item::find_type( pt.part->item );
+            const itype *base = item::find_type( pt.part->item );
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
@@ -1085,7 +1086,7 @@ void vehicle_prototype::finalize()
             if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
-                          blueprint.parts.size(), pt.pos.x, pt.pos.y );
+                          blueprint.part_count(), pt.pos.x, pt.pos.y );
             }
 
             if( !base->gun ) {
@@ -1101,7 +1102,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const auto &e : pt.ammo_types ) {
-                    const auto ammo = item::find_type( e );
+                    const itype *ammo = item::find_type( e );
                     if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );

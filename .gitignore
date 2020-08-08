@@ -69,6 +69,9 @@ Cataclysm.exe.lastcodeanalysissucceeded
 #Visual Studio 2017
 /msvc-full-features/PredictedInputCache_Debug_x64.dat
 
+#vcpkg
+/msvc-full-features/vcpkg_installed
+
 # PVS Studio
 /msvc-full-features/*PVS-Studio*
 
@@ -120,7 +123,7 @@ nbproject/
 
 # OSX
 Cataclysm.app
-data/osx/AppIcon.icns
+build-data/osx/AppIcon.icns
 Cataclysm.dmg
 
 # Jetbrains CLion
@@ -188,3 +191,9 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+
+# precompiled headers
+/pch/main-pch.hpp.gch
+/pch/main-pch.hpp.pch
+/tests/pch/tests-pch.hpp.gch
+/tests/pch/tests-pch.hpp.pch

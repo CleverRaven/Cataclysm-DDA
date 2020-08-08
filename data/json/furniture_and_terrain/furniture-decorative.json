@@ -59,6 +59,26 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
   },
   {
+    "id": "f_cleat",
+    "type": "furniture",
+    "name": "cleat",
+    "description": "A small horn cleat with two “horns” extending parallel to the deck or the axis of the spar, and resembling a small anvil.  They are used to secure mooring lines, ropes, and similar.",
+    "symbol": "B",
+    "color": "light_gray",
+    "looks_like": "f_bitts",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": 0,
+    "bash": {
+      "str_min": 80,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "SHORT" ]
+  },
+  {
     "type": "furniture",
     "id": "f_shackle",
     "name": "manacles",
@@ -197,6 +217,23 @@
     "move_cost_mod": -1,
     "required_str": 10,
     "flags": [ "PLACE_ITEM" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_sand_castle",
+    "name": "sand castle",
+    "description": "A glorious castle made of sand.  This mighty fortress will stand tall for the ages to come, a true testimony of the skills of its builder.",
+    "symbol": "m",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "crunch.",
+      "sound_fail": "thump.",
+      "items": [ { "item": "material_sand", "count": 8 } ]
+    }
   },
   {
     "type": "furniture",

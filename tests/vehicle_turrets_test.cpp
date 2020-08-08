@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -5,9 +7,7 @@
 #include <vector>
 
 #include "ammo.h"
-#include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "character.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -61,9 +61,11 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
-    for( auto e : turret_types() ) {
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    for( const vpart_info *e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );
@@ -73,31 +75,31 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             veh->charge_battery( 10000 );
 
             auto ammo =
-                ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default().str() );
+                ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
-                auto *tank = biggest_tank( ammo );
+                const auto *tank = biggest_tank( ammo );
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );
 
                 auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
-                REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
+                REQUIRE( veh->part( tank_idx ).ammo_set( ammo->default_ammotype() ) );
 
             } else if( ammo ) {
-                veh->parts[ idx].ammo_set( ammo->default_ammotype() );
+                veh->part( idx ).ammo_set( ammo->default_ammotype() );
             }
 
-            auto qry = veh->turret_query( veh->parts[ idx ] );
+            auto qry = veh->turret_query( veh->part( idx ) );
             REQUIRE( qry );
 
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            g->u.setpos( veh->global_part_pos3( idx ) );
-            REQUIRE( qry.fire( g->u, g->u.pos() + point( qry.range(), 0 ) ) > 0 );
+            player_character.setpos( veh->global_part_pos3( idx ) );
+            REQUIRE( qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) ) > 0 );
 
-            g->m.destroy_vehicle( veh );
+            here.destroy_vehicle( veh );
         }
     }
 }

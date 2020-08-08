@@ -127,7 +127,24 @@
         "s_lot": 6
       }
     },
-    "weather": { "base_temperature": 8.0, "base_humidity": 40.0, "base_pressure": 1015.0, "base_acid": 0.0 },
+    "weather": {
+      "base_temperature": 8.0,
+      "base_humidity": 40.0,
+      "base_pressure": 1015.0,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
+    },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   },
   {
@@ -180,8 +197,6 @@
             ",": "t_pavement_y",
             "_": "t_pavement",
             "r": "t_floor",
-            "6": "t_console",
-            "x": "t_console_broken",
             "^": "t_floor",
             ".": "t_floor",
             "-": "t_wall",
@@ -201,6 +216,8 @@
             "s": "t_sidewalk"
           },
           "furniture": {
+            "6": "f_console",
+            "x": "f_console_broken",
             "d": "f_dumpster",
             "O": "f_oven",
             "r": "f_rack",

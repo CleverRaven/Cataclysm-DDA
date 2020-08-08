@@ -3,13 +3,16 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
-#include <string>
-#include <vector>
-#include <utility>
 #include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "optional.h"
 #include "item.h"
+#include "optional.h"
+#include "relic.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 struct itype;
 
@@ -135,11 +138,29 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual bool replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
+        void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
 
         /** probability, used by the parent object. */
         int probability;
+        /**
+         * The group spawns contained in this item
+         */
+        cata::optional<itype_id> container_item;
+        bool sealed = true;
+
+        struct relic_generator {
+            relic_procgen_data::generation_rules rules;
+            relic_procgen_id id;
+
+            relic generate_relic( const itype_id &it_id ) const;
+
+            bool was_loaded = false;
+            void load( const JsonObject &jo );
+        };
+
+        cata::value_ptr<relic_generator> artifact;
 };
 /**
  * Creates a single item, but can change various aspects
@@ -177,6 +198,7 @@ class Item_modifier
          * This is used to create the contents of an item.
          */
         std::unique_ptr<Item_spawn_data> contents;
+        bool sealed = true;
 
         /**
          * Custom flags to be added to the item.

@@ -47,6 +47,7 @@
     "components": [
       [
         [ "egg_bird", 1 ],
+        [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
         [ "egg_crow", 1 ],
@@ -166,13 +167,22 @@
     "id": "meat_offal",
     "type": "requirement",
     "//": "Anything you might consider offal or intestines.",
-    "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
+    "components": [
+      [
+        [ "meat_lung", 4, "LIST" ],
+        [ "liver", 4 ],
+        [ "kidney", 4 ],
+        [ "sweetbread", 4 ],
+        [ "offal", 1 ],
+        [ "mutant_bug_organs", 1 ]
+      ]
+    ]
   },
   {
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ] ] ]
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
   },
   {
     "id": "meat_red_raw",
@@ -187,6 +197,51 @@
     "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
   },
   {
+    "id": "meat_lung",
+    "type": "requirement",
+    "//": "Anything you might consider raw lung.  About 250mL of lungs.",
+    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach",
+    "type": "requirement",
+    "//": "Anything you might consider a raw stomach.  About 500mL of stomachs.",
+    "components": [ [ [ "meat_stomach_small", 2, "LIST" ], [ "meat_stomach_large", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "meat_stomach_cooked",
+    "type": "requirement",
+    "//": "Anything you might consider a cooked stomach.  About 500mL of stomachs.",
+    "components": [ [ [ "meat_stomach_small", 2, "LIST" ], [ "meat_stomach_large", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "meat_stomach_boiled",
+    "type": "requirement",
+    "//": "Anything you might consider a boiled stomach.  About 500mL of stomachs.",
+    "components": [
+      [
+        [ "small_stomach_boiled", 2 ],
+        [ "stomach_boiled", 1 ],
+        [ "small_hstomach_boiled", 2 ],
+        [ "hstomach_boiled", 1 ],
+        [ "small_demihuman_stomach_boiled", 2 ],
+        [ "demihuman_stomach_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_stomach_large",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "components": [ [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach_large", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach_small",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ] ]
+  },
+  {
     "id": "meat_nofish",
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
@@ -195,7 +250,7 @@
         [ "meat_red", 1, "LIST" ],
         [ "liver", 5 ],
         [ "kidney", 5 ],
-        [ "lung", 5 ],
+        [ "meat_lung", 5, "LIST" ],
         [ "sweetbread", 5 ],
         [ "bacon", 4 ],
         [ "lunchmeat", 5 ],
@@ -222,6 +277,7 @@
         [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],
         [ "mutant_human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
         [ "meat_salted", 1 ],
@@ -397,19 +453,27 @@
     "id": "any_fat",
     "type": "requirement",
     "//": "Any type of raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ], [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_fat", 1, "LIST" ], [ "fat_tainted", 1 ] ] ]
   },
   {
     "id": "edible_fat",
     "type": "requirement",
     "//": "Any type of edible raw fat.",
-    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ] ] ]
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "human_fat", 1 ], [ "mutant_human_fat", 1 ], [ "demihuman_fat", 1 ] ] ]
   },
   {
     "id": "edible_tallow",
     "type": "requirement",
     "//": "Any type of edible tallow.",
-    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "human_tallow", 1 ], [ "mutant_human_tallow", 1 ] ] ]
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "mutant_tallow", 1 ],
+        [ "human_tallow", 1 ],
+        [ "mutant_human_tallow", 1 ],
+        [ "demihuman_tallow", 1 ]
+      ]
+    ]
   },
   {
     "id": "any_tallow",
@@ -421,7 +485,7 @@
     "id": "edible_lard",
     "type": "requirement",
     "//": "Lard that is safe for consumption.",
-    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ], [ "human_lard", 1 ], [ "mutant_human_lard", 1 ] ] ]
+    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ], [ "human_lard", 1 ], [ "mutant_human_lard", 1 ], [ "demihuman_lard", 1 ] ] ]
   },
   {
     "id": "edible_tallow_lard",
@@ -496,6 +560,7 @@
         [ "pineapple", 1 ],
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
+        [ "pumpkin", 1 ],
         [ "raspberries", 1 ],
         [ "rose_hips", 1 ],
         [ "strawberries", 1 ],
@@ -526,6 +591,7 @@
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
+        [ "irradiated_pumpkin", 1 ],
         [ "irradiated_pear", 1 ],
         [ "irradiated_pineapple", 1 ],
         [ "irradiated_plums", 1 ],

@@ -9,7 +9,7 @@
 
 #include "clone_ptr.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class JsonObject;
@@ -160,9 +160,10 @@ int oxytorch( player *, item *, bool, const tripoint & );
 int pack_cbm( player *p, item *it, bool, const tripoint & );
 int pack_item( player *, item *, bool, const tripoint & );
 int pheromone( player *, item *, bool, const tripoint & );
+int pick_lock( player *p, item *it, bool, const tripoint &pos );
 int pickaxe( player *, item *, bool, const tripoint & );
 int play_game( player *, item *, bool, const tripoint & );
-int portable_game( player *, item *, bool, const tripoint & );
+int portable_game( player *, item *, bool active, const tripoint & );
 int portal( player *, item *, bool, const tripoint & );
 int radglove( player *, item *, bool, const tripoint & );
 int radio_mod( player *, item *, bool, const tripoint & );
@@ -187,7 +188,6 @@ int talking_doll( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
 int teleport( player *, item *, bool, const tripoint & );
-int throwable_extinguisher_act( player *, item *, bool, const tripoint & );
 int toolmod_attach( player *, item *, bool, const tripoint & );
 int tow_attach( player *, item *, bool, const tripoint & );
 int towel( player *, item *, bool, const tripoint & );
@@ -228,20 +228,20 @@ int disassemble( player *, item *, bool, const tripoint & );
 int artifact( player *, item *, bool, const tripoint & );
 
 // Helper functions for other iuse functions
-void cut_log_into_planks( player & );
-void play_music( player &p, const tripoint &source, int volume, int max_morale );
-int towel_common( player *, item *, bool );
+void cut_log_into_planks( Character & );
+void play_music( Character &p, const tripoint &source, int volume, int max_morale );
+int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential taget of robot control
 bool robotcontrol_can_target( player *, const monster & );
 
 // Helper for handling pesky wannabe-artists
-int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+int handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
                             const tripoint &where );
 
 } // namespace iuse
 
-void remove_radio_mod( item &it, player &p );
+void remove_radio_mod( item &it, Character &p );
 
 // Helper for clothes washing
 struct washing_requirements {

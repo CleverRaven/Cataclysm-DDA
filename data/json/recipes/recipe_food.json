@@ -14,7 +14,7 @@
     "components": [
       [ [ "flour", 4 ] ],
       [ [ "salt", 12 ] ],
-      [ [ "sugar", 24 ] ],
+      [ [ "sugar", 24 ], [ "artificial_sweetener", 24 ] ],
       [ [ "chocolate", 3 ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
@@ -33,7 +33,12 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "charges": 8,
-    "components": [ [ [ "flour", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "salt", 1 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [
+      [ [ "flour", 10 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -43,7 +48,7 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
@@ -66,7 +71,7 @@
     "id_suffix": "from_salt_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "time": "1 h 30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
@@ -485,7 +490,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "dry_rice", 1 ] ],
       [ [ "vinegar", 1 ] ],
-      [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+      [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "artificial_sweetener", 1 ] ]
     ]
   },
   {
@@ -599,6 +604,7 @@
         [ "beet_syrup", 1 ],
         [ "syrup", 1 ],
         [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ]
@@ -1243,6 +1249,36 @@
   },
   {
     "type": "recipe",
+    "result": "nachosv",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "20 m",
+    "charges": 5,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ], [ [ "nachos", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "nachosvc",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "20 m",
+    "charges": 3,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "can_beans", 2 ], [ "beans_cooked", 2 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ],
+      [ [ "nachos", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "fresh_fries",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -1782,7 +1818,11 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar", 10 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1833,7 +1873,7 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [
-      [ [ "sugar", 6 ] ],
+      [ [ "sugar", 6 ], [ "artificial_sweetener", 6 ] ],
       [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
       [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
       [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
@@ -2099,7 +2139,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "bone", 10 ], [ "bone_human", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "bone_edible", 10, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2222,7 +2262,13 @@
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
   },
@@ -2236,7 +2282,13 @@
       [ [ "flour", 8 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "weed", 5 ] ]
     ]
@@ -2251,7 +2303,13 @@
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
     ]
@@ -2266,7 +2324,13 @@
       [ [ "flour", 6 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "chocolate", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "weed", 5 ] ]
@@ -2561,7 +2625,8 @@
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
       ]
     ]
   },
@@ -2586,7 +2651,8 @@
         [ "molasses", 1 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "artificial_sweetener", 10 ]
       ]
     ]
   },
@@ -2787,6 +2853,7 @@
       [ [ "oatmeal", 1 ] ],
       [
         [ "sugar", 4 ],
+        [ "artificial_sweetener", 4 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -3033,6 +3100,7 @@
         [ "honey_bottled", 6 ],
         [ "honey_glassed", 3 ],
         [ "sugar", 20 ],
+        [ "artificial_sweetener", 20 ],
         [ "syrup", 8 ],
         [ "beet_syrup", 8 ]
       ],
@@ -3058,6 +3126,7 @@
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "syrup", 3 ],
         [ "beet_syrup", 3 ]
       ],
@@ -3299,7 +3368,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -3319,7 +3388,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "jam_fruit", 1 ] ]
@@ -3341,7 +3410,7 @@
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]
@@ -3362,6 +3431,7 @@
       [ [ "sweet_fruit", 1, "LIST" ] ],
       [
         [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
@@ -3386,6 +3456,7 @@
       [ [ "flour", 8 ], [ "oatmeal", 8 ], [ "dry_rice", 2 ] ],
       [
         [ "sugar", 16 ],
+        [ "artificial_sweetener", 16 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -3442,6 +3513,7 @@
       [ [ "salt", 50 ] ],
       [
         [ "sugar", 20 ],
+        [ "artificial_sweetener", 20 ],
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
@@ -3495,7 +3567,7 @@
     "components": [
       [ [ "flour", 30 ] ],
       [ [ "sweet_fruit_like", 8, "LIST" ] ],
-      [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ] ],
+      [ [ "sugar", 20 ], [ "syrup", 4 ], [ "beet_syrup", 4 ], [ "molasses", 4 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -3892,10 +3964,7 @@
     "book_learn": [ [ "adv_chemistry", 7 ], [ "textbook_chemistry", 8 ], [ "recipe_labchem", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [
-      [ [ "pine_bough", 6 ], [ "2x4", 8 ], [ "stick", 8 ], [ "splinter", 16 ] ],
-      [ [ "water_acid_weak", 3 ], [ "water_acid", 2 ], [ "acid", 1 ] ]
-    ]
+    "components": [ [ [ "pine_bough", 6 ], [ "2x4", 8 ], [ "stick", 8 ], [ "splinter", 16 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4052,7 +4121,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4254,11 +4323,11 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "can_salmon", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
-      [ [ "lemon", 1 ] ],
+      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "scrambled_eggs", 1 ], [ "boiled_egg", 1 ] ]
     ]
@@ -4637,7 +4706,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ], [ [ "sprinkles", 3 ] ] ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "any_butter", 1, "LIST" ] ], [ [ "sprinkles", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -4688,7 +4757,7 @@
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [
         [ "veggy", 2 ],
         [ "veggy_wild", 2 ],
@@ -4739,8 +4808,8 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "veggy", 1 ], [ "lettuce", 1 ], [ "veggy_wild", 1 ], [ "cabbage", 1 ] ]
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "veggy", 2 ], [ "lettuce", 2 ], [ "veggy_wild", 2 ], [ "cabbage", 2 ] ]
     ]
   },
   {
@@ -4758,8 +4827,8 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "cucumber", 6 ] ]
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "cucumber", 2 ] ]
     ]
   },
   {
@@ -4777,7 +4846,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "boiled_egg", 6 ] ]
     ]
   },
@@ -4812,7 +4881,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "meat_red_raw", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -4834,7 +4903,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "fish", 2 ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -4902,6 +4971,8 @@
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
     "difficulty": 3,
+    "time": "25 m",
+    "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "baking_book", 3 ], [ "cookbook_daintydishes", 5 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
@@ -4910,7 +4981,7 @@
       [ [ "yeast", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
-      [ [ "sugar", 2 ] ],
+      [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -4960,6 +5031,7 @@
       ],
       [
         [ "sugar", 1 ],
+        [ "artificial_sweetener", 1 ],
         [ "mustard", 1 ],
         [ "mayonnaise", 1 ],
         [ "seasoning_salt", 1 ],
@@ -4996,6 +5068,7 @@
       [ [ "water_clean", 1 ] ],
       [
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -5275,7 +5348,13 @@
       [ [ "tea_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "sugar", 10 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ],
+        [ "artificial_sweetener", 10 ]
+      ],
       [ [ "pepper", 10 ] ],
       [ [ "cinnamon", 10 ] ]
     ]
@@ -5421,16 +5500,9 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [
-        [ "stomach", 1 ],
-        [ "stomach_large", 1 ],
-        [ "hstomach", 1 ],
-        [ "hstomach_large", 1 ],
-        [ "demihuman_stomach", 1 ],
-        [ "demihuman_stomach_large", 1 ]
-      ],
-      [ [ "offal", 1 ], [ "liver", 2 ], [ "lung", 2 ], [ "kidney", 2 ] ],
-      [ [ "oatmeal", 2 ], [ "buckwheat", 1 ] ]
+      [ [ "meat_stomach_small", 1, "LIST" ] ],
+      [ [ "meat_offal", 1, "LIST" ] ],
+      [ [ "oatmeal", 16 ], [ "buckwheat", 1 ] ]
     ]
   },
   {
@@ -5451,16 +5523,9 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [
-        [ "stomach", 2 ],
-        [ "stomach_large", 1 ],
-        [ "hstomach", 2 ],
-        [ "hstomach_large", 1 ],
-        [ "demihuman_stomach", 2 ],
-        [ "demihuman_stomach_large", 1 ]
-      ],
-      [ [ "offal", 2 ], [ "liver", 4 ], [ "lung", 4 ], [ "kidney", 4 ] ],
-      [ [ "oatmeal", 4 ], [ "buckwheat", 1 ] ]
+      [ [ "meat_stomach_large", 1, "LIST" ] ],
+      [ [ "meat_offal", 2, "LIST" ] ],
+      [ [ "oatmeal", 32 ], [ "buckwheat", 2 ] ]
     ]
   },
   {
@@ -5501,6 +5566,7 @@
       [ [ "edible_tallow_lard", 1, "LIST" ] ],
       [
         [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
         [ "syrup", 1 ],
         [ "beet_syrup", 1 ],
         [ "molasses", 1 ],
@@ -5552,7 +5618,7 @@
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
+      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "cinnamon", 2 ] ]
     ]
@@ -5572,7 +5638,7 @@
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
+      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],
       [ [ "cinnamon", 2 ] ]
@@ -5594,7 +5660,7 @@
       [ [ "chocolate", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sugar", 5 ] ]
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
   {
@@ -5613,7 +5679,7 @@
       [ [ "chocolate", 2 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ] ],
-      [ [ "sugar", 5 ] ],
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ],
       [ [ "chilly-p", 1 ] ],
       [ [ "cinnamon", 1 ] ],
       [ [ "water", 6 ], [ "water_clean", 6 ] ]
@@ -5697,7 +5763,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone", 1 ] ] ]
+    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
   {
     "result": "meal_bone_tainted",
@@ -5833,7 +5899,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
     "result": "chilly-p",
@@ -5863,8 +5929,8 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
-      [ [ "offal", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
+      [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
+      [ [ "meat_stomach", 1, "LIST" ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],
@@ -5907,8 +5973,8 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
-      [ [ "offal", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
-      [ [ "stomach", 2 ], [ "stomach_large", 1 ] ],
+      [ [ "offal", 4 ], [ "mutant_bug_organs", 4 ], [ "meat_nofish", 2, "LIST" ], [ "brain", 10 ] ],
+      [ [ "meat_stomach", 1, "LIST" ] ],
       [
         [ "salt_water", 4 ],
         [ "saline", 8 ],
@@ -5994,7 +6060,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -6040,7 +6106,10 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "food_processor", 40 ] ] ],
-    "components": [ [ [ "peanut_unshelled", 3 ] ], [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ] ]
+    "components": [
+      [ [ "peanut_unshelled", 3 ] ],
+      [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -6068,7 +6137,14 @@
         [ "walnut_unshelled", 5 ],
         [ "acorns", 5 ]
       ],
-      [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ]
+      [
+        [ "sugar", 10 ],
+        [ "artificial_sweetener", 10 ],
+        [ "honeycomb", 1 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "syrup", 1 ]
+      ]
     ]
   },
   {
@@ -6088,7 +6164,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "fish", 12 ] ],
       [ [ "vinegar", 6 ] ]
     ]
@@ -6110,7 +6186,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "meat_red_raw", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]
@@ -6133,7 +6209,7 @@
     "//": "Canned tomatoes aren't an option as they've already been preserved.",
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [
         [ "veggy", 12 ],
         [ "veggy_wild", 12 ],
@@ -6199,7 +6275,7 @@
     "//": "Making the very first starter is a lot more finnicky than splitting it once it's mature.",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -6212,7 +6288,7 @@
     "result_mult": 2,
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jar_glass", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "flour", 4 ] ], [ [ "sourdough_starter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6227,7 +6303,13 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour", 10 ] ], [ [ "sourdough_starter", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "//": "The single water_clean here is for feeding the new starter.",
+    "components": [
+      [ [ "flour", 10 ] ],
+      [ [ "sourdough_starter", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -6444,7 +6526,7 @@
     "components": [
       [ [ "horseradish_root", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
-      [ [ "sugar", 4 ] ],
+      [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "water_clean", 1 ] ]
     ]
   },
@@ -6491,8 +6573,141 @@
       [ [ "mustard_powder", 20 ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
       [ [ "vinegar", 1 ] ],
-      [ [ "sugar", 1 ] ],
+      [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_green",
+    "copy-from": "tea",
+    "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_fruit",
+    "copy-from": "tea",
+    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffee_substitute_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "components": [
+      [ [ "coffee_raw_kentucky", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_coffee_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 m 30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tea_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "tea_raw", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "milk_tea_sweetened",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 m 30 s",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [
+      [ [ "tea", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [
+        [ "sugar", 5 ],
+        [ "artificial_sweetener", 5 ],
+        [ "honey_bottled", 1 ],
+        [ "honey_glassed", 1 ],
+        [ "honeycomb", 1 ],
+        [ "syrup", 1 ],
+        [ "beet_syrup", 1 ]
+      ]
     ]
   }
 ]

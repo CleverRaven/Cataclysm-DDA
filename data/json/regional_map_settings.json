@@ -499,8 +499,8 @@
           "mx_prison_bus": 15
         }
       },
+      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
-      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -547,7 +547,9 @@
           "mx_point_burned_ground": 125,
           "mx_casings": 30
         }
-      }
+      },
+      "river": { "chance": 3, "extras": { "mx_reed": 100 } },
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
     },
     "city": {
       "shop_radius": 30,
@@ -662,11 +664,23 @@
         "urban_4_house_basement": 50,
         "urban_5_house": 50,
         "urban_6_house": 50,
+        "urban_7_house_garden": 50,
+        "urban_8_house_brick_garden": 50,
+        "urban_9_house_garage_loft": 50,
+        "urban_10_house_brick_pool": 50,
+        "urban_11_house_brick": 50,
+        "urban_12_house": 50,
+        "urban_15_house": 50,
+        "urban_16_house_ranch": 50,
+        "urban_17_house_ranch": 50,
+        "urban_18_victorian": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
+        "s_apt": 30,
+        "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
         "fishing_pond_city": 10,
@@ -708,8 +722,11 @@
       "shops": {
         "bus_station": 200,
         "city_block_2": 300,
+        "s_apt": 50,
+        "s_apt_2": 50,
         "urban_13_dense_house_apt_house": 300,
         "urban_14_dense_house_mart_food": 200,
+        "urban_29_dense_row": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
@@ -737,6 +754,7 @@
         "s_gun_2": 200,
         "s_gun_3": 200,
         "s_gun_4": 200,
+        "s_gunstore": 200,
         "s_clothes": 450,
         "s_clothes_1": 200,
         "s_clothes_2": 200,
@@ -765,6 +783,7 @@
         "bar_1": 400,
         "s_electronics": 400,
         "s_electronics_1": 400,
+        "s_electronicstore": 400,
         "pawn": 300,
         "pawn_1": 300,
         "pawn_pf": 50,
@@ -804,6 +823,7 @@
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
+        "s_games": 200,
         "s_jewelry": 200,
         "s_antique": 200,
         "s_gardening": 200,
@@ -875,6 +895,7 @@
         "hotel_2": 75,
         "hotel_3": 75,
         "hospital": 175,
+        "urban_35_hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,
         "office_tower_large": 500,
@@ -906,10 +927,22 @@
       "base_temperature": 6.5,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
-      "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

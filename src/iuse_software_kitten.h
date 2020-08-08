@@ -16,7 +16,7 @@ struct kobject {
     int character;
 };
 
-#define MAXMESSAGES 1200
+static constexpr int MAXMESSAGES = 1200;
 
 class robot_finds_kitten
 {
@@ -42,7 +42,7 @@ class robot_finds_kitten
         int nummessages;
         int bogus_messages[MAXMESSAGES];
 
-        enum class ui_state {
+        enum class ui_state : int {
             instructions,
             main,
             invalid_input,

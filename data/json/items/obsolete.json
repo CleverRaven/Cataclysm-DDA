@@ -9,7 +9,7 @@
     "description": "A large, heavy-duty leaf spring.  Probably from some car or truck, and looks an awful lot like a bow.  You can barely bend it…",
     "price": 5000,
     "price_postapoc": 500,
-    "material": "steel",
+    "material": [ "steel" ],
     "weight": "8440 g",
     "volume": "5 L"
   },
@@ -99,7 +99,7 @@
     "description": "Rifling a shotgun barrel is mainly done in order to improve its accuracy when firing slugs.  The rifling makes the gun less suitable for shot, however.",
     "weight": "226 g",
     "volume": "500 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 22000,
     "to_hit": 1,
     "bashing": 3,
@@ -119,7 +119,7 @@
     "description": "An improved blowback mechanism makes your firearm's automatic fire faster, at the cost of reduced accuracy and increased noise.",
     "weight": "114 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 70000,
     "material": [ "steel" ],
     "symbol": ":",
@@ -138,7 +138,7 @@
     "description": "A simple mechanism that converts a pistol to a selective fire weapon with a burst size of three rounds.  However it reduces accuracy and increases noise.",
     "weight": "113 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 65000,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
@@ -179,9 +179,9 @@
     "description": "Replacing several key parts of a 9x19mm, .38, .40, 5.7mm, 4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 32000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -199,9 +199,9 @@
     "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": "114 g",
     "volume": "500 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 50000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -219,9 +219,9 @@
     "description": "This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to the popular and powerful .308 caliber.  The conversion results in reduced ammo capacity and a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "500 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 52000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -239,9 +239,9 @@
     "description": "Replacing several key parts of a 9x19mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "226 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 48000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -259,9 +259,9 @@
     "description": "A conversion kit produced by Heckler and Koch, used to convert .22, 9x19mm, or .38 firearms to their proprietary 4.6x30mm, a round designed for accuracy and armor penetration.",
     "weight": "114 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 46000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -279,9 +279,9 @@
     "description": "A conversion kit produced by FN Herstal, used to convert .22, 9x19mm, or .38 firearms to their proprietary 5.7x28mm, a round designed for accuracy and armor penetration.",
     "weight": "114 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 46000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -299,9 +299,9 @@
     "description": "Replacing several key parts of a 9x18mm, .38, .40, .44 or .45 firearm converts it to a 9x19mm firearm.  The conversion results in a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 42000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "bore",
@@ -321,7 +321,7 @@
     "volume": "750 ml",
     "integral_volume": "250 ml",
     "price": 32000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "magazine",
@@ -351,7 +351,7 @@
     "description": "A set of finely tuned internal components which increase the precision and reliably of a firearm.",
     "weight": "120 g",
     "volume": "250 ml",
-    "integral_volume": 0,
+    "integral_volume": "0 ml",
     "price": 2500,
     "material": [ "steel", "superalloy" ],
     "symbol": ":",
@@ -372,14 +372,14 @@
     "weight": "451 g",
     "volume": "500 ml",
     "price": 16000,
-    "material": "steel",
+    "material": [ "steel" ],
     "range": -2,
     "dispersion": 300,
     "durability": 8,
     "clip_size": 100,
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 }, "watertight": true } ]
   },
   {
     "type": "effect_type",
@@ -422,7 +422,15 @@
     "dispersion": 600,
     "durability": 6,
     "relative": { "reload": 2 },
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "aux_pressurized_tank", "pressurized_tank" ]
+      }
+    ]
   },
   {
     "id": "bio_advreactor",
@@ -511,7 +519,7 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 95,
     "encumbrance": 22,
     "warmth": 20,
@@ -533,7 +541,7 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "LEGS", "TORSO" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 95,
     "encumbrance": 24,
     "warmth": 20,
@@ -554,7 +562,7 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "HANDS" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 95,
     "encumbrance": 15,
     "warmth": 20,
@@ -576,7 +584,7 @@
     "material": [ "bone" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
+    "covers": [ "head", "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 10,
@@ -948,7 +956,7 @@
     "price": 0,
     "to_hit": -1,
     "bashing": 2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
@@ -1054,8 +1062,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1081,8 +1088,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1109,8 +1115,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1135,8 +1140,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -1221,7 +1225,7 @@
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
-    "material": "steel",
+    "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",
@@ -1244,7 +1248,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": 200000,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
@@ -1258,7 +1262,7 @@
     "price": 0,
     "to_hit": -1,
     "bashing": 4,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "dark_gray",
     "pocket_data": [
@@ -1271,7 +1275,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1367,13 +1371,13 @@
     "to_hit": 1,
     "bashing": 6,
     "cutting": 20,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firemachete_on",
@@ -1399,7 +1403,7 @@
     "to_hit": 1,
     "bashing": 6,
     "cutting": 20,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
     "ammo": [ "gasoline" ],
@@ -1434,7 +1438,7 @@
     "price": 98000,
     "bashing": 4,
     "cutting": 31,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
@@ -1463,7 +1467,7 @@
     "price": 98000,
     "bashing": 4,
     "cutting": 31,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
     "ammo": [ "gasoline" ],
@@ -1496,13 +1500,13 @@
     "to_hit": 1,
     "bashing": 8,
     "cutting": 35,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "broadfire_on",
@@ -1547,7 +1551,7 @@
     "price": 160000,
     "bashing": 17,
     "cutting": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
@@ -1577,7 +1581,7 @@
     "price": 160000,
     "bashing": 17,
     "cutting": 40,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
     "ammo": [ "gasoline" ],
@@ -1688,7 +1692,7 @@
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
@@ -1712,7 +1716,7 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 100,
     "encumbrance": 50,
     "warmth": 15,
@@ -1736,7 +1740,7 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
@@ -1768,12 +1772,11 @@
     "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
-    "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "223": 5 } } ]
   },
   {
     "id": "223_speedloader5",
@@ -1783,7 +1786,7 @@
     "weight": "116 g",
     "volume": "250 ml",
     "price": 3200,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "223" ],
@@ -1800,7 +1803,7 @@
     "volume": "250 ml",
     "integral_volume": "250 ml",
     "price": 48000,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "green",
     "location": "magazine",
@@ -1856,9 +1859,17 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
-    "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ]
+    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "aux_pressurized_tank" ]
+      }
+    ]
   },
   {
     "type": "recipe",
@@ -1962,11 +1973,11 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
-    "use_action": "SOLARPACK",
+    "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
@@ -1983,11 +1994,11 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,
-    "use_action": "SOLARPACK_OFF",
+    "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },
@@ -2209,39 +2220,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 1 } } ]
   },
   {
-    "id": "coilgun",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "coilgun" },
-    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
-    "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
-    "weight": "3341 g",
-    "volume": "2750 ml",
-    "price": 75000,
-    "price_postapoc": 5000,
-    "to_hit": -2,
-    "bashing": 10,
-    "material": [ "copper", "steel" ],
-    "ammo": [ "nail" ],
-    "skill": "rifle",
-    "range": 12,
-    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
-    "dispersion": 180,
-    "durability": 5,
-    "ups_charges": 5,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ]
-  },
-  {
     "id": "nailrifle",
     "copy-from": "nailgun",
     "looks_like": "ar15",
@@ -2263,28 +2241,17 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "nail", [ "nailmag" ] ] ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
-    "proportional": { "price": 3, "dispersion": 0.5 }
-  },
-  {
-    "id": "nailmag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "nail rifle magazine" },
-    "description": "An improvised magazine for use with a nail rifle.  Little more than a tin can, spring and some duct tape it is awkward to reload and not especially reliable.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 1920,
-    "material": "steel",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "nail" ],
-    "capacity": 50,
-    "reliability": 6,
-    "reload_time": 300,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 50 } } ]
+    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "proportional": { "price": 3, "dispersion": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "nailmag" ]
+      }
+    ]
   },
   {
     "id": "recipe_mininuke_launch",
@@ -2313,7 +2280,7 @@
     "symbol": "*",
     "color": "green",
     "description": "A heavily modified handheld nuclear device on a rocket.  Intended to be fired from a specialized launcher, it has been rigged to explode on impact instead of on a timer.  It can fly further than the explosion will reach, probably.",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "volume": "97 L",
     "weight": "34500 g",
     "bashing": 8,
@@ -2397,7 +2364,7 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 7,
     "warmth": 15,
@@ -2421,7 +2388,7 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 15,
     "warmth": 15,
@@ -2445,7 +2412,7 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 25,
     "warmth": 15,
@@ -2469,7 +2436,7 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 12,
     "warmth": 15,
@@ -2493,7 +2460,7 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 15,
@@ -2517,7 +2484,7 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 15,
     "warmth": 15,
@@ -2633,12 +2600,15 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "use_action": [ "ROBOTCONTROL" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -2662,7 +2632,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 7,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -2678,6 +2648,112 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ak74mag", "rpk74mag" ]
+      }
+    ]
+  },
+  {
+    "id": "bot_laserturret",
+    "type": "TOOL",
+    "name": { "str": "inactive laser turret" },
+    "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": 600000,
+    "price_postapoc": 12000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_laserturret",
+      "difficulty": 6,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "id": "cerberus_laser",
+    "type": "GENERIC",
+    "symbol": "(",
+    "color": "magenta",
+    "name": { "str": "TX-5LR Laser Cannon" },
+    "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
+    "price": 5000000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "5000 g",
+    "volume": "750 ml",
+    "category": "spare_parts"
+  },
+  {
+    "id": "laser_cannon",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "handheld laser cannon" },
+    "description": "This is a laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.",
+    "weight": "5140 g",
+    "volume": "1500 ml",
+    "price": 400000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
+    "dispersion": 90,
+    "durability": 7,
+    "loudness": 8,
+    "ups_charges": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_plate",
+    "symbol": "]",
+    "color": "white",
+    "name": { "str": "bone armor kit" },
+    "description": "Bone plating made for a vehicle.",
+    "price": 1200,
+    "price_postapoc": 100,
+    "material": [ "bone" ],
+    "weight": "4000 g",
+    "volume": "9500 ml",
+    "bashing": 8,
+    "to_hit": -4,
+    "category": "veh_parts"
   }
 ]

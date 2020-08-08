@@ -9,6 +9,7 @@
     "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "weight": "750 g",
     "volume": "700 ml",
+    "longest_side": "475 mm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -34,7 +35,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 2 } } ]
   },
   {
     "id": "cop_38",
@@ -45,6 +46,7 @@
     "description": "A small, chubby derringer pistol bearing a slight resemblance to the Mossberg Brownie.  It uses a rotating firing pin to fire the individual hammers of the four barrels arranged in a square formation.",
     "weight": "800 g",
     "volume": "399 ml",
+    "longest_side": "162 mm",
     "price": 120000,
     "price_postapoc": 1000,
     "to_hit": -1,
@@ -68,7 +70,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 4, "38": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357mag": 4, "38": 4 } } ]
   },
   {
     "id": "model_10_revolver",
@@ -79,6 +81,7 @@
     "description": "A six-shot revolver, produced since 1899 and known as the most popular handgun of the 20th century.  It has a swing-out cylinder for ease of reloading.",
     "weight": "975 g",
     "volume": "402 ml",
+    "longest_side": "252 mm",
     "price": 42400,
     "price_postapoc": 1250,
     "to_hit": -2,
@@ -90,8 +93,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "38", [ "38_speedloader6" ] ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 6 } } ]
   },
   {
     "id": "rifle_38",
@@ -102,6 +104,7 @@
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -117,7 +120,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -130,7 +133,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "38": 1 } } ]
   },
   {
     "id": "ruger_lcr_38",
@@ -141,6 +144,7 @@
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "weight": "382 g",
     "volume": "321 ml",
+    "longest_side": "191 mm",
     "price": 54500,
     "price_postapoc": 1000,
     "to_hit": -2,
@@ -154,7 +158,6 @@
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -166,7 +169,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "38": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "38": 5 } } ]
   },
   {
     "id": "sw_619",
@@ -177,6 +180,7 @@
     "description": "A seven-round .38 revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
     "weight": "1074 g",
     "volume": "608 ml",
+    "longest_side": "278 mm",
     "price": 62000,
     "price_postapoc": 1250,
     "to_hit": -2,
@@ -189,7 +193,6 @@
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 7,
-    "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -201,6 +204,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357mag": 7, "38": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "357mag": 7, "38": 7 } } ]
   }
 ]

@@ -5,45 +5,50 @@
 #include <climits>
 #include <map>
 #include <set>
-#include <unordered_map>
-#include <vector>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
-#include "anatomy.h"
 #include "bodypart.h"
 #include "damage.h"
-#include "pimpl.h"
-#include "string_formatter.h"
-#include "translations.h"
-#include "type_id.h"
-#include "units.h"
 #include "debug.h"
 #include "enums.h"
+#include "location.h"
+#include "pimpl.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units_fwd.h"
+#include "viewer.h"
+
+class monster;
 
 enum game_message_type : int;
-class nc_color;
 class effect;
 class effects_map;
+class nc_color;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class avatar;
 class Character;
-class field;
-class field_entry;
 class JsonObject;
 class JsonOut;
-struct tripoint;
-class time_duration;
+class anatomy;
+class avatar;
+class field;
+class field_entry;
 class player;
+class time_duration;
 struct point;
+struct tripoint;
 
 enum damage_type : int;
 enum m_flag : int;
-enum hp_part : int;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
@@ -51,26 +56,162 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum m_size : int {
-    MS_TINY = 1,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
+using anatomy_id = string_id<anatomy>;
+
+enum class creature_size : int {
+    // Keep it starting at 1 - damage done to monsters depends on it
+    // Squirrel
+    tiny = 1,
+    // Dog
+    small,
+    // Human
+    medium,
+    // Cow
+    large,
+    // TAAAANK
+    huge,
+    // must always be at the end, is actually number + 1 since we start counting at 1
+    num_sizes
 };
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
+
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
+
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
-class Creature
+class Creature : public location, public viewer
 {
     public:
-        virtual ~Creature();
+        ~Creature() override;
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -110,8 +251,14 @@ class Creature
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
+            return nullptr;
+        }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -144,11 +291,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**
@@ -182,8 +329,8 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
+        bool sees( const Creature &critter ) const override;
+        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**
@@ -325,44 +472,47 @@ class Creature
          */
         void check_dead_state();
 
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
-        virtual const tripoint &pos() const = 0;
-
-        virtual void setpos( const tripoint &pos ) = 0;
-
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                                 bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                         bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
+                         int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                             const time_duration &dur,
-                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+        bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                             const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
                              bool force = false );
-        /** Removes a listed effect. bp = num_bp means to remove all effects of
+        bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                             const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
+        /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
+        bool remove_effect( const efftype_id &eff_id );
         /** Remove all effects. */
         void clear_effects();
-        /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
+        /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
-        bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        bool has_effect( const efftype_id &eff_id ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        bool has_effect_with_flag( const std::string &flag ) const;
+        std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
         /** Return the effect that matches the given arguments exactly. */
-        const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        const effect &get_effect( const efftype_id &eff_id,
+                                  const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
+        effect &get_effect( const efftype_id &eff_id, const bodypart_id &bp = bodypart_id( "bp_null" ) );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
-        time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        time_duration get_effect_dur( const efftype_id &eff_id,
+                                      const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        int get_effect_int( const efftype_id &eff_id,
+                            const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
         /** Returns true if the creature resists an effect */
         bool resists_effect( const effect &e );
 
@@ -428,11 +578,11 @@ class Creature
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
-        virtual int get_hp( hp_part bp ) const = 0;
-        virtual int get_hp() const = 0;
-        virtual int get_hp_max( hp_part bp ) const = 0;
-        virtual int get_hp_max() const = 0;
+        virtual creature_size get_size() const = 0;
+        virtual int get_hp( const bodypart_id &bp ) const;
+        virtual int get_hp() const;
+        virtual int get_hp_max( const bodypart_id &bp ) const;
+        virtual int get_hp_max() const;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
@@ -451,16 +601,81 @@ class Creature
             return false;
         }
 
+    private:
+        /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        /**this is the actual body of the creature*/
+        std::map<bodypart_str_id, bodypart> body;
+    public:
         anatomy_id get_anatomy() const;
-        void set_anatomy( anatomy_id anat );
+        void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
-         * Returns body parts in order in which they should be displayed.
+         * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+
+        std::map<bodypart_str_id, bodypart> get_body() const;
+        void set_body();
+        void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+        // Does not fire debug message if part does not exist
+        bool has_part( const bodypart_id &id ) const;
+        // A debug message will be fired if part does not exist.
+        // Check with has_part first if a part may not exist.
+        bodypart *get_part( const bodypart_id &id );
+        const bodypart *get_part( const bodypart_id &id ) const;
+
+        int get_part_hp_cur( const bodypart_id &id ) const;
+        int get_part_hp_max( const bodypart_id &id ) const;
+
+        int get_part_healed_total( const bodypart_id &id ) const;
+        int get_part_damage_disinfected( const bodypart_id &id ) const;
+        int get_part_damage_bandaged( const bodypart_id &id ) const;
+        int get_part_drench_capacity( const bodypart_id &id ) const;
+        int get_part_wetness( const bodypart_id &id ) const;
+        int get_part_temp_cur( const bodypart_id &id ) const;
+        int get_part_temp_conv( const bodypart_id &id ) const;
+        int get_part_frostbite_timer( const bodypart_id &id )const;
+
+        float get_part_wetness_percentage( const bodypart_id &id ) const;
+
+        const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
+
+        void set_part_hp_cur( const bodypart_id &id, int set );
+        void set_part_hp_max( const bodypart_id &id, int set );
+        void set_part_healed_total( const bodypart_id &id, int set );
+        void set_part_damage_disinfected( const bodypart_id &id, int set );
+        void set_part_damage_bandaged( const bodypart_id &id, int set );
+
+        void set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set );
+
+        void set_part_wetness( const bodypart_id &id, int set );
+        void set_part_temp_cur( const bodypart_id &id, int set );
+        void set_part_temp_conv( const bodypart_id &id, int set );
+        void set_part_frostbite_timer( const bodypart_id &id, int set );
+
+        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        void mod_part_hp_max( const bodypart_id &id, int mod );
+        void mod_part_healed_total( const bodypart_id &id, int mod );
+        void mod_part_damage_disinfected( const bodypart_id &id, int mod );
+        void mod_part_damage_bandaged( const bodypart_id &id, int mod );
+        void mod_part_wetness( const bodypart_id &id, int mod );
+        void mod_part_temp_cur( const bodypart_id &id, int mod );
+        void mod_part_temp_conv( const bodypart_id &id, int mod );
+        void mod_part_frostbite_timer( const bodypart_id &id, int mod );
+
+        void set_all_parts_temp_cur( int set );
+        void set_all_parts_temp_conv( int set );
+        void set_all_parts_wetness( int set );
+        void set_all_parts_hp_cur( int set );
+        void set_all_parts_hp_to_max();
+
+        bool has_atleast_one_wet_part() const;
+        bool is_part_at_max_hp( const bodypart_id &id ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -477,7 +692,6 @@ class Creature
         virtual float get_cut_mult() const;
 
         virtual bool get_melee_quiet() const;
-        virtual int get_grab_resist() const;
         virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
@@ -515,7 +729,6 @@ class Creature
         virtual void set_cut_mult( float ncutmult );
 
         virtual void set_melee_quiet( bool nquiet );
-        virtual void set_grab_resist( int ngrabres );
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
@@ -769,32 +982,31 @@ class Creature
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int num_blocks; // base number of blocks/dodges per turn
-        int num_dodges;
-        int num_blocks_bonus; // bonus ""
-        int num_dodges_bonus;
+        int num_blocks = 0; // base number of blocks/dodges per turn
+        int num_dodges = 0;
+        int num_blocks_bonus = 0; // bonus ""
+        int num_dodges_bonus = 0;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
-        int armor_bullet_bonus;
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+        int armor_bash_bonus = 0;
+        int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
+        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
-        int speed_bonus;
-        float dodge_bonus;
-        int block_bonus;
-        float hit_bonus;
-        int bash_bonus;
-        int cut_bonus;
-        int size_bonus;
+        int speed_bonus = 0;
+        float dodge_bonus = 0.0f;
+        int block_bonus = 0;
+        float hit_bonus = 0.0f;
+        int bash_bonus = 0;
+        int cut_bonus = 0;
+        int size_bonus = 0;
 
-        float bash_mult;
-        float cut_mult;
-        bool melee_quiet;
+        float bash_mult = 0.0f;
+        float cut_mult = 0.0f;
+        bool melee_quiet = false;
 
-        int grab_resist;
-        int throw_resist;
+        int throw_resist = 0;
 
-        bool fake;
+        bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;
@@ -803,7 +1015,7 @@ class Creature
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:

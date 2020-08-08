@@ -2,16 +2,21 @@
 #ifndef CATA_SRC_UI_H
 #define CATA_SRC_UI_H
 
+#include <functional>
 #include <initializer_list>
 #include <map>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "input.h"
 #include "memory_fast.h"
+#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
 
@@ -89,6 +94,13 @@ struct uilist_entry {
     uilist_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
         enabled( E ), hotkey( K ), txt( T ),
         hotkey_color( H ), text_color( C ) {}
+    template<typename Enum, typename... Args,
+             typename = std::enable_if_t<std::is_enum<Enum>::value>>
+    uilist_entry( Enum e, Args && ... args ) :
+        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+    {}
+
+    inclusive_rectangle<point> drawn_rect;
 };
 
 /**
@@ -105,7 +117,7 @@ struct uilist_entry {
  *   void refresh( uilist *menu ) {
  *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
  *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
- *           wrefresh( menu->window );
+ *           wnoutrefresh( menu->window );
  *       }
  *   }
  * }
@@ -192,12 +204,6 @@ class uilist // NOLINT(cata-xy)
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
         uilist( const std::string &msg, std::initializer_list<const char *const> opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts );
-        uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts );
 
         ~uilist();
 
@@ -240,7 +246,6 @@ class uilist // NOLINT(cata-xy)
         operator int() const;
 
     private:
-        int scroll_amount_from_key( int key );
         int scroll_amount_from_action( const std::string &action );
         void apply_scrollbar();
         // This function assumes it's being called from `query` and should
@@ -273,7 +278,7 @@ class uilist // NOLINT(cata-xy)
         size_scalar w_width_setup;
         size_scalar w_height_setup;
 
-        int textwidth;
+        int textwidth = 0;
 
         size_scalar pad_left_setup;
         size_scalar pad_right_setup;
@@ -282,11 +287,11 @@ class uilist // NOLINT(cata-xy)
         // This only serves as a hint, not a hard limit, so the number of lines
         // may still exceed this value when for example the description text is
         // long enough.
-        int desc_lines_hint;
-        bool desc_enabled;
+        int desc_lines_hint = 0;
+        bool desc_enabled = false;
 
-        bool filtering;
-        bool filtering_nocase;
+        bool filtering = false;
+        bool filtering_nocase = false;
 
         // return on selecting disabled entry, default false
         bool allow_disabled = false;
@@ -308,13 +313,13 @@ class uilist // NOLINT(cata-xy)
         std::vector<std::string> textformatted;
 
         catacurses::window window;
-        int w_x;
-        int w_y;
-        int w_width;
-        int w_height;
+        int w_x = 0;
+        int w_y = 0;
+        int w_width = 0;
+        int w_height = 0;
 
-        int pad_left;
-        int pad_right;
+        int pad_left = 0;
+        int pad_right = 0;
 
         int vshift = 0;
 
@@ -329,23 +334,24 @@ class uilist // NOLINT(cata-xy)
         std::unique_ptr<string_input_popup> filter_popup;
         std::string filter;
 
-        int max_entry_len;
-        int max_column_len;
+        int max_entry_len = 0;
+        int max_column_len = 0;
 
         int vmax = 0;
 
-        int desc_lines;
+        int desc_lines = 0;
 
         bool started = false;
+
+        uilist_entry *find_entry_by_coordinate( const point &p );
 
     public:
         // Results
         // TODO change to getters
         std::string ret_act;
-        int ret;
-        int keypress;
-
-        int selected;
+        int ret = 0;
+        int keypress = 0;
+        int selected = 0;
 };
 
 /**
@@ -355,13 +361,13 @@ class uilist // NOLINT(cata-xy)
 class pointmenu_cb : public uilist_callback
 {
     private:
-        const std::vector< tripoint > &points;
-        int last; // to suppress redrawing
-        tripoint last_view; // to reposition the view after selecting
+        struct impl_t;
+
+        pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override;
-        void refresh( uilist *menu ) override;
+        void select( uilist *menu ) override;
 };
 
 #endif // CATA_SRC_UI_H

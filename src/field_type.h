@@ -18,15 +18,14 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
+#include "int_id.h"
 #include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
-
-enum phase_id : int;
-enum body_part : int;
 
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
@@ -86,7 +85,7 @@ struct field_effect {
         return message_npc.translated();
     }
     effect get_effect( const time_point &start_time = calendar::turn ) const {
-        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
+        return effect( &id.obj(), get_duration(), convert_bp( bp ), false, intensity, start_time );
     }
 };
 
@@ -159,12 +158,15 @@ struct field_type {
 
         int priority = 0;
         time_duration half_life = 0_turns;
-        phase_id phase = PNULL;
+        phase_id phase = phase_id::PNULL;
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        bool legacy_make_rubble = false;
         field_type_id wandering_field;
         std::string looks_like;
+
+        bool decrease_intensity_on_contact = false;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
@@ -271,6 +273,7 @@ field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 extern field_type_id fd_null,
        fd_blood,
        fd_bile,
+       fd_extinguisher,
        fd_gibs_flesh,
        fd_gibs_veggy,
        fd_web,
@@ -279,7 +282,6 @@ extern field_type_id fd_null,
        fd_sap,
        fd_sludge,
        fd_fire,
-       fd_rubble,
        fd_smoke,
        fd_toxic_gas,
        fd_tear_gas,
@@ -294,17 +296,12 @@ extern field_type_id fd_null,
        fd_acid_vent,
        fd_plasma,
        fd_laser,
-       fd_spotlight,
        fd_dazzling,
        fd_blood_veggy,
        fd_blood_insect,
        fd_blood_invertebrate,
        fd_gibs_insect,
        fd_gibs_invertebrate,
-       fd_cigsmoke,
-       fd_weedsmoke,
-       fd_cracksmoke,
-       fd_methsmoke,
        fd_bees,
        fd_incendiary,
        fd_relax_gas,

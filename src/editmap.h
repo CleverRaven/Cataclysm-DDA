@@ -4,24 +4,26 @@
 
 #include <functional>
 #include <map>
-#include <vector>
+#include <memory>
 #include <string>
+#include <vector>
 
-#include "optional.h"
 #include "color.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
-struct real_coords;
 class Creature;
 class field;
+class map;
+class tinymap;
 class ui_adaptor;
 class uilist;
 class vehicle;
-class map;
-class tinymap;
+struct real_coords;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -63,8 +65,8 @@ class editmap
         void edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
-        vehicle *mapgen_veh_query( const tripoint &omt_tgt );
-        bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
+        vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
+        bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );
         void mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 
@@ -109,6 +111,15 @@ class editmap
         const int infoHeight = 20;
 
         point tmax;
+
+        void draw_main_ui_overlay();
+        void do_ui_invalidation();
+
+        // work around the limitation that you can't forward declare an inner class
+        class game_draw_callback_t_container;
+
+        std::unique_ptr<game_draw_callback_t_container> draw_cb_container_;
+        game_draw_callback_t_container &draw_cb_container();
 };
 
 #endif // CATA_SRC_EDITMAP_H

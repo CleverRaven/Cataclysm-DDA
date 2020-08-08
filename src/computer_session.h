@@ -34,6 +34,13 @@ class computer_session
          *  the main system security. */
         bool hack_attempt( player &p, int Security = -1 );
 
+        /**
+         * Checks whether the specified action can be activated (has any effect)
+         * @return True for actions that either have an effect or require no special conditions,
+                   otherwise false (e.g. false for COMPACT_UNLOCK if no locked doors are in range).
+        */
+        bool can_activate( computer_action action );
+
         // Called by use()
         void activate_function( computer_action action );
         // ...but we can also choose a specific failure.
@@ -62,7 +69,7 @@ class computer_session
         template<typename ...Args>
         void print_text( const std::string &text, Args &&... args );
         // Prints a line and waits for Y/N/Q
-        enum class ynq {
+        enum class ynq : int {
             yes,
             no,
             quit,

@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include "avatar.h"
 #include "game.h"
 #include "magic.h"
 
-#include "catch/catch.hpp"
 #include "player_helpers.h"
 #include "map_helpers.h"
 
@@ -22,7 +23,6 @@
 //
 // All these test cases use spells from data/mods/TEST_DATA/magic.json, to have predictable data
 // unaffected by in-game balance and mods.
-
 
 // Spell name
 // ----------
@@ -51,7 +51,6 @@ TEST_CASE( "spell name", "[magic][spell][name]" )
     CHECK( kiss_spell.name() == "Kiss the Owie" );
     CHECK( montage_spell.name() == "Sports Training Montage" );
 }
-
 
 // Spell level
 // -----------
@@ -99,7 +98,7 @@ TEST_CASE( "spell level", "[magic][spell][level]" )
 }
 
 // Return experience points needed to level up a spell, starting at from_level
-static int spell_xp_to_next_level( const spell_id sp_id, const int from_level )
+static int spell_xp_to_next_level( const spell_id &sp_id, const int from_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( from_level );
@@ -223,7 +222,7 @@ TEST_CASE( "experience to gain spell levels", "[magic][spell][level][xp]" )
 // spell::damage
 
 // Return spell damage at a given level
-static int spell_damage( const spell_id sp_id, const int spell_level )
+static int spell_damage( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -275,7 +274,7 @@ TEST_CASE( "spell damage", "[magic][spell][damage]" )
 // spell::duration_string
 
 // Return spell duration at a given level
-static std::string spell_duration_string( const spell_id sp_id, const int spell_level )
+static std::string spell_duration_string( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -341,7 +340,7 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
 // spell::range
 
 // Return spell range at a given level
-static int spell_range( const spell_id sp_id, const int spell_level )
+static int spell_range( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -395,7 +394,7 @@ TEST_CASE( "spell range", "[magic][spell][range]" )
 // spell::aoe
 
 // Return spell AOE at a given level
-static int spell_aoe( const spell_id sp_id, const int spell_level )
+static int spell_aoe( const spell_id &sp_id, const int spell_level )
 {
     spell test_spell( sp_id );
     test_spell.set_level( spell_level );
@@ -467,7 +466,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     int after_hp = 0;
 
     // Avatar/spellcaster
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
     REQUIRE( dummy.pos() == dummy_loc );
@@ -496,7 +495,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     REQUIRE( pew_spell.range() >= 2 );
 
     // Ensure avatar has enough mana to cast
-    REQUIRE( dummy.magic.has_enough_energy( dummy, pew_spell ) );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, pew_spell ) );
 
     // Cast the spell and measure the defender's change in HP
     before_hp = mummy.get_hp();
@@ -516,7 +515,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
     const tripoint dummy_loc = { 60, 60, 0 };
     const tripoint mummy_loc = { 61, 60, 0 };
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
     REQUIRE( dummy.pos() == dummy_loc );
@@ -526,7 +525,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
     spell_id mummy_id( "test_spell_tp_mummy" );
 
     spell mummy_spell( mummy_id );
-    REQUIRE( dummy.magic.has_enough_energy( dummy, mummy_spell ) );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, mummy_spell ) );
 
     // Summon the mummy in the adjacent space
     mummy_spell.cast_spell_effect( dummy, mummy_loc );
@@ -555,7 +554,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
     // For that, "target_attack" with a negative damage is used.
 
     // Yer a wizard, ya dummy
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
     clear_map();
 
@@ -568,7 +567,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.effect_str == "STAMINA" );
         // at the cost of a substantial amount of mana
         REQUIRE( montage_type.base_energy_cost == 800 );
-        REQUIRE( montage_type.energy_source == mana_energy );
+        REQUIRE( montage_type.energy_source == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
         REQUIRE( montage_type.min_damage == 1000 );

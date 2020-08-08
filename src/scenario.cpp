@@ -1,7 +1,8 @@
 #include "scenario.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -10,13 +11,13 @@
 #include "mission.h"
 #include "mutation.h"
 #include "profession.h"
-#include "translations.h"
 #include "rng.h"
 #include "start_location.h"
+#include "translations.h"
 
 namespace
 {
-generic_factory<scenario> all_scenarios( "scenario", "ident" );
+generic_factory<scenario> all_scenarios( "scenario" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
@@ -141,7 +142,7 @@ void scenario::check_definitions()
 
 static void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
-    for( auto &t : traits ) {
+    for( const auto &t : traits ) {
         if( !t.is_valid() ) {
             debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
         }
@@ -150,7 +151,7 @@ static void check_traits( const std::set<trait_id> &traits, const string_id<scen
 
 void scenario::check_definition() const
 {
-    for( auto &p : professions ) {
+    for( const auto &p : professions ) {
         if( !p.is_valid() ) {
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
         }
@@ -161,7 +162,7 @@ void scenario::check_definition() const
         debugmsg( "Duplicate entries in the professions array." );
     }
 
-    for( auto &l : _allowed_locs ) {
+    for( const start_location_id &l : _allowed_locs ) {
         if( !l.is_valid() ) {
             debugmsg( "starting location %s for scenario %s does not exist", l.c_str(), id.c_str() );
         }
@@ -180,7 +181,7 @@ void scenario::check_definition() const
     check_traits( _forbidden_traits, id );
     MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
 
-    for( auto &m : _missions ) {
+    for( const auto &m : _missions ) {
         if( !m.is_valid() ) {
             debugmsg( "starting mission %s for scenario %s does not exist", m.c_str(), id.c_str() );
         }
@@ -339,7 +340,7 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
 
 bool scenario::scenario_traits_conflict_with_profession_traits( const profession &p ) const
 {
-    for( auto &pt : p.get_forbidden_traits() ) {
+    for( const auto &pt : p.get_forbidden_traits() ) {
         if( is_locked_trait( pt ) ) {
             return true;
         }
@@ -354,7 +355,7 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for( auto &st : get_locked_traits() ) {
+    for( const auto &st : get_locked_traits() ) {
         for( auto &pt : p.get_locked_traits() ) {
             if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
                 return true;
@@ -394,7 +395,6 @@ std::string scenario::start_name() const
 {
     return _start_name.translated();
 }
-
 
 int scenario::start_location_count() const
 {
@@ -443,7 +443,7 @@ bool scenario::has_flag( const std::string &flag ) const
 
 bool scenario::allowed_start( const start_location_id &loc ) const
 {
-    auto &vec = _allowed_locs;
+    const auto &vec = _allowed_locs;
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <climits>
 #include <memory>
 #include <set>
@@ -5,7 +7,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -20,7 +21,7 @@
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -36,12 +37,12 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     bool success = gun.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
     REQUIRE( success );
-    REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
+    REQUIRE( gun.remaining_ammo_capacity() == 0 );
 }
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -61,20 +62,20 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     bool speedloader_success = speedloader.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
     REQUIRE( speedloader_success );
-    REQUIRE( speedloader.ammo_remaining() == speedloader.ammo_capacity() );
+    REQUIRE( speedloader.remaining_ammo_capacity() == 0 );
 
     bool success = gun.reload( dummy, item_location( dummy, &speedloader ),
                                speedloader.ammo_remaining() );
 
     REQUIRE( success );
-    REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
+    REQUIRE( gun.remaining_ammo_capacity() == 0 );
     // Speedloader is still in inventory.
     REQUIRE( dummy.has_item( speedloader ) );
 }
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -90,9 +91,9 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
     item gun( "glock_19" );
-    gun.put_in( mag, item_pocket::pocket_type::MAGAZINE );
+    gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
     REQUIRE( gun.magazine_current() != nullptr );
-    REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
+    REQUIRE( gun.magazine_current()->ammo_types().count( ammo_type->type ) != 0 );
     dummy.i_add( gun );
 
     const std::vector<item *> guns = dummy.items_with( []( const item & it ) {
@@ -103,7 +104,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( glock.magazine_current() != nullptr );
     // We're expecting the magazine to end up in the inventory.
     item_location glock_loc( dummy, &glock );
-    REQUIRE( g->unload( glock_loc ) );
+    REQUIRE( dummy.unload( glock_loc ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
         return it.typeId() == itype_id( "glockmag" );
     } );
@@ -116,7 +117,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     bool magazine_success = magazine.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
 
     REQUIRE( magazine_success );
-    REQUIRE( magazine.ammo_remaining() == magazine.ammo_capacity() );
+    REQUIRE( magazine.remaining_ammo_capacity() == 0 );
 
     REQUIRE( gun.ammo_remaining() == 0 );
     REQUIRE( gun.magazine_integral() == false );
@@ -124,7 +125,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     bool gun_success = gun.reload( dummy, item_location( dummy, &magazine ), 1 );
 
     CHECK( gun_success );
-    REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
+    REQUIRE( gun.remaining_ammo_capacity() == 0 );
 }
 
 static void reload_a_revolver( player &dummy, item &gun, item &ammo )
@@ -137,7 +138,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
         }
         dummy.wield( gun );
     }
-    while( dummy.weapon.ammo_remaining() < dummy.weapon.ammo_capacity() ) {
+    while( dummy.weapon.remaining_ammo_capacity() > 0 ) {
         g->reload_weapon( false );
         REQUIRE( dummy.activity );
         process_activity( dummy );
@@ -150,7 +151,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P

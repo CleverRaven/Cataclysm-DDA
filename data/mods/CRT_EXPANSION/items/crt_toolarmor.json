@@ -22,7 +22,7 @@
     "material": [ "plastic", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "EYES", "MOUTH" ],
+    "covers": [ "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 50,
     "warmth": 20,
@@ -59,11 +59,20 @@
     "material": [ "plastic", "kevlar" ],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "EYES", "MOUTH" ],
+    "covers": [ "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 75,
-    "artifact_data": { "charge_type": "ARTC_SOLAR", "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN" ] },
+    "//": "Legacy artifact data is set for all stats +2 except INT charge_type solar",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "PERCEPTION", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ]
+        }
+      ]
+    },
     "material_thickness": 5,
     "environmental_protection": 20,
     "qualities": [ [ "GLARE", 2 ] ],
@@ -98,7 +107,7 @@
     "material": [ "kevlar", "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "max_charges": 300,
     "initial_charges": 300,
     "charges_per_use": 1,
@@ -110,7 +119,7 @@
       "need_charges": 1,
       "need_charges_msg": "Power levels too low for safe bootup…"
     },
-    "artifact_data": { "charge_type": "ARTC_SOLAR" },
+    "//": "Artifact data is charge_type solar",
     "coverage": 85,
     "encumbrance": 50,
     "pocket_data": [
@@ -136,7 +145,7 @@
     "material": [ "kevlar", "superalloy" ],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "TORSO", "LEGS", "ARMS" ],
+    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
     "coverage": 100,
     "encumbrance": 5,
     "pocket_data": [
@@ -151,7 +160,16 @@
     "turns_per_charge": 1,
     "revert_to": "crt_em_vest",
     "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "CRIT EM powering off…", "target": "crt_em_vest" },
-    "artifact_data": { "charge_type": "ARTC_SOLAR", "effects_worn": [ "AEP_ALL_UP", "AEP_INT_DOWN", "AEP_PER_DOWN", "AEP_SPEED_UP" ] },
+    "//": "Legacy artifact data is set for str +2 and speed up",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 20 } ]
+        }
+      ]
+    },
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -226,10 +244,10 @@
     "name": "CRIT canteen",
     "description": "A durable steel canteen that can heat up food with built in atomic heating elements.",
     "color": "dark_gray",
-    "material": "hardsteel",
+    "material": [ "hardsteel" ],
     "material_thickness": 1,
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "bandana_wet",
@@ -243,7 +261,7 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "coverage": 95,
     "encumbrance": 7,
     "warmth": 0,

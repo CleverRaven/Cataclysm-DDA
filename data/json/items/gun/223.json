@@ -6,8 +6,9 @@
     "type": "GUN",
     "name": { "str": "Remington ACR" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
-    "weight": "3590 g",
-    "volume": "2 L",
+    "weight": "3719 g",
+    "volume": "3310 ml",
+    "longest_side": "938 mm",
     "price": 234300,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -21,12 +22,15 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -41,7 +45,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -51,8 +55,9 @@
     "name": { "str": "AR-15" },
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
-    "weight": "3500 g",
-    "volume": "2 L",
+    "weight": "3170 g",
+    "volume": "3100 ml",
+    "longest_side": "930 mm",
     "price": 125000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -64,10 +69,13 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -82,7 +90,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -94,6 +102,7 @@
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
     "weight": "2267 g",
     "volume": "1758 ml",
+    "longest_side": "584 mm",
     "price": 91400,
     "price_postapoc": 3500,
     "to_hit": -2,
@@ -102,22 +111,60 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
+    "skill": "pistol",
     "range": -6,
     "ranged_damage": { "damage_type": "bullet", "amount": -9 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "famas",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str_sp": "MAS 223" },
+    "name": { "str_sp": "MAS .223" },
     "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
-    "weight": "3800 g",
-    "volume": "4162 ml",
+    "weight": "3610 g",
+    "volume": "3429 ml",
+    "longest_side": "759 mm",
     "price": 2800000,
     "to_hit": -1,
     "bashing": 12,
@@ -144,7 +191,15 @@
       [ "underbarrel mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "famasmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "famasmag" ]
+      }
+    ]
   },
   {
     "id": "fs2000",
@@ -155,6 +210,7 @@
     "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
     "weight": "3319 g",
     "volume": "7986 ml",
+    "longest_side": "740 mm",
     "price": 125000,
     "to_hit": -1,
     "bashing": 12,
@@ -167,7 +223,6 @@
     "durability": 9,
     "min_cycle_recoil": 1350,
     "default_mods": [ "factory_handguard" ],
-    "magazines": [ [ "223", [ "stanag30" ] ] ],
     "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -177,6 +232,15 @@
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30" ]
+      }
     ]
   },
   {
@@ -188,7 +252,8 @@
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
     "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
     "weight": "3490 g",
-    "volume": "1750 ml",
+    "volume": "4957 ml",
+    "longest_side": "798 mm",
     "price": 540000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -202,10 +267,13 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -220,7 +288,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -231,7 +299,8 @@
     "name": { "str": "H&K G36" },
     "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
     "weight": "3630 g",
-    "volume": "2500 ml",
+    "volume": "4640 ml",
+    "longest_side": "1004 mm",
     "price": 210000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -244,7 +313,15 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "223", [ "g36mag_30rd", "g36mag_100rd" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ]
+      }
+    ]
   },
   {
     "id": "m249",
@@ -253,8 +330,9 @@
     "type": "GUN",
     "name": { "str": "M249" },
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
-    "weight": "7330 g",
-    "volume": "3 L",
+    "weight": "7500 g",
+    "volume": "10610 ml",
+    "longest_side": "1035 mm",
     "price": 750000,
     "price_postapoc": 8000,
     "to_hit": -1,
@@ -282,10 +360,13 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "belt223",
           "stanag30",
           "stanag5",
@@ -301,7 +382,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -320,10 +401,14 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": "3710 g",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -338,9 +423,8 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
-    ],
-    "relative": { "ranged_damage": { "damage_type": "bullet", "amount": 1 }, "durability": 1 }
+      }
+    ]
   },
   {
     "id": "m4a1",
@@ -349,8 +433,9 @@
     "type": "GUN",
     "name": { "str": "M4A1" },
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
-    "weight": "3160 g",
-    "volume": "1750 ml",
+    "weight": "2880 g",
+    "volume": "3310 ml",
+    "longest_side": "758 mm",
     "price": 240000,
     "price_postapoc": 5000,
     "to_hit": -1,
@@ -364,10 +449,13 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -382,7 +470,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -392,8 +480,9 @@
     "type": "GUN",
     "name": { "str": "M16A4" },
     "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
-    "weight": "3510 g",
-    "volume": "1750 ml",
+    "weight": "3260 g",
+    "volume": "5030 ml",
+    "longest_side": "1003 mm",
     "price": 240000,
     "price_postapoc": 5000,
     "to_hit": -1,
@@ -406,10 +495,13 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -424,7 +516,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -436,6 +528,7 @@
     "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
     "weight": "2023 g",
     "volume": "2135 ml",
+    "longest_side": "456 mm",
     "price": 125000,
     "price_postapoc": 5500,
     "to_hit": -2,
@@ -444,52 +537,49 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
+    "skill": "pistol",
     "range": -6,
     "ranged_damage": { "damage_type": "bullet", "amount": -11 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
-  },
-  {
-    "id": "rifle_223",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "pipe rifle: .223", "str_pl": "pipe rifles: .223" },
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": "4080 g",
-    "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "223" ],
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 2 ],
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
       [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 1 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   },
   {
     "id": "ruger_mini",
@@ -499,7 +589,8 @@
     "name": { "str": "Ruger Mini-14" },
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "weight": "3180 g",
-    "volume": "2 L",
+    "volume": "2900 ml",
+    "longest_side": "977 mm",
     "price": 92100,
     "price_postapoc": 3750,
     "to_hit": -1,
@@ -512,7 +603,7 @@
     "dispersion": 100,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -527,7 +618,15 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "scar_l",
@@ -536,8 +635,9 @@
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
-    "weight": "3300 g",
-    "volume": "2250 ml",
+    "weight": "3500 g",
+    "volume": "4970 ml",
+    "longest_side": "850 mm",
     "price": 280000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -551,10 +651,13 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -569,7 +672,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -579,8 +682,9 @@
     "type": "GUN",
     "name": { "str": "SIG 552" },
     "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
-    "weight": "3000 g",
-    "volume": "1750 ml",
+    "weight": "3200 g",
+    "volume": "2950 ml",
+    "longest_side": "741 mm",
     "price": 320000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -592,10 +696,13 @@
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [
-        "223",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "stanag30",
           "stanag5",
           "stanag10",
@@ -610,7 +717,7 @@
           "stanag150",
           "survivor223mag"
         ]
-      ]
+      }
     ]
   },
   {
@@ -621,7 +728,8 @@
     "name": { "str": "Steyr AUG" },
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
     "weight": "3500 g",
-    "volume": "1500 ml",
+    "volume": "3520 ml",
+    "longest_side": "715 mm",
     "price": 490000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -649,63 +757,14 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] ] ]
-  },
-  {
-    "id": "surv_carbine_223",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "handmade carbine" },
-    "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised lever-action carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
-    "weight": "1950 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 2750,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 32,
-    "loudness": 25,
-    "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ],
-    "magazines": [
-      [
-        "223",
-        [
-          "survivor223mag",
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150"
-        ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+      }
     ]
   }
 ]

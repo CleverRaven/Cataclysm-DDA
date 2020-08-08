@@ -7,7 +7,8 @@
     "name": { "str_sp": "FN FAL" },
     "description": "Originally designed during the Cold War, the FN FAL is probably the most successful battle rifle ever designed.  Even though often labeled as obsolete, its high rate of fire and powerful ammunition make it perfectly capable of holding its ground against modern competitors.",
     "weight": "4250 g",
-    "volume": "2 L",
+    "volume": "4511 ml",
+    "longest_side": "1090 mm",
     "price": 350000,
     "price_postapoc": 5500,
     "to_hit": -1,
@@ -21,8 +22,16 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "500 ml",
-    "magazines": [ [ "308", [ "falmag", "falbigmag", "fal_makeshiftmag" ] ] ]
+    "barrel_volume": "500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "falmag", "falbigmag", "fal_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "hk_g3",
@@ -32,7 +41,8 @@
     "name": { "str_sp": "H&K G3" },
     "description": "An early battle rifle developed after the end of WWII.  The G3 is designed to unload large amounts of deadly ammunition, but it is less suitable over long ranges.",
     "weight": "4380 g",
-    "volume": "2 L",
+    "volume": "3724 ml",
+    "longest_side": "1025 mm",
     "price": 205000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -46,7 +56,15 @@
     "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "308", [ "g3mag", "g3bigmag", "g3_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g3mag", "g3bigmag", "g3_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m134",
@@ -56,12 +74,13 @@
     "name": { "str": "M134D-H Minigun" },
     "description": "The M134D-H Minigun is a (relatively) lightweight heavy rotary machine gun.  Its six barrels are rotated by an electric motor, powered by UPS or vehicle.  If you could find enough ammo for it, it would become a devastating weapon.  It must be mounted on a vehicle before use.",
     "weight": "19770 g",
-    "volume": "6 L",
+    "volume": "8300 ml",
+    "longest_side": "800 mm",
     "price": 5500000,
     "price_postapoc": 10000,
     "to_hit": -4,
     "bashing": 18,
-    "material": "hardsteel",
+    "material": [ "hardsteel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "308" ],
@@ -75,8 +94,16 @@
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazines": [ [ "308", [ "belt308" ] ] ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
     "id": "m14ebr",
@@ -85,6 +112,8 @@
     "name": { "str_sp": "M14 EBR-RI" },
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": "5070 g",
+    "volume": "3672 ml",
+    "longest_side": "889 mm",
     "price": 195000,
     "price_postapoc": 6500,
     "material": [ "steel", "plastic" ],
@@ -112,7 +141,8 @@
     "name": { "str_sp": "M1A" },
     "description": "The child of the M1 Garand World War 2 rifle, the M1A is a semi-automatic variant of the M14, favored for its accuracy and modular use.",
     "weight": "4230 g",
-    "volume": "2250 ml",
+    "volume": "3970 ml",
+    "longest_side": "1126 mm",
     "price": 130000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -125,7 +155,7 @@
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -140,7 +170,15 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag", "m14_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m14mag", "m14smallmag", "m14_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m240",
@@ -149,8 +187,9 @@
     "type": "GUN",
     "name": { "str": "M240" },
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
-    "weight": "12400 g",
-    "volume": "3 L",
+    "weight": "12500 g",
+    "volume": "11780 ml",
+    "longest_side": "1260 mm",
     "price": 1000000,
     "price_postapoc": 7500,
     "to_hit": -1,
@@ -178,7 +217,15 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
     "id": "m60",
@@ -188,7 +235,8 @@
     "name": { "str": "M60" },
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
     "weight": "10500 g",
-    "volume": "3 L",
+    "volume": "10900 ml",
+    "longest_side": "1105 mm",
     "price": 1000000,
     "price_postapoc": 7500,
     "to_hit": -1,
@@ -217,7 +265,15 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "belt308" ]
+      }
+    ]
   },
   {
     "id": "m60_semi",
@@ -228,54 +284,15 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
-    "id": "rifle_308",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "handmade heavy carbine" },
-    "//": "It's amongst the smallest of the .308 firearms, and a scrap weapon as well. This means a short handmade barrel, and considerable loss of energy.",
-    "description": "A homemade lever-action magazine-fed smoothbore rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as being able to accept G3 compatible magazines, and chambering the more powerful .308 rounds.",
-    "weight": "2311 g",
-    "volume": "2 L",
-    "price": 10000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "308" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "reload": 200,
-    "barrel_length": "500 ml",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "stock", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "magazines": [ [ "308", [ "g3_makeshiftmag", "g3mag", "g3bigmag" ] ] ]
-  },
-  {
     "id": "savage_111f",
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "Savage 111F" },
     "description": "A very accurate rifle chambered for the powerful .308 round.  Its very low ammo capacity is offset by its accuracy and near-complete lack of recoil.",
-    "weight": "2993 g",
-    "volume": "3 L",
+    "weight": "3630 g",
+    "volume": "2875 ml",
+    "longest_side": "1041 mm",
     "price": 53000,
     "price_postapoc": 4250,
     "to_hit": -1,
@@ -288,9 +305,9 @@
     "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ]
   },
   {
     "id": "scar_h",
@@ -299,11 +316,21 @@
     "type": "GUN",
     "name": { "str_sp": "FN SCAR-H" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
-    "weight": "3640 g",
+    "weight": "3630 g",
+    "volume": "5427 ml",
+    "longest_side": "906 mm",
     "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "scarhmag", "scarhbigmag", "scarhmag_30rd", "scarh_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "M24",
@@ -314,6 +341,7 @@
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4990 g",
     "volume": "4084 ml",
+    "longest_side": "992 mm",
     "price": 350000,
     "price_postapoc": 4500,
     "to_hit": -1,
@@ -325,7 +353,7 @@
     "dispersion": 85,
     "durability": 9,
     "min_cycle_recoil": 2700,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "default_mods": [ "rifle_scope", "bipod" ],
     "clip_size": 5,
     "valid_mod_locations": [
@@ -343,7 +371,7 @@
       [ "underbarrel", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ]
   },
   {
     "id": "hk417_13",
@@ -353,7 +381,8 @@
     "name": { "str": "HK417 A2" },
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
     "weight": "4220 g",
-    "volume": "1750 ml",
+    "volume": "4000 ml",
+    "longest_side": "914 mm",
     "price": 320000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -368,7 +397,15 @@
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "adjustable_stock" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m110a1",
@@ -377,8 +414,9 @@
     "type": "GUN",
     "name": { "str": "M110A1" },
     "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
-    "weight": "4330 g",
-    "volume": "2 L",
+    "weight": "3800 g",
+    "volume": "4000 ml",
+    "longest_side": "1028 mm",
     "price": 320000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -392,7 +430,15 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
-    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "ar10",
@@ -402,7 +448,8 @@
     "name": { "str": "AR-10" },
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
     "weight": "3290 g",
-    "volume": "2 L",
+    "volume": "4250 ml",
+    "longest_side": "1050 mm",
     "price": 120000,
     "price_postapoc": 5500,
     "to_hit": -1,
@@ -415,6 +462,14 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 2700,
-    "magazines": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ar10mag_20rd", "ar10_makeshiftmag" ]
+      }
+    ]
   }
 ]

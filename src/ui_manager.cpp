@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "cursesdef.h"
+#include "game.h"
+#include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
 
@@ -39,28 +41,34 @@ ui_adaptor::~ui_adaptor()
 
 void ui_adaptor::position_from_window( const catacurses::window &win )
 {
-    const rectangle old_dimensions = dimensions;
-    // ensure position is updated before calling invalidate
+    if( !win ) {
+        position( point_zero, point_zero );
+    } else {
+        const rectangle<point> old_dimensions = dimensions;
+        // ensure position is updated before calling invalidate
 #ifdef TILES
-    const window_dimensions dim = get_window_dimensions( win );
-    dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
+        const window_dimensions dim = get_window_dimensions( win );
+        dimensions = rectangle<point>(
+                         dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
 #else
-    const point origin( getbegx( win ), getbegy( win ) );
-    dimensions = rectangle( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
+        const point origin( getbegx( win ), getbegy( win ) );
+        dimensions = rectangle<point>( origin, origin + point( getmaxx( win ), getmaxy( win ) ) );
 #endif
-    invalidated = true;
-    ui_manager::invalidate( old_dimensions );
+        invalidated = true;
+        ui_manager::invalidate( old_dimensions );
+    }
 }
 
 void ui_adaptor::position( const point &topleft, const point &size )
 {
-    const rectangle old_dimensions = dimensions;
+    const rectangle<point> old_dimensions = dimensions;
     // ensure position is updated before calling invalidate
 #ifdef TILES
     const window_dimensions dim = get_window_dimensions( topleft, size );
-    dimensions = rectangle( dim.window_pos_pixel, dim.window_pos_pixel + dim.window_size_pixel );
+    dimensions = rectangle<point>( dim.window_pos_pixel,
+                                   dim.window_pos_pixel + dim.window_size_pixel );
 #else
-    dimensions = rectangle( topleft, topleft + size );
+    dimensions = rectangle<point>( topleft, topleft + size );
 #endif
     invalidated = true;
     ui_manager::invalidate( old_dimensions );
@@ -81,13 +89,13 @@ void ui_adaptor::mark_resize() const
     deferred_resize = true;
 }
 
-static bool contains( const rectangle &lhs, const rectangle &rhs )
+static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
 }
 
-static bool overlap( const rectangle &lhs, const rectangle &rhs )
+static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return lhs.p_min.x < rhs.p_max.x && lhs.p_min.y < rhs.p_max.y &&
            rhs.p_min.x < lhs.p_max.x && rhs.p_min.y < lhs.p_max.y;
@@ -157,7 +165,7 @@ void ui_adaptor::reset()
     position( point_zero, point_zero );
 }
 
-void ui_adaptor::invalidate( const rectangle &rect )
+void ui_adaptor::invalidate( const rectangle<point> &rect )
 {
     if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
         return;
@@ -174,15 +182,27 @@ void ui_adaptor::invalidate( const rectangle &rect )
 
 void ui_adaptor::redraw()
 {
+    if( !ui_stack.empty() ) {
+        ui_stack.back().get().invalidated = true;
+    }
+    redraw_invalidated();
+}
+
+void ui_adaptor::redraw_invalidated()
+{
+    if( test_mode ) {
+        return;
+    }
+    ui_stack_t ui_stack_copy = ui_stack;
     // apply deferred resizing
-    auto first = ui_stack.rbegin();
-    for( ; first != ui_stack.rend(); ++first ) {
+    auto first = ui_stack_copy.rbegin();
+    for( ; first != ui_stack_copy.rend(); ++first ) {
         if( first->get().disabling_uis_below ) {
             break;
         }
     }
-    for( auto it = first == ui_stack.rend() ? ui_stack.begin() : std::prev( first.base() );
-         it != ui_stack.end(); ++it ) {
+    for( auto it = first == ui_stack_copy.rend() ? ui_stack_copy.begin() : std::prev( first.base() );
+         it != ui_stack_copy.end(); ++it ) {
         ui_adaptor &ui = *it;
         if( ui.deferred_resize ) {
             if( ui.screen_resized_cb ) {
@@ -191,19 +211,19 @@ void ui_adaptor::redraw()
             ui.deferred_resize = false;
         }
     }
+    reinitialize_framebuffer();
 
     // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn
-    if( !ui_stack.empty() ) {
-        ui_stack.back().get().invalidated = true;
-        auto first = ui_stack.crbegin();
-        for( ; first != ui_stack.crend(); ++first ) {
+    if( !ui_stack_copy.empty() ) {
+        auto first = ui_stack_copy.crbegin();
+        for( ; first != ui_stack_copy.crend(); ++first ) {
             if( first->get().disabling_uis_below ) {
                 break;
             }
         }
-        for( auto it = first == ui_stack.crend() ? ui_stack.cbegin() : std::prev( first.base() );
-             it != ui_stack.cend(); ++it ) {
+        for( auto it = first == ui_stack_copy.crend() ? ui_stack_copy.cbegin() : std::prev( first.base() );
+             it != ui_stack_copy.cend(); ++it ) {
             const ui_adaptor &ui = *it;
             if( ui.invalidated ) {
                 if( ui.redraw_cb ) {
@@ -231,14 +251,14 @@ background_pane::background_pane()
     ui.position_from_window( catacurses::stdscr );
     ui.on_redraw( []( const ui_adaptor & ) {
         catacurses::erase();
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 }
 
 namespace ui_manager
 {
 
-void invalidate( const rectangle &rect )
+void invalidate( const rectangle<point> &rect )
 {
     ui_adaptor::invalidate( rect );
 }
@@ -246,6 +266,11 @@ void invalidate( const rectangle &rect )
 void redraw()
 {
     ui_adaptor::redraw();
+}
+
+void redraw_invalidated()
+{
+    ui_adaptor::redraw_invalidated();
 }
 
 void screen_resized()

@@ -45,7 +45,12 @@
       { "part": "ARM_R", "neutral": 2 },
       { "part": "TORSO", "neutral": 4 }
     ],
-    "armor": [ { "parts": "ALL", "cut": 1 } ]
+    "armor": [
+      {
+        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "cut": 1
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -128,7 +133,12 @@
     "types": [ "SKIN" ],
     "changes_to": [ "MASTODON_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
-    "armor": [ { "parts": "ALL", "bash": 2 } ]
+    "armor": [
+      {
+        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "bash": 2
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -144,7 +154,12 @@
     "types": [ "SKIN" ],
     "prereqs": [ "MEDIUMFUR" ],
     "threshreq": [ "THRESH_MASTODON" ],
-    "armor": [ { "parts": "ALL", "bash": 4 } ]
+    "armor": [
+      {
+        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "bash": 4
+      }
+    ]
   },
   {
     "type": "mutation",

@@ -117,7 +117,7 @@ void help::draw_menu( const catacurses::window &win )
                         c_white, c_light_blue, cat_name );
     }
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string help::get_note_colors()
@@ -150,6 +150,7 @@ void help::display_help()
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
+    ctxt = input_context( "default", keyboard_mode::keychar );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -160,7 +161,7 @@ void help::display_help()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
-        wrefresh( w_help_border );
+        wnoutrefresh( w_help_border );
         draw_menu( w_help );
     } );
 

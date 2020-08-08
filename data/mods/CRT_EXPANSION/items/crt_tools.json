@@ -18,8 +18,8 @@
     "max_charges": 75,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "artifact_data": { "charge_type": "ARTC_SOLAR" },
-    "use_action": "HOTPLATE"
+    "//": "Legacy artifact data is set charge solar",
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "knife_crt",
@@ -37,7 +37,7 @@
     "to_hit": 2,
     "symbol": ";",
     "qualities": [ [ "PRY", 1 ], [ "CUT", 1 ], [ "CUT_FINE", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "flags": [ "SHEATH_KNIFE", "UNARMED_WEAPON", "STAB", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_2", "UHAND", "PROD" ]
   },
@@ -66,7 +66,16 @@
     "description": "CRIT melee weapon.  Alien runes adorn the carbon steel blade.  The blade oddly seems to lack sharpness, and yet upon closer oberservation, a hum of energy thrums from within.",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
-    "artifact_data": { "charge_type": "ARTC_NULL", "effects_wielded": [ "AEP_DEX_UP", "AEP_SPEED_UP", "AEP_SPEED_UP" ] },
+    "//": "Legacy artifact data is set for always on wield dex +2 and speed up times 2",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "SPEED", "add": 40 }, { "value": "DEXTERITY", "add": 2 } ]
+        }
+      ]
+    },
     "weight": "2500 g",
     "volume": "2500 ml",
     "price": 20000000,
@@ -86,24 +95,26 @@
     "description": "C.R.I.T R&D's masterpiece weapon.  Alien runes adorn the ridiculously oversized carbon steel blade and a hum of energy thrums from within.  Merely brushing your fingers over the weapon brings a feeling of invincibility.  It looks more like a raw heap of iron than a sword.  The thing is… can you wield it?",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
-    "artifact_data": {
-      "charge_type": "ARTC_NULL",
-      "effects_wielded": [
-        "AEP_ALL_UP",
-        "AEP_STR_UP",
-        "AEP_STR_UP",
-        "AEP_CARRY_MORE",
-        "AEP_SPEED_UP",
-        "AEP_SPEED_UP",
-        "AEP_SPEED_UP",
-        "AEP_SPEED_UP",
-        "AEP_SPEED_UP",
-        "AEP_SPEED_UP",
-        "AEP_RESIST_ELECTRICITY",
-        "AEP_SAP_LIFE"
+    "//": "Legacy artifact data was set for all stats +2 Str +6, carry_more, speed up x6, resist electricity, sap hp",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 6 },
+            { "value": "SPEED", "add": 60 },
+            { "value": "ATTACK_SPEED", "add": -60 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 },
+            { "value": "ARMOR_ELEC", "add": -20 }
+          ],
+          "hit_you_effect": [ { "id": "sword_healing", "hit_self": true } ]
+        }
       ]
     },
-    "weight": "50 kg",
+    "weight": "12 kg",
     "volume": "5 L",
     "price": 20000000,
     "cutting": 80,
@@ -111,7 +122,7 @@
     "to_hit": 5,
     "symbol": ";",
     "qualities": [ [ "PRY", 2 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "flags": [ "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_3", "tec_feint", "tec_counter", "BERSERK", "DSBI", "DSINERTIAL" ]
   },

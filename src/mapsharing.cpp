@@ -4,8 +4,8 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "cata_utility.h"
 #include "filesystem.h"
+#include "ofstream_wrapper.h"
 
 #if defined(__linux__)
 #include <unistd.h>
@@ -134,13 +134,15 @@ void ofstream_wrapper::close()
         return;
     }
 
-    if( file_stream.fail() ) {
+    file_stream.flush();
+    bool failed = file_stream.fail();
+    file_stream.close();
+    if( failed ) {
         // Remove the incomplete or otherwise faulty file (if possible).
         // Failures from it are ignored as we can't really do anything about them.
         remove_file( temp_path );
         throw std::runtime_error( "writing to file failed" );
     }
-    file_stream.close();
     if( !rename_file( temp_path, path ) ) {
         // Leave the temp path, so the user can move it if possible.
         throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );

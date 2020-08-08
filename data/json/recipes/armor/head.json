@@ -134,8 +134,8 @@
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
       [
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_plastic_small", 1 ],
         [ "sippy_cup", 1 ],
@@ -145,8 +145,8 @@
         [ "flask_hip", 1 ]
       ],
       [
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_plastic_small", 1 ],
         [ "sippy_cup", 1 ],
@@ -642,7 +642,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
+      [ [ "2x4", 1 ], [ "stick", 1 ], [ "bone_sturdy", 1, "LIST" ] ]
     ]
   },
   {
@@ -1017,12 +1017,13 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "time": "6 m",
+    "time": "5 m",
     "autolearn": true,
+    "reversible": true,
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
       [ [ "flashlight", 1 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
     ]
   },
   {

@@ -14,13 +14,15 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_id.h"
+#include "translations.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 recipe_dictionary recipe_dict;
@@ -190,7 +192,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
-    for( const auto elem : recipes ) {
+    for( const recipe *elem : recipes ) {
         include( elem, src.get_custom_difficulty( elem ) );
     }
 }
@@ -244,7 +246,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         if( subcat.empty() ) {
             return false;
         } else {
-            for( auto &e : iter->second ) {
+            for( const recipe *e : iter->second ) {
                 if( e->subcategory == subcat ) {
                     return false;
                 }
@@ -423,8 +425,9 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
+            int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
+                      r.difficulty );
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 

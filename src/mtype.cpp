@@ -1,7 +1,7 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <cmath>
+#include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
@@ -10,7 +10,9 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -21,7 +23,7 @@ static const itype_id itype_meat_tainted( "meat_tainted" );
 static const itype_id itype_veggy( "veggy" );
 static const itype_id itype_veggy_tainted( "veggy_tainted" );
 
-static const species_id MOLLUSK( "MOLLUSK" );
+static const species_id species_MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
@@ -29,11 +31,11 @@ mtype::mtype()
     name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
-    size = MS_MEDIUM;
+    size = creature_size::medium;
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };
-    phase = SOLID;
+    phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
     half_life = -1;
@@ -141,7 +143,7 @@ std::vector<std::string> mtype::species_descriptions() const
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( auto &s : species_ptrs ) {
+    for( const species_type *s : species_ptrs ) {
         if( other.in_species( *s ) ) {
             return true;
         }
@@ -176,7 +178,7 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
-    if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
+    if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
     if( made_of( material_id( "veggy" ) ) ) {

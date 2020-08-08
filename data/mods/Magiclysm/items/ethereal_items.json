@@ -13,7 +13,7 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "covers": [ "HANDS", "ARMS" ],
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "coverage": 100,
       "encumbrance": 0,
       "warmth": 20,
@@ -51,7 +51,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HANDS", "ARMS" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 20,
@@ -74,7 +74,7 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -83,12 +83,12 @@
     "category": "tools",
     "name": "magic light",
     "description": "A small magical light that you can read by.",
-    "weight": 0,
-    "volume": 0,
+    "weight": "0 kg",
+    "volume": "0 L",
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -105,7 +105,8 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 70,
     "encumbrance": 15,
     "material_thickness": 3,
@@ -125,7 +126,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "FEET" ],
+    "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 30,
@@ -234,13 +235,13 @@
     "type": "ARMOR",
     "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
     "description": "A large pouch of tough flesh on your back, filled with tiny tentacles that grasp and hold anything you place inside.  It shifts and adjusts itself to minimize encumbrance.",
-    "weight": 0,
-    "volume": 0,
+    "weight": "0 kg",
+    "volume": "0 L",
     "price": 0,
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 40,
     "encumbrance": 5,
     "max_encumbrance": 10,
@@ -260,7 +261,6 @@
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
       "SPEAR",
-      "REACH2",
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",
       "ONLY_ONE",
@@ -339,7 +339,7 @@
     "color": "white",
     "initial_charges": 15,
     "max_charges": 15,
-    "use_action": "WATER_PURIFIER"
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "id": "obfuscating_aura",
@@ -351,7 +351,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },
@@ -365,7 +365,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
@@ -381,7 +381,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
@@ -398,7 +398,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 0,
@@ -417,7 +417,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 5,
@@ -447,7 +447,7 @@
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
-    "covers": [ "EYES", "MOUTH" ],
+    "covers": [ "eyes", "mouth" ],
     "encumbrance": 18,
     "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
     "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
@@ -462,7 +462,160 @@
     "symbol": "o",
     "color": "blue",
     "environmental_protection": 15,
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "thorns_electric",
+    "type": "ARMOR",
+    "name": "aura of repelling arc",
+    "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
+  },
+  {
+    "id": "aura_feral",
+    "type": "ARMOR",
+    "name": "feral aura",
+    "description": "The manifestion of your rage.  It won't disappear until you calm down.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 3 },
+            { "value": "DEXTERITY", "add": 3 },
+            { "value": "INTELLIGENCE", "add": -3 },
+            { "value": "PERCEPTION", "add": -3 }
+          ],
+          "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "flamesword",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "looks_like": "sword_wood",
+    "name": { "str": "flaming sword" },
+    "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
+    "material": [ "wood" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "LIGHT_10",
+      "FIRESTARTER",
+      "FIRE",
+      "TRADER_AVOID"
+    ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "weight": "900 g",
+    "volume": "1250 ml",
+    "longest_side": "100 cm",
+    "bashing": 12,
+    "cutting": 2,
+    "to_hit": 2,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ]
+    }
+  },
+  {
+    "id": "decaying_boneclub",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "looks_like": "bone",
+    "name": { "str": "decaying boneclub" },
+    "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
+    "material": [ "bone", "flesh" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "BELT_CLIP",
+      "TRADER_AVOID"
+    ],
+    "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
+    "weight": "700 g",
+    "volume": "800 ml",
+    "longest_side": "70 cm",
+    "bashing": 12,
+    "to_hit": 3,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ]
+    }
+  },
+  {
+    "id": "impactsling",
+    "looks_like": "sling",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": { "str": "impact sling" },
+    "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
+    "price": 150,
+    "material": [ "leather" ],
+    "flags": [
+      "NEVER_JAMS",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELT_CLIP",
+      "FIRE_TWOHAND",
+      "TRADER_AVOID",
+      "NO_AMMO",
+      "NO_UNLOAD",
+      "NO_REPAIR"
+    ],
+    "weight": "86 g",
+    "volume": "250 ml",
+    "skill": "throw",
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "ranged_damage": { "damage_type": "bash", "amount": 20 },
+    "range": 20,
+    "dispersion": 135,
+    "durability": 7,
+    "bashing": 4,
+    "reload_noise_volume": 3,
+    "loudness": 6
+  },
+  {
+    "id": "aura_caustic",
+    "type": "ARMOR",
+    "name": "acid aura",
+    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "caustic_aura_spell" } ],
+          "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
+        }
+      ]
+    }
   }
 ]

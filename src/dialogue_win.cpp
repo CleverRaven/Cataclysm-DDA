@@ -185,5 +185,5 @@ void dialogue_window::display_responses( const int hilight_lines,
     if( can_scroll_down ) {
         mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
     }
-    wrefresh( d_win );
+    wnoutrefresh( d_win );
 }

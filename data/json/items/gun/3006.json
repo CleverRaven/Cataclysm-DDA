@@ -6,8 +6,9 @@
     "reload_noise_volume": 10,
     "name": { "str_sp": "Browning BLR" },
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
-    "weight": "3300 g",
-    "volume": "3 L",
+    "weight": "3290 g",
+    "volume": "3610 ml",
+    "longest_side": "1106 mm",
     "price": 85000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -21,7 +22,7 @@
     "dispersion": 90,
     "durability": 7,
     "blackpowder_tolerance": 24,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -37,7 +38,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "magazines": [ [ "3006", [ "blrmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "blrmag" ]
+      }
+    ]
   },
   {
     "id": "garand",
@@ -47,7 +56,8 @@
     "name": { "str": "M1 Garand" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "weight": "4280 g",
-    "volume": "2500 ml",
+    "volume": "3160 ml",
+    "longest_side": "1107 mm",
     "price": 90000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -75,7 +85,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "3006", [ "garandclip" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "garandclip" ]
+      }
+    ]
   },
   {
     "id": "m1903",
@@ -85,7 +103,8 @@
     "name": { "str": "M1903 Springfield" },
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
     "weight": "3910 g",
-    "volume": "3 L",
+    "volume": "2840 ml",
+    "longest_side": "1102 mm",
     "price": 80000,
     "price_postapoc": 3250,
     "to_hit": -1,
@@ -97,7 +116,7 @@
     "durability": 8,
     "blackpowder_tolerance": 60,
     "clip_size": 5,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -112,9 +131,17 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } } ]
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "3006_clip" ]
+      }
+    ]
   },
   {
     "id": "m1918",
@@ -124,7 +151,8 @@
     "name": { "str": "Browning Automatic Rifle" },
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
     "weight": "8820 g",
-    "volume": "2500 ml",
+    "volume": "4450 ml",
+    "longest_side": "1216 mm",
     "price": 350000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -138,7 +166,7 @@
     "durability": 8,
     "min_cycle_recoil": 3420,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "barrel_length": "1000 ml",
+    "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -154,7 +182,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1918mag", "m1918bigmag" ]
+      }
+    ]
   },
   {
     "id": "remington_700",
@@ -163,8 +199,9 @@
     "type": "GUN",
     "name": { "str_sp": "Remington 700 .30-06" },
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
-    "weight": "3410 g",
-    "volume": "3 L",
+    "weight": "3350 g",
+    "volume": "3190 ml",
+    "longest_side": "1141 mm",
     "price": 87000,
     "price_postapoc": 3500,
     "to_hit": -1,
@@ -176,49 +213,8 @@
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
-  },
-  {
-    "id": "rifle_3006",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "pipe rifle: .30-06", "str_pl": "pipe rifles: .30-06" },
-    "//": "It's the same size as the others, but it's still a scrap weapon.",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": "4080 g",
-    "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "3006" ],
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": "1000 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
   }
 ]

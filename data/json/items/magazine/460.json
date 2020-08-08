@@ -8,14 +8,13 @@
     "volume": "500 ml",
     "price": 3720,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 10,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 10, "460": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 10, "460": 10 } } ]
   },
   {
     "id": "m1911mag",
@@ -23,16 +22,16 @@
     "name": { "str": "M1911 magazine" },
     "description": "A military issue 7-round magazine for use with the M1911 handgun.",
     "weight": "70 g",
-    "volume": "250 ml",
+    "volume": "61 ml",
+    "longest_side": "132 mm",
     "price": 2980,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 7,
-    "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 7, "460": 7 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 7, "460": 7 } } ]
   }
 ]

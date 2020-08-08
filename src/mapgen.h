@@ -3,12 +3,14 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
@@ -124,6 +126,10 @@ struct jmapgen_setmap {
      * on the same map
      **/
     bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+};
+
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
 };
 
 /**
@@ -262,7 +268,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, const shared_ptr_fast<const jmapgen_piece> &piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -270,7 +276,7 @@ struct jmapgen_objects {
          * them in @ref objects.
          */
         template<typename PieceType>
-        void load_objects( JsonArray parray );
+        void load_objects( const JsonArray &parray );
 
         /**
          * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
@@ -365,7 +371,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void setup();
         bool setup_update( const JsonObject &jo );
         void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint &omt_pos, const point &offset,
+        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
         bool update_map( mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;

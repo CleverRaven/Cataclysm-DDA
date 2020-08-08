@@ -4,13 +4,37 @@
 #include <sstream>
 #include <utility>
 
-#include "cata_utility.h"
+#include "debug.h"
+
+point point::from_string( const std::string &s )
+{
+    std::istringstream is( s );
+    point result;
+    is >> result;
+    if( !is ) {
+        debugmsg( "Could not convert string '" + s + "' to point" );
+        return point_zero;
+    }
+    return result;
+}
 
 std::string point::to_string() const
 {
     std::ostringstream os;
     os << *this;
     return os.str();
+}
+
+tripoint tripoint::from_string( const std::string &s )
+{
+    std::istringstream is( s );
+    tripoint result;
+    is >> result;
+    if( !is ) {
+        debugmsg( "Could not convert string '" + s + "' to tripoint" );
+        return tripoint_zero;
+    }
+    return result;
 }
 
 std::string tripoint::to_string() const
@@ -30,22 +54,28 @@ std::ostream &operator<<( std::ostream &os, const tripoint &pos )
     return os << "(" << pos.x << "," << pos.y << "," << pos.z << ")";
 }
 
-point clamp_half_open( const point &p, const rectangle &r )
+std::istream &operator>>( std::istream &is, point &pos )
 {
-    return point( clamp( p.x, r.p_min.x, r.p_max.x - 1 ), clamp( p.y, r.p_min.y, r.p_max.y - 1 ) );
+    char c;
+    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
+                                is.get( c ) &&c == ')';
+    return is;
 }
 
-point clamp_inclusive( const point &p, const rectangle &r )
+std::istream &operator>>( std::istream &is, tripoint &pos )
 {
-    return point( clamp( p.x, r.p_min.x, r.p_max.x ), clamp( p.y, r.p_min.y, r.p_max.y ) );
+    char c;
+    is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
+                                is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
+    return is;
 }
 
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist )
+std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
 {
-    return closest_tripoints_first( center, 0, max_dist );
+    return closest_points_first( center, 0, max_dist );
 }
 
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist )
+std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist )
 {
     const std::vector<point> points = closest_points_first( center.xy(), min_dist, max_dist );
 

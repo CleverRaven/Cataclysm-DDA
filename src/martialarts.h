@@ -12,9 +12,13 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "input.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+
+class input_context;
+struct input_event;
 
 enum damage_type : int;
 class Character;
@@ -145,7 +149,9 @@ class ma_buff
         void apply_character( Character &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
+        int block_effectiveness_bonus( const Character &u ) const;
         int hit_bonus( const Character &u ) const;
+        int critical_hit_chance_bonus( const Character &u ) const;
         int dodge_bonus( const Character &u ) const;
         int speed_bonus( const Character &u ) const;
         int block_bonus( const Character &u ) const;

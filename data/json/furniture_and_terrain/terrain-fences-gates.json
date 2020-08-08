@@ -424,7 +424,7 @@
       "str_max": 12,
       "sound": "metal rattling!",
       "sound_fail": "whack!",
-      "ter_set": "t_fence_post",
+      "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
   },
@@ -784,7 +784,7 @@
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
     }
   },
   {
@@ -945,6 +945,25 @@
         { "item": "scrap", "count": [ 5, 8 ] },
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_guardrail_hw_air",
+    "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "t_guardrail_bg_dp",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement_hw_air",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
     }
   },
   {

@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
 #define CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
 
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "cursesdef.h"
 #include "point.h"

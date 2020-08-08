@@ -10,6 +10,7 @@
 #include "inventory_ui.h"
 #include "item_location.h"
 
+class Character;
 struct tripoint;
 
 namespace cata
@@ -47,9 +48,9 @@ namespace inv
 item_location titled_menu( avatar &you, const std::string &title,
                            const std::string &none_message = "" );
 // item selector for items in @you's inventory with a filter
-item_location titled_filter_menu( item_filter filter, avatar &you,
+item_location titled_filter_menu( const item_filter &filter, avatar &you,
                                   const std::string &title, const std::string &none_message = "" );
-item_location titled_filter_menu( item_location_filter filter, avatar &you,
+item_location titled_filter_menu( const item_location_filter &filter, avatar &you,
                                   const std::string &title, const std::string &none_message = "" );
 
 /**
@@ -64,7 +65,7 @@ item_location titled_filter_menu( item_location_filter filter, avatar &you,
 /*@{*/
 
 void common( avatar &you );
-void common( item_location loc, avatar &you );
+void common( item_location &loc, avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
@@ -84,9 +85,10 @@ item_location consume_drink( player &p );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( player &p );
 /** Choosing a container for liquid. */
-item_location container_for( avatar &you, const item &liquid, int radius = 0 );
+item_location container_for( Character &you, const item &liquid, int radius = 0,
+                             const item *avoid = nullptr );
 /** Item disassembling menu. */
-item_location disassemble( player &p );
+item_location disassemble( Character &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
@@ -98,8 +100,8 @@ item_location use( avatar &you );
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */
-drop_locations holster( player &p, item_location holster );
-void insert_items( avatar &you, item_location holster );
+drop_locations holster( player &p, const item_location &holster );
+void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */

@@ -1,8 +1,11 @@
 #include "iuse_software_kitten.h"
 
+#include <algorithm>
 #include <cstdlib>  // Needed for rand()
+#include <ctime>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
@@ -10,9 +13,10 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-#define EMPTY (-1)
-#define ROBOT 0
-#define KITTEN 1
+static constexpr int EMPTY = -1;
+static constexpr int ROBOT = 0;
+static constexpr int KITTEN = 1;
+
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
     std::string rfimessages[MAXMESSAGES] = {
@@ -328,7 +332,7 @@ void robot_finds_kitten::show() const
     input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 
     draw_border( bkatwin );
-    wrefresh( bkatwin );
+    wnoutrefresh( bkatwin );
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
@@ -411,7 +415,7 @@ void robot_finds_kitten::show() const
         case ui_state::exit:
             break;
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void robot_finds_kitten::process_input()
@@ -455,8 +459,9 @@ void robot_finds_kitten::process_input()
                     check.x++;
                 }
 
-                constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
-                if( !bounds.contains_half_open( check ) ) {
+                constexpr half_open_rectangle<point> bounds(
+                    point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
+                if( !bounds.contains( check ) ) {
                     /* Can't move past edge */
                 } else if( rfkscreen[check.x][check.y] != EMPTY ) {
                     switch( rfkscreen[check.x][check.y] ) {

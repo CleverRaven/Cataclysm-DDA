@@ -1,8 +1,10 @@
 #if !(defined(TILES) || defined(_WIN32))
 
-// input.h must be include *before* the ncurses header. The later has some macro
+// input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
+#include "point.h"
+#include "translations.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -14,11 +16,13 @@
 #endif
 
 #include <langinfo.h>
+#include <memory>
 #include <stdexcept>
+#include <string>
 
-#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -37,6 +41,11 @@ catacurses::window catacurses::newwin( const int nlines, const int ncols, const 
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
+}
+
+void catacurses::wnoutrefresh( const window &win )
+{
+    return curses_check_result( ::wnoutrefresh( win.get<::WINDOW>() ), OK, "wnoutrefresh" );
 }
 
 void catacurses::wrefresh( const window &win )
@@ -109,6 +118,16 @@ void catacurses::wprintw( const window &win, const std::string &text )
 void catacurses::refresh()
 {
     return curses_check_result( ::refresh(), OK, "refresh" );
+}
+
+void refresh_display()
+{
+    catacurses::doupdate();
+}
+
+void catacurses::doupdate()
+{
+    return curses_check_result( ::doupdate(), OK, "doupdate" );
 }
 
 void catacurses::clear()
@@ -232,12 +251,16 @@ void catacurses::init_interface()
     init_colors();
 }
 
-input_event input_manager::get_input_event()
+// there isn't a portable way to get raw key code on curses,
+// ignoring preferred keyboard mode
+input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
     int key = ERR;
     input_event rval;
     do {
         previously_pressed_key = 0;
+        // flush any output
+        catacurses::doupdate();
         key = getch();
         if( key != ERR ) {
             int newch;
@@ -256,9 +279,9 @@ input_event input_manager::get_input_event()
         rval = input_event();
         if( key == ERR ) {
             if( input_timeout > 0 ) {
-                rval.type = CATA_INPUT_TIMEOUT;
+                rval.type = input_event_t::timeout;
             } else {
-                rval.type = CATA_INPUT_ERROR;
+                rval.type = input_event_t::error;
             }
             // ncurses mouse handling
         } else if( key == KEY_RESIZE ) {
@@ -266,7 +289,7 @@ input_event input_manager::get_input_event()
         } else if( key == KEY_MOUSE ) {
             MEVENT event;
             if( getmouse( &event ) == OK ) {
-                rval.type = CATA_INPUT_MOUSE;
+                rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
                     rval.add_input( MOUSE_BUTTON_LEFT );
@@ -279,17 +302,17 @@ input_event input_manager::get_input_event()
                         set_timeout( input_timeout );
                     }
                 } else {
-                    rval.type = CATA_INPUT_ERROR;
+                    rval.type = input_event_t::error;
                 }
             } else {
-                rval.type = CATA_INPUT_ERROR;
+                rval.type = input_event_t::error;
             }
         } else {
             if( key == 127 ) { // == Unicode DELETE
                 previously_pressed_key = KEY_BACKSPACE;
-                return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+                return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
             }
-            rval.type = CATA_INPUT_KEYBOARD;
+            rval.type = input_event_t::keyboard_char;
             rval.text.append( 1, static_cast<char>( key ) );
             // Read the UTF-8 sequence (if any)
             if( key < 127 ) {
@@ -307,7 +330,7 @@ input_event input_manager::get_input_event()
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, CATA_INPUT_KEYBOARD );
+                return input_event( key, input_event_t::keyboard_char );
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -316,7 +339,7 @@ input_event input_manager::get_input_event()
                 // Invalid UTF-8 sequence, this should never happen, what now?
                 // Maybe return any error instead?
                 previously_pressed_key = key;
-                return input_event( key, CATA_INPUT_KEYBOARD );
+                return input_event( key, input_event_t::keyboard_char );
             }
             previously_pressed_key = cp;
             // for compatibility only add the first byte, not the code point
@@ -331,7 +354,7 @@ input_event input_manager::get_input_event()
 void input_manager::set_timeout( const int delay )
 {
     timeout( delay );
-    // Use this to determine when curses should return a CATA_INPUT_TIMEOUT event.
+    // Use this to determine when curses should return a input_event_t::timeout event.
     input_timeout = delay;
 }
 

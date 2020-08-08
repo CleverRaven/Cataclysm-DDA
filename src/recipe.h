@@ -10,26 +10,59 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
+class JsonIn;
 class JsonObject;
 class item;
 class time_duration;
-class Character;
+template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
     none = 0,
     no_rotten = 1,
 };
 
-inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
-{
-    return static_cast<recipe_filter_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+enum class recipe_time_flag : int {
+    none = 0,
+    ignore_proficiencies = 1,
+};
+
+template<>
+struct enum_traits<recipe_time_flag> {
+    static constexpr bool is_flag_enum = true;
+};
+
+template<>
+struct enum_traits<recipe_filter_flags> {
+    static constexpr bool is_flag_enum = true;
+};
+
+struct recipe_proficiency {
+    proficiency_id id;
+    bool required = false;
+    float time_multiplier = 1.0f;
+    float fail_multiplier = 2.5f;
+    float learning_time_mult = 1.0f;
+    cata::optional<time_duration> max_experience = cata::nullopt;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+struct book_recipe_data {
+    int skill_req = -1;
+    cata::optional<translation> alt_name = cata::nullopt;
+    bool hidden = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
 
 class recipe
 {
@@ -37,6 +70,8 @@ class recipe
 
     private:
         itype_id result_ = itype_id::NULL_ID();
+
+        int time = 0; // in movement points (100 per turn)
 
     public:
         recipe();
@@ -56,7 +91,6 @@ class recipe
 
         translation description;
 
-        int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
         /** Fetch combined requirement data (inline and via "using" syntax).
@@ -106,10 +140,13 @@ class recipe
 
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        std::vector<recipe_proficiency> proficiencies;
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
-        std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        // Books containing this recipe, and the skill level required
+        std::map<itype_id, book_recipe_data> booksets;
+
         std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
@@ -124,10 +161,19 @@ class recipe
         // menu which includes the primary skill.
         std::string required_skills_string( const Character *, bool include_primary_skill,
                                             bool print_skill_level ) const;
+        // Format the proficiencies string.
+        std::string required_proficiencies_string( const Character &c ) const;
+        // Required proficiencies
+        std::set<proficiency_id> required_proficiencies() const;
+        //
+        bool character_has_required_proficiencies( const Character &c ) const;
+        // Helpful proficiencies
+        std::set<proficiency_id> assist_proficiencies() const;
+        // The time malus due to proficiencies lacking
+        float proficiency_maluses( const Character &guy ) const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
-
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -143,9 +189,14 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( int batch, float multiplier, size_t assistants ) const;
-        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
+        int batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
+
+        time_duration time_to_craft( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
+        int time_to_craft_moves( const Character &guy,
+                                 recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -190,6 +241,9 @@ class recipe
 
         /** Does the item spawn contained in container? */
         bool contained = false;
+
+        /** Does the container spawn sealed? */
+        bool sealed = true;
 
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;

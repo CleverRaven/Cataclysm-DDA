@@ -12,6 +12,30 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
+    "id": "bone_edible",
+    "type": "requirement",
+    "//": "Any kind of non-poisonous bones, human or not.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
+    "id": "bone_any",
+    "type": "requirement",
+    "//": "Any kind of bones.  May possibly be poisonous to eat, or fragile.",
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "id": "bone_meal_any",
+    "type": "requirement",
+    "//": "Any kind of bone meal, edible or not.  May possibly be poisonous to eat.",
+    "components": [ [ [ "meal_bone", 1 ], [ "meal_bone_tainted", 1 ] ] ]
+  },
+  {
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
@@ -118,6 +142,12 @@
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
     "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+  },
+  {
+    "id": "rope_any_short",
+    "type": "requirement",
+    "//": "Materials used for lashing, when any rope or wire is sensible, per 216 g/180 cm of rope.",
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "wire", 1 ] ] ]
   },
   {
     "id": "rope_superior",

@@ -6,9 +6,13 @@
     "items": [
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 15 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_29", "prob": 2, "charges-min": 0, "charges-max": 10 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 15 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 7 },
+      { "item": "m1911_10", "prob": 15, "charges-min": 0, "charges-max": 7 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 15 },
       { "item": "px4", "prob": 24, "charges-min": 0, "charges-max": 15 },
       { "item": "px4_40", "prob": 20, "charges-min": 0, "charges-max": 14 },
@@ -19,6 +23,7 @@
       { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 7 },
       { "item": "model_10_revolver", "prob": 20, "charges-min": 0, "charges-max": 6 },
       { "item": "taurus_spectrum", "prob": 15, "charges-min": 0, "charges-max": 6 },
+      { "item": "p220_10", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 14 },
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 7 },
@@ -35,7 +40,9 @@
       { "item": "hptcf380", "prob": 2, "charges-min": 0, "charges-max": 10 },
       { "item": "hptjcp", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "hptjhp", "prob": 1, "charges-min": 0, "charges-max": 9 },
+      { "item": "xd_10", "prob": 3, "charges-min": 0, "charges-max": 15 },
       { "item": "cz75", "prob": 18, "charges-min": 0, "charges-max": 26 },
+      { "item": "witness_10", "prob": 1, "charges-min": 0, "charges-max": 14 },
       { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 10 }
     ]
@@ -48,8 +55,11 @@
       { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_20", "prob": 4, "charges-min": 0, "charges-max": 0 },
+      { "item": "glock_40", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 0 },
+      { "item": "m1911_10", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sig_mosquito", "prob": 15, "charges-min": 0, "charges-max": 0 },
@@ -58,6 +68,7 @@
       { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "model_10_revolver", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "taurus_spectrum", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "p220_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -75,6 +86,8 @@
       { "item": "hptjcp", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "hptjhp", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "cz75", "prob": 18, "charges-min": 0, "charges-max": 0 },
+      { "item": "xd_10", "prob": 3, "charges-min": 0, "charges-max": 0 },
+      { "item": "witness_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 0 },
       { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 0 }
     ]
@@ -98,6 +111,7 @@
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 6 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
       { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 },
+      { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 30 }
     ]
   },
@@ -118,6 +132,7 @@
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 0 },
+      { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
@@ -151,7 +166,6 @@
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
@@ -244,6 +258,7 @@
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
       { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
+      { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
       { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
     ]
@@ -555,7 +570,8 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
+      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -588,6 +604,7 @@
       [ "m202_flash", 100 ],
       [ "m74_clip", 150 ],
       { "item": "m3_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
+      { "item": "m4_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
       { "item": "AT4", "prob": 50, "charges-min": 1, "charges-max": 1 },
       [ "84x246mm_he", 100 ],
       [ "84x246mm_hedp", 80 ],

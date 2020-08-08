@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <climits>
 #include <list>
 #include <memory>
@@ -6,8 +8,6 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "pimpl.h"
 #include "player.h"
@@ -48,14 +48,21 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
+    if( !it.magazine_default().is_null() ) {
+        item mag( it.magazine_default() );
+        mag.ammo_set( mag.ammo_default() );
+        it.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    } else if( !it.ammo_default().is_null() ) {
+        it.ammo_set( it.ammo_default() ); // fill
+    }
+
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_avatar();
 
     // one section failing shouldn't affect the rest
@@ -103,11 +110,17 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             test_consumable_charges( dummy, it, true, true );
         }
 
+        static const std::list<std::string> ammo_when_full = {
+            "light_battery_cell", // MAGAZINE, NO_UNLOAD
+        };
+        for( auto it : ammo_when_full ) {
+            test_consumable_ammo( dummy, it, false, true );
+        }
+
         static const std::list<std::string> never = {
             "flashlight",  // !is_magazine()
             "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off",     // NO_UNLOAD, !is_magazine()
-            "battery_car"  // NO_UNLOAD, is_magazine()
+            "UPS_off"     // NO_UNLOAD, !is_magazine()
         };
         for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );

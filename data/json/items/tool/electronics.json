@@ -3,7 +3,7 @@
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,
@@ -13,8 +13,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": [ "plutonium" ],
-    "max_charges": 2500,
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
     "flags": [ "IS_UPS" ]
   },
   {
@@ -32,11 +40,15 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CAMERA",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
@@ -45,7 +57,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -63,12 +75,16 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CAMERA",
+    "use_action": [ "CAMERA" ],
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
@@ -77,7 +93,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -103,10 +119,14 @@
       "type": "transform"
     },
     "flags": [ "WATCH", "ALARMCLOCK" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_minus_disposable_cell",
@@ -115,7 +135,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -135,13 +155,14 @@
     "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
     "weight": "454 g",
     "volume": "500 ml",
+    "longest_side": "60 cm",
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "use_action": "DIRECTIONAL_ANTENNA"
+    "use_action": [ "DIRECTIONAL_ANTENNA" ]
   },
   {
     "id": "e_handcuffs",
@@ -159,7 +180,7 @@
     "color": "white",
     "max_charges": 3000,
     "turns_per_charge": 1,
-    "use_action": "EHANDCUFFS",
+    "use_action": [ "EHANDCUFFS" ],
     "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
   {
@@ -169,20 +190,25 @@
     "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "weight": "250 g",
     "volume": "250 ml",
+    "longest_side": "25 cm",
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "EINKTABLETPC",
+    "use_action": [ "EINKTABLETPC" ],
     "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_plus_battery_cell",
           "light_battery_cell",
           "light_minus_battery_cell",
@@ -191,7 +217,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -207,13 +233,18 @@
     "to_hit": 1,
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "electrohack",
     "symbol": ",",
     "color": "green",
     "ammo": [ "battery" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -222,7 +253,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -240,11 +271,15 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "GEIGER",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "GEIGER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -253,7 +288,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -264,7 +299,7 @@
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
     "power_draw": 200,
     "revert_to": "geiger_off",
-    "use_action": "GEIGER",
+    "use_action": [ "GEIGER" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -277,15 +312,19 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 250,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": "HAND_CRANK",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "HAND_CRANK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "100 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -294,7 +333,7 @@
           "heavy_battery_cell",
           "heavy_plus_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -308,6 +347,7 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "2721 g",
     "volume": "2500 ml",
+    "longest_side": "40 cm",
     "price": 75000,
     "price_postapoc": 250,
     "bashing": 6,
@@ -326,11 +366,15 @@
       }
     ],
     "flags": [ "WATCH" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -353,15 +397,20 @@
     "price": 3000,
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
+    "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": "MP3",
+    "use_action": [ "MP3" ],
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -370,7 +419,7 @@
           "light_disposable_cell",
           "light_minus_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -381,7 +430,7 @@
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "power_draw": 1000,
     "revert_to": "mp3",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -400,12 +449,16 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "NOISE_EMITTER_OFF",
+    "use_action": [ "NOISE_EMITTER_OFF" ],
     "flags": [ "RADIO_MODABLE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -414,7 +467,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -425,7 +478,7 @@
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
     "power_draw": 10000,
     "revert_to": "noise_emitter",
-    "use_action": "NOISE_EMITTER_ON",
+    "use_action": [ "NOISE_EMITTER_ON" ],
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
   },
   {
@@ -441,11 +494,15 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": "PORTABLE_GAME",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "PORTABLE_GAME" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -454,7 +511,7 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -496,7 +553,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "power_draw": 300,
     "revert_to": "smart_phone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -529,10 +586,16 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "flags": [ "IS_UPS" ]
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "vibrator",
@@ -541,6 +604,7 @@
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
     "weight": "453 g",
     "volume": "500 ml",
+    "longest_side": "25 cm",
     "price": 5500,
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
@@ -548,11 +612,15 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": "VIBE",
-    "magazines": [
-      [
-        "battery",
-        [
+    "use_action": [ "VIBE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -561,7 +629,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   }
 ]

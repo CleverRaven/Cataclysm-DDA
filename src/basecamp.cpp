@@ -10,11 +10,11 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "flat_set.h"
@@ -28,7 +28,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -39,7 +38,7 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const zone_type_id zone_type_camp_storage( "CAMP_STORAGE" );
+static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
     // direction, direction id, tab order, direction abbreviation with bracket, direction tab title
@@ -111,7 +110,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
 
 basecamp::basecamp() = default;
 
-basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( name_ ),
+basecamp::basecamp( const std::string &name_, const tripoint_abs_omt &omt_pos_ ): name( name_ ),
     omt_pos( omt_pos_ )
 {
 }
@@ -138,7 +137,8 @@ void basecamp::set_by_radio( bool access_by_radio )
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
 // This is legacy support for existing camps; future camps don't use cur_level at all
-expansion_data basecamp::parse_expansion( const std::string &terrain, const tripoint &new_pos )
+expansion_data basecamp::parse_expansion( const std::string &terrain,
+        const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
@@ -148,7 +148,7 @@ expansion_data basecamp::parse_expansion( const std::string &terrain, const trip
     return e;
 }
 
-void basecamp::add_expansion( const std::string &terrain, const tripoint &new_pos )
+void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos )
 {
     if( terrain.find( base_camps::prefix ) == std::string::npos ) {
         return;
@@ -162,7 +162,7 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
     directions.push_back( dir );
 }
 
-void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
+void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                               const point &dir )
 {
     expansion_data e;
@@ -175,13 +175,13 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint &p, const std::string &camp_type )
+void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
-    for( const std::pair<std::string, tripoint> &expansion :
+    for( const std::pair<std::string, tripoint_abs_omt> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
         add_expansion( expansion.first, expansion.second );
     }
@@ -223,7 +223,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
-        time_duration base_time = making.batch_duration();
+        time_duration base_time = making.batch_duration( get_player_character() );
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
@@ -608,11 +608,12 @@ void basecamp::form_crafting_inventory( map &target_map )
     const tripoint &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
-    if( g->m.check_vehicle_zones( g->get_levz() ) ) {
+    map &here = get_map();
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
-    if( mgr.has_near( zone_type_camp_storage, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_camp_storage, dump_spot, 60 );
+    if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
+        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -625,7 +626,6 @@ void basecamp::form_crafting_inventory( map &target_map )
     fuels.clear();
     for( const itype_id &fuel_id : fuel_types ) {
         basecamp_fuel bcp_f;
-        bcp_f.available = 0;
         bcp_f.ammo_id = fuel_id;
         fuels.emplace_back( bcp_f );
     }
@@ -666,10 +666,10 @@ void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( tripoint( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z ), false );
+        target_map.load( project_to<coords::sm>( omt_pos ), false );
         form_crafting_inventory( target_map );
     } else {
-        form_crafting_inventory( g->m );
+        form_crafting_inventory( get_map() );
     }
 }
 
@@ -712,8 +712,10 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
+    avatar &player_character = get_avatar();
     const requirement_data *req =
-        making_.deduped_requirements().select_alternative( g->u, base_._inv, filter, batch_size_ );
+        making_.deduped_requirements().select_alternative( player_character, base_._inv, filter,
+                batch_size_ );
     if( !req ) {
         return false;
     }
@@ -723,9 +725,9 @@ bool basecamp_action_components::choose_components()
     }
     for( const auto &it : req->get_components() ) {
         comp_selection<item_comp> is =
-            g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
-                                        !base_.by_radio );
-        if( is.use_from == cancel ) {
+            player_character.select_item_component( it, batch_size_, base_._inv, true, filter,
+                    !base_.by_radio );
+        if( is.use_from == usage_from::cancel ) {
             return false;
         }
         item_selections_.push_back( is );
@@ -733,9 +735,9 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
-                                        !base_.by_radio );
-        if( ts.use_from == cancel ) {
+            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+                    !base_.by_radio );
+        if( ts.use_from == usage_from::cancel ) {
             return false;
         }
         tool_selections_.push_back( ts );
@@ -745,20 +747,22 @@ bool basecamp_action_components::choose_components()
 
 void basecamp_action_components::consume_components()
 {
-    map *target_map = &g->m;
+    map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
-        map_->load( omt_to_sm_copy( base_.camp_omt_pos() ), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
+    avatar &player_character = get_avatar();
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                            basecamp::inv_range );
+        player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
+                                        basecamp::inv_range );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        g->u.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range, &base_ );
+        player_character.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range,
+                                        &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {

@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_DIALOGUE_H
 #define CATA_SRC_DIALOGUE_H
 
+#include <algorithm>
 #include <functional>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -12,12 +14,13 @@
 #include "dialogue_win.h"
 #include "json.h"
 #include "npc.h"
-#include "player.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class martialart;
 class mission;
+class talker;
 struct dialogue;
 
 enum talk_trial_type : unsigned char {
@@ -87,9 +90,9 @@ struct talk_effect_fun_t {
 
     public:
         talk_effect_fun_t() = default;
-        talk_effect_fun_t( talkfunction_ptr );
-        talk_effect_fun_t( std::function<void( npc & )> );
-        talk_effect_fun_t( std::function<void( const dialogue &d )> );
+        talk_effect_fun_t( const talkfunction_ptr & );
+        talk_effect_fun_t( const std::function<void( npc & )> & );
+        talk_effect_fun_t( const std::function<void( const dialogue &d )> & );
         void set_companion_mission( const std::string &role_id );
         void set_add_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -124,6 +127,7 @@ struct talk_effect_fun_t {
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
+        void set_npc_first_topic( const std::string &chat_topic );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -165,7 +169,7 @@ struct talk_effect_t {
           * Sets an effect to a function object and consequence to explicitly given one.
           */
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
-        void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
+        void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
         void load_effect( const JsonObject &jo );
         void parse_sub_effect( const JsonObject &jo );
@@ -203,9 +207,10 @@ struct talk_response {
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      */
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id::NULL_ID();
-    matype_id style = matype_id::NULL_ID();
+    skill_id skill = skill_id();
+    matype_id style = matype_id();
     spell_id dialogue_spell = spell_id();
+    proficiency_id proficiency = proficiency_id();
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -219,15 +224,13 @@ struct talk_response {
 
 struct dialogue {
         /**
-         * The player character that speaks (always g->u).
-         * TODO: make it a reference, not a pointer.
+         * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
          */
-        player *alpha = nullptr;
+        std::unique_ptr<talker> alpha;
         /**
-         * The NPC we talk to. Never null.
-         * TODO: make it a reference, not a pointer.
+         * The talker responded to alpha, usually a talker_npc.
          */
-        npc *beta = nullptr;
+        std::unique_ptr<talker> beta;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -240,6 +243,9 @@ struct dialogue {
         talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
 
         dialogue() = default;
+        talker *actor( const bool is_beta ) const {
+            return ( is_beta ? beta : alpha ).get();
+        }
 
         mutable itype_id cur_item;
         mutable std::string reason;
@@ -278,14 +284,14 @@ struct dialogue {
          * action. The response always succeeds. Consequence is based on function used.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     dialogue_fun_ptr effect_success, bool first = false );
+                                     const dialogue_fun_ptr &effect_success, bool first = false );
 
         /**
          * Add a simple response that switches the topic to the new one and executes the given
          * action. The response always succeeds. Consequence must be explicitly specified.
          */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                     std::function<void( npc & )> effect_success,
+                                     const std::function<void( npc & )> &effect_success,
                                      dialogue_consequence consequence, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
@@ -298,6 +304,13 @@ struct dialogue {
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     bool first = false );
+        /**
+         * Add a simple response that switches the topic to the new one and sets the currently
+         * talked about proficiency to the given one.
+         */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const proficiency_id &proficiency,
                                      bool first = false );
         /**
         * Add a simple response that switches the topic to the new one and sets the currently
@@ -332,9 +345,9 @@ struct dynamic_line_t {
 
     public:
         dynamic_line_t() = default;
-        dynamic_line_t( const std::string &line );
+        dynamic_line_t( const translation &line );
         dynamic_line_t( const JsonObject &jo );
-        dynamic_line_t( JsonArray ja );
+        dynamic_line_t( const JsonArray &ja );
         static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );
 
         std::string operator()( const dialogue &d ) const {

@@ -115,7 +115,7 @@ class bite_actor : public melee_actor
     public:
         // one_in( this - damage dealt ) chance of getting infected
         // i.e. the higher is this, the lower chance of infection
-        int no_infection_chance;
+        int no_infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;
@@ -147,16 +147,16 @@ class gun_actor : public mattack_actor
         /** Specify weapon mode to use at different engagement distances */
         std::map<std::pair<int, int>, gun_mode_id> ranges;
 
-        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
+        int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
-        std::string description;
+        translation description;
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
-        std::string failure_msg;
+        translation failure_msg;
 
-        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
-        std::string no_ammo_sound;
+        /** Sound (if any) when either ammo depleted or max_ammo reached */
+        translation no_ammo_sound;
 
         /** Number of moves required for each attack */
         int move_cost = 150;
@@ -173,7 +173,7 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
-        std::string targeting_sound;
+        translation targeting_sound;
         int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */

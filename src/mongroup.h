@@ -2,15 +2,19 @@
 #ifndef CATA_SRC_MONGROUP_H
 #define CATA_SRC_MONGROUP_H
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "io_tags.h"
+#include "mapgen.h"
 #include "monster.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -29,6 +33,7 @@ struct MonsterGroupEntry {
     int cost_multiplier;
     int pack_minimum;
     int pack_maximum;
+    spawn_data data;
     std::vector<std::string> conditions;
     time_duration starts;
     time_duration ends;
@@ -36,13 +41,15 @@ struct MonsterGroupEntry {
         return ends <= 0_turns;
     }
 
-    MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
-                       int new_pack_min, int new_pack_max, const time_duration &new_starts, const time_duration &new_ends )
+    MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
+                       int new_pack_max, spawn_data new_data, const time_duration &new_starts,
+                       const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
         , pack_maximum( new_pack_max )
+        , data( new_data )
         , starts( new_starts )
         , ends( new_ends ) {
     }
@@ -51,19 +58,20 @@ struct MonsterGroupEntry {
 struct MonsterGroupResult {
     mtype_id name;
     int pack_size;
+    spawn_data data;
 
     MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size )
-        : name( id ), pack_size( new_pack_size ) {
+    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data )
+        : name( id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
 
 struct MonsterGroup {
     mongroup_id name;
     mtype_id defaultMonster;
-    FreqDef  monsters;
+    FreqDef monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
     bool is_animal = false;
     // replaces this group after a period of
@@ -79,10 +87,10 @@ struct mongroup {
     mongroup_id type;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
-    tripoint pos = tripoint_zero;
+    tripoint_om_sm pos;
     unsigned int radius = 1;
     unsigned int population = 1;
-    tripoint target = tripoint_zero; // location the horde is interested in.
+    tripoint_om_sm target; // location the horde is interested in.
     int interest = 0; //interest to target in percents
     bool dying = false;
     bool horde = false;
@@ -107,6 +115,10 @@ struct mongroup {
         , radius( prad )
         , population( ppop ) {
     }
+    mongroup( const mongroup_id &ptype, const tripoint_om_sm &ppos,
+              unsigned int prad, unsigned int ppop ) :
+        // TODO: fix point types
+        mongroup( ptype, ppos.raw(), prad, ppop ) {}
     mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
@@ -115,9 +127,9 @@ struct mongroup {
     bool is_safe() const;
     bool empty() const;
     void clear();
-    void set_target( const point &p ) {
-        target.x = p.x;
-        target.y = p.y;
+    void set_target( const point_om_sm &p ) {
+        target.x() = p.x();
+        target.y() = p.y();
     }
     void wander( const overmap & );
     void inc_interest( int inc ) {

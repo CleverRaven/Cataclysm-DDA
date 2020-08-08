@@ -1,15 +1,15 @@
 #include "kill_tracker.h"
 
-#include <memory>
+#include <algorithm>
 #include <tuple>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
 #include "color.h"
 #include "event.h"
-#include "game.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_formatter.h"
@@ -101,7 +101,7 @@ std::string kill_tracker::get_kills_text() const
         buffer = string_format( _( "KILL COUNT: %d" ), totalkills );
         if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
             buffer += string_format( _( "\nExperience: %d (%d points available)" ), kill_xp(),
-                                     g->u.free_upgrade_points() );
+                                     get_avatar().free_upgrade_points() );
         }
         buffer += "\n";
     }
@@ -122,7 +122,7 @@ void kill_tracker::notify( const cata::event &e )
     switch( e.type() ) {
         case event_type::character_kills_monster: {
             character_id killer = e.get<character_id>( "killer" );
-            if( killer != g->u.getID() ) {
+            if( killer != get_player_character().getID() ) {
                 // TODO: add a kill counter for npcs?
                 break;
             }
@@ -132,7 +132,7 @@ void kill_tracker::notify( const cata::event &e )
         }
         case event_type::character_kills_character: {
             character_id killer = e.get<character_id>( "killer" );
-            if( killer != g->u.getID() ) {
+            if( killer != get_player_character().getID() ) {
                 break;
             }
             std::string victim_name = e.get<cata_variant_type::string>( "victim_name" );

@@ -3,10 +3,12 @@
 #define CATA_SRC_MISSION_COMPANION_H
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
@@ -71,7 +73,7 @@ namespace talk_function
 void companion_mission( npc &p );
 
 // Display the available missions and let the player choose one
-bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,
+bool display_and_choose_opts( mission_data &mission_key, const tripoint_abs_omt &omt_pos,
                               const std::string &role_id, const std::string &title );
 
 /**
@@ -81,14 +83,12 @@ bool display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos
  * @param miss_id is the value stored with the NPC when it is offloaded
  * @param group is whether the NPC is waiting for additional members before departing together
  * @param equipment is placed in the NPC's special inventory and dropped when they return
- * @param skill_tested is the main skill for the quest
- * @param skill_level is checked to prevent lower level NPCs from going on missions
  */
 ///Send a companion on an individual mission or attaches them to a group to depart later
 npc_ptr individual_mission( npc &p, const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {} );
-npc_ptr individual_mission( const tripoint &omt_pos, const std::string &role_id,
+npc_ptr individual_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                             const std::string &desc, const std::string &miss_id,
                             bool group = false, const std::vector<item *> &equipment = {},
                             const std::map<skill_id, int> &required_skills = {} );
@@ -114,7 +114,7 @@ void companion_skill_trainer( npc &comp, const std::string &skill_tested = "",
 void companion_skill_trainer( npc &comp, const skill_id &skill_tested,
                               time_duration time_worked = 1_hours, int difficulty = 1 );
 //Combat functions
-bool companion_om_combat_check( const comp_list &group, const tripoint &om_tgt,
+bool companion_om_combat_check( const comp_list &group, const tripoint_abs_omt &om_tgt,
                                 bool try_engage = false );
 void force_on_force( const comp_list &defender, const std::string &def_desc,
                      const comp_list &attacker, const std::string &att_desc, int advantage );
@@ -139,7 +139,7 @@ std::vector<comp_rank> companion_rank( const comp_list &available, bool adj = tr
 npc_ptr companion_choose( const std::map<skill_id, int> &required_skills = {} );
 npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
                                  const time_point &deadline );
-npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,
+npc_ptr companion_choose_return( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const std::string &mission_id, const time_point &deadline,
                                  bool by_mission = true );
 
@@ -147,7 +147,7 @@ npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &rol
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map maker
 // TODO: Make this return the loot gained
-void loot_building( const tripoint &site );
+void loot_building( const tripoint_abs_omt &site );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H

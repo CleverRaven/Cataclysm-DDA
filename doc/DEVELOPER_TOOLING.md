@@ -1,3 +1,18 @@
+## Pre-commit hook
+
+If you have all the relevant tools installed, you can have git automatically
+check the style of code and json by adding these commands to your git
+pre-commit hook (typically at `.git/hooks/pre-commit`):
+
+```BASH
+git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
+    xargs -r -0 -L 1 ./tools/format/json_formatter.[ce]* || exit 1
+
+make astyle-check || exit 1
+```
+
+More details below on how to make these work and other ways to invoke these tools.
+
 ## Code style (astyle)
 
 Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).
@@ -126,8 +141,8 @@ lit -v build/tools/clang-tidy-plugin/test
 
 To build llvm on Windows, you'll first need to get some tools installed.
 - Cmake
-- Python 3 (Python 2 may not work for building llvm, but it's still required to run
-the lit test, which will be discussed in the next section.)
+- Python 3 (Python 2 may be still required to run the lit test,
+which will be discussed in the next section.)
 - MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be
 building llvm on Windows correctly.)
 - A shell environment
@@ -187,8 +202,7 @@ After building clang-tidy as a library from the llvm source, the next step is to
 build clang-tidy as an executable, with the custom checks from the CDDA source.
 
 In this step, the following tools are required.
-- Python 2 (used to run the lit test for the custom checks)
-- Python 3 (used to run other python scripts)
+- Python 3 (Python 2 may still be required to run the lit test for the custom checks)
 - CMake
 - MinGW-w64
 - FileCheck (built from the llvm source)
@@ -257,7 +271,7 @@ index 4ab6e913a7..d1a4418ba6 100644
 The next step is to run CMake to generate the compilation database. The compilation
 database contains compiler flags that clang-tidy uses to check the source files.
 
-Make sure Python 2, Python 3, CMake, MinGW-w64, and FileCheck are on the path.
+Make sure Python 3 (and Python 2 if it's still required), CMake, MinGW-w64, and FileCheck are on the path.
 Note that two `bin` directories of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`,
 and `<mingw-w64-root>/x86_64-w64-mingw32/bin`. FileCheck's path is `<llvm-source-root>/build/bin`,
 if you built it with the instructions in the previous section. Python 2 should

@@ -1,5 +1,6 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
@@ -8,9 +9,9 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +19,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -27,10 +29,10 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "popup.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -47,8 +49,10 @@ static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-#define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
-#define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
+// One in X chance of single-flavor wave
+static constexpr int SPECIAL_WAVE_CHANCE = 5;
+// Don't use a special wave with < X monsters
+static constexpr int SPECIAL_WAVE_MIN = 5;
 
 #define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
 #define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
@@ -60,7 +64,7 @@ std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );
 std::set<m_flag> monflags_to_add;
 
-int caravan_price( player &u, int price );
+int caravan_price( Character &u, int price );
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -93,14 +97,15 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    g->weather.temperature = 65;
-    if( !g->u.create( character_type::CUSTOM ) ) {
+    get_weather().temperature = 65;
+    avatar &player_character = get_avatar();
+    if( !player_character.create( character_type::CUSTOM ) ) {
         return false;
     }
-    g->u.str_cur = g->u.str_max;
-    g->u.per_cur = g->u.per_max;
-    g->u.int_cur = g->u.int_max;
-    g->u.dex_cur = g->u.dex_max;
+    player_character.str_cur = player_character.str_max;
+    player_character.per_cur = player_character.per_max;
+    player_character.int_cur = player_character.int_max;
+    player_character.dex_cur = player_character.dex_max;
     init_mtypes();
     init_constructions();
     current_wave = 0;
@@ -117,9 +122,9 @@ bool defense_game::init()
     allow_save = false;
     init_to_style( DEFENSE_EASY );
     setup();
-    g->u.cash = initial_cash;
+    player_character.cash = initial_cash;
     // TODO: support multiple defense games? clean up old defense game
-    defloc_pos = tripoint( 50, 50, 0 );
+    defloc_pos = tripoint_om_omt( 50, 50, 0 );
     init_map();
     caravan();
     return true;
@@ -127,14 +132,15 @@ bool defense_game::init()
 
 void defense_game::per_turn()
 {
+    Character &player_character = get_player_character();
     if( !thirst ) {
-        g->u.set_thirst( 0 );
+        player_character.set_thirst( 0 );
     }
     if( !hunger ) {
-        g->u.set_hunger( 0 );
+        player_character.set_hunger( 0 );
     }
     if( !sleep ) {
-        g->u.set_fatigue( 0 );
+        player_character.set_fatigue( 0 );
     }
     if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
@@ -169,11 +175,13 @@ void defense_game::pre_action( action_id &act )
         case ACTION_MOVE_BACK_LEFT:
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT: {
+            Character &player_character = get_player_character();
+            const tripoint abs_sub = get_map().get_abs_sub();
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
-            if( ( delta.y < 0 && g->u.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 )
-                || ( delta.y > 0 && g->u.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 )
-                || ( delta.x < 0 && g->u.posx() == HALF_MAPSIZE_X && g->get_levx() <= 93 )
-                || ( delta.x > 0 && g->u.posx() == HALF_MAPSIZE_X + SEEX - 1 && g->get_levx() >= 98 ) ) {
+            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y <= 93 ) ||
+                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y >= 98 ) ||
+                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x <= 93 ) ||
+                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x >= 98 ) ) {
                 action_error_message = string_format( _( "You cannot leave the %s behind!" ),
                                                       defense_location_name( location ) );
             }
@@ -199,7 +207,7 @@ void defense_game::game_over()
 
 void defense_game::init_mtypes()
 {
-    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );
@@ -223,10 +231,10 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_zero );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            tripoint p( x, y, 0 );
+            tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
             starting_om.seen( p ) = true;
         }
@@ -288,12 +296,16 @@ void defense_game::init_map()
         }
     }
 
-    g->load_map( omt_to_sm_copy( defloc_pos ) );
-    g->u.setx( SEEX );
-    g->u.sety( SEEY );
+    // For this mode assume we always want overmap zero.
+    tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
+    g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
+    Character &player_character = get_player_character();
+    player_character.setx( SEEX );
+    player_character.sety( SEEY );
 
-    g->update_map( g-> u );
-    monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ), g->u.pos(), 2 );
+    g->update_map( player_character );
+    monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ),
+                               player_character.pos(), 2 );
     assert( generator );
     generator->friendly = -1;
 }
@@ -742,7 +754,7 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     mvwprintz( w, point( 34, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
     mvwprintz( w, point( 46, 21 ), TOGCOL( 19, mercenaries ), _( "Mercenaries" ) );
     mvwprintz( w, point( 59, 21 ), TOGCOL( 20, allow_save ), _( "Allow save" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string defense_style_name( defense_style style )
@@ -875,9 +887,9 @@ void defense_game::caravan()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int width = FULL_SCREEN_WIDTH;
         const int height = FULL_SCREEN_HEIGHT;
-        const int offsetx = std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2;
-        const int offsety = std::max( 0, TERMY - FULL_SCREEN_HEIGHT ) / 2;
-        w = catacurses::newwin( height, width, point( offsetx, offsety ) );
+        const point offset( std::max( 0, TERMX - FULL_SCREEN_WIDTH ) / 2, std::max( 0,
+                            TERMY - FULL_SCREEN_HEIGHT ) / 2 );
+        w = catacurses::newwin( height, width, offset );
         ui.position_from_window( w );
     } );
     ui.mark_resize();
@@ -888,8 +900,9 @@ void defense_game::caravan()
 
     int current_window = 0;
 
+    Character &player_character = get_player_character();
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_caravan_categories( w, category_selected, total_price, g->u.cash );
+        draw_caravan_categories( w, category_selected, total_price, player_character.cash );
         draw_caravan_items( w, &( items[category_selected] ),
                             &( item_count[category_selected] ), offset, item_selected );
         draw_caravan_borders( w, current_window );
@@ -967,7 +980,7 @@ void defense_game::caravan()
             if( current_window == 1 && !items[category_selected].empty() ) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price += caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
+                total_price += caravan_price( player_character, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
                         for( size_t j = 0; j < items[i].size(); j++ ) {
@@ -995,7 +1008,7 @@ void defense_game::caravan()
                 item_count[category_selected][item_selected] > 0 ) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price -= caravan_price( g->u, item( tmp_itm, 0 ).price( false ) );
+                total_price -= caravan_price( player_character, item( tmp_itm, 0 ).price( false ) );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
                         for( size_t j = 0; j < items[i].size(); j++ ) {
@@ -1026,7 +1039,7 @@ void defense_game::caravan()
                 done = true;
             }
         } else if( action == "CONFIRM" ) {
-            if( total_price > g->u.cash ) {
+            if( total_price > player_character.cash ) {
                 popup( _( "You can't afford those items!" ) );
             } else if( ( items[0].empty() && query_yn( _( "Really buy nothing?" ) ) ) ||
                        ( !items[0].empty() &&
@@ -1034,7 +1047,7 @@ void defense_game::caravan()
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
+                                   format_money( static_cast<int>( player_character.cash ) - static_cast<int>( total_price ) ) ) ) ) {
                 done = true;
             }
         } // "switch" on (action)
@@ -1042,7 +1055,7 @@ void defense_game::caravan()
     } // while (!done)
 
     if( !cancel ) {
-        g->u.cash -= total_price;
+        player_character.cash -= total_price;
         bool dropped_some = false;
         for( size_t i = 0; i < items[0].size(); i++ ) {
             item tmp( items[0][i] );
@@ -1055,11 +1068,11 @@ void defense_game::caravan()
             }
 
             for( int j = 0; j < item_count[0][i]; j++ ) {
-                if( g->u.can_pickVolume( tmp ) && g->u.can_pickWeight( tmp ) ) {
-                    g->u.i_add( tmp );
+                if( player_character.can_pickVolume( tmp ) && player_character.can_pickWeight( tmp ) ) {
+                    player_character.i_add( tmp );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    g->m.add_item_or_charges( g->u.pos(), tmp );
+                    get_map().add_item_or_charges( player_character.pos(), tmp );
                 }
             }
         }
@@ -1198,7 +1211,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     // Quick reminded about help.
     // NOLINTNEXTLINE(cata-text-style): literal question mark
     mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -1218,7 +1231,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
         mvwprintz( w, point( 1, i + 3 ), ( i == category_selected ? h_white : c_white ),
                    caravan_category_name( static_cast<caravan_category>( i ) ) );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
@@ -1240,6 +1253,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     for( int i = 1; i <= FULL_SCREEN_HEIGHT - 2; i++ ) {
         mvwprintz( w, point( 40, i ), c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
     }
+    Character &player_character = get_player_character();
     // Finally, print the item list on the right
     for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
          i < static_cast<int>( items->size() ); i++ ) {
@@ -1247,15 +1261,15 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            int price = caravan_price( g->u, item( ( *items )[i],
-                                                   0 ).price( false ) * ( *counts )[i] );
-            wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
+            int price = caravan_price( player_character, item( ( *items )[i],
+                                       0 ).price( false ) * ( *counts )[i] );
+            wprintz( w, ( price > player_character.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
-int caravan_price( player &u, int price )
+int caravan_price( Character &u, int price )
 {
     ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if( u.get_skill_level( skill_barter ) > 10 ) {
@@ -1266,10 +1280,11 @@ int caravan_price( player &u, int price )
 
 void defense_game::spawn_wave()
 {
+    Character &player_character = get_player_character();
     add_msg( m_info, "********" );
     int diff = initial_difficulty + current_wave * wave_difficulty;
     bool themed_wave = one_in( SPECIAL_WAVE_CHANCE ); // All a single monster type
-    g->u.cash += cash_per_wave + ( current_wave - 1 ) * cash_increase;
+    player_character.cash += cash_per_wave + ( current_wave - 1 ) * cash_increase;
     std::vector<mtype_id> valid = pick_monster_wave();
     while( diff > 0 ) {
         // Clear out any monsters that exceed our remaining difficulty
@@ -1344,6 +1359,8 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
+    tripoint player_pos = get_player_character().pos();
+    map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
@@ -1360,12 +1377,12 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        monster *const mon = g->place_critter_at( type, tripoint( pnt, g->get_levz() ) );
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z ) );
         if( !mon ) {
             continue;
         }
         monster &tmp = *mon;
-        tmp.wander_pos = g->u.pos();
+        tmp.wander_pos = player_pos;
         tmp.wandf = 150;
         // We want to kill!
         tmp.anger = 100;

@@ -2,8 +2,13 @@
 #ifndef CATA_SRC_TYPE_ID_H
 #define CATA_SRC_TYPE_ID_H
 
+// IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+// IWYU pragma: end_exports
+
+class achievement;
+using achievement_id = string_id<achievement>;
 
 class activity_type;
 using activity_id = string_id<activity_type>;
@@ -110,6 +115,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class profession;
+using profession_id = string_id<profession>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 
@@ -130,6 +142,12 @@ using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+class move_mode;
+using move_mode_id = string_id<move_mode>;
+
+class proficiency;
+using proficiency_id = string_id<proficiency>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -165,6 +183,9 @@ using vpart_id = string_id<vpart_info>;
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
+
+struct weather_type;
+using weather_type_id = string_id<weather_type>;
 
 class zone_type;
 using zone_type_id = string_id<zone_type>;

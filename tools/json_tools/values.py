@@ -1,38 +1,45 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
-
-from __future__ import print_function
 
 import argparse
 import sys
 import json
 from util import import_data, value_counter, ui_counts_to_columns,\
-        WhereAction
+    WhereAction
 
-parser = argparse.ArgumentParser(description="""Count the number of times a specific values occurs
-for a specific key.
+parser = argparse.ArgumentParser(description="""Count the number of
+times a specific values occurs for a specific key. The key may be a
+single field name, or a dotted reference to name a key inside an object
+or list of objects.
 
 Example usages:
 
     # What values are present in the material key?
     %(prog)s --human -k material
 
+    # What pocket_type values are used inside pocket_data values?
+    %(prog)s --human -k pocket_data.pocket_type
+
     # What cost values are in bionics that are active?
     %(prog)s --key=cost type=bionic active=true
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("--human",
-        action="store_true",
-        help="if set, makes output human readable. default is to return output in JSON dictionary.")
-parser.add_argument("-k", "--key",
-        required=True, type=str,
-        help="key on JSON objects from which to count values")
-parser.add_argument("where",
-        action=WhereAction, nargs='*', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "--human",
+    action="store_true",
+    help="if set, makes output human readable. default is to return output in JSON dictionary.")
+parser.add_argument(
+    "-k", "--key",
+    required=True, type=str,
+    help="key on JSON objects from which to count values")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='*', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":
@@ -44,7 +51,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:

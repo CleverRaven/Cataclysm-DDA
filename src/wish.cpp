@@ -1,11 +1,11 @@
-#include "debug_menu.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
@@ -13,6 +13,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h" // IWYU pragma: associated
+#include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -35,6 +37,9 @@
 #include "type_id.h"
 #include "ui.h"
 #include "uistate.h"
+
+class ui_adaptor;
+template <typename T> class string_id;
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -76,7 +81,7 @@ class wish_mutate_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             if( !started ) {
                 started = true;
-                for( auto &traits_iter : mutation_branch::get_all() ) {
+                for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                 }
@@ -150,7 +155,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.additions.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
-                    for( auto &j : mdata.additions ) {
+                    for( const string_id<mutation_branch> &j : mdata.additions ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                    mutation_branch::get_name( j ) );
                         line2++;
@@ -160,7 +165,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.types.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
-                    for( auto &j : mdata.types ) {
+                    for( const std::string &j : mdata.types ) {
                         mvwprintw( menu->window, point( startx + 11, line2 ), j );
                         line2++;
                     }
@@ -169,7 +174,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( auto &j : mdata.category ) {
+                    for( const std::string &j : mdata.category ) {
                         mvwprintw( menu->window, point( startx + 11, line2 ), j );
                         line2++;
                     }
@@ -196,12 +201,12 @@ class wish_mutate_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 
         ~wish_mutate_callback() override = default;
@@ -212,7 +217,7 @@ void debug_menu::wishmutate( player *p )
     uilist wmenu;
     int c = 0;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, traits_iter.name() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
@@ -365,12 +370,12 @@ class wish_monster_callback: public uilist_callback
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
-            wrefresh( w_info );
+            wnoutrefresh( w_info );
         }
 
         ~wish_monster_callback() override = default;
@@ -408,7 +413,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -421,7 +426,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     ++num_spawned;
                 }
-                input_context ctxt( wmenu.input_category );
+                input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
                 if( num_spawned == 0 ) {
@@ -504,11 +509,11 @@ class wish_item_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
-            wrefresh( menu->window );
+            wnoutrefresh( menu->window );
         }
 };
 
@@ -523,7 +528,16 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
-    const auto opts = item_controller->all();
+    std::vector<std::pair<std::string, const itype *>> opts;
+    for( const itype *i : item_controller->all() ) {
+        opts.emplace_back( item( i, 0 ).tname( 1, false ), i );
+    }
+    std::sort( opts.begin(), opts.end(), localized_compare );
+    std::vector<const itype *> itypes;
+    std::transform( opts.begin(), opts.end(), std::back_inserter( itypes ),
+    []( const auto & pair ) {
+        return pair.second;
+    } );
 
     int prev_amount = 1;
     int amount = 1;
@@ -536,12 +550,12 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         return std::max( TERMX / 2, TERMX - 50 );
     };
     wmenu.selected = uistate.wishitem_selected;
-    wish_item_callback cb( opts );
+    wish_item_callback cb( itypes );
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i], 0 );
-        wmenu.addentry( i, true, 0, ity.tname( 1, false ) );
+        item ity( opts[i].second, 0 );
+        wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
         entry_extra_text.color = ity.color();
@@ -554,7 +568,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret] );
+            item granted( opts[wmenu.ret].second );
             if( cb.incontainer ) {
                 granted = granted.in_its_container();
             }
@@ -584,20 +598,28 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    input_context ctxt( wmenu.input_category );
+                    input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
@@ -674,9 +696,6 @@ void debug_menu::wishskill( player *p )
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
             }
             sksetmenu.query();
-            g->draw_ter();
-            wrefresh( g->w_terrain );
-            g->draw_panels( true );
             skset = sksetmenu.ret;
         }
 

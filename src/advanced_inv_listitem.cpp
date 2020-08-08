@@ -1,9 +1,9 @@
+#include <algorithm>
 #include <cassert>
 
 #include "advanced_inv_listitem.h"
 #include "auto_pickup.h"
 #include "item.h"
-#include "item_category.h"
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
         aim_location area, bool from_vehicle )
@@ -16,14 +16,14 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
-    , cat( &an_item->get_category() )
+    , cat( &an_item->get_category_of_contents() )
     , from_vehicle( from_vehicle )
 {
     items.push_back( an_item );
     assert( stacks >= 1 );
 }
 
-advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int index,
+advanced_inv_listitem::advanced_inv_listitem( const std::vector<item *> &list, int index,
         aim_location area, bool from_vehicle ) :
     idx( index ),
     area( area ),
@@ -35,39 +35,8 @@ advanced_inv_listitem::advanced_inv_listitem( const std::list<item *> &list, int
     stacks( list.size() ),
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
-    cat( &list.front()->get_category() ),
+    cat( &list.front()->get_category_of_contents() ),
     from_vehicle( from_vehicle )
 {
     assert( stacks >= 1 );
-}
-
-advanced_inv_listitem::advanced_inv_listitem()
-    : idx()
-    , area()
-    , id( "null" )
-    , autopickup()
-    , stacks()
-    , cat( nullptr )
-{
-}
-
-advanced_inv_listitem::advanced_inv_listitem( const item_category *cat )
-    : idx()
-    , area()
-    , id( "null" )
-    , name( cat->name() )
-    , autopickup()
-    , stacks()
-    , cat( cat )
-{
-}
-
-bool advanced_inv_listitem::is_category_header() const
-{
-    return items.empty() && cat != nullptr;
-}
-
-bool advanced_inv_listitem::is_item_entry() const
-{
-    return !items.empty();
 }

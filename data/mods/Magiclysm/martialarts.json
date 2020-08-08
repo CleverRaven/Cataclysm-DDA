@@ -43,7 +43,8 @@
         "rune_animist_weapon",
         "springstaff-retracted",
         "mjolnir",
-        "gram"
+        "gram",
+        "decaying_boneclub"
       ]
     }
   },
@@ -58,11 +59,14 @@
         "cudgel_plus_two",
         "rapier_plus_one",
         "rapier_plus_two",
+        "estoc_plus_one",
+        "estoc_plus_two",
         "cavalry_sabre_plus_one",
         "cavalry_sabre_plus_two",
         "broadsword_plus_one",
         "broadsword_plus_two",
-        "springstaff-retracted"
+        "springstaff-retracted",
+        "decaying_boneclub"
       ]
     }
   },
@@ -135,7 +139,8 @@
         "rune_animist_weapon",
         "m47a1",
         "springstaff-retracted",
-        "gram"
+        "gram",
+        "decaying_boneclub"
       ]
     }
   },
@@ -158,7 +163,8 @@
         "zweihander_plus_two",
         "rune_kelvinist_weapon",
         "gunblade",
-        "gram"
+        "gram",
+        "flamesword"
       ]
     }
   },
@@ -217,7 +223,8 @@
         "rune_kelvinist_weapon",
         "rune_magus_weapon",
         "springstaff-extended",
-        "gunblade"
+        "gunblade",
+        "flamesword"
       ]
     }
   },
@@ -233,7 +240,8 @@
         "nodachi_plus_one",
         "nodachi_plus_two",
         "wakizashi_plus_one",
-        "wakizashi_plus_two"
+        "wakizashi_plus_two",
+        "flamesword"
       ]
     }
   },
@@ -275,7 +283,8 @@
         "springstaff-retracted",
         "springstaff-extended",
         "gungnir",
-        "laevateinn"
+        "laevateinn",
+        "decaying_boneclub"
       ]
     }
   },

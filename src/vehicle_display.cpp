@@ -1,25 +1,27 @@
-#include "vehicle.h" // IWYU pragma: associated
-
-#include <cstdlib>
 #include <algorithm>
-#include <set>
+#include <cmath>
+#include <cstdlib>
 #include <memory>
+#include <set>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "itype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
-#include "veh_type.h"
-#include "vpart_position.h"
 #include "units.h"
-#include "color.h"
-#include "optional.h"
+#include "units_utility.h"
+#include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
+#include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id itype_battery( "battery" );
@@ -47,8 +49,9 @@ char vehicle::part_sym( const int p, const bool exact ) const
     }
 }
 
-// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles during draw_vpart
-// vector returns at least 1 element, max of 2 elements. If 2 elements the second denotes if it is open or damaged
+// similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
+// during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
+// second denotes if it is open or damaged
 vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
 {
     part_mod = 0;
@@ -57,6 +60,11 @@ vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
     }
 
     int displayed_part = part_displayed_at( parts[p].mount );
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        return vpart_id::NULL_ID();
+    }
+
     const vpart_id idinfo = parts[displayed_part].id;
 
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && parts[displayed_part].open ) {
@@ -159,7 +167,8 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
+                                               vp.ammo_capacity( ammotype( "battery" ) ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
@@ -295,7 +304,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     // -2 for left & right padding
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 /**
@@ -323,8 +332,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 /**
  * Prints all of the fuel indicators of the vehicle
  * @param win Pointer to the window to draw in.
- * @param y Y location to draw at.
- * @param x X location to draw at.
+ * @param p location to draw at.
  * @param start_index Starting index in array of fuel gauges to start reading from
  * @param fullsize true if it's expected to print multiple rows
  * @param verbose true if there should be anything after the gauge (either the %, or number)

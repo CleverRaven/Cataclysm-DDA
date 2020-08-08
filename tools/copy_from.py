@@ -5,23 +5,24 @@ import argparse
 
 IGNORE_MISMATCH = ["id", "abstract"]
 
+
 def get_data(argsDict, resource_name):
-   resource = []
-   resource_sources = argsDict.get(resource_name, [])
-   if not isinstance(resource_sources, list):
-       resource_sources = [resource_sources]
-   for resource_filename in resource_sources:
-       if resource_filename.endswith(".json"):
-          try:
-              with open(resource_filename) as resource_file:
-                  resource += json.load(resource_file)
-          except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
-       else:
-           print("Invalid filename {}".format(resource_filename))
-   if not resource:
+    resource = []
+    resource_sources = argsDict.get(resource_name, [])
+    if not isinstance(resource_sources, list):
+        resource_sources = [resource_sources]
+    for resource_filename in resource_sources:
+        if resource_filename.endswith(".json"):
+            try:
+                with open(resource_filename) as resource_file:
+                    resource += json.load(resource_file)
+            except FileNotFoundError:
+                exit("Failed: could not find {}".format(resource_filename))
+        else:
+            print(("Invalid filename {}".format(resource_filename)))
+    if not resource:
         exit("Failed: {} was empty".format(resource_filename))
-   return resource
+    return resource
 
 
 args = argparse.ArgumentParser(description="Make items use copy-from.")
@@ -45,9 +46,9 @@ for item in items:
     del_keys = []
     for key in item:
         if key == "type":
-           continue
+            continue
         if item[key] == base_item.get(key):
-           del_keys.append(key)
+            del_keys.append(key)
     can_copy = True
     for key in base_item:
         if key in del_keys:

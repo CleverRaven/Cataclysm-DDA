@@ -1,42 +1,42 @@
 #include "inventory.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
-#include <algorithm>
-#include <iterator>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "game.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory_ui.h" // auto inventory blocking
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
+#include "point.h"
+#include "ret_val.h"
+#include "rng.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
-#include "material.h"
-#include "type_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "point.h"
-#include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_salt_water( "salt_water" );
@@ -199,7 +199,7 @@ inventory &inventory::operator+= ( const item &rhs )
 inventory &inventory::operator+= ( const item_stack &rhs )
 {
     for( const auto &p : rhs ) {
-        if( !p.made_of( LIQUID ) ) {
+        if( !p.made_of( phase_id::LIQUID ) ) {
             add_item( p, true );
         }
     }
@@ -262,6 +262,7 @@ void inventory::update_cache_with_item( item &newit )
 
 char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
+    Character &player_character = get_player_character();
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
@@ -269,7 +270,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_item( invlet ) != nullptr ) {
+        if( player_character.invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -282,6 +283,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
 {
     binned = false;
 
+    Character &player_character = get_player_character();
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
@@ -303,7 +305,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 return elem.back();
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, g->u );
+                assign_empty_invlet( *it_ref, player_character );
             }
         }
     }
@@ -334,7 +336,7 @@ void inventory::push_back( item newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
-void inventory::restack( player &p )
+void inventory::restack( Character &p )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
@@ -411,7 +413,7 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
+    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
@@ -435,7 +437,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
         m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
     } else {
         // Fill reachable points with points_in_radius
-        tripoint_range in_radius = m.points_in_radius( origin, range );
+        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
         for( const tripoint &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }
@@ -448,25 +450,35 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 {
     items.clear();
     for( const tripoint &p : pts ) {
+        // a temporary hack while trees are terrain
+        if( m.ter( p )->has_flag( "TREE" ) ) {
+            item tree_pseudo( "butchery_tree_pseudo" );
+            tree_pseudo.item_tags.insert( "PSEUDO" );
+            add_item( tree_pseudo );
+        }
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
             if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
+                if( furn_item.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                    item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                    furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
+                }
                 furn_item.item_tags.insert( "PSEUDO" );
-                furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
                 add_item( furn_item );
             }
         }
         if( m.accessible_items( p ) ) {
-            for( auto &i : m.i_at( p ) ) {
+            for( item &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
-                if( !i.made_of( LIQUID ) ) {
+                if( !i.made_of( phase_id::LIQUID ) ) {
                     add_item( i, false, assign_invlet );
                 }
             }
@@ -486,7 +498,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // crafting
         if( m.furn( p ).obj().examine == &iexamine::toilet ) {
             // get water charges at location
-            auto toilet = m.i_at( p );
+            map_stack toilet = m.i_at( p );
             auto water = toilet.end();
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
                 if( candidate->typeId() == itype_water ) {
@@ -501,9 +513,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         // keg-kludge
         if( m.furn( p ).obj().examine == &iexamine::keg ) {
-            auto liq_contained = m.i_at( p );
+            map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
-                if( i.made_of( LIQUID ) ) {
+                if( i.made_of( phase_id::LIQUID ) ) {
                     add_item( i );
                 }
             }
@@ -538,18 +550,23 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( faupart ) {
             for( const auto &it : veh->fuels_left() ) {
                 item fuel( it.first, 0 );
-                if( fuel.made_of( LIQUID ) ) {
+                if( fuel.made_of( phase_id::LIQUID ) ) {
                     fuel.charges = it.second;
                     add_item( fuel );
                 }
             }
         }
-
+        const auto item_with_battery = []( const std::string & id, const int qty ) {
+            item it( id );
+            item it_batt( it.magazine_default() );
+            it_batt.ammo_set( it_batt.ammo_default(), qty );
+            it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
+            it.item_tags.insert( "PSEUDO" );
+            return it;
+        };
+        int veh_battery = veh->fuel_left( itype_id( "battery" ), true );
         if( kpart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item hotplate( "hotplate", 0 );
-            hotplate.ammo_set( hotplate.ammo_default(), veh_battery );
-            hotplate.item_tags.insert( "PSEUDO" );
+            item hotplate = item_with_battery( "hotplate", veh_battery );
             add_item( hotplate );
 
             item pot( "pot", 0 );
@@ -560,63 +577,38 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item( pan );
         }
         if( weldpart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item welder( "welder", 0 );
-            welder.ammo_set( welder.ammo_default(), veh_battery );
-            welder.item_tags.insert( "PSEUDO" );
+            item welder = item_with_battery( "welder", veh_battery );
             add_item( welder );
-
-            item soldering_iron( "soldering_iron", 0 );
-            soldering_iron.ammo_set( soldering_iron.ammo_default(), veh_battery );
-            soldering_iron.item_tags.insert( "PSEUDO" );
+            item soldering_iron = item_with_battery( "soldering_iron", veh_battery );
             add_item( soldering_iron );
         }
         if( craftpart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item vac_sealer( "vac_sealer", 0 );
-            vac_sealer.ammo_set( vac_sealer.ammo_default(), veh_battery );
-            vac_sealer.item_tags.insert( "PSEUDO" );
+            item vac_sealer = item_with_battery( "vac_sealer", veh_battery );
             add_item( vac_sealer );
 
-            item dehydrator( "dehydrator", 0 );
-            dehydrator.ammo_set( dehydrator.ammo_default(), veh_battery ) ;
-            dehydrator.item_tags.insert( "PSEUDO" );
+            item dehydrator = item_with_battery( "dehydrator", veh_battery );
             add_item( dehydrator );
 
-            item food_processor( "food_processor", 0 );
-            food_processor.ammo_set( food_processor.ammo_default(), veh_battery ) ;
-            food_processor.item_tags.insert( "PSEUDO" );
+            item food_processor = item_with_battery( "food_processor", veh_battery );
             add_item( food_processor );
 
-            item press( "press", 0 );
-            press.ammo_set( press.ammo_default(), veh_battery );
+            item press = item( "press" );
             press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item forge( "forge", 0 );
-            forge.ammo_set( forge.ammo_default(), veh_battery );
-            forge.item_tags.insert( "PSEUDO" );
+            item forge = item_with_battery( "forge", veh_battery );
             add_item( forge );
         }
         if( kilnpart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item kiln( "kiln", 0 );
-            kiln.ammo_set( kiln.ammo_default(), veh_battery );
-            kiln.item_tags.insert( "PSEUDO" );
+            item kiln = item_with_battery( "kiln", veh_battery );
             add_item( kiln );
         }
         if( chempart ) {
-            int veh_battery = veh->fuel_left( itype_battery, true );
-            item chemistry_set( "chemistry_set", 0 );
-            chemistry_set.ammo_set( chemistry_set.ammo_default(), veh_battery );
-            chemistry_set.item_tags.insert( "PSEUDO" );
+            item chemistry_set = item_with_battery( "chemistry_set", veh_battery );
             add_item( chemistry_set );
 
-            item electrolysis_kit( "electrolysis_kit", 0 );
-            electrolysis_kit.ammo_set( electrolysis_kit.ammo_default(), veh_battery );
-            electrolysis_kit.item_tags.insert( "PSEUDO" );
+            item electrolysis_kit = item_with_battery( "electrolysis_kit", veh_battery );
             add_item( electrolysis_kit );
         }
     }
@@ -770,7 +762,7 @@ int inventory::position_by_item( const item *it ) const
 int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
-    for( auto &elem : items ) {
+    for( const auto &elem : items ) {
         if( elem.front().typeId() == type ) {
             return i;
         }
@@ -779,7 +771,7 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int quantity,
+std::list<item> inventory::use_amount( const itype_id &it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
     items.sort( stack_compare );
@@ -895,6 +887,8 @@ item *inventory::most_appropriate_painkiller( int pain )
 
 void inventory::rust_iron_items()
 {
+    Character &player_character = get_player_character();
+    map &here = get_map();
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
@@ -912,7 +906,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                g->m.water_from( g->u.pos() ).typeId() == itype_salt_water ) {
+                here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
@@ -1049,7 +1043,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
 
     invlets_bitset cur_inv = p.allocated_invlets();
     itype_id target_type = it.typeId();
-    for( auto iter : assigned_invlet ) {
+    for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             return;
@@ -1058,8 +1052,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     if( cur_inv.count() < inv_chars.size() ) {
         // XXX YUCK I don't know how else to get the keybindings
         // FIXME: Find a better way to get bound keys
-        avatar &u = g->u;
-        inventory_selector selector( u );
+        inventory_selector selector( get_avatar() );
 
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
@@ -1119,11 +1112,12 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
         }
     }
 
+    Character &player_character = get_player_character();
     // Remove letters that have been assigned to other items in the inventory
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
+        if( player_character.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }
@@ -1136,15 +1130,8 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit, g->u );
+            assign_empty_invlet( newit, player_character );
         }
-    }
-}
-
-void inventory::set_stack_favorite( const int position, const bool favorite )
-{
-    for( auto &e : *std::next( items.begin(), position ) ) {
-        e.set_favorite( favorite );
     }
 }
 

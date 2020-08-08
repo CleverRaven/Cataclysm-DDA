@@ -121,7 +121,7 @@
     "to_hit": -8,
     "color": "light_blue",
     "symbol": "]",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "125 L",
     "bashing": 8,
     "category": "veh_parts",
@@ -137,7 +137,7 @@
     "to_hit": -2,
     "color": "light_blue",
     "symbol": "A",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "10 L",
     "bashing": 3,
     "category": "veh_parts",
@@ -189,9 +189,18 @@
     "id": "fridgetank",
     "name": { "str": "refrigerated tank" },
     "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
-    "insulation": 2,
-    "volume": "60 L",
-    "weight": "48 kg"
+    "insulation": 10,
+    "volume": "72 L",
+    "weight": "48 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "400 kg"
+      }
+    ]
   },
   {
     "type": "GENERIC",

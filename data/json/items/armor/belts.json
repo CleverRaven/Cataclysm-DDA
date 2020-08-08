@@ -13,13 +13,14 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 4,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
         "holster": true
@@ -40,7 +41,7 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 5,
@@ -115,14 +116,15 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "material_thickness": 1,
     "pocket_data": [
       {
         "holster": true,
         "max_contains_volume": "1 L",
-        "max_contains_weight": "400 g",
+        "max_contains_weight": "600 g",
+        "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ]
       }
@@ -158,13 +160,14 @@
     "symbol": "[",
     "looks_like": "fireman_belt",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "encumbrance": 6,
     "pocket_data": [
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "3600 g",
+        "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ]
       }
@@ -185,7 +188,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 4,
     "material_thickness": 2,
@@ -195,6 +198,7 @@
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
@@ -216,16 +220,18 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
     "material_thickness": 2,
     "pocket_data": [
+      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -234,6 +240,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -242,6 +249,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -250,6 +258,7 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
       },
@@ -258,10 +267,10 @@
         "min_item_volume": "50 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1500 g",
+        "max_item_length": "50 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ]
-      },
-      { "max_contains_volume": "1 L", "max_contains_weight": "1500 g", "moves": 100 }
+      }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
@@ -279,7 +288,7 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "yellow",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]

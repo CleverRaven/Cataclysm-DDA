@@ -68,6 +68,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HAMMER_SOFT",
+    "name": { "str": "soft hammering" }
+  },
+  {
+    "type": "tool_quality",
     "id": "SAW_W",
     "name": { "str": "wood sawing" },
     "usages": [ [ 2, [ "LUMBER" ] ] ]
@@ -158,8 +163,18 @@
   },
   {
     "type": "tool_quality",
+    "id": "DRILL_ROCK",
+    "name": { "str": "rock drilling" }
+  },
+  {
+    "type": "tool_quality",
     "id": "PRY",
     "name": { "str": "prying" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "PUNCH",
+    "name": { "str": "punch" }
   },
   {
     "type": "tool_quality",
@@ -178,8 +193,19 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOSE",
+    "name": { "str": "siphoning" },
+    "usages": [ [ 1, [ "SIPHON" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL",
     "name": { "str": "chiseling" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CHISEL_WOOD",
+    "name": { "str": "wood chiseling" }
   },
   {
     "type": "tool_quality",
@@ -276,5 +302,22 @@
     "type": "tool_quality",
     "id": "FILTER",
     "name": { "str": "filtration" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SUSPENDING",
+    "//": "Conceptually similar to lifting, except items with suspending do not move.",
+    "name": { "str": "suspending" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "ROPE",
+    "name": { "str": "rope" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SURFACE",
+    "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
+    "name": { "str": "clean surface" }
   }
 ]

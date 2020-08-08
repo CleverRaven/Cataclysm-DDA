@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 #include "cata_utility.h"
+#include "units_utility.h"
 #include "units.h"
 
 TEST_CASE( "string_starts_with", "[utility]" )

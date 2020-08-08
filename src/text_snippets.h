@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

@@ -21,20 +21,21 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
 
-enum requirement_check_result : int {
+enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
 
-enum butcher_type : int {
-    BUTCHER,        // quick butchery
-    BUTCHER_FULL,   // full workshop butchery
-    F_DRESS,        // field dressing a corpse
+enum class butcher_type : int {
+    QUICK,          // quick butchery
+    FULL,           // full workshop butchery
+    FIELD_DRESS,    // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
-    DISSECT         // dissect a corpse for CBMs
+    DISSECT,        // dissect a corpse for CBMs
+    NUM_TYPES       // always keep at the end, number of butchery types
 };
 
 enum class do_activity_reason : int {
@@ -103,10 +104,10 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
-bool find_auto_consume( player &p, bool food );
+int get_auto_consume_moves( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
-enum class item_drop_reason {
+enum class item_drop_reason : int {
     deliberate,
     too_large,
     too_heavy,
@@ -173,7 +174,6 @@ void tidy_up_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
-void try_sleep_do_turn( player_activity *act, player *p );
 void operation_do_turn( player_activity *act, player *p );
 void robot_control_do_turn( player_activity *act, player *p );
 void tree_communion_do_turn( player_activity *act, player *p );
@@ -192,7 +192,6 @@ void butcher_finish( player_activity *act, player *p );
 void firstaid_finish( player_activity *act, player *p );
 void fish_finish( player_activity *act, player *p );
 void forage_finish( player_activity *act, player *p );
-void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
 void pulp_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
@@ -207,7 +206,6 @@ void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
-void lockpicking_finish( player_activity *act, player *p );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
@@ -221,7 +219,6 @@ void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void wait_stamina_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
-void try_sleep_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
@@ -239,13 +236,10 @@ void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
-void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
-
-void try_sleep_query( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -29,6 +30,7 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
+// Curses key constants
 static constexpr int KEY_ESCAPE     = 27;
 static constexpr int KEY_MIN        =
     0x101;    /* minimum extended key value */ //<---------not used
@@ -68,20 +70,96 @@ static constexpr int KEY_ENTER      = 0x157;    /* enter */
 static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
 static constexpr int KEY_END        = 0x168;    /* End */
 
+// Platform independent key code (though largely based on SDL key code)
+//
+// These and other code related to keyboard_code event should NOT be guarded with
+// platform macros, since they are required to load and save keyboard_code events,
+// which should always be done regardless whether the platform supports it, otherwise
+// custom keybindings might be lost when someone switches e.g. from tiles to curses
+// and save the keybindings, and switches back to tiles later.
+namespace keycode
+{
+enum : int {
+    backspace = 0x08,
+    tab       = 0x09,
+    return_   = 0x0D,
+    escape    = 0x1B,
+    space     = 0x20,
+    f1        = 0x4000003A,
+    f2        = 0x4000003B,
+    f3        = 0x4000003C,
+    f4        = 0x4000003D,
+    f5        = 0x4000003E,
+    f6        = 0x4000003F,
+    f7        = 0x40000040,
+    f8        = 0x40000041,
+    f9        = 0x40000042,
+    f10       = 0x40000043,
+    f11       = 0x40000044,
+    f12       = 0x40000045,
+    home      = 0x4000004A,
+    ppage     = 0x4000004B,
+    end       = 0x4000004D,
+    npage     = 0x4000004E,
+    right     = 0x4000004F,
+    left      = 0x40000050,
+    down      = 0x40000051,
+    up        = 0x40000052,
+    kp_divide = 0x40000054,
+    kp_multiply = 0x40000055,
+    kp_minus  = 0x40000056,
+    kp_plus   = 0x40000057,
+    kp_enter  = 0x40000058,
+    kp_1      = 0x40000059,
+    kp_2      = 0x4000005A,
+    kp_3      = 0x4000005B,
+    kp_4      = 0x4000005C,
+    kp_5      = 0x4000005D,
+    kp_6      = 0x4000005E,
+    kp_7      = 0x4000005F,
+    kp_8      = 0x40000060,
+    kp_9      = 0x40000061,
+    kp_0      = 0x40000062,
+    kp_period = 0x40000063,
+    f13       = 0x40000068,
+    f14       = 0x40000069,
+    f15       = 0x4000006A,
+    f16       = 0x4000006B,
+    f17       = 0x4000006C,
+    f18       = 0x4000006D,
+    f19       = 0x4000006E,
+    f20       = 0x4000006F,
+    f21       = 0x40000070,
+    f22       = 0x40000071,
+    f23       = 0x40000072,
+    f24       = 0x40000073,
+};
+} // namespace keycode
+
 static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
+bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_TIMEOUT,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+enum class input_event_t : int  {
+    error,
+    timeout,
+    // used on platforms with only character/text input, such as curses
+    keyboard_char,
+    // used on platforms with raw keycode input, such as non-android sdl
+    keyboard_code,
+    gamepad,
+    mouse
+};
+
+enum class keymod_t {
+    ctrl,
+    alt,
+    shift,
 };
 
 /**
@@ -95,7 +173,7 @@ enum input_event_t {
 struct input_event {
     input_event_t type;
 
-    std::vector<int> modifiers; // Keys that need to be held down for
+    std::set<keymod_t> modifiers; // Keys that need to be held down for
     // this event to be activated.
 
     std::vector<int> sequence; // The sequence of key or mouse events that
@@ -116,7 +194,7 @@ struct input_event {
 #endif
 
     input_event() : edit_refresh( false ) {
-        type = CATA_INPUT_ERROR;
+        type = input_event_t::error;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
@@ -128,6 +206,7 @@ struct input_event {
         shortcut_last_used_action_counter = 0;
 #endif
     }
+    input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
 
@@ -148,29 +227,7 @@ struct input_event {
 #endif
 
     bool operator==( const input_event &other ) const {
-        if( type != other.type ) {
-            return false;
-        }
-
-        if( sequence.size() != other.sequence.size() ) {
-            return false;
-        }
-        for( size_t i = 0; i < sequence.size(); ++i ) {
-            if( sequence[i] != other.sequence[i] ) {
-                return false;
-            }
-        }
-
-        if( modifiers.size() != other.modifiers.size() ) {
-            return false;
-        }
-        for( size_t i = 0; i < modifiers.size(); ++i ) {
-            if( modifiers[i] != other.modifiers[i] ) {
-                return false;
-            }
-        }
-
-        return true;
+        return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
     }
 };
 
@@ -206,6 +263,18 @@ struct action_attributes {
 #define JOY_RIGHTDOWN   (256 + 6)
 #define JOY_LEFTUP      (256 + 7)
 #define JOY_LEFTDOWN    (256 + 8)
+
+enum class keyboard_mode {
+    // Accept character input and text input. Input in this mode
+    // may be manipulated by the system via IMEs or dead keys.
+    keychar,
+    // Accept raw key code input. Text input is not available in this
+    // mode. All keyboard events are directly fed to the program
+    // in this mode, bypassing IMEs and dead keys. Only supported on
+    // some platforms, such as non-android SDL. On other platforms
+    // this falls back to `keychar` automatically.
+    keycode,
+};
 
 /**
  * Manages the translation from action IDs to associated input.
@@ -256,7 +325,7 @@ class input_manager
         /**
          * Get the keycode associated with the given key name.
          */
-        int get_keycode( const std::string &name ) const;
+        int get_keycode( input_event_t inp_type, const std::string &name ) const;
 
         /**
          * Get the key name associated with the given keyboard keycode.
@@ -274,7 +343,7 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event();
+        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
@@ -304,10 +373,15 @@ class input_manager
         t_action_contexts action_contexts;
 
         using t_key_to_name_map = std::map<int, std::string>;
-        t_key_to_name_map keycode_to_keyname;
+        t_key_to_name_map keyboard_char_keycode_to_keyname;
+        t_key_to_name_map keyboard_code_keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
+        t_key_to_name_map mouse_keycode_to_keyname;
         using t_name_to_key_map = std::map<std::string, int>;
-        t_name_to_key_map keyname_to_keycode;
+        t_name_to_key_map keyboard_char_keyname_to_keycode;
+        t_name_to_key_map keyboard_code_keyname_to_keycode;
+        t_name_to_key_map gamepad_keyname_to_keycode;
+        t_name_to_key_map mouse_keyname_to_keycode;
 
         // See @ref get_previously_pressed_key
         int previously_pressed_key;
@@ -315,8 +389,10 @@ class input_manager
         // Maps the key names we see in keybindings.json and in-game to
         // the keycode integers.
         void init_keycode_mapping();
-        void add_keycode_pair( int ch, const std::string &name );
+        void add_keyboard_char_keycode_pair( int ch, const std::string &name );
+        void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
+        void add_mouse_keycode_pair( int ch, const std::string &name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
@@ -395,8 +471,11 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
+        input_context( const std::string &category,
+                       const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
+            : registered_any_input( false ), category( category ),
+              coordinate_input_received( false ), handling_coordinate_input( false ),
+              preferred_keyboard_mode( preferred_keyboard_mode ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -533,8 +612,10 @@ class input_context
                 "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
 
         using input_event_filter = std::function<bool( const input_event & )>;
-        static const input_event_filter disallow_lower_case;
-        static const input_event_filter allow_all_keys;
+
+        // Helper functions to be used as @ref input_event_filter
+        static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
+        static bool allow_all_keys( const input_event &evt );
 
         /**
          * Get a description text for the key/other input method associated
@@ -635,6 +716,11 @@ class input_context
         input_event get_raw_input();
 
         /**
+         * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
+         */
+        cata::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
+
+        /**
          * Get the human-readable name for an action.
          */
         std::string get_action_name( const std::string &action_id ) const;
@@ -675,7 +761,7 @@ class input_context
          * Sets input polling timeout as appropriate for the current interface system.
          * Use this method to set timeouts when using input_context, rather than calling
          * the old timeout() method or using input_manager::(re)set_timeout, as using
-         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * this method will cause input_event_t::timeout events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
         void set_timeout( int val );
@@ -695,6 +781,7 @@ class input_context
         input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
         int timeout = -1;
+        keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode;
 
         /**
          * When registering for actions within an input_context, callers can
@@ -703,6 +790,8 @@ class input_context
          * value is the user-visible name.
          */
         std::map<std::string, translation> action_name_overrides;
+
+        bool is_event_type_enabled( input_event_t type ) const;
 
         /**
          * Returns whether action uses the specified input

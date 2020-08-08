@@ -4,14 +4,15 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "2.5L canteen" },
+    "looks_like": "bottle_plastic",
     "description": "A large plastic water canteen, with a 2.5 liter capacity and carrying strap.",
     "weight": "155 g",
-    "volume": "2500 ml",
+    "volume": "2625 ml",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
@@ -20,10 +21,11 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -31,14 +33,15 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "30 gallon barrel" },
+    "looks_like": "55gal_drum",
     "description": "A huge plastic barrel with a resealable lid.",
     "weight": "6800 g",
-    "volume": "112500 ml",
+    "volume": "118125 ml",
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
     "pocket_data": [
@@ -56,15 +59,16 @@
     "id": "30gal_drum",
     "type": "GENERIC",
     "category": "container",
+    "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
     "description": "A huge steel barrel with a resealable lid.",
     "weight": "12000 g",
-    "volume": "100 L",
+    "volume": "105 L",
     "price": 8000,
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -82,15 +86,16 @@
     "id": "55gal_drum",
     "type": "GENERIC",
     "category": "container",
+    "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
     "description": "A massive steel barrel with a resealable lid.",
     "weight": "20000 g",
-    "volume": "200 L",
+    "volume": "210 L",
     "price": 10000,
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "dark_gray",
     "pocket_data": [
@@ -109,13 +114,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "canvas sack" },
+    "looks_like": "bag_plastic",
     "description": "A large and sturdy canvas sack.  Smells faintly of earth and hard work.",
     "weight": "415 g",
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "15 L", "max_contains_weight": "15 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -125,13 +131,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "canvas bag" },
+    "looks_like": "bag_canvas",
     "description": "Small bag made of canvas.  Looks fine to store dried herbs in.",
     "weight": "5 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 400 } ],
     "symbol": ")",
     "color": "brown"
@@ -141,22 +148,15 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bag" },
+    "looks_like": "bag_canvas",
     "description": "A small, open plastic bag.  Essentially trash.",
     "weight": "5 g",
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "sealed_data": { "spoil_multiplier": 1.0 },
-        "max_contains_volume": "6 L",
-        "max_contains_weight": "10 kg",
-        "moves": 400
-      }
-    ],
-    "material": "plastic",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "TRADER_AVOID" ]
@@ -172,7 +172,7 @@
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -193,12 +193,13 @@
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
     "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
-    "weight": "500 g",
+    "weight": "1500 g",
     "volume": "1 L",
+    "longest_side": "40 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "pocket_data": [
       {
@@ -206,6 +207,7 @@
         "watertight": true,
         "max_contains_volume": "100 L",
         "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm",
         "moves": 400
       }
     ],
@@ -224,7 +226,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -243,14 +245,16 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "glass bottle" },
+    "looks_like": "bottle_plastic",
     "description": "A resealable glass bottle, holds 750 ml of liquid.",
-    "weight": "200 g",
-    "volume": "750 ml",
+    "weight": "450 g",
+    "volume": "1318 ml",
+    "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 2,
-    "material": "glass",
+    "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
     "symbol": ")",
     "color": "cyan",
@@ -260,6 +264,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg",
         "moves": 400
       }
@@ -280,6 +285,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -287,7 +293,7 @@
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan"
@@ -297,15 +303,17 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "condiment bottle" },
-    "description": "An inverted plastic bottle for condiments.  Still sealed from factory, preserves content from rot until opened.",
+    "looks_like": "bottle_plastic",
+    "description": "An inverted plastic bottle for condiments.  Preserves content from rot until opened.",
     "weight": "19 g",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "spoil_multiplier": 0.5,
         "sealed_data": { "spoil_multiplier": 0.0 },
@@ -315,33 +323,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "brown"
-  },
-  {
-    "id": "condiment_bottle_unsealed",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "condiment bottle" },
-    "description": "An inverted plastic bottle for condiments.",
-    "weight": "19 g",
-    "volume": "500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "spoil_multiplier": 0.5,
-        "moves": 400
-      }
-    ],
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -350,6 +332,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small plastic bottle" },
+    "looks_like": "bottle_plastic",
     "description": "A resealable plastic bottle, holds 250 ml of liquid.",
     "weight": "7 g",
     "volume": "251 ml",
@@ -359,6 +342,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg",
         "moves": 400
       }
@@ -366,7 +350,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white"
   },
@@ -375,12 +359,13 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "large plastic bottle" },
+    "looks_like": "bottle_plastic",
     "description": "It's a two-liter plastic bottle that can hold a lot of soda, or, nowadays, boiled water.",
     "weight": "13 g",
     "volume": "2003 ml",
     "price": 25,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "cyan",
     "pocket_data": [
@@ -400,13 +385,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "clay bowl" },
+    "looks_like": "bowl_plastic",
     "description": "A clay bowl with a waterproofed hide lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
     "weight": "60 g",
     "volume": "255 ml",
     "price": 100,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -425,15 +411,17 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "pack" },
+    "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
-    "volume": "253 ml",
+    "volume": "90 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "paper",
+    "material": [ "paper" ],
+    "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "250 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "85 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "box_small",
@@ -446,7 +434,7 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -455,22 +443,23 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
+    "looks_like": "box_small",
     "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
     "weight": "850 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 0,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "2990 ml",
         "max_contains_weight": "20 kg",
         "magazine_well": "2 L"
       }
     ],
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
   },
@@ -479,19 +468,20 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
+    "looks_like": "box_medium",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": "1250 g",
-    "volume": "3 L",
+    "volume": "3150 ml",
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 10,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
+        "rigid": false,
         "max_contains_volume": "4990 ml",
         "max_contains_weight": "50 kg",
         "magazine_well": "3 L"
@@ -509,7 +499,7 @@
     "volume": "5 L",
     "price": 300,
     "price_postapoc": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -529,6 +519,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "hydration pack" },
+    "looks_like": "runner_bag",
     "description": "A slim and lightweight insulated plastic bladder worn on the back.  It has a large pocket and a capped mouth for filling with liquid with a hose that allows the wearer to drink hands-free.",
     "weight": "286 g",
     "volume": "2503 ml",
@@ -545,10 +536,11 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 1 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -563,7 +555,7 @@
     "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 2,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_blue",
     "pocket_data": [
@@ -573,27 +565,19 @@
         "watertight": true,
         "open_container": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
   },
   {
-    "id": "can_drink_unsealed",
-    "copy-from": "can_drink",
-    "type": "GENERIC",
-    "name": { "str": "opened aluminum can" },
-    "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "carton_sealed",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  It has a threaded cap for easy resealing.",
+    "looks_like": "box_small",
+    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap for easy resealing.",
     "weight": "28 g",
     "volume": "2003 ml",
     "price": 0,
@@ -607,33 +591,23 @@
         "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
-        "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg"
       }
     ]
   },
   {
-    "id": "carton_unsealed",
-    "copy-from": "carton_sealed",
-    "type": "GENERIC",
-    "name": { "str": "opened paper carton" },
-    "description": "A half gallon carton constructed of a paper, aluminum and plastic laminate.  This one is open and its contents will spoil.",
-    "symbol": ")",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "plastic_bag_vac",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "vacuum-packed bag" },
+    "looks_like": "bag_plastic",
     "description": "This is a bag of vacuum-packed food.",
     "weight": "2 g",
     "volume": "10 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "%",
     "color": "red",
     "pocket_data": [
@@ -651,13 +625,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small tin can" },
+    "looks_like": "can_drink",
     "description": "A small tin can, like what tuna comes in.",
     "//": "Represents a 4 cm radius x 5 cm height steel can.",
     "weight": "40 g",
     "volume": "253 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [
@@ -671,16 +646,6 @@
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
     ]
-  },
-  {
-    "id": "can_food_unsealed",
-    "copy-from": "can_food",
-    "type": "GENERIC",
-    "name": { "str": "small opened tin can" },
-    "description": "A small tin can, like what tuna comes in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "can_medium",
@@ -705,26 +670,18 @@
     "volume": "503 ml"
   },
   {
-    "id": "can_medium_unsealed",
-    "copy-from": "can_medium",
-    "type": "GENERIC",
-    "name": { "str": "medium opened tin can" },
-    "description": "A medium tin can, like what soup comes in.  This one is opened and can't be easily sealed.",
-    "looks_like": "can_food_unsealed",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "canteen",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic canteen" },
+    "looks_like": "2lcanteen",
     "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
     "weight": "155 g",
     "volume": "1503 ml",
     "price": 800,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -733,10 +690,11 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -744,12 +702,13 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "thermos", "str_pl": "thermoses" },
+    "looks_like": "bottle_plastic",
     "description": "A Thermos brand vacuum flask.  Built for temperature retention, helps keep things hot or cold.  Contains 1L of liquid.",
     "weight": "530 g",
     "price": 1595,
     "price_postapoc": 100,
     "volume": "1250 ml",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "I",
     "color": "green",
     "pocket_data": [
@@ -768,13 +727,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "clay canister" },
+    "looks_like": "bowl_clay",
     "description": "A fragile clay vessel.  It can be used to make crude impact grenades or to store liquid.",
     "weight": "268 g",
     "volume": "253 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": "*",
     "color": "brown",
     "pocket_data": [
@@ -793,6 +753,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "clay hydria" },
+    "looks_like": "bowl_clay",
     "description": "A 15-liter clay pot with three handles for carrying and for pouring.",
     "weight": "1955 g",
     "volume": "15003 ml",
@@ -800,7 +761,7 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -819,13 +780,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "large clay pot" },
+    "looks_like": "bowl_clay",
     "description": "A bulky and heavy clay pot with a waterproofed hide lid, meant to store water, but can carry other liquids in a pinch.",
     "weight": "4887 g",
     "volume": "37500 ml",
     "price": 10000,
     "price_postapoc": 10,
     "to_hit": -2,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -846,11 +808,11 @@
     "name": { "str": "plastic cup" },
     "description": "A small, vacuum formed cup.",
     "weight": "6 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -866,23 +828,15 @@
     ]
   },
   {
-    "id": "cup_plastic_unsealed",
-    "copy-from": "cup_plastic",
-    "type": "GENERIC",
-    "name": { "str": "opened plastic cup" },
-    "description": "A small, vacuum formed cup, essentially trash.",
-    "symbol": ")",
-    "color": "light_cyan",
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "flask_glass",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "glass flask" },
+    "looks_like": "bottle_glass",
     "description": "A 250 ml laboratory conical flask, with a rubber bung.",
     "weight": "48 g",
-    "volume": "251 ml",
+    "volume": "360 ml",
+    "longest_side": "132 mm",
     "price": 400,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -906,9 +860,11 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "test tube" },
+    "looks_like": "flask_glass",
     "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
     "weight": "36 g",
-    "volume": "11ml",
+    "volume": "13 ml",
+    "longest_side": "100 mm",
     "price": 300,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -932,13 +888,15 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "beaker" },
+    "looks_like": "flask_glass",
     "description": "A 250ml laboratory beaker.  Basically a cup with delusions of grandeur.",
     "weight": "150 g",
-    "volume": "251ml",
+    "volume": "251 ml",
+    "longest_side": "72 mm",
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -958,13 +916,15 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "graduated cylinder" },
+    "looks_like": "flask_glass",
     "description": "A tall, narrow glass cylinder with precise markings for measuring fluid quantities.  An important science tool, it is also useful for anal retentive chefs.",
     "weight": "150 g",
-    "volume": "101ml",
+    "volume": "177 ml",
+    "longest_side": "25 cm",
     "price": 500,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "|",
     "color": "light_cyan",
     "pocket_data": [
@@ -973,7 +933,8 @@
         "rigid": true,
         "watertight": true,
         "open_container": true,
-        "sealed_data": { "spoil_multiplier": 1.1 },
+        "//": "sealed_data is here so the container can be sealed to avoid spilling",
+        "sealed_data": { "spoil_multiplier": 1.0 },
         "max_contains_volume": "100 ml",
         "max_contains_weight": "500 g"
       }
@@ -985,13 +946,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "microcentrifuge tube" },
+    "looks_like": "test_tube",
     "description": "These plastic tubes, with little built in snap-caps, are a great way to store a tiny amount of liquid.  Great for jello shooters if 1mL is enough for a shot for you.  Cool people call these \"eppies\".",
     "weight": "1 g",
     "volume": "2ml",
     "price": 10,
     "price_postapoc": 5,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "v",
     "color": "light_cyan",
     "pocket_data": [
@@ -1010,6 +972,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "hip flask" },
+    "looks_like": "2lcanteen",
     "description": "A 250 ml metal flask with a hinged screw-on lid, commonly used to discreetly transport alcohol.",
     "weight": "120 g",
     "volume": "251 ml",
@@ -1017,7 +980,7 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "light_gray",
     "pocket_data": [
@@ -1026,45 +989,29 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "jar_3l_glass",
+    "id": "jar_3l_glass_sealed",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "3L glass jar" },
-    "description": "A three-liter glass jar with a metal screw top lid, used for canning.",
+    "looks_like": "jar_glass_sealed",
+    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened.",
     "weight": "365 g",
-    "volume": "3003 ml",
+    "volume": "3852 ml",
+    "longest_side": "298 mm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 5,
-    "material": "glass",
-    "symbol": ")",
-    "color": "light_cyan",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "6 kg"
-      }
-    ],
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
-  },
-  {
-    "id": "jar_3l_glass_sealed",
-    "copy-from": "jar_3l_glass",
-    "type": "GENERIC",
-    "name": { "str": "sealed 3L glass jar" },
-    "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly to preserve contents from rot.",
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1076,38 +1023,21 @@
         "max_contains_weight": "6 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
-  },
-  {
-    "id": "jar_glass",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "glass jar" },
-    "description": "A half-liter glass jar with a metal screw top lid, used for canning.",
-    "weight": "150 g",
-    "volume": "502 ml",
-    "price": 0,
-    "bashing": 4,
-    "material": "glass",
-    "symbol": ")",
-    "color": "light_cyan",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": true,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg"
-      }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "jar_glass_sealed",
-    "copy-from": "jar_glass",
     "type": "GENERIC",
-    "name": { "str": "sealed glass jar" },
-    "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
+    "category": "container",
+    "name": { "str": "glass jar" },
+    "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened (assuming it was sterile before sealing).",
+    "weight": "150 g",
+    "volume": "680 ml",
+    "longest_side": "132 mm",
+    "price": 0,
+    "bashing": 4,
+    "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1119,7 +1049,8 @@
         "max_contains_weight": "1 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "jerrycan",
@@ -1132,7 +1063,7 @@
     "price": 1250,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1141,6 +1072,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "10 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "15 kg"
       }
     ]
@@ -1150,6 +1082,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "steel jerrycan" },
+    "looks_like": "jerrycan",
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "4815 g",
     "volume": "20002 ml",
@@ -1157,7 +1090,7 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [
@@ -1166,6 +1099,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "20 L",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "25 kg"
       }
     ],
@@ -1176,13 +1110,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "clay jug" },
+    "looks_like": "bowl_clay",
     "description": "A clay container with a lid, used to hold and pour liquids.",
     "weight": "400 g",
     "volume": "1002 ml",
     "price": 100,
     "price_postapoc": 10,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1201,13 +1136,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "gallon jug" },
+    "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
     "weight": "190 g",
     "volume": "3752 ml",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1216,6 +1152,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3750 ml",
+        "max_item_volume": "32 ml",
         "max_contains_weight": "8 kg"
       }
     ]
@@ -1225,6 +1162,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "aluminum keg" },
+    "looks_like": "30l_barrel",
     "description": "A reusable lightweight aluminum keg, used for shipping beer.  It has a capacity of 50 liters.",
     "weight": "5040 g",
     "volume": "50050 ml",
@@ -1232,7 +1170,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1241,6 +1179,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
         "max_contains_weight": "100 kg"
       }
     ],
@@ -1251,6 +1190,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "steel keg" },
+    "looks_like": "keg",
     "description": "A reusable heavy steel keg, used for shipping beer.  It has a capacity of 50 liters.",
     "weight": "12600 g",
     "volume": "50050 ml",
@@ -1258,7 +1198,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_cyan",
     "pocket_data": [
@@ -1267,6 +1207,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "50 L",
+        "max_item_volume": "50 ml",
         "max_contains_weight": "120 kg"
       }
     ],
@@ -1284,15 +1225,24 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ]
   },
   {
     "id": "metal_tank",
     "type": "GENERIC",
     "category": "container",
+    "looks_like": "keg",
     "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
     "description": "A large metal tank for holding liquids.  Useful for crafting.",
     "weight": "5668 g",
@@ -1319,6 +1269,7 @@
     "id": "metal_tank_little",
     "type": "GENERIC",
     "category": "container",
+    "looks_like": "keg",
     "name": { "str": "metal tank (2L)", "str_pl": "metal tanks (2L)" },
     "description": "A small metal tank for gas or liquids.  Useful for crafting.",
     "weight": "800 g",
@@ -1327,7 +1278,7 @@
     "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 5,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "}",
     "color": "light_cyan",
     "pocket_data": [
@@ -1346,13 +1297,14 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wooden canteen" },
+    "looks_like": "canteen",
     "description": "A water canteen made from wood, secured by metal bands and sealed with wax or pitch.  Holds 1.5 liters and has a simple carry strap.",
     "weight": "232 g",
     "volume": "1750 ml",
     "price": 800,
     "price_postapoc": 10,
     "to_hit": 1,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
@@ -1361,10 +1313,11 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1379,16 +1332,25 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": "gutskin",
+    "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ]
   },
   {
     "id": "waterskin",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small waterskin" },
+    "looks_like": "canvas_bag",
     "description": "A small watertight leather bag with a carrying strap, can hold 1.5 liters of water.",
     "weight": "453 g",
     "volume": "250 ml",
@@ -1396,11 +1358,19 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg" } ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "3 kg"
+      }
+    ],
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1408,6 +1378,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "waterskin" },
+    "looks_like": "waterskin",
     "description": "A watertight leather bag with a carrying strap, can hold 3 liters of water.",
     "weight": "783 g",
     "volume": "500 ml",
@@ -1415,11 +1386,19 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 2,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3 L", "max_contains_weight": "6 kg" } ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "3 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1427,6 +1406,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "large waterskin" },
+    "looks_like": "waterskin2",
     "description": "A large watertight leather bag with a carrying strap, can hold 5 liters of water.",
     "weight": "990 g",
     "volume": "750 ml",
@@ -1434,11 +1414,19 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 3,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "5 L", "max_contains_weight": "10 kg" } ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "5 L",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "10 kg"
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1446,6 +1434,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wooden barrel" },
+    "looks_like": "30l_barrel",
     "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
     "weight": "42408 g",
     "volume": "101 L",
@@ -1470,7 +1459,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
@@ -1490,12 +1479,13 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "styrofoam cup" },
+    "looks_like": "cup_plastic",
     "description": "A cheap, disposable cup with a plastic lid and straw.",
     "weight": "50 g",
     "volume": "501 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1518,7 +1508,7 @@
     "volume": "4500 ml",
     "price": 10,
     "price_postapoc": 10,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [
@@ -1543,7 +1533,7 @@
     "price": 0,
     "price_postapoc": 25,
     "to_hit": -5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ")",
     "color": "white",
     "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "3750 ml", "max_contains_weight": "7 kg" } ],
@@ -1563,12 +1553,13 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "large tin can" },
+    "looks_like": "can_food",
     "description": "A large tin can, like what beans come in.  Holds a substantial amount of food.",
     "weight": "350 g",
     "volume": "3003 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "blue",
     "pocket_data": [
@@ -1583,26 +1574,17 @@
     ]
   },
   {
-    "id": "can_food_big_unsealed",
-    "copy-from": "can_food_big",
-    "type": "GENERIC",
-    "name": { "str": "large opened tin can" },
-    "description": "A large tin can, like what beans come in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
-    "color": "blue",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
-  },
-  {
     "id": "survival_kit_box",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
+    "looks_like": "box_small",
     "description": "An aluminum box that used to contain a small survival kit.  Can hold 1 liter of liquid.",
     "weight": "200 g",
     "volume": "1002 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": "!",
     "color": "light_cyan",
     "pocket_data": [
@@ -1621,12 +1603,13 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small cardboard box of tea bags", "str_pl": "small cardboard boxes of tea bags" },
+    "looks_like": "box_small",
     "description": "A very small cardboard box with tea brand written on it.",
     "weight": "10 g",
-    "volume": "100 ml",
+    "volume": "105 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": "cardboard",
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]

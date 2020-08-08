@@ -1,14 +1,14 @@
 [
   {
     "type": "skill",
-    "ident": "barter",
+    "id": "barter",
     "name": { "str": "bartering" },
     "description": "Your skill in bargaining, haggling, and trading with others.  Higher levels increase the odds of getting the better end of a deal, and might even see you convincing others to give you free stuff.",
     "display_category": "display_social"
   },
   {
     "type": "skill",
-    "ident": "speech",
+    "id": "speech",
     "name": { "str": "speaking" },
     "description": "Your skill in speaking to other people.  Covers ability in boasting, flattery, threats, persuasion, lies, and other facets of interpersonal communication.  Works best in conjunction with a high level of intelligence.",
     "companion_survival_rank_factor": 1,
@@ -17,14 +17,14 @@
   },
   {
     "type": "skill",
-    "ident": "computer",
+    "id": "computer",
     "name": { "str": "computers" },
     "description": "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security.",
     "display_category": "display_interaction"
   },
   {
     "type": "skill",
-    "ident": "firstaid",
+    "id": "firstaid",
     "name": { "str": "first aid" },
     "description": "Your skill in effecting emergency medical treatment.  Higher levels allow better use of medicines and items like bandages and first aid kits, and reduce the failure and complication rates of medical procedures.",
     "companion_survival_rank_factor": 1,
@@ -34,7 +34,7 @@
   },
   {
     "type": "skill",
-    "ident": "mechanics",
+    "id": "mechanics",
     "name": { "str": "mechanics" },
     "description": "Your skill in engineering, maintaining and repairing vehicles and other mechanical systems.  This skill covers the craft of items with complex parts, and plays a role in the installation of bionic equipment.",
     "companion_industry_rank_factor": 1,
@@ -43,7 +43,7 @@
   },
   {
     "type": "skill",
-    "ident": "traps",
+    "id": "traps",
     "name": { "str": "trapping" },
     "description": "Your skill in creating, setting, finding and disarming traps safely and effectively.  This skill does not affect the evasion of traps that are triggered.",
     "companion_survival_rank_factor": 1,
@@ -52,14 +52,14 @@
   },
   {
     "type": "skill",
-    "ident": "driving",
+    "id": "driving",
     "name": { "str": "driving" },
     "description": "Your skill in operating and steering a vehicle in motion.  A higher level allows greater control over vehicles at higher speeds, and reduces the penalty of shooting while driving.",
     "display_category": "display_interaction"
   },
   {
     "type": "skill",
-    "ident": "swimming",
+    "id": "swimming",
     "name": { "str": "swimming" },
     "description": "Your ability to stay afloat and move around in bodies of water.  This skill keeps you from drowning, affects your combat effectiveness and speed in deep water, and determines the detriment of swimming with heavier gear.",
     "display_category": "display_interaction",
@@ -67,7 +67,7 @@
   },
   {
     "type": "skill",
-    "ident": "fabrication",
+    "id": "fabrication",
     "name": { "str": "fabrication" },
     "description": "Your skill in working with raw materials and shaping them into useful objects.  This skill plays an important role in the crafting of many objects.",
     "companion_industry_rank_factor": 1,
@@ -82,16 +82,16 @@
   },
   {
     "type": "skill",
-    "ident": "cooking",
+    "id": "cooking",
     "name": { "str": "cooking" },
-    "description": "Your skill in combining food ingredients to make other, tastier food items.  It may also be used in certain chemical mixtures and other, more esoteric tasks.",
+    "description": "Your skill in combining food ingredients to make other, tastier food items.",
     "companion_industry_rank_factor": 1,
     "display_category": "display_crafting",
     "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
   },
   {
     "type": "skill",
-    "ident": "tailor",
+    "id": "tailor",
     "name": { "str": "tailoring" },
     "description": "Your skill in the craft and repair of clothing, bags, blankets and other textiles.  Affects knitting, sewing, stitching, weaving, and nearly anything else involving a needle and thread.",
     "companion_industry_rank_factor": 1,
@@ -100,7 +100,7 @@
   },
   {
     "type": "skill",
-    "ident": "survival",
+    "id": "survival",
     "name": { "str": "survival" },
     "description": "Your skill in surviving the wilderness, and in crafting various basic survival items.  This also covers your ability to skin and butcher animals for meat and hides.",
     "companion_survival_rank_factor": 1,
@@ -118,7 +118,7 @@
   },
   {
     "type": "skill",
-    "ident": "electronics",
+    "id": "electronics",
     "name": { "str": "electronics" },
     "description": "Your skill in dealing with electrical systems, used in the craft and repair of objects with electrical components.  This skill is an important part of installing and managing bionic implants.",
     "companion_industry_rank_factor": 1,
@@ -126,7 +126,7 @@
   },
   {
     "type": "skill",
-    "ident": "archery",
+    "id": "archery",
     "name": { "str": "archery" },
     "description": "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
     "tags": [ "combat_skill" ],
@@ -144,7 +144,7 @@
   },
   {
     "type": "skill",
-    "ident": "gun",
+    "id": "gun",
     "name": { "str": "marksmanship" },
     "description": "Your overall skill in using bows and firearms.  With higher levels, this general experience increases accuracy with any bows or firearms, but is secondary to practice with the type of ranged weapon in question.",
     "tags": [ "combat_skill" ],
@@ -153,7 +153,7 @@
   },
   {
     "type": "skill",
-    "ident": "launcher",
+    "id": "launcher",
     "name": { "str": "launchers" },
     "description": "Your skill in using heavy weapons like rocket, grenade or missile launchers.  These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage.",
     "tags": [ "combat_skill" ],
@@ -162,7 +162,7 @@
   },
   {
     "type": "skill",
-    "ident": "pistol",
+    "id": "pistol",
     "name": { "str": "handguns" },
     "description": "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns.  They are very effective at close quarters, though unsuited for long range engagement.",
     "tags": [ "combat_skill" ],
@@ -172,7 +172,7 @@
   },
   {
     "type": "skill",
-    "ident": "rifle",
+    "id": "rifle",
     "name": { "str": "rifles" },
     "description": "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters.  Fully automatic rifles can fire rapidly, but are harder to handle properly.",
     "tags": [ "combat_skill" ],
@@ -182,7 +182,7 @@
   },
   {
     "type": "skill",
-    "ident": "shotgun",
+    "id": "shotgun",
     "name": { "str": "shotguns" },
     "description": "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range.  Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
     "tags": [ "combat_skill" ],
@@ -192,7 +192,7 @@
   },
   {
     "type": "skill",
-    "ident": "smg",
+    "id": "smg",
     "name": { "str": "submachine guns" },
     "description": "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
     "tags": [ "combat_skill" ],
@@ -202,7 +202,7 @@
   },
   {
     "type": "skill",
-    "ident": "throw",
+    "id": "throw",
     "name": { "str": "throwing" },
     "description": "Your skill in throwing objects over a distance.  Skill increases accuracy, and at higher levels, the range of a throw.",
     "tags": [ "combat_skill" ],
@@ -211,7 +211,7 @@
   },
   {
     "type": "skill",
-    "ident": "melee",
+    "id": "melee",
     "name": { "str": "melee" },
     "description": "Your skill and finesse in personal combat, both with and without a weapon.  Higher levels can significantly increase the accuracy and effectiveness of your physical attacks.",
     "tags": [ "combat_skill" ],
@@ -229,7 +229,7 @@
   },
   {
     "type": "skill",
-    "ident": "bashing",
+    "id": "bashing",
     "name": { "str": "bashing weapons" },
     "description": "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles.  Skill increases damage, and higher levels will improve the accuracy of an attack.",
     "tags": [ "combat_skill" ],
@@ -239,7 +239,7 @@
   },
   {
     "type": "skill",
-    "ident": "cutting",
+    "id": "cutting",
     "name": { "str": "cutting weapons" },
     "description": "Your skill in fighting with weaponry designed to cut, hack and slash an opponent.  Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides.",
     "tags": [ "combat_skill" ],
@@ -249,7 +249,7 @@
   },
   {
     "type": "skill",
-    "ident": "dodge",
+    "id": "dodge",
     "name": { "str": "dodging" },
     "description": "Your ability to dodge an oncoming threat, be it an enemy's attack, a triggered trap, or a falling rock.  This skill is also used in attempts to fall gracefully, and for other acrobatic feats.  The first number shown includes modifiers, and the second does not.",
     "display_category": "display_melee",
@@ -257,7 +257,7 @@
   },
   {
     "type": "skill",
-    "ident": "stabbing",
+    "id": "stabbing",
     "name": { "str": "piercing weapons" },
     "description": "Your skill in fighting with knives, spears and other such stabbing implements.  Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow.",
     "tags": [ "combat_skill" ],
@@ -267,7 +267,7 @@
   },
   {
     "type": "skill",
-    "ident": "unarmed",
+    "id": "unarmed",
     "name": { "str": "unarmed combat" },
     "description": "Your skill in hand-to-hand fighting.  For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
     "tags": [ "combat_skill" ],
@@ -278,7 +278,7 @@
   },
   {
     "type": "skill",
-    "ident": "lockpick",
+    "id": "lockpick",
     "name": { "str": "lock picking" },
     "description": "Your skill in picking all sorts of locks which require physical keys - from simple pin tumbler locks to intricate disc tumbler locks.  Skill increases chance and decreases time required to successfully pick the lock.",
     "companion_survival_rank_factor": 1,
@@ -286,7 +286,16 @@
   },
   {
     "type": "skill",
-    "ident": "weapon",
+    "id": "chemistry",
+    "name": { "str": "chemistry" },
+    "description": "Your skill in creating certain mixtures, solutions and compounds from various chemical ingredients.",
+    "companion_industry_rank_factor": 1,
+    "display_category": "display_crafting",
+    "companion_skill_practice": [ { "skill": "menial", "weight": 15 } ]
+  },
+  {
+    "type": "skill",
+    "id": "weapon",
     "name": { "str": "weapon" },
     "description": "seeing this is a bug",
     "tags": [ "contextual_skill" ],

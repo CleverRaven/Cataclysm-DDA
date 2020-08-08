@@ -130,6 +130,11 @@ int field_entry::set_field_intensity( int new_intensity )
 
 }
 
+void field_entry::mod_field_intensity( int mod )
+{
+    set_field_intensity( get_field_intensity() + mod );
+}
+
 time_duration field_entry::get_field_age() const
 {
     return age;
@@ -268,7 +273,7 @@ description_affix field::displayed_description_affix() const
 int field::total_move_cost() const
 {
     int current_cost = 0;
-    for( auto &fld : _field_type_list ) {
+    for( const auto &fld : _field_type_list ) {
         current_cost += fld.second.move_cost();
     }
     return current_cost;

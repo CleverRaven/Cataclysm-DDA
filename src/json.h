@@ -821,7 +821,8 @@ class JsonObject
 
     public:
         JsonObject( JsonIn &jsin );
-        JsonObject() : start( 0 ), end_( 0 ), jsin( nullptr ) {}
+        JsonObject() :
+            start( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
         JsonObject( JsonObject && ) = default;
         JsonObject &operator=( const JsonObject & ) = default;
@@ -844,8 +845,8 @@ class JsonObject
         void allow_omitted_members() const;
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
-        [[noreturn]] void throw_error( std::string err ) const;
-        [[noreturn]] void throw_error( std::string err, const std::string &name ) const;
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1022,8 +1023,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        [[noreturn]] void throw_error( std::string err );
-        [[noreturn]] void throw_error( std::string err, int idx );
+        [[noreturn]] void throw_error( const std::string &err );
+        [[noreturn]] void throw_error( const std::string &err, int idx );
 
         // iterative access
         bool next_bool();

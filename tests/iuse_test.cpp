@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <cstdlib>
 #include <memory>
@@ -6,7 +8,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
@@ -71,8 +72,16 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
             THEN( "one dose is depleted" ) {
                 CHECK( antifungal.charges == charges_before - 1 );
 
-                AND_THEN( "it cures the fungal infection" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+                AND_THEN( "it applies the antifungal effect" ) {
+                    CHECK( dummy.has_effect( efftype_id( "antifungal" ) ) );
+                }
+                AND_WHEN( "time passes" ) {
+                    const time_duration fungal_clock = dummy.get_effect_dur( efftype_id( "fungus" ) );
+                    REQUIRE( fungal_clock == 1_hours );
+                    dummy.process_effects();
+                    THEN( "duration of fungal infection shortens" ) {
+                        CHECK( fungal_clock > dummy.get_effect_dur( efftype_id( "fungus" ) ) );
+                    }
                 }
             }
         }
@@ -188,9 +197,11 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    item oxygen( "oxygen_tank", 0, item::default_charges_tag{} );
+    item oxygen( "oxygen_tank" );
+    itype_id o2_ammo( "oxygen" );
+    oxygen.ammo_set( o2_ammo );
 
-    int charges_before = oxygen.charges;
+    int charges_before = oxygen.ammo_remaining();
     REQUIRE( charges_before > 0 );
 
     // Ensure baseline painkiller value to measure painkiller effects
@@ -203,7 +214,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the smoke inhalation" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "smoke" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -218,7 +229,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of tear gas" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "teargas" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -233,7 +244,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
         THEN( "a dose of oxygen relieves the effects of asthma" ) {
             dummy.invoke_item( &oxygen );
-            CHECK( oxygen.charges == charges_before - 1 );
+            CHECK( oxygen.ammo_remaining() == charges_before - 1 );
             CHECK_FALSE( dummy.has_effect( efftype_id( "asthma" ) ) );
 
             AND_THEN( "it acts as a mild painkiller" ) {
@@ -253,7 +264,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen is stimulating" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 // values should match iuse function `oxygen_bottle`
                 CHECK( dummy.get_stim() == 8 );
 
@@ -273,7 +284,7 @@ TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 
             THEN( "a dose of oxygen has no additional stimulation effects" ) {
                 dummy.invoke_item( &oxygen );
-                CHECK( oxygen.charges == charges_before - 1 );
+                CHECK( oxygen.ammo_remaining() == charges_before - 1 );
                 CHECK( dummy.get_stim() == max_stim );
 
                 AND_THEN( "it acts as a mild painkiller" ) {
@@ -317,29 +328,27 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
+    dummy.set_body();
     item towel( "towel", 0, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
-        dummy.drench( 100, { bp_torso, bp_head, bp_arm_l, bp_arm_r }, false );
-        REQUIRE( dummy.body_wetness[bp_torso] > 0 );
-        REQUIRE( dummy.body_wetness[bp_head] > 0 );
-        REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
-        REQUIRE( dummy.body_wetness[bp_arm_r] > 0 );
-
-        // FIXME: Morale alone is the trigger for drying off!
-        // Without the morale modifier, towel_common thinks you're dry
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
+        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+                      false );
+        REQUIRE( dummy.get_part_wetness( bodypart_id( "torso" ) ) > 0 );
+        REQUIRE( dummy.get_part_wetness( bodypart_id( "head" ) ) > 0 );
+        REQUIRE( dummy.get_part_wetness( bodypart_id( "arm_l" ) ) > 0 );
+        REQUIRE( dummy.get_part_wetness( bodypart_id( "arm_r" ) ) > 0 );
 
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
 
             THEN( "it dries them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] == 0 );
-                CHECK( dummy.body_wetness[bp_head] == 0 );
-                CHECK( dummy.body_wetness[bp_arm_l] == 0 );
-                CHECK( dummy.body_wetness[bp_arm_r] == 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "torso" ) ) == 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "head" ) ) == 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "arm_l" ) ) == 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "arm_r" ) ) == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
                     CHECK( towel.typeId().str() == "towel_wet" );
@@ -353,15 +362,17 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it does not dry them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] > 0 );
-                CHECK( dummy.body_wetness[bp_head] > 0 );
-                CHECK( dummy.body_wetness[bp_arm_l] > 0 );
-                CHECK( dummy.body_wetness[bp_arm_r] > 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "torso" ) ) > 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "head" ) ) > 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "arm_l" ) ) > 0 );
+                CHECK( dummy.get_part_wetness( bodypart_id( "arm_r" ) ) > 0 );
             }
         }
     }
 
     GIVEN( "avatar has poor morale due to being wet" ) {
+        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+                      false );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
         REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
 
@@ -510,7 +521,9 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    item inhaler( "inhaler", 0, item::default_charges_tag{} );
+    item inhaler( "inhaler" );
+    inhaler.ammo_set( itype_id( "albuterol" ) );
+    REQUIRE( inhaler.ammo_remaining() > 0 );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( efftype_id( "smoke" ), 1_hours );

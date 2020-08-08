@@ -1,16 +1,17 @@
 #include "npctrade.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <memory>
 #include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "avatar.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -20,11 +21,9 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
-#include "item_category.h"
-#include "item_contents.h"
+#include "item_category.h" // IWYU pragma: keep
 #include "map_selector.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -35,6 +34,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 
@@ -90,14 +90,16 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    invslice slice = np.inv.slice();
-    for( auto &i : slice ) {
-        item &it = i->front();
+    const auto inv_all = np.items_with( []( const item & ) {
+        return true;
+    } );
+    for( item *i : inv_all ) {
+        item &it = *i;
 
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
+            result.emplace_back( np, it, val, static_cast<int>( it.count() ) );
         }
     }
 
@@ -163,6 +165,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
             return;
         }
 
+        if( it.count() <= 0 ) {
+            debugmsg( "item %s has zero or negative charges", it.typeId().str() );
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
@@ -212,9 +219,13 @@ void item_pricing::set_values( int ip_count )
         count = ip_count;
     } else {
         charges = i_p->count();
-        price /= charges;
-        vol /= charges;
-        weight /= charges;
+        if( charges > 0 ) {
+            price /= charges;
+            vol /= charges;
+            weight /= charges;
+        } else {
+            debugmsg( "item %s has zero or negative charges", i_p->typeId().str() );
+        }
     }
 }
 
@@ -240,12 +251,13 @@ void trading_window::setup_win( ui_adaptor &ui )
 // 'cost' is the cost of a service the NPC may be rendering, if any.
 void trading_window::setup_trade( int cost, npc &np )
 {
+    avatar &player_character = get_avatar();
     // Populate the list of what the NPC is willing to buy, and the prices they pay
     // Note that the NPC's barter skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
-    theirs = npc_trading::init_buying( g->u, np, true );
-    yours = npc_trading::init_buying( np, g->u, false );
+    theirs = npc_trading::init_buying( player_character, np, true );
+    yours = npc_trading::init_buying( np, player_character, false );
 
     if( np.will_exchange_items_freely() ) {
         your_balance = 0;
@@ -278,10 +290,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
     bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
 
     // Colors for hinting if the trade will be accepted or not.
-    const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
-    const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
+    const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
 
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
@@ -316,6 +327,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                trade_color, cost_str );
 
     if( !deal.empty() ) {
+        const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
         mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                    trade_color_light, deal );
     }
@@ -324,13 +336,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
 
     mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
     mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
+    avatar &player_character = get_avatar();
     // Draw lists of items, starting from offset
     for( size_t whose = 0; whose <= 1; whose++ ) {
         const bool they = whose == 0;
         const std::vector<item_pricing> &list = they ? theirs : yours;
         const size_t &offset = they ? them_off : you_off;
-        const player &person = they ? static_cast<player &>( np ) :
-                               static_cast<player &>( g->u );
+        const player &person = they ? static_cast<player &>( np ) : static_cast<player &>
+                               ( player_character );
         catacurses::window &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
@@ -344,7 +357,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
+                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -386,9 +399,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
             mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
         }
     }
-    wrefresh( w_head );
-    wrefresh( w_them );
-    wrefresh( w_you );
+    wnoutrefresh( w_head );
+    wnoutrefresh( w_them );
+    wnoutrefresh( w_you );
 }
 
 void trading_window::show_item_data( size_t offset,
@@ -409,10 +422,10 @@ void trading_window::show_item_data( size_t offset,
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
         draw_border( w_tmp );
-        wrefresh( w_tmp );
+        wnoutrefresh( w_tmp );
     } );
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -425,7 +438,7 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
                 continue;
             }
             size_t help = evt.get_first_input();
@@ -482,7 +495,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         weight_left = 5'000_kilogram;
     }
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "SWITCH_LISTS" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -560,7 +573,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
                 continue;
             }
             size_t ch = evt.get_first_input();
@@ -670,8 +683,9 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
+        avatar &player_character = get_avatar();
+        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {
@@ -696,10 +710,9 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            g->u.practice( skill_barter, practice / 10000 );
+            player_character.practice( skill_barter, practice / 10000 );
         }
     }
-    g->refresh_all();
     return traded;
 }
 

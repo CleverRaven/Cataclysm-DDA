@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <list>
 #include <map>
@@ -9,8 +11,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -24,7 +24,7 @@
 #include "type_id.h"
 #include "visitable.h"
 
-const trait_id trait_debug_storage( "DEBUG_STORAGE" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 enum inventory_location {
     GROUND,
@@ -228,8 +228,8 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( p.inv.assigned_invlet.find( invlet ) != p.inv.assigned_invlet.end() &&
-            p.inv.assigned_invlet[invlet] == it.typeId() ) {
+        if( p.inv->assigned_invlet.find( invlet ) != p.inv->assigned_invlet.end() &&
+            p.inv->assigned_invlet[invlet] == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
@@ -240,7 +240,7 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
 
 static void drop_at_feet( player &p, const int id )
 {
-    size_t size_before = g->m.i_at( p.pos() ).size();
+    size_t size_before = get_map().i_at( p.pos() ).size();
 
     item *found = retrieve_item( p, id );
     REQUIRE( found );
@@ -249,12 +249,12 @@ static void drop_at_feet( player &p, const int id )
     p.drop( loc, p.pos() );
     p.activity.do_turn( p );
 
-    REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );
+    REQUIRE( get_map().i_at( p.pos() ).size() == size_before + 1 );
 }
 
 static void pick_up_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
@@ -270,28 +270,28 @@ static void pick_up_from_feet( player &p, int id )
 
 static void wear_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
     REQUIRE( found );
 
     p.wear_item( *found, false );
-    g->m.i_rem( p.pos(), found );
+    get_map().i_rem( p.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
 static void wield_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
     REQUIRE( found );
 
     p.wield( *found );
-    g->m.i_rem( p.pos(), found );
+    get_map().i_rem( p.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
@@ -300,7 +300,7 @@ static void add_item( player &p, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            g->m.add_item( p.pos(), it );
+            get_map().add_item( p.pos(), it );
             break;
         case INVENTORY:
             p.i_add( it );
@@ -460,10 +460,10 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         invlet_state expected_second_invlet_state = second_invlet_state;
 
         // remove all items
-        dummy.inv.clear();
+        dummy.inv->clear();
         dummy.worn.clear();
         dummy.remove_weapon();
-        g->m.i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos() );
         dummy.worn.push_back( item( "backpack" ) );
 
         // some two items that can be wielded, worn, and picked up
@@ -542,10 +542,10 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     }
 
     // remove all items
-    dummy.inv.clear();
+    dummy.inv->clear();
     dummy.worn.clear();
     dummy.remove_weapon();
-    g->m.i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos() );
     dummy.worn.push_back( item( "backpack" ) );
 
     // some stackable item that can be wielded and worn
@@ -594,10 +594,10 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     REQUIRE( loc != GROUND );
 
     // remove all items
-    dummy.inv.clear();
+    dummy.inv->clear();
     dummy.worn.clear();
     dummy.remove_weapon();
-    g->m.i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos() );
 
     // two items of the same type that do not stack
     item tshirt1( "tshirt" );
@@ -678,10 +678,10 @@ static void merge_invlet_test( player &dummy, inventory_location from )
                                       invlet_2 : 0;
 
         // remove all items
-        dummy.inv.clear();
+        dummy.inv->clear();
         dummy.worn.clear();
         dummy.remove_weapon();
-        g->m.i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos() );
         dummy.worn.push_back( item( "backpack" ) );
 
         // some stackable item
@@ -750,14 +750,14 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );
-    g->m.ter_set( spot, ter_id( "t_dirt" ) );
-    g->m.furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_debug_storage ) ) {
-        dummy.set_mutation( trait_debug_storage );
+    get_map().ter_set( spot, ter_id( "t_dirt" ) );
+    get_map().furn_set( spot, furn_id( "f_null" ) );
+    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
+        dummy.set_mutation( trait_DEBUG_STORAGE );
     }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );

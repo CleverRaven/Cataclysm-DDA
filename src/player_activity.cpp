@@ -7,8 +7,8 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "construction.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -21,6 +21,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -35,6 +36,8 @@ static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 
+static const efftype_id effect_nausea( "nausea" );
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -42,12 +45,12 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     type( t ), moves_total( turns ), moves_left( turns ),
     index( Index ),
     position( pos ), name( name_in ),
-    placement( tripoint_min ), auto_resume( false )
+    placement( tripoint_min )
 {
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+    actor( actor.clone() )
 {
 }
 
@@ -73,6 +76,13 @@ void player_activity::set_to_null()
 {
     type = activity_id::NULL_ID();
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
+}
+
+void player_activity::sychronize_type_with_actor()
+{
+    if( actor && type != activity_id::NULL_ID() ) {
+        type = actor->get_type();
+    }
 }
 
 bool player_activity::rooted() const
@@ -156,7 +166,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = g->m.partial_con_at( g->m.getlocal( u.activity.placement ) );
+            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -176,13 +186,17 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
-    if( rooted() ) {
+    if( !type.is_null() && rooted() ) {
         who.rooted_message();
     }
+    // last, as start function may have changed the type
+    sychronize_type_with_actor();
 }
 
 void player_activity::do_turn( player &p )
 {
+    // first to ensure sync with actor
+    sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -191,14 +205,22 @@ void player_activity::do_turn( player &p )
         no_food_nearby_for_auto_consume = false;
         no_drink_nearby_for_auto_consume = false;
     }
-    if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
+    // Only do once every two minutes to loosely simulate consume times,
+    // the exact amount of time is added correctly below, here we just want to prevent eating something every second
+    if( calendar::once_every( 2_minutes ) && *this && !p.is_npc() && type->valid_auto_needs() &&
+        !no_food_nearby_for_auto_consume &&
+        !p.has_effect( effect_nausea ) ) {
         if( p.stomach.contains() <= p.stomach.capacity( p ) / 4 && p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            int consume_moves = get_auto_consume_moves( p, true );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            int consume_moves = get_auto_consume_moves( p, false );
+            moves_left += consume_moves;
+            if( consume_moves == 0 ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }
@@ -232,6 +254,7 @@ void player_activity::do_turn( player &p )
     const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     if( actor ) {
+        p.increase_activity_level( actor->get_type()->exertion_level() );
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
@@ -245,7 +268,13 @@ void player_activity::do_turn( player &p )
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
-    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+    activity_id act_id = actor ? actor->get_type() : type;
+    bool excluded = act_id == activity_id( "ACT_WORKOUT_HARD" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_ACTIVE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_MODERATE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_LIGHT" );
+    if( !excluded && adjusted_stamina < previous_stamina &&
+        p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
@@ -271,6 +300,7 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
+        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
@@ -339,9 +369,15 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
            position == other.position && name == other.name && targets == other.targets;
 }
 
-bool player_activity::is_distraction_ignored( distraction_type type ) const
+bool player_activity::is_interruptible() const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( type.is_null() || type->interruptable() ) && interruptable;
+}
+
+bool player_activity::is_distraction_ignored( distraction_type distraction ) const
+{
+    return !is_interruptible() ||
+           ignored_distractions.find( distraction ) != ignored_distractions.end();
 }
 
 void player_activity::ignore_distraction( distraction_type type )
@@ -356,7 +392,7 @@ void player_activity::allow_distractions()
 
 void player_activity::inherit_distractions( const player_activity &other )
 {
-    for( auto &type : other.ignored_distractions ) {
+    for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
 }

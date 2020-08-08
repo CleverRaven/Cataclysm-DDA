@@ -8,6 +8,7 @@
     "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
     "weight": "8267 g",
     "volume": "3 L",
+    "longest_side": "90 cm",
     "price": 15000,
     "price_postapoc": 1000,
     "to_hit": -1,
@@ -30,6 +31,6 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "blunderbuss": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "blunderbuss": 1 } } ]
   }
 ]

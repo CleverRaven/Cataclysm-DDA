@@ -1,5 +1,6 @@
 #include "text_snippets.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <random>
 #include <utility>

@@ -10,6 +10,7 @@
 #include <limits>
 #include <map>
 #include <ostream>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -18,6 +19,7 @@
 #include "compatibility.h"
 #include "json.h"
 #include "translations.h"
+#include "units_fwd.h" // IWYU pragma: export
 
 namespace units
 {
@@ -277,12 +279,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-class volume_in_milliliter_tag
-{
-};
-
-using volume = quantity<int, volume_in_milliliter_tag>;
-
 const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
                           units::volume::unit_type{} );
 
@@ -316,12 +312,6 @@ inline constexpr double to_liter( const volume &v )
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
-class mass_in_milligram_tag
-{
-};
-
-using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -366,12 +356,6 @@ inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000000.0;
 }
-
-class energy_in_millijoule_tag
-{
-};
-
-using energy = quantity<int, energy_in_millijoule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
@@ -425,12 +409,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
     return to_joule( v ) / 1000.0;
 }
 
-class money_in_cent_tag
-{
-};
-
-using money = quantity<int, money_in_cent_tag>;
-
 const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
                                       units::money::unit_type{} );
 
@@ -473,12 +451,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-class length_in_millimeter_tag
-{
-};
-
-using length = quantity<int, length_in_millimeter_tag>;
 
 const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
                           units::length::unit_type{} );
@@ -582,17 +554,25 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
+template<typename value_type, typename tag_type>
+inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+{
+    std::ostringstream os;
+    os << v;
+    return os.str();
+}
+
 inline std::string display( const units::energy v )
 {
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
-    if( kj >= 1 && float( j ) / kj == 1000 ) {
+    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
         return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
-    if( j >= 1 && float( mj ) / j  == 1000 ) {
+    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
         return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );

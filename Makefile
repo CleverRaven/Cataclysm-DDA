@@ -172,9 +172,18 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+ifndef PCH
+  PCH = 1
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+# Default to disabling clang
+ifndef CLANG
+  CLANG = 0
 endif
 
 # Determine JSON formatter binary name
@@ -228,8 +237,14 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+ifeq ($(PCH), 1)
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+else
+	CCACHEBIN = ccache
+endif
+
 # This sets CXX and so must be up here
-ifdef CLANG
+ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
     CLANGCMD = clang++
@@ -244,8 +259,8 @@ ifdef CLANG
     LDFLAGS += -stdlib=libc++
   endif
   ifeq ($(CCACHE), 1)
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
@@ -262,8 +277,8 @@ else
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
-    CXX = ccache $(CROSS)$(OS_COMPILER)
-    LD  = ccache $(CROSS)$(OS_LINKER)
+    CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
+    LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
   else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
@@ -309,7 +324,7 @@ ifeq ($(RELEASE), 1)
   endif
 
   ifeq ($(LTO), 1)
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       # LLVM's LTO will complain if the optimization level isn't between O0 and
       # O3 (inclusive)
       OPTLEVEL = -O3
@@ -319,14 +334,14 @@ ifeq ($(RELEASE), 1)
 
   ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
-      ifdef CLANG
+      ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
       endif
     else
       LDFLAGS += -fuse-ld=gold # This breaks in OS X because gold can only produce ELF binaries, not Mach
     endif
 
-    ifdef CLANG
+    ifneq ($(CLANG), 0)
       LTOFLAGS += -flto
     else
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
@@ -380,6 +395,35 @@ ifeq ($(CYGWIN),1)
 WARNINGS += -Wimplicit-fallthrough=0
 endif
 
+ifeq ($(PCH), 1)
+  PCHFLAGS = -Ipch -Winvalid-pch
+  PCH_H = pch/main-pch.hpp
+
+  ifeq ($(CLANG), 0)
+    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCH_P = $(PCH_H).gch
+  else
+    PCH_P = $(PCH_H).pch
+    PCHFLAGS += -include-pch $(PCH_P)
+
+    # FIXME: dirty hack ahead
+    # ccache won't wort with clang unless it supports -fno-pch-timestamp
+    ifeq ($(CCACHE), 1)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1 || echo fail)
+      ifneq ($(CLANGVER),)
+        PCHFLAGS = ""
+        PCH_H = ""
+        PCH_P = ""
+        PCH = 0
+        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
+      else
+        CXXFLAGS += -Xclang -fno-pch-timestamp
+      endif
+    endif
+    
+  endif
+endif
+
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -426,7 +470,7 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifdef CLANG
+  ifneq ($(CLANG), 0)
     OSX_MIN = 10.7
   else
     OSX_MIN = 10.5
@@ -817,7 +861,7 @@ ifeq ($(LTO), 1)
   LDFLAGS += $(CXXFLAGS)
 
   # If GCC or CLANG, use a wrapper for AR (if it exists) else test fails to build
-  ifndef CLANG
+  ifeq ($(CLANG), 0)
     GCCAR := $(shell command -v gcc-ar 2> /dev/null)
     ifdef GCCAR
       ifneq (,$(findstring gcc version,$(shell $(CXX) -v </dev/null 2>&1)))
@@ -847,6 +891,9 @@ ifeq ($(RELEASE), 1)
   endif
 endif
 
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -861,8 +908,8 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -887,6 +934,7 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
+	rm -f pch/*pch.hpp.{gch,pch,d}
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1070,7 +1118,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^
@@ -1097,22 +1145,18 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
-JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
-
-style-json: $(JSON_WHITELIST)
-
-$(JSON_WHITELIST): json_blacklist json_formatter
+style-json: json_blacklist $(JSON_FORMATTER_BIN)
 ifndef CROSS
-	@$(JSON_FORMATTER_BIN) $@
+	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
+	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
-style-all-json: json_formatter
+style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: $(JSON_FORMATTER_SOURCES)
+$(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 

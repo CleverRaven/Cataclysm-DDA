@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "text_snippets.h"
 
 TEST_CASE( "random_snippet_with_small_seed", "[text_snippets][rng]" )

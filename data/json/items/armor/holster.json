@@ -12,7 +12,7 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -23,6 +23,7 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
+        "max_item_length": "60 cm",
         "moves": 150
       }
     ],
@@ -42,7 +43,8 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "foot_l", "foot_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 4,
@@ -54,6 +56,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
         "moves": 150
       }
     ],
@@ -72,7 +75,7 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 7,
@@ -85,6 +88,7 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
+        "max_item_length": "160 cm",
         "moves": 50
       }
     ],
@@ -103,7 +107,8 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -112,8 +117,9 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "300 ml",
-        "max_contains_volume": "800 ml",
+        "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
         "moves": 50
       }
     ],
@@ -136,7 +142,8 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
-        "moves": 80
+        "max_item_length": "20 cm",
+        "moves": 30
       }
     ],
     "use_action": { "type": "holster" }
@@ -152,7 +159,7 @@
     "price": 3000,
     "price_postapoc": 500,
     "material": [ "lycra" ],
-    "covers": [ "LEGS" ],
+    "covers": [ "leg_l", "leg_r" ],
     "encumbrance": 1,
     "pocket_data": [
       {
@@ -161,6 +168,7 @@
         "min_item_volume": "100 ml",
         "max_contains_volume": "400 ml",
         "max_contains_weight": "1 kg",
+        "max_item_length": "16 cm",
         "moves": 210
       }
     ],
@@ -180,7 +188,7 @@
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 1,
     "max_encumbrance": 2,
@@ -192,6 +200,7 @@
         "min_item_volume": "1250 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
         "moves": 50
       }
     ],
@@ -211,7 +220,8 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
@@ -220,8 +230,9 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "750 ml",
-        "max_contains_volume": "1250 ml",
+        "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
         "moves": 50
       }
     ],

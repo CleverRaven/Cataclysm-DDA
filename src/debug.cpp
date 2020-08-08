@@ -18,7 +18,7 @@
 #include <memory>
 #include <set>
 #include <sstream>
-#include <sys/stat.h>
+#include <sys/stat.h> // IWYU pragma
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -189,7 +189,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     } );
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DEBUG_MSG" );
+    input_context ctxt( "DEBUG_MSG", keyboard_mode::keychar );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
@@ -1261,7 +1261,7 @@ std::string game_info::mods_loaded()
     std::vector<std::string> mod_names;
     mod_names.reserve( mod_ids.size() );
     std::transform( mod_ids.begin(), mod_ids.end(),
-    std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
+    std::back_inserter( mod_names ), []( const mod_id & mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );

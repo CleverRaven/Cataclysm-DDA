@@ -2,11 +2,9 @@
 
 #include <cassert>
 #include <cstddef>
-#include <exception>
 #include <fstream>
 #include <iterator>
 #include <memory>
-#include <sstream> // for throwing errors
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -20,13 +18,13 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -59,6 +57,7 @@
 #include "mongroup.h"
 #include "monstergenerator.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -68,9 +67,11 @@
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "regional_settings.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
@@ -89,6 +90,7 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -155,8 +157,8 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
-                             f )
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             &f )
 {
     const auto pair = type_function_map.emplace( type, f );
     if( !pair.second ) {
@@ -165,7 +167,7 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             std::function<void( const JsonObject &, const std::string & )> f )
+                             const std::function<void( const JsonObject &, const std::string & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
                       const std::string & src,
@@ -177,7 +179,8 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void DynamicDataLoader::add( const std::string &type, std::function<void( const JsonObject & )> f )
+void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject & )> &f )
 {
     const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
     const std::string &, const std::string & ) {
@@ -199,15 +202,19 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
+    add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "field_type", &field_types::load );
+    add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
+    add( "movement_mode", &move_mode::load_move_mode );
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &bionic_data::load_bionic );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
+    add( "proficiency", &proficiency::load_proficiencies );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -378,6 +385,7 @@ void DynamicDataLoader::initialize()
     add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
         mission_type::load_mission_type( jo, src );
     } );
+    add( "butchery_requirement", &butchery_requirements::load_butchery_req );
     add( "harvest", []( const JsonObject & jo, const std::string & src ) {
         harvest_list::load( jo, src );
     } );
@@ -397,6 +405,7 @@ void DynamicDataLoader::initialize()
     add( "event_statistic", &event_statistic::load_statistic );
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
+    add( "conduct", &achievement::load_achievement );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -426,17 +435,9 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         }
     }
     // iterate over each file
-    for( auto &files_i : files ) {
-        const std::string &file = files_i;
-        // open the file as a stream
-        std::ifstream infile( file.c_str(), std::ifstream::in | std::ifstream::binary );
+    for( const std::string &file : files ) {
         // and stuff it into ram
-        std::istringstream iss(
-            std::string(
-                ( std::istreambuf_iterator<char>( infile ) ),
-                std::istreambuf_iterator<char>()
-            )
-        );
+        std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
             JsonIn jsin( iss );
@@ -501,6 +502,7 @@ void DynamicDataLoader::unload_data()
     json_flag::reset();
     materials::reset();
     mission_type::reset();
+    move_mode::reset();
     MonsterGenerator::generator().reset();
     MonsterGroupManager::ClearMonsterGroups();
     morale_type_data::reset();
@@ -515,6 +517,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_terrains::reset();
     profession::reset();
+    proficiency::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();
@@ -548,6 +551,7 @@ void DynamicDataLoader::unload_data()
     vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    weather_types::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()
@@ -566,6 +570,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -593,6 +598,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()
                 {
@@ -602,13 +608,13 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
+            { _( "Move modes" ), &move_mode::finalize },
             { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
-            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
             { _( "Mutations" ), &mutation_branch::finalize },
@@ -647,6 +653,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Weather types" ), &weather_types::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
@@ -719,6 +726,4 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
-    catacurses::erase();
-    catacurses::refresh();
 }

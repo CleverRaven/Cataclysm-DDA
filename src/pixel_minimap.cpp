@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -83,17 +82,16 @@ SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile
 
 SDL_Color get_map_color_at( const tripoint &p )
 {
-    const map &m = g->m;
-
-    if( const auto vp = m.veh_at( p ) ) {
+    const map &here = get_map();
+    if( const auto vp = here.veh_at( p ) ) {
         return curses_color_to_SDL( vp->vehicle().part_color( vp->part_index() ) );
     }
 
-    if( const auto furn_id = m.furn( p ) ) {
+    if( const auto furn_id = here.furn( p ) ) {
         return curses_color_to_SDL( furn_id->color() );
     }
 
-    return curses_color_to_SDL( m.ter( p )->color() );
+    return curses_color_to_SDL( here.ter( p )->color() );
 }
 
 SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
@@ -102,7 +100,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 
     if( const monster *m = dynamic_cast<monster *>( critter ) ) {
         //faction status (attacking or tracking) determines if red highlights get applied to creature
-        const monster_attitude matt = m->attitude( &g->u );
+        const monster_attitude matt = m->attitude( &get_player_character() );
 
         if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
             const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
@@ -163,22 +161,20 @@ struct pixel_minimap::submap_cache {
     //the color stored for each submap tile
     std::array<SDL_Color, SEEX *SEEY> minimap_colors = {};
     //checks if the submap has been looked at by the minimap routine
-    bool touched;
+    bool touched = false;
     //the texture updates are drawn to
     SDL_Texture_Ptr chunk_tex;
     //the submap being handled
-    size_t texture_index;
+    size_t texture_index = 0;
     //the list of updates to apply to the texture
     //reduces render target switching to once per submap
     std::vector<point> update_list;
     //flag used to indicate that the texture needs to be cleared before first use
-    bool ready;
+    bool ready = false;
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
     submap_cache( shared_texture_pool &pool ) :
-        touched( false ),
-        ready( false ),
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -198,8 +194,10 @@ struct pixel_minimap::submap_cache {
     }
 };
 
-pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
+pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer,
+                              const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
+    geometry( geometry ),
     type( pixel_minimap_type::ortho ),
     screen_rect{ 0, 0, 0, 0 }
 {
@@ -221,7 +219,7 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
 {
-    const tripoint new_center_sm = g->m.get_abs_sub() + ms_to_sm_copy( center );
+    const tripoint new_center_sm = get_map().get_abs_sub() + ms_to_sm_copy( center );
     const tripoint center_sm_diff = cached_center_sm - new_center_sm;
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
@@ -271,7 +269,7 @@ void pixel_minimap::flush_cache_updates()
 
                     const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, tile_size.x, tile_size.y };
 
-                    render_fill_rect( renderer, rect, 0x00, 0x00, 0x00 );
+                    geometry->rect( renderer, rect, SDL_Color() );
                 }
             }
         }
@@ -284,8 +282,7 @@ void pixel_minimap::flush_cache_updates()
                 SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
                 RenderDrawPoint( renderer, tile_pos );
             } else {
-                const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, pixel_size.x, pixel_size.y };
-                render_fill_rect( renderer, rect, tile_color.r, tile_color.g, tile_color.b );
+                geometry->rect( renderer, tile_pos, pixel_size.x, pixel_size.y, tile_color );
             }
         }
 
@@ -295,10 +292,11 @@ void pixel_minimap::flush_cache_updates()
 
 void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 {
-    const level_cache &access_cache = g->m.access_cache( sm_pos.z );
-    const bool nv_goggle = g->u.get_vision_modes()[NV_GOGGLES];
+    const map &here = get_map();
+    const level_cache &access_cache = here.access_cache( sm_pos.z );
+    const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
-    submap_cache &cache_item = get_cache_at( g->m.get_abs_sub() + sm_pos );
+    submap_cache &cache_item = get_cache_at( here.get_abs_sub() + sm_pos );
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
 
     cache_item.touched = true;
@@ -310,7 +308,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             SDL_Color color;
 
-            if( lighting == LL_BLANK || lighting == LL_DARK ) {
+            if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
                 color = { 0x00, 0x00, 0x00, 0xFF };
             } else {
@@ -318,12 +316,12 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
                 //color terrain according to lighting conditions
                 if( nv_goggle ) {
-                    if( lighting == LL_LOW ) {
+                    if( lighting == lit_level::LOW ) {
                         color = color_pixel_nightvision( color );
-                    } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
+                    } else if( lighting != lit_level::DARK && lighting != lit_level::BLANK ) {
                         color = color_pixel_overexposed( color );
                     }
-                } else if( lighting == LL_LOW ) {
+                } else if( lighting == lit_level::LOW ) {
                     color = color_pixel_grayscale( color );
                 }
 
@@ -387,19 +385,18 @@ void pixel_minimap::set_screen_rect( const SDL_Rect &screen_rect )
         SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "0" );
 
     } else {
-        const int dx = ( size_on_screen.x - screen_rect.w ) / 2;
-        const int dy = ( size_on_screen.y - screen_rect.h ) / 2;
+        const point d( ( size_on_screen.x - screen_rect.w ) / 2, ( size_on_screen.y - screen_rect.h ) / 2 );
 
         main_tex_clip_rect = SDL_Rect{
-            std::max( dx, 0 ),
-            std::max( dy, 0 ),
-            size_on_screen.x - 2 * std::max( dx, 0 ),
-            size_on_screen.y - 2 * std::max( dy, 0 )
+            std::max( d.x, 0 ),
+            std::max( d.y, 0 ),
+            size_on_screen.x - 2 * std::max( d.x, 0 ),
+            size_on_screen.y - 2 * std::max( d.y, 0 )
         };
 
         screen_clip_rect = SDL_Rect{
-            screen_rect.x - std::min( dx, 0 ),
-            screen_rect.y - std::min( dy, 0 ),
+            screen_rect.x - std::min( d.x, 0 ),
+            screen_rect.y - std::min( d.y, 0 ),
             main_tex_clip_rect.w,
             main_tex_clip_rect.h
         };
@@ -446,7 +443,7 @@ void pixel_minimap::render( const tripoint &center )
 
 void pixel_minimap::render_cache( const tripoint &center )
 {
-    const tripoint sm_center = g->m.get_abs_sub() + ms_to_sm_copy( center );
+    const tripoint sm_center = get_map().get_abs_sub() + ms_to_sm_copy( center );
     const tripoint sm_offset = tripoint{
         total_tiles_count.x / SEEX / 2,
         total_tiles_count.y / SEEY / 2, 0
@@ -495,7 +492,7 @@ void pixel_minimap::render_critters( const tripoint &center )
         mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
     }
 
-    const level_cache &access_cache = g->m.access_cache( center.z );
+    const level_cache &access_cache = get_map().access_cache( center.z );
 
     const int start_x = center.x - total_tiles_count.x / 2;
     const int start_y = center.y - total_tiles_count.y / 2;
@@ -509,13 +506,13 @@ void pixel_minimap::render_critters( const tripoint &center )
             const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
-            if( lighting == LL_DARK || lighting == LL_BLANK ) {
+            if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;
             }
 
-            const auto critter = g->critter_at( p, true );
+            Creature *critter = g->critter_at( p, true );
 
-            if( critter == nullptr || !g->u.sees( *critter ) ) {
+            if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;
             }
 

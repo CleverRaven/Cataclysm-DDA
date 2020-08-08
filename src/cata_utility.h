@@ -2,15 +2,13 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
-#include <fstream>
+#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
-#include <algorithm>
-#include <type_traits>
-
-#include "units.h"
 
 class JsonIn;
 class JsonOut;
@@ -74,15 +72,8 @@ T divide_round_up( T num, T den )
     return ( num + den - 1 ) / den;
 }
 
-/** Divide @p num by @p den, rounding up
- *
- * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
- */
-template<typename T, typename U>
-T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
-{
-    return divide_round_up( num.value(), den.value() );
-}
+
+int divide_round_down( int a, int b );
 
 /**
  * Determine whether a value is between two given boundaries.
@@ -183,36 +174,6 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( units_type vel_units );
 
 /**
- * Create a units label for a weight value.
- *
- * Gives the name of the weight unit in the user selected unit system, either
- * "kgs" or "lbs".  Used to add unit labels to the output of @ref convert_weight.
- *
- * @return name of unit
- */
-const char *weight_units();
-
-/**
- * Create an abbreviated units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * i.e. "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_abbr();
-
-/**
- * Create a units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * ie "cup", "liter", or "quart". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_long();
-
-/**
  * Convert internal velocity units to units defined by user.
  *
  * @param velocity A velocity value in internal units.
@@ -222,41 +183,6 @@ const char *volume_units_long();
  *          units for the object being measured.
  */
 double convert_velocity( int velocity, units_type vel_units );
-
-/**
- * Convert weight in grams to units defined by user (kg or lbs)
- *
- * @param weight to be converted.
- *
- * @returns Weight converted to user selected unit
- */
-double convert_weight( const units::mass &weight );
-
-/**
- * converts length to largest unit available
- * 1000 mm = 1 meter for example
- * assumed to be used in conjunction with unit string functions
- * also works for imperial units
- */
-int convert_length( const units::length &length );
-std::string length_units( const units::length &length );
-
-/** convert a mass unit to a string readable by a human */
-std::string weight_to_string( const units::mass &weight );
-
-/**
- * Convert volume from ml to units defined by user.
- */
-double convert_volume( int volume );
-
-/**
- * Convert volume from ml to units defined by user,
- * optionally returning the units preferred scale.
- */
-double convert_volume( int volume, int *out_scale );
-
-/** convert a volume unit to a string readable by a human */
-std::string vol_to_string( const units::volume &vol );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
@@ -409,43 +335,6 @@ bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: The stream is closed in the destructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- *
- * @note: This uses exclusive I/O.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-        std::string path;
-        std::string temp_path;
-
-        void open( std::ios::openmode mode );
-
-    public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
-};
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -463,7 +352,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -553,8 +442,12 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ): t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = orig_t; } ) {
+        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+
+        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
 };

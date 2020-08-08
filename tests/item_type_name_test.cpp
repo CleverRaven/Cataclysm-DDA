@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "type_id.h"
 
@@ -47,16 +48,12 @@ TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
         SECTION( "pluralize the first part" ) {
             item glass( "glass_sheet" );
             item cards( "deck_of_cards" );
-            item jar( "jar_eggs_pickled" );
 
             CHECK( glass.type_name( 1 ) == "sheet of glass" );
             CHECK( glass.type_name( 2 ) == "sheets of glass" );
 
             CHECK( cards.type_name( 1 ) == "deck of cards" );
             CHECK( cards.type_name( 2 ) == "decks of cards" );
-
-            CHECK( jar.type_name( 1 ) == "sealed jar of eggs" );
-            CHECK( jar.type_name( 2 ) == "sealed jars of eggs" );
         }
 
         SECTION( "pluralize by inserting a word" ) {

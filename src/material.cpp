@@ -11,14 +11,13 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "mapdata.h"
 #include "string_id.h"
 #include "translations.h"
 
 namespace
 {
 
-generic_factory<material_type> material_data( "material", "ident" );
+generic_factory<material_type> material_data( "material" );
 
 } // namespace
 
@@ -124,12 +123,12 @@ void material_type::check() const
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
     }
-    for( auto &ca : _compact_accepts ) {
+    for( const material_id &ca : _compact_accepts ) {
         if( !ca.is_valid() ) {
             debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
         }
     }
-    for( auto &ci : _compacts_into ) {
+    for( const itype_id &ci : _compacts_into ) {
         if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }

@@ -79,18 +79,6 @@ SDL_Surface_Ptr create_surface_32( int w, int h )
 #endif
 }
 
-void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                       Uint32 r, Uint32 g, Uint32 b )
-{
-    if( alt_rect_tex_enabled ) {
-        SetTextureColorMod( alt_rect_tex, r, g, b );
-        RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
-    } else {
-        SetRenderDrawColor( renderer, r, g, b, 255 );
-        RenderFillRect( renderer, &rect );
-    }
-}
-
 SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 {
     const float inner_ratio = static_cast<float>( inner.w ) / inner.h;
@@ -101,10 +89,9 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 
     const int w = factor * inner.w;
     const int h = factor * inner.h;
-    const int x = outer.x + ( outer.w - w ) / 2;
-    const int y = outer.y + ( outer.h - h ) / 2;
+    const point p( outer.x + ( outer.w - w ) / 2, outer.y + ( outer.h - h ) / 2 );
 
-    return SDL_Rect{ x, y, w, h };
+    return SDL_Rect{ p.x, p.y, w, h };
 }
 
 #endif // SDL_TILES

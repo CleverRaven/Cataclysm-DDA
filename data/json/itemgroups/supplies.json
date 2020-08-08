@@ -457,6 +457,7 @@
       [ "duct_tape", 5 ],
       { "group": "ammo_pocket_batteries", "prob": 5 },
       [ "flashlight", 10 ],
+      [ "office_holepunch", 10 ],
       [ "umbrella", 5 ],
       [ "teleumbrella", 10 ],
       [ "survnote", 1 ],
@@ -472,7 +473,7 @@
       [ "fan", 5 ],
       [ "fan", 5 ],
       [ "cola", 10 ],
-      [ "can_drink_unsealed", 5 ],
+      [ "can_drink", 5 ],
       [ "cig", 5 ],
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
@@ -488,6 +489,7 @@
       [ "file", 15 ],
       [ "duct_tape", 15 ],
       [ "file", 15 ],
+      [ "office_holepunch", 15 ],
       [ "bubblewrap", 15 ],
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "flashlight", 7 ],
@@ -529,5 +531,19 @@
       { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
       { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
     ]
+  },
+  {
+    "id": "avgas_barrel",
+    "type": "item_group",
+    "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
+    "subtype": "distribution",
+    "entries": [ { "item": "avgas", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
+  },
+  {
+    "id": "jp8_barrel",
+    "type": "item_group",
+    "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
+    "subtype": "distribution",
+    "entries": [ { "item": "jp8", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
   }
 ]
