@@ -330,7 +330,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 7 } } ]
   },
   {
-    "id": "p226mag_10rd_9mm",
+    "id": "p226mag_10rd_9x19mm",
     "type": "MAGAZINE",
     "name": { "str": "P226 10 round 9x19mm magazine" },
     "description": "A 10 round double stack box magazine for the SIG Sauer P226.",
@@ -348,7 +348,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 10 } } ]
   },
   {
-    "id": "p226mag_15rd_9mm",
+    "id": "p226mag_15rd_9x19mm",
     "type": "MAGAZINE",
     "name": { "str": "P226 15 round 9x19mm magazine" },
     "description": "A 15 round double stack box magazine for the SIG Sauer P226.",
