@@ -24,9 +24,9 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
         const int hit_roll, float ( &expected )[12] )
 {
     INFO( "hit roll = " << hit_roll );
-    std::map<body_part, int> selected_part_histogram = {
-        { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
-        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    std::map<bodypart_id, int> selected_part_histogram = {
+        { bodypart_id( "torso" ), 0 }, { bodypart_id( "head" ), 0 }, { bodypart_id( "eyes" ), 0 }, { bodypart_id( "mouth" ), 0 }, { bodypart_id( "arm_l" ), 0 }, { bodypart_id( "arm_r" ), 0 },
+        { bodypart_id( "hand_l" ), 0 }, { bodypart_id( "hand_r" ), 0 }, { bodypart_id( "leg_l" ), 0 }, { bodypart_id( "leg_r" ), 0 }, { bodypart_id( "foot_l" ), 0 }, { bodypart_id( "foot_r" ), 0 }
     };
 
     mtype atype;
@@ -41,7 +41,7 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
     const int num_tests = 15000;
 
     for( int i = 0; i < num_tests; ++i ) {
-        selected_part_histogram[defender.select_body_part( &attacker, hit_roll )->token]++;
+        selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
     }
 
     float total_weight = 0.0f;
@@ -49,10 +49,12 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
         total_weight += w;
     }
 
-    for( auto weight : selected_part_histogram ) {
-        INFO( body_part_name( convert_bp( weight.first ).id() ) );
-        const double expected_proportion = expected[weight.first] / total_weight;
+    int j = 0;
+    for( std::pair<const bodypart_id, int> weight : selected_part_histogram ) {
+        INFO( body_part_name( weight.first ) );
+        const double expected_proportion = expected[j] / total_weight;
         CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
+        j++;
     }
 }
 
