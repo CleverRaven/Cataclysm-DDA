@@ -195,6 +195,12 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    // Specifically call the do turn function for the cancellation activity early
+    // This is because the game can get stuck trying to fuel a fire when it's not...
+    if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        actor->do_turn( *this, p );
+        return;
+    }
     // first to ensure sync with actor
     sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
