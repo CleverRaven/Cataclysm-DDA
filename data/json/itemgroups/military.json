@@ -181,6 +181,7 @@
       { "item": "m1014", "prob": 2 },
       { "item": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
+      { "item": "sig_mcx_rattler_sbr", "prob": 1 },
       { "item": "m249", "prob": 1 },
       { "item": "m240", "prob": 1 },
       { "item": "m27iar", "prob": 1 },
