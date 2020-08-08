@@ -28,7 +28,7 @@ Format:
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are a couple of items in the above template that may not be self evident.  `"common": false` means that this npc class will not spawn randomly, it defaults to true if unlisted. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 There is a second template required for a new NPC. It looks as follows.
 Format:
 ```json
