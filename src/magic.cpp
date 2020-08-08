@@ -72,27 +72,6 @@ std::string enum_to_string<spell_target>( spell_target data )
     abort();
 }
 template<>
-std::string enum_to_string<body_part>( body_part data )
-{
-    switch( data ) {
-        case body_part::bp_torso: return "TORSO";
-        case body_part::bp_head: return "HEAD";
-        case body_part::bp_eyes: return "EYES";
-        case body_part::bp_mouth: return "MOUTH";
-        case body_part::bp_arm_l: return "ARM_L";
-        case body_part::bp_arm_r: return "ARM_R";
-        case body_part::bp_hand_l: return "HAND_L";
-        case body_part::bp_hand_r: return "HAND_R";
-        case body_part::bp_leg_l: return "LEG_L";
-        case body_part::bp_leg_r: return "LEG_R";
-        case body_part::bp_foot_l: return "FOOT_L";
-        case body_part::bp_foot_r: return "FOOT_R";
-        case body_part::num_bp: break;
-    }
-    debugmsg( "Invalid body_part" );
-    abort();
-}
-template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
