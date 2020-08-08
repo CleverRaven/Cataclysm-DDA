@@ -161,14 +161,18 @@ struct relic_charge_info {
     int max_charges = 0;
     relic_recharge type = relic_recharge::num;
 
-    time_point last_charge;
+    time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
 
-    relic_charge_info();
+    relic_charge_info() = default;
 
     // Because multiple different charge types can overlap, cache the power
     // level from the charge type we were generated from here to avoid confusion
     int power = 0;
+
+    // accumulates time for charge, and increases charge if it has enough accumulated.
+    // assumes exactly one second has passed.
+    void accumulate_charge();
 
     void deserialize( JsonIn &jsin );
     void load( const JsonObject &jo );
@@ -197,6 +201,8 @@ class relic
         int max_charges() const;
 
         bool has_activation() const;
+        // has a recharge type (which needs to be actively processed)
+        bool has_recharge() const;
 
         void try_recharge();
 

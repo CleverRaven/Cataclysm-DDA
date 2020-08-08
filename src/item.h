@@ -1364,6 +1364,7 @@ class item : public visitable<item>
         void on_damage( int qty, damage_type dt );
 
         bool use_relic( Character &guy, const tripoint &pos );
+        bool has_relic_recharge() const;
 
         /**
          * Name of the item type (not the item), with proper plural.

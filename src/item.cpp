@@ -6962,6 +6962,11 @@ bool item::is_relic() const
     return !!relic_data;
 }
 
+bool item::has_relic_recharge() const
+{
+    return is_relic() && relic_data->has_recharge();
+}
+
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
@@ -8940,7 +8945,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() ) {
+            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9356,6 +9361,14 @@ void item::process_relic( Character *carrier )
     if( !is_relic() ) {
         return;
     }
+
+    relic_data->try_recharge();
+
+    if( carrier == nullptr ) {
+        // return early; all of the rest of this function is character-specific
+        return;
+    }
+
     std::vector<enchantment> active_enchantments;
 
     for( const enchantment &ench : get_enchantments() ) {
@@ -9367,8 +9380,6 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
-
-    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
@@ -9790,6 +9801,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
+    process_relic( carrier );
     contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
     return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );
