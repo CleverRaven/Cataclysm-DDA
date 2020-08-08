@@ -7,7 +7,7 @@
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
-    "volume": "2250 g",
+    "volume": "2250 ml",
     "longest_side": "30 cm",
     "price": 500,
     "price_postapoc": 50,
