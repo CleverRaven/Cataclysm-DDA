@@ -317,8 +317,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     }
                 }
             } else if( !seen ) {
-                ter_sym = " ";
-                ter_color = c_black;
+                ter_sym = "#";
+                ter_color = c_dark_gray;
             } else if( vehicle_here ) {
                 ter_color = c_cyan;
                 ter_sym = "c";
@@ -1754,6 +1754,24 @@ static void draw_compass_padding( avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static void draw_overmap_narrow( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    const tripoint_abs_omt curs = u.global_omt_location();
+    draw_rectangle( w, c_light_gray, point_zero, point( 31, 13 ) );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 30, 12 );
+    wnoutrefresh( w );
+}
+
+static void draw_overmap_wide( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    const tripoint_abs_omt curs = u.global_omt_location();
+    draw_rectangle( w, c_light_gray, point_zero, point( 43, 19 ) );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 42, 18 );
+    wnoutrefresh( w );
+}
+
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2006,6 +2024,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
+    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, true ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
@@ -2031,6 +2050,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 32, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
+    ret.emplace_back( window_panel( draw_overmap_narrow, translate_marker( "Overmap" ), 14, 32,
+                                    true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                                     default_render, true ) );
@@ -2060,6 +2081,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false ) );
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
+                                    true ) );
+    ret.emplace_back( window_panel( draw_overmap_narrow, translate_marker( "Overmap" ), 14, 32,
                                     true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
@@ -2092,6 +2115,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
+    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
                                     default_render, true ) );
