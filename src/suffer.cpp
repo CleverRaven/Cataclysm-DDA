@@ -1471,7 +1471,7 @@ void Character::suffer()
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
+            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1691,7 +1691,7 @@ void Character::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             set_part_hp_cur( bp, 1 );
             remove_effect( effect_mending, bp );
-            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
+            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( bp ) );
