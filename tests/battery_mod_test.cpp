@@ -1,7 +1,19 @@
 #include "catch/catch.hpp"
 
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "flat_set.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 // Includes functions:
 // item::magazine_compatible

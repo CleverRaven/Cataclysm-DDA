@@ -1,10 +1,12 @@
 #include "catch/catch.hpp"
-
 #include "requirements.h"
 
-#include <algorithm>
 #include <cstddef>
 #include <memory>
+#include <string>
+#include <vector>
+
+#include "type_id.h"
 
 static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_ash( "ash" );

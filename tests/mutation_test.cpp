@@ -1,15 +1,14 @@
 #include "catch/catch.hpp"
+#include "mutation.h"
 
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "mutation.h"
 #include "npc.h"
 #include "player.h"
-#include "string_id.h"
 #include "type_id.h"
 
 std::string get_mutations_as_string( const player &p );

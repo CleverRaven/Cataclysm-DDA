@@ -1,8 +1,12 @@
 #include "catch/catch.hpp"
 
+#include <string>
+
 #include "avatar.h"
-#include "creature.h"
+#include "calendar.h"
 #include "monster.h"
+#include "mtype.h"
+#include "type_id.h"
 
 // Test effect methods from `Creature` class on both `monster` and `player`
 

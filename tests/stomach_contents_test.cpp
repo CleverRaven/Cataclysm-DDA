@@ -1,16 +1,20 @@
 #include "catch/catch.hpp"
 
 #include <cstdio>
-#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "item.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "item.h"
 #include "stomach.h"
-#include "units.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 
 static void reset_time()
 {

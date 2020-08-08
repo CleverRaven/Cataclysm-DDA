@@ -1,28 +1,30 @@
 #include "catch/catch.hpp"
-
-#include <memory>
-#include <string>
-
 #include "behavior.h"
-#include "behavior_oracle.h"
+
+#include <list>
+#include <string>
+#include <vector>
+
 #include "behavior_strategy.h"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
-#include "map_helpers.h"
 #include "player_helpers.h"
-#include "string_id.h"
+#include "point.h"
+#include "type_id.h"
 #include "weather.h"
 
 namespace behavior
 {
+class oracle_t;
+
 extern sequential_t default_sequential;
 extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;

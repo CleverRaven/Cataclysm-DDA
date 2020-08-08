@@ -1,11 +1,17 @@
 #include "catch/catch.hpp"
 
+#include <memory>
+#include <string>
+
 #include "avatar.h"
 #include "game.h"
 #include "magic.h"
-
-#include "player_helpers.h"
 #include "map_helpers.h"
+#include "monster.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // Magic Spell tests
 // -----------------

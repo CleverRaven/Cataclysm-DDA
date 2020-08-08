@@ -17,24 +17,20 @@
 #define CATCH_CONFIG_IMPL_ONLY
 #endif
 #define CATCH_CONFIG_RUNNER
-#include <algorithm>
+#include "catch/catch.hpp"
+
 #include <cassert>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <ctime>
-#include <exception>
-#include <memory>
-#include <ostream>
+#include <string>
 #include <string>
 #include <utility>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -52,6 +48,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;

@@ -1,10 +1,9 @@
 #include "catch/catch.hpp"
 
+#include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "map.h"
@@ -13,6 +12,7 @@
 #include "type_id.h"
 #include "vehicle.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
