@@ -145,7 +145,9 @@
           "and": [
             { "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
             { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" },
-            { "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } }
+            {
+              "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
           ]
         }
       },
@@ -155,7 +157,9 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
-            { "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            }
           ]
         }
       },
@@ -165,8 +169,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
-            { "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
-			{ "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            {
+              "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
           ]
         }
       },
@@ -177,9 +183,13 @@
           "and": [
             { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-			{ "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
-			{ "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
-			{ "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } }
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            }
           ]
         }
       },
@@ -190,31 +200,18 @@
           "and": [
             { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-			{ "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
-			{ "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
-			{ "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            {
+              "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
           ]
         }
       },
       {
         "text": "Could you tell me about yourself?",
         "topic": "TALK_COOPER_ABOUT",
-        "condition": {
-          "and": [
-            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-          ]
-        }
-      },
-      {
-        "text": "Hey Cooper, I was just checking in.  I'll go now.",
-        "topic": "TALK_DONE",
-        "condition": {
-          "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
-            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } ] }
       },
       {
         "text": "I'll be going now.",
@@ -223,7 +220,7 @@
           "and": [
             { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-			{ "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+            { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
           ]
         }
       },
@@ -234,11 +231,11 @@
           "and": [
             { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-			{ "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+            { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
           ]
         }
       },
-	  {
+      {
         "text": "Remind me what happened between you and Brigitte.",
         "topic": "TALK_COOPERS_SIDE",
         "condition": {
@@ -248,7 +245,7 @@
           ]
         }
       },
-	  {
+      {
         "text": "I've been thinking about what you do.  I can't let you keep hurting people.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT",
         "condition": {
@@ -280,11 +277,22 @@
           ]
         }
       },
-	  {
-	  "text": "The woman you mentioned - Brigitte - why isn't she with you?",
-	  "topic": "TALK_COOPERS_SIDE",
-	  "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-	  }
+      {
+        "text": "The woman you mentioned - Brigitte - why isn't she with you?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Hey Cooper, I was just checking in.  I'll go now.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
+      }
     ]
   },
   {
@@ -304,14 +312,14 @@
     ]
   },
   {
-   "type": "talk_topic",
-   "id": "TALK_COOPER_INTRODUCTION_QUERY",
-   "dynamic_line": "I see.  Would you like to hear my side, or is your mind made up already?",
-   "responses": [
-   { "text": "I'm curious.  Go on.", "topic": "TALK_COOPERS_SIDE" },
-   { "text": "She told me to stop you, and that's what I'll do.", "topic": "TALK_COOPER_FIGHT" },
-   { "text": "I don't care about any of this.  Bye.", "topic": "TALK_DONE" }
-   ]
+    "type": "talk_topic",
+    "id": "TALK_COOPER_INTRODUCTION_QUERY",
+    "dynamic_line": "I see.  Would you like to hear my side, or is your mind made up already?",
+    "responses": [
+      { "text": "I'm curious.  Go on.", "topic": "TALK_COOPERS_SIDE" },
+      { "text": "She told me to stop you, and that's what I'll do.", "topic": "TALK_COOPER_FIGHT" },
+      { "text": "I don't care about any of this.  Bye.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -323,15 +331,12 @@
         "topic": "TALK_COOPER_NECESSARY",
         "condition": { "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } }
       },
-	  {
-	   "text": "What are you actually trying to accomplish?",
-	   "topic": "TALK_COOPER_GOAL",
-	   "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
-	  },
       {
-        "text": "Can't have been easy to split off, but I understand why you did it.",
-        "topic": "TALK_COOPER_AGREE"
+        "text": "What are you actually trying to accomplish?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
+      { "text": "Can't have been easy to split off, but I understand why you did it.", "topic": "TALK_COOPER_AGREE" },
       {
         "text": "Necessary? You kill innocent people!",
         "topic": "TALK_COOPER_NECESSARY",
@@ -343,26 +348,35 @@
     "type": "talk_topic",
     "id": "TALK_COOPER_NECESSARY",
     "dynamic_line": "People will die in this world overrun with monsters.  There is no avoiding it.  But I can give those deaths meaning, allow them to help the world after death, more than they could in life.  It brings me no pleasure, but...  yes, some must give their life for the greater good.  It's the only way.  Wish there was an alternative, but it must be done.  I only take people from this world to save it.  Make no mistake though, the only people that I...  kill are those who would not survive anyway.",
-	"speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       {
-	   "text": "Why do you kill people?",
-	   "topic": "TALK_COOPER_GOAL",
-	   "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
-	  },
-	  {
-        "text": "Are you going to kill me?",
-        "topic": "TALK_COOPER_KILL_PLAYER"
+        "text": "Why do you kill people?",
+        "topic": "TALK_COOPER_GOAL",
+        "condition": { "not": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
+      { "text": "Are you going to kill me?", "topic": "TALK_COOPER_KILL_PLAYER" },
+      { "text": "You're a monster.", "topic": "TALK_COOPER_MONSTER" },
       {
         "text": "You're just a murderer with a shoddy excuse.  I can't let you keep doing this.",
         "topic": "TALK_COOPER_FIGHT"
       },
+      { "text": "You have a point.  The ends justify the means.", "topic": "TALK_COOPER_AGREE" },
       {
-        "text": "You have a point.  Sacrifices must be made.  It takes a strong will to realize that.",
-        "topic": "TALK_COOPER_AGREE"
-      },
-      { "text": "This is mad.  How can you possibly know what you do will work?", "topic": "TALK_COOPER_WORK" }
+        "text": "This is mad.  How can you possibly know what you do will work?",
+        "topic": "TALK_COOPER_WORK",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_MONSTER",
+    "dynamic_line": "And how many people have you killed?  Maybe it was in self defense, maybe because you wanted their gear.  It's all the same.  I give their death meaning.  I hate that I have to do it, I truly do, but you really must understand, there is no other way.  The sooner I finish my mission, the sooner all this madness can end.",
+    "responses": [
+      { "text": "I suppose you're right.", "topic": "TALK_COOPER_AGREE" },
+      { "text": "You're mad.  You have to be stopped.", "topic": "TALK_COOPER_FIGHT" },
+      { "text": "Whatever.  I'm leaving.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -373,17 +387,14 @@
       "type": "dialogue",
       "context": "kindred",
       "value": "yes",
-      "no": "I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has.",
+      "no": "I can't allow you to stop me.  If you try, I'll have no option but to fight you.  Maybe I'll die, or maybe you will.  But know that should you win, you'll be ridding the world of the only hope it has.",
       "yes": "I knew a Kindred would not understand.  But I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has."
     },
     "responses": [
       {
         "text": "All I'm ridding the world of is a dangerous madman.  Now die.",
-		"topic": "TALK_DONE",
-		"effect": [
-		 "hostile",
-		 { "u_add_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" }
-		 ]
+        "topic": "TALK_DONE",
+        "effect": [ "hostile", { "u_add_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } ]
       },
       { "text": "This is a waste of time not worth the risk.  I'm out of here.", "topic": "TALK_DONE" }
     ]
@@ -400,7 +411,7 @@
       "no": "I'm glad you realize the necessity of the burden I bear.  Maybe someday we'll join our forces, but for now, I have to do this alone."
     },
     "speaker_effect": { "effect": { "u_add_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } },
-    "responses": [ { "text": "I won't delay you any longer.  Good luck on your mission.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I won't delay you then.  Good luck.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -414,32 +425,31 @@
       "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
     },
     "responses": [
+      { "text": "I meant no offense.  I'm sure you have your reasons.", "topic": "TALK_COOPER_AGREE" },
       {
-        "text": "I did not mean to offend you.  I'm sure you have your reasons and know what you're doing.",
-        "topic": "TALK_COOPER_AGREE"
+        "text": "What about the woman you mentioned - Brigitte - what happened to her?",
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
-	  {
-	  "text": "What about the woman you mentioned - Brigitte - what happened to her?",
-	  "topic": "TALK_COOPERS_SIDE",
-	  "condition": { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-	  },
       {
         "text": "Brigitte was right.  I can't reason with you.  You have to be stopped.",
         "topic": "TALK_COOPER_FIGHT",
-        "condition": { "and": [
-		{"u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
-		{ "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
-		]
-		}
+        "condition": {
+          "and": [
+            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
       },
       {
         "text": "You're rambling.  I can't let you keep hurting people.  This ends now.",
         "topic": "TALK_COOPER_FIGHT",
-        "condition": { "and": [
-		{ "not": {"u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
-		{ "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
-		]
-		}
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+            { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
       },
       { "text": "This is a waste of time.  I'm leaving.", "topic": "TALK_DONE" }
     ]
@@ -474,9 +484,24 @@
       { "text": "What proof could you possibly have of this? That any of this is true?", "topic": "TALK_COOPER_WORK" },
       {
         "text": "You mentioned a woman, Brigitte.  Why isn't she with you? What happened?",
-        "topic": "TALK_COOPERS_SIDE"
+        "topic": "TALK_COOPERS_SIDE",
+        "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } }
+      },
+      {
+        "text": "Wait, Brigitte LaCroix?  I've met her.",
+        "topic": "TALK_COOPER_KNOWBRIG",
+        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
       },
       { "text": "That's insane.  I'm going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COOPER_KNOWBRIG",
+    "dynamic_line": "Small world, huh?  I hope she's doing fine.  Despite our differences, I owe everything to her.  I hope one day we'll be able to reconcile.",
+    "responses": [
+      { "text": "So, how do you know that any of this works?", "topic": "TALK_COOPER_WORK" },
+      { "text": "What differences?  Why did you part ways?", "topic": "TALK_COOPERS_SIDE" }
     ]
   },
   {
@@ -488,41 +513,49 @@
       "context": "cooper",
       "value": "yes",
       "no": "Sorry, but I don't know you that well and I'd rather not go into that.",
-      "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really special about my life before I learned about the Song, so there really isn't much to say."
+      "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really anything special about my life before I learned about the Song, so there isn't much to say."
     },
     "responses": [
       {
         "text": "I understand.",
-		"topic": "TALK_KINDRED_COOPER",
-        "condition": { "not": {"u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
+        "topic": "TALK_KINDRED_COOPER",
+        "condition": { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
       },
       {
         "text": "Do you have a favorite food?",
-		"topic": "TALK_COOPER_FOOD",
-        "condition": {"u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+        "topic": "TALK_COOPER_FOOD",
+        "condition": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
       },
       {
         "text": "I see.  Thanks for sharing.",
-		"topic": "TALK_KINDRED_COOPER",
-        "condition": {"u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+        "topic": "TALK_KINDRED_COOPER",
+        "condition": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
       }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_FOOD",
-    "dynamic_line": "I always loved crêpes.",
+    "dynamic_line": "I've always loved crêpes.",
     "responses": [ { "text": "Fair enough.", "topic": "TALK_KINDRED_COOPER" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_KILL_PLAYER",
-    "dynamic_line": "No.  You seem like you have a chance of surviving in this world, it wouldn't be right to try and harm you.  Plus, you took the time to actually hear me out, so there is a chance one day you'll hear the Song the same way I do.",
+    "dynamic_line": "No.  You seem like you have a chance of surviving in this world.  Plus, you took the time to actually hear me out, so there is a chance one day you'll hear the Song the same way I do.",
     "responses": [
-	 { "text": "Nevertheless, I can't allow you to keep killing people.", "topic": "TALK_COOPER_FIGHT" },
-	 { "text": "I'm glad you see it that way.  Perhaps one day, I will understand.", "topic": "TALK_COOPER_AGREE", "condition": { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } } },
-	 { "text": "Maybe one day I will.", "topic": "TALK_COOPER_AGREE", "condition": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
-	 { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
-	 ]
+      { "text": "Nevertheless, I can't allow you to keep killing people.", "topic": "TALK_COOPER_FIGHT" },
+      {
+        "text": "I'm glad you see it that way.",
+        "topic": "TALK_COOPER_AGREE",
+        "condition": { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } }
+      },
+      {
+        "text": "Maybe one day I will.",
+        "topic": "TALK_COOPER_AGREE",
+        "condition": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" }
+      },
+      { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
+    ]
   }
 ]
