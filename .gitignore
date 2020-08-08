@@ -123,7 +123,7 @@ nbproject/
 
 # OSX
 Cataclysm.app
-data/osx/AppIcon.icns
+build-data/osx/AppIcon.icns
 Cataclysm.dmg
 
 # Jetbrains CLion
