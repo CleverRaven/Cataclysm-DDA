@@ -111,7 +111,7 @@
     "qualities": [ [ "CUT", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "stone_chopper",
     "symbol": "*",
     "color": "light_gray",
@@ -119,11 +119,12 @@
     "description": "A rock with sharpened edges, produced by knapping.  Works as a crude cutting and butchering tool, if nothing else is available.",
     "material": [ "stone" ],
     "weight": "500 g",
-    "volume": "250 ml",
+    "volume": "190 ml",
     "longest_side": "8 cm",
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ],
+    "flags": [ "FRAGILE_MELEE" ]
   }
 ]
