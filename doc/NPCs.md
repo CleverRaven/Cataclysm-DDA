@@ -44,7 +44,7 @@ Format:
   "faction": "no_faction"
 }
 ```
-This is the json that creates the NPC ID that is used to spawn an NPC in mapgen.
+This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
 Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
 Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
 Chat is covered in the dialogue examples below.
