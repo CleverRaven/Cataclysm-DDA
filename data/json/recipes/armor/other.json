@@ -2,6 +2,7 @@
   {
     "result": "blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -13,6 +14,7 @@
   {
     "result": "electric_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -26,6 +28,7 @@
   {
     "result": "gold_ring",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -40,6 +43,7 @@
   {
     "result": "gold_bracelet",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -54,6 +58,7 @@
   {
     "result": "copper_bracelet",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -67,6 +72,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "silver_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -81,6 +87,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bead_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -99,11 +106,13 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "down_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -116,6 +125,7 @@
   {
     "result": "fur_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -131,6 +141,7 @@
   {
     "result": "fur_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -148,6 +159,7 @@
   {
     "result": "faux_fur_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -165,6 +177,7 @@
   {
     "result": "fur_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -178,6 +191,7 @@
   {
     "result": "faux_fur_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -191,6 +205,7 @@
   {
     "result": "basket_laundry",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -204,6 +219,7 @@
   {
     "result": "leather_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -221,6 +237,7 @@
   {
     "result": "leather_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -234,6 +251,7 @@
   {
     "result": "rebreather_filter",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -263,6 +281,7 @@
   {
     "result": "gasfilter_s",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -278,6 +297,7 @@
   {
     "result": "gasfilter_m",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -293,6 +313,7 @@
   {
     "result": "gasfilter_l",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -322,6 +343,7 @@
   {
     "result": "sleeping_bag_roll",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -336,6 +358,7 @@
   {
     "result": "sleeping_bag_fur_roll",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -352,6 +375,7 @@
   {
     "result": "survivor_belt",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -370,6 +394,7 @@
   {
     "result": "survivor_belt_notools",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -388,6 +413,7 @@
   {
     "result": "towel",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "knitting",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -399,6 +425,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "towel",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
