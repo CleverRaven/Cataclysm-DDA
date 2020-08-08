@@ -71,7 +71,6 @@ def _recurse_through_igroups(igroup, item_group, item_to_group, group_id=None):
        to resolve the various item groups, and fill out
        the item_to_group map as it goes"""
     if type(igroup) is dict:
-        subtype = igroup.get("subtype")
         group_id = igroup.get("id")
         entries = igroup.get("entries", [])
         if not entries:
