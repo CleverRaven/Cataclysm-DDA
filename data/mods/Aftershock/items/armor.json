@@ -49,14 +49,14 @@
     "description": " A, when activated, will create an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
     "//": "Change charges and charge_regen only",
     "charge_types": [
-          {
-            "charges": { "range": [ 10, 15 ] },
-            "charges_per_use": 1,
-            "max_charges": 15,
-            "recharge_type": "periodic",
-            "time": [ "1 h", "2 h" ]
-          }
-        ],
+      {
+        "charges": { "range": [ 10, 15 ] },
+        "charges_per_use": 1,
+        "max_charges": 15,
+        "recharge_type": "periodic",
+        "time": [ "1 h", "2 h" ]
+      }
+    ],
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
