@@ -21,9 +21,8 @@
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
-
-#include "options.h"
 #endif
+#include "options.h"
 
 #include <algorithm>
 #include <deque>
@@ -192,7 +191,8 @@ class messages_impl
                 return;
             }
 
-            while( messages.size() > 255 ) {
+            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
+            while( messages.size() > message_limit ) {
                 messages.pop_front();
             }
 
