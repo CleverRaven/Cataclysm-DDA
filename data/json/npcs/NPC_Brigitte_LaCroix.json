@@ -101,7 +101,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "no": "You there.  Quiet down.  Can you hear it? The song?",
+      "no": "You there.  Quiet down.  Can you hear it?  The song?",
       "yes": {
         "u_has_var": "asked_about_song",
         "type": "dialogue",
@@ -184,16 +184,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_SONG",
-    "dynamic_line": "Listen carefully.  The bones… they hum.  Can you hear it? The song they weave? The stories they hold?",
+    "dynamic_line": "Listen carefully.  The bones… they hum.  Can you hear it?  The song they weave?  The stories they hold?",
     "responses": [
-      { "text": "Bones? What are you talking about?", "topic": "TALK_BONE_SEER_SONG2" },
+      { "text": "Bones?  What are you talking about?", "topic": "TALK_BONE_SEER_SONG2" },
       { "text": "Uh… yeah, sure.   I think I'll just be on my way.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_SONG2",
-    "dynamic_line": "When it all happened, the Cataclysm, something… changed.  You can see it in all creatures, most of all in their bones.  They break, morph, rise again, over and over - a never-ending cycle.  The dead walk again, horrors rip and tear each other apart.  And within each one...  the quiet hum of raw strength.  Only by taking the bones does the cycle end - their story, their song, their strength; they become yours to use.",
+    "dynamic_line": "When it all happened, the Cataclysm, something… changed.  You can see it in all creatures, most of all in their bones.  They break, morph, rise again, over and over - a never-ending cycle.  The dead walk again, horrors rip and tear each other apart.  And within each one… the quiet hum of raw strength.  Only by taking the bones does the cycle end - their story, their song, their strength; they become yours to use.",
     "speaker_effect": { "effect": { "u_add_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } },
     "responses": [
       { "text": "So what do you actually do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
@@ -228,21 +228,21 @@
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       {
-        "text": "Wait, Cooper? Darren Cooper? I've already met him.",
+        "text": "Wait, Cooper?  Darren Cooper?  I've already met him.",
         "topic": "TALK_BONE_SEER_METCOOPER2",
         "condition": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
       { "text": "What exactly did he do?", "topic": "TALK_BONE_SEER_COOPER2" },
-      { "text": "What cause is that? What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
+      { "text": "What cause is that?  What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
       { "text": "I see.  I wanted to ask about something else...", "topic": "TALK_BONE_SEER" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPER2",
-    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he...  he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
+    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he…  he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
-    "responses": [ { "text": "Well...  shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" } ]
+    "responses": [ { "text": "Well…  shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" } ]
   },
   {
     "type": "talk_topic",
@@ -275,7 +275,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_ABOUT",
-    "dynamic_line": "I grew up in Louisiana with my grandmother.  Great cook.  Made the best boudin I've ever had.  Each night, she would tell me stories; mostly folklore and myths, like about the rougarou, or the Honey Island Swamp monster but...  she sometimes told me about me about the Song, and the bones.  The way she talked about it was...  different, serious.  Didn't give it much thought back then; I was just a child, after all.  I moved here a few years back for work, before the Cataclysm, before everything changed.  I do miss home sometimes, but at least the rats here are smaller.  Never could stand the things.  Anyway...  thank you for asking.  Been a while since I could simply talk to someone.",
+    "dynamic_line": "I grew up in Louisiana with my grandmother.  Great cook.  Made the best boudin I've ever had.  Each night, she would tell me stories; mostly folklore and myths, like about the rougarou, or the Honey Island Swamp monster but…  she sometimes told me about me about the Song, and the bones.  The way she talked about it was…  different, serious.  Didn't give it much thought back then; I was just a child, after all.  I moved here a few years back for work, before the Cataclysm, before everything changed.  I do miss home sometimes, but at least the rats here are smaller.  Never could stand the things.  Anyway…  thank you for asking.  Been a while since I could simply talk to someone.",
     "responses": [
       { "text": "Why didn't your parents raise you?", "topic": "TALK_BONE_SEER_PARENTS" },
       { "text": "What's boudin?", "topic": "TALK_BONE_SEER_BOUDIN" },
@@ -287,7 +287,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_PARENTS",
-    "dynamic_line": "They died when I was very young.  Car accident.  I...  don't have any memories of them, but my grandmother raised me as her own.",
+    "dynamic_line": "They died when I was very young.  Car accident.  I…  don't have any memories of them, but my grandmother raised me as her own.",
     "responses": [ { "text": "She sounds nice.", "topic": "TALK_BONE_SEER_ABOUT" } ]
   },
   {
@@ -308,13 +308,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_RATS",
-    "dynamic_line": "Ever since a young age, I hated rats.  Can't quite say why; they always struck me as something...  foul.  I even have nightmares about them sometimes.  Not too long ago, I had one about a man-sized rat, shambling on it's hind legs.  It chased me up a tall building and then pushed me off, snickering.  Maybe the Song was trying to tell me something, but then again, maybe it was just a bad dream.",
+    "dynamic_line": "Ever since a young age, I hated rats.  Can't quite say why; they always struck me as something…  foul.  I even have nightmares about them sometimes.  Not too long ago, I had one about a man-sized rat, shambling on it's hind legs.  It chased me up a tall building and then pushed me off, snickering.  Maybe the Song was trying to tell me something, but then again, maybe it was just a bad dream.",
     "responses": [ { "text": "Strange dream, but we all have fears, sometimes irrational.", "topic": "TALK_BONE_SEER_ABOUT" } ]
   },
   {
     "id": "MISSION_SEER_GATHER_BONE",
     "type": "mission_definition",
-    "name": { "str": "Gather clean, untainted bones for Brigitte LaCroix.   About 8 should do it." },
+    "name": { "str": "Brigitte LaCroix asked you to collect clean, untainted bones in order to better understand her beliefs.  8 bones should be sufficient." },
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",
@@ -449,11 +449,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_CYCLE",
-    "dynamic_line": "It's not just walking horrors and monsters that have changed with the Cataclysm.  It started a… cycle, of sorts.  Everything repeats.  We can only see it in others, but it happens to us, even you and I.  How many times have you fallen? Your flesh rent from your body, devoured.  Or perhaps it was the quiet whimper of succumbing to the elements.  But your bones rose again.  Different flesh, different name, sometimes even different knowledge, but the bones, the same.  We are all trapped in the same cycle.  We just keep forgetting.  That's why we need to amass the Song.  That's why it has to end, even if it means the destruction, not restoration.",
+    "dynamic_line": "It's not just walking horrors and monsters that have changed with the Cataclysm.  It started a… cycle, of sorts.  Everything repeats.  We can only see it in others, but it happens to us, even you and I.  How many times have you fallen?  Your flesh rent from your body, devoured.  Or perhaps it was the quiet whimper of succumbing to the elements.  But your bones rose again.  Different flesh, different name, sometimes even different knowledge, but the bones, the same.  We are all trapped in the same cycle.  We just keep forgetting.  That's why we need to amass the Song.  That's why it has to end, even if it means the destruction, not restoration.",
     "responses": [
-      { "text": "That's...  certainly something.", "topic": "TALK_NONE" },
+      { "text": "That's…  certainly something.", "topic": "TALK_NONE" },
       { "text": "That's insane.", "topic": "TALK_BONE_SEER_INSULT" },
-      { "text": "Right...  I think I'll go now.", "topic": "TALK_DONE" }
+      { "text": "Right…  I think I'll go now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -482,13 +482,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPERPEACE",
-    "dynamic_line": "I am glad your meeting ended without conflict.  Perhaps he's understanding the Song more and the harm his actions caused.  If so...  there may be hope yet.  Never the less, his action can not go unpunished.",
+    "dynamic_line": "I am glad your meeting ended without conflict.  Perhaps he's understanding the Song more and the harm his actions caused.  If so…  there may be hope yet.  Never the less, his action can not go unpunished.",
     "responses": [ { "text": "A topic for another time.  Let's move on.", "topic": "TALK_BONE_SEER" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_METCOOPER2",
-    "dynamic_line": "You have? A most peculiar coincidence.  How did he act towards you?",
+    "dynamic_line": "You have?  A most peculiar coincidence.  How did he act towards you?",
     "responses": [
       {
         "text": "I've confronted him.  He ended up attacking me.",
