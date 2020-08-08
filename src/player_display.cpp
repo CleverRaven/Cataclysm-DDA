@@ -62,8 +62,8 @@ static int temperature_print_rescaling( int temp )
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const encumbrance_data enc_l = p.get_part_encumbrance_data( l );
-    const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
+    const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
+    const encumbrance_data &enc_r = p.get_part_encumbrance_data( r );
 
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts

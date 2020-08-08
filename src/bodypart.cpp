@@ -418,7 +418,7 @@ int bodypart::get_damage_disinfected() const
     return damage_disinfected;
 }
 
-encumbrance_data bodypart::get_encumbrance_data() const
+const encumbrance_data &bodypart::get_encumbrance_data() const
 {
     return encumb_data;
 }
@@ -473,7 +473,7 @@ void bodypart::set_damage_disinfected( int set )
     damage_disinfected = set;
 }
 
-void bodypart::set_encumbrance_data( encumbrance_data set )
+void bodypart::set_encumbrance_data( const encumbrance_data &set )
 {
     encumb_data = set;
 }
