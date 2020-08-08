@@ -8,7 +8,7 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "effect": "target_attack",
     "effect_str": "bless",
-    "affected_body_parts": [ "TORSO" ],
+    "affected_body_parts": [ "torso" ],
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "energy_source": "MANA",
