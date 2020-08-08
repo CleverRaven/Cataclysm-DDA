@@ -6,6 +6,7 @@
     "entries": [
       { "item": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
       { "item": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "m38dmr", "prob": 1, "charges": [ 0, 30 ] },
       { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ] }
     ]
   },
@@ -181,6 +182,7 @@
       { "item": "m249", "prob": 1 },
       { "item": "m240", "prob": 1 },
       { "item": "m27iar", "prob": 1 },
+      { "item": "m38dmr", "prob": 1 },
       { "item": "plasma_gun", "prob": 1 },
       { "item": "m320", "prob": 5 },
       { "item": "m320_mod", "prob": 10 },
@@ -365,6 +367,7 @@
       { "item": "m249", "prob": 30 },
       { "item": "m240", "prob": 20 },
       { "item": "m27iar", "prob": 30 },
+      { "item": "m38dmr", "prob": 3 },
       { "item": "m2browning", "prob": 15 },
       { "item": "mark19", "prob": 15 },
       { "item": "556", "prob": 30 },
