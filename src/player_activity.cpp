@@ -154,8 +154,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_DISASSEMBLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
@@ -174,6 +172,10 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                 extra_info = string_format( "%d%%", percentage );
             }
         }
+    }
+
+    if( actor ) {
+        extra_info = actor->get_progress_message( *this );
     }
 
     return extra_info.empty() ? string_format( _( "%s…" ),

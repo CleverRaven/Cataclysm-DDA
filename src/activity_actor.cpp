@@ -388,6 +388,12 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+std::string dig_activity_actor::get_progress_message( const player_activity &act ) const
+{
+    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+    return string_format( "%d%%", pct );
+}
+
 void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -453,6 +459,12 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
+}
+
+std::string dig_channel_activity_actor::get_progress_message( const player_activity &act ) const
+{
+    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+    return string_format( "%d%%", pct );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const

@@ -91,6 +91,13 @@ class activity_actor
         }
 
         /**
+         * Used to generate the progress display at the top of the screen
+         */
+        virtual std::string get_progress_message( const player_activity & ) const {
+            return std::string();
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {
@@ -221,6 +228,8 @@ class dig_activity_actor : public activity_actor
             return std::make_unique<dig_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity &act ) const override;
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -280,6 +289,8 @@ class dig_channel_activity_actor : public activity_actor
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<dig_channel_activity_actor>( *this );
         }
+
+        std::string get_progress_message( const player_activity &act ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
