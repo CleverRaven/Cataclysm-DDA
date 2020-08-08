@@ -246,7 +246,7 @@ void relic_charge_info::load( const JsonObject &jo )
     jo.read( "charges_per_use", charges_per_use );
     jo.read( "max_charges", max_charges );
     jo.read( "recharge_type", type );
-    jo.read( "last_charge", last_charge );
+    jo.read( "activation_accumulator", activation_accumulator );
     jo.read( "time", activation_time );
 }
 
@@ -257,9 +257,22 @@ void relic_charge_info::serialize( JsonOut &jsout ) const
     jsout.member( "charges_per_use", charges_per_use );
     jsout.member( "max_charges", max_charges );
     jsout.member( "recharge_type", type );
-    jsout.member( "last_charge", last_charge );
+    jsout.member( "activation_accumulator", activation_accumulator );
     jsout.member( "time", activation_time );
     jsout.end_object();
+}
+
+void relic_charge_info::accumulate_charge()
+{
+    if( charges >= max_charges || activation_time == 0_seconds ) {
+        // return early, no accumulation required
+        return;
+    }
+    activation_accumulator += 1_seconds;
+    if( activation_accumulator >= activation_time ) {
+        activation_accumulator -= activation_time;
+        charges++;
+    }
 }
 
 void relic::load( const JsonObject &jo )
@@ -357,12 +370,9 @@ int relic::max_charges() const
     return charge.max_charges;
 }
 
-// Adds num charges to the relic, as long as it doesn't exceed max_charges
-static void add_charges( relic_charge_info &rel, int num = 1 )
+bool relic::has_recharge() const
 {
-    if( rel.charges + num <= rel.max_charges ) {
-        rel.charges += num;
-    }
+    return charge.type != relic_recharge::none;
 }
 
 void relic::try_recharge()
@@ -375,10 +385,7 @@ void relic::try_recharge()
             return;
         }
         case relic_recharge::periodic: {
-            if( calendar::turn - charge.last_charge >= charge.activation_time ) {
-                add_charges( charge );
-                break;
-            }
+            charge.accumulate_charge();
             return;
         }
         case relic_recharge::num: {
@@ -386,13 +393,6 @@ void relic::try_recharge()
             return;
         }
     }
-
-    charge.last_charge = calendar::turn;
-}
-
-relic_charge_info::relic_charge_info()
-{
-    last_charge = calendar::turn;
 }
 
 void relic::overwrite_charge( const relic_charge_info &info )
