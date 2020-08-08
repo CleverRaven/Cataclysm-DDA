@@ -261,6 +261,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     reqs_blueprint.clear();
 
     if( type == "recipe" ) {
+        type_ = recipe_type::recipe;
         if( jo.has_string( "id_suffix" ) ) {
             if( abstract ) {
                 jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
@@ -342,6 +343,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
         }
     } else if( type == "uncraft" ) {
+        type_ = recipe_type::uncraft;
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
@@ -350,6 +352,26 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
     reqs_internal.emplace_back( req_id, 1 );
+}
+
+bool recipe::check_weight_consistency() const
+{
+    units::mass results_weight = result()->weight;
+    for( const auto &byproduct_pair : byproducts ) {
+        results_weight += byproduct_pair.first->weight * byproduct_pair.second;
+    }
+    units::mass components_weight = units::mass();
+    for( const auto &component : simple_requirements().get_components() ) {
+        units::mass lighter_alternative_weight = component[0].type->weight * component[0].count;
+        for( const auto &alternative : component ) {
+            units::mass alternative_weight = alternative.type->weight * alternative.count;
+            if( alternative_weight < lighter_alternative_weight ) {
+                lighter_alternative_weight = alternative_weight;
+            }
+        }
+        components_weight += lighter_alternative_weight;
+    }
+    return ( results_weight <= components_weight );
 }
 
 void recipe::finalize()
@@ -415,6 +437,10 @@ void recipe::finalize()
         if( skill_used ) {
             autolearn_requirements[ skill_used ] = difficulty;
         }
+    }
+
+    if( type_ == recipe_type::recipe && !obsolete && !check_weight_consistency() ) {
+        debugmsg( "recipe %s (to craft %s) is inconsistent weight-wise", ident_.str(), result_.str() );
     }
 }
 

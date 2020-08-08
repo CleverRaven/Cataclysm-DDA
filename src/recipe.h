@@ -31,6 +31,12 @@ enum class recipe_time_flag : int {
     ignore_proficiencies = 1,
 };
 
+enum class recipe_type : int {
+    unknown = 0,
+    recipe,
+    uncraft
+};
+
 template<>
 struct enum_traits<recipe_time_flag> {
     static constexpr bool is_flag_enum = true;
@@ -202,6 +208,9 @@ class recipe
             return reversible;
         }
 
+        // Return true if, for all requirements, result.weight + byproducts.weight <= components.weight
+        bool check_weight_consistency() const;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
 
@@ -230,6 +239,8 @@ class recipe
 
     private:
         recipe_id ident_ = recipe_id::NULL_ID();
+
+        recipe_type type_;
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;
