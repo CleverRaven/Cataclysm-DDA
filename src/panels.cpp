@@ -219,6 +219,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y;
     const int start_x = start_input.x;
+    const int mid_x = width / 2;
+    const int mid_y = height / 2;
     map &here = get_map();
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
@@ -341,45 +343,55 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
             }
             if( i == 0 && j == 0 ) {
-                mvwputch_hi( w_minimap, point( 3 + start_x, 3 + start_y ), ter_color, ter_sym );
+                // Highlight player character position in center of minimap
+                mvwputch_hi( w_minimap, point( mid_x + start_x, mid_y + start_y ), ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, point( 3 + i + start_x, 3 + j + start_y ), ter_color, ter_sym );
+                mvwputch( w_minimap, point( mid_x + i + start_x, mid_y + j + start_y ), ter_color,
+                          ter_sym );
             }
         }
     }
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = curs.x() != targ.x() ?
-                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
+        // Use an extreme slope rather than dividing by zero
+        double slope = curs.x() == targ.x() ? 1000 :
+                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() );
 
-        if( curs.x() == targ.x() || std::fabs( slope ) > 3.5 ) {  // Vertical slope
+        if( std::fabs( slope ) > 12 ) {
+            // For any near-vertical slope, center the marker
             if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid_x + start_x, height - 1 + start_y ), c_red, '*' );
             } else {
-                mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid_x + start_x, 1 + start_y ), c_red, '*' );
             }
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
-                arrowy = ( targ.y() > curs.y() ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) );
-                if( arrowx < 0 ) {
-                    arrowx = 0;
-                }
-                if( arrowx > 6 ) {
-                    arrowx = 6;
-                }
-            } else {
-                arrowx = ( targ.x() > curs.x() ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
-                if( arrowy < 0 ) {
+            if( std::fabs( slope ) >= 1. ) {
+                // If target to the north or south, arrow on top or bottom edge of minimap
+                if( targ.y() > curs.y() ) {
+                    arrowx = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid_x );
+                    arrowy = height - 1;
+                } else {
+                    arrowx = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid_x );
                     arrowy = 0;
                 }
-                if( arrowy > 6 ) {
-                    arrowy = 6;
+                // Clip to left/right edges
+                arrowx = std::max( arrowx, 0 );
+                arrowx = std::min( arrowx, width - 1 );
+            } else {
+                // If target to the east or west, arrow on left or right edge of minimap
+                if( targ.x() > curs.x() ) {
+                    arrowx = width - 1;
+                    arrowy = static_cast<int>( ( 1. + slope ) * mid_y );
+                } else {
+                    arrowx = 0;
+                    arrowy = static_cast<int>( ( 1. - slope ) * mid_y );
                 }
+                // Clip to top/bottom edges
+                arrowy = std::max( arrowy, 0 );
+                arrowy = std::min( arrowy, height - 1 );
             }
             char glyph = '*';
             if( targ.z() > you.posz() ) {
@@ -404,7 +416,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
                     && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
+                    mvwputch( w_minimap, point( i + mid_x, j + mid_y ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
@@ -1361,7 +1373,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( minimap ) {
         const int offset = getmaxx( w ) - 14;
         const tripoint_abs_omt curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 13, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, 0 ), 13, 5 );
     }
     wnoutrefresh( w );
 }
