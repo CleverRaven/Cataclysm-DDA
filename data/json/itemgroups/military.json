@@ -173,6 +173,8 @@
       { "item": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "m4a1", "prob": 7 },
+      { "item": "m4_cqbr", "prob": 1 },
+      { "item": "m231pfw", "prob": 1 },
       { "item": "m16a4", "prob": 5 },
       { "item": "m16a3", "prob": 1 },
       { "item": "h&k416a5", "prob": 7 },
