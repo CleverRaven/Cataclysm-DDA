@@ -13,7 +13,6 @@
       { "monster": "mon_zombie_shady", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_biter", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_winged", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_shrieker", "freq": 90, "cost_multiplier": 5 },
       { "monster": "mon_zombie_acidic", "freq": 80, "cost_multiplier": 2 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 25 },
