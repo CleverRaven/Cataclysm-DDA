@@ -111,6 +111,7 @@
     "name": { "str": "pulsing zombie crawler" },
     "description": "This human corpse is wrapped in sticky black fibers that cover everything neck down.  Beneath the wrapping there is strange rhythmic movement grotesque to behold.",
     "copy-from": "mon_zombie_crawler",
+    "categories": [  ],
     "proportional": { "hp": 0.8, "weight": 0.8 },
     "armor_bash": 6,
     "armor_cut": 3,
