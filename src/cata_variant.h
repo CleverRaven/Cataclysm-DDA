@@ -22,7 +22,6 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class mutagen_technique : int;
 
 namespace debug_menu
