@@ -73,28 +73,29 @@ static const skill_id skill_barter( "barter" );
 
 namespace
 {
-bool _char_can_stash( Character *who, item &it, int amount )
+bool _char_can_stash( Character &who, const item &it, int amount )
 {
-    if( who->is_npc() && dynamic_cast<npc *>( who )->mission == NPC_MISSION_SHOPKEEP ) {
+    if( who.is_npc() && dynamic_cast<const npc &>( who ).mission == NPC_MISSION_SHOPKEEP ) {
         return true;
     }
     if( it.count_by_charges() ) {
         item dummy = it;
         dummy.charges = amount;
-        return who->can_stash( dummy );
+        return who.can_stash( dummy );
     } else {
-        return who->can_stash( it );
+        return who.can_stash( it );
     }
     return false;
 }
 
-int _stack_price( Character &buyer, Character &seller, item &it, int amount )
+int _stack_price( const Character &buyer, const Character &seller, const item &it, int amount )
 {
-    npc *np_p = buyer.is_npc() ? dynamic_cast<npc *>( &buyer ) : dynamic_cast<npc *>( &seller );
-    if( np_p->will_exchange_items_freely() ) {
+    const npc &np_p = buyer.is_npc() ? dynamic_cast<const npc &>( buyer ) :
+                      dynamic_cast<const npc &>( seller );
+    if( np_p.will_exchange_items_freely() ) {
         return 0;
     }
-    faction *fac = np_p->get_faction();
+    faction *fac = np_p.get_faction();
     int price = it.price( true );
 
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
@@ -1548,7 +1549,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             }
         }
     } else {
-        bool can_stash = _char_can_stash( &get_player_character(), *sitem->items.front(), amount_to_move );
+        bool can_stash = _char_can_stash( get_player_character(), *sitem->items.front(), amount_to_move );
         if( destarea == AIM_INVENTORY && !can_stash ) {
             popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
             return false;
@@ -1570,7 +1571,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 }
 
 bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
-        advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
+        const advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
         int amount_to_move )
 {
 
@@ -1582,14 +1583,14 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
     const bool by_charges = it.count_by_charges();
     advanced_inventory_pane::limbo_t::iterator present = spane.limbo.end();
     if( !by_charges ) {
-        present = std::find_if( spane.limbo.begin(), spane.limbo.end(), [&it]( const auto el ) {
+        present = std::find_if( spane.limbo.begin(), spane.limbo.end(), [&it]( const auto & el ) {
             return el.first.front().get_item() == &it;
         } );
     }
     const int amount_already = by_charges ? it.get_var( "aim_trade_amount", 0 ) :
                                present != spane.limbo.end() ? present->second : 0;
     if( srcarea != AIM_TRADE ) {
-        const bool npc_can_stash = _char_can_stash( dpane.owner, it, amount_to_move );
+        const bool npc_can_stash = _char_can_stash( *dpane.owner, it, amount_to_move );
         if( spane_is_npc || npc_can_stash ) {
             if( amount_already == 0 ) {
                 // get item_location for the entire stack

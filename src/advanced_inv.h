@@ -136,7 +136,7 @@ class advanced_inventory
                                advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
                                const std::string &action );
         bool action_trade_item( advanced_inv_listitem *sitem,
-                                advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
+                                const advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
                                 int amount_to_move );
 
         void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );

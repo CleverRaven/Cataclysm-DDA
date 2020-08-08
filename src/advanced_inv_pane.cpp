@@ -40,7 +40,7 @@ bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::
             return true;
         }
     } else {
-        auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto el ) {
+        auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto & el ) {
             return el.first.front().get_item() == it.items.front();
 
         } );
@@ -54,14 +54,14 @@ bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::
     return false;
 }
 
-bool _wants_to_sell( npc &np, item &it )
+bool _wants_to_sell( const npc &np, const item &it )
 {
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
     return it.is_owned_by( np ) && np.wants_to_sell( it, val, market_price );
 }
 
-bool _wants_to_buy( npc &np, item &it )
+bool _wants_to_buy( const npc &np, const item &it )
 {
     const int market_price = it.price( true );
     int val = np.value( it, market_price );
