@@ -822,11 +822,11 @@ void Character::suffer_from_albinism()
         }
     };
     //pecentage of "open skin" by body part
-    std::map<body_part, float> open_percent;
+    std::map<bodypart_id, float> open_percent;
     //initialize coverage
     for( const bodypart_id  &bp : get_all_body_parts() ) {
         if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp->token] = 1.0;
+            open_percent[bp] = 1.0;
         }
     }
     //calculate coverage for every body part
@@ -838,16 +838,16 @@ void Character::suffer_from_albinism()
             }
             //percent of "not covered skin"
             float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            open_percent[bp->token] = open_percent[bp->token] * p;
+            open_percent[bp] = open_percent[bp] * p;
         }
     }
 
     const float COVERAGE_LIMIT = 0.01f;
-    body_part max_affected_bp = num_bp;
+    bodypart_id max_affected_bp;
     float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
-    for( const std::pair<const body_part, float> &it : open_percent ) {
-        const body_part &bp = it.first;
+    for( const std::pair<const bodypart_id, float> &it : open_percent ) {
+        const bodypart_id &bp = it.first;
         const float &p = it.second;
 
         if( p <= COVERAGE_LIMIT ) {
@@ -859,18 +859,18 @@ void Character::suffer_from_albinism()
             max_affected_bp = bp;
         }
     }
-    if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+    if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
         //Check if both arms/legs are affected
         int parts_count = 1;
-        body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
-        body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+        const bodypart_id &other_bp = max_affected_bp->opposite_part;
+        const bodypart_id &other_bp_rev = other_bp->opposite_part;
         if( other_bp != other_bp_rev ) {
             const auto found = open_percent.find( other_bp );
             if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
                 ++parts_count;
             }
         }
-        std::string bp_name = body_part_name( convert_bp( max_affected_bp ).id(), parts_count );
+        std::string bp_name = body_part_name( max_affected_bp, parts_count );
         if( count_affected_bp > parts_count ) {
             bp_name = string_format( _( "%s and other body parts" ), bp_name );
         }
