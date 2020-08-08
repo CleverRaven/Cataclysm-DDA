@@ -5,7 +5,7 @@
     "attack_type": "bite",
     "cooldown": 40,
     "accuracy": 6,
-    "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+    "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
     "body_parts": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "no_infection_chance": 100,
     "damage_max_instance": [

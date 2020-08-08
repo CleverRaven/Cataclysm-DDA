@@ -1492,9 +1492,9 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     // Add any on damage effects
-    for( const auto &eff : type->atk_effs ) {
+    for( const mon_effect_data &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit : convert_bp( eff.bp ).id();
+            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit :  eff.bp.id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }

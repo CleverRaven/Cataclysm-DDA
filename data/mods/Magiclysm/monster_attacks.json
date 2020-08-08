@@ -7,7 +7,7 @@
     "move_cost": 180,
     "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 15, "armor_multiplier": 0.5 } ],
     "body_parts": [ [ "torso", 1 ] ],
-    "effects": [ { "id": "bleed", "duration": 100, "bp": "TORSO" }, { "id": "downed", "duration": 3 } ],
+    "effects": [ { "id": "bleed", "duration": 100, "bp": "torso" }, { "id": "downed", "duration": 3 } ],
     "hit_dmg_u": "The %1$s impales your %2$s with its trident!",
     "hit_dmg_npc": "The %1$s impales <npcname>'s %2$s with its trident!",
     "no_dmg_msg_u": "The %1$s tries to impale your %2$s with its trident, but fails to penetrate your armor!",

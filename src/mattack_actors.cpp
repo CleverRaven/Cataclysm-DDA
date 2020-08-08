@@ -340,9 +340,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
 
-    for( const auto &eff : effects ) {
+    for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : convert_bp( eff.bp ).id();
+            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
