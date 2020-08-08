@@ -59,7 +59,7 @@
     "color": "dark_gray",
     "covers": [ "foot_l", "foot_r" ],
     "encumbrance": 16,
-	"material_thickness": 4,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
