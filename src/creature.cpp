@@ -2098,6 +2098,12 @@ bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
     return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
 }
 
+bodypart_id Creature::random_body_part( bool main_parts_only ) const
+{
+    const bodypart_id &bp = get_anatomy()->random_body_part();
+    return  main_parts_only ? bp->main_part : bp ;
+}
+
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )
 {
     damage_over_time_map.emplace_back( DoT );

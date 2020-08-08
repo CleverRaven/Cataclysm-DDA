@@ -926,8 +926,8 @@ bool mattack::boomer_glow( monster *z )
             target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                target->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = target->random_body_part();
+                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( target->has_effect( effect_glowing ) ) {
                     break;
                 }

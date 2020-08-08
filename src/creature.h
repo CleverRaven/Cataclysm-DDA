@@ -1020,6 +1020,7 @@ class Creature : public location, public viewer
 
     public:
         bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();
