@@ -2,19 +2,20 @@
 #ifndef CATA_SRC_NPCTRADE_H
 #define CATA_SRC_NPCTRADE_H
 
+#include <algorithm>
 #include <cstddef>
-#include <vector>
+#include <list>
 #include <string>
 #include <utility>
-#include <algorithm>
-#include <list>
+#include <vector>
 
+#include "cursesdef.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "output.h"
-#include "units.h"
-#include "cursesdef.h"
 #include "translations.h"
+#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class faction;

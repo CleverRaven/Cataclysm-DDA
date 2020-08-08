@@ -1,12 +1,7 @@
-#include "coordinates.h"
-#include "omdata.h" // IWYU pragma: associated
-#include "overmap.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstring>
-#include <exception>
 #include <memory>
 #include <numeric>
 #include <ostream>
@@ -18,27 +13,28 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
+#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"
@@ -49,6 +45,7 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -4337,28 +4334,20 @@ void overmap::place_radios()
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint_om_omt pos_omt( i, j, 0 );
             point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
-
-            if( ter( pos_omt ) == "radio_tower" ) {
-                int choice = rng( 0, 2 );
-                switch( choice ) {
-                    case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d."
-                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
-                        radios.push_back( radio_tower( pos_sm, strength(), message ) );
-                        break;
-                    case 1:
-                        radios.push_back( radio_tower( pos_sm, strength(),
-                                                       _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
-                        break;
-                    case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
-                        break;
+            // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
+            if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
+                if( one_in( 3 ) ) {
+                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                } else {
+                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
+                                                  translation() ).translated() );
+                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
-            } else if( ter( pos_omt ) == "lmoe" ) {
+            } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
-            } else if( ter( pos_omt ) == "fema_entrance" ) {
+            } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );

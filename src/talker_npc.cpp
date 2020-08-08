@@ -1,27 +1,47 @@
+#include <algorithm>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
+
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "dialogue_chatbin.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "item_location.h"
-#include "line.h"
+#include "itype.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "player.h"
-#include "proficiency.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
+#include "output.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "proficiency.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "talker.h"
 #include "talker_npc.h"
-#include "talker_character.h"
+#include "translations.h"
+#include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
-
-class Character;
+#include "value_ptr.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );

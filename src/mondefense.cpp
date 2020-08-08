@@ -4,14 +4,12 @@
 #include <cstddef>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "ballistics.h"
-#include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -33,6 +31,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "viewer.h"
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_rifle( "rifle" );

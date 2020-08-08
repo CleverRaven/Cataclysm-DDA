@@ -388,6 +388,18 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_camarasaurus",
+    "name": { "str_sp": "Camarasaurus" },
+    "copy-from": "mon_apatosaurus",
+    "speed": 60,
+    "armor_cut": 3,
+    "armor_bullet": 3,
+    "zombify_into": "mon_zamarasaurus",
+    "description": "Huge four-legged dinosaur with a square head and a shorter neck and tail than similar dinosaurs.",
+    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_apatosaurus",
     "name": { "str_sp": "Apatosaurus" },
     "species": "DINOSAUR",
@@ -660,6 +672,7 @@
       "CATTLEFODDER",
       "PET_WONT_FOLLOW",
       "BASHES",
+      "DESTROYS",
       "WARM"
     ],
     "harvest": "mammal_large_leather",
@@ -695,7 +708,7 @@
     "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
@@ -735,12 +748,12 @@
     "default_faction": "dimorphodon",
     "symbol": "D",
     "color": "light_gray_yellow",
-    "volume": "30 L",
-    "weight": "40 kg",
+    "volume": "1500 ml",
+    "weight": "2 kg",
     "bodytype": "bird",
     "material": [ "flesh" ],
     "aggression": -80,
-    "morale": -8,
+    "morale": -50,
     "speed": 110,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -750,9 +763,8 @@
     "armor_bash": 3,
     "armor_cut": 1,
     "vision_day": 50,
-    "hp": 30,
+    "hp": 2,
     "death_function": [ "NORMAL" ],
-    "zombify_into": "mon_zimorphodon",
     "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -762,6 +774,19 @@
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_pteranodon",
+    "name": { "str_sp": "Pteranodon" },
+    "copy-from": "mon_dimorphodon",
+    "volume": "38 L",
+    "weight": "50 kg",
+    "hp": 40,
+    "speed": 200,
+    "zombify_into": "mon_zteranodon",
+    "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
+    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -927,6 +952,13 @@
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus" }
   },
   {
+    "id": "mon_camarasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus" }
+  },
+  {
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -1002,6 +1034,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
+  },
+  {
+    "id": "mon_pteranodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_pteranodon" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",

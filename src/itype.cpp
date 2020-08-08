@@ -9,8 +9,6 @@
 #include "ret_val.h"
 #include "translations.h"
 
-#include "math_defines.h"
-
 struct tripoint;
 
 std::string gunmod_location::name() const

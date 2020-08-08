@@ -1,5 +1,3 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <map>
 #include <string>
@@ -11,11 +9,13 @@
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
+#include "game.h" // IWYU pragma: associated
 #include "input.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"

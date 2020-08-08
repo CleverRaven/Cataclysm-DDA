@@ -2,18 +2,23 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
+#include <set>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
 #include "json.h"
+#include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+struct display_proficiency;
+struct learning_proficiency;
 template<typename T>
 class generic_factory;
-
-struct learning_proficiency;
-struct display_proficiency;
 
 class proficiency
 {

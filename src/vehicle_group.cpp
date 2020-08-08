@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "json.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "translations.h"
 #include "vehicle.h"

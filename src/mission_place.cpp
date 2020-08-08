@@ -1,7 +1,5 @@
 #include "coordinates.h"
 #include "mission.h" // IWYU pragma: associated
-
-#include "coordinate_conversions.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 

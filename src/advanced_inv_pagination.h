@@ -4,6 +4,9 @@
 
 #include "advanced_inv_pane.h"
 
+class advanced_inventory_pane;
+class item_category;
+
 /**
  * This class determines the page and line at which an item appears in the AIM.
  */

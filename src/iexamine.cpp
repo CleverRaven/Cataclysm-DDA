@@ -11,8 +11,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "ammo.h"
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -22,11 +23,11 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -37,6 +38,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -48,9 +50,9 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -90,10 +92,12 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -4661,6 +4665,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         BONESETTING,
         TREAT_WOUNDS,
         RAD_AWAY,
+        BLOOD_ANALYSIS,
     };
 
     bool adjacent_couch = false;
@@ -4745,6 +4750,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
     amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
     amenu.addentry( RAD_AWAY, true, 'r', _( "Check radiation level" ) );
+    amenu.addentry( BLOOD_ANALYSIS, true, 'b', _( "Conduct blood analysis" ) );
 
     amenu.query();
 
@@ -4992,6 +4998,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( "RADIOACTIVE" ) );
             }
+            break;
+        }
+
+        case BLOOD_ANALYSIS: {
+            patient.moves -= 500;
+            patient.conduct_blood_analysis();
+            patient.add_msg_player_or_npc( m_info,
+                                           _( "The autodoc analyzed your blood." ),
+                                           _( "The autodoc analyzed <npcname>'s blood." ) );
             break;
         }
 

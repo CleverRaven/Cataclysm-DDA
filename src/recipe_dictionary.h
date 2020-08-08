@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_RECIPE_DICTIONARY_H
 #define CATA_SRC_RECIPE_DICTIONARY_H
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <set>
@@ -12,11 +12,12 @@
 #include <vector>
 
 #include "recipe.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
 
 class recipe_dictionary
 {

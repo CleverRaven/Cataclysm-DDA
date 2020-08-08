@@ -1,7 +1,6 @@
 #include "magic.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -22,6 +21,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -38,9 +38,9 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
-#include "character.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"

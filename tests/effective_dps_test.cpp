@@ -8,6 +8,7 @@
 #include "creature.h"
 #include "item.h"
 #include "melee.h"
+#include "monster.h"
 #include "player.h"
 #include "type_id.h"
 

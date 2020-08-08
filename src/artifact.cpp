@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cstdint>
 #include <cstdlib>
 #include <iosfwd>
 #include <map>
@@ -16,15 +15,18 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "item_factory.h"
 #include "iuse.h"
 #include "json.h"
 #include "optional.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 template<typename V, typename B>

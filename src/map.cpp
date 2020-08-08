@@ -7,19 +7,17 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <iterator>
 #include <limits>
 #include <ostream>
 #include <queue>
-#include <type_traits>
 #include <unordered_map>
 
 #include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "basecamp.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
@@ -29,6 +27,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -51,21 +50,20 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
-#include "math_defines.h"
+#include "mapgen.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "optional.h"
 #include "options.h"
@@ -74,6 +72,8 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "projectile.h"
+#include "relic.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -86,9 +86,11 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -1521,6 +1523,58 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
             if( neighbour_terrain.connects_to( connect_group ) ) {
+                val += 1 << i;
+            }
+        }
+    }
+
+    return val;
+}
+
+uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+                                      const std::map<tripoint, furn_id> &override ) const
+{
+    const level_cache &ch = access_cache( p.z );
+    uint8_t val = 0;
+    std::function<bool( const tripoint & )> is_memorized;
+    avatar &player_character = get_avatar();
+#ifdef TILES
+    if( use_tiles ) {
+        is_memorized = [&]( const tripoint & q ) {
+            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+#endif
+        is_memorized = [&]( const tripoint & q ) {
+            return player_character.get_memorized_symbol( getabs( q ) );
+        };
+#ifdef TILES
+    }
+#endif
+
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[pt.x][pt.y],
+                                         get_visibility_variables_cache() ) ==
+                                 visibility_type::CLEAR ||
+                                 // or if an actual center tile is transparent or
+                                 // next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( pt ) ) );
+        if( may_connect ) {
+            const furn_t &neighbour_furn = neighbour_overridden ?
+                                           neighbour_override->second.obj() : furn( pt ).obj();
+            if( neighbour_furn.connects_to( connect_group ) ) {
                 val += 1 << i;
             }
         }

@@ -4,10 +4,12 @@
 #include <cctype>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <ostream>
 #include <type_traits>
 
 #include "action.h"
@@ -20,6 +22,7 @@
 #include "catacharset.h"
 #include "character_martial_arts.h"
 #include "colony.h"
+#include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -35,14 +38,18 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
+#include "gun_mode.h"
 #include "int_id.h"
+#include "inventory.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -65,8 +72,8 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
-#include "recipe_dictionary.h"
 #include "proficiency.h"
+#include "recipe_dictionary.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -81,16 +88,20 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "viewer.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 struct dealt_projectile_attack;
 
@@ -2293,6 +2304,58 @@ bool Character::has_max_power() const
 bool Character::enough_power_for( const bionic_id &bid ) const
 {
     return get_power_level() >= bid->power_activate;
+}
+
+void Character::conduct_blood_analysis()
+{
+    std::vector<std::string> effect_descriptions;
+    std::vector<nc_color> colors;
+
+    for( auto &elem : *effects ) {
+        if( elem.first->get_blood_analysis_description().empty() ) {
+            continue;
+        }
+        effect_descriptions.emplace_back( elem.first->get_blood_analysis_description() );
+        colors.emplace_back( elem.first->get_rating() == e_good ? c_green : c_red );
+    }
+
+    const int win_w = 46;
+    size_t win_h = 0;
+    catacurses::window w;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        win_h = std::min( static_cast<size_t>( TERMY ),
+                          std::max<size_t>( 1, effect_descriptions.size() ) + 2 );
+        w = catacurses::newwin( win_h, win_w,
+                                point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
+        if( effect_descriptions.empty() ) {
+            trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
+        } else {
+            for( size_t line = 1; line < ( win_h - 1 ) && line <= effect_descriptions.size(); ++line ) {
+                trim_and_print( w, point( 2, line ), win_w - 3, colors[line - 1], effect_descriptions[line - 1] );
+            }
+        }
+        wnoutrefresh( w );
+    } );
+    input_context ctxt( "BLOOD_TEST_RESULTS" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    bool stop = false;
+    // Display new messages
+    g->invalidate_main_ui_adaptor();
+    while( !stop ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "CONFIRM" || action == "QUIT" ) {
+            stop = true;
+        }
+    }
 }
 
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
@@ -7608,6 +7671,9 @@ int Character::height() const
             return init_height + 50;
         case creature_size::huge:
             return init_height + 100;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Character has invalid size class." );
+            return 0;
     }
 
     debugmsg( "Invalid size class" );
@@ -9252,8 +9318,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             int reflex_mod = has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
             const bool dodged_grab = rng( 0, reflex_mod * get_dex() ) > rng( 0, 10 );
 
-            if( has_grab_break_tec() && get_grab_resist() > 0 &&
-                dodged_grab ) {
+            if( has_grab_break_tec() && dodged_grab ) {
                 if( has_effect( effect_grabbed ) ) {
                     add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        source->disp_name() );

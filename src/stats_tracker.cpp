@@ -6,6 +6,7 @@
 #include <utility>
 
 #include "calendar.h"
+#include "debug.h"
 #include "event_statistics.h"
 #include "json.h"
 #include "optional.h"

@@ -2,12 +2,20 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
+#include <algorithm>
+#include <climits>
+#include <cmath>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
@@ -15,9 +23,9 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class relic;
+class relic_procgen_data;
 struct relic_charge_info;
 struct relic_charge_template;
-class relic_procgen_data;
 struct tripoint;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
@@ -187,6 +195,9 @@ class relic
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
+
+        bool has_activation() const;
+
         void try_recharge();
 
         void load( const JsonObject &jo );

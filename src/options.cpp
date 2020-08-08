@@ -1,9 +1,11 @@
 #include "options.h"
 
+#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,6 +19,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
@@ -41,7 +44,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
@@ -1530,6 +1532,11 @@ void options_manager::add_options_interface()
     add( "MESSAGE_COOLDOWN", "interface", translate_marker( "Message cooldown" ),
          translate_marker( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
          0, 1000, 0
+       );
+
+    add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
+         translate_marker( "Number of messages to preserve in the history, and when saving." ),
+         1, 10000, 255
        );
 
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",

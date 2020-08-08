@@ -736,7 +736,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
-| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
@@ -777,6 +777,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     ]
 }
 ```
+
+Note that the above example gives floats, not integers, for the vitamins values.  This is likely incorrect; they should be replaced with integers.
 
 ### Monster Groups
 
@@ -2315,9 +2317,10 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
-"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
+"vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 ```
 
 ### Containers
@@ -2769,7 +2772,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
-    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "npc_class_id": "true_foodperson", // npc id, see npcs/npc.json
     "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50, // how many move points the action takes.

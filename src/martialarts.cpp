@@ -1,13 +1,16 @@
 #include "martialarts.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "bodypart.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -25,7 +28,6 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -938,9 +940,17 @@ bool player::can_grab_break( const item &weap ) const
         return false;
     }
 
-    ma_technique tec = martial_arts_data->get_grab_break_tec( weap );
+    ma_technique tec;
+    for( const matec_id &technique : martial_arts_data->get_all_techniques( weap ) ) {
+        if( technique->grab_break ) {
+            tec = technique.obj();
+            if( tec.is_valid_character( *this ) ) {
+                return true;
+            }
+        }
+    }
 
-    return tec.is_valid_character( *this );
+    return false;
 }
 
 bool Character::can_miss_recovery( const item &weap ) const

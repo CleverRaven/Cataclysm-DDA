@@ -61,6 +61,7 @@
 #include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -68,6 +69,7 @@
 #include "sounds.h"
 #include "speech.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -77,6 +79,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "viewer.h"
 #include "weighted_list.h"
 
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -2708,8 +2711,7 @@ bool mattack::grab( monster *z )
     const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
-    if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
-        dodged_grab ) {
+    if( pl->can_grab_break( cur_weapon ) && dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );

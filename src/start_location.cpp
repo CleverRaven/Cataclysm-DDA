@@ -2,11 +2,10 @@
 
 #include <algorithm>
 #include <climits>
-#include <memory>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -23,7 +22,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"

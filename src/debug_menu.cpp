@@ -3,12 +3,9 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdint>
 #include <cstdlib>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
@@ -16,41 +13,45 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "action.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "cursesdef.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
+#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -76,12 +77,10 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
-#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -92,12 +91,14 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_flu( "flu" );

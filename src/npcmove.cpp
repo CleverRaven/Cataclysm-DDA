@@ -1,5 +1,3 @@
-#include "npc.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -21,7 +19,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -49,29 +46,29 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
+#include "talker.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-
-class talker;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );

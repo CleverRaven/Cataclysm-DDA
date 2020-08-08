@@ -6,12 +6,9 @@
 #include <chrono>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-#include <cwctype>
-#include <exception>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -21,7 +18,6 @@
 #include <numeric>
 #include <queue>
 #include <set>
-#include <sstream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -34,6 +30,7 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "artifact.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -43,6 +40,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
@@ -55,6 +53,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
+#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -83,6 +82,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -93,6 +93,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
@@ -151,16 +152,18 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
-#include "fungal_effects.h"
 
 class computer;
 class inventory;
@@ -6166,6 +6169,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                             break;
                         case creature_size::huge:
                             size_str = pgettext( "infrared size", "huge" );
+                            break;
+                        case creature_size::num_sizes:
+                            debugmsg( "Creature has invalid size class." );
+                            size_str = "invalid";
                             break;
                     }
                     mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );

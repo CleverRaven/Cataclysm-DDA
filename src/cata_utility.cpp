@@ -4,7 +4,6 @@
 #include <cctype>
 #include <cmath>
 #include <cstdio>
-#include <exception>
 #include <iterator>
 #include <locale>
 #include <memory>

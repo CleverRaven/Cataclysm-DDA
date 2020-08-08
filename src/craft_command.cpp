@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <limits>
 #include <list>
 
+#include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,7 +16,6 @@
 #include "item.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"

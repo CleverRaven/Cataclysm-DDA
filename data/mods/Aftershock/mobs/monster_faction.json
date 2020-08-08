@@ -10,9 +10,10 @@
   {
     "type": "MONSTER_FACTION",
     "name": "whately",
-    "friendly": [ "human", "player" ],
+    "friendly": [ "human", "player", "whately", "whately_family" ],
     "neutral": "herbivore",
-    "by_mood": [ "insect", "small_animal" ]
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": "zombie"
   },
   {
     "type": "MONSTER_FACTION",

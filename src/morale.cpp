@@ -1,10 +1,8 @@
 #include "morale.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <numeric>
 #include <set>
 #include <utility>
@@ -21,9 +19,9 @@
 #include "int_id.h"
 #include "item.h"
 #include "morale_types.h"
-#include "options.h"
 #include "output.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 
