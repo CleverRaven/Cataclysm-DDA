@@ -989,6 +989,9 @@ bool item::combine( const item &rhs )
                     weight() ) + to_gram( rhs.weight() ) );
             set_item_specific_energy( combined_specific_energy );
         }
+		else {
+			debugmsg( "Tried to combine liquids without defined temperature" );
+		}
 
     } else if( !stacks_with( rhs, true ) ) {
         return false;
