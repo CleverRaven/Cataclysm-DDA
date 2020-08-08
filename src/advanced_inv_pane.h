@@ -53,6 +53,9 @@ class advanced_inventory_pane
         using limbo_t = std::vector<limbo_entry_t>;
         // tradelist
         limbo_t limbo;
+        // square offset used for NPC pane
+        tripoint offset;
+
         void init( Character *_owner, Character *_trader );
 
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo

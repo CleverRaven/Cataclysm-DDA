@@ -96,7 +96,7 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     // determine the square's vehicle/map item presence
     bool has_veh_items = square.can_store_in_vehicle() ?
                          !square.veh->get_items( square.vstor ).empty() : false;
-    bool has_map_items = !get_map().i_at( square.pos ).empty();
+    bool has_map_items = !get_map().i_at( square.pos + offset ).empty();
     // determine based on map items and settings to show cargo
     bool show_vehicle = is_re_enter ?
                         save_state->in_vehicle : has_veh_items ? true :
@@ -155,7 +155,7 @@ static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> it
 
 /** gets the inventory from the Character that is interactible via advanced inventory management */
 static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who,
-        const advanced_inventory_pane &pane, advanced_inv_area &square )
+        const advanced_inventory_pane &pane, advanced_inv_area &square, const tripoint &offset )
 {
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
@@ -167,7 +167,7 @@ static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who,
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
                  worn_item.contents.all_items_top() ) ) {
-            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, square.pos, false );
+            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, square.pos + offset, false );
             if( _aim_traded_all( adv_it, pane.limbo ) ) {
                 continue;
             }
@@ -197,13 +197,13 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     if( square.id == AIM_INVENTORY ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
-        items = get_AIM_inventory( u, *this, square );
+        items = get_AIM_inventory( u, *this, square, offset );
     } else if( square.id == AIM_WORN ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, square.pos, false );
+            advanced_inv_listitem it( &*iter, i, 1, square.id, square.pos + offset, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
@@ -222,7 +222,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
                 item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
-                advanced_inv_listitem ait( it, 0, 1, square.id, square.pos, in_vehicle() );
+                advanced_inv_listitem ait( it, 0, 1, square.id, square.pos + offset, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;
                 items.push_back( ait );
@@ -232,8 +232,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_TRADE ) {
         int index = 0;
         for( auto &li : limbo ) {
-            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, square.pos,
-                                      false );
+            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id,
+                                      square.pos + offset, false );
             items.push_back( it );
         }
     } else {
@@ -247,9 +247,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
         const advanced_inv_area::itemstack &stacks = is_in_vehicle ?
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
-                square.i_stacked( m.i_at( square.pos ) );
+                square.i_stacked( m.i_at( square.pos + offset ) );
 
-        add_items_from_stacks( stacks, square, square.pos, is_in_vehicle );
+        add_items_from_stacks( stacks, square, square.pos + offset, is_in_vehicle );
     }
 }
 

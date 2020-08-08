@@ -149,6 +149,7 @@ advanced_inventory::advanced_inventory( Character *_trader, const std::string &d
     if( _trader != nullptr ) {
         panes[ side::left ].init( _trader, &get_player_character() );
         panes[ side::right ].init( &get_player_character(), _trader );
+        panes[ side::left ].offset = _trader->pos() - get_player_character().pos();
         trademode = true;
         tradetype = deal;
     } else {
@@ -400,7 +401,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             } else if( pane.in_vehicle() ) {
                 maxvolume = s.veh->max_volume( s.vstor );
             } else {
-                maxvolume = get_map().max_volume( s.pos );
+                maxvolume = get_map().max_volume( s.pos + pane.offset );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
                                             convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
