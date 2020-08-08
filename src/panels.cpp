@@ -424,13 +424,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
-static void draw_minimap( const avatar &u, const catacurses::window &w_minimap, const int width,
-                          const int height )
-{
-    const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, width, height );
-}
-
 static void decorate_panel( const std::string &name, const catacurses::window &w )
 {
     werase( w );
@@ -1501,8 +1494,11 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
+    // Minimap to the left of text labels
     const int text_left = 12;
-    draw_minimap( u, w, text_left - 3, 5 );
+    const tripoint_abs_omt curs = u.global_omt_location();
+    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), text_left - 3, 5 );
+
     // wielded item
     trim_and_print( w, point( text_left, 0 ), getmaxx( w ) - text_left, c_light_gray, u.weapname() );
     // style
@@ -1570,8 +1566,10 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     werase( w );
 
-    draw_minimap( u, w, 5, 5 );
+    // Classic 5x5 minimap in a 7x7 frame
+    const tripoint_abs_omt curs = u.global_omt_location();
     draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 5, 5 );
 
     // print limb health
     int i = 0;
