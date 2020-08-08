@@ -5042,6 +5042,35 @@ units::length item::length() const
     return max;
 }
 
+units::volume item::collapsed_volume_delta() const
+{
+    units::volume delta_volume = 0_ml;
+
+    // TODO: implement stock_length property for guns
+    if( is_gun() && has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+        // consider only the base size of the gun (without mods)
+        int tmpvol = get_var( "volume",
+                              ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
+        if( tmpvol <= 3 ) {
+            // intentional NOP
+        } else if( tmpvol <= 5 ) {
+            delta_volume = 250_ml;
+        } else if( tmpvol <= 6 ) {
+            delta_volume = 500_ml;
+        } else if( tmpvol <= 9 ) {
+            delta_volume = 750_ml;
+        } else if( tmpvol <= 12 ) {
+            delta_volume = 1000_ml;
+        } else if( tmpvol <= 15 ) {
+            delta_volume = 1250_ml;
+        } else {
+            delta_volume = 1500_ml;
+        }
+    }
+
+    return delta_volume;
+}
+
 units::volume item::corpse_volume( const mtype *corpse ) const
 {
     units::volume corpse_volume = corpse->volume;
@@ -5136,31 +5165,12 @@ units::volume item::volume( bool integral ) const
 
     ret += contents.item_size_modifier();
 
+    // TODO: do a check if the item is collapsed or not
+    ret -= collapsed_volume_delta();
+
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->volume( true );
-        }
-
-        // TODO: implement stock_length property for guns
-        if( has_flag( flag_COLLAPSIBLE_STOCK ) ) {
-            // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume",
-                                  ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
-            if( tmpvol <= 3 ) {
-                // intentional NOP
-            } else if( tmpvol <= 5 ) {
-                ret -= 250_ml;
-            } else if( tmpvol <= 6 ) {
-                ret -= 500_ml;
-            } else if( tmpvol <= 9 ) {
-                ret -= 750_ml;
-            } else if( tmpvol <= 12 ) {
-                ret -= 1000_ml;
-            } else if( tmpvol <= 15 ) {
-                ret -= 1250_ml;
-            } else {
-                ret -= 1500_ml;
-            }
         }
 
         if( gunmod_find( itype_barrel_small ) ) {

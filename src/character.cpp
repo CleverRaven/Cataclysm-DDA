@@ -675,8 +675,17 @@ double Character::aim_speed_encumbrance_modifier() const
 
 double Character::aim_cap_from_volume( const item &gun ) const
 {
+    const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
+
     skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+
+    units::volume wielded_volume = gun.volume();
+    if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+        // use the unfolded volume
+        wielded_volume += gun.collapsed_volume_delta();
+    }
+
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
     // TODO: also scale with skill level.
     if( gun_skill == skill_smg ) {
         aim_cap = std::max( 12.0, aim_cap );
