@@ -29,7 +29,7 @@ Format:
 }
 ```
 There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
-There is a second template required for a new NPC. It looks as follows.
+There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
 {
