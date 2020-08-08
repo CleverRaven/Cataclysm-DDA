@@ -127,11 +127,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
     }
 
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
-        if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
-        }
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;

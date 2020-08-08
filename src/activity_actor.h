@@ -627,6 +627,33 @@ class unload_mag_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class craft_activity_actor : public activity_actor
+{
+    private:
+        item_location craft_item;
+        bool is_long;
+
+    public:
+        craft_activity_actor( item_location &it, bool is_long );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRAFT" );
+        }
+
+        void start( player_activity &act, Character &crafter ) override;
+        void do_turn( player_activity &act, Character &crafter ) override;
+        void finish( player_activity &act, Character &crafter ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<craft_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class workout_activity_actor : public activity_actor
 {
     private:
