@@ -132,11 +132,6 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
-body_part get_body_part_token( const std::string &id )
-{
-    return legacy_id_to_enum( id );
-}
-
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
@@ -160,11 +155,6 @@ const bodypart_str_id &convert_bp( body_part bp )
     }
 
     return body_parts[static_cast<size_t>( bp )];
-}
-
-static const body_part_type &get_bp( body_part bp )
-{
-    return convert_bp( bp ).obj();
 }
 
 void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
@@ -250,7 +240,7 @@ void body_part_type::check_consistency()
 
 void body_part_type::check() const
 {
-    const auto &under_token = get_bp( token );
+    const body_part_type &under_token = convert_bp( token ).obj();
     if( this != &under_token ) {
         debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
@@ -303,21 +293,6 @@ std::string encumb_text( const bodypart_id &bp )
 {
     const std::string &txt = bp->encumb_text;
     return !txt.empty() ? _( txt ) : txt;
-}
-
-body_part mutate_to_main_part( body_part bp )
-{
-    return get_bp( bp ).main_part->token;
-}
-
-body_part opposite_body_part( body_part bp )
-{
-    return get_bp( bp ).opposite_part->token;
-}
-
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
 }
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
