@@ -122,21 +122,19 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
 }
 
 // Use a helper for a bit less boilerplate
-int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int scale )
+int map::burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, const int scale )
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, ( scale + intensity ) / 2 );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
-        const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
-                                          damage_instance( DT_ACID, damage ) );
+    if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+        const dealt_damage_instance ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
     }
     // Represents acid seeping in rather than being splashed on
-    u.add_env_effect( effect_corroding, convert_bp( bp ).id(), 2 + intensity,
-                      time_duration::from_turns( rng( 2,
-                              1 + intensity ) ), convert_bp( bp ).id(), false, 0 );
+    u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
+                      1 + intensity ) ), bp, false, 0 );
     return total_damage;
 }
 
@@ -1412,21 +1410,21 @@ void map::player_in_field( player &u )
             // you're certainly not standing in it.
             if( !u.in_vehicle && !u.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
-                total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
+                total_damage += burn_body_part( u, cur, bodypart_id( "foot_l" ), 2 );
+                total_damage += burn_body_part( u, cur, bodypart_id( "foot_r" ), 2 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
                     // Apply the effect to the remaining body parts
-                    total_damage += burn_body_part( u, cur, bp_leg_l, 2 );
-                    total_damage += burn_body_part( u, cur, bp_leg_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
-                    total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_torso, 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "leg_l" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "leg_r" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "hand_l" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "hand_r" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
                     if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                        total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
-                        total_damage += burn_body_part( u, cur, bp_arm_r, 1 );
-                        total_damage += burn_body_part( u, cur, bp_head, 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "arm_l" ), 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "arm_r" ), 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "head" ), 1 );
                     }
                 }
 
