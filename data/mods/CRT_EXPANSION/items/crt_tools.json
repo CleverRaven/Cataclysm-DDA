@@ -103,7 +103,6 @@
           "condition": "ALWAYS",
           "values": [
             { "value": "STRENGTH", "add": 6 },
-            { "value": "ARMOR_ELEC", "add": -20 },
             { "value": "SPEED", "add": 60 },
             { "value": "ATTACK_SPEED", "add": -60 },
             { "value": "INTELLIGENCE", "add": 2 },
