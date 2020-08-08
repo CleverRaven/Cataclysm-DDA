@@ -370,14 +370,6 @@ int relic::max_charges() const
     return charge.max_charges;
 }
 
-// Adds num charges to the relic, as long as it doesn't exceed max_charges
-static void add_charges( relic_charge_info &rel, int num = 1 )
-{
-    if( rel.charges + num <= rel.max_charges ) {
-        rel.charges += num;
-    }
-}
-
 bool relic::has_recharge() const
 {
     return charge.type != relic_recharge::none;
