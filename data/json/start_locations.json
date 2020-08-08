@@ -278,6 +278,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_central_lab",
+    "name": "Central lab",
+    "terrain": [ "central_lab_stairs" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
     "terrain": [ "mall_a_12" ]
