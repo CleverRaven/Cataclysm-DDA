@@ -12,9 +12,38 @@ from pathlib import Path
 
 # by default, we are not interested in any of these types, since they
 # are not items
-IGNORE_TYPES = [ "GENERIC", "EXTERNAL_OPTION", "ITEM_CATEGORY", "LOOT_ZONE", "MONSTER_BLACKLIST", "MONSTER_FACTION", "SPECIES", "SPELL", "achievement", "activity_type", "anatomy", "ammo_effect", "ascii_art", "bionic", "body_part", "clothing_mod", "conduct", "construction", "construction_category", "disease_type", "dream", "effect_type", "emit", "enchantment", "field_type", "json_flag", "gate", "harvest", "hit_range", "item_action", "martial_art", "material", "monster_attack", "movement_mode", "morale_type", "mutation", "obsolete_terrain", "scent_type", "score", "speech", "technique", "trap", "vehicle_placement", "vehicle_spawn", "vitamin", "rotatable_symbol", "profession_item_substitutions", "profession", "region_settings", "scenario", "skill_display_type", "skill", "start_location", "event_statistic", "event_transformation", "overmap_terrain", "terrain", "furniture", "tool_quality", "weather_type", "vehicle_group", "butchery_requirement", "fault", "ammunition_type", "MIGRATION", "mapgen", "palette", "monstergroup", "snippet", "ter_furn_transform", "vehicle", "MONSTER", "behavior", "overlay_order", "mutation_type", "mutation_category", "talk_topic", "trait_group", "overmap_location", "npc_class", "npc", "mission_definition", "faction", "overmap_connection", "overmap_land_use_code", "map_extra", "city_building", "overmap_special", "recipe", "recipe_category", "uncraft", "recipe_group", "requirement", "charge_removal_blacklist", "relic_procgen_data", "proficiency" ]
-DEFAULT_CATEGORIES = [ "ENGINE", "WHEEL", "BOOK", "PET_ARMOR", "TOOL_ARMOR", "ARMOR", "TOOLMOD", "COMESTIBLE", "AMMO", "GUN", "MAGAZINE", "TOOL", "GUNMOD", "BIONIC_ITEM", "vehicle_part" ]
-DATA_DIRECTORY = Path(os.path.dirname(__file__), "../..", "data/json").resolve()
+IGNORE_TYPES = [
+    "EXTERNAL_OPTION", "GENERIC", "ITEM_CATEGORY", "LOOT_ZONE",
+    "MIGRATION", "MONSTER", "MONSTER_BLACKLIST", "MONSTER_FACTION",
+    "SPECIES", "SPELL", "achievement", "activity_type", "ammo_effect",
+    "ammunition_type", "anatomy", "ascii_art", "behavior", "bionic",
+    "body_part", "butchery_requirement", "charge_removal_blacklist",
+    "city_building", "clothing_mod", "conduct", "construction",
+    "construction_category", "disease_type", "dream", "effect_type",
+    "emit", "enchantment", "event_statistic", "event_transformation",
+    "faction", "fault", "field_type", "furniture", "gate", "harvest",
+    "hit_range", "item_action", "json_flag", "map_extra", "mapgen",
+    "martial_art", "material", "mission_definition", "monster_attack",
+    "monstergroup", "morale_type", "movement_mode", "mutation",
+    "mutation_category", "mutation_type", "npc", "npc_class",
+    "obsolete_terrain", "overlay_order", "overmap_connection",
+    "overmap_land_use_code", "overmap_location", "overmap_special",
+    "overmap_terrain", "palette", "profession",
+    "profession_item_substitutions",
+    "proficiency", "recipe", "recipe_category", "recipe_group",
+    "region_settings", "relic_procgen_data", "requirement",
+    "rotatable_symbol", "scenario", "scent_type", "score", "skill",
+    "skill_display_type", "snippet", "speech", "start_location",
+    "talk_topic", "technique", "ter_furn_transform", "terrain",
+    "tool_quality", "trait_group", "trap", "uncraft", "vehicle",
+    "vehicle_group", "vehicle_placement", "vehicle_spawn", "vitamin",
+    "weather_type"]
+DEFAULT_CATEGORIES = [
+    "ENGINE", "WHEEL", "BOOK", "PET_ARMOR", "TOOL_ARMOR", "ARMOR",
+    "TOOLMOD", "COMESTIBLE", "AMMO", "GUN", "MAGAZINE", "TOOL",
+    "GUNMOD", "BIONIC_ITEM", "vehicle_part"]
+DATA_DIRECTORY = Path(os.path.dirname(__file__), "../..",
+                      "data/json").resolve()
 
 
 pp = pprint.PrettyPrinter(indent=2)
@@ -22,14 +51,20 @@ pp = pprint.PrettyPrinter(indent=2)
 
 def _parse_arguments():
     parser = argparse.ArgumentParser(
-            description="This is an itemgroup reporter and linter.  This object menaces with subtle bugs and recursive apocalypses.",
-            epilog="Do not blindly trust the output of this program")
-    parser.add_argument("-o", "--orphans", action="store_true", help="Display orphaned items")
-    parser.add_argument("-m", "--map", action="store_true", help="Display item to item_group mapping")
-    cathelp = "Limit output to these categories (default: '%s').  'CATEGORIES' is a comma-separated list, like 'GUN, MAGAZINE'. Do not forget to quote the argument if necessary." % (", ".join(DEFAULT_CATEGORIES))
+        description="This is an itemgroup reporter and linter.  "
+                    "This object menaces with subtle bugs and "
+                    "recursive apocalypses.",
+        epilog="Do not blindly trust the output of this program")
+    parser.add_argument("-o", "--orphans", action="store_true",
+                        help="Display orphaned items")
+    parser.add_argument("-m", "--map", action="store_true",
+                        help="Display item to item_group mapping")
+    cathelp = "Limit output to these categories (default: '%s').  " \
+              "'CATEGORIES' is a comma-separated list, like " \
+              "'GUN, MAGAZINE'. Do not forget to quote the argument " \
+              "if necessary." % (", ".join(DEFAULT_CATEGORIES))
     parser.add_argument("-c", "--categories", help=cathelp)
-    args = parser.parse_args()
-    return args
+    return parser.parse_args()
 
 
 def load_json_data(data_directory):
@@ -45,32 +80,34 @@ def load_json_data(data_directory):
             with open(filename) as json_fp:
                 json_data = json.load(json_fp)
             for data in json_data:
-                if type(data) is str:
+                if isinstance(data, str):
                     continue
-                data["original_filename"] = filename.relative_to(data_directory)
+                data["original_filename"] = \
+                    filename.relative_to(data_directory)
                 entries.append(data)
         except AttributeError as err:
-            print("ERROR: Failed to read data from '%s': %s" % (filename, err), file=sys.stderr)
+            print("ERROR: Failed to read data from '%s': %s" %
+                  (filename, err), file=sys.stderr)
             print(data)
             sys.exit(1)
     return entries
 
 
-def _add_to_group(item, group, group_id):
+def _add_to_group(item_id, group, group_id):
     """Helper function to add an item id to the group map"""
-    if item not in group:
-        group[item] = { group_id: 1 }
-    elif group_id not in group[item]:
-        group[item][group_id] = 1
+    if item_id not in group:
+        group[item_id] = {group_id: 1}
+    elif group_id not in group[item_id]:
+        group[item_id][group_id] = 1
     else:
-        group[item][group_id] += 1
+        group[item_id][group_id] += 1
 
 
 def _recurse_through_igroups(igroup, item_group, item_to_group, group_id=None):
     """Recurses through the item_group hierarchy and tries
        to resolve the various item groups, and fill out
        the item_to_group map as it goes"""
-    if type(igroup) is dict:
+    if isinstance(igroup, dict):
         group_id = igroup.get("id")
         entries = igroup.get("entries", [])
         if not entries:
@@ -79,23 +116,28 @@ def _recurse_through_igroups(igroup, item_group, item_to_group, group_id=None):
             groups = igroup.get("groups", [])
             if groups:
                 for group in groups:
-                    if type(group) is list:
+                    if isinstance(group, list):
                         groupname = group[0]
                     else:
                         groupname = group
                     if groupname in item_group:
-                        _recurse_through_igroups(item_group[groupname], item_group, item_to_group, group_id=group_id)
+                        _recurse_through_igroups(item_group[groupname],
+                                                 item_group,
+                                                 item_to_group,
+                                                 group_id=group_id)
                     else:
-                        print("ERROR: '%s' does not have 'items', or 'entries', or usable 'groups'" % group_id, file=sys.stderr)
+                        print("ERROR: '%s' does not have 'items', or "
+                              "'entries', or usable 'groups'" %
+                              group_id, file=sys.stderr)
                         pp.pprint(igroup)
                         sys.exit(1)
     else:
         entries = igroup
 
     for entry in entries:
-        if type(entry) is list:
+        if isinstance(entry, list):
             itemname = entry[0]
-            if type(itemname) is str:
+            if isinstance(itemname, str):
                 _add_to_group(itemname, item_to_group, group_id)
             continue
         if "item" in entry:
@@ -103,18 +145,26 @@ def _recurse_through_igroups(igroup, item_group, item_to_group, group_id=None):
             continue
         if "group" in entry:
             if entry["group"] in item_group:
-                _recurse_through_igroups(item_group[entry["group"]], item_group, item_to_group)
+                _recurse_through_igroups(item_group[entry["group"]],
+                                         item_group, item_to_group)
             continue
         if "distribution" in entry:
-            _recurse_through_igroups(entry["distribution"], item_group, item_to_group, group_id)
+            _recurse_through_igroups(entry["distribution"], item_group,
+                                     item_to_group, group_id)
             continue
         if "collection" in entry:
-            _recurse_through_igroups(entry["collection"], item_group, item_to_group, group_id)
+            _recurse_through_igroups(entry["collection"],
+                                     item_group, item_to_group, group_id)
             continue
 
 
 def get_item_data(entries, categories=None, ignore=None):
-    ignore_items = [ "battery_test" ]
+    """Scans the raw data structure from JSON and constructs
+       an item to group map, a dict of orphans, a dict of items,
+       an a list of potential problems"""
+    ignore_items = ["battery_test"]
+    if ignore:
+        ignore_items = ignore
     item_categories = DEFAULT_CATEGORIES
     if categories:
         item_categories = categories
@@ -135,7 +185,8 @@ def get_item_data(entries, categories=None, ignore=None):
         if entry_type == "item_group":
             igroup_id = entry.get("id")
             if not igroup_id:
-                problems.append({"type": "missing id", "path": path, "entry": entry})
+                problems.append({"type": "missing id", "path": path,
+                                 "entry": entry})
             item_group[igroup_id] = entry
             continue
 
@@ -159,7 +210,8 @@ if __name__ == "__main__":
     item_categories = DEFAULT_CATEGORIES
     if args.categories:
         item_categories = args.categories.split(",")
-    (itemgroup, orphan, items, problems) = get_item_data(data_entries, item_categories)
+    (itemgroup, orphan, items, problems) = \
+        get_item_data(data_entries, item_categories)
     if problems:
         for problem in problems:
             print(problem, file=sys.stderr)
@@ -182,5 +234,6 @@ if __name__ == "__main__":
             groups = list(itemgroup[item].keys())
             print("%s: %s" % (item, ", ".join(groups)))
     if not args.orphans and not args.map:
-        print("%d items in %d categories (%s)" % (len(items), len(itemgroup), ", ".join(DEFAULT_CATEGORIES)))
+        print("%d items in %d categories (%s)" %
+              (len(items), len(itemgroup), ", ".join(DEFAULT_CATEGORIES)))
         print("Use -h or --help for more comprehensive information")
