@@ -1497,6 +1497,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     // Minimap to the left of text labels
     const int text_left = 12;
     const tripoint_abs_omt curs = u.global_omt_location();
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), text_left - 3, 5 );
 
     // wielded item
@@ -1569,6 +1570,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // Classic 5x5 minimap in a 7x7 frame
     const tripoint_abs_omt curs = u.global_omt_location();
     draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 5, 5 );
 
     // print limb health
@@ -1769,6 +1771,7 @@ static void draw_overmap_narrow( avatar &u, const catacurses::window &w )
     werase( w );
     const tripoint_abs_omt curs = u.global_omt_location();
     draw_rectangle( w, c_light_gray, point_zero, point( 31, 13 ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 30, 12 );
     wnoutrefresh( w );
 }
@@ -1778,6 +1781,7 @@ static void draw_overmap_wide( avatar &u, const catacurses::window &w )
     werase( w );
     const tripoint_abs_omt curs = u.global_omt_location();
     draw_rectangle( w, c_light_gray, point_zero, point( 43, 19 ) );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 42, 18 );
     wnoutrefresh( w );
 }
