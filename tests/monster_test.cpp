@@ -3,6 +3,7 @@
 #include "monster.h"
 
 #include <cmath>
+#include <fstream>
 #include <map>
 #include <memory>
 #include <sstream>
