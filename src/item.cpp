@@ -1455,7 +1455,11 @@ double item::effective_dps( const player &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
-    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bodypart_id( "torso" ) ) / 100.0f );
+    float hit_encumbrance_mult = 1.0f;
+    for( const bodypart_id &bp : guy.get_all_body_parts() ) {
+        hit_encumbrance_mult += guy.encumb( bp ) * bp->encumbrance_effects.hit_roll_perc / 100;
+    }
+    base_hit *= std::max( 0.25f, hit_encumbrance_mult );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
@@ -8596,7 +8600,8 @@ int item::fill_with( const itype &contained, const int amount )
         if( count_by_charges ) {
             contained_item.charges = std::min( { amount - num_contained,
                                                  contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() )
+                                               } );
         }
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {

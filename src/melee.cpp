@@ -347,9 +347,14 @@ std::string Character::get_miss_reason()
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
     // in one turn
-    add_miss_reason(
-        _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bodypart_id( "torso" ) ) / 10.0 ) );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        add_miss_reason(
+            string_format(
+                _( "Your %s encumbrance throws you off-balance." ), bp->name ),
+            // Why is this divided by 10 (and not by 100)?..
+            // You can't directly compare multiplicative effect from encumbrance to additive one from farsight, but still?
+            roll_remainder( encumb( bp ) * std::fabs( bp->encumbrance_effects.hit_roll_perc ) / 10 ) );
+    }
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );

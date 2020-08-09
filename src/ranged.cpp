@@ -1821,8 +1821,11 @@ double player::gun_value( const item &weap, int ammo ) const
     int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + encumb( bodypart_id( "hand_l" ) ) + encumb(
-                              bodypart_id( "hand_r" ) );
+        int reload_cost = gun.reload_time
+                          + encumb( bodypart_id( "hand_l" ) ) *
+                          bodypart_id( "hand_l" )->encumbrance_effects.item_handling_cost
+                          + encumb( bodypart_id( "hand_r" ) ) *
+                          bodypart_id( "hand_l" )->encumbrance_effects.item_handling_cost;
         reload_cost /= gun.clip;
         move_cost += reload_cost;
     }
