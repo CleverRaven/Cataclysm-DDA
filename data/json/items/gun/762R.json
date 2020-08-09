@@ -6,6 +6,8 @@
     "name": { "str_sp": "Mosin-Nagant M44" },
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "weight": "4100 g",
+    "volume": "2720 ml",
+    "longest_side": "1015 mm",
     "price": 23000,
     "price_postapoc": 3000,
     "relative": {
