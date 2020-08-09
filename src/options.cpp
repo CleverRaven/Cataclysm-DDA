@@ -1545,6 +1545,17 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
+         translate_marker( "Popup window when achievmement completed" ),
+         translate_marker( "Whether to trigger a popup window when completing an achievement.  "
+                           "First: when completing an achievement that has not been completed in "
+    "a previous game." ), {
+        { "never", translate_marker( "Never" ) },
+        { "always", translate_marker( "Always" ) },
+        { "first", translate_marker( "First" ) }
+    },
+    "first" );
+
     add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
          translate_marker( "Switch between look around panel being left or right." ),
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
