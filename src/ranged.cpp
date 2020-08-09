@@ -1728,7 +1728,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 
     float total_dispersion_from_enc = 0.0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        total_dispersion_from_enc += encumb( bp ) * bp->encumbrance_effects.ranged_dispersion_but_different;
+        total_dispersion_from_enc += encumb( bp ) * bp->encumbrance_effects.ranged_dispersion;
     }
     dispersion.add_range( total_dispersion_from_enc );
 

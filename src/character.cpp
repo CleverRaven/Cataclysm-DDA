@@ -602,7 +602,7 @@ int Character::effective_dispersion( int dispersion ) const
     dispersion += ranged_per_mod();
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        dispersion += encumb( bp ) * bp->encumbrance_effects.ranged_dispersion;
+        dispersion += encumb( bp ) * bp->encumbrance_effects.ranged_sights_dispersion;
     }
 
     return std::max( dispersion, 0 );

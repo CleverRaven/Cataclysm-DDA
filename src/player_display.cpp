@@ -243,7 +243,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
                       ),
                      ( eff_encumbrance * bp->encumbrance_effects.trap_detection_per_100 ) / 100,
                      eff_encumbrance * bp->encumbrance_effects.throwing_dispersion,
-                     eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
+                     eff_encumbrance * bp->encumbrance_effects.ranged_sights_dispersion );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
@@ -253,7 +253,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee and thrown attacks and accuracy with ranged weapons.</color>\n" );
             s += melee_stamina_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_stamina_cost );
-            s += ranged_cost_text( eff_encumbrance * bp->encumbrance_effects.ranged_dispersion_but_different );
+            s += ranged_cost_text( eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
             break;
         case bp_hand_l:
         case bp_hand_r:

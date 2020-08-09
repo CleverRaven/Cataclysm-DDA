@@ -83,7 +83,7 @@
     "encumbrance_effects": {
       "trap_detection_per_100": -10,
       "throwing_dispersion": 10,
-      "ranged_dispersion": 0.5
+      "ranged_sights_dispersion": 0.5
     },
     "main_part": "head",
     "opposite_part": "eyes",
@@ -137,7 +137,7 @@
     "encumbrance_text": "Melee and ranged combat is hampered.",
     "encumbrance_effects": {
       "melee_thrown_stamina_cost": 1,
-      "ranged_dispersion_but_different": 0.2
+      "ranged_dispersion": 0.2
     },
     "hp_bar_ui_text": "L ARM",
     "main_part": "arm_l",
@@ -168,7 +168,7 @@
     "encumbrance_text": "Melee and ranged combat is hampered.",
     "encumbrance_effects": {
       "melee_thrown_stamina_cost": 1,
-      "ranged_dispersion_but_different": 0.2
+      "ranged_dispersion": 0.2
     },
     "main_part": "arm_r",
     "opposite_part": "arm_l",
