@@ -55,7 +55,7 @@
   },
   {
     "type": "movement_mode",
-    "id": "jogging",
+    "id": "jog",
     "character": "j",
     "panel_char": "J",
     "name": "jogging",
