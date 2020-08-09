@@ -1712,7 +1712,7 @@ bool Character::is_running() const
 
 bool Character::is_jogging() const
 {
-    return move_mode->type() == move_mode_type::JOGGING;
+    return move_mode == move_mode_id( "jogging" );
 }
 
 bool Character::is_walking() const

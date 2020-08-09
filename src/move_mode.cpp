@@ -31,7 +31,6 @@ const move_mode &move_mode_id::obj() const
 static const std::map<std::string, move_mode_type> move_types {
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },
-    { "jogging",   move_mode_type::JOGGING },
     { "running",   move_mode_type::RUNNING }
 };
 
