@@ -1474,19 +1474,19 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
 
 void avatar::toggle_run_mode()
 {
-    if( is_running() ) {
+    if( movement_mode_is( move_mode_id( "run" ) ) ) {
         set_movement_mode( move_mode_id( "walk" ) );
     } else {
         set_movement_mode( move_mode_id( "run" ) );
     }
 }
 
-void avatar::toggle_jogging_mode()
+void avatar::toggle_jog_mode()
 {
-    if( is_jogging() ) {
+    if( movement_mode_is( move_mode_id( "jog" ) ) ) {
         set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( move_mode_id( "jogging" ) );
+        set_movement_mode( move_mode_id( "jog" ) );
     }
 }
 

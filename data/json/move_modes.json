@@ -58,7 +58,7 @@
     "id": "jog",
     "character": "j",
     "panel_char": "J",
-    "name": "jogging",
+    "name": "jog",
     "panel_color": "yellow",
     "symbol_color": "yellow",
     "exertion_level": "BRISK_EXERCISE",

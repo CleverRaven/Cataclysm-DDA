@@ -646,7 +646,6 @@ class Character : public Creature, public visitable<Character>
         move_mode_id current_movement_mode() const;
 
         bool is_running() const;
-        bool is_jogging() const;
         bool is_walking() const;
         bool is_crouching() const;
 

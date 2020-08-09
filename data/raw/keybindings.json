@@ -2421,9 +2421,9 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Jogging",
+    "name": "Toggle Jog",
     "category": "DEFAULTMODE",
-    "id": "toggle_jogging"
+    "id": "toggle_jog"
   },
   {
     "type": "keybinding",

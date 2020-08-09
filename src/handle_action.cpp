@@ -1787,8 +1787,8 @@ bool game::handle_action()
                 player_character.toggle_run_mode();
                 break;
 
-            case ACTION_TOGGLE_JOGGING:
-                player_character.toggle_jogging_mode();
+            case ACTION_TOGGLE_JOG:
+                player_character.toggle_jog_mode();
                 break;
 
             case ACTION_TOGGLE_CROUCH:

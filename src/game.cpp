@@ -2524,7 +2524,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cycle_move" );
     ctxt.register_action( "reset_move" );
     ctxt.register_action( "toggle_run" );
-    ctxt.register_action( "toggle_jogging" );
+    ctxt.register_action( "toggle_jog" );
     ctxt.register_action( "toggle_crouch" );
     ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
@@ -10307,7 +10307,7 @@ void game::on_move_effects()
 
     if( u.is_running() ) {
         if( !u.can_run() ) {
-            u.toggle_run_mode();
+            u.set_movement_mode( move_mode_id( "walk" ) );
         }
         if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
             u.add_effect( effect_winded, 10_turns );

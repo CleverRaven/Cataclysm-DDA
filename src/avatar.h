@@ -221,7 +221,7 @@ class avatar : public player
         // Toggles running on/off.
         void toggle_run_mode();
         // Toggles jogging on/off.
-        void toggle_jogging_mode();
+        void toggle_jog_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 
