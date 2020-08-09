@@ -1,0 +1,25 @@
+[
+  {
+    "id": "soul_pressure",
+    "type": "SPELL",
+    "name": "Soul Pressure",
+    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "target_attack",
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "damage_type": "fire",
+    "sound_description": "a grunt and a sizzle",
+    "sound_id": "fire_spell",
+    "sound_variant": "weak"
+  },
+  {
+    "type": "enchantment",
+    "id": "SOULFIRE",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "soul_pressure" } ] } ] }
+  }
+]

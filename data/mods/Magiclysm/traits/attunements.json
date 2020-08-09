@@ -873,6 +873,7 @@
     "valid": false,
     "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.",
     "spells_learned": [ [ "burn_at_both_ends", 5 ], [ "soul_afterburner", 5 ] ],
+    "enchantments": [ "SOULFIRE" ],
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "cancels": [
       "ARTIFICER",
