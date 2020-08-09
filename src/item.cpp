@@ -8623,7 +8623,6 @@ int item::fill_with( const item &contained, const int amount )
     return num_contained;
 }
 
-
 void item::set_countdown( int num_turns )
 {
     if( num_turns < 0 ) {
