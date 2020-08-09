@@ -63,16 +63,16 @@
     "symbol_color": "yellow",
     "exertion_level": "BRISK_EXERCISE",
     "change_good_none": "You start jogging.",
-    "change_good_animal": "You spur your steed into a gallop.",
-    "change_good_mech": "You set the power of your mech's leg servos to maximum.",
+    "change_good_animal": "You spur your steed to go faster.",
+    "change_good_mech": "You increase the power of your mech's leg servos.",
     "change_bad_none": "You're too tired to jog.",
     "change_bad_animal": "Your steed is too tired to go faster.",
     "change_bad_mech": "Your mech's leg servos are unable to operate faster.",
     "move_type": "jogging",
     "stop_hauling": true,
     "sound_multiplier": 1.3,
-    "move_speed_multiplier": 1.5,
+    "move_speed_multiplier": 1.4,
     "stamina_multiplier": 2.5,
-    "swim_speed_mod": -40
+    "swim_speed_mod": -30
   }
 ]
