@@ -942,7 +942,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
     };
 
     // Do the actual drawing
-    rect_entry_map.clear();
     for( size_t index = page_offset, line = 0; index < entries.size() &&
          line < entries_per_page; ++index, ++line ) {
         inventory_entry &entry = entries[index];
@@ -1761,17 +1760,16 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
+    rect_entry_map.clear();
     for( const auto &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
-
         if( !is_active_column( *elem ) ) {
             elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
-
         x += elem->get_width() + gap;
     }
 
