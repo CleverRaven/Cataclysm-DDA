@@ -874,7 +874,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with2( *this, qty );
+                ret.fill_with( *this, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -8104,7 +8104,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo->type, qty );
+        item conents(ammo->type);
+        fill_with(conents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8573,56 +8574,7 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const itype &contained, const int amount )
-{
-    if( amount <= 0 ) {
-        return 0;
-    }
-
-    item contained_item( &contained );
-    const bool count_by_charges = contained_item.count_by_charges();
-    item_location loc;
-    item_pocket *pocket = nullptr;
-
-    int num_contained = 0;
-    while( amount > num_contained ) {
-        if( count_by_charges || pocket == nullptr ||
-            !pocket->can_contain( contained_item ).success() ) {
-            if( count_by_charges ) {
-                contained_item.charges = 1;
-            }
-            pocket = best_pocket( contained_item, loc ).second;
-        }
-        if( pocket == nullptr ) {
-            break;
-        }
-        if( count_by_charges ) {
-            contained_item.charges = std::min( { amount - num_contained,
-                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
-        }
-        if( !pocket->insert_item( contained_item ).success() ) {
-            if( count_by_charges ) {
-                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
-            } else {
-                debugmsg( "best pocket for item cannot actually contain the item" );
-            }
-            break;
-        }
-        if( count_by_charges ) {
-            num_contained += contained_item.charges;
-        } else {
-            num_contained++;
-        }
-    }
-    if( num_contained == 0 ) {
-        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
-                  contained_item.typeId().str(), typeId().str() );
-    }
-    return num_contained;
-}
-
-int item::fill_with2( const item &contained, const int amount )
+int item::fill_with( const item &contained, const int amount )
 {
     if( amount <= 0 ) {
         return 0;
