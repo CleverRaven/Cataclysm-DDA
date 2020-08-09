@@ -1481,6 +1481,15 @@ void avatar::toggle_run_mode()
     }
 }
 
+void avatar::toggle_jogging_mode()
+{
+    if( is_jogging() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    } else {
+        set_movement_mode( move_mode_id( "jogging" ) );
+    }
+}
+
 void avatar::toggle_crouch_mode()
 {
     if( is_crouching() ) {

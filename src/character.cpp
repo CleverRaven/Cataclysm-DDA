@@ -1710,6 +1710,11 @@ bool Character::is_running() const
     return move_mode->type() == move_mode_type::RUNNING;
 }
 
+bool Character::is_jogging() const
+{
+    return move_mode->type() == move_mode_type::JOGGING;
+}
+
 bool Character::is_walking() const
 {
     return move_mode->type() == move_mode_type::WALKING;

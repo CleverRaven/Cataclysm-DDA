@@ -2611,6 +2611,10 @@ static void CheckMessages()
                 if( player_character.is_running() ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
+                // If we're already jogging, make it simple to toggle jogging to off.
+                if( player_character.is_jogging() ) {
+                    actions.insert( ACTION_TOGGLE_JOGGING );
+                }
                 // If we're already crouching, make it simple to toggle crouching to off.
                 if( player_character.is_crouching() ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );

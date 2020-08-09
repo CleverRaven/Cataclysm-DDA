@@ -176,6 +176,8 @@ std::string action_ident( action_id act )
             return "reset_move";
         case ACTION_TOGGLE_RUN:
             return "toggle_run";
+        case ACTION_TOGGLE_JOGGING:
+            return "toggle_jogging";
         case ACTION_TOGGLE_CROUCH:
             return "toggle_crouch";
         case ACTION_OPEN_MOVEMENT:
@@ -734,6 +736,10 @@ action_id handle_action_menu()
         }
     }
 
+    // If we're already jogging, make it simple to toggle jogging to off.
+    if( player_character.is_jogging() ) {
+        action_weightings[ACTION_TOGGLE_JOGGING] = 300;
+    }
     // If we're already running, make it simple to toggle running to off.
     if( player_character.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
@@ -897,6 +903,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CYCLE_MOVE );
             REGISTER_ACTION( ACTION_RESET_MOVE );
             REGISTER_ACTION( ACTION_TOGGLE_RUN );
+            REGISTER_ACTION( ACTION_TOGGLE_JOGGING );
             REGISTER_ACTION( ACTION_TOGGLE_CROUCH );
             REGISTER_ACTION( ACTION_OPEN_MOVEMENT );
             REGISTER_ACTION( ACTION_FIRE );
