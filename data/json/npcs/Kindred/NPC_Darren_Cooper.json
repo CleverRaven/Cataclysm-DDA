@@ -327,7 +327,7 @@
     "dynamic_line": "I met Brigitte shortly after everything collapsed.  Seeing so much death and insanity around me…  it almost crushed me, but when she explained everything about the bones to me, it gave me a sliver of hope, that one time, things might turn around.  For that, I am grateful to her.  But we'll never change anything if we keep using scraps of bones found on corpses on the side of the road.  By the time the animals are done with those, there is barely any Song left to be used.  It's not enough.  I had to leave, to work on my own.  To do what's necessary.",
     "responses": [
       {
-        "text": "What do you mean by 'necessary' ?",
+        "text": "What do you mean by 'necessary'?",
         "topic": "TALK_COOPER_NECESSARY",
         "condition": { "not": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } }
       },
@@ -338,7 +338,7 @@
       },
       { "text": "Can't have been easy to split off, but I understand why you did it.", "topic": "TALK_COOPER_AGREE" },
       {
-        "text": "Necessary? You kill innocent people!",
+        "text": "Necessary?  You kill innocent people!",
         "topic": "TALK_COOPER_NECESSARY",
         "condition": { "u_has_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
       }
@@ -457,8 +457,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_NOTFMLR",
-    "dynamic_line": "Brigitte did not mention me? I'm surprised.  Perhaps she's starting to understand I was right.  I was with her for a time, learned from her.  I'm still on her side, but she doesn't realize it yet.",
-    "responses": [ { "text": "You know Brigitte? What happened with you two?", "topic": "TALK_COOPERS_SIDE" } ]
+    "dynamic_line": "Brigitte did not mention me?  I'm surprised.  Perhaps she's starting to understand I was right.  I was with her for a time, learned from her.  I'm still on her side, but she doesn't realize it yet.",
+    "responses": [ { "text": "You know Brigitte?  What happened with you two?", "topic": "TALK_COOPERS_SIDE" } ]
   },
   {
     "type": "talk_topic",
@@ -466,7 +466,7 @@
     "dynamic_line": "I scavenge only so I can survive, but I have a much greater goal than just to live.",
     "speaker_effect": { "effect": { "u_add_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
-      { "text": "A…  goal? What do you mean? What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
+      { "text": "A…  goal?  What do you mean?  What is there to do other than survive?", "topic": "TALK_COOPER_GOAL" },
       { "text": "Uh, okay then.  I have to go now; have a nice day.", "topic": "TALK_DONE" }
     ]
   },
@@ -481,9 +481,9 @@
       ]
     },
     "responses": [
-      { "text": "What proof could you possibly have of this? That any of this is true?", "topic": "TALK_COOPER_WORK" },
+      { "text": "What proof could you possibly have of this?  That any of this is true?", "topic": "TALK_COOPER_WORK" },
       {
-        "text": "You mentioned a woman, Brigitte.  Why isn't she with you? What happened?",
+        "text": "You mentioned a woman, Brigitte.  Why isn't she with you?  What happened?",
         "topic": "TALK_COOPERS_SIDE",
         "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } }
       },

@@ -234,7 +234,7 @@
       },
       { "text": "What exactly did he do?", "topic": "TALK_BONE_SEER_COOPER2" },
       { "text": "What cause is that?  What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
-      { "text": "I see.  I wanted to ask about something else...", "topic": "TALK_BONE_SEER" }
+      { "text": "I see.  I wanted to ask about something else…", "topic": "TALK_BONE_SEER" }
     ]
   },
   {
