@@ -174,6 +174,9 @@ def get_item_data(entries, categories=None, ignore=None):
     item_to_group = {}
     problems = []
     for entry in entries:
+        copy_from = entry.get("copy-from", "")
+        if copy_from == "fake_item":
+            continue
         entry_type = entry.get("type")
         path = entry.pop("original_filename")
         if not entry_type:
