@@ -988,10 +988,9 @@ bool item::combine( const item &rhs )
             const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                     weight() ) + to_gram( rhs.weight() ) );
             set_item_specific_energy( combined_specific_energy );
+        } else {
+            debugmsg( "Tried to combine liquids without defined temperature" );
         }
-		else {
-			debugmsg( "Tried to combine liquids without defined temperature" );
-		}
 
     } else if( !stacks_with( rhs, true ) ) {
         return false;
@@ -8104,8 +8103,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        item conents(ammo->type);
-        fill_with(conents, qty );
+        item conents( ammo->type );
+        fill_with( conents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8579,10 +8578,10 @@ int item::fill_with( const item &contained, const int amount )
     if( amount <= 0 ) {
         return 0;
     }
-	
-	item contained_item( contained );
+
+    item contained_item( contained );
     const bool count_by_charges = contained.count_by_charges();
-	contained_item.charges = count_by_charges ? 1 : -1;
+    contained_item.charges = count_by_charges ? 1 : -1;
     item_location loc;
     item_pocket *pocket = nullptr;
 
