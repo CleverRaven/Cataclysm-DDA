@@ -427,5 +427,21 @@
       [ [ "bag_plastic", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "//": "Until 0.F, allow disassembling legacy toolboxes",
+    "result": "toolbox",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [
+      [ [ "toolbox_empty", 1 ] ],
+      [ [ "pockknife", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hammer", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
