@@ -1,7 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <memory>
-
 #include "calendar.h"
 #include "game.h"
 #include "map.h"

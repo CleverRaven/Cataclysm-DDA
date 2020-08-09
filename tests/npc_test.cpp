@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+#include "npc.h"
 
 #include <memory>
 #include <set>
@@ -8,6 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
@@ -17,7 +19,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
-#include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "overmapbuffer.h"

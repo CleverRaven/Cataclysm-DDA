@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+#include "bionics.h"
 
 #include <climits>
 #include <list>
@@ -6,12 +7,12 @@
 #include <string>
 
 #include "avatar.h"
-#include "bionics.h"
-#include "calendar.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 

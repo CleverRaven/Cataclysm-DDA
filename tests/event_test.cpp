@@ -1,16 +1,13 @@
 #include "catch/catch.hpp"
+#include "event.h"
 
-#include <algorithm>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
 #include "character_id.h"
-#include "event.h"
 #include "event_bus.h"
 #include "event_subscriber.h"
-#include "string_id.h"
 #include "type_id.h"
 
 TEST_CASE( "construct_event", "[event]" )

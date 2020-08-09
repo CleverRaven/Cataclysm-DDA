@@ -8,8 +8,8 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
@@ -18,6 +18,7 @@
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
