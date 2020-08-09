@@ -1,11 +1,9 @@
 #include "catch/catch.hpp"
 
 #include <cstdio>
-#include <memory>
 #include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "map.h"

@@ -1,5 +1,7 @@
 #include "catch/catch.hpp"
 
+#include <algorithm>
+#include <set>
 #include <sstream>
 
 #include "json.h"
@@ -7,6 +9,8 @@
 #include "magic_spell_effect_helpers.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "line_attack", "[magic]" )
 {

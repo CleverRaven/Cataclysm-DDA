@@ -13,7 +13,6 @@
 #include "itype.h"
 #include "map.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"

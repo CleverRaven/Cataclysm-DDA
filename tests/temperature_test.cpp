@@ -1,15 +1,14 @@
 #include "catch/catch.hpp"
 
-#include <cstdlib>
-#include <memory>
+#include <cmath>
 #include <string>
 
 #include "calendar.h"
-#include "item.h"
-#include "enums.h"
 #include "cata_utility.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "item.h"
 #include "point.h"
 #include "weather.h"
 

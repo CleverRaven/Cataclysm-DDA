@@ -1,8 +1,13 @@
 #include "catch/catch.hpp"
+#include "item_group.h"
+
+#include <algorithm>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "item.h"
-#include "item_group.h"
-#include "stringmaker.h"
+#include "type_id.h"
 
 TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
 {

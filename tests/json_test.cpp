@@ -1,12 +1,17 @@
 #include "catch/catch.hpp"
-
 #include "json.h"
 
+#include <array>
 #include <list>
+#include <map>
+#include <set>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "mutation.h"
-#include "debug.h"
+#include "colony.h"
 #include "string_formatter.h"
 #include "type_id.h"
 

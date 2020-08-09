@@ -1,13 +1,13 @@
-#include "cata_utility.h"
+#include "catch/catch.hpp"
 
 #include <algorithm>
 #include <list>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_utility.h"
+#include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -15,7 +15,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "character.h"
+#include "pimpl.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"

@@ -3,7 +3,6 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -11,8 +10,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "pimpl.h"
 #include "type_id.h"
 #include "visitable.h"
+
+struct itype;
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {

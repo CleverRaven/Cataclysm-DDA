@@ -1,8 +1,11 @@
 #include "catch/catch.hpp"
 
 #include <algorithm>
-#include <cstddef>
+#include <chrono>
+#include <iterator>
 #include <memory>
+#include <numeric>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -20,8 +23,6 @@
 #include "pldata.h"
 #include "profession.h"
 #include "type_id.h"
-
-class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )

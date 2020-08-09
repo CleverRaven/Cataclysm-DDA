@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <set>
 
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -12,9 +14,11 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "weather.h"
 
 namespace io
 {
@@ -41,6 +45,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
     switch( type ) {
         case relic_recharge::none: return "none";
         case relic_recharge::periodic: return "periodic";
+        case relic_recharge::solar_sunny: return "solar_sunny";
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
@@ -246,7 +251,7 @@ void relic_charge_info::load( const JsonObject &jo )
     jo.read( "charges_per_use", charges_per_use );
     jo.read( "max_charges", max_charges );
     jo.read( "recharge_type", type );
-    jo.read( "last_charge", last_charge );
+    jo.read( "activation_accumulator", activation_accumulator );
     jo.read( "time", activation_time );
 }
 
@@ -257,9 +262,22 @@ void relic_charge_info::serialize( JsonOut &jsout ) const
     jsout.member( "charges_per_use", charges_per_use );
     jsout.member( "max_charges", max_charges );
     jsout.member( "recharge_type", type );
-    jsout.member( "last_charge", last_charge );
+    jsout.member( "activation_accumulator", activation_accumulator );
     jsout.member( "time", activation_time );
     jsout.end_object();
+}
+
+void relic_charge_info::accumulate_charge()
+{
+    if( charges >= max_charges || activation_time == 0_seconds ) {
+        // return early, no accumulation required
+        return;
+    }
+    activation_accumulator += 1_seconds;
+    if( activation_accumulator >= activation_time ) {
+        activation_accumulator -= activation_time;
+        charges++;
+    }
 }
 
 void relic::load( const JsonObject &jo )
@@ -357,27 +375,38 @@ int relic::max_charges() const
     return charge.max_charges;
 }
 
-// Adds num charges to the relic, as long as it doesn't exceed max_charges
-static void add_charges( relic_charge_info &rel, int num = 1 )
+bool relic::has_recharge() const
 {
-    if( rel.charges + num <= rel.max_charges ) {
-        rel.charges += num;
-    }
+    return charge.type != relic_recharge::none;
 }
 
-void relic::try_recharge()
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_solar( const item &it, Character *carrier, const tripoint &pos )
+{
+    return get_map().is_outside( pos ) && is_day( calendar::turn ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
+void relic::try_recharge( const item &parent, Character *carrier, const tripoint &pos )
 {
     if( charge.charges == charge.max_charges ) {
         return;
     }
+
     switch( charge.type ) {
         case relic_recharge::none: {
             return;
         }
         case relic_recharge::periodic: {
-            if( calendar::turn - charge.last_charge >= charge.activation_time ) {
-                add_charges( charge );
-                break;
+            charge.accumulate_charge();
+            return;
+        }
+        case relic_recharge::solar_sunny: {
+            if( can_recharge_solar( parent, carrier, pos ) &&
+                get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge();
             }
             return;
         }
@@ -386,13 +415,6 @@ void relic::try_recharge()
             return;
         }
     }
-
-    charge.last_charge = calendar::turn;
-}
-
-relic_charge_info::relic_charge_info()
-{
-    last_charge = calendar::turn;
 }
 
 void relic::overwrite_charge( const relic_charge_info &info )
