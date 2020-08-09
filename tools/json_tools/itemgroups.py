@@ -209,7 +209,8 @@ if __name__ == "__main__":
     data_entries = load_json_data(DATA_DIRECTORY)
     item_categories = DEFAULT_CATEGORIES
     if args.categories:
-        item_categories = args.categories.split(",")
+        item_categories = [c.strip(' ') for c in
+                           args.categories.split(",")]
     (itemgroup, orphan, items, problems) = \
         get_item_data(data_entries, item_categories)
     if problems:
