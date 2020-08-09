@@ -672,7 +672,11 @@ double Character::aim_speed_dex_modifier() const
 
 double Character::aim_speed_encumbrance_modifier() const
 {
-    return ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 10.0;
+    double mod = 0.0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        mod += encumb( bp ) * bp->encumbrance_effects.aim_cost;
+    }
+    return mod;
 }
 
 double Character::aim_cap_from_volume( const item &gun ) const
@@ -8271,10 +8275,15 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
     }
 
     // For single handed items use the least encumbered hand
+    const bodypart_id &hand_l = bodypart_id( "hand_l" );
+    const bodypart_id &hand_r = bodypart_id( "hand_r" );
     if( it.is_two_handed( *this ) ) {
-        mv += encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) );
+        mv += encumb( hand_l ) * hand_l->encumbrance_effects.item_handling_cost +
+              encumb( hand_r ) * hand_r->encumbrance_effects.item_handling_cost;
+
     } else {
-        mv += std::min( encumb( bodypart_id( "hand_l" ) ), encumb( bodypart_id( "hand_r" ) ) );
+        mv += std::min( encumb( hand_l ) * hand_l->encumbrance_effects.item_handling_cost,
+                        encumb( hand_r ) * hand_r->encumbrance_effects.item_handling_cost );
     }
 
     return std::max( mv, 0 );

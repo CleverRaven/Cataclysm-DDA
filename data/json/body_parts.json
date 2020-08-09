@@ -196,7 +196,10 @@
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
     "encumbrance_effects": {
-      "melee_thrown_attack_cost": 0.5
+      "melee_thrown_attack_cost": 0.5,
+      "aim_cost": 0.1,
+      "dex_throw_vs_dodge": -0.025,
+      "item_handling_cost": 1
     },
     "main_part": "arm_l",
     "opposite_part": "hand_r",
@@ -224,7 +227,10 @@
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
     "encumbrance_effects": {
-      "melee_thrown_attack_cost": 0.5
+      "melee_thrown_attack_cost": 0.5,
+      "aim_cost": 0.1,
+      "dex_throw_vs_dodge": -0.025,
+      "item_handling_cost": 1
     },
     "main_part": "arm_r",
     "opposite_part": "hand_l",

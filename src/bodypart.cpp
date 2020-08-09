@@ -605,6 +605,9 @@ void encumbrance_effects::load( const JsonObject &jsobj )
               0.0f );
     optional( jsobj, was_loaded, "stamina_regeneration", stamina_regeneration, 0.0f );
     optional( jsobj, was_loaded, "melee_thrown_stamina_cost", melee_thrown_stamina_cost, 0.0f );
+    optional( jsobj, was_loaded, "aim_cost", aim_cost, 0.0f );
+    optional( jsobj, was_loaded, "item_handling_cost", item_handling_cost, 0 );
+    optional( jsobj, was_loaded, "dex_throw_vs_dodge", dex_throw_vs_dodge, 0.0f );
 }
 
 void encumbrance_effects::deserialize( JsonIn &jsin )

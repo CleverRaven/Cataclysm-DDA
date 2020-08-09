@@ -892,12 +892,16 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
-    // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
+    // Each 40 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
-                                bodypart_id( "hand_r" ) ) : 0;
+    int from_encumbrance = 0;
+    if( add_encumbrance ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            from_encumbrance += encumb( bp ) * bp->encumbrance_effects.dex_throw_vs_dodge;
+        }
+    }
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + get_dex() / 4.0f + from_encumbrance;
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 

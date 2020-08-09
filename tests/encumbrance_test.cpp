@@ -13,6 +13,7 @@
 #include "item.h"
 #include "itype.h"
 #include "material.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "options.h"
 #include "player_helpers.h"
@@ -169,9 +170,14 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
 
     item chainmail_vest( "chainmail_vest" );
     REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
+
+    item gloves_winter( "gloves_winter" );
+    REQUIRE( gloves_winter.get_encumber( dummy, bodypart_id( "hand_l" ) ) == 40 );
+    REQUIRE( gloves_winter.get_encumber( dummy, bodypart_id( "hand_r" ) ) == 40 );
     item mittens( "mittens" );
     REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_l" ) ) == 80 );
     REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_r" ) ) == 80 );
+
     item sleeping_bag( "sleeping_bag" );
     REQUIRE( sleeping_bag.get_encumber( dummy, bodypart_id( "torso" ) ) == 80 );
 
@@ -270,68 +276,88 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         }
     }
 
-    SECTION( "eye encumbrance" ) {
-
-        SECTION( "traps are less visible" ) {
-            const float unencumbered_trap_detection_score = trap_base_detection_score( dummy );
-            // For comparison, buried landmines vision score (that detection (score+rng-distance) is checked against) is 10.
-            CHECK( unencumbered_trap_detection_score == 8 );
-            std::pair<item, int >tests[] = {
-                std::make_pair( sunglasses, 0 ),
-                std::make_pair( glasses_safety, 0 ),
-                std::make_pair( eclipse_glasses, -1 ),
-                std::make_pair( welding_mask, -6 ),
-            };
-            for( const auto &test : tests ) {
-                wear_single_item( dummy, test.first );
-                INFO( "Wearing " << test.first.type_name() );
-                CHECK( trap_base_detection_score( dummy ) == unencumbered_trap_detection_score + test.second );
-            }
-        }
-
-        SECTION( "throwing dispersion is much higher" ) {
-            item thrown( "throwing_stick" );
-            REQUIRE( dummy.wield( thrown ) );
-
-            // 2500 at the time of writing
-            const float unencumbered_throwing_dispersion = dummy.throwing_dispersion( thrown, nullptr, false );
-            // 8 perception means 8 is subtracted from effective encumbrance (before it's multiplied 10x)
-            std::pair<item, int>tests[] = {
-                std::make_pair( sunglasses, 0 ),
-                std::make_pair( glasses_safety, 0 ),
-                std::make_pair( eclipse_glasses, 20 ),
-                std::make_pair( welding_mask, 520 ),
-            };
-            for( const auto &test : tests ) {
-                wear_single_item( dummy, test.first );
-                INFO( "Wearing " << test.first.type_name() );
-                CHECK( dummy.throwing_dispersion( thrown, nullptr,
-                                                  false ) == unencumbered_throwing_dispersion + test.second );
-            }
-        }
-
-        SECTION( "guns dispersion is a tiny bit higher" ) {
-            item gun( "glock_19" );
-            REQUIRE( dummy.wield( gun ) );
-
-            int sight_dispersion = gun.type->gun->sight_dispersion;
-            // 44 at time of writing
-            const float unencumbered_gun_dispersion = dummy.effective_dispersion( sight_dispersion );
-            std::pair<item, int>tests[] = {
-                std::make_pair( chainmail_arms, 0 ),
-                std::make_pair( sunglasses, 0 ),
-                std::make_pair( glasses_safety, 2 ),
-                std::make_pair( eclipse_glasses, 5 ),
-                std::make_pair( welding_mask, 30 ),
-            };
-            for( const auto &test : tests ) {
-                wear_single_item( dummy, test.first );
-                INFO( "Wearing " << test.first.type_name() );
-                CHECK( dummy.effective_dispersion( sight_dispersion ) == unencumbered_gun_dispersion +
-                       test.second );
-            }
+    SECTION( "traps are less visible" ) {
+        const float unencumbered_trap_detection_score = trap_base_detection_score( dummy );
+        // For comparison, buried landmines vision score (that detection (score+rng-distance) is checked against) is 10.
+        CHECK( unencumbered_trap_detection_score == 8 );
+        std::pair<item, int >tests[] = {
+            std::make_pair( sunglasses, 0 ),
+            std::make_pair( glasses_safety, 0 ),
+            std::make_pair( eclipse_glasses, -1 ),
+            std::make_pair( welding_mask, -6 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( trap_base_detection_score( dummy ) == unencumbered_trap_detection_score + test.second );
         }
     }
+
+    SECTION( "eye encumbrance makes throwing dispersion much higher" ) {
+        item thrown( "throwing_stick" );
+        REQUIRE( dummy.wield( thrown ) );
+
+        // 2500 at the time of writing
+        const float unencumbered_throwing_dispersion = dummy.throwing_dispersion( thrown, nullptr, false );
+        // 8 perception means 8 is subtracted from effective encumbrance (before it's multiplied 10x)
+        std::pair<item, int>tests[] = {
+            std::make_pair( sunglasses, 0 ),
+            std::make_pair( glasses_safety, 0 ),
+            std::make_pair( eclipse_glasses, 20 ),
+            std::make_pair( welding_mask, 520 ),
+            // importantly, hand encumbrance has no effect
+            std::make_pair( mittens, 0 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.throwing_dispersion( thrown, nullptr,
+                                              false ) == unencumbered_throwing_dispersion + test.second );
+        }
+    }
+
+    SECTION( "hand encumbrance makes throwing dispersion much higher, but only against moving targets " ) {
+        item thrown( "throwing_stick" );
+        REQUIRE( dummy.wield( thrown ) );
+        monster &mon = spawn_test_monster( "mon_locust", { 30, 30, 0 } );
+
+        // 2500 at the time of writing
+        const float unencumbered_throwing_dispersion = dummy.throwing_dispersion( thrown, &mon, false );
+        // 8 perception means 8 is subtracted from effective encumbrance (before it's multiplied 10x)
+        std::pair<item, int>tests[] = {
+            std::make_pair( gloves_winter, 50 ),
+            std::make_pair( mittens, 150 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.throwing_dispersion( thrown, &mon,
+                                              false ) == unencumbered_throwing_dispersion + test.second );
+        }
+    }
+
+    SECTION( "guns dispersion is a tiny bit higher" ) {
+        item gun( "glock_19" );
+        REQUIRE( dummy.wield( gun ) );
+
+        int sight_dispersion = gun.type->gun->sight_dispersion;
+        // 44 at time of writing
+        const float unencumbered_gun_dispersion = dummy.effective_dispersion( sight_dispersion );
+        std::pair<item, int>tests[] = {
+            std::make_pair( chainmail_arms, 0 ),
+            std::make_pair( sunglasses, 0 ),
+            std::make_pair( glasses_safety, 2 ),
+            std::make_pair( eclipse_glasses, 5 ),
+            std::make_pair( welding_mask, 30 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.effective_dispersion( sight_dispersion ) == unencumbered_gun_dispersion +
+                   test.second );
+        }
+    }
+
 
     SECTION( "A different gun dispersion is also higher" ) {
         item gun( "glock_19" );
@@ -387,6 +413,61 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         }
     }
 
+    SECTION( "aim speed is lower" ) {
+        item gun( "glock_19" );
+        REQUIRE( dummy.wield( gun ) );
 
+        // ideally we'd be testing dummy.aim_speed(), but that one behaves very nonlinearly, and it's hard to conceptualize values
+        double unencumbered_cost = dummy.aim_speed_encumbrance_modifier();
+        std::pair<item, int>tests[] = {
+            std::make_pair( gloves_winter, 8 ),
+            std::make_pair( mittens, 16 ),
+            std::make_pair( chainmail_arms, 0 ),
+            std::make_pair( welding_mask, 0 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.aim_speed_encumbrance_modifier()  == unencumbered_cost + test.second );
+        }
+    }
+
+    SECTION( "item handling and reloading is slower" ) {
+        item zweihander( "zweihander" );
+        item gun( "glock_19" );
+        item magazine( "glockmag" );
+        item ammo( "9mm" );
+
+
+        SECTION( "reload" ) {
+            double unencumbered_reload_gun = dummy.item_reload_cost( gun, magazine, 1 );
+            double unencumbered_reload_mag = dummy.item_reload_cost( magazine, ammo, 1 );
+            std::pair<item, int>tests[] = {
+                std::make_pair( gloves_winter, 40 ),
+                std::make_pair( mittens, 80 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.item_reload_cost( gun, magazine, 1 ) == unencumbered_reload_gun + test.second );
+                CHECK( dummy.item_reload_cost( magazine, ammo, 1 ) == unencumbered_reload_mag + test.second );
+
+            }
+        }
+        SECTION( "handle" ) {
+            double unencumbered_onehand = dummy.item_handling_cost( gun, true, 0 );
+            double unencumbered_twohand = dummy.item_handling_cost( zweihander, true, 0 );
+            std::pair<item, int>tests[] = {
+                std::make_pair( gloves_winter, 40 ),
+                std::make_pair( mittens, 80 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.item_handling_cost( gun, true, 0 ) == unencumbered_onehand + test.second );
+                CHECK( dummy.item_handling_cost( zweihander, true, 0 ) == unencumbered_twohand + test.second * 2 );
+            }
+        }
+    }
 
 }

@@ -96,6 +96,9 @@ struct encumbrance_effects {
     float stamina_regeneration = 0.0f;
     int melee_thrown_stamina_cost = 0;
     float ranged_dispersion_but_different = 0;
+    float aim_cost = 0;
+    int item_handling_cost = 0;
+    float dex_throw_vs_dodge = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );

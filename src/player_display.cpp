@@ -258,9 +258,9 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
+            s += reload_cost_text( eff_encumbrance * bp->encumbrance_effects.item_handling_cost );
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
-                                -( eff_encumbrance / 10.0f ) );
+                                eff_encumbrance * bp->encumbrance_effects.dex_throw_vs_dodge );
             s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
                                 p.aim_speed_encumbrance_modifier() );

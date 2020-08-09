@@ -570,6 +570,9 @@ How much and in which way *each point* (unless noted otherwise) of encumbrance o
 | ranged_dispersion_but_different | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. This field behaves differently from the one above, but it is not unclear how exactly. Someone(TM) needs to figure this out and rename these fields to make more sense (or remove/merge one of them?). (default: `0`)
 | stamina_regeneration      | (_optional_) Adjustment to stamina regeneration rate. Values are per turn, same as PLAYER_BASE_STAMINA_REGEN_RATE option. Negative values make it harder to run longer. (default: `0`)
 | melee_thrown_stamina_cost | (_optional_) Adjustment to stamina cost of melle and thrown attacks. Positive values make fighting for long periods harder. (default: `0`)
+| aim_cost                  | (_optional_) Adjustment to move point cost for aiming down sights. In practice the effective aim speed depends non-lienarly on current recoil (the higher - the higher), and capped at both sides, so you are unlikely to notice exact representation of this field in game. Positive values mean aiming is slower. (default: `0`)
+| item_handling_cost        | (_optional_) Adjustment to move point cost for manipulating items (wearing, wielding, reloading, etc). Positive values make actions slower. **Note:** this is hardcoded to only work for hands, due to how we handle two-handed item manipulation. (default: `0`)
+| dex_throw_vs_dodge        | (_optional_) When throwing items against a dodging critter, one suffers a penalty to dispersion per point of critter's dodge. This penalty is initially based on thrower's dexterity (the higher - the lower). `dex_throw_vs_dodge` is the adjustment to dexterity for the purpose of these calculations. Negative values means it's harder to hit a chipmunk with a thrown rock. (default: `0`)
 
 ### Bionics
 
