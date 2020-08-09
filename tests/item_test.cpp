@@ -12,6 +12,7 @@
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "ret_val.h"
