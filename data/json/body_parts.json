@@ -7,7 +7,7 @@
     "heading": "appendix",
     "heading_multiple": "Appendices",
     "encumbrance_text": "It's inflamed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {  },
     "main_part": "bp_null",
     "opposite_part": "bp_null",
     "hit_size": 0,
@@ -27,11 +27,7 @@
     "heading_multiple": "Torso",
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
-    "encumbrance_effects": {
-      "dodge_skill": -0.1,
-      "hit_roll_perc": -1,
-      "melee_thrown_attack_cost": 1
-    },
+    "encumbrance_effects": { "dodge_skill": -0.1, "hit_roll_perc": -1, "melee_thrown_attack_cost": 1 },
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
@@ -56,7 +52,7 @@
     "heading_multiple": "Head",
     "hp_bar_ui_text": "HEAD",
     "encumbrance_text": "",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {  },
     "main_part": "head",
     "opposite_part": "head",
     "hit_size": 6,
@@ -80,11 +76,7 @@
     "heading": "Eyes",
     "heading_multiple": "Eyes",
     "encumbrance_text": "Ranged combat is hampered.",
-    "encumbrance_effects": {
-      "trap_detection_per_100": -10,
-      "throwing_dispersion": 10,
-      "ranged_sights_dispersion": 0.5
-    },
+    "encumbrance_effects": { "trap_detection_per_100": -10, "throwing_dispersion": 10, "ranged_sights_dispersion": 0.5 },
     "main_part": "head",
     "opposite_part": "eyes",
     "hit_size": 1,
@@ -106,9 +98,7 @@
     "heading": "Mouth",
     "heading_multiple": "Mouth",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {
-      "stamina_regeneration": -0.2
-    },
+    "encumbrance_effects": { "stamina_regeneration": -0.2 },
     "main_part": "head",
     "opposite_part": "mouth",
     "hit_size": 1,
@@ -135,10 +125,7 @@
     "heading": "L. Arm",
     "heading_multiple": "Arms",
     "encumbrance_text": "Melee and ranged combat is hampered.",
-    "encumbrance_effects": {
-      "melee_thrown_stamina_cost": 1,
-      "ranged_dispersion": 0.2
-    },
+    "encumbrance_effects": { "melee_thrown_stamina_cost": 1, "ranged_dispersion": 0.2 },
     "hp_bar_ui_text": "L ARM",
     "main_part": "arm_l",
     "opposite_part": "arm_r",
@@ -166,10 +153,7 @@
     "heading_multiple": "Arms",
     "hp_bar_ui_text": "R ARM",
     "encumbrance_text": "Melee and ranged combat is hampered.",
-    "encumbrance_effects": {
-      "melee_thrown_stamina_cost": 1,
-      "ranged_dispersion": 0.2
-    },
+    "encumbrance_effects": { "melee_thrown_stamina_cost": 1, "ranged_dispersion": 0.2 },
     "main_part": "arm_r",
     "opposite_part": "arm_l",
     "hit_size": 9,
@@ -195,12 +179,7 @@
     "heading": "L. Hand",
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
-    "encumbrance_effects": {
-      "melee_thrown_attack_cost": 0.5,
-      "aim_cost": 0.1,
-      "dex_throw_vs_dodge": -0.025,
-      "item_handling_cost": 1
-    },
+    "encumbrance_effects": { "melee_thrown_attack_cost": 0.5, "aim_cost": 0.1, "dex_throw_vs_dodge": -0.025, "item_handling_cost": 1 },
     "main_part": "arm_l",
     "opposite_part": "hand_r",
     "hit_size": 3,
@@ -226,12 +205,7 @@
     "heading": "R. Hand",
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
-    "encumbrance_effects": {
-      "melee_thrown_attack_cost": 0.5,
-      "aim_cost": 0.1,
-      "dex_throw_vs_dodge": -0.025,
-      "item_handling_cost": 1
-    },
+    "encumbrance_effects": { "melee_thrown_attack_cost": 0.5, "aim_cost": 0.1, "dex_throw_vs_dodge": -0.025, "item_handling_cost": 1 },
     "main_part": "arm_r",
     "opposite_part": "hand_l",
     "hit_size": 3,
@@ -258,10 +232,7 @@
     "heading_multiple": "Legs",
     "hp_bar_ui_text": "L LEG",
     "encumbrance_text": "Running and swimming are slowed.",
-    "encumbrance_effects": {
-      "dodge_skill": -0.05,
-      "run_cost": 0.15
-    },
+    "encumbrance_effects": { "dodge_skill": -0.05, "run_cost": 0.15 },
     "main_part": "leg_l",
     "opposite_part": "leg_r",
     "hit_size": 9,
@@ -289,10 +260,7 @@
     "heading_multiple": "Legs",
     "hp_bar_ui_text": "R LEG",
     "encumbrance_text": "Running and swimming are slowed.",
-    "encumbrance_effects": {
-      "dodge_skill": -0.05,
-      "run_cost": 0.15
-    },
+    "encumbrance_effects": { "dodge_skill": -0.05, "run_cost": 0.15 },
     "main_part": "leg_r",
     "opposite_part": "leg_l",
     "hit_size": 9,
@@ -319,9 +287,7 @@
     "heading": "L. Foot",
     "heading_multiple": "Feet",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {
-      "run_cost": 0.25
-    },
+    "encumbrance_effects": { "run_cost": 0.25 },
     "main_part": "leg_l",
     "opposite_part": "foot_r",
     "hit_size": 3,
@@ -347,9 +313,7 @@
     "heading": "R. Foot",
     "heading_multiple": "Feet",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {
-      "run_cost": 0.25
-    },
+    "encumbrance_effects": { "run_cost": 0.25 },
     "main_part": "leg_r",
     "opposite_part": "foot_l",
     "hit_size": 3,

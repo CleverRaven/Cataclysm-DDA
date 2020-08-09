@@ -593,7 +593,7 @@ void stat_hp_mods::deserialize( JsonIn &jsin )
     load( jo );
 }
 
-void encumbrance_effects::load( const JsonObject &jsobj )
+void encumbrance_effects_t::load( const JsonObject &jsobj )
 {
     optional( jsobj, was_loaded, "dodge_skill", dodge_skill, 0.0f );
     optional( jsobj, was_loaded, "hit_roll_perc", hit_roll_perc, 0.0f );
@@ -610,7 +610,7 @@ void encumbrance_effects::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "run_cost", run_cost, 0.0f );
 }
 
-void encumbrance_effects::deserialize( JsonIn &jsin )
+void encumbrance_effects_t::deserialize( JsonIn &jsin )
 {
     const JsonObject &jo = jsin.get_object();
     load( jo );

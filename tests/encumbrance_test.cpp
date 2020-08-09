@@ -13,6 +13,7 @@
 #include "item.h"
 #include "itype.h"
 #include "material.h"
+#include "monster.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "options.h"

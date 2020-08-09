@@ -86,7 +86,7 @@ struct stat_hp_mods {
 };
 
 // See JSON_INFO.md for documentation
-struct encumbrance_effects {
+struct encumbrance_effects_t {
     float dodge_skill = 0.0f;
     float hit_roll_perc = 0.0f;
     float melee_thrown_attack_cost = 0.0f;
@@ -121,7 +121,7 @@ struct body_part_type {
         std::string hp_bar_ui_text;
         std::string encumb_text;
         /** How and how much each point of encumbrance on this part affects the character. */
-        encumbrance_effects encumbrance_effects;
+        encumbrance_effects_t encumbrance_effects;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"

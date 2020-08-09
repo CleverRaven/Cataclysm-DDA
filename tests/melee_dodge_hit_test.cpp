@@ -60,7 +60,6 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
     dummy.wear_item( clothing );
 
-    dummy.reset_stats(); // becaue dodging from encumbrance is cached and is only updates here.
     return dummy.get_dodge();
 }
 

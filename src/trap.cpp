@@ -205,6 +205,7 @@ bool trap::detected_by_ground_sonar() const
  * This, _base_ function does not factor in the random chance, or the relative distance between
  * the player and the trap (which *are* factors in trap detection).
  */
+int trap_base_detection_score( const Character &p );
 int trap_base_detection_score( const Character &p )
 {
     // Some decisions are based around:
