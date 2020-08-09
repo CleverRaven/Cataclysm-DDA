@@ -50,11 +50,11 @@
     "//": "Change charges and charge_regen only",
     "charge_types": [
       {
-        "charges": { "range": [ 10, 15 ] },
+        "charges": 15,
         "charges_per_use": 1,
         "max_charges": 15,
         "recharge_type": "periodic",
-        "time": [ "1 h", "2 h" ]
+        "time": "1 h"
       }
     ],
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
