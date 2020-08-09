@@ -99,6 +99,7 @@ struct encumbrance_effects {
     float aim_cost = 0;
     int item_handling_cost = 0;
     float dex_throw_vs_dodge = 0.0f;
+    float run_cost = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );

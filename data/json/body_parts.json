@@ -259,7 +259,8 @@
     "hp_bar_ui_text": "L LEG",
     "encumbrance_text": "Running and swimming are slowed.",
     "encumbrance_effects": {
-      "dodge_skill": -0.05
+      "dodge_skill": -0.05,
+      "run_cost": 0.15
     },
     "main_part": "leg_l",
     "opposite_part": "leg_r",
@@ -289,7 +290,8 @@
     "hp_bar_ui_text": "R LEG",
     "encumbrance_text": "Running and swimming are slowed.",
     "encumbrance_effects": {
-      "dodge_skill": -0.05
+      "dodge_skill": -0.05,
+      "run_cost": 0.15
     },
     "main_part": "leg_r",
     "opposite_part": "leg_l",
@@ -317,7 +319,9 @@
     "heading": "L. Foot",
     "heading_multiple": "Feet",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "run_cost": 0.25
+    },
     "main_part": "leg_l",
     "opposite_part": "foot_r",
     "hit_size": 3,
@@ -343,7 +347,9 @@
     "heading": "R. Foot",
     "heading_multiple": "Feet",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "run_cost": 0.25
+    },
     "main_part": "leg_r",
     "opposite_part": "foot_l",
     "hit_size": 3,

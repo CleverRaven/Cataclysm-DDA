@@ -10990,9 +10990,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost +=
-            ( ( encumb( bodypart_id( "foot_l" ) ) + encumb( bodypart_id( "foot_r" ) ) ) * 2.5 +
-              ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) * 1.5 ) / 10;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            movecost += encumb( bp ) * bp->encumbrance_effects.run_cost;
+        }
 
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes

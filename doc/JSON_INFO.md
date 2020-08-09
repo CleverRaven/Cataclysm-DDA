@@ -573,6 +573,7 @@ How much and in which way *each point* (unless noted otherwise) of encumbrance o
 | aim_cost                  | (_optional_) Adjustment to move point cost for aiming down sights. In practice the effective aim speed depends non-lienarly on current recoil (the higher - the higher), and capped at both sides, so you are unlikely to notice exact representation of this field in game. Positive values mean aiming is slower. (default: `0`)
 | item_handling_cost        | (_optional_) Adjustment to move point cost for manipulating items (wearing, wielding, reloading, etc). Positive values make actions slower. **Note:** this is hardcoded to only work for hands, due to how we handle two-handed item manipulation. (default: `0`)
 | dex_throw_vs_dodge        | (_optional_) When throwing items against a dodging critter, one suffers a penalty to dispersion per point of critter's dodge. This penalty is initially based on thrower's dexterity (the higher - the lower). `dex_throw_vs_dodge` is the adjustment to dexterity for the purpose of these calculations. Negative values means it's harder to hit a chipmunk with a thrown rock. (default: `0`)
+| run_cost                  | (_optional_) Adjustment to move point cost for walking/running. Positive values mean running is slower. (default: `0`)
 
 ### Bionics
 

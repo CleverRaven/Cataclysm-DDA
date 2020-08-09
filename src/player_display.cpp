@@ -267,14 +267,14 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_leg_l:
         case bp_leg_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
-                                     skill_swimming ) * 2 ) / 2 );
+            s += run_cost_text( eff_encumbrance * bp->encumbrance_effects.run_cost );
+            s += swim_cost_text( ( eff_encumbrance / 10 ) *
+                                 ( 50 - p.get_skill_level( skill_swimming ) * 2 ) / 2 );
             s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             break;
         case bp_foot_l:
         case bp_foot_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.25 ) );
+            s += run_cost_text( eff_encumbrance * bp->encumbrance_effects.run_cost );
             break;
         case num_bp:
             break;

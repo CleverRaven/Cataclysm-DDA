@@ -608,6 +608,7 @@ void encumbrance_effects::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "aim_cost", aim_cost, 0.0f );
     optional( jsobj, was_loaded, "item_handling_cost", item_handling_cost, 0 );
     optional( jsobj, was_loaded, "dex_throw_vs_dodge", dex_throw_vs_dodge, 0.0f );
+    optional( jsobj, was_loaded, "run_cost", run_cost, 0.0f );
 }
 
 void encumbrance_effects::deserialize( JsonIn &jsin )

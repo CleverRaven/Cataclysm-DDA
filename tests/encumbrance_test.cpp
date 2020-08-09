@@ -157,6 +157,10 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
     avatar &dummy = get_avatar();
     clear_character( dummy );
 
+
+    item legguard_bronze( "legguard_bronze" );
+    REQUIRE( legguard_bronze.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 10 );
+    REQUIRE( legguard_bronze.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 10 );
     item chainmail_legs( "chainmail_legs" );
     REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 20 );
     REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 20 );
@@ -189,6 +193,18 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
     REQUIRE( eclipse_glasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 10 );
     item welding_mask( "welding_mask" );
     REQUIRE( welding_mask.get_encumber( dummy, bodypart_id( "eyes" ) ) == 60 );
+
+
+    item lowtops( "lowtops" );
+    REQUIRE( lowtops.get_encumber( dummy, bodypart_id( "foot_l" ) ) == 0 );
+    REQUIRE( lowtops.get_encumber( dummy, bodypart_id( "foot_r" ) ) == 0 );
+    item bastsandals( "bastsandals" );
+    REQUIRE( bastsandals.get_encumber( dummy, bodypart_id( "foot_l" ) ) == 10 );
+    REQUIRE( bastsandals.get_encumber( dummy, bodypart_id( "foot_r" ) ) == 10 );
+    item boots_scrap( "boots_scrap" );
+    REQUIRE( boots_scrap.get_encumber( dummy, bodypart_id( "foot_l" ) ) == 20 );
+    REQUIRE( boots_scrap.get_encumber( dummy, bodypart_id( "foot_r" ) ) == 20 );
+
 
     SECTION( "throwing attack move cost increases" ) {
         item thrown( "throwing_stick" );
@@ -417,7 +433,7 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         item gun( "glock_19" );
         REQUIRE( dummy.wield( gun ) );
 
-        // ideally we'd be testing dummy.aim_speed(), but that one behaves very nonlinearly, and it's hard to conceptualize values
+        // ideally we'd be testing dummy.aim_per_move(), but that one behaves very nonlinearly, and it's hard to conceptualize values
         double unencumbered_cost = dummy.aim_speed_encumbrance_modifier();
         std::pair<item, int>tests[] = {
             std::make_pair( gloves_winter, 8 ),
@@ -466,6 +482,38 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
                 INFO( "Wearing " << test.first.type_name() );
                 CHECK( dummy.item_handling_cost( gun, true, 0 ) == unencumbered_onehand + test.second );
                 CHECK( dummy.item_handling_cost( zweihander, true, 0 ) == unencumbered_twohand + test.second * 2 );
+            }
+        }
+    }
+
+    SECTION( "running is slower" ) {
+
+        SECTION( "with shoes" ) {
+            // note that not wearing shoes gives move speed penalty,
+            // so we're splitting the boots and pants into separate test cases,
+            // to keep the penalty consistent
+            wear_single_item( dummy, lowtops );
+            int unencumbered_cost = dummy.run_cost( 100 );
+            std::pair<item, int>tests[] = {
+                std::make_pair( bastsandals, 5 ),
+                std::make_pair( boots_scrap, 10 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.run_cost( 100 ) == unencumbered_cost + test.second );
+            }
+        }
+        SECTION( "with pants" ) {
+            int unencumbered_cost = dummy.run_cost( 100 );
+            std::pair<item, int>tests[] = {
+                std::make_pair( legguard_bronze, 3 ),
+                std::make_pair( chainmail_legs, 6 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.run_cost( 100 ) == unencumbered_cost + test.second );
             }
         }
     }
