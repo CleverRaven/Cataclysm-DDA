@@ -137,6 +137,7 @@ class relic_procgen_data
 enum class relic_recharge : int {
     none,
     periodic,
+    solar_sunny,
     num
 };
 
@@ -204,7 +205,7 @@ class relic
         // has a recharge type (which needs to be actively processed)
         bool has_recharge() const;
 
-        void try_recharge();
+        void try_recharge( const item &parent, Character *carrier, const tripoint &pos );
 
         void load( const JsonObject &jo );
 

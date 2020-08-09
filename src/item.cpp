@@ -9356,13 +9356,13 @@ bool item::use_relic( Character &guy, const tripoint &pos )
     return relic_data->activate( guy, pos );
 }
 
-void item::process_relic( Character *carrier )
+void item::process_relic( Character *carrier, const tripoint &pos )
 {
     if( !is_relic() ) {
         return;
     }
 
-    relic_data->try_recharge();
+    relic_data->try_recharge( *this, carrier, pos );
 
     if( carrier == nullptr ) {
         // return early; all of the rest of this function is character-specific
@@ -9801,7 +9801,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    process_relic( carrier );
+    process_relic( carrier, pos );
     contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
     return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );

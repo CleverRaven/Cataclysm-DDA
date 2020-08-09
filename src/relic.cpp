@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <set>
 
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -12,9 +14,11 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "weather.h"
 
 namespace io
 {
@@ -41,6 +45,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
     switch( type ) {
         case relic_recharge::none: return "none";
         case relic_recharge::periodic: return "periodic";
+        case relic_recharge::solar_sunny: return "solar_sunny";
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
@@ -375,17 +380,34 @@ bool relic::has_recharge() const
     return charge.type != relic_recharge::none;
 }
 
-void relic::try_recharge()
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_solar( const item &it, Character *carrier, const tripoint &pos )
+{
+    return get_map().is_outside( pos ) && is_day( calendar::turn ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
+void relic::try_recharge( const item &parent, Character *carrier, const tripoint &pos )
 {
     if( charge.charges == charge.max_charges ) {
         return;
     }
+
     switch( charge.type ) {
         case relic_recharge::none: {
             return;
         }
         case relic_recharge::periodic: {
             charge.accumulate_charge();
+            return;
+        }
+        case relic_recharge::solar_sunny: {
+            if( can_recharge_solar( parent, carrier, pos ) &&
+                get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge();
+            }
             return;
         }
         case relic_recharge::num: {
