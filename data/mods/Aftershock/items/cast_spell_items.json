@@ -23,7 +23,7 @@
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to swap positions with an existing hologram.",
     "//": "Change charges and charge_regen only",
     "relic_data": {
-      "active_effects": [ { "spell_id": "afs_holo_transposition", "no_fail": true, "level": 1 } ],
+      "active_effects": [ { "id": "afs_holo_transposition", "no_fail": true, "level": 1 } ],
       "charge_info": { "charges": 15, "charges_per_use": 1, "max_charges": 15, "recharge_type": "periodic", "time": [ "1 h", "2 h" ] }
     }
   },
@@ -35,7 +35,7 @@
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will allow you to select an hologram, which will explode in a blinding flash, stunning anything nearby.",
     "//": "Change charges and charge_regen only",
     "relic_data": {
-      "active_effects": [ { "spell_id": "afs_holo_flare", "no_fail": true, "level": 1 } ],
+      "active_effects": [ { "id": "afs_holo_flare", "no_fail": true, "level": 1 } ],
       "charge_info": { "charges": 15, "charges_per_use": 1, "max_charges": 15, "recharge_type": "periodic", "time": [ "1 h", "2 h" ] }
     }
   },
@@ -47,7 +47,7 @@
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will a holographic decoy in a location of your choosing.",
     "//": "Change charges and charge_regen only",
     "relic_data": {
-      "active_effects": [ { "spell_id": "afs_holo_decoy", "no_fail": true, "level": 1 } ],
+      "active_effects": [ { "id": "afs_holo_decoy", "no_fail": true, "level": 1 } ],
       "charge_info": { "charges": 2, "charges_per_use": 1, "max_charges": 2, "recharge_type": "periodic", "time": [ "1 h", "2 h" ] }
     }
   },
@@ -59,7 +59,7 @@
     "description": "A small metallic sphere with a recessed bottom up top.  When activated it will create several holographic decoys around you.",
     "//": "Change charges and charge_regen only",
     "relic_data": {
-      "active_effects": [ { "spell_id": "afs_holo_field", "no_fail": true, "level": 1 } ],
+      "active_effects": [ { "id": "afs_holo_field", "no_fail": true, "level": 1 } ],
       "charge_info": { "charges": 1, "charges_per_use": 1, "max_charges": 1, "recharge_type": "periodic", "time": [ "1 h", "2 h" ] }
     }
   }
