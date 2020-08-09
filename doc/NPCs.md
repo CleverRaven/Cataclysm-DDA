@@ -48,7 +48,7 @@ This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen
 Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
 Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
 Chat is covered in the dialogue examples below.
-Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists and Hell's raiders but could include a brand new faction you create!
+Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
 
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
