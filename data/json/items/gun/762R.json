@@ -25,6 +25,8 @@
     "name": { "str_sp": "Mosin-Nagant M44-EBR" },
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
     "weight": "4330 g",
+    "volume": "2870 ml",
+    "longest_side": "1015 mm",
     "price_postapoc": 3500,
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
