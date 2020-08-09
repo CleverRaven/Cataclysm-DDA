@@ -8622,6 +8622,57 @@ int item::fill_with( const itype &contained, const int amount )
     return num_contained;
 }
 
+int item::fill_with2( const item &contained, const int amount )
+{
+    if( amount <= 0 ) {
+        return 0;
+    }
+	
+	item contained_item( contained );
+    const bool count_by_charges = contained.count_by_charges();
+	contained_item.charges = count_by_charges ? 1 : -1;
+    item_location loc;
+    item_pocket *pocket = nullptr;
+
+    int num_contained = 0;
+    while( amount > num_contained ) {
+        if( count_by_charges || pocket == nullptr ||
+            !pocket->can_contain( contained_item ).success() ) {
+            if( count_by_charges ) {
+                contained_item.charges = 1;
+            }
+            pocket = best_pocket( contained_item, loc ).second;
+        }
+        if( pocket == nullptr ) {
+            break;
+        }
+        if( count_by_charges ) {
+            contained_item.charges = std::min( { amount - num_contained,
+                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+        }
+        if( !pocket->insert_item( contained_item ).success() ) {
+            if( count_by_charges ) {
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+            } else {
+                debugmsg( "best pocket for item cannot actually contain the item" );
+            }
+            break;
+        }
+        if( count_by_charges ) {
+            num_contained += contained_item.charges;
+        } else {
+            num_contained++;
+        }
+    }
+    if( num_contained == 0 ) {
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
+    }
+    return num_contained;
+}
+
+
 void item::set_countdown( int num_turns )
 {
     if( num_turns < 0 ) {
