@@ -133,7 +133,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "confronted_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
-            { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" },
+            { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" },
             { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
           ]
         }
@@ -144,7 +144,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
-            { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" },
+            { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" },
             {
               "not": { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
             }
@@ -156,7 +156,7 @@
         "topic": "TALK_COOPER_INTRODUCTION",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             {
               "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
             }
@@ -168,7 +168,7 @@
         "topic": "TALK_COOPER_INTRODUCTION_QUERY",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             {
               "not": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
             },
@@ -181,7 +181,7 @@
         "topic": "TALK_COOPERS_SIDE",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
             {
@@ -198,7 +198,7 @@
         "topic": "TALK_COOPER_GOAL",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" },
             {
@@ -218,7 +218,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
           ]
@@ -229,7 +229,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" },
+            { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "not": { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } }
           ]
@@ -241,7 +241,7 @@
         "condition": {
           "and": [
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-            { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" }
+            { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" }
           ]
         }
       },
@@ -260,7 +260,7 @@
         "topic": "TALK_COOPER_GOAL",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "u_has_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
           ]
@@ -271,7 +271,7 @@
         "topic": "TALK_COOPER_GOAL",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "u_has_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" }
           ]
@@ -287,7 +287,7 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } },
+            { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } },
             { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
             { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
           ]
@@ -548,12 +548,12 @@
       {
         "text": "I'm glad you see it that way.",
         "topic": "TALK_COOPER_AGREE",
-        "condition": { "not": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" } }
+        "condition": { "not": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" } }
       },
       {
         "text": "Maybe one day I will.",
         "topic": "TALK_COOPER_AGREE",
-        "condition": { "u_has_trait": "seer_mark", "type": "dialogue", "context": "mutation", "value": "yes" }
+        "condition": { "u_has_trait": "seer_mark", "type": "mutation", "context": "mutation", "value": "yes" }
       },
       { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
     ]
