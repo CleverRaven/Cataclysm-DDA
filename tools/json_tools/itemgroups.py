@@ -220,6 +220,9 @@ if __name__ == "__main__":
             groups = list(itemgroup[item].keys())
             print("%s: %s" % (item, ", ".join(groups)))
     if not args.orphans and not args.map:
-        print("%d items in %d categories (%s)" %
-              (len(items), len(itemgroup), ", ".join(DEFAULT_CATEGORIES)))
+        print("%d items in %d item groups in categories:\n%s\n"
+              "Default categories:\n%s" %
+              (len(items), len(itemgroup),
+               ", ".join(TYPE_WHITELIST),
+               ", ".join(DEFAULT_CATEGORIES)))
         print("Use -h or --help for more comprehensive information")
