@@ -220,8 +220,8 @@ class avatar : public player
         void reset_move_mode();
         // Toggles running on/off.
         void toggle_run_mode();
-        // Toggles jogging on/off.
-        void toggle_jog_mode();
+        // Toggles sprinting on/off.
+        void toggle_sprint_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 

@@ -1481,12 +1481,12 @@ void avatar::toggle_run_mode()
     }
 }
 
-void avatar::toggle_jog_mode()
+void avatar::toggle_sprint_mode()
 {
-    if( movement_mode_is( move_mode_id( "jog" ) ) ) {
+    if( movement_mode_is( move_mode_id( "sprint" ) ) ) {
         set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( move_mode_id( "jog" ) );
+        set_movement_mode( move_mode_id( "sprint" ) );
     }
 }
 

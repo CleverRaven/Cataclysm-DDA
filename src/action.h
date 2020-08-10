@@ -63,8 +63,8 @@ enum action_id : int {
     ACTION_RESET_MOVE,
     /** Toggle run on/off */
     ACTION_TOGGLE_RUN,
-    /** Toggle jog on/off */
-    ACTION_TOGGLE_JOG,
+    /** Toggle sprint on/off */
+    ACTION_TOGGLE_SPRINT,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
     /** Open movement mode menu */
