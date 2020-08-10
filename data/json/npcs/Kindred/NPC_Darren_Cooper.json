@@ -96,17 +96,11 @@
       "value": "yes",
       "no": {
         "u_has_trait": "seer_mark",
-        "type": "mutation",
-        "context": "first_meeting",
-        "value": "yes",
         "yes": "How do you do.  Name's Cooper.  What's your- wait…  that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am then.",
         "no": "How do you do.  Name's Cooper.  And you are?"
       },
       "yes": {
         "u_has_trait": "seer_mark",
-        "type": "dialogue",
-        "context": "kindred",
-        "value": "yes",
         "no": {
           "u_has_var": "cooper_friendly",
           "type": "dialogue",
@@ -116,7 +110,7 @@
           "no": "Yes?"
         },
         "yes": {
-          "u_has_trait": "cooper_friendly",
+          "u_has_var": "cooper_friendly",
           "type": "dialogue",
           "context": "cooper",
           "value": "yes",
@@ -384,9 +378,6 @@
     "id": "TALK_COOPER_FIGHT",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "type": "dialogue",
-      "context": "kindred",
-      "value": "yes",
       "no": "I can't allow you to stop me.  If you try, I'll have no option but to fight you.  Maybe I'll die, or maybe you will.  But know that should you win, you'll be ridding the world of the only hope it has.",
       "yes": "I knew a Kindred would not understand.  But I can't allow you to stop me.  If you try, I'll have no option but to fight you.  But know that should you win, you'll be ridding the world of the only hope it has."
     },
@@ -404,9 +395,6 @@
     "id": "TALK_COOPER_AGREE",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "type": "dialogue",
-      "context": "kindred",
-      "value": "yes",
       "yes": "You're like me then, Kindred.  I'm glad I'm not the only one who realizes what's necessary.  Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
       "no": "I'm glad you realize the necessity of the burden I bear.  Maybe someday we'll join our forces, but for now, I have to do this alone."
     },
@@ -418,9 +406,6 @@
     "id": "TALK_COOPER_WORK",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "type": "dialogue",
-      "context": "kindred",
-      "value": "yes",
       "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself?  This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
       "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
     },

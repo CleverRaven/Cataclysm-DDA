@@ -110,8 +110,6 @@
         "no": "You're back.  Have you come to listen to the song?",
         "yes": {
           "u_has_trait": "seer_mark",
-          "type": "mutation",
-          "context": "allied_meeting",
           "no": "Traveller.",
           "yes": { "u_female": true, "yes": "Greetings, sister.", "no": "Greetings, brother." }
         }
