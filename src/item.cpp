@@ -988,8 +988,6 @@ bool item::combine( const item &rhs )
             const float combined_specific_energy = ( lhs_energy + rhs_energy ) / ( to_gram(
                     weight() ) + to_gram( rhs.weight() ) );
             set_item_specific_energy( combined_specific_energy );
-        } else {
-            debugmsg( "Tried to combine liquids without defined temperature" );
         }
 
     } else if( !stacks_with( rhs, true ) ) {
