@@ -277,7 +277,9 @@ void map::build_sunlight_cache( int zlev )
                                 prev_y >= 0 && prev_y < MAPSIZE_Y;
                 four_quadrants prev_light( outside_light_level );
                 float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
+                bool prev_floor = false;
                 if( inbounds ) {
+                    prev_floor = prev_floor_cache[ prev_x ][ prev_y ];
                     prev_light = prev_lm[ prev_x][ prev_y ];
                     prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
                     // This is pretty gross, this cancels out the per-tile transparency effect
@@ -287,7 +289,7 @@ void map::build_sunlight_cache( int zlev )
                     }
                 }
                 if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                    !prev_floor_cache[prev_x][prev_y] && prev_light.max() > 0.0 ) {
+                    !prev_floor && prev_light.max() > 0.0 ) {
                     float light_level = std::max( inside_light_level,
                                                   prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
                                                   / prev_transparency );
