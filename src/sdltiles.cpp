@@ -2608,12 +2608,12 @@ static void CheckMessages()
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( player_character.is_running() ) {
+                if( player_character.movement_mode_is( move_mode_id( "run" ) ) ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already jogging, make it simple to toggle jogging to off.
-                if( player_character.is_jogging() ) {
-                    actions.insert( ACTION_TOGGLE_JOGGING );
+                if( player_character.movement_mode_is( move_mode_id( "jog" ) ) ) {
++                    actions.insert( ACTION_TOGGLE_JOG );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
                 if( player_character.is_crouching() ) {
