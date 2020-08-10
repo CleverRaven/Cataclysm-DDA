@@ -3,7 +3,7 @@
     "type": "butchery_requirement",
     "id": "default",
     "requirements": {
-      "0.8": [
+      "1.0": [
         {
           "FIELD_DRESS": "field_dress",
           "QUARTER": "field_dress",
@@ -50,7 +50,7 @@
           "QUICK": "butchery_large"
         }
         ],
-      "1.0": [
+      "1.2": [
         {
           "FIELD_DRESS": "field_dress_no_surface",
           "QUARTER": "field_dress_no_surface",
