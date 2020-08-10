@@ -39,6 +39,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -8437,10 +8438,18 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[corpse], bt );
+            const mtype &item = *( *corpses[corpse] ).get_mtype();
+            const float factor = item.harvest->get_butchery_requirements().get_fastest_requirements(
+                                     player_character.crafting_inventory(),
+                                     item.size, bt ).first;
+            time_to_cut = butcher_time_to_cut( player_character, *corpses[corpse], bt ) * factor;
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt );
+                const mtype &item = *( *it ).get_mtype();
+                const float factor = item.harvest->get_butchery_requirements().get_fastest_requirements(
+                                         player_character.crafting_inventory(),
+                                         item.size, bt ).first;
+                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
