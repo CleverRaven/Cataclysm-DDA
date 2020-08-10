@@ -8101,8 +8101,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        item conents( ammo->type );
-        fill_with( conents, qty );
+        item contents( ammo->type );
+        fill_with( contents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
