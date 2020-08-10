@@ -471,7 +471,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
@@ -495,7 +495,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-
+For information about tools with option to export ASCII art in format ready to be pasted into `Ascii_arts.json`, see `ASCII_ARTS.md`.
 ### Body_parts
 
 | Identifier        | Description
