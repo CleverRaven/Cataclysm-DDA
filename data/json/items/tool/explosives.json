@@ -467,7 +467,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "flashbang" },
-    "description": "This is a military police style flashbang.  Use this item to pull the pin and light the fuse.  You will then have five turns before it detonates with intense light and sound, blinding, deafening and disorienting anyone nearby.",
+    "description": "This is a military police style flashbang.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it detonates with intense light and sound, blinding, deafening and disorienting anyone nearby.",
     "weight": "236 g",
     "volume": "250 ml",
     "price": 2000,
@@ -522,7 +522,7 @@
     "name": { "str": "fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
-    "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
   },
   {
@@ -545,7 +545,7 @@
     "name": { "str": "makeshift fungicidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
-    "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
+    "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
   },
   {
@@ -565,7 +565,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "makeshift gas canister" },
-    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
+    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three seconds it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "weight": "1264 g",
     "volume": "250 ml",
     "price": 500,
@@ -621,7 +621,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "grenade" },
-    "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
+    "description": "This is a military-grade fragmentary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes; throwing it would be a good idea.",
     "weight": "397 g",
     "volume": "250 ml",
     "price": 1500,
@@ -673,7 +673,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "EMP grenade" },
-    "description": "This is a grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  It also produces a mild electric shock cloud.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three turns before it detonates, creating an EMP field that damages robots and drains bionic energy.",
+    "description": "This is a grenade that generates an electromagnetic pulse with a low-inductance capacitor bank discharged into a single-loop antenna.  It also produces a mild electric shock cloud.  Use this item to pull the pin and light the fuse, turning it into an active EMP grenade.  You will then have three seconds before it detonates, creating an EMP field that damages robots and drains bionic energy.",
     "weight": "400 g",
     "volume": "250 ml",
     "price": 6000,
@@ -731,7 +731,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "incendiary grenade" },
-    "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
+    "description": "This is a military-grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five seconds before it explodes into a raging inferno; throwing it would be a good idea.",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 2000,
@@ -794,7 +794,7 @@
     "name": { "str": "tear gas grenade" },
     "price": 3600,
     "price_postapoc": 250,
-    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
+    "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
   },
   {
@@ -817,7 +817,7 @@
     "name": { "str": "insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 750,
-    "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
   },
   {
@@ -841,7 +841,7 @@
     "name": { "str": "makeshift insecticidal gas grenade" },
     "price": 3600,
     "price_postapoc": 500,
-    "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five turns it will begin to expel a volatile spray that is highly toxic to insect life forms.",
+    "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
     "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
   },
   {
@@ -1338,7 +1338,7 @@
     "copy-from": "grenade_canister",
     "type": "GENERIC",
     "name": { "str": "smoke bomb" },
-    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five turns after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
+    "description": "This is a canister grenade filled with a variety of pyrotechnic chemicals.  Use this item to pull the pin and light the fuse, turning it into an active smoke bomb.  Five seconds after you do that, it will begin to expel a thick black smoke.  This smoke will slow those who enter it, as well as obscuring vision and scent.",
     "price": 1800,
     "price_postapoc": 0,
     "weight": "569 g",
@@ -1360,7 +1360,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "ANFO charge" },
-    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty turns before it explodes and creates a large fireball.",
+    "description": "This is a large metal keg filled with ANFO pellets and equipped with a dynamite primer.  Use this item to light the fuse.  You will then have twenty seconds before it explodes and creates a large fireball.",
     "weight": "77800 g",
     "volume": "50 L",
     "price": 75000,
@@ -1426,7 +1426,7 @@
     "category": "weapons",
     "name": { "str": "small bootleg frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuze.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds. ",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
