@@ -1055,6 +1055,7 @@
   },
   {
     "result": "tshirt",
+    "id_suffix": "from_rags",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",

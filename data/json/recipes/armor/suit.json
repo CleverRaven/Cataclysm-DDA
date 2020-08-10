@@ -260,6 +260,7 @@
   },
   {
     "result": "armor_scrapsuit",
+    "id_suffix": "from_scrap",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",

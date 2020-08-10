@@ -455,18 +455,6 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
-  },
-  {
-    "result": "socks_wool",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "1 h",
-    "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 150 ] ] ]
   },
   {

@@ -1169,6 +1169,7 @@
   {
     "type": "recipe",
     "result": "pistol_stock",
+    "id_suffix": "obsolete",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",

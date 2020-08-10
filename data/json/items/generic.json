@@ -970,7 +970,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "laptop",
+    "id": "laptop_1",
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "laptop computer" },

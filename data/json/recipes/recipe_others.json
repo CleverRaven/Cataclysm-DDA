@@ -2262,6 +2262,7 @@
     "type": "recipe",
     "//": "Tin can be melted by fire, but you need something to contain and work with it. Hence the press.",
     "result": "pot_copper",
+    "id_suffix": "using_press",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
