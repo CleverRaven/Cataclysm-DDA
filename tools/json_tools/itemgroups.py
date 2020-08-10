@@ -17,9 +17,9 @@ TYPE_WHITELIST = [
     "PET_ARMOR", "TOOL", "TOOL_ARMOR", "TOOLMOD", "WHEEL"
 ]
 DEFAULT_CATEGORIES = [
-    "ENGINE", "WHEEL", "BOOK", "PET_ARMOR", "TOOL_ARMOR", "ARMOR",
-    "TOOLMOD", "COMESTIBLE", "AMMO", "GUN", "MAGAZINE", "TOOL",
-    "GUNMOD", "BIONIC_ITEM"]
+    "AMMO", "ARMOR", "BIONIC_ITEM", "BOOK", "ENGINE", "GUN", "GUNMOD",
+    "MAGAZINE", "PET_ARMOR", "TOOL", "TOOLMOD", "TOOL_ARMOR"
+]
 DATA_DIRECTORY = Path(os.path.dirname(__file__), "../..",
                       "data/json").resolve()
 pp = pprint.PrettyPrinter(indent=2)
@@ -207,7 +207,7 @@ if __name__ == "__main__":
                 name = name["str_sp"]
             elif "str_pl" in name:
                 name = name["str_pl"]
-            print("%s: ('%s')" % (name, oid))
+            print("%s ('%s')" % (oid, name))
     if args.map:
         print("item to itemgroup mapping:")
         print("==========================")
