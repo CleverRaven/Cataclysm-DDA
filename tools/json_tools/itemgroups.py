@@ -10,42 +10,18 @@ import sys
 from pathlib import Path
 
 
-# by default, we are not interested in any of these types, since they
-# are not items
-IGNORE_TYPES = [
-    "EXTERNAL_OPTION", "GENERIC", "ITEM_CATEGORY", "LOOT_ZONE",
-    "MIGRATION", "MONSTER", "MONSTER_BLACKLIST", "MONSTER_FACTION",
-    "SPECIES", "SPELL", "achievement", "activity_type", "ammo_effect",
-    "ammunition_type", "anatomy", "ascii_art", "behavior", "bionic",
-    "body_part", "butchery_requirement", "charge_removal_blacklist",
-    "city_building", "clothing_mod", "conduct", "construction",
-    "construction_category", "disease_type", "dream", "effect_type",
-    "emit", "enchantment", "event_statistic", "event_transformation",
-    "faction", "fault", "field_type", "furniture", "gate", "harvest",
-    "hit_range", "item_action", "json_flag", "map_extra", "mapgen",
-    "martial_art", "material", "mission_definition", "monster_attack",
-    "monstergroup", "morale_type", "movement_mode", "mutation",
-    "mutation_category", "mutation_type", "npc", "npc_class",
-    "obsolete_terrain", "overlay_order", "overmap_connection",
-    "overmap_land_use_code", "overmap_location", "overmap_special",
-    "overmap_terrain", "palette", "profession",
-    "profession_item_substitutions",
-    "proficiency", "recipe", "recipe_category", "recipe_group",
-    "region_settings", "relic_procgen_data", "requirement",
-    "rotatable_symbol", "scenario", "scent_type", "score", "skill",
-    "skill_display_type", "snippet", "speech", "start_location",
-    "talk_topic", "technique", "ter_furn_transform", "terrain",
-    "tool_quality", "trait_group", "trap", "uncraft", "vehicle",
-    "vehicle_group", "vehicle_placement", "vehicle_spawn", "vitamin",
-    "weather_type"]
+TYPE_WHITELIST = [
+    "AMMO", "ammobelt", "ARMOR", "BATTERY", "BIONIC_ITEM", "BOOK",
+    "COMESTIBLE", "ENGINE", "GENERIC", "GUN", "GUNMOD", "holster",
+    "MAGAZINE", "musical_instrument", "mutagen", "mutagen_iv",
+    "PET_ARMOR", "TOOL", "TOOLMOD", "WHEEL"
+]
 DEFAULT_CATEGORIES = [
     "ENGINE", "WHEEL", "BOOK", "PET_ARMOR", "TOOL_ARMOR", "ARMOR",
     "TOOLMOD", "COMESTIBLE", "AMMO", "GUN", "MAGAZINE", "TOOL",
-    "GUNMOD", "BIONIC_ITEM", "vehicle_part"]
+    "GUNMOD", "BIONIC_ITEM"]
 DATA_DIRECTORY = Path(os.path.dirname(__file__), "../..",
                       "data/json").resolve()
-
-
 pp = pprint.PrettyPrinter(indent=2)
 
 
@@ -72,7 +48,7 @@ def load_json_data(data_directory):
        Returns:
         (itemgroups, items)"""
     entries = []
-    ignore_filenames = "obsolete.json"
+    ignore_filenames = ["obsolete.json", "migration.json"]
     for filename in data_directory.glob("**/*.json"):
         if filename.name in ignore_filenames:
             continue
@@ -163,6 +139,7 @@ def get_item_data(entries, categories=None, ignore=None):
        an item to group map, a dict of orphans, a dict of items,
        an a list of potential problems"""
     ignore_items = ["battery_test"]
+    TYPE_WHITELIST.append("item_group")
     if ignore:
         ignore_items = ignore
     item_categories = DEFAULT_CATEGORIES
@@ -179,9 +156,7 @@ def get_item_data(entries, categories=None, ignore=None):
             continue
         entry_type = entry.get("type")
         path = entry.pop("original_filename")
-        if not entry_type:
-            continue
-        if entry_type in IGNORE_TYPES:
+        if not entry_type or entry_type not in TYPE_WHITELIST:
             continue
         if entry.get("id") in ignore_items:
             continue
@@ -220,7 +195,8 @@ if __name__ == "__main__":
         for problem in problems:
             print(problem, file=sys.stderr)
     if args.orphans:
-        print("Orphans (items not found in any itemgroups):")
+        print("Orphans (items not found in any item groups):")
+        print("=============================================")
         for oid in orphan:
             name = orphan[oid].get("name")
             if not name:
@@ -233,7 +209,8 @@ if __name__ == "__main__":
                 name = name["str_pl"]
             print("%s: ('%s')" % (name, oid))
     if args.map:
-        print("item to itemgroup map:")
+        print("item to itemgroup mapping:")
+        print("==========================")
         for item in itemgroup:
             groups = list(itemgroup[item].keys())
             print("%s: %s" % (item, ", ".join(groups)))
