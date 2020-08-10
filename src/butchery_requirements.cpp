@@ -96,13 +96,13 @@ void butchery_requirements::check_consistency()
 std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements(
     const inventory &crafting_inv, creature_size size, butcher_type butcher ) const
 {
-    for( auto riter = requirements.rbegin(); riter != requirements.rend(); ++riter ) {
+    for( auto riter = requirements.begin(); riter != requirements.end(); ++riter ) {
         if( riter->second.at( size ).at( butcher )->can_make_with_inventory( crafting_inv,
                 is_crafting_component ) ) {
             return std::make_pair( riter->first, riter->second.at( size ).at( butcher ) );
         }
     }
     // we didn't find anything we could "craft", so return the requirement that's the fastest
-    const auto first = requirements.begin();
+    const auto first = requirements.end();
     return std::make_pair( first->first, first->second.at( size ).at( butcher ) );
 }
