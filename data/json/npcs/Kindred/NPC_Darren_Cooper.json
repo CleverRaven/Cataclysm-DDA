@@ -550,11 +550,7 @@
         "topic": "TALK_COOPER_AGREE",
         "condition": { "not": { "u_has_trait": "seer_mark" } }
       },
-      {
-        "text": "Maybe one day I will.",
-        "topic": "TALK_COOPER_AGREE",
-        "condition": { "u_has_trait": "seer_mark" }
-      },
+      { "text": "Maybe one day I will.", "topic": "TALK_COOPER_AGREE", "condition": { "u_has_trait": "seer_mark" } },
       { "text": "This is a waste of time.  I'm leaving", "topic": "TALK_DONE" }
     ]
   }
