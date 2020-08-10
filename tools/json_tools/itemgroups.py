@@ -13,8 +13,8 @@ from pathlib import Path
 TYPE_WHITELIST = [
     "AMMO", "ammobelt", "ARMOR", "BATTERY", "BIONIC_ITEM", "BOOK",
     "COMESTIBLE", "ENGINE", "GENERIC", "GUN", "GUNMOD", "holster",
-    "MAGAZINE", "musical_instrument", "mutagen", "mutagen_iv",
-    "PET_ARMOR", "TOOL", "TOOLMOD", "WHEEL"
+    "MAGAZINE", "material", "musical_instrument", "mutagen", "mutagen_iv",
+    "PET_ARMOR", "TOOL", "TOOL_ARMOR", "TOOLMOD", "WHEEL"
 ]
 DEFAULT_CATEGORIES = [
     "ENGINE", "WHEEL", "BOOK", "PET_ARMOR", "TOOL_ARMOR", "ARMOR",
@@ -212,6 +212,11 @@ if __name__ == "__main__":
         print("item to itemgroup mapping:")
         print("==========================")
         for item in itemgroup:
+            if item not in items:
+                continue
+            itemtype = items[item].get("type", "")
+            if itemtype not in item_categories:
+                continue
             groups = list(itemgroup[item].keys())
             print("%s: %s" % (item, ", ".join(groups)))
     if not args.orphans and not args.map:
