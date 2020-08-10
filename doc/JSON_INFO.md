@@ -495,7 +495,8 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
-For information about tools with option to export ASCII art in format ready to be pasted into `Ascii_arts.json`, see `ASCII_ARTS.md`.
+For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
+
 ### Body_parts
 
 | Identifier        | Description
