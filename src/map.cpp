@@ -4473,20 +4473,23 @@ item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
         item ret( "salt_water", 0, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ), 277.15 ) );
+        ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         return ret;
     }
 
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", 0, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ), 277.15 ) );
+        ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ),
+                                            temperatures::cold ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", 0, item::INFINITE_CHARGES );
-    ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ), 277.15 ) );
+    ret.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p ) ),
+                                        temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
         int poison_chance = 0;
