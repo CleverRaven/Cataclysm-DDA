@@ -461,7 +461,7 @@
     "dynamic_line": "Something changed during the Collapse - the apocalypse, if you prefer that.  The way the dead rise again and again, it's tied to their bones - notice that only when you pulp and crush them properly do they actually die.  A woman I met - Brigitte was her name - taught me how to use the power.  We call it the Song, since if you know how, you can hear it, a quiet hum in the bones.  If I collect enough Song, the concentrated power can reverse the Cataclysm.  Undo all of this.",
     "speaker_effect": {
       "effect": [
-        { "u_lose_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+        { "u_lose_var": "cooper_goal_dk", "type": "dialogue", "context": "first_meeting" },
         { "u_add_var": "cooper_goal_k", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       ]
     },
