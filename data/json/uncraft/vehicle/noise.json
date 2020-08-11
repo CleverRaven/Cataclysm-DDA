@@ -11,7 +11,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "beeper",
     "skill_used": "mechanics",
     "difficulty": 1,
