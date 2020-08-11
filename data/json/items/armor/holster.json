@@ -134,7 +134,7 @@
     "armor_portion_data": [
       { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": 3 },
-	    { "sided": true }
+      { "sided": true }
     ],
     "pocket_data": [
       {
