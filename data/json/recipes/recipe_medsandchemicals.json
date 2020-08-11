@@ -719,7 +719,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "soap_flakes",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
