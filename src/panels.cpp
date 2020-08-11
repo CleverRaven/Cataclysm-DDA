@@ -930,7 +930,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print bodypart health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
@@ -1126,7 +1127,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     werase( w );
     int ny2 = 0;
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1144,7 +1146,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     // display limbs status
     ny2 = 0;
     i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1168,7 +1171,8 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
@@ -1555,7 +1559,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( bp, true, true, true ), str );

@@ -81,7 +81,7 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
 {
     // bool represents whether the part has been combined with its other half
     std::vector<std::pair<bodypart_id, bool>> bps;
-    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+    for( const bodypart_id &bp : p.get_all_body_parts( get_body_part_flags::sorted ) ) {
         // assuming that a body part has at most one other half
         if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
             if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
