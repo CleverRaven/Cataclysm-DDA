@@ -79,7 +79,7 @@
   {
     "result": "lamp_oil",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "chemistry",
