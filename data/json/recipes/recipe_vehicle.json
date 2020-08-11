@@ -44,7 +44,7 @@
   {
     "result": "reins_tackle",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "tailor",
@@ -60,7 +60,7 @@
   {
     "result": "yoke_harness",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -437,7 +437,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",

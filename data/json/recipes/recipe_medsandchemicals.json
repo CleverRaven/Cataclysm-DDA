@@ -582,7 +582,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heatpack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
