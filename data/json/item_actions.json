@@ -970,9 +970,9 @@
     "name": { "str": "Consume" }
   },
   {
-	"type": "item_action",
-	"id": "WEED_DRINK",
-	"name": { "ctxt": "verb", "str": "Drink" }
+    "type": "item_action",
+    "id": "WEED_DRINK",
+    "name": { "ctxt": "verb", "str": "Drink" }
   },
   {
     "type": "item_action",

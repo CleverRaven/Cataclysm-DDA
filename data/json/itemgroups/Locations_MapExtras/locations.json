@@ -1420,7 +1420,7 @@
       { "item": "crackpipe", "prob": 8 },
       { "item": "weed", "prob": 10 },
       { "item": "joint", "prob": 10 },
-	  { "item": "weed_soda", "prob": 8 },
+      { "item": "weed_soda", "prob": 8 },
       { "item": "seed_weed", "prob": 15 },
       { "item": "seed_tobacco", "prob": 5 },
       { "item": "rolling_paper", "prob": 5 },
