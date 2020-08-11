@@ -2321,7 +2321,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bokken",
     "byproducts": [ [ "splinter", 30 ] ],
     "category": "CC_WEAPON",
@@ -2584,7 +2584,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
     "skill_used": "fabrication",
@@ -2851,7 +2851,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "long_pole",
     "byproducts": [ [ "splinter", 30 ] ],
     "category": "CC_WEAPON",
