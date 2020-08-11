@@ -2262,28 +2262,28 @@
   {
     "result": "jar_3l_glass_sealed",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 10 ] ] ]
   },
   {
     "result": "bottle_glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "flask_glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "jar_glass_sealed",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
