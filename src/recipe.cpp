@@ -371,7 +371,14 @@ bool recipe::check_weight_consistency() const
         }
         components_weight += lighter_alternative_weight;
     }
-    return ( results_weight <= components_weight );
+    if( components_weight == 0_milligram && results_weight > 0_milligram ) {
+        DebugLog( D_WARNING, DC_ALL ) << "Recipe " << ident_.str() << " to craft " << result_.str() <<
+                                      " has no component.";
+    }
+    // Some components weight are miscalculated when they use proportional.weight
+    // (example: meat_scrap is 0.1 of meat, which weighs 296g, but meat_scrap weighs 29.599g, and ten mutant_scrap = 295.99g, and fails the check)
+    return ( ( components_weight == 0_milligram && results_weight > 0_milligram ) ||
+             results_weight <= components_weight + 10_milligram );
 }
 
 void recipe::finalize()
