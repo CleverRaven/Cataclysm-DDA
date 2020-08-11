@@ -971,6 +971,11 @@
   },
   {
     "type": "item_action",
+	"id": "WEED_DRINK",
+	"name": { "str": "Drink" }
+  },
+  {
+    "type": "item_action",
     "id": "XANAX",
     "name": { "str": "Take" }
   },
