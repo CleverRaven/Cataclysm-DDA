@@ -1287,7 +1287,7 @@
   {
     "result": "chem_manganese_dioxide",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "fabrication",

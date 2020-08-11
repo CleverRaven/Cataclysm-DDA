@@ -1402,7 +1402,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1426,7 +1426,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1446,7 +1446,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1470,7 +1470,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1494,7 +1494,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "oj",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1514,7 +1514,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1538,7 +1538,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1562,7 +1562,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1582,7 +1582,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1606,7 +1606,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 2 ] ],
@@ -1626,7 +1626,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -1645,7 +1645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 12 ] ],
