@@ -37,7 +37,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ] ]
+    "components": [ [ [ "sheet_metal", 4 ] ] ]
   },
   {
     "result": "reins_tackle",
@@ -128,7 +128,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "steel_plate", 1 ] ], [ [ "spring", 3 ] ] ]
+    "components": [ [ [ "steel_plate", 2 ] ], [ [ "spring", 4 ] ] ]
   },
   {
     "result": "tearer",
@@ -255,7 +255,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "large_space_heater", 2 ] ], [ [ "wire", 3 ] ] ]
   },
   {
     "result": "mountable_cooler",
@@ -309,17 +309,16 @@
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
-      [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
-      [ [ "metal_tank", 1 ] ],
-      [ [ "motor_small", 1 ] ]
-    ],
-    "byproducts": [ [ "scrap", 6 ] ]
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "wire", 7 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "metal_tank", 2 ] ],
+      [ [ "motor_small", 2 ] ]
+    ]
   },
   {
     "result": "dishwasher",
@@ -334,17 +333,16 @@
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
-      [ [ "sheet_metal", 3 ] ],
-      [ [ "wire", 6 ] ],
-      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "circuit", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "steel_chunk", 2 ] ],
-      [ [ "metal_tank", 1 ] ],
-      [ [ "motor_tiny", 1 ] ]
-    ],
-    "byproducts": [ [ "scrap", 6 ] ]
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "wire", 8 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 1 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "metal_tank", 2 ] ],
+      [ [ "motor_tiny", 2 ] ]
+    ]
   },
   {
     "result": "wheel_caster",
@@ -355,10 +353,10 @@
     "difficulty": 5,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 5 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 5 ] ] ]
   },
   {
     "result": "mounted_spare_tire",
@@ -372,8 +370,8 @@
     "autolearn": true,
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
     "components": [
-      [ [ "wheel_wide_or", 1 ], [ "wheel_wide", 1 ], [ "wheel", 1 ], [ "wheel_slick", 1 ], [ "wheel_armor", 1 ] ],
-      [ [ "spare_tire_carrier", 1 ] ]
+      [ [ "wheel_wide_or", 1 ], [ "wheel_wide", 1 ], [ "wheel", 2 ], [ "wheel_slick", 2 ], [ "wheel_armor", 1 ] ],
+      [ [ "spare_tire_carrier", 3 ] ]
     ]
   },
   {
@@ -423,8 +421,8 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail", 20 ] ] ]
+    "using": [ [ "sewing_standard", 103 ] ],
+    "components": [ [ [ "sheet", 3 ] ], [ [ "2x4", 4 ], [ "stick", 5 ] ], [ [ "nail", 21 ] ] ]
   },
   {
     "type": "recipe",
@@ -492,7 +490,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 1 ] ],
     "qualities": [ { "id": "DRILL", "level": 3 } ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -523,17 +521,17 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 13 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
-      [ [ "targeting_module", 1 ] ],
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
-      [ [ "robot_controls", 1 ] ]
+      [ [ "targeting_module", 2 ] ],
+      [ [ "ai_module", 2 ] ],
+      [ [ "gun_module", 2 ] ],
+      [ [ "identification_module", 2 ] ],
+      [ [ "cable", 13 ] ],
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 2 ] ],
+      [ [ "robot_controls", 2 ] ]
     ]
   },
   {
@@ -547,7 +545,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 40 ] ] ]
+    "components": [ [ [ "wire", 61 ] ] ]
   },
   {
     "type": "recipe",
@@ -560,7 +558,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 40 ], [ "basket", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [ [ [ "wire", 58 ], [ "basket", 2 ] ], [ [ "scrap", 13 ] ] ]
   },
   {
     "type": "recipe",
@@ -573,7 +571,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ], [ "cutting_wire_standard", 1 ] ],
-    "components": [ [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "wire", 13 ] ] ]
   },
   {
     "type": "recipe",
@@ -752,7 +750,7 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 19 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -769,7 +767,7 @@
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
+    "components": [ [ [ "steel_lump", 13 ] ] ]
   },
   {
     "type": "recipe",
@@ -798,7 +796,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
+    "components": [ [ [ "steel_lump", 12 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 18 ], [ "spike", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -813,7 +811,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "steel_lump", 24 ] ] ]
+    "components": [ [ [ "steel_lump", 33 ] ] ]
   },
   {
     "result": "fridgetank",
@@ -828,13 +826,13 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "metal_tank", 1 ] ],
-      [ [ "condensor_coil", 1 ] ],
-      [ [ "evaporator_coil", 1 ] ],
-      [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "plastic_chunk", 8 ] ]
+      [ [ "metal_tank", 2 ] ],
+      [ [ "condensor_coil", 2 ] ],
+      [ [ "evaporator_coil", 2 ] ],
+      [ [ "thermostat", 2 ] ],
+      [ [ "motor_tiny", 2 ] ],
+      [ [ "refrigerant_tank", 2 ] ],
+      [ [ "plastic_chunk", 9 ] ]
     ]
   },
   {
@@ -849,9 +847,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "soldering_standard", 16 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]
+    "components": [ [ [ "cable", 16 ] ], [ [ "e_scrap", 4 ] ] ]
   },
   {
     "type": "recipe",

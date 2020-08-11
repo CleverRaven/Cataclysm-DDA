@@ -71,7 +71,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "pipe", 1 ], [ "scrap", 1 ] ] ]
+    "components": [ [ [ "pipe", 1 ], [ "scrap", 4 ] ] ]
   },
   {
     "result": "pressurized_tank_chem",

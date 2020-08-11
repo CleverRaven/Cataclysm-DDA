@@ -139,8 +139,8 @@
     "difficulty": 4,
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 8 ], [ "tanned_hide", 2 ] ] ]
+    "using": [ [ "sewing_standard", 17 ] ],
+    "components": [ [ [ "leather", 14 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "hakama",
@@ -200,8 +200,8 @@
     "difficulty": 2,
     "time": "45 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "using": [ [ "sewing_standard", 13 ] ],
+    "components": [ [ [ "rag", 8 ] ] ]
   },
   {
     "result": "kilt",
@@ -314,9 +314,9 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "cordage", 6 ], [ "steel_tiny", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_paper",
@@ -326,7 +326,7 @@
     "skill_used": "survival",
     "time": "5 m",
     "autolearn": true,
-    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ] ] ],
+    "components": [ [ [ "paper", 101 ] ], [ [ "duct_tape", 17 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -339,9 +339,9 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
+    "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ] ] ]
+    "components": [ [ [ "scrap", 62 ] ] ]
   },
   {
     "result": "loincloth",
@@ -452,8 +452,8 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "using": [ [ "sewing_standard", 17 ] ],
+    "components": [ [ [ "rag", 9 ] ] ]
   },
   {
     "type": "recipe",

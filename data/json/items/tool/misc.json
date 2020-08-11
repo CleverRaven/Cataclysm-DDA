@@ -273,7 +273,7 @@
     "id": "grip_hook",
     "name": { "str": "grip hook" },
     "description": "A simple steel meathook with a circular steel handle.",
-    "weight": "900 g",
+    "weight": "850 g",
     "color": "light_gray",
     "symbol": "?",
     "material": [ "steel" ],

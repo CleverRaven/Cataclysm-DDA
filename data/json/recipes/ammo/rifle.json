@@ -12,9 +12,9 @@
     "autolearn": true,
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_bullet", 10 ] ],
+    "using": [ [ "ammo_bullet", 11 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "result": "flintlock_shot",
@@ -29,9 +29,9 @@
     "autolearn": true,
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_bullet", 10 ] ],
+    "using": [ [ "ammo_bullet", 11 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "result": "reloaded_22_fmj",
@@ -485,12 +485,12 @@
     "book_learn": [ [ "recipe_bullets", 6 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 15 ] ],
     "components": [
-      [ [ "50_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "50_casing", 2 ] ],
+      [ [ "lgrifle_primer", 2 ] ],
+      [ [ "gunpowder", 36 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "copper", 8 ] ]
     ]
   },
   {
@@ -530,11 +530,11 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ] ],
     "components": [
-      [ [ "50_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "copper", 6 ] ]
+      [ [ "50_casing", 2 ] ],
+      [ [ "lgrifle_primer", 2 ] ],
+      [ [ "gunpowder", 31 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "copper", 7 ] ]
     ]
   },
   {

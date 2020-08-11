@@ -41,7 +41,7 @@
     "type": "TOOL",
     "name": { "str": "fire barrel (100L)", "str_pl": "fire barrels (100L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
-    "weight": "15000 g",
+    "weight": "13500 g",
     "volume": "100 L",
     "longest_side": "85 cm",
     "//": "values based on real world 30 gal metal barrel",

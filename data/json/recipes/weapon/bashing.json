@@ -63,7 +63,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 8, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 13 ] ],
+    "components": [ [ [ "leather", 3 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 10, "LIST" ] ] ]
   }
 ]

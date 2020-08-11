@@ -47,7 +47,7 @@
     "time": "3 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 10 ] ] ],
+    "components": [ [ [ "duct_tape", 18 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -61,10 +61,10 @@
     "autolearn": true,
     "components": [
       [
-        [ "bandana", 1 ],
+        [ "bandana", 2 ],
         [ "scarf", 1 ],
         [ "scarf_long", 1 ],
-        [ "patchwork_scarf", 1 ],
+        [ "patchwork_scarf", 2 ],
         [ "long_patchwork_scarf", 1 ],
         [ "scarf_fur", 1 ],
         [ "scarf_fur_long", 1 ],
@@ -72,7 +72,7 @@
         [ "long_knit_scarf", 1 ],
         [ "scarf_loose", 1 ],
         [ "scarf_long_loose", 1 ],
-        [ "patchwork_scarf_loose", 1 ],
+        [ "patchwork_scarf_loose", 2 ],
         [ "long_patchwork_scarf_loose", 1 ],
         [ "scarf_fur_loose", 1 ],
         [ "scarf_fur_long_loose", 1 ],
@@ -131,13 +131,13 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
+    "using": [ [ "cordage_short", 3 ] ],
     "components": [
       [
         [ "can_drink", 1 ],
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
-        [ "bottle_plastic_small", 1 ],
+        [ "bottle_plastic_small", 2 ],
         [ "sippy_cup", 1 ],
         [ "clay_canister", 1 ],
         [ "flask_glass", 1 ],
@@ -148,15 +148,15 @@
         [ "can_drink", 1 ],
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
-        [ "bottle_plastic_small", 1 ],
+        [ "bottle_plastic_small", 2 ],
         [ "sippy_cup", 1 ],
         [ "clay_canister", 1 ],
         [ "flask_glass", 1 ],
         [ "beaker", 1 ],
         [ "flask_hip", 1 ]
       ],
-      [ [ "wire", 1 ] ],
-      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ]
+      [ [ "wire", 2 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -196,7 +196,7 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ] ]
+    "components": [ [ [ "cordage", 2, "LIST" ] ], [ [ "bottle_plastic", 2 ], [ "bottle_plastic_small", 2 ] ] ]
   },
   {
     "result": "goggles_swim",
@@ -289,7 +289,7 @@
     "time": "35 m",
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "components": [ [ [ "plastic_chunk", 16 ] ] ]
   },
   {
     "result": "hat_hard_hooded",
@@ -300,7 +300,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 2 ], [ "bandana", 1 ] ], [ [ "hat_hard", 1 ] ] ]
+    "components": [ [ [ "rag", 2 ], [ "bandana", 2 ] ], [ [ "hat_hard", 2 ] ] ]
   },
   {
     "result": "hat_hunting",
@@ -325,7 +325,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
+    "components": [ [ [ "yarn", 120 ] ] ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -363,7 +363,7 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "chitin_piece", 16 ] ] ]
   },
   {
     "result": "helmet_conical",
@@ -390,7 +390,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 12 ] ] ]
+    "components": [ [ [ "cordage_superior", 2, "LIST" ] ], [ [ "acidchitin_piece", 15 ] ] ]
   },
   {
     "result": "helmet_galea",
@@ -504,9 +504,9 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
+    "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 30 ] ] ]
+    "components": [ [ [ "scrap", 34 ] ] ]
   },
   {
     "result": "hood_fsurvivor",
@@ -729,9 +729,9 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "components": [
-      [ [ "bag_plastic", 2 ], [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ],
-      [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
-      [ [ "charcoal", 10 ] ]
+      [ [ "bag_plastic", 4 ], [ "bottle_plastic", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "rag", 2 ], [ "bandana", 2 ], [ "paper", 18 ] ],
+      [ [ "charcoal", 18 ] ]
     ]
   },
   {
@@ -832,7 +832,7 @@
     ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
-    "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "mask_gas", 2 ] ], [ [ "mask_filter", 2 ] ], [ [ "plastic_chunk", 4 ] ] ]
   },
   {
     "result": "mask_h20survivor",
@@ -882,14 +882,14 @@
     "skills_required": [ "tailor", 7 ],
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
+    "using": [ [ "adhesive", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
-      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "scrap", 3 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ]
+      [ [ "mask_filter", 3 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 3 ], [ "glasses_bal", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
     ]
   },
   {
@@ -920,7 +920,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "tshirt", 1 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 1 ], [ "tshirt_text", 1 ] ] ],
+    "components": [ [ [ "tshirt", 2 ], [ "flag_shirt", 1 ], [ "linuxtshirt", 2 ], [ "tshirt_text", 2 ] ] ],
     "flags": [ "BLIND_HARD", "NO_RESIZE" ]
   },
   {
@@ -1021,9 +1021,9 @@
     "autolearn": true,
     "reversible": true,
     "components": [
-      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
-      [ [ "flashlight", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "hat_hard", 1 ], [ "helmet_bike", 3 ] ],
+      [ [ "flashlight", 3 ] ],
+      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 3, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
     ]
   },
   {
@@ -1204,7 +1204,7 @@
     "difficulty": 3,
     "time": "45 m",
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ], [ "textbook_tailor", 0 ] ],
-    "components": [ [ [ "straw_pile", 7 ], [ "birchbark", 10 ] ] ]
+    "components": [ [ [ "straw_pile", 15 ], [ "birchbark", 10 ] ] ]
   },
   {
     "result": "straw_hat",

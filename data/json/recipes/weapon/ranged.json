@@ -13,9 +13,9 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 40 ] ],
     "components": [
-      [ [ "pipe", 2 ] ],
-      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+      [ [ "pipe", 3 ] ],
+      [ [ "hose", 3 ], [ "makeshift_hose", 2 ] ],
+      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 14 ] ]
     ]
   },
   {
@@ -43,7 +43,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "pipe", 10 ] ], [ [ "2x4", 10 ] ], [ [ "scrap", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -300,7 +300,7 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "nail", 2 ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -343,7 +343,7 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -355,7 +355,7 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": "1 h",
     "autolearn": true,
-    "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "four_winds_shotgun", 37 ] ], [ [ "duct_tape", 1815 ] ] ]
   },
   {
     "type": "recipe",
@@ -399,7 +399,7 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "nail", 3 ] ], [ [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -444,7 +444,7 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "four_winds_shotgun", 291 ] ], [ [ "scrap", 146 ] ] ]
   },
   {
     "type": "recipe",
@@ -488,6 +488,6 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "pipe", 5 ] ], [ [ "nail", 3 ] ], [ [ "pipe_fittings", 3 ] ], [ [ "scrap", 4 ] ] ]
   }
 ]

@@ -19,7 +19,7 @@
     "time": "1 m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 1 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "soap", 1 ], [ "soap_flakes", 15 ], [ "detergent", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -57,9 +57,9 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [
-        [ "light_minus_battery_cell", 20 ],
-        [ "light_battery_cell", 10 ],
-        [ "light_plus_battery_cell", 5 ],
+        [ "light_minus_battery_cell", 92 ],
+        [ "light_battery_cell", 16 ],
+        [ "light_plus_battery_cell", 11 ],
         [ "medium_battery_cell", 2 ],
         [ "medium_plus_battery_cell", 2 ],
         [ "heavy_battery_cell", 1 ],
@@ -558,10 +558,10 @@
     "difficulty": 3,
     "time": "6 m",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "atomic_survival", 4 ] ],
-    "using": [ [ "sewing_standard", 1 ] ],
+    "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "rag", 1 ], [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 5 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "bag_plastic", 4 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 19 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -574,7 +574,7 @@
     "time": "1 m 12 s",
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 3 ] ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 1 ] ], [ [ "ammonia", 1 ] ] ]
+    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 2 ] ], [ [ "ammonia", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -657,7 +657,7 @@
     "book_learn": [ [ "recipe_creepy", 5 ], [ "recipe_serum", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 1 ] ] ]
+    "components": [ [ [ "meat_tainted", 1 ], [ "dry_meat_tainted", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -785,7 +785,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
+    "components": [ [ [ "chem_hydrogen_peroxide_conc", 2 ] ], [ [ "chem_sulphur", 388 ] ] ]
   },
   {
     "type": "recipe",
@@ -1011,7 +1011,7 @@
     "book_learn": [ [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "chem_methanol", 50 ] ] ]
+    "components": [ [ [ "chem_methanol", 300 ] ] ]
   },
   {
     "type": "recipe",
@@ -1403,7 +1403,7 @@
     "difficulty": 4,
     "charges": 600,
     "time": "180 m",
-    "byproducts": [ [ "hi_q_distillate_tails", 300 ] ],
+    "byproducts": [ [ "hi_q_distillate_tails", 99 ] ],
     "batch_time_factors": [ 90, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],
@@ -1420,7 +1420,7 @@
     "difficulty": 4,
     "charges": 533,
     "time": "180 m",
-    "byproducts": [ [ "hi_q_distillate_tails", 267 ] ],
+    "byproducts": [ [ "hi_q_distillate_tails", 99 ] ],
     "batch_time_factors": [ 90, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],

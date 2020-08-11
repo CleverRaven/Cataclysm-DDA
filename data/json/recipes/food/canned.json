@@ -1238,7 +1238,7 @@
     "type": "recipe",
     "result": "con_milk",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ] ],
+    "byproducts": [ [ "water", 5 ] ],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

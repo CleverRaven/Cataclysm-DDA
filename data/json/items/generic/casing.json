@@ -16,7 +16,7 @@
     "type": "GENERIC",
     "name": { "str": ".223 casing" },
     "description": "An empty casing from a .223 round.",
-    "weight": "5 g",
+    "weight": "5500 mg",
     "volume": "5ml"
   },
   {
@@ -461,7 +461,7 @@
     "type": "GENERIC",
     "name": { "str": ".300BLK casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
-    "weight": "6 g",
+    "weight": "5500 mg",
     "volume": "9ml"
   }
 ]

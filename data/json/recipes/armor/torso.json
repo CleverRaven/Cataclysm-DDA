@@ -8,8 +8,8 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
+    "using": [ [ "sewing_standard", 35 ] ],
+    "components": [ [ [ "leather", 20 ], [ "tanned_hide", 4 ] ] ]
   },
   {
     "result": "armor_lamellar",
@@ -86,7 +86,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 1200 ] ], [ [ "duct_tape", 150 ] ] ]
+    "components": [ [ [ "paper", 1655 ] ], [ [ "duct_tape", 207 ] ] ]
   },
   {
     "result": "bra",
@@ -395,9 +395,9 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "1 h 36 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
+    "using": [ [ "sewing_standard", 34 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
+    "components": [ [ [ "jacket_leather", 2 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 11 ] ] ]
   },
   {
     "result": "leotard",
@@ -444,7 +444,6 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "long_undertop", 1 ] ] ]
@@ -552,7 +551,7 @@
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "components": [ [ [ "yarn", 907 ] ] ]
   },
   {
     "result": "sleeveless_duster",
@@ -577,7 +576,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 5 ] ],
+    "byproducts": [ [ "rag", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster", 1 ] ] ]
@@ -619,7 +618,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "fur", 6 ] ],
+    "byproducts": [ [ "fur", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_fur", 1 ] ] ]
@@ -634,7 +633,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "faux_fur", 6 ] ],
+    "byproducts": [ [ "faux_fur", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_faux_fur", 1 ] ] ]
@@ -663,7 +662,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "leather", 4 ] ],
+    "byproducts": [ [ "leather", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "duster_leather", 1 ] ] ]
@@ -809,7 +808,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "leather", 4 ] ],
+    "byproducts": [ [ "leather", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_leather", 1 ] ] ]
@@ -869,7 +868,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 4 ] ],
+    "byproducts": [ [ "rag", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat_survivor", 1 ] ] ]
@@ -883,7 +882,6 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "tunic", 1 ] ] ]
@@ -1075,7 +1073,6 @@
     "skill_used": "tailor",
     "time": "2 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "longshirt", 1 ] ] ]
@@ -1139,8 +1136,8 @@
     "reversible": true,
     "decomp_learn": 6,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 54 ] ],
-    "components": [ [ [ "sheet_kevlar_layered", 43 ] ] ]
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 64 ] ] ]
   },
   {
     "result": "vest_leather",
@@ -1153,8 +1150,8 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "vest_leather",
@@ -1164,7 +1161,6 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "leather", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jacket_leather", 1 ] ] ]

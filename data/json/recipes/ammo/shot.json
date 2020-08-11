@@ -62,9 +62,9 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
-    "using": [ [ "ammo_shot", 1 ] ],
+    "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 10 ] ] ]
   },
   {
     "result": "reloaded_shot_flechette",
@@ -145,9 +145,9 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_shot", 1 ] ],
+    "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "magnesium", 10 ] ] ]
   },
   {
     "result": "bp_shot_flechette",
@@ -190,7 +190,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 32 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -200,7 +200,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 32 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -210,7 +210,7 @@
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": "40 s",
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "components": [ [ [ "chem_black_powder", 12 ] ], [ [ "magnesium", 19 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -300,14 +300,14 @@
     "time": 4000,
     "tools": [ [ [ "press_dowel", -1 ] ] ],
     "components": [
-      [ [ "chem_black_powder", 6 ] ],
+      [ [ "chem_black_powder", 12 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 10 ],
-        [ "bb", 20 ],
-        [ "solder_wire", 10 ],
-        [ "platinum_small", 4 ],
-        [ "gold_small", 4 ],
+        [ "bb", 25 ],
+        [ "solder_wire", 12 ],
+        [ "platinum_small", 5 ],
+        [ "gold_small", 5 ],
         [ "bearing", 5 ],
         [ "lead", 7 ],
         [ "silver_small", 7 ],

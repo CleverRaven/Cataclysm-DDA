@@ -20,8 +20,8 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "using": [ [ "sewing_standard", 11 ] ],
+    "components": [ [ [ "leather", 11 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "boots_chitin",
@@ -80,8 +80,8 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 13 ] ],
-    "components": [ [ [ "leather", 7 ], [ "tanned_hide", 1 ] ], [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ] ]
+    "using": [ [ "sewing_standard", 24 ] ],
+    "components": [ [ [ "leather", 9 ], [ "tanned_hide", 2 ] ], [ [ "fur", 9 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
     "result": "boots_h20survivor",
@@ -212,8 +212,8 @@
     "difficulty": 5,
     "time": "35 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
+    "using": [ [ "sewing_standard", 22 ] ],
+    "components": [ [ [ "leather", 13 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "boots_winter",
@@ -442,7 +442,7 @@
     "skill_used": "survival",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "plastic_shopping_bag", 2 ] ] ],
+    "components": [ [ [ "plastic_shopping_bag", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

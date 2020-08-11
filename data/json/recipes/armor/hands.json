@@ -43,7 +43,7 @@
     "skill_used": "survival",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "plastic_shopping_bag", 2 ] ] ],
+    "components": [ [ [ "plastic_shopping_bag", 3 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -81,9 +81,9 @@
     "skills_required": [ "fabrication", 1 ],
     "time": "24 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "sewing_standard", 19 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "gloves_fingerless", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "gloves_fingerless", 2 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "gloves_fsurvivor",
@@ -148,18 +148,18 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 2 ] ],
-      [ [ "leather", 2 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "duct_tape", 50 ] ],
-      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "rag", 3 ] ],
+      [ [ "leather", 3 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "duct_tape", 63 ] ],
+      [ [ "gloves_tactical", 2 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
-        [ "gloves_liner", 1 ],
+        [ "gloves_liner", 2 ],
         [ "wetsuit_gloves", 1 ],
         [ "fire_gauntlets", 1 ]
       ]
@@ -407,7 +407,7 @@
     "time": "50 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 250 ] ] ]
+    "components": [ [ [ "yarn", 364 ] ] ]
   },
   {
     "result": "nomex_gloves",

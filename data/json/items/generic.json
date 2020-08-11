@@ -671,7 +671,7 @@
     "price": 20000,
     "price_postapoc": 100,
     "material": [ "steel" ],
-    "weight": "151 g",
+    "weight": "99 g",
     "volume": "500 ml",
     "to_hit": -2
   },

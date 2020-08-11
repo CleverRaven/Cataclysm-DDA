@@ -62,7 +62,7 @@
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
     "description": "A huge steel barrel with a resealable lid.",
-    "weight": "12000 g",
+    "weight": "13500 g",
     "volume": "105 L",
     "price": 8000,
     "price_postapoc": 250,

@@ -7,7 +7,7 @@
     "time": "20 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "hk_mp5k", 1 ] ], [ [ "hk_briefcase", 1 ] ] ]
+    "components": [ [ [ "hk_mp5k", 2 ] ], [ [ "hk_briefcase", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -77,8 +77,8 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "copper_scrap_equivalent", 8, "LIST" ] ]
+      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 4, "LIST" ], [ "filament", 100, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 13, "LIST" ] ]
     ]
   },
   {
@@ -119,7 +119,7 @@
     "time": "48 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "broom", 1 ], [ "pool_cue", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -231,7 +231,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 20 ] ], [ [ "rope_superior_short", 2, "LIST" ] ] ]
+    "components": [ [ [ "leather", 29 ] ], [ [ "rope_superior_short", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -301,10 +301,10 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
-      [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
+      [ [ "stick_long", 1 ], [ "pool_cue", 2 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "duct_tape", 20 ], [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 15, "LIST" ] ]
     ]
   },
   {
@@ -378,7 +378,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "javelin", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "javelin", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -390,16 +390,16 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 2 ], [ "pool_cue", 3 ] ],
       [
         [ "spike", 1 ],
         [ "knife_steak", 1 ],
         [ "knife_paring", 1 ],
         [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
+        [ "scalpel", 3 ],
+        [ "xacto", 2 ]
       ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+      [ [ "cordage", 5, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
   {
@@ -412,25 +412,25 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 2 ], [ "pool_cue", 2 ] ],
       [
         [ "knife_butcher", 1 ],
         [ "knife_chef", 1 ],
         [ "knife_carving", 1 ],
-        [ "knife_vegetable_cleaver", 1 ],
+        [ "knife_vegetable_cleaver", 2 ],
         [ "knife_meat_cleaver", 1 ],
         [ "blade", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_mod", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
-        [ "knife_rm42", 1 ],
+        [ "knife_rm42", 2 ],
         [ "knife_trench", 1 ],
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cordage", 3, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
   {
@@ -445,25 +445,25 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "pool_cue", 1 ] ],
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "pool_cue", 3 ] ],
       [
         [ "knife_butcher", 1 ],
         [ "knife_chef", 1 ],
         [ "knife_carving", 1 ],
-        [ "knife_vegetable_cleaver", 1 ],
+        [ "knife_vegetable_cleaver", 2 ],
         [ "knife_meat_cleaver", 1 ],
         [ "blade", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_mod", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
-        [ "knife_rm42", 1 ],
+        [ "knife_rm42", 2 ],
         [ "knife_trench", 1 ],
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ] ],
-      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
+      [ [ "nail", 5 ] ],
+      [ [ "cordage", 5, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
   {
@@ -601,8 +601,8 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 8 ] ],
-    "components": [ [ [ "steel_chunk", 4 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "using": [ [ "cordage", 9 ] ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "stick", 2 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -613,7 +613,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ] ] ]
+    "components": [ [ [ "bat", 2 ] ], [ [ "nail", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -791,7 +791,7 @@
     "time": "12 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "2x4", 3 ] ], [ [ "scrap", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -875,7 +875,7 @@
     "time": "30 m",
     "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 72 ] ], [ [ "nail", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -887,7 +887,7 @@
     "reversible": true,
     "autolearn": true,
     "decomp_learn": 0,
-    "components": [ [ [ "m320_mod", 1 ], [ "m320_mod_mod", 1 ] ], [ [ "ugl_buttstock", 1 ] ] ]
+    "components": [ [ [ "m320_mod", 2 ], [ "m320_mod_mod", 1 ] ], [ [ "ugl_buttstock", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1220,9 +1220,9 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
+    "using": [ [ "soldering_standard", 19 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1360,7 +1360,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "sword_wood", 2 ] ], [ [ "nail", 14 ] ] ]
   },
   {
     "type": "recipe",
@@ -1790,7 +1790,7 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rock", 1 ] ], [ [ "socks", 1 ], [ "socks_wool", 1 ] ] ]
+    "components": [ [ [ "rock", 2 ] ], [ [ "socks", 2 ], [ "socks_wool", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1803,7 +1803,7 @@
     "time": "30 m",
     "book_learn": [ [ "recipe_melee", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "components": [ [ [ "plastic_chunk", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -2219,7 +2219,7 @@
     "time": "6 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ], [ "manual_knives", 7 ], [ "recipe_melee", 8 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
@@ -2375,9 +2375,9 @@
     "time": "15 m",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 11 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "i_staff", 2 ] ], [ [ "tazer", 2 ] ], [ [ "cable", 11 ] ] ]
   },
   {
     "type": "recipe",
@@ -2736,7 +2736,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 14, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 61 ] ] ]
   },
   {
     "type": "recipe",
