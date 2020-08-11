@@ -970,7 +970,7 @@
     "name": { "str": "Consume" }
   },
   {
-    "type": "item_action",
+	"type": "item_action",
 	"id": "WEED_DRINK",
 	"name": { "str": "Drink" }
   },
