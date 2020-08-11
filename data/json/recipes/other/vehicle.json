@@ -2,7 +2,7 @@
   {
     "result": "cantilever_medium",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
@@ -17,7 +17,7 @@
   {
     "result": "cantilever_small",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
@@ -32,7 +32,7 @@
   {
     "result": "pallet_lifter",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
@@ -102,7 +102,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "livestock_carrier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -117,7 +117,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "livestock_carrier",
     "id_suffix": "repurpose_cargo_rack",
     "category": "CC_OTHER",
@@ -133,7 +133,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "animal_locker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -148,7 +148,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "animal_locker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",

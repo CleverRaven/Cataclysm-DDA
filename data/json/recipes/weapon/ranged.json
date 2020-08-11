@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chemical_thrower",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
