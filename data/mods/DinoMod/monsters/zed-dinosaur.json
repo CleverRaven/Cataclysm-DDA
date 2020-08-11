@@ -479,7 +479,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zteranodon",
-    "name": { "str_sp": "Pteranodon zombie" },
+    "name": { "str": "Pteranodon zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_pteranodon",
     "volume": "38 L",
@@ -501,7 +501,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zilophosaurus",
-    "name": { "str_sp": "Dilophosaurus zombie" },
+    "name": { "str": "Dilophosaurus zombie" },
     "copy-from": "mon_zallimimus",
     "looks_like": "mon_dilophosaurus",
     "volume": "400 L",
@@ -521,7 +521,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeratosaurus",
-    "name": { "str_sp": "Zombie dragon" },
+    "name": { "str": "Zombie dragon" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "volume": "540 L",
@@ -538,5 +538,26 @@
     "description": "This zombie is enormous, scaly, studded with bony spikes, and it moves with horrible speed.  Its colorful horns are worn and wet with filth and its bright scales and bone spikes have taken a beating.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zeratosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ]
+  },
+   {
+    "type": "MONSTER",
+    "id": "mon_zosasaurus",
+    "name": { "str": "Mosasaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "volume": "1000 L",
+    "weight": "13000 kg",
+    "bodytype": "fish",
+    "speed": 24,
+    "melee_skill": 10,
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "melee_cut": 16,
+    "armor_bash": 5,
+    "armor_cut": 7,
+    "armor_bullet": 7,
+    "hp": 580,
+    "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
+    "flags": [ "SEES", "HEARS", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]
