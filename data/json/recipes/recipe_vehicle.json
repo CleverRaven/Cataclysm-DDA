@@ -235,7 +235,7 @@
   {
     "result": "minifridge",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
     "qualities": [
@@ -868,7 +868,7 @@
   {
     "result": "fridgetank",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
     "qualities": [

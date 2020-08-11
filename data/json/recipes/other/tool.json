@@ -494,7 +494,7 @@
   {
     "result": "jack_makeshift",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -620,7 +620,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "chicken_cage",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -954,7 +954,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "oil_extractor_crude",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
