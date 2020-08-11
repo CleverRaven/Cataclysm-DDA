@@ -874,7 +874,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with( *type, qty );
+                ret.fill_with( *this, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -8101,7 +8101,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo->type, qty );
+        item contents( ammo->type );
+        fill_with( contents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8570,14 +8571,15 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const itype &contained, const int amount )
+int item::fill_with( const item &contained, const int amount )
 {
     if( amount <= 0 ) {
         return 0;
     }
 
-    item contained_item( &contained );
-    const bool count_by_charges = contained_item.count_by_charges();
+    item contained_item( contained );
+    const bool count_by_charges = contained.count_by_charges();
+    contained_item.charges = count_by_charges ? 1 : -1;
     item_location loc;
     item_pocket *pocket = nullptr;
 

@@ -413,7 +413,7 @@ bool vehicle_part::fill_with( item &liquid, int qty )
         qty = charges_max;
     }
 
-    liquid.charges -= base.fill_with( *liquid.type, qty );
+    liquid.charges -= base.fill_with( liquid, qty );
 
     return true;
 }
