@@ -25,7 +25,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "saline",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -48,7 +48,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_sulphuric_acid",
     "id_suffix": "from batteries",
     "category": "CC_CHEM",
@@ -548,7 +548,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oxy_powder",
     "byproducts": [ [ "salt_water", 2 ] ],
     "category": "CC_CHEM",
@@ -566,7 +566,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lye_powder",
     "id_suffix": "from_lye",
     "category": "CC_CHEM",
@@ -611,7 +611,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_liquid",
     "id_suffix": "simple",
     "category": "CC_CHEM",
@@ -645,7 +645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_liquid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -753,7 +753,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hydrogen_peroxide_conc",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -767,7 +767,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hydrogen_peroxide",
     "result_mult": 5,
     "category": "CC_CHEM",
@@ -784,7 +784,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -798,7 +798,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_muriatic_acid",
     "id_suffix": "by_electrolysis",
     "byproducts": [ [ "lye", 2 ] ],
@@ -821,7 +821,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_sulphuric_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -835,7 +835,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -849,7 +849,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
     "id_suffix": "from ammonia",
     "category": "CC_CHEM",
@@ -865,7 +865,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_nitric_acid",
     "byproducts": [ [ "chem_potassium_chloride" ] ],
     "category": "CC_CHEM",
@@ -880,7 +880,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_aluminium_sulphate",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -894,7 +894,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_ammonium_nitrate",
     "byproducts": [ [ "water" ] ],
     "category": "CC_CHEM",
@@ -909,7 +909,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_ammonium_nitrate",
     "id_suffix": "from_pellets",
     "category": "CC_CHEM",
@@ -954,7 +954,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_saltpetre",
     "byproducts": [ [ "ammonia", 1 ] ],
     "category": "CC_CHEM",
@@ -969,7 +969,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_saltpetre",
     "id_suffix": "niter",
     "result_mult": 5,
@@ -1062,7 +1062,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hexamine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1076,7 +1076,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_formaldehyde",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1091,7 +1091,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_methanol",
     "byproducts": [ [ "chem_ethanol", 2 ] ],
     "category": "CC_CHEM",
@@ -1107,7 +1107,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_methanol",
     "id_suffix": "from wood",
     "category": "CC_CHEM",
@@ -1123,7 +1123,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_rdx",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1137,7 +1137,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_thermite",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1150,7 +1150,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_hmtd",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1163,7 +1163,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_rocket_fuel",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1176,7 +1176,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tool_rocket_candy",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1258,7 +1258,7 @@
   {
     "result": "zinc_metal",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1273,7 +1273,7 @@
   {
     "result": "chem_zinc_powder",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -1355,7 +1355,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lo_q_crude_oil_ethanol",
     "id_suffix": "using_oil_extractor_crude",
     "category": "CC_CHEM",
@@ -1385,7 +1385,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lo_q_crude_oil_ethanol",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -1401,7 +1401,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hi_q_crude_oil_ethanol",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -1417,7 +1417,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hi_q_wax",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",

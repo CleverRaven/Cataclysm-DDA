@@ -44,7 +44,7 @@
   {
     "result": "bandages_makeshift_boiled",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",

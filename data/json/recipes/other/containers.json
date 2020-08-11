@@ -85,7 +85,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -104,7 +104,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "large_stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
