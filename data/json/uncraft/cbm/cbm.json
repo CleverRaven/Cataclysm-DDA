@@ -40,7 +40,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bio_ups",
     "skill_used": "electronics",
     "difficulty": 6,
