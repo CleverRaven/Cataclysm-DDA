@@ -792,6 +792,16 @@
     "fun": 5
   },
   {
+    "id": "weed_soda",
+    "type": "COMESTIBLE",
+    "name": "marijuana pop",
+    "copy-from": "orangesoda",
+    "price_postapoc": 75,
+    "description": "Spiked soda that'll get you high alongside the sugar high.",
+    "fun": 11,
+    "use_action": [ "WEED_CAKE" ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "pine_tea",
     "name": { "str_sp": "pine needle tea" },
