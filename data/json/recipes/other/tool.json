@@ -1164,7 +1164,7 @@
   {
     "result": "makeshift_hose",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "id_suffix": "DIY_hose_from_leather",
