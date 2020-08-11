@@ -15,7 +15,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "shillelagh",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",

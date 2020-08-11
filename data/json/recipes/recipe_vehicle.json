@@ -397,7 +397,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "boat_board",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -451,7 +451,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hand_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -479,7 +479,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "towel_hanger",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -492,7 +492,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_mount_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -748,7 +748,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -762,7 +762,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wood_b",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
