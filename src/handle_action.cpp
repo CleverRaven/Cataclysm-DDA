@@ -756,9 +756,37 @@ static void smash()
         }
     }
 
-    const int bash_furn = here.furn( smashp )->bash.str_min;
-    const int bash_ter = here.ter( smashp )->bash.str_min;
-
+    if( !player_character.has_weapon() ) {
+        const bodypart_id bp_null( "bp_null" );
+        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+        int tmp_bash_armor = 0;
+        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+            for( const item &i : player_character.worn ) {
+                if( i.covers( bp ) ) {
+                    tmp_bash_armor += i.bash_resist();
+                }
+            }
+            if( tmp_bash_armor > best_part_to_smash.second ) {
+                best_part_to_smash = {bp, tmp_bash_armor};
+            }
+        }
+        if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
+            std::string name_to_bash = _( "thing" );
+            if( here.is_bashable_furn( smashp ) ) {
+                name_to_bash = here.furnname( smashp );
+            } else if( here.is_bashable_ter( smashp ) ) {
+                name_to_bash = here.tername( smashp );
+            }
+            if( !best_part_to_smash.first->bash_message.empty() ) {
+                add_msg( best_part_to_smash.first->bash_message, name_to_bash );
+            } else {
+                add_msg( _( "You use your %s to smash the %s." ),
+                         body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
+            }
+            // your ability to smash without a weapon is capped by your best bash armor
+            smashskill = std::min( best_part_to_smash.second, smashskill );
+        }
+    }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
@@ -787,31 +815,6 @@ static void smash()
                 }
                 player_character.remove_weapon();
                 player_character.check_dead_state();
-            }
-
-            // It hurts if you smash things with your hands.
-            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
-
-            int glove_coverage = 0;
-            for( const item &i : player_character.worn ) {
-                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
-                    int l_coverage = i.get_coverage( bodypart_id( "hand_l" ) );
-                    int r_coverage = i.get_coverage( bodypart_id( "hand_r" ) );
-                    glove_coverage = std::max( l_coverage, r_coverage );
-                }
-            }
-
-            if( !player_character.has_weapon() && hard_target ) {
-                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
-                if( player_character.get_part_hp_cur( bodypart_id( "arm_r" ) ) > player_character.get_part_hp_cur(
-                        bodypart_id( "arm_l" ) ) ) {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
-                } else {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );
-                }
-                if( dam > 0 ) {
-                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), here.furnname( smashp ) );
-                }
             }
         }
         player_character.moves -= move_cost;
