@@ -972,7 +972,7 @@
   {
 	"type": "item_action",
 	"id": "WEED_DRINK",
-	"name": { "str": "Drink" }
+	"name": { "ctxt": "verb", "str": "Drink" }
   },
   {
     "type": "item_action",
