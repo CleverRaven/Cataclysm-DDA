@@ -653,7 +653,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wheel_rail_small_pair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -790,7 +790,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wheel_metal",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

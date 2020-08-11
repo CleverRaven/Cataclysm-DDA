@@ -657,7 +657,7 @@
   {
     "result": "blade",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -1952,8 +1952,8 @@
   {
     "result": "copper_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "30 s",
+    "activity_level": "BRISK_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 43 ] ] ]
   },
@@ -1984,7 +1984,7 @@
   {
     "result": "crown_golden_survivor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "copy-from": "crown_golden"
   },
   {
@@ -2333,8 +2333,8 @@
   {
     "result": "gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "30 s",
+    "activity_level": "BRISK_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ] ]
   },
@@ -2656,7 +2656,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_bread",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2673,7 +2673,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
@@ -2681,7 +2681,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_carving",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2689,7 +2689,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_chef",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2697,7 +2697,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_folding",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2705,7 +2705,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_meat_cleaver",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2713,7 +2713,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_paring",
     "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2722,15 +2722,15 @@
   {
     "result": "knife_steak",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "3 m",
     "//": "Another odd one",
+    "activity_level": "BRISK_EXERCISE",
     "components": [ [ [ "spike", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "knife_vegetable_cleaver",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -2855,7 +2855,7 @@
   {
     "result": "mess_kit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "electronics",
     "time": "10 m",
     "using": [ [ "soldering_standard", 10 ] ],
@@ -3074,7 +3074,7 @@
   {
     "result": "pipe",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "mechanics",
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -3237,7 +3237,7 @@
   {
     "result": "gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
@@ -3245,7 +3245,7 @@
   {
     "result": "gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
@@ -3394,7 +3394,7 @@
   {
     "result": "steel_pan",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
@@ -3404,8 +3404,8 @@
   {
     "result": "scythe",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "6 m",
+    "activity_level": "BRISK_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade_scythe", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
@@ -3420,8 +3420,8 @@
   {
     "result": "silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "30 s",
+    "activity_level": "BRISK_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 10 ] ] ]
   },
@@ -3704,7 +3704,7 @@
   {
     "result": "spring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 30 ] ] ]
@@ -4035,7 +4035,7 @@
   {
     "result": "wire",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -4293,7 +4293,7 @@
   {
     "result": "pot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
