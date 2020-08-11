@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallimimus",
-    "name": { "str_sp": "Gallimimus zombie" },
+    "name": { "str": "Gallimimus zombie" },
     "looks_like": "mon_gallimimus",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
@@ -35,7 +35,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zachycephalosaurus",
-    "name": { "str_sp": "Pachy zombie" },
+    "name": { "str": "Pachy zombie" },
     "looks_like": "mon_pachycephalosaurus",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
@@ -157,7 +157,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zalbertosaurus",
-    "name": { "str_sp": "Albertosaurus zombie" },
+    "name": { "str": "Albertosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
     "weight": "2500 kg",
     "melee_dice_sides": 4,
@@ -173,7 +173,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zriceratops",
-    "name": { "str_sp": "Triceraterror" },
+    "name": { "str": "Triceraterror" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_triceratops",
     "volume": "1000 L",
@@ -194,7 +194,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ztegosaurus",
-    "name": { "str_sp": "Stegosaurus zombie" },
+    "name": { "str": "Stegosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_stegosaurus",
     "volume": "1000 L",
@@ -215,7 +215,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zankylosaurus",
-    "name": { "str_sp": "Ankylosaurus zombie" },
+    "name": { "str": "Ankylosaurus zombie" },
     "looks_like": "mon_ankylosaurus",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
@@ -272,7 +272,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zamarasaurus",
-    "name": { "str_sp": "Camarasaurus zombie" },
+    "name": { "str": "Camarasaurus zombie" },
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_apatosaurus",
     "speed": 50,
@@ -282,7 +282,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zapatosaurus",
-    "name": { "str_sp": "Apatosaurus zombie" },
+    "name": { "str": "Apatosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_apatosaurus",
     "volume": "1000 L",
@@ -306,7 +306,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallosaurus",
-    "name": { "str_sp": "Allosaurus zombie" },
+    "name": { "str": "Allosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_allosaurus",
     "volume": "1000 L",
@@ -418,7 +418,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zarasaurolophus",
-    "name": { "str_sp": "Parasaurolophus zombie" },
+    "name": { "str": "Parasaurolophus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_parasaurolophus",
     "volume": "1000 L",
@@ -539,7 +539,7 @@
     "upgrades": { "half_life": 14, "into_group": "GROUP_zeratosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ]
   },
-   {
+  {
     "type": "MONSTER",
     "id": "mon_zosasaurus",
     "name": { "str": "Mosasaurus zombie" },
