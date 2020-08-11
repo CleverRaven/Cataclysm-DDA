@@ -461,7 +461,7 @@
     "//": "Until 0.F, allow disassembling legacy toolboxes",
     "result": "toolbox",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "components": [
       [ [ "toolbox_empty", 1 ] ],

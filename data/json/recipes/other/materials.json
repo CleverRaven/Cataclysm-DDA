@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cordage_6",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -13,7 +13,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cordage_36",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -164,7 +164,7 @@
   {
     "result": "tin",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "byproducts": [ [ "steel_chunk" ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -182,7 +182,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "vine_30",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

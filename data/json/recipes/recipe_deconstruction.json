@@ -720,7 +720,7 @@
   {
     "result": "broken_copbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -783,7 +783,7 @@
   {
     "result": "broken_eyebot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "30 m",
@@ -862,7 +862,7 @@
   {
     "result": "broken_manhack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "10 m",
@@ -901,7 +901,7 @@
   {
     "result": "broken_molebot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "3 h",
@@ -920,7 +920,7 @@
   {
     "result": "broken_riotbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -991,7 +991,7 @@
   {
     "result": "broken_skitterbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -2589,7 +2589,7 @@
   {
     "result": "hd_steel_drum",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "2 h",
@@ -2648,7 +2648,7 @@
   {
     "result": "kiln_done",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
@@ -2739,7 +2739,7 @@
   {
     "result": "laptop",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2873,7 +2873,7 @@
   {
     "result": "microwave",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2907,8 +2907,8 @@
   {
     "result": "mininuke",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "3 h",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 4 ], [ "mechanics", 6 ] ],
@@ -3113,7 +3113,7 @@
   {
     "result": "power_armor_basic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
@@ -3132,7 +3132,7 @@
   {
     "result": "power_armor_helmet_basic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
@@ -3377,7 +3377,7 @@
   {
     "result": "robot_controls",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "45 m",
@@ -3812,7 +3812,7 @@
   {
     "result": "television",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -3948,7 +3948,7 @@
   {
     "result": "toaster",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "time": "12 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4214,8 +4214,8 @@
   {
     "result": "1st_aid",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "12 s",
+    "activity_level": "LIGHT_EXERCISE",
     "components": [
       [ [ "medical_tape", 20 ] ],
       [ [ "aspirin", 10 ] ],

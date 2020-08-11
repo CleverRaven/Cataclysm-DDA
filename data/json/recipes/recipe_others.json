@@ -97,7 +97,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "from logs",
     "category": "CC_OTHER",
@@ -4532,7 +4532,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -4546,7 +4546,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "link_sheet",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",

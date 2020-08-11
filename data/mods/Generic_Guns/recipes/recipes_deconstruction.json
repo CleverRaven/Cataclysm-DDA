@@ -50,7 +50,7 @@
   {
     "result": "broken_skitterbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -160,7 +160,7 @@
   {
     "result": "broken_tankbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",

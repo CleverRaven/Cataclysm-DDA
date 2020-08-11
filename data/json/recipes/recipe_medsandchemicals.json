@@ -633,7 +633,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fertilizer_commercial",
     "id_suffix": "simple",
     "category": "CC_CHEM",
