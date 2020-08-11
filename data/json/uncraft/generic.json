@@ -35,7 +35,7 @@
   {
     "result": "sheet_metal",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "150 s",
@@ -45,7 +45,7 @@
   {
     "result": "sheet_metal_small",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "12 s",

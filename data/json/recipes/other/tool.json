@@ -204,7 +204,7 @@
   {
     "result": "shears",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -223,7 +223,7 @@
   {
     "result": "elec_shears",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -381,7 +381,7 @@
   {
     "result": "awl_steel",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -395,7 +395,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "sewing_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -478,7 +478,7 @@
   {
     "result": "jack",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -525,7 +525,7 @@
   {
     "result": "pickaxe",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -578,7 +578,7 @@
   {
     "result": "can_sealer",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -737,7 +737,7 @@
   {
     "result": "crowbar",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -752,7 +752,7 @@
   {
     "result": "halligan",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -767,7 +767,7 @@
   {
     "result": "claw_bar",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -782,7 +782,7 @@
   {
     "result": "iceaxe",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1194,7 +1194,7 @@
   {
     "result": "shovel_snow",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1225,7 +1225,7 @@
   {
     "result": "rake",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
