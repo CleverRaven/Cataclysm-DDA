@@ -1860,7 +1860,7 @@ bool game::handle_action()
                 if( player_character.is_mounted() ) {
                     auto *mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
+                        add_msg( m_info, _( "You can't go up stairs while you're riding." ) );
                         break;
                     }
                 }
