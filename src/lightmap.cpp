@@ -257,7 +257,7 @@ void map::build_sunlight_cache( int zlev )
     // These are N, E, S, W.
     // TODO: Replace these with a lookup inside the four_quadrants class.
     constexpr std::array<point, 5> cardinals = {
-            { point_zero, point_north, point_west, point_east, point_south }
+        { point_zero, point_north, point_west, point_east, point_south }
     };
     constexpr std::array<std::array<quadrant, 2>, 5> dir_quadrants = { {
             {{ quadrant::NE, quadrant::NW }},
