@@ -254,7 +254,6 @@ void map::build_sunlight_cache( int zlev )
     const auto &prev_floor_cache = prev_map_cache.floor_cache;
     const auto &outside_cache = map_cache.outside_cache;
     const float sight_penalty = get_weather().weather_id->sight_penalty;
-    // These are N, E, S, W.
     // TODO: Replace these with a lookup inside the four_quadrants class.
     constexpr std::array<point, 5> cardinals = {
         { point_zero, point_north, point_west, point_east, point_south }
