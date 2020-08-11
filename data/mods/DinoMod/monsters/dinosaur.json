@@ -860,6 +860,41 @@
     "categories": [ "DINOSAUR" ]
   },
   {
+    "type": "MONSTER",
+    "id": "mon_mosasaurus",
+    "name": { "str_sp": "Mosasaurus" },
+    "species": "DINOSAUR",
+    "default_faction": "mosasaurus",
+    "symbol": "D",
+    "color": "red_white",
+    "volume": "1000 L",
+    "weight": "13000 kg",
+    "bodytype": "fish",
+    "material": [ "flesh" ],
+    "aggression": 100,
+    "morale": 100,
+    "speed": 30,
+    "melee_skill": 10,
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "melee_cut": 16,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_bullet": 6,
+    "hp": 350,
+    "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zosasaurus",
+    "description": "A huge aquatic dinosaur about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",
+    "reproduction": { "baby_egg": "egg_mosasaurus", "baby_count": 3, "baby_timer": 24 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "DESTROYS", "WARM", "SWIMS", "AQUATIC" ],
+    "harvest": "dino_large_pred",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
+    "placate_triggers": [ "MEAT" ],
+    "categories": [ "DINOSAUR" ]
+  },
+  {
     "id": "mon_compsognathus_hatchling",
     "type": "MONSTER",
     "name": "greenish yellow hatchling",
@@ -1055,5 +1090,12 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus" }
+  },
+  {
+    "id": "mon_mosasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "red and white hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_mosasaurus" }
   }
 ]
