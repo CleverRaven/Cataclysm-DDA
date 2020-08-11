@@ -40,7 +40,8 @@
         [ "egg_dimorphodon", 1 ],
         [ "egg_pteranodon", 1 ],
         [ "egg_dilophosaurus", 1 ],
-        [ "egg_ceratosaurus", 1 ]
+        [ "egg_ceratosaurus", 1 ],
+        [ "egg_mosasaurus", 1 ]
       ]
     ]
   }
