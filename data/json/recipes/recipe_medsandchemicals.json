@@ -127,7 +127,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meth",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -141,7 +141,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "crack",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -155,7 +155,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "poppy_sleep",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -222,7 +222,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "poppy_pain",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -245,7 +245,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fungicide",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -269,7 +269,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "antifungal",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -292,7 +292,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "insecticide",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -313,7 +313,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "insecticide",
     "id_suffix": "nicotine",
     "category": "CC_CHEM",
@@ -338,7 +338,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "antiparasitic",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -366,7 +366,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "adrenaline_injector",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -394,7 +394,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heroin",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -411,7 +411,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "diazepam",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -425,7 +425,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "thorazine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -453,7 +453,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iodine",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -468,7 +468,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "prussian_blue",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -489,7 +489,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "aspirin",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -511,7 +511,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pur_tablets",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
@@ -531,7 +531,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bleach",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -685,7 +685,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "slime_scrap",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -699,7 +699,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soap",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -730,7 +730,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "poppysyrup",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -986,7 +986,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_black_powder",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -999,7 +999,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "category": "CC_AMMO",
@@ -1191,7 +1191,7 @@
   {
     "result": "lye",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
@@ -1207,7 +1207,7 @@
   {
     "result": "lye",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "by_electrolysis",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -1243,7 +1243,7 @@
   {
     "result": "ether",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",

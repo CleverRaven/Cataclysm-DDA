@@ -25,7 +25,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "neoprene",
     "id_suffix": "from_sheet",
     "category": "CC_OTHER",
@@ -195,7 +195,7 @@
   {
     "result": "fuse",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
@@ -210,7 +210,7 @@
   {
     "result": "fuse",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with gunpowder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -225,7 +225,7 @@
   {
     "result": "fuse",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "id_suffix": "with paper & gunpowder",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -252,7 +252,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "glass_tinted",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

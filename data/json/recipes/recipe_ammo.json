@@ -691,7 +691,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "napalm",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -805,7 +805,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_fungicidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -820,7 +820,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_insecticidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -835,7 +835,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",

@@ -336,7 +336,7 @@
   {
     "result": "protein_powder",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -352,7 +352,7 @@
   {
     "result": "protein_powder",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
