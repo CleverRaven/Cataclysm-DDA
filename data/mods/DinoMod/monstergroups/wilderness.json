@@ -225,7 +225,12 @@
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 72 },
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 672 },
-      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 2160 }
+      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 2160 },
+      { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 },
+      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 72 },
+      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 168 },
+      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 672 },
+      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 }
     ]
   },
   {
