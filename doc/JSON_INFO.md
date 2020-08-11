@@ -1185,6 +1185,7 @@ Crafting recipes are defined as a JSON object with the following fields:
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"activity_level": "LIGHT_EXERCISE", // Options are NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE, BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE. How energy intensive of an activity this craft is. E.g. making an anvil is much more exercise than cooking a fish.
 "proficiencies" : [ // The proficiencies related to this recipe
     {
       "proficiency": "prof_knapping", // The id of a proficiency

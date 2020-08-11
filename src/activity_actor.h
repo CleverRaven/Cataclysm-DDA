@@ -654,6 +654,8 @@ class craft_activity_actor : public activity_actor
         item_location craft_item;
         bool is_long;
 
+        float activity_override = NO_EXERCISE;
+
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -670,6 +672,8 @@ class craft_activity_actor : public activity_actor
         }
 
         std::string get_progress_message( const player_activity & ) const override;
+
+        float exertion_level() const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

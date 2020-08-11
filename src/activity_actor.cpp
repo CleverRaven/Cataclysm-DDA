@@ -1447,11 +1447,11 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
-
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1553,6 +1553,11 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
     return craft_item.get_item()->tname();
+}
+
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
 }
 
 void craft_activity_actor::serialize( JsonOut &jsout ) const

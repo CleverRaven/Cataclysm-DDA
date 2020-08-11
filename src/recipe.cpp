@@ -218,6 +218,19 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    // Mandatory: This recipe's exertion level
+    // TODO: Make this mandatory, no default or 'fake' exception
+    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    // For making scripting that needs to be broken up over multiple PRs easier
+    if( exert == "fake" ) {
+        exert = "MODERATE_EXERCISE";
+    }
+    const auto it = activity_levels.find( exert );
+    if( it == activity_levels.end() ) {
+        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+    }
+    exertion = it->second;
+
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
         assign( jo, "never_learn", never_learn );
@@ -638,6 +651,11 @@ float recipe::proficiency_maluses( const Character &guy ) const
         }
     }
     return malus;
+}
+
+float recipe::exertion_level() const
+{
+    return exertion;
 }
 
 // Format a std::pair<skill_id, int> for the crafting menu.
