@@ -103,5 +103,58 @@
     "spell_class": "NONE",
     "message": "Your veins feel like they are on fire!\nYou start regenerating mana!",
     "extra_effects": [ { "id": "potion_recover_mana" } ]
+  },
+  {
+    "id": "lupercalia",
+    "type": "SPELL",
+    "name": "Lupercalian Release",
+    "//": "Used for wolfshead cufflinks not castable",
+    "description": "This spell transforms you into a werewolf. There may be some cons to this.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "max_level": 1,
+    "min_damage": 10,
+    "max_damage": 10,
+    "damage_increment": 0,
+    "damage_type": "bio",
+    "difficulty": 0,
+    "spell_class": "NONE",
+    "effect": "target_attack",
+    "base_casting_time": 300,
+    "base_energy_cost": 2,
+    "min_duration": 43200,
+    "max_duration": 43200,
+    "extra_effects": [
+      { "id": "werewolf_healing" },
+      { "id": "pain_split" },
+      { "id": "bless" },
+      { "id": "bio_boost" },
+      { "id": "dark_sight" }
+    ],
+    "mutations": [
+      "LUPINE_FUR",
+      "CLAWS",
+      "ADRENALINE",
+      "PADDED_FEET",
+      "TAIL_FLUFFY",
+      "PRED4",
+      "LUPINE_EARS",
+      "MUZZLE",
+      "PAWS",
+      "SHOUT3",
+      "GOODCARDIO",
+      "ANIMALDISCORD2",
+      "MUTE",
+      "LARGE_OK"
+    ]
+  },
+  {
+    "id": "werewolf_healing",
+    "type": "SPELL",
+    "name": { "str": "Werewolf Healing" },
+    "description": "With a soul chilling howl, wounds knit closed.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
   }
 ]
