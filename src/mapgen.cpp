@@ -591,7 +591,6 @@ mapgen_function_json_base::mapgen_function_json_base(
     const json_source_location &jsrcloc, const std::string &context )
     : jsrcloc( jsrcloc )
     , context_( context )
-    , do_format( false )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , objects( m_offset, mapgensize )
@@ -1538,6 +1537,11 @@ class jmapgen_terrain : public jmapgen_piece
         jmapgen_terrain( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_terrain( jsi.get_string( "ter" ) ) {}
         explicit jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
+
+        bool is_nop() const override {
+            return id.id().is_null();
+        }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.ter_set( point( x.get(), y.get() ), id );
@@ -2200,12 +2204,6 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     if( !jo.has_object( member_name ) ) {
         return;
     }
-    /* This is kind of a hack. Loading furniture/terrain from `jo` is already done in
-     * mapgen_palette::load_temp, continuing here would load it again and cause trouble.
-     */
-    if( member_name == "terrain" || member_name == "furniture" ) {
-        return;
-    }
     for( const JsonMember member : jo.get_object( member_name ) ) {
         const map_key key( member );
         auto &vect = format_placings[ key ];
@@ -2216,29 +2214,9 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
 
 static std::map<std::string, mapgen_palette> palettes;
 
-static bool check_furn( const furn_id &id, const std::string &context )
-{
-    const furn_t &furn = id.obj();
-    if( furn.has_flag( "PLANT" ) ) {
-        debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
-                  "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
-                  context, furn.id.str() );
-        // Only report once per mapgen object, otherwise the reports are
-        // very repetitive
-        return true;
-    }
-    return false;
-}
-
 void mapgen_palette::check()
 {
     std::string context = "palette " + id;
-    for( const std::pair<const map_key, furn_id> &p : format_furniture ) {
-        if( check_furn( p.second, context ) ) {
-            return;
-        }
-    }
-
     for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
          format_placings ) {
         for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {
@@ -2296,11 +2274,8 @@ void mapgen_palette::add( const mapgen_palette &rh )
     for( const auto &placing : rh.format_placings ) {
         format_placings[ placing.first ] = placing.second;
     }
-    for( const auto &placing : rh.format_terrain ) {
-        format_terrain[ placing.first ] = placing.second;
-    }
-    for( const auto &placing : rh.format_furniture ) {
-        format_furniture[ placing.first ] = placing.second;
+    for( const auto &placing : rh.keys_with_terrain ) {
+        keys_with_terrain.insert( placing );
     }
 }
 
@@ -2309,8 +2284,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 {
     mapgen_palette new_pal;
     auto &format_placings = new_pal.format_placings;
-    auto &format_terrain = new_pal.format_terrain;
-    auto &format_furniture = new_pal.format_furniture;
+    auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = jo.get_string( "id" );
     }
@@ -2327,39 +2301,17 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     }
 
     // mandatory: every character in rows must have matching entry, unless fill_ter is set
-    // "terrain": { "a": "t_grass", "b": "t_lava" }
+    // "terrain": { "a": "t_grass", "b": "t_lava" }.  To help enforce this we
+    // keep track of everything in the "terrain" object
     if( jo.has_member( "terrain" ) ) {
         for( const JsonMember member : jo.get_object( "terrain" ) ) {
-            const map_key key( member );
-            if( member.test_string() ) {
-                format_terrain[key] = ter_id( member.get_string() );
-            } else {
-                auto &vect = format_placings[ key ];
-                ::load_place_mapings<jmapgen_terrain>(
-                    member, vect, "terrain " + member.name() + " in palette " + new_pal.id );
-                if( !vect.empty() ) {
-                    // Dummy entry to signal that this terrain is actually defined, because
-                    // the code below checks that each square on the map has a valid terrain
-                    // defined somehow.
-                    format_terrain[key] = t_null;
-                }
-            }
+            keys_with_terrain.insert( map_key( member ) );
         }
     }
 
-    if( jo.has_object( "furniture" ) ) {
-        for( const JsonMember member : jo.get_object( "furniture" ) ) {
-            const map_key key( member );
-            if( member.test_string() ) {
-                format_furniture[key] = furn_id( member.get_string() );
-            } else {
-                auto &vect = format_placings[ key ];
-                ::load_place_mapings<jmapgen_furniture>(
-                    member, vect, "furniture " + member.name() + " in palette " + new_pal.id );
-            }
-        }
-    }
     std::string c = "palette " + new_pal.id;
+    new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
+    new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
     new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings, c );
     new_pal.load_place_mapings<jmapgen_npc>( jo, "npcs", format_placings, c );
     new_pal.load_place_mapings<jmapgen_sign>( jo, "signs", format_placings, c );
@@ -2387,6 +2339,15 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
     new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings, c );
+
+    for( mapgen_palette::placing_map::value_type &p : format_placings ) {
+        p.second.erase(
+            std::remove_if(
+                p.second.begin(), p.second.end(),
+        []( const shared_ptr_fast<const jmapgen_piece> &placing ) {
+            return placing->is_nop();
+        } ), p.second.end() );
+    }
     return new_pal;
 }
 
@@ -2486,15 +2447,13 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     JsonArray sparray;
     JsonObject pjo;
 
-    format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
-        auto &format_terrain = palette.format_terrain;
-        auto &format_furniture = palette.format_furniture;
+        auto &keys_with_terrain = palette.keys_with_terrain;
         auto &format_placings = palette.format_placings;
 
-        if( format_terrain.empty() ) {
+        if( palette.keys_with_terrain.empty() ) {
             return false;
         }
 
@@ -2524,12 +2483,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
                 const map_key key = row_keys[i];
-                const auto iter_ter = format_terrain.find( key );
-                const auto iter_furn = format_furniture.find( key );
+                const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
-                const bool has_terrain = iter_ter != format_terrain.end();
-                const bool has_furn = iter_furn != format_furniture.end();
+                const bool has_terrain = iter_ter != keys_with_terrain.end();
                 const bool has_placing = fpi != format_placings.end();
 
                 if( !has_terrain && !fallback_terrain_exists ) {
@@ -2538,8 +2495,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
                                        c + 1, i + 1, key.str ), c, i + 1 );
                 }
-                if( !has_terrain && !has_furn && !has_placing &&
-                    key.str != " " && key.str != "." ) {
+                if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
                     try {
                         parray.string_error(
                             string_format( "format: rows: row %d column %d: "
@@ -2548,12 +2504,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                     } catch( const JsonError &e ) {
                         debugmsg( "(json-error)\n%s", e.what() );
                     }
-                }
-                if( has_terrain ) {
-                    format[ calc_index( p ) ].ter = iter_ter->second;
-                }
-                if( has_furn ) {
-                    format[ calc_index( p ) ].furn = iter_furn->second;
                 }
                 if( has_placing ) {
                     jmapgen_place where( p );
@@ -2564,7 +2514,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
         }
         fallback_terrain_exists = true;
-        do_format = true;
     }
 
     // No fill_ter? No format? GTFO.
@@ -2622,14 +2571,22 @@ void mapgen_function_json_nested::check() const
     check_common();
 }
 
+static bool check_furn( const furn_id &id, const std::string &context )
+{
+    const furn_t &furn = id.obj();
+    if( furn.has_flag( "PLANT" ) ) {
+        debugmsg( "json mapgen for %s specifies furniture %s, which has flag "
+                  "PLANT.  Such furniture must be specified in a \"sealed_item\" special.",
+                  context, furn.id.str() );
+        // Only report once per mapgen object, otherwise the reports are
+        // very repetitive
+        return true;
+    }
+    return false;
+}
+
 void mapgen_function_json_base::check_common() const
 {
-    for( const ter_furn_id &id : format ) {
-        if( check_furn( id.furn, context_ ) ) {
-            return;
-        }
-    }
-
     for( const jmapgen_setmap &setmap : setmap_points ) {
         if( setmap.op != JMAPGEN_SETMAP_FURN &&
             setmap.op != JMAPGEN_SETMAP_LINE_FURN &&
@@ -2810,44 +2767,9 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
     return false;
 }
 
-void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, const point &offset ) const
-{
-    for( int y = 0; y < mapgensize.y; y++ ) {
-        for( int x = 0; x < mapgensize.x; x++ ) {
-            point p( x, y );
-            const size_t index = calc_index( p );
-            const ter_furn_id &tdata = format[index];
-            const point map_pos = p + offset;
-            if( tdata.furn != f_null ) {
-                if( tdata.ter != t_null ) {
-                    m.set( map_pos, tdata.ter, tdata.furn );
-                } else {
-                    m.furn_set( map_pos, tdata.furn );
-                }
-            } else if( tdata.ter != t_null ) {
-                m.ter_set( map_pos, tdata.ter );
-            }
-        }
-    }
-}
-
 bool mapgen_function_json_base::has_vehicle_collision( const mapgendata &dat,
         const point &offset ) const
 {
-    if( do_format ) {
-        for( int y = 0; y < mapgensize.y; y++ ) {
-            for( int x = 0; x < mapgensize.x; x++ ) {
-                const point p( x, y );
-                const ter_furn_id &tdata = format[calc_index( p )];
-                const point map_pos = p + offset;
-                if( ( tdata.furn != f_null || tdata.ter != t_null ) &&
-                    dat.m.veh_at( tripoint( map_pos, dat.zlevel() ) ).has_value() ) {
-                    return true;
-                }
-            }
-        }
-    }
-
     for( const jmapgen_setmap &elem : setmap_points ) {
         if( elem.has_vehicle_collision( dat, offset ) ) {
             return true;
@@ -2884,9 +2806,6 @@ void mapgen_function_json::generate( mapgendata &md )
             m->rotate( ( -static_cast<int>( md.terrain_type()->get_dir() ) + 4 ) % 4 );
         }
     }
-    if( do_format ) {
-        formatted_set_incredibly_simple( *m, point_zero );
-    }
     for( auto &elem : setmap_points ) {
         elem.apply( md, point_zero );
     }
@@ -2906,10 +2825,6 @@ void mapgen_function_json_nested::nest( const mapgendata &dat, const point &offs
 {
     // TODO: Make rotation work for submaps, then pass this value into elem & objects apply.
     //int chosen_rotation = rotation.get() % 4;
-
-    if( do_format ) {
-        formatted_set_incredibly_simple( dat.m, offset );
-    }
 
     for( const jmapgen_setmap &elem : setmap_points ) {
         elem.apply( dat, offset );
