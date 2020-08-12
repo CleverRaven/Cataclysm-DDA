@@ -670,7 +670,7 @@
     "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 78,
+    "calories": 272,
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
     "price_postapoc": 50,
