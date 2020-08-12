@@ -46,13 +46,7 @@
     "coverage": 100,
     "roof": "t_foamcrete_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "DESTROY_ITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
-    "bash": {
-      "str_min": 15,
-      "str_max": 40,
-      "sound": "crash!",
-      "sound_fail": "thump!",
-      "ter_set": "t_null"
-      }
+    "bash": { "str_min": 15, "str_max": 40, "sound": "crash!", "sound_fail": "thump!", "ter_set": "t_null" }
   },
   {
     "type": "terrain",
@@ -80,7 +74,7 @@
     }
   },
   {
-  "type": "terrain",
+    "type": "terrain",
     "id": "t_foamcrete_floor",
     "name": "foamcrete floor",
     "description": "A relatively flat slab of unreinforced foamcrete.",
