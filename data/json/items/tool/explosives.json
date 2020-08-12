@@ -1396,7 +1396,6 @@
       "shrapnel": 12600
     },
     "use_action": {
-      "need_wielding": true,
       "target": "tool_anfo_charge_act",
       "msg": "You light the fuse on the ANFO charge.  Run survivor, run!",
       "target_charges": 100,
@@ -1405,7 +1404,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge_act",
@@ -1620,7 +1619,6 @@
     "explode_in_fire": true,
     "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
     "use_action": {
-      "need_wielding": true,
       "target": "tool_improvised_barrel_bomb_act",
       "msg": "You light the fuse on the barrel bomb.  Clear the area!",
       "need_fire": 1,
@@ -1629,7 +1627,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1679,7 +1677,6 @@
     "explode_in_fire": true,
     "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
     "use_action": {
-      "need_wielding": true,
       "target": "tool_bootleg_barrel_bomb_act",
       "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
       "target_charges": 100,
@@ -1687,7 +1684,7 @@
       "menu_text": "Activate fuze",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_bootleg_barrel_bomb_act",
