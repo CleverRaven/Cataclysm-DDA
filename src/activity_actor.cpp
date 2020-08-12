@@ -1154,7 +1154,11 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_location ) {
-            player_character.consume( consume_location, /*force=*/true );
+            trinary result = player_character.consume( consume_location, /*force=*/true );
+            // Parent pockets need to be notified so they can be unsealed as well.
+            if( result != trinary::NONE ) {
+                game::handle_contents_changed( consume_location );
+            }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {

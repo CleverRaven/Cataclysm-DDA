@@ -1993,9 +1993,7 @@ void game::handle_key_blocking_activity()
     }
 }
 
-// call on_contents_changed() for the location's parent and all the way up the chain
-// used in game::inventory_item_menu()
-static void handle_contents_changed( const item_location &acted_item )
+void game::handle_contents_changed( const item_location &acted_item )
 {
     if( acted_item.where() != item_location::type::container ) {
         return;
@@ -2289,7 +2287,6 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'E':
                     avatar_action::eat( u, locThisItem );
-                    handle_contents_changed( locThisItem );
                     break;
                 case 'W':
                     u.wear( oThisItem );

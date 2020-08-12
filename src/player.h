@@ -319,11 +319,15 @@ class player : public Character
          */
         void siphon( vehicle &veh, const itype_id &desired_liquid );
 
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc, bool force = false );
+        /** Used for eating object at a location. Removes item if all of it was consumed.
+        *   @returns trinary enum NONE, SOME or ALL amount consumed.
+        */
+        trinary consume( item_location loc, bool force = false );
+
         /** Used for eating a particular item that doesn't need to be in inventory.
-         *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
+         *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
+         */
+        trinary consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
