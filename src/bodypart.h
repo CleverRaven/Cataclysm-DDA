@@ -114,9 +114,11 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
-        // "Parent" of this part - main parts are their own "parents"
-        // TODO: Connect head and limbs to torso
+        // "Parent" of this part for damage purposes - main parts are their own "parents"
         bodypart_str_id main_part;
+        // "Parent" of this part for connectedness - should be next part towards head.
+        // Head connects to itself.
+        bodypart_str_id connected_to;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here

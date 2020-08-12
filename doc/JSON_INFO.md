@@ -508,6 +508,7 @@ For information about tools with option to export ASCII art in format ready to b
 | heading_multiple  | (_mandatory_) Plural form of heading.
 | hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
 | opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.

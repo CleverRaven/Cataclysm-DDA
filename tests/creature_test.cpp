@@ -4,9 +4,11 @@
 #include <map>
 #include <utility>
 
+#include "character.h"
 #include "creature.h"
 #include "monster.h"
 #include "mtype.h"
+#include "stringmaker.h"
 #include "test_statistics.h"
 #include "bodypart.h"
 
@@ -90,4 +92,32 @@ TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
                                      expected_weights_base[2] );
     calculate_bodypart_distribution( creature_size::medium, creature_size::small, 100,
                                      expected_weights_max[2] );
+}
+
+TEST_CASE( "body_part_sorting_all", "[bodypart]" )
+{
+    std::vector<bodypart_id> expected = {
+        bodypart_id( "head" ), bodypart_id( "eyes" ), bodypart_id( "mouth" ),
+        bodypart_id( "torso" ),
+        bodypart_id( "arm_l" ), bodypart_id( "hand_l" ),
+        bodypart_id( "arm_r" ), bodypart_id( "hand_r" ),
+        bodypart_id( "leg_l" ), bodypart_id( "foot_l" ),
+        bodypart_id( "leg_r" ), bodypart_id( "foot_r" )
+    };
+    std::vector<bodypart_id> observed =
+        get_player_character().get_all_body_parts( get_body_part_flags::sorted );
+    CHECK( observed == expected );
+}
+
+TEST_CASE( "body_part_sorting_main", "[bodypart]" )
+{
+    std::vector<bodypart_id> expected = {
+        bodypart_id( "head" ), bodypart_id( "torso" ),
+        bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+        bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
+    };
+    std::vector<bodypart_id> observed =
+        get_player_character().get_all_body_parts(
+            get_body_part_flags::sorted | get_body_part_flags::only_main );
+    CHECK( observed == expected );
 }

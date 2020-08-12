@@ -4941,7 +4941,7 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
@@ -7279,7 +7279,7 @@ std::string Character::extended_description() const
 
     ss += "\n--\n";
 
-    const std::vector<bodypart_id> &bps = get_all_body_parts( true );
+    const std::vector<bodypart_id> &bps = get_all_body_parts( get_body_part_flags::only_main );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
     int longest = std::accumulate( bps.begin(), bps.end(), 0,
@@ -9420,7 +9420,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
@@ -9435,7 +9435,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );

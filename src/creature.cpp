@@ -1820,14 +1820,134 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+static void sort_body_parts( std::vector<bodypart_id> &bps )
 {
+    // We want to dynamically sort the parts based on their connections as
+    // defined in json.
+    // The goal is to performa a pre-order depth-first traversal starting
+    // with the root part (the head) and prioritising children with fewest
+    // descendants.
+
+    // First build a map with the reverse connections
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
+    bodypart_id root_part;
+    for( const bodypart_id &bp : bps ) {
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            root_part = bp;
+        } else {
+            parts_connected_to[conn].insert( bp );
+        }
+    }
+
+    if( root_part == bodypart_id() ) {
+        debugmsg( "No root part in body" );
+        return;
+    }
+
+    // Topo-sort the parts from the extremities towards the head
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> unaccounted_parts =
+                parts_connected_to;
+    cata::flat_set<bodypart_id> parts_with_no_connections;
+
+    for( const bodypart_id &bp : bps ) {
+        if( unaccounted_parts[bp].empty() ) {
+            parts_with_no_connections.insert( bp );
+        }
+    }
+
+    std::vector<bodypart_id> topo_sorted_parts;
+    while( !parts_with_no_connections.empty() ) {
+        auto last = parts_with_no_connections.end();
+        --last;
+
+        bodypart_id bp = *last;
+        parts_with_no_connections.erase( last );
+        unaccounted_parts.erase( bp );
+        topo_sorted_parts.push_back( bp );
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            break;
+        }
+        auto conn_it = unaccounted_parts.find( conn );
+        assert( conn_it != unaccounted_parts.end() );
+        conn_it->second.erase( bp );
+        if( conn_it->second.empty() ) {
+            parts_with_no_connections.insert( conn );
+        }
+    }
+
+    if( !unaccounted_parts.empty() || !parts_with_no_connections.empty() ) {
+        debugmsg( "Error in topo-sorting bodyparts: unaccounted_parts.size() == %d; "
+                  "parts_with_no_connections.size() == %d", unaccounted_parts.size(),
+                  parts_with_no_connections.size() );
+        return;
+    }
+
+    // Using the topo-sorted parts, we can count the descendants of each
+    // part
+    std::unordered_map<bodypart_id, int> num_descendants;
+    for( const bodypart_id &bp : topo_sorted_parts ) {
+        int this_num_descendants = 1;
+        for( const bodypart_id &child : parts_connected_to[bp] ) {
+            this_num_descendants += num_descendants[child];
+        }
+        num_descendants[bp] = this_num_descendants;
+    }
+
+    // Finally, we can do the depth-first traversal:
+    std::vector<bodypart_id> result;
+    std::stack<bodypart_id> pending;
+    pending.push( root_part );
+
+    const auto compare_children = [&]( const bodypart_id & l, const bodypart_id & r ) {
+        std::string l_name = l->name.translated();
+        std::string r_name = r->name.translated();
+        bodypart_id l_opp = l->opposite_part;
+        bodypart_id r_opp = r->opposite_part;
+        // Sorting first on the min of the name and opposite's name ensures
+        // that we put pairs together in the list.
+        std::string l_min_name = std::min( l_name, l_opp->name.translated(), localized_compare );
+        std::string r_min_name = std::min( r_name, r_opp->name.translated(), localized_compare );
+        // We delibarately reverse the comparison because the elements get
+        // reversed below when they are transferred from the vector to the
+        // stack.
+        return localized_compare(
+                   std::make_tuple( num_descendants[r], r_min_name, r_name ),
+                   std::make_tuple( num_descendants[l], l_min_name, l_name ) );
+    };
+
+    while( !pending.empty() ) {
+        bodypart_id next = pending.top();
+        pending.pop();
+        result.push_back( next );
+
+        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
+        std::sort( children.begin(), children.end(), compare_children );
+        for( const bodypart_id &child : children ) {
+            pending.push( child );
+        }
+    }
+
+    assert( bps.size() == result.size() );
+    bps = result;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags ) const
+{
+    bool only_main( flags & get_body_part_flags::only_main );
+
     std::vector<bodypart_id> all_bps;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
         all_bps.push_back( elem.first );
+    }
+
+    if( flags & get_body_part_flags::sorted ) {
+        sort_body_parts( all_bps );
     }
 
     return  all_bps;
