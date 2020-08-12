@@ -573,12 +573,12 @@
     "type": "furniture",
     "id": "f_solar_unit",
     "name": "mounted solar panel",
-    "description": "A mounted solar panel with an integrated medium storage battery.",
+    "description": "A mounted solar panel collected to building's electric grid.",
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 50, "max_energy": 7000 } ],
+    "active": [ "solar", { "power": 50 } ],
     "flags": [ "TRANSPARENT", "BASHABLE", "ELECTRIC_GRID" ],
     "deconstruct": {
       "items": [
@@ -598,13 +598,83 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "solar_cell", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 11, 18 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 7, 12 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": 3 },
+        { "item": "steel_chunk", "count": 3 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_battery",
+    "looks_like": "f_locker",
+    "name": "mounted battery",
+    "description": "A battery mount connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "active": [ "battery", { "max_stored": 7000 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "pipe", "count": 4 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "medium_storage_battery", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "small_storage_battery", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_charger",
+    "looks_like": "f_utility_shelf",
+    "name": "battery charger",
+    "description": "A battery charger connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": -1,
+    "active": [ "charger", { "power": 100 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "pipe", "count": 4 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "medium_storage_battery", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 5, 10 ] }
       ]
     }

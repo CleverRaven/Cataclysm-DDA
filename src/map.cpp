@@ -31,6 +31,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "drawing_primitives.h"
+#include "electric_grid.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -2174,19 +2175,15 @@ void map::process_ter_furn()
         return;
     }
 
-    // TODO: Un-slow
-    int smz_min = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int smz_max = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int smz = smz_min; smz <= smz_max; smz++ ) {
-        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-                const tripoint gridp( smx, smy, smz );
-                const submap *sm = get_submap_at_grid( gridp );
-                for( auto &pr : sm->active_furniture ) {
-                    const tripoint local = sm_to_ms_copy( gridp ) + pr.first;
-                    pr.second->update( calendar::turn - 1_seconds, calendar::turn, *this, local );
-                }
-            }
+    for( const tripoint &p : active_tiles ) {
+        // TODO: Cache submap to avoid re-getting
+        point offset;
+        const submap *sm = get_submap_at( p, offset );
+        auto iter = sm->active_furniture.find( offset );
+        if( iter != sm->active_furniture.end() ) {
+            iter->second->update( calendar::turn - 1_seconds, calendar::turn, *this, p );
+        } else {
+            debugmsg( "Cached active tile didn't exist at %d,%d,%d", p.x, p.y, p.z );
         }
     }
 }
@@ -6479,6 +6476,33 @@ shift_bitset_cache<MAPSIZE_X, SEEX>( std::bitset<MAPSIZE_X *MAPSIZE_X> &cache,
 template void
 shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const point &s );
 
+static inline void shift_tripoint_set( std::set<tripoint> &set, const point &offset,
+                                       const rectangle &boundaries )
+{
+    std::set<tripoint> old_set = std::move( set );
+    set.clear();
+    for( const tripoint &pt : old_set ) {
+        tripoint new_pt = pt + offset;
+        if( boundaries.contains_half_open( new_pt.xy() ) ) {
+            set.insert( new_pt );
+        }
+    }
+}
+
+template <typename T>
+static inline void shift_tripoint_map( std::map<tripoint, T> &map, const point &offset,
+                                       const rectangle &boundaries )
+{
+    std::map<tripoint, T> old_map = std::move( map );
+    map.clear();
+    for( const std::pair<tripoint, T> &pr : old_map ) {
+        tripoint new_pt = pr.first + offset;
+        if( boundaries.contains_half_open( new_pt.xy() ) ) {
+            map.emplace( new_pt, pr.second );
+        }
+    }
+}
+
 void map::shift( const point &sp )
 {
     // Special case of 0-shift; refresh the map
@@ -6512,6 +6536,12 @@ void map::shift( const point &sp )
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->zones_dirty = true;
         }
+    }
+
+    constexpr rectangle boundaries_2d = rectangle( point_zero, point( MAPSIZE_Y, MAPSIZE_X ) );
+    const point shift_offset_pt( -sp.x * SEEX, -sp.y * SEEY );
+    if( !active_tiles.empty() ) {
+        shift_tripoint_set( active_tiles, shift_offset_pt, boundaries_2d );
     }
 
     // Shift the map sx submaps to the right and sy submaps down.
@@ -6591,12 +6621,10 @@ void map::shift( const point &sp )
     g->setremoteveh( remoteveh );
 
     if( !support_cache_dirty.empty() ) {
-        std::set<tripoint> old_cache = std::move( support_cache_dirty );
-        support_cache_dirty.clear();
-        for( const auto &pt : old_cache ) {
-            support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
-        }
+        shift_tripoint_set( support_cache_dirty, shift_offset_pt, boundaries_2d );
     }
+    // TODO: Shift instead of rebuilding
+    parent_electric_grids.clear();
     if( zlevels ) {
         calc_max_populated_zlev();
     }
@@ -6766,6 +6794,13 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
                 }
                 add_vehicle_to_cache( veh.get() );
             }
+        }
+    }
+
+    if( get_option<bool>("ELECTRIC_GRID") && !tmpsub->active_furniture.empty() ) {
+        for( auto &pr : tmpsub->active_furniture ) {
+            tripoint p = sm_to_ms_copy( grid ) + pr.first;
+            active_tiles.emplace( p );
         }
     }
 
@@ -7136,11 +7171,12 @@ void map::actualize( const tripoint &grid )
             decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
     }
-
-    for( const auto &pr : tmpsub->active_furniture ) {
-        const tripoint pnt = sm_to_ms_copy( grid ) + pr.first;
-        pr.second->update( tmpsub->last_touched, calendar::turn, *this, pnt );
-    }
+    /*
+        for( const auto &pr : tmpsub->active_furniture ) {
+            const tripoint pnt = sm_to_ms_copy( grid ) + pr.first;
+            pr.second->update( tmpsub->last_touched, calendar::turn, *this, pnt );
+        }
+    */
 
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;
@@ -8505,4 +8541,38 @@ void map::calc_max_populated_zlev()
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         get_cache( z ).max_populated_zlev = max_z;
     }
+}
+
+shared_ptr_fast<electric_grid> map::electric_grid_at( const tripoint &p )
+{
+    const tripoint coord = ms_to_omt_copy( getabs( p ) );
+    shared_ptr_fast<electric_grid> grid = parent_electric_grids[p];
+    if( grid != nullptr ) {
+        return grid;
+    }
+
+    std::set<tripoint> positions = overmap_buffer.electric_grid_at( coord );
+    std::set<submap *> submaps;
+    for( const tripoint &omt_pos : positions ) {
+        for( int x = 0; x <= 1; x++ ) {
+            for( int y = 0; y <= 1; y++ ) {
+                tripoint sm_pos = omt_to_sm_copy( omt_pos ) + point( x, y );
+
+                submap *sm = MAPBUFFER.lookup_submap( sm_pos );
+                if( sm != nullptr ) {
+                    submaps.insert( sm );
+                } else {
+                    debugmsg( "sm at (%d,%d,%d) was null", sm_pos.x, sm_pos.y, sm_pos.z );
+                }
+            }
+        }
+    }
+    grid = make_shared_fast<electric_grid>( submaps );
+    parent_electric_grids[p] = grid;
+    return grid;
+}
+
+void map::on_saved()
+{
+    parent_electric_grids.clear();
 }

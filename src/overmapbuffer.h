@@ -529,6 +529,14 @@ class overmapbuffer
          */
         std::vector<overmap *> get_overmaps_near( const point &p, int radius );
         std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
+
+    public:
+        /**
+         * Gets the electric grid to which a point belongs by walking along the connected tiles.
+         * Will always return a non-empty set.
+         * @param p Overmap coordinates of the point in the grid
+         */
+        std::set<tripoint> electric_grid_at( const tripoint &p );
 };
 
 extern overmapbuffer overmap_buffer;

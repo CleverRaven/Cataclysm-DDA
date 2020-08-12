@@ -157,6 +157,8 @@ void mapbuffer::save( bool delete_after_save )
     for( auto &elem : submaps_to_delete ) {
         remove_submap( elem );
     }
+
+    g->m.on_saved();
 }
 
 void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,

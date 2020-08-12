@@ -1017,16 +1017,19 @@ void overmap::unserialize( std::istream &fin )
             jsin.read( connections_out );
         } else if( name == "electric_grid_connections" ) {
             jsin.start_array();
-            tripoint origin;
-            jsin.read( origin );
-            auto &conn = electric_grid_connections[origin];
             while( !jsin.end_array() ) {
-                tripoint offset;
-                jsin.read( offset );
-                for( size_t i = 0; i < conn.size(); i++ ) {
-                    if( offset == six_cardinal_directions[i] ) {
-                        conn.set( i, true );
-                        break;
+                jsin.start_array();
+                tripoint origin;
+                jsin.read( origin );
+                auto &conn = electric_grid_connections[origin];
+                while( !jsin.end_array() ) {
+                    tripoint offset;
+                    jsin.read( offset );
+                    for( size_t i = 0; i < conn.size(); i++ ) {
+                        if( offset == six_cardinal_directions[i] ) {
+                            conn.set( i, true );
+                            break;
+                        }
                     }
                 }
             }

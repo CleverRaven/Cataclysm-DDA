@@ -913,6 +913,11 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "rotate", rotatable, strict );
     assign( jo, "flags", flags, strict );
+
+    // Another hack
+    if( !is_special ) {
+        flags.insert( "ELECTRIC_GRID" );
+    }
 }
 
 void overmap_special::finalize()
@@ -4078,7 +4083,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
         }
     }
 
-    if( special.flags.count( "ELECTRIC_GRID" ) ) {
+    if( special.flags.count( "ELECTRIC_GRID" ) > 0 ) {
         std::set<tripoint> special_points;
         for( const auto &elem : special.terrains ) {
             const tripoint location = p + om_direction::rotate( elem.p, dir );

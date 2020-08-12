@@ -29,6 +29,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -89,6 +90,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+class electric_grid;
 
 class map_stack : public item_stack
 {
@@ -1764,6 +1766,12 @@ class map
 
         visibility_variables visibility_variables_cache;
 
+        /**
+         * Mapping of omt position to grid it belongs to.
+         */
+        std::map<tripoint, shared_ptr_fast<electric_grid>> parent_electric_grids;
+        std::set<tripoint> active_tiles;
+
     public:
         const level_cache &get_cache_ref( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
@@ -1809,6 +1817,14 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
+
+        /**
+         * Returns the grid at given local coord.
+         * Always returns non-null.
+         */
+        shared_ptr_fast<electric_grid> electric_grid_at( const tripoint &p );
+
+        void on_saved();
 };
 
 template<int SIZE, int MULTIPLIER>

@@ -1090,7 +1090,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1105,7 +1105,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1120,7 +1120,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1135,7 +1135,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1150,7 +1150,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -1165,7 +1165,7 @@
     "city_distance": [ 5, 10 ],
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 3 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3711,7 +3711,7 @@
     "city_distance": [ 0, 3 ],
     "city_sizes": [ 4, 16 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC" ]
+    "flags": [ "UNIQUE", "CLASSIC", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3749,7 +3749,7 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 4, 16 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC" ]
+    "flags": [ "UNIQUE", "CLASSIC", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -3787,7 +3787,7 @@
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 4, 16 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC" ]
+    "flags": [ "UNIQUE", "CLASSIC", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",

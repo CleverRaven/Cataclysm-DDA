@@ -1583,3 +1583,28 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id, const t
     // If we got this far, we've failed to make the placement.
     return false;
 }
+
+std::set<tripoint> overmapbuffer::electric_grid_at( const tripoint &p )
+{
+    std::set<tripoint> result;
+    std::queue<tripoint> open;
+    open.emplace( p );
+
+    while( !open.empty() ) {
+        const tripoint elem = open.front();
+        open.pop();
+        result.emplace( elem );
+        overmap_with_local_coords omc = get_om_global( elem );
+        const auto &connections_bitset = omc.om->electric_grid_connections[omc.local];
+        for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+            if( connections_bitset.test( i ) ) {
+                tripoint other = elem + six_cardinal_directions[i];
+                if( result.count( other ) == 0 ) {
+                    open.emplace( other );
+                }
+            }
+        }
+    }
+
+    return result;
+}
