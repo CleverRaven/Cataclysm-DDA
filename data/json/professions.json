@@ -1567,6 +1567,7 @@
     "name": "Backpacker",
     "description": "For the past few years you've been traveling the world, sightseeing and living off your parents' trust fund.  You came home to find the world in ruins, and the only thing between you and death is the open road and your backpack.",
     "points": 0,
+    "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
         "items": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
