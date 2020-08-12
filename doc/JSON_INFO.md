@@ -1902,7 +1902,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "m2c": 50,                    // The ratio of safe power to maximum power.
 "backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
                               // and smoke if the ratio of damaged HP to max HP is below this value.
-"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the
                               // ratio of damaged HP to max HP is below the backfire_threshold.
 "noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
                               // determine noise.
@@ -2700,7 +2700,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
