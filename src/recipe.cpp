@@ -360,7 +360,7 @@ bool recipe::check_weight_consistency() const
     for( const auto &byproduct_pair : byproducts ) {
         results_weight += byproduct_pair.first->weight * byproduct_pair.second;
     }
-    units::mass components_weight = units::mass();
+    units::mass components_weight = 0_milligram;
     for( const auto &component : simple_requirements().get_components() ) {
         units::mass lighter_alternative_weight = component[0].type->weight * component[0].count;
         for( const auto &alternative : component ) {
