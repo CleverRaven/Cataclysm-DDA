@@ -14,7 +14,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
-      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "copper", 2 ], [ "nail", 1 ], [ "wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 10 ] ],
       [ [ "cable", 5 ] ]
