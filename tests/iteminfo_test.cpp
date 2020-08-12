@@ -2230,7 +2230,7 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
            "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
            " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
            " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
-           " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+           " yield</color>: 2 electronic scraps, copper (2), scrap metal (1), and copper"
            " wire (5).\n" );
 
     CHECK( item_info_str( metal, disassemble ) ==
