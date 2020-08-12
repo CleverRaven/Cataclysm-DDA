@@ -374,11 +374,15 @@ bool recipe::check_weight_consistency() const
     if( components_weight == 0_milligram && results_weight > 0_milligram ) {
         DebugLog( D_WARNING, DC_ALL ) << "Recipe " << ident_.str() << " to craft " << result_.str() <<
                                       " has no component.";
+        // Some components weight are miscalculated when they use proportional.weight
+        // (example: meat_scrap is 0.1 of meat, which weighs 296g, but meat_scrap weighs 29.599g, and ten mutant_scrap = 295.99g, and fails the check)
+        // That's why I'm tolerating 10 milligram
+    } else if( results_weight > components_weight + 10_milligram ) {
+        debugmsg( "recipe %s (to craft %s) is inconsistent weight-wise (%dmg > %dmg)", ident_.str(),
+                  result_.str(), results_weight.value(), components_weight.value() );
+        return false;
     }
-    // Some components weight are miscalculated when they use proportional.weight
-    // (example: meat_scrap is 0.1 of meat, which weighs 296g, but meat_scrap weighs 29.599g, and ten mutant_scrap = 295.99g, and fails the check)
-    return ( ( components_weight == 0_milligram && results_weight > 0_milligram ) ||
-             results_weight <= components_weight + 10_milligram );
+    return true;
 }
 
 void recipe::finalize()
@@ -446,8 +450,8 @@ void recipe::finalize()
         }
     }
 
-    if( type_ == recipe_type::recipe && !obsolete && !check_weight_consistency() ) {
-        debugmsg( "recipe %s (to craft %s) is inconsistent weight-wise", ident_.str(), result_.str() );
+    if( type_ == recipe_type::recipe && !obsolete ) {
+        check_weight_consistency();
     }
 }
 
