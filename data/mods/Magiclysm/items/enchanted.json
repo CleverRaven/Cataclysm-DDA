@@ -100,11 +100,9 @@
     "price_postapoc": "120000",
     "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
     "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ] },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "144 h", "regenerate_ammo": true }, "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ] },
     "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
-    "initial_charges": 144,
-    "max_charges": 144,
-    "charges_per_use": 144,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
   }
 ]
