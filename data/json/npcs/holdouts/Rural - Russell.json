@@ -41,7 +41,7 @@
    {
    "type": "talk_topic",
    "id": "TALK_ANDERSON_INTRODUCTION",
-   "dynamic_line": "Name's Russel.  I was just sort of wandering around, hoping to maybe find some decent gear.  Decided to rest up, heard someone walking, and, well, here we are.",
+   "dynamic_line": "Name's Russell.  I was just sort of wandering around, hoping to maybe find some decent gear.  Decided to rest up, heard someone walking, and, well, here we are.",
    "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
    },
    {
