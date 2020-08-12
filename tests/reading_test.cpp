@@ -1,20 +1,17 @@
 #include "catch/catch.hpp"
 
+#include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
-#include "debug.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-class player;
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );

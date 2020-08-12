@@ -1,6 +1,11 @@
 #include "catch/catch.hpp"
-
 #include "effect.h"
+
+#include <string>
+#include <vector>
+
+#include "calendar.h"
+#include "type_id.h"
 
 // Test `effect` class
 

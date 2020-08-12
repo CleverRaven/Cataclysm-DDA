@@ -720,7 +720,8 @@ class item : public visitable<item>
          * @param amount Amount to fill item with, capped by remaining capacity
          * @returns amount of contained that was put into it
          */
-        int fill_with( const itype &contained, int amount = INFINITE_CHARGES );
+        int fill_with( const item &contained, int amount = INFINITE_CHARGES );
+
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -1155,7 +1156,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character *carrier );
+        void process_relic( Character *carrier, const tripoint &pos );
 
         void overwrite_relic( const relic &nrelic );
 
@@ -1364,6 +1365,7 @@ class item : public visitable<item>
         void on_damage( int qty, damage_type dt );
 
         bool use_relic( Character &guy, const tripoint &pos );
+        bool has_relic_recharge() const;
 
         /**
          * Name of the item type (not the item), with proper plural.

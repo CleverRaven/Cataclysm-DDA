@@ -874,7 +874,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with( *type, qty );
+                ret.fill_with( *this, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -6962,6 +6962,11 @@ bool item::is_relic() const
     return !!relic_data;
 }
 
+bool item::has_relic_recharge() const
+{
+    return is_relic() && relic_data->has_recharge();
+}
+
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
@@ -8096,7 +8101,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo->type, qty );
+        item contents( ammo->type );
+        fill_with( contents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8364,7 +8370,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : contents.all_items_top() ) {
+    for( item *contained : contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -8565,14 +8571,15 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const itype &contained, const int amount )
+int item::fill_with( const item &contained, const int amount )
 {
     if( amount <= 0 ) {
         return 0;
     }
 
-    item contained_item( &contained );
-    const bool count_by_charges = contained_item.count_by_charges();
+    item contained_item( contained );
+    const bool count_by_charges = contained.count_by_charges();
+    contained_item.charges = count_by_charges ? 1 : -1;
     item_location loc;
     item_pocket *pocket = nullptr;
 
@@ -8940,7 +8947,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() ) {
+            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9351,11 +9358,19 @@ bool item::use_relic( Character &guy, const tripoint &pos )
     return relic_data->activate( guy, pos );
 }
 
-void item::process_relic( Character *carrier )
+void item::process_relic( Character *carrier, const tripoint &pos )
 {
     if( !is_relic() ) {
         return;
     }
+
+    relic_data->try_recharge( *this, carrier, pos );
+
+    if( carrier == nullptr ) {
+        // return early; all of the rest of this function is character-specific
+        return;
+    }
+
     std::vector<enchantment> active_enchantments;
 
     for( const enchantment &ench : get_enchantments() ) {
@@ -9367,8 +9382,6 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
-
-    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
@@ -9790,6 +9803,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
+    process_relic( carrier, pos );
     contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
     return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );

@@ -788,8 +788,7 @@
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
     "power_draw": 10000,
     "revert_to": "wearable_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
-    "covers": [ "HEAD" ]
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" }
   },
   {
     "id": "survivor_light",
@@ -848,8 +847,7 @@
     "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
     "power_draw": 10000,
     "revert_to": "survivor_light",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
-    "covers": [ "HEAD" ]
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" }
   },
   {
     "id": "wearable_atomic_light",

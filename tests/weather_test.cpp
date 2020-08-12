@@ -1,14 +1,16 @@
 #include "catch/catch.hpp"
+#include "weather.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <memory>
+#include <cmath>
+#include <map>
 #include <vector>
 
 #include "calendar.h"
 #include "point.h"
-#include "weather.h"
+#include "type_id.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static double mean_abs_running_diff( std::vector<double> const &v )
 {

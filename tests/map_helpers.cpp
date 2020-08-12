@@ -9,14 +9,13 @@
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
+#include "location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "point.h"
 #include "type_id.h"
-
-class vehicle;
 
 // Remove all vehicles from the map
 void clear_vehicles()

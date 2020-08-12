@@ -9,6 +9,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
@@ -16,9 +17,9 @@
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
-#include "material.h"
 #include "monster.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"

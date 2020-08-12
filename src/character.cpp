@@ -7086,7 +7086,7 @@ bool Character::pour_into( item &container, item &liquid )
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
-    liquid.charges -= container.fill_with( *liquid.type, amount );
+    liquid.charges -= container.fill_with( liquid, amount );
     inv->unsort();
 
     if( liquid.charges > 0 ) {

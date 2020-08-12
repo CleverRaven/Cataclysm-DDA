@@ -1,42 +1,25 @@
 #include "catch/catch.hpp"
 
-#include <cstdio>
-#include <cstdlib>
-#include <sstream>
-#include <algorithm>
-#include <cmath>
-#include <map>
+#include <array>
 #include <memory>
 #include <set>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "avatar.h"
-#include "itype.h"
-#include "map.h"
-#include "map_helpers.h"
-#include "map_iterator.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
-#include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
+#include "character.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
-#include "line.h"
-#include "mapdata.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "mtype.h"
-#include "units.h"
-#include "type_id.h"
+#include "optional.h"
 #include "point.h"
+#include "type_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
-#include "player_helpers.h"
-#include "map_helpers.h"
+#include "vpart_range.h"
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
