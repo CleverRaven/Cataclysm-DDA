@@ -2219,7 +2219,7 @@
     "time": "6 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ], [ "manual_knives", 7 ], [ "recipe_melee", 8 ] ],
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
@@ -2736,7 +2736,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 14, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 61 ] ] ]
+    "components": [ [ [ "leather", 35 ], [ "rope_superior_short", 16, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 80 ] ] ]
   },
   {
     "type": "recipe",
