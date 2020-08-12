@@ -1130,5 +1130,50 @@
         "item_restriction": [ "uzimag" ]
       }
     ]
+  },
+  {
+    "id": "bt_apc9k",
+    "copy-from": "smg_base",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "B&T APC9 PRO K" },
+    "description": "The Brügger & Thomet APC9 PRO K is a closed bolt blowback submachine gun in 9x19mm Parabellum. It has a collapsible shoulder stock, and it can use both B&T magazines, as well as SIG P320 och Glock pistol magazines.",
+    "weight": "2400 g",
+    "volume": "1890 ml",
+    "longest_side": "525 mm",
+    "price": 500000,
+    "price_postapoc": 6000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "dispersion": 300,
+    "durability": 8,
+    "min_cycle_recoil": 450,
+    "blackpowder_tolerance": 32,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass_catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 3 ],
+      [ "underbarrel mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "default_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "btmp9mag_9x19mm_15", "btmp9mag_9x19mm_20", "btmp9mag_9x19mm_25", "btmp9mag_9x19mm_30" ]
+      }
+    ]
   }
 ]
