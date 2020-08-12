@@ -289,7 +289,8 @@
       { "item": "electrolaser_conversion", "prob": 1 },
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
-      { "item": "emp_gun", "prob": 1 }
+      { "item": "emp_gun", "prob": 1 },
+      { "item": "bt_apc9k", "prob": 1 }
     ]
   },
   {
@@ -413,7 +414,8 @@
       { "item": "20x66_exp", "prob": 2 },
       { "item": "20x66_frag", "prob": 2 },
       { "item": "20x66_flare", "prob": 4 },
-      { "item": "20x66_inc", "prob": 2 }
+      { "item": "20x66_inc", "prob": 2 },
+      { "item": "bt_apc9k", "prob": 1 }
     ]
   },
   {
