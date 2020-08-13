@@ -30,18 +30,17 @@
     "book_learn": [ [ "textbook_atomic_lab", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
-      [ [ "canister_empty", 20 ] ],
-      [ [ "grenade", 15 ], [ "40x46mm_m433", 3 ] ],
-      [ [ "plut_cell", 114 ] ],
-      [ [ "amplifier", 57 ] ],
-      [ [ "power_supply", 20 ] ],
-      [ [ "clockworks", 20 ] ],
-      [ [ "cable", 285 ] ]
+      [ [ "canister_empty", 1 ] ],
+      [ [ "grenade", 1 ], [ "40x46mm_m433", 2 ] ],
+      [ [ "plut_cell", 6 ] ],
+      [ [ "amplifier", 3 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "clockworks", 1 ] ],
+      [ [ "cable", 15 ] ]
     ]
   },
   {
     "result": "plut_cell",
-    "id_suffix": "hard",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -204,7 +203,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [ [ [ "afs_scrap_titanium", 3 ] ] ]
+    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
   },
   {
     "result": "afs_metal_rig",
@@ -315,12 +314,12 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
     "components": [
-      [ [ "amplifier", 16 ] ],
-      [ [ "power_supply", 8 ] ],
-      [ [ "cable", 769 ] ],
-      [ [ "e_scrap", 77 ] ],
-      [ [ "lens", 16 ] ],
-      [ [ "plastic_chunk", 47 ] ]
+      [ [ "amplifier", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "lens", 2 ] ],
+      [ [ "plastic_chunk", 6 ] ]
     ]
   },
   {
@@ -502,7 +501,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "afs_titanium_small", 450 ] ] ]
+    "components": [ [ [ "afs_titanium_small", 400 ] ] ]
   },
   {
     "result": "afs_material_1",

@@ -53,14 +53,14 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 59 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "afs_energy_storage_1", 6 ] ],
-      [ [ "afs_energy_storage_4", 3 ] ],
-      [ [ "afs_material_2", 18 ] ],
-      [ [ "afs_circuitry_2", 6 ] ],
-      [ [ "burnt_out_bionic", 2 ] ]
+      [ [ "afs_energy_storage_1", 4 ] ],
+      [ [ "afs_energy_storage_4", 2 ] ],
+      [ [ "afs_material_2", 12 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
   {
@@ -95,13 +95,13 @@
     "time": "4 h",
     "reversible": true,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_mil_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 40 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "afs_energy_storage_4", 2 ] ],
-      [ [ "afs_circuitry_2", 2 ] ],
-      [ [ "afs_material_2", 12 ] ],
-      [ [ "burnt_out_bionic", 2 ] ]
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
   {
@@ -116,14 +116,14 @@
     "reversible": true,
     "decomp_learn": 7,
     "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_augs", 5 ] ],
-    "using": [ [ "soldering_standard", 131 ] ],
+    "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "afs_biomaterial_4", 3 ] ],
-      [ [ "afs_neural_io_1", 5 ] ],
-      [ [ "afs_circuitry_2", 3 ] ],
-      [ [ "afs_material_2", 14 ] ],
-      [ [ "burnt_out_bionic", 3 ] ]
+      [ [ "afs_biomaterial_4", 1 ] ],
+      [ [ "afs_neural_io_1", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
   {
@@ -180,15 +180,15 @@
     "time": "6 h",
     "reversible": true,
     "decomp_learn": 8,
-    "using": [ [ "soldering_standard", 64 ] ],
+    "using": [ [ "soldering_standard", 60 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "afs_circuitry_3", 3 ] ],
-      [ [ "afs_cloth_4", 5 ] ],
-      [ [ "afs_neural_io_3", 2 ] ],
-      [ [ "afs_material_3", 7 ] ],
-      [ [ "afs_material_2", 7 ] ],
-      [ [ "burnt_out_bionic", 2 ] ]
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_cloth_4", 4 ] ],
+      [ [ "afs_neural_io_3", 1 ] ],
+      [ [ "afs_material_3", 6 ] ],
+      [ [ "afs_material_2", 6 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
   {
@@ -318,14 +318,14 @@
     "reversible": true,
     "decomp_learn": 9,
     "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
     "components": [
-      [ [ "afs_material_3", 5 ] ],
-      [ [ "afs_magnet_3", 2 ] ],
-      [ [ "afs_neural_io_4", 2 ] ],
-      [ [ "afs_circuitry_1", 2 ] ],
-      [ [ "burnt_out_bionic", 2 ] ]
+      [ [ "afs_material_3", 4 ] ],
+      [ [ "afs_magnet_3", 1 ] ],
+      [ [ "afs_neural_io_4", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
   },
   {

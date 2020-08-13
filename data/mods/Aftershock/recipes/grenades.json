@@ -9,7 +9,7 @@
     "autolearn": true,
     "time": "5 m",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "afs_energy_storage_2", 3 ] ], [ [ "afs_material_1", 5 ] ] ]
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "afs_material_1", 2 ] ] ]
   }
 ]
