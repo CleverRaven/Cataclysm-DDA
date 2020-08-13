@@ -88,6 +88,8 @@ class item_contents
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
