@@ -792,8 +792,7 @@ static void smash()
             }
         }
         const int min_smashskill = smashskill * best_part_to_smash.first->smash_efficiency;
-        const int max_smashskill = smashskill * std::floor( 1.0f +
-                                   best_part_to_smash.first->smash_efficiency );
+        const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
         smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
