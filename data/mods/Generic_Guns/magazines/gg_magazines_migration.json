@@ -58,7 +58,11 @@
       "m1911_10mag",
       "p220_10_mag",
       "xd_10_mag",
-      "witness_mag_10"
+      "witness_mag_10",
+      "btmp9mag_9x19mm_15",
+      "btmp9mag_9x19mm_20",
+      "btmp9mag_9x19mm_25",
+      "btmp9mag_9x19mm_30"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
