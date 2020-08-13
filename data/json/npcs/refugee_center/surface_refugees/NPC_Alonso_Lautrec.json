@@ -220,7 +220,7 @@
       "yes": "Yeah, I fucked up and got drunk at a kiddy party I crashed, broke into a van with the party clown I was bangin' (hey don't judge me, it took me a long time to make that happen, clowns are very givin' lovers) and I lost my pants, includin' all my money and all my triple magnum condoms I stole off a dead priest at a bar.  I'd be mad, but at least I'm safe, I made it here.  But I got no game here y'know?  I look like the clown when I should be knee deep in hotness here.  Look around, it's straight hotties!"
     },
     "responses": [
-      { "text": "Can I help you out?", "topic": "TALK_NONE" },
+      { "text": "Can I help you out?", "topic": "MISSION_REFUGEE_Alonso_condoms" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
