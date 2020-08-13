@@ -580,6 +580,7 @@ For information about tools with option to export ASCII art in format ready to b
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 | bash_message      | (_optional_) The message displayed when using that part to smash something.
+| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {

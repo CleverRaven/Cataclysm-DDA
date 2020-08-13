@@ -213,6 +213,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
     optional( jo, was_loaded, "bash_message", bash_message );
+    optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );

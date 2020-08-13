@@ -51,6 +51,7 @@
     "base_hp": 60,
     "drench_capacity": 7,
     "bash_message": "You smash the %s with a firm headbutt",
+    "smash_efficiency": 0.25,
     "bionic_slots": 18
   },
   {
@@ -74,6 +75,7 @@
     "drench_capacity": 1,
     "flags": [ "IGNORE_TEMP" ],
     "bash_message": "You use your flippin' face to smash the %s.  EXTREME.",
+    "smash_efficiency": 0.25,
     "bionic_slots": 4
   },
   {
@@ -98,6 +100,7 @@
     "base_hp": 60,
     "drench_capacity": 1,
     "bash_message": "You use your flippin' face to smash the %s.  EXTREME.",
+    "smash_efficiency": 0.25,
     "bionic_slots": 4
   },
   {
