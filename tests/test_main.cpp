@@ -256,6 +256,11 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+#ifdef _WIN32
+    // A Win32 call intended to stop failed assertions from opening a dialog
+    // box, which is problematic on Travis
+    _set_error_mode( _OUT_TO_STDERR );
+#endif
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
