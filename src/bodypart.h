@@ -97,7 +97,7 @@ struct body_part_type {
         translation accusative_multiple;
         translation name_as_heading;
         translation name_as_heading_multiple;
-        translation bash_message;
+        translation smash_message;
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"

@@ -784,8 +784,8 @@ static void smash()
             } else if( here.is_bashable_ter( smashp ) ) {
                 name_to_bash = here.tername( smashp );
             }
-            if( !best_part_to_smash.first->bash_message.empty() ) {
-                add_msg( best_part_to_smash.first->bash_message, name_to_bash );
+            if( !best_part_to_smash.first->smash_message.empty() ) {
+                add_msg( best_part_to_smash.first->smash_message, name_to_bash );
             } else {
                 add_msg( _( "You use your %s to smash the %s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );

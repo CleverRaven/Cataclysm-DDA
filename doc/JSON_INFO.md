@@ -579,7 +579,7 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
-| bash_message      | (_optional_) The message displayed when using that part to smash something.
+| smash_message      | (_optional_) The message displayed when using that part to smash something.
 | smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
@@ -606,7 +606,7 @@ For information about tools with option to export ASCII art in format ready to b
     "base_hp": 60,
     "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
-    "bash_message": "You smash the %s with a powerful shoulder-check.",
+    "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80
   }
 ```
