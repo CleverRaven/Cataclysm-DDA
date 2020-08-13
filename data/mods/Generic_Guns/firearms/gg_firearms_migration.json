@@ -127,7 +127,8 @@
       "p220_10",
       "xd_10",
       "m11",
-      "m18"
+      "m18",
+      "p226_9mm"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
