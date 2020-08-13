@@ -55,11 +55,11 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bat", 1 ] ],
-      [ [ "nomex", 5 ] ],
+      [ [ "rag", 2 ] ],
+      [ [ "bat", 2 ] ],
+      [ [ "nomex", 6 ] ],
       [
-        [ "lamp_oil", 50 ],
+        [ "lamp_oil", 51 ],
         [ "motor_oil", 50 ],
         [ "chem_ethanol", 100 ],
         [ "denat_alcohol", 100 ],
