@@ -126,7 +126,8 @@
       "witness_10",
       "p220_10",
       "xd_10",
-      "m11"
+      "m11",
+      "m18"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
