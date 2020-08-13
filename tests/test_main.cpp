@@ -258,6 +258,8 @@ int main( int argc, const char *argv[] )
 {
     Catch::Session session;
 
+    SetErrorMode (SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX);
+    
     std::vector<const char *> arg_vec( argv, argv + argc );
 
     std::vector<mod_id> mods = extract_mod_selection( arg_vec );
