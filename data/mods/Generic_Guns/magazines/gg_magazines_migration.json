@@ -62,7 +62,8 @@
       "btmp9mag_9x19mm_15",
       "btmp9mag_9x19mm_20",
       "btmp9mag_9x19mm_25",
-      "btmp9mag_9x19mm_30"
+      "btmp9mag_9x19mm_30",
+      "p228mag_13rd_9x19mm"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
