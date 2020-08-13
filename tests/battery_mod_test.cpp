@@ -107,7 +107,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
             }
 
             THEN( "medium battery is now the default" ) {
-                // FIXME: Required to fix #40948
                 itype_id mag_default = flashlight.magazine_default( false );
                 CHECK_FALSE( mag_default.is_null() );
                 CHECK( mag_default.str() == "medium_battery_cell" );
@@ -118,31 +117,29 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK_FALSE( flashlight.magazine_compatible().count( itype_id( "light_battery_cell" ) ) );
             }
 
-            AND_WHEN( "a medium battery is installed" ) {
+            WHEN( "medium battery is installed" ) {
                 item med_battery( "medium_battery_cell" );
+                ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
                 THEN( "battery installation succeeds" ) {
-                    ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
-                    // FIXME: Required to fix #40948
                     CHECK( result.success() );
                 }
 
                 THEN( "the flashlight has a battery" ) {
-                    flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
-                    // FIXME: Required to fix #40948
                     CHECK( flashlight.magazine_current() );
                 }
+            }
 
-                AND_WHEN( "the battery is charged" ) {
-                    const int bat_charges = med_battery.ammo_capacity( ammotype( "battery" ) );
-                    med_battery.ammo_set( med_battery.ammo_default(), bat_charges );
-                    REQUIRE( med_battery.ammo_remaining() == bat_charges );
-                    flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            WHEN( "charged medium battery is installed" ) {
+                item med_battery( "medium_battery_cell" );
 
-                    THEN( "the flashlight has charges" ) {
-                        // FIXME: Required to fix #40948
-                        CHECK( flashlight.ammo_remaining() == bat_charges );
-                    }
+                const int bat_charges = med_battery.ammo_capacity( ammotype( "battery" ) );
+                med_battery.ammo_set( med_battery.ammo_default(), bat_charges );
+                REQUIRE( med_battery.ammo_remaining() == bat_charges );
+                flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+
+                THEN( "the flashlight has charges" ) {
+                    CHECK( flashlight.ammo_remaining() == bat_charges );
                 }
             }
         }
