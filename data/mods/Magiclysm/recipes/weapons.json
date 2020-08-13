@@ -106,11 +106,11 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "using": [ [ "forging_standard", 5 ] ],
     "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "silver_small", 100 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
-      [ [ "rune_stormshaper", 1 ] ]
+      [ [ "stick", 2 ], [ "2x4", 1 ] ],
+      [ [ "scrap_copper", 15 ], [ "copper", 1000 ] ],
+      [ [ "silver_small", 144 ] ],
+      [ [ "cordage_short", 3, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
+      [ [ "rune_stormshaper", 2 ] ]
     ]
   },
   {

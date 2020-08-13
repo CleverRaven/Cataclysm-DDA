@@ -2,7 +2,6 @@
   {
     "type": "recipe",
     "result": "black_dragon_tanning_hide",
-    "byproducts": [ [ "dragon_black_scale", 20 ] ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_MATERIALS",
     "skill_used": "survival",

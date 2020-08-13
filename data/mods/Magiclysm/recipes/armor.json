@@ -111,7 +111,7 @@
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
     "time": "5 h",
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "demon_chitin_piece", 12 ] ] ]
+    "using": [ [ "cordage", 5 ] ],
+    "components": [ [ [ "demon_chitin_piece", 53 ] ] ]
   }
 ]
