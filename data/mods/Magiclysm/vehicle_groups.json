@@ -1,0 +1,42 @@
+[
+  {
+    "type": "vehicle_group",
+    "id": "city_vehicles",
+    "vehicles": [ [ "bicycle_orichalcum", 300 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "suburban_home",
+    "vehicles": [ [ "bicycle_orichalcum", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "dirtlot",
+    "vehicles": [ [ "bicycle_orichalcum", 50 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parkinglot",
+    "vehicles": [ [ "bicycle_orichalcum", 350 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "campground_vehicles",
+    "vehicles": [ [ "bicycle_orichalcum", 75 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [ [ "bicycle_orichalcum", 600 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "back_alley",
+    "vehicles": [ [ "bicycle_orichalcum", 450 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "showroom_small_vehicles",
+    "vehicles": [ [ "bicycle_orichalcum", 100 ] ]
+  }
+]

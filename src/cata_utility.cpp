@@ -1,26 +1,25 @@
 #include "cata_utility.h"
 
-#include <ctype.h>
-#include <stdio.h>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
-#include <string>
-#include <exception>
+#include <cstdio>
 #include <iterator>
+#include <locale>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
+#include "catacharset.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
-#include "mapsharing.h"
+#include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "units.h"
-#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -44,6 +43,28 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int divide_round_down( int a, int b )
+{
+    if( b < 0 ) {
+        a = -a;
+        b = -b;
+    }
+    if( a >= 0 ) {
+        return a / b;
+    } else {
+        return -( ( -a + b - 1 ) / b );
+    }
+}
+
+int modulo( int v, int m )
+{
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
+}
+
 bool isBetween( int test, int down, int up )
 {
     return test > down && test < up;
@@ -51,6 +72,16 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
+    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        std::wstring wneedle = utf8_to_wstr( qry );
+        std::wstring whaystack = utf8_to_wstr( str );
+
+        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
+        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+
+        return whaystack.find( wneedle ) != std::wstring::npos;
+    }
     std::string needle;
     needle.reserve( qry.size() );
     std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
@@ -60,6 +91,11 @@ bool lcmatch( const std::string &str, const std::string &qry )
     std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
     return haystack.find( needle ) != std::string::npos;
+}
+
+bool lcmatch( const translation &str, const std::string &qry )
+{
+    return lcmatch( str.translated(), qry );
 }
 
 bool match_include_exclude( const std::string &text, std::string filter )
@@ -102,7 +138,7 @@ bool match_include_exclude( const std::string &text, std::string filter )
 
 double logarithmic( double t )
 {
-    return 1 / ( 1 + exp( -t ) );
+    return 1 / ( 1 + std::exp( -t ) );
 }
 
 double logarithmic_range( int min, int max, int pos )
@@ -167,96 +203,6 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
-const char *weight_units()
-{
-    return get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "lbs" ? _( "lbs" ) : _( "kg" );
-}
-
-const char *volume_units_abbr()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return pgettext( "Volume unit", "c" );
-    } else if( vol_units == "l" ) {
-        return pgettext( "Volume unit", "L" );
-    } else {
-        return pgettext( "Volume unit", "qt" );
-    }
-}
-
-const char *volume_units_long()
-{
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        return _( "cup" );
-    } else if( vol_units == "l" ) {
-        return _( "liter" );
-    } else {
-        return _( "quart" );
-    }
-}
-
-double convert_velocity( int velocity, const units_type vel_units )
-{
-    const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-    // internal units to mph conversion
-    double ret = static_cast<double>( velocity ) / 100;
-
-    if( type == "km/h" ) {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                // mph to km/h conversion
-                ret *= 1.609f;
-                break;
-            case VU_WIND:
-                // mph to m/s conversion
-                ret *= 0.447f;
-                break;
-        }
-    } else if( type == "t/t" ) {
-        ret /= 4;
-    }
-
-    return ret;
-}
-
-double convert_weight( const units::mass &weight )
-{
-    double ret = to_gram( weight );
-    if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
-}
-
-double convert_volume( int volume )
-{
-    return convert_volume( volume, nullptr );
-}
-
-double convert_volume( int volume, int *out_scale )
-{
-    double ret = volume;
-    int scale = 0;
-    const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
-    if( vol_units == "c" ) {
-        ret *= 0.004;
-        scale = 1;
-    } else if( vol_units == "l" ) {
-        ret *= 0.001;
-        scale = 2;
-    } else {
-        ret *= 0.00105669;
-        scale = 2;
-    }
-    if( out_scale != nullptr ) {
-        *out_scale = scale;
-    }
-    return ret;
-}
-
 double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
@@ -265,6 +211,11 @@ double temp_to_celsius( double fahrenheit )
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double kelvin_to_fahrenheit( double kelvin )
+{
+    return 1.8 * ( kelvin - 273.15 ) + 32;
 }
 
 double clamp_to_width( double value, int width, int &scale )
@@ -288,7 +239,8 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
         }
     } else if( scale > 0 ) {
         for( int s = 1; s <= scale; s++ ) {
-            int scale_width = 1 + s; // 1 decimal separator + "s"
+            // 1 decimal separator + "s"
+            int scale_width = 1 + s;
             if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
                 // above the maximum number we can fit in the width with "s" decimals
                 // show this number with one less decimal than "s"
@@ -321,31 +273,19 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path )
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
-    file_stream.open( path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( "opening file failed" );
-    }
-}
-
-ofstream_wrapper::~ofstream_wrapper() = default;
-
-void ofstream_wrapper::close()
-{
-    file_stream.close();
-    if( file_stream.fail() ) {
-        throw std::runtime_error( "writing to file failed" );
-    }
+    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+    ofstream_wrapper fout( path, std::ios::binary );
+    writer( fout.stream() );
+    fout.close();
 }
 
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *const fail_message )
 {
     try {
-        ofstream_wrapper fout( path );
-        writer( fout.stream() );
-        fout.close();
+        write_to_file( path, writer );
         return true;
 
     } catch( const std::exception &err ) {
@@ -356,44 +296,19 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
+ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
     : path( path )
+
 {
-    fopen_exclusive( file_stream, path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( _( "opening file failed" ) );
-    }
+    open( mode );
 }
 
-ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
-{
-    if( file_stream.is_open() ) {
-        fclose_exclusive( file_stream, path.c_str() );
-    }
-}
-
-void ofstream_wrapper_exclusive::close()
-{
-    fclose_exclusive( file_stream, path.c_str() );
-    if( file_stream.fail() ) {
-        throw std::runtime_error( _( "writing to file failed" ) );
-    }
-}
-
-bool write_to_file_exclusive( const std::string &path,
-                              const std::function<void( std::ostream & )> &writer, const char *const fail_message )
+ofstream_wrapper::~ofstream_wrapper()
 {
     try {
-        ofstream_wrapper_exclusive fout( path );
-        writer( fout.stream() );
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
-        }
-        return false;
+        close();
+    } catch( ... ) {
+        // ignored in destructor
     }
 }
 
@@ -483,7 +398,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
@@ -493,7 +408,8 @@ std::string obscure_message( const std::string &str, std::function<char()> f )
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
-    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
+    // a trailing NULL terminator is necessary for utf8_width function
+    char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );

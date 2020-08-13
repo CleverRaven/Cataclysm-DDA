@@ -1,36 +1,49 @@
 #include "action.h"
 
-#include <limits.h>
 #include <algorithm>
+#include <climits>
 #include <istream>
 #include <iterator>
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
+#include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
+#include "point.h"
+#include "popup.h"
+#include "ret_val.h"
 #include "translations.h"
-#include "trap.h"
+#include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "item.h"
-#include "ret_val.h"
-#include "itype.h"
+
+static const quality_id qual_BUTCHER( "BUTCHER" );
+static const quality_id qual_CUT_FINE( "CUT_FINE" );
+
+static const std::string flag_CONSOLE( "CONSOLE" );
+static const std::string flag_FLOTATION( "FLOTATION" );
+static const std::string flag_GOES_DOWN( "GOES_DOWN" );
+static const std::string flag_GOES_UP( "GOES_UP" );
+static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
@@ -44,10 +57,10 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
     const auto parser = [&]( std::istream & fin ) {
         parse_keymap( fin, keymap, unbound_keymap );
     };
-    if( read_from_file_optional( FILENAMES["keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["keymap"];
-    } else if( read_from_file_optional( FILENAMES["legacy_keymap"], parser ) ) {
-        keymap_file_loaded_from = FILENAMES["legacy_keymap"];
+    if( read_from_file_optional( PATH_INFO::keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::keymap();
+    } else if( read_from_file_optional( PATH_INFO::legacy_keymap(), parser ) ) {
+        keymap_file_loaded_from = PATH_INFO::legacy_keymap();
     }
 }
 
@@ -58,7 +71,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         std::string id;
         keymap_txt >> id;
         if( id.empty() ) {
-            getline( keymap_txt, id );  // Empty line, chomp it
+            // Empty line, chomp it
+            getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
             const action_id act = look_up_action( id );
@@ -69,9 +83,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "\
-Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
+                          "Fix \"%s\" at your next chance!", id, PATH_INFO::keymap() );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -80,10 +93,9 @@ Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
                         break;
                     } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
                         if( kmap.find( ch ) != kmap.end() ) {
-                            debugmsg( "\
-Warning!  '%c' assigned twice in the keymap!\n\
-%s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                            debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
+                                      "%s is being ignored.\n"
+                                      "Fix \"%s\" at your next chance!", ch, id, PATH_INFO::keymap() );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -91,21 +103,22 @@ Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                 }
             }
         } else {
-            getline( keymap_txt, id ); // Clear the whole line
+            // Clear the whole line
+            getline( keymap_txt, id );
         }
     }
 }
 
-std::vector<char> keys_bound_to( action_id act )
+std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();
-    return ctxt.keys_bound_to( action_ident( act ) );
+    return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( ch, input_event_t::keyboard_char );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -117,21 +130,21 @@ std::string action_ident( action_id act )
             return "pause";
         case ACTION_TIMEOUT:
             return "TIMEOUT";
-        case ACTION_MOVE_N:
+        case ACTION_MOVE_FORTH:
             return "UP";
-        case ACTION_MOVE_NE:
+        case ACTION_MOVE_FORTH_RIGHT:
             return "RIGHTUP";
-        case ACTION_MOVE_E:
+        case ACTION_MOVE_RIGHT:
             return "RIGHT";
-        case ACTION_MOVE_SE:
+        case ACTION_MOVE_BACK_RIGHT:
             return "RIGHTDOWN";
-        case ACTION_MOVE_S:
+        case ACTION_MOVE_BACK:
             return "DOWN";
-        case ACTION_MOVE_SW:
+        case ACTION_MOVE_BACK_LEFT:
             return "LEFTDOWN";
-        case ACTION_MOVE_W:
+        case ACTION_MOVE_LEFT:
             return "LEFT";
-        case ACTION_MOVE_NW:
+        case ACTION_MOVE_FORTH_LEFT:
             return "LEFTUP";
         case ACTION_MOVE_DOWN:
             return "LEVEL_DOWN";
@@ -179,6 +192,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_FEET:
+            return "pickup_feet";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -213,6 +228,8 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
@@ -223,6 +240,8 @@ std::string action_ident( action_id act )
             return "reload_item";
         case ACTION_RELOAD_WEAPON:
             return "reload_weapon";
+        case ACTION_RELOAD_WIELDED:
+            return "reload_wielded";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -233,6 +252,8 @@ std::string action_ident( action_id act )
             return "fire";
         case ACTION_FIRE_BURST:
             return "fire_burst";
+        case ACTION_CAST_SPELL:
+            return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_DROP:
@@ -261,22 +282,28 @@ std::string action_ident( action_id act )
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
+        case ACTION_TOGGLE_AUTO_TRAVEL_MODE:
+            return "auto_travel_mode";
         case ACTION_TOGGLE_SAFEMODE:
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
             return "autosafe";
+        case ACTION_TOGGLE_THIEF_MODE:
+            return "toggle_thief_mode";
         case ACTION_IGNORE_ENEMY:
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
             return "whitelist_enemy";
+        case ACTION_WORKOUT:
+            return "workout";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:
             return "quicksave";
         case ACTION_QUICKLOAD:
             return "quickload";
-        case ACTION_QUIT:
-            return "quit";
+        case ACTION_SUICIDE:
+            return "SUICIDE";
         case ACTION_PL_INFO:
             return "player_data";
         case ACTION_MAP:
@@ -287,8 +314,8 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_KILLS:
-            return "kills";
+        case ACTION_SCORES:
+            return "scores";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -299,6 +326,18 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_SCENT_TYPE:
+            return "debug_scent_type";
+        case ACTION_DISPLAY_TEMPERATURE:
+            return "debug_temp";
+        case ACTION_DISPLAY_VEHICLE_AI:
+            return "debug_vehicle_ai";
+        case ACTION_DISPLAY_VISIBILITY:
+            return "debug_visibility";
+        case ACTION_DISPLAY_LIGHTING:
+            return "debug_lighting";
+        case ACTION_DISPLAY_RADIATION:
+            return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -323,6 +362,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_mining";
         case ACTION_TOGGLE_AUTO_FORAGING:
             return "toggle_auto_foraging";
+        case ACTION_TOGGLE_AUTO_PICKUP:
+            return "toggle_auto_pickup";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -336,11 +377,13 @@ std::string action_ident( action_id act )
         case ACTION_MAIN_MENU:
             return "main_menu";
         case ACTION_KEYBINDINGS:
-            return "open_keybindings";
+            return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
             return "open_options";
         case ACTION_AUTOPICKUP:
             return "open_autopickup";
+        case ACTION_AUTONOTES:
+            return "open_autonotes";
         case ACTION_SAFEMODE:
             return "open_safemode";
         case ACTION_COLOR:
@@ -376,13 +419,13 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SAVE:
         case ACTION_QUICKSAVE:
         case ACTION_QUICKLOAD:
-        case ACTION_QUIT:
+        case ACTION_SUICIDE:
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_KILLS:
+        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
@@ -391,6 +434,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_KEYBINDINGS:
         case ACTION_OPTIONS:
         case ACTION_AUTOPICKUP:
+        case ACTION_AUTONOTES:
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
@@ -398,6 +442,12 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_SCENT_TYPE:
+        case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VEHICLE_AI:
+        case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_LIGHTING:
+        case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -419,21 +469,21 @@ action_id look_up_action( const std::string &ident )
 {
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
-        return ACTION_MOVE_NW;
+        return ACTION_MOVE_FORTH_LEFT;
     } else if( ident == "move_sw" ) {
-        return ACTION_MOVE_SW;
+        return ACTION_MOVE_BACK_LEFT;
     } else if( ident == "move_ne" ) {
-        return ACTION_MOVE_NE;
+        return ACTION_MOVE_FORTH_RIGHT;
     } else if( ident == "move_se" ) {
-        return ACTION_MOVE_SE;
+        return ACTION_MOVE_BACK_RIGHT;
     } else if( ident == "move_n" ) {
-        return ACTION_MOVE_N;
+        return ACTION_MOVE_FORTH;
     } else if( ident == "move_s" ) {
-        return ACTION_MOVE_S;
+        return ACTION_MOVE_BACK;
     } else if( ident == "move_w" ) {
-        return ACTION_MOVE_W;
+        return ACTION_MOVE_LEFT;
     } else if( ident == "move_e" ) {
-        return ACTION_MOVE_E;
+        return ACTION_MOVE_RIGHT;
     } else if( ident == "move_down" ) {
         return ACTION_MOVE_DOWN;
     } else if( ident == "move_up" ) {
@@ -441,8 +491,8 @@ action_id look_up_action( const std::string &ident )
     }
     // ^^ Temporarily for the interface with the input manager!
     for( int i = 0; i < NUM_ACTIONS; i++ ) {
-        if( action_ident( action_id( i ) ) == ident ) {
-            return action_id( i );
+        if( action_ident( static_cast<action_id>( i ) ) == ident ) {
+            return static_cast<action_id>( i );
         }
     }
     return ACTION_NULL;
@@ -466,64 +516,96 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     input_context ctxt = get_default_mode_input_context();
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
-
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz )
+cata::optional<std::string> press_x_if_bound( action_id act )
 {
-    if( dz == -1 ) {
+    input_context ctxt = get_default_mode_input_context();
+    std::string description = action_ident( act );
+    if( ctxt.keys_bound_to( description ).empty() ) {
+        return cata::nullopt;
+    }
+    return press_x( act );
+}
+
+action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate rot )
+{
+    if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
-    } else if( dz == 1 ) {
+    } else if( d.z == 1 ) {
         return ACTION_MOVE_UP;
     }
 
-    if( dx == 0 && dy == -1 ) {
-        return ACTION_MOVE_N;
-    } else if( dx == 1 && dy == -1 ) {
-        return ACTION_MOVE_NE;
-    } else if( dx == 1 && dy == 0 ) {
-        return ACTION_MOVE_E;
-    } else if( dx == 1 && dy == 1 ) {
-        return ACTION_MOVE_SE;
-    } else if( dx == 0 && dy == 1 ) {
-        return ACTION_MOVE_S;
-    } else if( dx == -1 && dy == 1 ) {
-        return ACTION_MOVE_SW;
-    } else if( dx == -1 && dy == 0 ) {
-        return ACTION_MOVE_W;
+    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    if( d.xy() == point_north ) {
+        return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
+    } else if( d.xy() == point_north_east ) {
+        return iso_mode ? ACTION_MOVE_FORTH : ACTION_MOVE_FORTH_RIGHT;
+    } else if( d.xy() == point_east ) {
+        return iso_mode ? ACTION_MOVE_FORTH_RIGHT : ACTION_MOVE_RIGHT;
+    } else if( d.xy() == point_south_east ) {
+        return iso_mode ? ACTION_MOVE_RIGHT : ACTION_MOVE_BACK_RIGHT;
+    } else if( d.xy() == point_south ) {
+        return iso_mode ? ACTION_MOVE_BACK_RIGHT : ACTION_MOVE_BACK;
+    } else if( d.xy() == point_south_west ) {
+        return iso_mode ? ACTION_MOVE_BACK : ACTION_MOVE_BACK_LEFT;
+    } else if( d.xy() == point_west ) {
+        return iso_mode ? ACTION_MOVE_BACK_LEFT : ACTION_MOVE_LEFT;
     } else {
-        return ACTION_MOVE_NW;
+        return iso_mode ? ACTION_MOVE_LEFT : ACTION_MOVE_FORTH_LEFT;
     }
 }
 
-// Get the key for an action, used in the action menu to give each action the
-// hotkey it is bound to.
-// We ignore bindings to '?' because that will already do something else in
-// this menu (open the menu keybindings).
-long hotkey_for_action( action_id action )
+point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
+{
+    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    switch( act ) {
+        case ACTION_MOVE_FORTH:
+            return iso_mode ? point_north_east : point_north;
+        case ACTION_MOVE_FORTH_RIGHT:
+            return iso_mode ? point_east : point_north_east;
+        case ACTION_MOVE_RIGHT:
+            return iso_mode ? point_south_east : point_east;
+        case ACTION_MOVE_BACK_RIGHT:
+            return iso_mode ? point_south : point_south_east;
+        case ACTION_MOVE_BACK:
+            return iso_mode ? point_south_west : point_south;
+        case ACTION_MOVE_BACK_LEFT:
+            return iso_mode ? point_west : point_south_west;
+        case ACTION_MOVE_LEFT:
+            return iso_mode ? point_north_west : point_west;
+        case ACTION_MOVE_FORTH_LEFT:
+            return iso_mode ? point_north : point_north_west;
+        default:
+            return point_zero;
+    }
+}
+
+int hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
     };
-    std::vector<char> keys = keys_bound_to( action );
+    std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
     auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
     return valid == keys.end() ? -1 : *valid;
 }
 
 bool can_butcher_at( const tripoint &p )
 {
+    Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
-    auto items = g->m.i_at( p );
+    const int factor = player_character.max_quality( qual_BUTCHER );
+    const int factorD = player_character.max_quality( qual_CUT_FINE );
+    map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
-    for( auto &items_it : items ) {
+    const inventory &crafting_inv = player_character.crafting_inventory();
+    for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
+        } else if( player_character.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -532,57 +614,79 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
+    Character &player_character = get_player_character();
+    map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
+            return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
+            return player_character.swim_speed() < 500 ||
+                   player_character.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
     if( movez == -1 ) {
-        return g->m.has_flag( "GOES_DOWN", p );
+        return here.has_flag( flag_GOES_DOWN, p );
     } else {
-        return g->m.has_flag( "GOES_UP", p );
+        return here.has_flag( flag_GOES_UP, p );
     }
 }
 
 bool can_examine_at( const tripoint &p )
 {
-    if( g->m.veh_at( p ) ) {
+    map &here = get_map();
+    if( here.veh_at( p ) ) {
         return true;
     }
-    if( g->m.has_flag( "CONSOLE", p ) ) {
+    if( here.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
-    if( g->m.has_items( p ) ) {
+    if( here.has_items( p ) ) {
         return true;
     }
-    const furn_t &xfurn_t = g->m.furn( p ).obj();
-    const ter_t &xter_t = g->m.ter( p ).obj();
+    const furn_t &xfurn_t = here.furn( p ).obj();
+    const ter_t &xter_t = here.ter( p ).obj();
 
-    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
+    if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
     } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
-    const trap &tr = g->m.tr_at( p );
-    return tr.can_see( p, g->u );
+    Creature *c = g->critter_at( p );
+    if( c != nullptr && !c->is_avatar() ) {
+        return true;
+    }
+
+    return here.can_see_trap_at( p, get_player_character() );
+}
+
+static bool can_pickup_at( const tripoint &p )
+{
+    bool veh_has_items = false;
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( p );
+    if( vp ) {
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    }
+    return here.has_items( p ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
 {
+    map &here = get_map();
+    tripoint player_pos = get_player_character().pos();
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
+            return here.open_door( p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
-            const optional_vpart_position vp = g->m.veh_at( p );
+            const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
-                             veh_pointer_or_null( g->m.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
-                   g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
+                             veh_pointer_or_null( here.veh_at( player_pos ) ) != &vp->vehicle() ) >= 0 ) ||
+                   here.close_door( p, !here.is_outside( player_pos ), true );
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -593,7 +697,8 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
-            return g->m.has_items( p );
+        case ACTION_PICKUP_FEET:
+            return can_pickup_at( p );
         default:
             return false;
     }
@@ -608,7 +713,7 @@ action_id handle_action_menu()
         ctxt.get_action_name( action_ident( name ) ) );
 #define REGISTER_CATEGORY( name )  categories_by_int[last_category] = name; \
     catgname = name; \
-    catgname += "..."; \
+    catgname += "…"; \
     entries.emplace_back( last_category, true, -1, catgname ); \
     last_category++;
 
@@ -616,37 +721,39 @@ action_id handle_action_menu()
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+    if( !player_character.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
-        if( !g->u.controlling_vehicle ) {
+        if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.get_movement_mode() == "run" ) {
+    if( player_character.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.get_movement_mode() == "crouch" ) {
+    if( player_character.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
+    map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    if( g->m.veh_at( g->u.pos() ) ) {
+    if( here.veh_at( player_character.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
         action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( pos != g->u.pos() ) {
+    for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+        if( pos != player_character.pos() ) {
             // Check for actions that work on nearby tiles
             if( can_interact_at( ACTION_OPEN, pos ) ) {
                 action_weightings[ACTION_OPEN] = 200;
@@ -708,15 +815,17 @@ action_id handle_action_menu()
             if( hotkey_for_action( ACTION_QUICKLOAD ) > -1 ) {
                 REGISTER_ACTION( ACTION_QUICKLOAD );
             }
-            if( hotkey_for_action( ACTION_QUIT ) > -1 ) {
-                REGISTER_ACTION( ACTION_QUIT );
+            if( hotkey_for_action( ACTION_SUICIDE ) > -1 ) {
+                REGISTER_ACTION( ACTION_SUICIDE );
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "...";        // help _is_a menu.
+                // help _is_a menu.
+                entry->txt += "…";
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
+                // register with global key
+                REGISTER_CATEGORY( _( "Debug" ) );
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
@@ -744,13 +853,15 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "..."; // debug _is_a menu.
+                // debug _is_a menu.
+                entry->txt += "…";
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -761,6 +872,12 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_SCENT_TYPE );
+            REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
+            REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
+            REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -771,6 +888,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_FEET );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
@@ -784,10 +902,13 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
+            REGISTER_ACTION( ACTION_RELOAD_WIELDED );
+            REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
@@ -804,17 +925,19 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_KILLS );
+            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
+            REGISTER_ACTION( ACTION_WORKOUT );
             REGISTER_ACTION( ACTION_BIONICS );
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
+            REGISTER_ACTION( ACTION_TOGGLE_THIEF_MODE );
 #if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );
@@ -825,33 +948,23 @@ action_id handle_action_menu()
 
         if( category != "back" ) {
             std::string msg = _( "Back" );
-            msg += "...";
+            msg += "…";
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category );
+            catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }
 
-        int width = 0;
-        for( auto &cur_entry : entries ) {
-            if( width < static_cast<int>( cur_entry.txt.length() ) ) {
-                width = cur_entry.txt.length();
-            }
-        }
-        //border=2, selectors=3, after=3 for balance.
-        width += 2 + 3 + 3;
-        int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
-                 ( entries.size() ) - 2 ) / 2 - 1 : 0;
-        int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                                std::max( iy, 0 ), title, entries );
-
-        g->draw();
+        uilist smenu;
+        smenu.settext( title );
+        smenu.entries = entries;
+        smenu.query();
+        const int selection = smenu.ret;
 
         if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
@@ -886,28 +999,20 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_KEYBINDINGS );
     REGISTER_ACTION( ACTION_OPTIONS );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
+    REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
     REGISTER_ACTION( ACTION_COLOR );
     REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
+    REGISTER_ACTION( ACTION_DEBUG );
 
-    int width = 0;
-    for( auto &entry : entries ) {
-        if( width < static_cast<int>( entry.txt.length() ) ) {
-            width = entry.txt.length();
-        }
-    }
-    //border=2, selectors=3, after=3 for balance.
-    width += 2 + 3 + 3;
-    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
-                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
-    int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
-                            std::max( iy, 0 ), _( "MAIN MENU" ), entries );
-
-    g->draw();
+    uilist smenu;
+    smenu.settext( _( "MAIN MENU" ) );
+    smenu.entries = entries;
+    smenu.query();
+    int selection = smenu.ret;
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
@@ -916,91 +1021,96 @@ action_id handle_main_menu()
     }
 }
 
-cata::optional<tripoint> choose_direction( const std::string &message )
-{
-    return choose_direction( message, false );
-}
-
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE" );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     if( allow_vertical ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
 
-    //~ appended to "Close where?" "Pry where?" etc.
-    const std::string query_text = message + _( " (Direction button)" );
-    popup( query_text, PF_NO_WAIT_ON_TOP );
+    static_popup popup;
+    //~ %s: "Close where?" "Pry where?" etc.
+    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
 
-    const std::string action = ctxt.handle_input();
-    if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-        // Make player's sprite face left/right if interacting with something to the left or right
-        if( vec->x > 0 ) {
-            g->u.facing = FD_RIGHT;
-        } else if( vec->x < 0 ) {
-            g->u.facing = FD_LEFT;
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            FacingDirection &facing = get_player_character().facing;
+            // Make player's sprite face left/right if interacting with something to the left or right
+            if( vec->x > 0 ) {
+                facing = FacingDirection::RIGHT;
+            } else if( vec->x < 0 ) {
+                facing = FacingDirection::LEFT;
+            }
+            return vec;
+        } else if( action == "pause" ) {
+            return tripoint_zero;
+        } else if( action == "LEVEL_UP" ) {
+            return tripoint_above;
+        } else if( action == "LEVEL_DOWN" ) {
+            return tripoint_below;
         }
-        return vec;
-    } else if( action == "pause" ) {
-        return tripoint_zero;
-    } else if( action == "LEVEL_UP" ) {
-        return tripoint( 0, 0, 1 );
-    } else if( action == "LEVEL_DOWN" ) {
-        return tripoint( 0, 0, -1 );
-    }
+    } while( action != "QUIT" );
 
-    add_msg( _( "Invalid direction." ) );
+    add_msg( _( "Never mind." ) );
     return cata::nullopt;
-}
-
-cata::optional<tripoint> choose_adjacent( const std::string &message )
-{
-    return choose_adjacent( message, false );
 }
 
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + g->u.pos() : dir;
+    return dir ? *dir + get_player_character().pos() : dir;
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight )
+        const std::string &failure_message, const action_id action, bool allow_vertical )
 {
-    return choose_adjacent_highlight( message, action_to_highlight, false );
-}
-
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const action_id action_to_highlight, const bool allow_vertical )
-{
-    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
-        return can_interact_at( action_to_highlight, p );
+    const std::function<bool( const tripoint & )> f = [&action]( const tripoint & p ) {
+        return can_interact_at( action, p );
     };
-    return choose_adjacent_highlight( message, f, allow_vertical );
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical );
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+        const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
+        const bool allow_vertical )
 {
-    // Highlight nearby terrain according to the highlight function
-    bool highlighted = false;
-    for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( should_highlight( pos ) ) {
-            highlighted = true;
-            g->m.drawsq( g->w_terrain, g->u, pos,
-                         true, true, g->u.pos() + g->u.view_offset );
+    std::vector<tripoint> valid;
+    avatar &player_character = get_avatar();
+    map &here = get_map();
+    if( allowed ) {
+        for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+            if( allowed( pos ) ) {
+                valid.emplace_back( pos );
+            }
         }
     }
-    if( highlighted ) {
-        wrefresh( g->w_terrain );
-        // prevent hiding panels when examining an object
-        g->draw_panels();
+
+    const bool auto_select = get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    if( valid.empty() && auto_select ) {
+        add_msg( failure_message );
+        return cata::nullopt;
+    } else if( valid.size() == 1 && auto_select ) {
+        return valid.back();
+    }
+
+    shared_ptr_fast<game::draw_callback_t> hilite_cb;
+    if( !valid.empty() ) {
+        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            for( const tripoint &pos : valid ) {
+                here.drawsq( g->w_terrain, player_character, pos,
+                             true, true, player_character.pos() + player_character.view_offset );
+            }
+        } );
+        g->add_draw_callback( hilite_cb );
     }
 
     return choose_adjacent( message, allow_vertical );

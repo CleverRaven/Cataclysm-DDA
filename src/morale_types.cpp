@@ -1,6 +1,6 @@
 #include "morale_types.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <set>
 #include <vector>
 
@@ -9,7 +9,6 @@
 #include "json.h"
 #include "string_formatter.h"
 #include "debug.h"
-#include "player.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {
@@ -96,6 +95,10 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_butcher" ),
             morale_type( "morale_gravedigger" ),
+            morale_type( "morale_funeral" ),
+
+            morale_type( "morale_accomplishment" ),
+            morale_type( "morale_failure" ),
 
             morale_type( "morale_null" )
         }
@@ -160,6 +163,8 @@ const morale_type MORALE_BOOK( "morale_book" );
 const morale_type MORALE_COMFY( "morale_comfy" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );
+const morale_type MORALE_PERM_NOFACE( "morale_perm_noface" );
+const morale_type MORALE_PERM_FPMODE_ON( "morale_perm_fpmode_on" );
 const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
@@ -181,14 +186,17 @@ const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
 const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_FUNERAL( "morale_funeral" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
+const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
+const morale_type MORALE_FAILURE( "morale_failure" );
 
 namespace
 {
 
 generic_factory<morale_type_data> morale_data( "morale type" );
 
-}
+} // namespace
 
 template<>
 const morale_type_data &morale_type::obj() const
@@ -202,7 +210,7 @@ bool morale_type::is_valid() const
     return morale_data.is_valid( *this );
 }
 
-void morale_type_data::load_type( JsonObject &jo, const std::string &src )
+void morale_type_data::load_type( const JsonObject &jo, const std::string &src )
 {
     morale_data.load( jo, src );
 }
@@ -217,33 +225,25 @@ void morale_type_data::reset()
     morale_data.reset();
 }
 
-void morale_type_data::load( JsonObject &jo, const std::string & )
+void morale_type_data::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "text", text, translated_string_reader );
+    mandatory( jo, was_loaded, "text", text );
 
     optional( jo, was_loaded, "permanent", permanent, false );
-    needs_item = text.find( "%s" ) != std::string::npos;
 }
 
 void morale_type_data::check() const
 {
-    if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
-    }
 }
 
 std::string morale_type_data::describe( const itype *it ) const
 {
-    if( it != nullptr ) {
-        if( !needs_item ) {
-            debugmsg( "Item type supplied but not needed" );
-        }
+    if( it ) {
         return string_format( text, it->nname( 1 ) );
+    } else {
+        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
+        // `string_format` will return an error message
+        return string_format( text );
     }
-
-    if( needs_item ) {
-        debugmsg( "Item type needed but not supplied" );
-    }
-    return text;
 }

@@ -34,7 +34,7 @@
       ],
       "terrain": {
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "1": "t_tree_young",
         "D": "t_door_glass_c",

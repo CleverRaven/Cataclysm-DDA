@@ -1,23 +1,24 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <sstream>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "game.h" // IWYU pragma: associated
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
 #include "output.h"
-#include "player.h"
 #include "string_formatter.h"
-#include "color.h"
-#include "itype.h"
-#include "pldata.h"
+#include "string_id.h"
 #include "translations.h"
+#include "ui_manager.h"
+#include "viewer.h"
 
-const skill_id skill_survival( "survival" );
+static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
@@ -27,10 +28,10 @@ enum class description_target : int {
     terrain
 };
 
-const Creature *seen_critter( const game &g, const tripoint &p )
+static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
-    if( critter != nullptr && g.u.sees( *critter ) ) {
+    if( critter != nullptr && get_player_view().sees( *critter ) ) {
         return critter;
     }
 
@@ -39,34 +40,55 @@ const Creature *seen_critter( const game &g, const tripoint &p )
 
 void game::extended_description( const tripoint &p )
 {
-    const int left = 0;
-    const int right = TERMX;
+    ui_adaptor ui;
     const int top = 3;
-    const int bottom = TERMY;
-    const int width = right - left;
-    const int height = bottom - top;
-    catacurses::window w_head = catacurses::newwin( top, TERMX, 0, 0 );
-    catacurses::window w_main = catacurses::newwin( height, width, top, left );
-    // TODO: De-hardcode
-    std::string header_message = _( "\
-c to describe creatures, f to describe furniture, t to describe terrain, Esc/Enter to close." );
-    mvwprintz( w_head, 0, 0, c_white, header_message );
+    int width = 0;
+    catacurses::window w_head;
+    catacurses::window w_main;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int left = 0;
+        const int right = TERMX;
+        const int bottom = TERMY;
+        width = right - left;
+        const int height = bottom - top;
+        w_head = catacurses::newwin( top, TERMX, point_zero );
+        w_main = catacurses::newwin( height, width, point( left, top ) );
+        ui.position( point_zero, point( TERMX, TERMY ) );
+    } );
+    ui.mark_resize();
 
-    // Set up line drawings
-    for( int i = 0; i < TERMX; i++ ) {
-        mvwputch( w_head, top - 1, i, c_white, LINE_OXOX );
-    }
-
-    wrefresh( w_head );
     // Default to critter (if any), furniture (if any), then terrain.
     description_target cur_target = description_target::terrain;
     if( seen_critter( *this, p ) != nullptr ) {
         cur_target = description_target::creature;
-    } else if( g->m.has_furn( p ) ) {
+    } else if( get_map().has_furn( p ) ) {
         cur_target = description_target::furniture;
     }
-    int ch = 'c';
-    do {
+
+    std::string action;
+    input_context ctxt( "EXTENDED_DESCRIPTION" );
+    ctxt.register_action( "CREATURE" );
+    ctxt.register_action( "FURNITURE" );
+    ctxt.register_action( "TERRAIN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_head );
+        mvwprintz( w_head, point_zero, c_white,
+                   _( "[%s] describe creatures, [%s] describe furniture, "
+                      "[%s] describe terrain, [%s] close." ),
+                   ctxt.get_desc( "CREATURE" ), ctxt.get_desc( "FURNITURE" ),
+                   ctxt.get_desc( "TERRAIN" ), ctxt.get_desc( "QUIT" ) );
+
+        // Set up line drawings
+        for( int i = 0; i < TERMX; i++ ) {
+            mvwputch( w_head, point( i, top - 1 ), c_white, LINE_OXOX );
+        }
+
+        wnoutrefresh( w_head );
+
         std::string desc;
         // Allow looking at invisible tiles - player may want to examine hallucinations etc.
         switch( cur_target ) {
@@ -99,28 +121,27 @@ c to describe creatures, f to describe furniture, t to describe terrain, Esc/Ent
 
         std::string signage = m.get_signage( p );
         if( !signage.empty() ) {
-            desc += u.has_trait( trait_ILLITERATE ) ? string_format( _( "\nSign: ???" ) ) : string_format(
-                        _( "\nSign: %s" ), signage );
+            // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+            desc += u.has_trait( trait_ILLITERATE ) ? _( "\nSign: ???" ) : string_format( _( "\nSign: %s" ),
+                    signage );
         }
 
         werase( w_main );
-        fold_and_print_from( w_main, 0, 0, width, 0, c_light_gray, desc );
-        wrefresh( w_main );
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
-        switch( ch ) {
-            case 'c':
-                cur_target = description_target::creature;
-                break;
-            case 'f':
-                cur_target = description_target::furniture;
-                break;
-            case 't':
-                cur_target = description_target::terrain;
-                break;
-        }
+        fold_and_print_from( w_main, point_zero, width, 0, c_light_gray, desc );
+        wnoutrefresh( w_main );
+    } );
 
-    } while( ch != KEY_ESCAPE && ch != '\n' );
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( action == "CREATURE" ) {
+            cur_target = description_target::creature;
+        } else if( action == "FURNITURE" ) {
+            cur_target = description_target::furniture;
+        } else if( action == "TERRAIN" ) {
+            cur_target = description_target::terrain;
+        }
+    } while( action != "CONFIRM" && action != "QUIT" );
 }
 
 std::string map_data_common_t::extended_description() const
@@ -135,7 +156,7 @@ std::string map_data_common_t::extended_description() const
 
     if( has_any_harvest ) {
         ss << "--" << std::endl;
-        int player_skill = g->u.get_skill_level( skill_survival );
+        int player_skill = get_player_character().get_skill_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << std::endl;
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons

@@ -10,7 +10,7 @@
 #include "item_search.h"
 #include "line.h"
 
-map_item_stack::item_group::item_group() : pos( 0, 0, 0 ), count( 0 )
+map_item_stack::item_group::item_group() : count( 0 )
 {
 }
 

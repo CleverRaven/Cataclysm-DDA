@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was created to be a billionaire's companion.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_UPLIFTED_ANIMAL_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Their wealth and connections didn't save them.",
+    "responses": [
+      { "text": "So, what happened?", "topic": "BGSS_UPLIFTED_ANIMAL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "But they built me with the ability to survive a world beyond imagining.",
+    "responses": [
+      { "text": "But here you are?", "topic": "BGSS_UPLIFTED_ANIMAL_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

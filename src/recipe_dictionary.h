@@ -1,24 +1,23 @@
 #pragma once
-#ifndef RECIPE_DICTIONARY_H
-#define RECIPE_DICTIONARY_H
+#ifndef CATA_SRC_RECIPE_DICTIONARY_H
+#define CATA_SRC_RECIPE_DICTIONARY_H
 
-#include <stddef.h>
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "recipe.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
-
-typedef std::string itype_id;
-using recipe_id = string_id<recipe>;
+class JsonOut;
 
 class recipe_dictionary
 {
@@ -31,15 +30,22 @@ class recipe_dictionary
             return autolearn;
         }
 
+        /** Returns all blueprints */
+        const std::set<const recipe *> &all_blueprints() const {
+            return blueprints;
+        }
+
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
         std::map<recipe_id, recipe>::const_iterator end() const;
 
+        bool is_item_on_loop( const itype_id & ) const;
+
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
-        static void load_recipe( JsonObject &jo, const std::string &src );
-        static void load_uncraft( JsonObject &jo, const std::string &src );
+        static void load_recipe( const JsonObject &jo, const std::string &src );
+        static void load_uncraft( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void reset();
@@ -51,15 +57,18 @@ class recipe_dictionary
          */
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
-        static recipe &load( JsonObject &jo, const std::string &src,
+        static recipe &load( const JsonObject &jo, const std::string &src,
                              std::map<recipe_id, recipe> &out );
 
     private:
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> blueprints;
+        std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
+        void find_items_on_loops();
 };
 
 extern recipe_dictionary recipe_dict;
@@ -116,7 +125,7 @@ class recipe_subset
         /** Returns all recipes which could use component */
         const std::set<const recipe *> &of_component( const itype_id &id ) const;
 
-        enum class search_type {
+        enum class search_type : int {
             name,
             skill,
             primary_skill,
@@ -133,11 +142,14 @@ class recipe_subset
         /** Find recently used recipes */
         std::vector<const recipe *> recent() const;
 
+        /** Find hidden recipes */
+        std::vector<const recipe *> hidden() const;
+
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
-                                            const search_type key = search_type::name ) const;
+                                            search_type key = search_type::name ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, const search_type key = search_type::name ) const;
+        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
@@ -173,4 +185,4 @@ class recipe_subset
 void serialize( const recipe_subset &value, JsonOut &jsout );
 void deserialize( recipe_subset &value, JsonIn &jsin );
 
-#endif
+#endif // CATA_SRC_RECIPE_DICTIONARY_H

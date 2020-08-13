@@ -1,31 +1,28 @@
 #pragma once
-#ifndef MOD_MANAGER_H
-#define MOD_MANAGER_H
+#ifndef CATA_SRC_MOD_MANAGER_H
+#define CATA_SRC_MOD_MANAGER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct WORLD;
 
-typedef WORLD *WORLDPTR;
-class dependency_tree;
+using WORLDPTR = WORLD *;
 class JsonObject;
+class dependency_tree;
 class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
-
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 
 struct MOD_INFORMATION {
     private:
@@ -70,7 +67,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<mod_id> t_mod_list;
+        using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
         ~mod_manager();
@@ -128,7 +125,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( const WORLDPTR world );
+        static std::string get_mods_list_file( WORLDPTR world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.
@@ -144,10 +141,9 @@ class mod_manager
         /**
          * Load mod info from a json object. Put the loaded modinfo
          * directly into @ref mod_map.
-         * @throws std::string on all kind of errors. The string
-         * contains the error message.
+         * @throws JsonError on all kind of errors.
          */
-        void load_modfile( JsonObject &jo, const std::string &path );
+        void load_modfile( const JsonObject &jo, const std::string &path );
 
         bool set_default_mods( const mod_id &ident );
         void remove_mod( const mod_id &ident );
@@ -172,7 +168,7 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager &modman );
+        mod_ui( mod_manager &mman );
 
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;
@@ -183,8 +179,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, const std::vector<mod_id> &active_list );
-        bool can_shift_down( long selection, const std::vector<mod_id> &active_list );
+        bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
+        bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
-#endif
+#endif // CATA_SRC_MOD_MANAGER_H

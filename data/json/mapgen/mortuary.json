@@ -1,47 +1,11 @@
 [
   {
-    "id": "corpse_male",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "male_underwear_top" },
-      { "group": "male_underwear_bottom" },
-      { "item": "corpse" },
-      { "item": "sheet" },
-      { "item": "bag_body_bag" }
-    ]
-  },
-  {
-    "id": "corpse_female",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "female_underwear_top" },
-      { "group": "female_underwear_bottom" },
-      { "item": "corpse" },
-      { "item": "sheet" },
-      { "item": "bag_body_bag" }
-    ]
-  },
-  {
-    "id": "corpse_viewing",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "female_underwear_top" },
-      { "group": "female_underwear_bottom" },
-      { "item": "ring" },
-      { "item": "veil_wedding" },
-      { "item": "dress_wedding" },
-      { "item": "corpse" }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mortuary" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "..,,,,,...uuuu...,,,,,..",
         "..,,,,,..uaaaau..,,,,,..",
@@ -56,13 +20,13 @@
         "...,,,,,,,,,,,,,,,,,,...",
         "....uuuu.|o++o|.uuuu....",
         "..|-oooo-|P  P|-oooo-|u.",
-        "..|P cc P|H  H|      |fu",
-        ".u|c    c|H  H| H H  ofu",
-        ".uoc    c|    | H H  |fu",
-        ".u|c     +    + H H P|u.",
-        "..|D ll P|P  P| H H C|..",
-        "..|------|-++-| H H P|u.",
-        "..|dT~T~L|C  O| H H  |fu",
+        "..oP cc P|H  H|      |fu",
+        "|-|c    c|H  H| H H  ofu",
+        "|&|c    c|    | H H  |fu",
+        "| +      + DD + H H P|u.",
+        "|i|D ll P|P hP| H H C|..",
+        "--|------|-++-| H H P|u.",
+        ".4|dT~T~L|C  O| H H  |fu",
         "..|d~~~~~*   O| H H  ofu",
         "..|dT~T~i|C  O|      |fu",
         "..|------|-++-|-o--o-|u.",
@@ -73,38 +37,34 @@
         "*": "t_door_locked_interior",
         "+": "t_door_c",
         ",": "t_pavement",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_grass",
-        "C": "t_floor",
-        "D": "t_floor",
-        "H": "t_floor",
         "L": "t_linoleum_white",
-        "O": "t_floor",
-        "P": "t_floor",
         "T": "t_linoleum_white",
         "a": "t_dirt",
-        "c": "t_floor",
         "d": "t_linoleum_white",
         "f": "t_dirt",
         "i": "t_linoleum_white",
-        "l": "t_floor",
-        "o": "t_window",
+        "o": [ "t_window_domestic", "t_window_open", "t_curtains" ],
         "u": "t_shrub",
-        "|": "t_wall",
-        "~": "t_linoleum_white"
+        "|": "t_wall_w",
+        "~": "t_linoleum_white",
+        "4": "t_gutter_downspout"
       },
+      "toilets": { "&": {  } },
       "furniture": {
         "C": "f_coffin_c",
         "D": "f_desk",
         "H": "f_bench",
+        "h": "f_chair",
         "L": "f_locker",
         "O": "f_coffin_o",
-        "P": "f_indoor_plant",
+        "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "T": "f_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
-        "f": "f_dandelion",
+        "f": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "i": "f_sink",
         "l": "f_bookcase"
       },
@@ -125,13 +85,62 @@
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],
       "place_loot": [
-        { "group": "corpse_male", "x": 4, "y": 19, "chance": 40 },
-        { "group": "corpse_male", "x": 4, "y": 21, "chance": 40 },
-        { "group": "corpse_female", "x": 6, "y": 19, "chance": 40 },
-        { "group": "corpse_female", "x": 6, "y": 21, "chance": 40 },
+        { "group": "corpse_male_mortuary", "x": 4, "y": 19, "chance": 40 },
+        { "group": "corpse_male_mortuary", "x": 4, "y": 21, "chance": 40 },
+        { "group": "corpse_female_mortuary", "x": 6, "y": 19, "chance": 40 },
+        { "group": "corpse_female_mortuary", "x": 6, "y": 21, "chance": 40 },
         { "group": "corpse_viewing", "x": 20, "y": 17, "chance": 50 }
       ],
       "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mortuary_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         |22223         ",
+        "  |222222|....|2222223  ",
+        "  |..................3  ",
+        "|2|..................3  ",
+        "|....................3  ",
+        "|.U..................3  ",
+        "|....................3  ",
+        "--5..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |------------------3  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 14, 19 ]
+        }
+      ]
     }
   }
 ]

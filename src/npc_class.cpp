@@ -1,6 +1,6 @@
 #include "npc_class.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <list>
 #include <algorithm>
 #include <array>
@@ -15,10 +15,9 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-#include "itype.h"
 #include "json.h"
 
-static const std::array<npc_class_id, 18> legacy_ids = {{
+static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
@@ -36,28 +35,30 @@ static const std::array<npc_class_id, 18> legacy_ids = {{
         npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
         npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
         npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" )   // Stocks wide range of items...
+        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
+        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
     }
 };
 
-npc_class_id NC_NONE( "NC_NONE" );
-npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-npc_class_id NC_HACKER( "NC_HACKER" );
-npc_class_id NC_CYBORG( "NC_CYBORG" );
-npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-npc_class_id NC_TRADER( "NC_TRADER" );
-npc_class_id NC_NINJA( "NC_NINJA" );
-npc_class_id NC_COWBOY( "NC_COWBOY" );
-npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-npc_class_id NC_THUG( "NC_THUG" );
-npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-npc_class_id NC_HUNTER( "NC_HUNTER" );
-npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_NONE( "NC_NONE" );
+const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
+const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
+const npc_class_id NC_HACKER( "NC_HACKER" );
+const npc_class_id NC_CYBORG( "NC_CYBORG" );
+const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
+const npc_class_id NC_TRADER( "NC_TRADER" );
+const npc_class_id NC_NINJA( "NC_NINJA" );
+const npc_class_id NC_COWBOY( "NC_COWBOY" );
+const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
+const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
+const npc_class_id NC_THUG( "NC_THUG" );
+const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
+const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
+const npc_class_id NC_HUNTER( "NC_HUNTER" );
+const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
+const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
+const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+const npc_class_id NC_HALLU( "NC_HALLU" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -79,7 +80,7 @@ npc_class::npc_class() : id( NC_NONE )
 {
 }
 
-void npc_class::load_npc_class( JsonObject &jo, const std::string &src )
+void npc_class::load_npc_class( const JsonObject &jo, const std::string &src )
 {
     npc_class_factory.load( jo, src );
 }
@@ -95,7 +96,7 @@ void apply_all_to_unassigned( T &skills )
 {
     auto iter = std::find_if( skills.begin(), skills.end(),
     []( decltype( *begin( skills ) ) &pr ) {
-        return pr.first == "ALL";
+        return pr.first.str() == "ALL";
     } );
 
     if( iter != skills.end() ) {
@@ -111,7 +112,7 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( auto &cl_const : npc_class_factory.get_all() ) {
+    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
         auto &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
@@ -134,7 +135,7 @@ void npc_class::check_consistency()
         }
     }
 
-    for( auto &cl : npc_class_factory.get_all() ) {
+    for( const npc_class &cl : npc_class_factory.get_all() ) {
         if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
@@ -163,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-distribution load_distribution( JsonObject &jo )
+static distribution load_distribution( const JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -208,10 +209,9 @@ distribution load_distribution( JsonObject &jo )
     }
 
     jo.throw_error( "Invalid distribution" );
-    return distribution();
 }
 
-distribution load_distribution( JsonObject &jo, const std::string &name )
+static distribution load_distribution( const JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -227,13 +227,12 @@ distribution load_distribution( JsonObject &jo, const std::string &name )
     }
 
     jo.throw_error( "Invalid distribution type", name );
-    return distribution();
 }
 
-void npc_class::load( JsonObject &jo, const std::string & )
+void npc_class::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "job_description", job_description );
 
     optional( jo, was_loaded, "common", common, true );
     bonus_str = load_distribution( jo, "bonus_str" );
@@ -246,10 +245,19 @@ void npc_class::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
 
-    if( jo.has_array( "traits" ) ) {
-        traits = trait_group::load_trait_group( *jo.get_raw( "traits" ), "collection" );
+    if( jo.has_member( "traits" ) ) {
+        traits = trait_group::load_trait_group( jo.get_member( "traits" ), "collection" );
     }
 
+    if( jo.has_array( "spells" ) ) {
+        for( JsonObject subobj : jo.get_array( "spells" ) ) {
+            const int level = subobj.get_int( "level" );
+            const spell_id sp = spell_id( subobj.get_string( "id" ) );
+            _starting_spells.emplace( sp, level );
+        }
+    }
+
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
@@ -259,9 +267,10 @@ void npc_class::load( JsonObject &jo, const std::string & )
     if( jo.has_object( "mutation_rounds" ) ) {
         const std::map<std::string, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
-        auto jo2 = jo.get_object( "mutation_rounds" );
-        for( auto &mutation : jo2.get_member_names() ) {
-            const auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+        for( const JsonMember member : jo.get_object( "mutation_rounds" ) ) {
+            const std::string &mutation = member.name();
+            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
@@ -269,15 +278,13 @@ void npc_class::load( JsonObject &jo, const std::string & )
                 debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
-            auto distrib = jo2.get_object( mutation );
+            auto distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }
 
     if( jo.has_array( "skills" ) ) {
-        JsonArray jarr = jo.get_array( "skills" );
-        while( jarr.has_more() ) {
-            JsonObject skill_obj = jarr.next_object();
+        for( JsonObject skill_obj : jo.get_array( "skills" ) ) {
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
                 const distribution dis = load_distribution( skill_obj, "level" );
@@ -294,9 +301,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
     }
 
     if( jo.has_array( "bionics" ) ) {
-        JsonArray jarr = jo.get_array( "bionics" );
-        while( jarr.has_more() ) {
-            JsonObject bionic_obj = jarr.next_object();
+        for( JsonObject bionic_obj : jo.get_array( "bionics" ) ) {
             auto bionic_ids = bionic_obj.get_tags( "id" );
             int chance = bionic_obj.get_int( "chance" );
             for( const auto &bid : bionic_ids ) {
@@ -337,14 +342,14 @@ const npc_class_id &npc_class::random_common()
     return *random_entry( common_classes );
 }
 
-const std::string &npc_class::get_name() const
+std::string npc_class::get_name() const
 {
-    return name;
+    return name.translated();
 }
 
-const std::string &npc_class::get_job_description() const
+std::string npc_class::get_job_description() const
 {
-    return job_description;
+    return job_description.translated();
 }
 
 const Group_tag &npc_class::get_shopkeeper_items() const
@@ -394,7 +399,7 @@ distribution::distribution( const distribution &d )
     generator_function = d.generator_function;
 }
 
-distribution::distribution( std::function<float()> gen )
+distribution::distribution( const std::function<float()> &gen )
 {
     generator_function = gen;
 }
@@ -419,7 +424,7 @@ distribution distribution::one_in( float in )
     }
 
     return distribution( [in]() {
-        return one_in_improved( in );
+        return x_in_y( 1, in );
     } );
 }
 
@@ -460,8 +465,4 @@ distribution distribution::operator*( const distribution &other ) const
     } );
 }
 
-distribution &distribution::operator=( const distribution &other )
-{
-    generator_function = other.generator_function;
-    return *this;
-}
+distribution &distribution::operator=( const distribution &other ) = default;

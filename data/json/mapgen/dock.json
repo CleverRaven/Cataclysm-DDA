@@ -1,0 +1,126 @@
+[
+  {
+    "type": "palette",
+    "id": "dock_small",
+    "terrain": { " ": "t_null", "d": "t_dock" },
+    "nested": { "d": { "chunks": [ [ "clear_furniture", 1 ] ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_dock_small" ],
+    "weight": 1000,
+    "object": {
+      "predecessor_mapgen": "lake_surface",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           "
+      ],
+      "palettes": [ "dock_small" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_dock_small" ],
+    "weight": 750,
+    "object": {
+      "predecessor_mapgen": "lake_surface",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      "
+      ],
+      "palettes": [ "dock_small" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_shore_dock_small" ],
+    "object": {
+      "predecessor_mapgen": "lake_shore",
+      "rows": [
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "dock_small" ],
+      "place_vehicles": [
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 8, "y": 5, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 5, "rotation": 270 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "clear_furniture",
+    "//": "used to be able to clear furniture when using a 'rows' placement mapping, since f_null directly is ignored",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  }
+]

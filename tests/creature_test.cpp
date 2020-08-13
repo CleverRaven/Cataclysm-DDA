@@ -1,11 +1,14 @@
-#include <stdlib.h>
+#include "catch/catch.hpp"
+
+#include <cstdlib>
 #include <map>
 #include <utility>
 
-#include "catch/catch.hpp"
+#include "character.h"
 #include "creature.h"
 #include "monster.h"
 #include "mtype.h"
+#include "stringmaker.h"
 #include "test_statistics.h"
 #include "bodypart.h"
 
@@ -19,8 +22,8 @@ float expected_weights_max[][12] = { { 2000, 0,   0,   0, 1191.49, 1191.49, 0, 0
     { 3657, 2861.78,   113.73,  0, 1815.83, 1815.83, 0, 0, 508.904, 508.904, 0, 0 }
 };
 
-void calculate_bodypart_distribution( const enum m_size asize, const enum m_size dsize,
-                                      const int hit_roll, float ( &expected )[12] )
+static void calculate_bodypart_distribution( const creature_size asize, const creature_size dsize,
+        const int hit_roll, float ( &expected )[12] )
 {
     INFO( "hit roll = " << hit_roll );
     std::map<body_part, int> selected_part_histogram = {
@@ -43,13 +46,13 @@ void calculate_bodypart_distribution( const enum m_size asize, const enum m_size
         selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
     }
 
-    float total_weight = 0.0;
+    float total_weight = 0.0f;
     for( float w : expected ) {
         total_weight += w;
     }
 
     for( auto weight : selected_part_histogram ) {
-        INFO( body_part_name( weight.first ) );
+        INFO( body_part_name( convert_bp( weight.first ).id() ) );
         const double expected_proportion = expected[weight.first] / total_weight;
         CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
     }
@@ -59,25 +62,62 @@ TEST_CASE( "Check distribution of attacks to body parts for same sized opponents
 {
     srand( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_weights_base[1] );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 1, expected_weights_base[1] );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 100, expected_weights_max[1] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 0,
+                                     expected_weights_base[1] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 1,
+                                     expected_weights_base[1] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::small, 100,
+                                     expected_weights_max[1] );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 {
     srand( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_weights_base[0] );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 1, expected_weights_base[0] );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 100, expected_weights_max[0] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 0,
+                                     expected_weights_base[0] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 1,
+                                     expected_weights_base[0] );
+    calculate_bodypart_distribution( creature_size::small, creature_size::medium, 100,
+                                     expected_weights_max[0] );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
 {
     srand( 4242424242 );
 
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_weights_base[2] );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 1, expected_weights_base[2] );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 100, expected_weights_max[2] );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 0,
+                                     expected_weights_base[2] );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 1,
+                                     expected_weights_base[2] );
+    calculate_bodypart_distribution( creature_size::medium, creature_size::small, 100,
+                                     expected_weights_max[2] );
+}
+
+TEST_CASE( "body_part_sorting_all", "[bodypart]" )
+{
+    std::vector<bodypart_id> expected = {
+        bodypart_id( "head" ), bodypart_id( "eyes" ), bodypart_id( "mouth" ),
+        bodypart_id( "torso" ),
+        bodypart_id( "arm_l" ), bodypart_id( "hand_l" ),
+        bodypart_id( "arm_r" ), bodypart_id( "hand_r" ),
+        bodypart_id( "leg_l" ), bodypart_id( "foot_l" ),
+        bodypart_id( "leg_r" ), bodypart_id( "foot_r" )
+    };
+    std::vector<bodypart_id> observed =
+        get_player_character().get_all_body_parts( get_body_part_flags::sorted );
+    CHECK( observed == expected );
+}
+
+TEST_CASE( "body_part_sorting_main", "[bodypart]" )
+{
+    std::vector<bodypart_id> expected = {
+        bodypart_id( "head" ), bodypart_id( "torso" ),
+        bodypart_id( "arm_l" ), bodypart_id( "arm_r" ),
+        bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
+    };
+    std::vector<bodypart_id> observed =
+        get_player_character().get_all_body_parts(
+            get_body_part_flags::sorted | get_body_part_flags::only_main );
+    CHECK( observed == expected );
 }

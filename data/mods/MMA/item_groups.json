@@ -9,5 +9,10 @@
       [ "manual_toad", 1 ],
       [ "manual_venom_snake", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "book_military",
+    "items": [ [ "manual_mma_panzer", 10 ] ]
   }
 ]

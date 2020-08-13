@@ -1,7 +1,10 @@
 #pragma once
-#ifndef WEIGHTED_LIST_H
-#define WEIGHTED_LIST_H
+#ifndef CATA_SRC_WEIGHTED_LIST_H
+#define CATA_SRC_WEIGHTED_LIST_H
 
+#include "rng.h"
+
+#include <climits>
 #include <cstdlib>
 #include <functional>
 #include <vector>
@@ -93,7 +96,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rand() );
+            return pick( rng_bits() );
         }
 
         /**
@@ -110,7 +113,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rand() );
+            return pick( rng_bits() );
         }
 
         /**
@@ -182,7 +185,8 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
         // populate the precalc_array for O(1) lookups
         void precalc() {
             precalc_array.clear();
-            precalc_array.reserve( this->total_weight ); // to avoid additional reallocations
+            // to avoid additional reallocations
+            precalc_array.reserve( this->total_weight );
             // weights [3,1,5] will produce vector of indices [0,0,0,1,2,2,2,2,2]
             for( size_t i = 0; i < this->objects.size(); i++ ) {
                 precalc_array.resize( precalc_array.size() + this->objects[i].weight, i );
@@ -227,8 +231,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            const double picked = static_cast<double>( randi % RAND_MAX ) / static_cast<double>( RAND_MAX ) *
-                                  ( this->total_weight );
+            const double picked = static_cast<double>( randi ) / UINT_MAX * this->total_weight;
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {
@@ -242,4 +245,4 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
 
 };
 
-#endif
+#endif // CATA_SRC_WEIGHTED_LIST_H

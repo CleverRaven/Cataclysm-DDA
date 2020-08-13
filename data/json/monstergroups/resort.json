@@ -1,0 +1,49 @@
+[
+  {
+    "name": "GROUP_RESORT_DANCERS",
+    "type": "monstergroup",
+    "default": "mon_zombie_resort_dancer",
+    "monsters": [
+      { "monster": "mon_zombie_resort_dancer", "freq": 100, "cost_multiplier": 8, "pack_size": [ 6, 10 ] },
+      { "monster": "mon_zombie_resort_bouncer", "freq": 75, "cost_multiplier": 4, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 10, "pack_size": [ 2, 10 ] }
+    ]
+  },
+  {
+    "name": "GROUP_RESORT_MIXED",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_resort_dancer", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_resort_bouncer", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_resort_staff", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 10 ] },
+      { "monster": "mon_zombie_resort_staff", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_tough", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 35 },
+      { "monster": "mon_zombie_brute", "freq": 3, "cost_multiplier": 20 }
+    ]
+  },
+  {
+    "name": "GROUP_RESORT_MIXED_STAFF",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie_resort_dancer", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_zombie_resort_bouncer", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_resort_staff", "freq": 70, "cost_multiplier": 3, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "name": "GROUP_RESORT_STAFF",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [ { "monster": "mon_zombie_resort_staff", "freq": 200, "cost_multiplier": 2, "pack_size": [ 1, 4 ] } ]
+  },
+  {
+    "name": "GROUP_RESORT_BOUNCER",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [ { "monster": "mon_zombie_resort_bouncer", "freq": 200, "cost_multiplier": 3, "pack_size": [ 1, 4 ] } ]
+  }
+]

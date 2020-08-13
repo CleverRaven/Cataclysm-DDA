@@ -41,7 +41,7 @@
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_r",
         ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
         "O": "t_window",
         "S": "t_floor",
@@ -51,7 +51,7 @@
         "l": "t_sidewalk",
         "s": "t_sidewalk",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_r"
       },
       "furniture": {
         "#": "f_counter",

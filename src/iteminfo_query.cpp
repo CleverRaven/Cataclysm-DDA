@@ -1,5 +1,6 @@
 #include "iteminfo_query.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -11,7 +12,7 @@ iteminfo_query::iteminfo_query( const std::string &bits ) : iteminfo_query_base(
 
 iteminfo_query::iteminfo_query( const std::vector<iteminfo_parts> &setBits )
 {
-    for( auto &bit : setBits ) {
+    for( const iteminfo_parts &bit : setBits ) {
         set( static_cast<size_t>( bit ) );
     }
 }
@@ -51,7 +52,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION,
+    iteminfo_parts::DESCRIPTION_IRRADIATION,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED,
     iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE,
@@ -84,5 +85,5 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION
+    iteminfo_parts::DESCRIPTION_IRRADIATION
 } );

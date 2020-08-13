@@ -1,46 +1,40 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyE_second",
-        "weight": 0,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "###rrr====w===ww=rrr####",
-                "###rrr=Dc    |<<=rrr####",
-                "###rrrw   BB |<<=rrr####",
-                "###rrrw   BB |  =rrr####",
-                "###rrr=      |  wrrr####",
-                "###rrr=-+--+--  =rrr####",
-                "###rrr=d d|     =rrr####",
-                "###rrr=----+--  wrrr####",
-                "###rrr=&     |  =rrr####",
-                "###rrrw     s|>>=rrr####",
-                "###rrr=~~S  s|>>=rrr####",
-                "###rrr==w=w===ww=rrr####",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "######rrrrrrrrrrr#######",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house"
-            ],
-            "terrain":{
-                "#": "t_open_air"
-            },
-            "toilets": {
-                "&": { "amount": [ 0, 40 ] }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyE_second",
+    "weight": 0,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "###rrr====w===ww=rrr####",
+        "###rrr=Dc    |<<=rrr####",
+        "###rrrw   BB |<<=rrr####",
+        "###rrrw   BB |  =rrr####",
+        "###rrr=      |  wrrr####",
+        "###rrr=-+--+--  =rrr####",
+        "###rrr=d d|     =rrr####",
+        "###rrr=----+--  wrrr####",
+        "###rrr=&     |  =rrr####",
+        "###rrrw     s|>>=rrr####",
+        "###rrr=~~S  s|>>=rrr####",
+        "###rrr==w=w===ww=rrr####",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "######rrrrrrrrrrr#######",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house" ],
+      "terrain": { "#": "t_open_air" },
+      "toilets": { "&": { "amount": [ 0, 40 ] } }
     }
+  }
 ]

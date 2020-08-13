@@ -1,8 +1,8 @@
 #pragma once
-#ifndef ITEM_SEARCH_H
-#define ITEM_SEARCH_H
+#ifndef CATA_SRC_ITEM_SEARCH_H
+#define CATA_SRC_ITEM_SEARCH_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <string>
@@ -26,10 +26,10 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
 
     // remove curly braces (they only get in the way)
     if( filter.find( '{' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '{' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ), filter.end() );
     }
     if( filter.find( '}' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ), filter.end() );
     }
     if( filter.find( ',' ) != std::string::npos ) {
         // functions which only one of which must return true
@@ -96,4 +96,4 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
  */
 std::function<bool( const item & )> basic_item_filter( std::string filter );
 
-#endif
+#endif // CATA_SRC_ITEM_SEARCH_H

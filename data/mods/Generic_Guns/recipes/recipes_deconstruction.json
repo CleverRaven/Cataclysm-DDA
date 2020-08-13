@@ -1,0 +1,180 @@
+[
+  {
+    "result": "broken_secubot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "solar_cell", 2 ] ],
+      [ [ "rifle_assault", 1 ] ],
+      [ [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_talon_m202a1",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "solar_cell", 2 ] ],
+      [ [ "rocket_disposable", 1 ] ],
+      [ [ "canister_empty", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_skitterbot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "tazer", 2 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "pistol_smg", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_rifle",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "rifle_assault", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_crows_m240",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "rifle_lmg", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_turret_bmg",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "rifle_huge_hmg", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_tankbot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "10 h",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "tankbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 3 ] ],
+      [ [ "flamethrower", 1 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "rifle_assault", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 1 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 2 ] ]
+    ]
+  }
+]

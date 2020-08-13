@@ -1,6 +1,20 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_TRIFFID",
+    "default": "mon_triffid",
+    "monsters": [
+      { "monster": "mon_triffid_young", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fungal_fighter", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
+      { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 20 },
+      { "monster": "mon_creeper_hub", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_heart", "freq": 0, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_TRIFFID_OUTER",
     "default": "mon_triffid",
     "//": "Same as GROUP_TRIFFID with no queen or heart, and creeper hubs/fungal fighters mixed in.",
@@ -10,7 +24,8 @@
       { "monster": "mon_fungal_fighter", "freq": 160, "cost_multiplier": 0 },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
       { "monster": "mon_creeper_hub", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 }
+      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_triffid_flower", "freq": 25, "cost_multiplier": 4 }
     ]
   },
   {

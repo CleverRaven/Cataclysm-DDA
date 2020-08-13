@@ -165,9 +165,9 @@
       ],
       "items": {
         "&": [ { "item": "tools_science", "chance": 10 }, { "item": "trash", "chance": 50, "repeat": [ 1, 2 ] } ],
-        "C": [ { "item": "kitchen", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 30, "repeat": [ 1, 5 ] } ],
+        "C": [ { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 30, "repeat": [ 1, 5 ] } ],
         "f": [
-          { "item": "fridge", "chance": 60, "repeat": [ 2, 10 ] },
+          { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },
           { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
         ],
         "l": { "item": "cleaning", "chance": 70, "repeat": [ 1, 8 ] },

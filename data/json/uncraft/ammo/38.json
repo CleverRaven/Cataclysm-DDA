@@ -2,25 +2,25 @@
   {
     "result": "38_fmj",
     "type": "uncraft",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 2 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
     "result": "38_special",
     "type": "uncraft",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 2 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
     "result": "38_super",
     "type": "uncraft",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]

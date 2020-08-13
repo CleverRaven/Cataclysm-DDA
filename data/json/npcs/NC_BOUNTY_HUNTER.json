@@ -2,44 +2,71 @@
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_pants",
-    "items": [ [ "jeans", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ], [ "pants_cargo", 60 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 20 },
+      { "item": "pants", "prob": 20 },
+      { "item": "pants_leather", "prob": 20 },
+      { "item": "pants_cargo", "prob": 60 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_shoes",
-    "items": [ [ "sneakers", 20 ], [ "boots", 20 ], [ "boots_steel", 40 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "sneakers", "prob": 20 }, { "item": "boots", "prob": 20 }, { "item": "boots_steel", "prob": 40 } ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_coat",
-    "items": [
-      [ "null", 20 ],
-      [ "hoodie", 20 ],
-      [ "jacket_light", 20 ],
-      [ "jacket_windbreaker", 10 ],
-      [ "jacket_leather", 80 ],
-      [ "trenchcoat", 20 ],
-      [ "jacket_jean", 20 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "hoodie", "prob": 20 },
+      { "item": "jacket_light", "prob": 20 },
+      { "item": "jacket_windbreaker", "prob": 10 },
+      { "item": "jacket_leather", "prob": 80 },
+      { "item": "trenchcoat", "prob": 20 },
+      { "item": "jacket_jean", "prob": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_vest",
-    "items": [ [ "null", 20 ], [ "kevlar", 80 ], [ "chestrig", 40 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 80 }, { "item": "tacvest", "prob": 40 } ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_masks",
-    "items": [ [ "null", 10 ], [ "mask_dust", 30 ], [ "bandana", 10 ], [ "mask_filter", 30 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 10 },
+      { "item": "mask_dust", "prob": 30 },
+      { "item": "bandana", "prob": 10 },
+      { "item": "mask_filter", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_storage",
-    "items": [ [ "null", 20 ], [ "backpack", 40 ], [ "backpack_leather", 40 ], [ "rucksack", 5 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "backpack", "prob": 40 },
+      { "item": "backpack_leather", "prob": 40 },
+      { "item": "rucksack", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_eyes",
-    "items": [ [ "null", 60 ], [ "glasses_safety", 20 ], [ "goggles_ski", 20 ], [ "sunglasses", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "glasses_safety", "prob": 20 },
+      { "item": "goggles_ski", "prob": 20 },
+      { "item": "sunglasses", "prob": 20 }
+    ]
   }
 ]

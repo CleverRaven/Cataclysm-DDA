@@ -1,17 +1,20 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 
 #include "assign.h"
 #include "calendar.h"
+#include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "rng.h"
-#include "debug.h"
-#include "game.h"
 #include "json.h"
+#include "npc.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -129,8 +132,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -139,43 +142,53 @@ static const std::map<std::string, std::function<bool( const tripoint & )>> trip
 
 namespace io
 {
-static const std::map<std::string, mission_origin> origin_map = {{
-        { "ORIGIN_NULL", ORIGIN_NULL },
-        { "ORIGIN_GAME_START", ORIGIN_GAME_START },
-        { "ORIGIN_OPENER_NPC", ORIGIN_OPENER_NPC },
-        { "ORIGIN_ANY_NPC", ORIGIN_ANY_NPC },
-        { "ORIGIN_SECONDARY", ORIGIN_SECONDARY },
-        { "ORIGIN_COMPUTER", ORIGIN_COMPUTER }
-    }
-};
 template<>
-mission_origin string_to_enum<mission_origin>( const std::string &data )
+std::string enum_to_string<mission_origin>( mission_origin data )
 {
-    return string_to_enum_look_up( origin_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case ORIGIN_NULL: return "ORIGIN_NULL";
+        case ORIGIN_GAME_START: return "ORIGIN_GAME_START";
+        case ORIGIN_OPENER_NPC: return "ORIGIN_OPENER_NPC";
+        case ORIGIN_ANY_NPC: return "ORIGIN_ANY_NPC";
+        case ORIGIN_SECONDARY: return "ORIGIN_SECONDARY";
+        case ORIGIN_COMPUTER: return "ORIGIN_COMPUTER";
+        // *INDENT-ON*
+        case mission_origin::NUM_ORIGIN:
+            break;
+    }
+    debugmsg( "Invalid mission_origin" );
+    abort();
 }
 
-static const std::map<std::string, mission_goal> goal_map = {{
-        { "MGOAL_NULL", MGOAL_NULL },
-        { "MGOAL_GO_TO", MGOAL_GO_TO },
-        { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
-        { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
-        { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
-        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
-        { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
-        { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
-        { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
-        { "MGOAL_KILL_MONSTER", MGOAL_KILL_MONSTER },
-        { "MGOAL_KILL_MONSTER_TYPE", MGOAL_KILL_MONSTER_TYPE },
-        { "MGOAL_KILL_MONSTER_SPEC", MGOAL_KILL_MONSTER_SPEC },
-        { "MGOAL_RECRUIT_NPC", MGOAL_RECRUIT_NPC },
-        { "MGOAL_RECRUIT_NPC_CLASS", MGOAL_RECRUIT_NPC_CLASS },
-        { "MGOAL_COMPUTER_TOGGLE", MGOAL_COMPUTER_TOGGLE }
-    }
-};
 template<>
-mission_goal string_to_enum<mission_goal>( const std::string &data )
+std::string enum_to_string<mission_goal>( mission_goal data )
 {
-    return string_to_enum_look_up( goal_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case MGOAL_NULL: return "MGOAL_NULL";
+        case MGOAL_GO_TO: return "MGOAL_GO_TO";
+        case MGOAL_GO_TO_TYPE: return "MGOAL_GO_TO_TYPE";
+        case MGOAL_FIND_ITEM: return "MGOAL_FIND_ITEM";
+        case MGOAL_FIND_ANY_ITEM: return "MGOAL_FIND_ANY_ITEM";
+        case MGOAL_FIND_ITEM_GROUP: return "MGOAL_FIND_ITEM_GROUP";
+        case MGOAL_FIND_MONSTER: return "MGOAL_FIND_MONSTER";
+        case MGOAL_FIND_NPC: return "MGOAL_FIND_NPC";
+        case MGOAL_ASSASSINATE: return "MGOAL_ASSASSINATE";
+        case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
+        case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
+        case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
+        case MGOAL_RECRUIT_NPC: return "MGOAL_RECRUIT_NPC";
+        case MGOAL_RECRUIT_NPC_CLASS: return "MGOAL_RECRUIT_NPC_CLASS";
+        case MGOAL_COMPUTER_TOGGLE: return "MGOAL_COMPUTER_TOGGLE";
+        case MGOAL_TALK_TO_NPC: return "MGOAL_TALK_TO_NPC";
+        case MGOAL_CONDITION: return "MGOAL_CONDITION";
+        // *INDENT-ON*
+        case mission_goal::NUM_MGOAL:
+            break;
+    }
+    debugmsg( "Invalid mission_goal" );
+    abort();
 }
 } // namespace io
 
@@ -195,7 +208,7 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
 {
     mission_type_factory.load( jo, src );
 }
@@ -206,7 +219,7 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( JsonObject &jo, const std::string &id, Fun &target,
+void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
                       const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
@@ -221,7 +234,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
 
 static DynamicDataLoader::deferred_json deferred;
 
-void mission_type::load( JsonObject &jo, const std::string &src )
+void mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -232,8 +245,8 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
-            origins.emplace_back( io::string_to_enum_look_up( io::origin_map, m ) );
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
+            origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
 
@@ -253,6 +266,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
         mandatory( djo, was_loaded, "failure", dialogue[ "failure" ] );
     }
 
+    optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
     optional( jo, was_loaded, "item_group", group_id );
@@ -261,6 +275,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "remove_container", remove_container );
     //intended for situations where closed and open container are different
     optional( jo, was_loaded, "empty_container", empty_container );
+    optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
@@ -273,6 +288,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
                 deferred.emplace_back( jo.str(), src );
+                j_start.allow_omitted_members();
                 return false;
             }
         }
@@ -307,6 +323,18 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     }
 
     assign( jo, "destination", target_id, strict );
+
+    if( jo.has_member( "goal_condition" ) ) {
+        read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
+    }
+}
+
+bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+{
+    if( goal_condition ) {
+        return goal_condition( d );
+    }
+    return true;
 }
 
 void mission_type::finalize()
@@ -317,7 +345,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }
@@ -431,10 +459,11 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

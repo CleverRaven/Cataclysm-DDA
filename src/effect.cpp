@@ -1,27 +1,48 @@
 #include "effect.h"
 
-#include <map>
-#include <sstream>
 #include <algorithm>
+#include <cstddef>
+#include <map>
 #include <memory>
 #include <unordered_set>
 
+#include "bodypart.h"
+#include "color.h"
 #include "debug.h"
+#include "enums.h"
+#include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "color.h"
-#include "creature.h"
-#include "enums.h"
-#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+
+static const efftype_id effect_bandaged( "bandaged" );
+static const efftype_id effect_beartrap( "beartrap" );
+static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_heavysnare( "heavysnare" );
+static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_weed_high( "weed_high" );
+
+static const itype_id itype_holybook_bible( "holybook_bible" );
+static const itype_id itype_money_bundle( "money_bundle" );
+
+static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -43,35 +64,39 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-const efftype_id effect_weed_high( "weed_high" );
-
 void weed_msg( player &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p.get_int();
-    if( howhigh > 125_turns && one_in( 7 ) ) {
+    if( howhigh > 12_minutes && one_in( 7 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Freakazoid
+            case 0:
+                // Freakazoid
                 p.add_msg_if_player(
-                    _( "The scariest thing in the world would be... if all the air in the world turned to WOOD!" ) );
+                    _( "The scariest thing in the world would be… if all the air in the world turned to WOOD!" ) );
                 return;
-            case 1: // Simpsons
+            case 1:
+                // Simpsons
                 p.add_msg_if_player(
                     _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
                 p.mod_hunger( 2 );
                 return;
             case 2:
-                if( smarts > 8 ) { // Timothy Leary
+                if( smarts > 8 ) {
+                    // Timothy Leary
                     p.add_msg_if_player( _( "Science is all metaphor." ) );
-                } else if( smarts < 3 ) { // It's Always Sunny in Philadelphia
+                } else if( smarts < 3 ) {
+                    // It's Always Sunny in Philadelphia
                     p.add_msg_if_player( _( "Science is a liar sometimes." ) );
-                } else { // Durr
-                    p.add_msg_if_player( _( "Science is... wait, what was I talking about again?" ) );
+                } else {
+                    // Durr
+                    p.add_msg_if_player( _( "Science is… wait, what was I talking about again?" ) );
                 }
                 return;
-            case 3: // Dazed and Confused
+            case 3:
+                // Dazed and Confused
                 p.add_msg_if_player(
                     _( "Behind every good man there is a woman, and that woman was Martha Washington, man." ) );
                 if( one_in( 2 ) ) {
@@ -83,8 +108,8 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
-                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill... on weed?" ) );
+                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
                     if( one_in( 2 ) ) {
                         p.add_msg_if_player(
                             _( "Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!" ) );
@@ -92,38 +117,43 @@ void weed_msg( player &p )
                             p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
                         }
                     }
-                } else if( p.has_amount( "holybook_bible", 1 ) ) {
-                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29..." ) );
+                } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
+                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
                 } else { // Big Lebowski
-                    p.add_msg_if_player( _( "That rug really tied the room together..." ) );
+                    p.add_msg_if_player( _( "That rug really tied the room together…" ) );
                 }
                 return;
             case 5:
-                p.add_msg_if_player( _( "I used to do drugs...  I still do, but I used to, too." ) );
+                p.add_msg_if_player( _( "I used to do drugs…  I still do, but I used to, too." ) );
             default:
                 return;
         }
-    } else if( howhigh > 100_turns && one_in( 5 ) ) {
+    } else if( howhigh > 10_minutes && one_in( 5 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Bob Marley
+            case 0:
+                // Bob Marley
                 p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
                 return;
-            case 1: // Freakazoid
+            case 1:
+                // Freakazoid
                 p.add_msg_if_player(
-                    _( "Okay, like, the scariest thing in the world would be... if like you went to grab something and it wasn't there!" ) );
+                    _( "Okay, like, the scariest thing in the world would be… if like you went to grab something and it wasn't there!" ) );
                 return;
-            case 2: // Simpsons
+            case 2:
+                // Simpsons
                 p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
                 if( smarts > 2 && one_in( 2 ) ) {
-                    p.add_msg_if_player( _( "... oh, there they go." ) );
+                    p.add_msg_if_player( _( "…oh, there they go." ) );
                 }
                 return;
-            case 3: // Bill Hicks
+            case 3:
+                // Bill Hicks
                 p.add_msg_if_player(
                     _( "You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively." ) );
                 return;
-            case 4: // Steve Martin
+            case 4:
+                // Steve Martin
                 p.add_msg_if_player( _( "I usually only smoke in the late evening." ) );
                 if( one_in( 4 ) ) {
                     p.add_msg_if_player(
@@ -140,36 +170,41 @@ void weed_msg( player &p )
                     p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "...But never at dusk." ) );
+                    p.add_msg_if_player( _( "…But never at dusk." ) );
                 }
                 return;
             case 5:
             default:
                 return;
         }
-    } else if( howhigh > 50_turns && one_in( 3 ) ) {
+    } else if( howhigh > 5_minutes && one_in( 3 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
-            case 0: // Cheech and Chong
+            case 0:
+                // Cheech and Chong
                 p.add_msg_if_player( _( "Dave's not here, man." ) );
                 return;
-            case 1: // Real Life
+            case 1:
+                // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
-                if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
-                    p.add_msg_if_player( _( "Eh... maybe not." ) );
-                } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
-                    p.add_msg_if_player( _( "I guess, maybe, without the cheese... yeah." ) );
+                if( p.has_trait( trait_VEGETARIAN ) ) {
+                    p.add_msg_if_player( _( "Eh… maybe not." ) );
+                } else if( p.has_trait( trait_LACTOSE ) ) {
+                    p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;
-            case 2: // Dazed and Confused
+            case 2:
+                // Dazed and Confused
                 p.add_msg_if_player( _( "Walkin' down the hall, by myself, smokin' a j with fifty elves." ) );
                 return;
-            case 3: // Half Baked
+            case 3:
+                // Half Baked
                 p.add_msg_if_player( _( "That weed was the shiz-nittlebam snip-snap-sack." ) );
                 return;
             case 4:
-                weed_msg( p ); // re-roll
+                // re-roll
+                weed_msg( p );
             case 5:
             default:
                 return;
@@ -177,9 +212,12 @@ void weed_msg( player &p )
     }
 }
 
-static void extract_effect( JsonObject &j,
-                            std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+static void extract_effect(
+    const JsonObject &j,
+    std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
+    cata::tuple_hash> &data,
+    const std::string &mod_type, const std::string &data_key,
+    const std::string &type_key, const std::string &arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -202,7 +240,7 @@ static void extract_effect( JsonObject &j,
     }
 }
 
-bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
+bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_object( member ) ) {
         JsonObject j = jo.get_object( member );
@@ -342,13 +380,18 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
         extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
         extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
 
+        // creature stats mod
+        extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
+        extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
+        extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
+        extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
+        extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
+
         return true;
     } else {
         return false;
     }
 }
-
-effect_type::effect_type() : max_duration( 0_turns ), int_dur_factor( 0_turns ) {}
 
 effect_rating effect_type::get_rating() const
 {
@@ -363,9 +406,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
+        return static_cast<size_t>( max_intensity ) <= reduced_desc.size();
     } else {
-        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
+        return static_cast<size_t>( max_intensity ) <= desc.size();
     }
 }
 
@@ -381,7 +424,8 @@ game_message_type effect_type::gain_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 game_message_type effect_type::lose_game_message_type() const
@@ -396,7 +440,8 @@ game_message_type effect_type::lose_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 std::string effect_type::get_apply_message() const
@@ -415,6 +460,10 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
+std::string effect_type::get_blood_analysis_description() const
+{
+    return blood_analysis_description;
+}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -423,24 +472,20 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
         }
         return true;
     }
     return false;
 }
-bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        JsonArray outer = jo.get_array( member );
-        while( outer.has_more() ) {
-            JsonArray inner = outer.next_array();
+        for( JsonArray inner : jo.get_array( member ) ) {
             std::string msg = inner.get_string( 0 );
             std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
@@ -466,7 +511,7 @@ effect effect::null_effect;
 
 bool effect::is_null() const
 {
-    return this == &null_effect;
+    return !eff_type;
 }
 
 std::string effect::disp_name() const
@@ -477,32 +522,32 @@ std::string effect::disp_name() const
     }
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
-    std::ostringstream ret;
+    std::string ret;
     if( eff_type->use_name_ints() ) {
         const translation &d_name = eff_type->name[ std::min<size_t>( intensity,
                                                       eff_type->name.size() ) - 1 ];
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name.translated();
+        ret += d_name.translated();
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0].translated();
-        if( intensity > 1 ) {
-            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
-                ret << " [" << texitify_healing_power( intensity ) << "]";
+        ret += eff_type->name[0].translated();
+        if( intensity > 1 && eff_type->show_intensity ) {
+            if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
+                ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
-                ret << " [" << intensity << "]";
+                ret += string_format( " [%d]", intensity );
             }
         }
     }
-    if( bp != num_bp ) {
-        ret << " (" << body_part_name( bp ) << ")";
+    if( bp != bodypart_str_id( "bp_null" ) ) {
+        ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
-    return ret.str();
+    return ret;
 }
 
 // Used in disp_desc()
@@ -518,41 +563,41 @@ struct desc_freq {
 
 std::string effect::disp_desc( bool reduced ) const
 {
-    std::ostringstream ret;
+    std::string ret;
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Strength +%d;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Strength %d;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Dexterity +%d;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Dexterity %d;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Perception +%d;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Perception %d;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Intelligence +%d;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Intelligence %d;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret << string_format( _( "Speed +%d;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
     } else if( tmp < 0 ) {
-        ret << string_format( _( "Speed %d;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
     }
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
@@ -624,21 +669,21 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
     if( !constant.empty() ) {
-        ret << _( "Const: " ) << enumerate_as_string( constant ) << " ";
+        ret += _( "Const: " ) + enumerate_as_string( constant ) + " ";
     }
     if( !frequent.empty() ) {
-        ret << _( "Freq: " ) << enumerate_as_string( frequent ) << " ";
+        ret += _( "Freq: " ) + enumerate_as_string( frequent ) + " ";
     }
     if( !uncommon.empty() ) {
-        ret << _( "Unfreq: " ) << enumerate_as_string( uncommon ) << " ";
+        ret += _( "Unfreq: " ) + enumerate_as_string( uncommon ) + " ";
     }
     if( !rare.empty() ) {
-        ret << _( "Rare: " ) << enumerate_as_string( rare ); // No space needed at the end
+        ret += _( "Rare: " ) + enumerate_as_string( rare ); // No space needed at the end
     }
 
     // Newline if necessary
-    if( !ret.str().empty() && ret.str().back() != '\n' ) {
-        ret << "\n";
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
     }
 
     std::string tmp_str;
@@ -657,14 +702,14 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret << string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret << _( tmp_str );
+            ret += _( tmp_str );
         }
     }
 
-    return ret.str();
+    return ret;
 }
 
 std::string effect::disp_short_desc( bool reduced ) const
@@ -684,25 +729,24 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
-    // Decay duration if not permanent
-    if( !is_permanent() ) {
-        mod_duration( -1_turns, player );
-    }
-
     // Decay intensity if supposed to do so
     // TODO: Remove effects that would decay to 0 intensity?
     if( intensity > 1 && eff_type->int_decay_tick != 0 &&
-        to_turn<int>( time ) % eff_type->int_decay_tick == 0 ) {
+        to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
+        get_max_duration() > get_duration() ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
     }
 
     // Add to removal list if duration is <= 0
+    // Decay duration if not permanent
     if( duration <= 0_turns ) {
         rem_ids.push_back( get_id() );
-        rem_bps.push_back( bp );
+        rem_bps.push_back( bp.id() );
+    } else if( !is_permanent() ) {
+        mod_duration( -1_turns, player );
     }
 }
 
@@ -733,7 +777,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
+    add_msg( m_debug, "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -749,11 +793,11 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+bodypart_id effect::get_bp() const
 {
-    return bp;
+    return bp.id();
 }
-void effect::set_bp( body_part part )
+void effect::set_bp( bodypart_str_id part )
 {
     bp = part;
 }
@@ -825,16 +869,16 @@ const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<efftype_id> effect::get_blocks_effects() const
+std::vector<efftype_id> effect::get_blocks_effects() const
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+int effect::get_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -864,9 +908,9 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -896,11 +940,11 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+int effect::get_amount( const std::string &arg, bool reduced ) const
 {
-    int intensity_capped = ( ( eff_type->max_effective_intensity > 0 ) ? std::min(
-                                 eff_type->max_effective_intensity, intensity ) : intensity );
-    auto &mod_data = eff_type->mod_data;
+    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
+                               eff_type->max_effective_intensity, intensity ) : intensity;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
@@ -913,9 +957,9 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min_val" ) );
     if( found != mod_data.end() ) {
@@ -928,9 +972,9 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max_val" ) );
     if( found != mod_data.end() ) {
@@ -953,9 +997,9 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1030,10 +1074,10 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1091,14 +1135,14 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
 
     // has to be an && here to avoid undefined behavior of turn % 0
     if( tick > 0 &&
-        ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0_turns ) {
+        ( when - calendar::turn_zero ) % time_duration::from_turns( tick ) == 0_turns ) {
         if( bot_base != 0 && bot_scale != 0 ) {
             if( bot_base + bot_scale == 0 ) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
                 // so assume false here for consistency
                 return false;
             } else {
-                return x_in_y( ( top_base + top_scale ) * mod, ( bot_base + bot_scale ) );
+                return x_in_y( ( top_base + top_scale ) * mod, bot_base + bot_scale );
             }
         } else {
             return x_in_y( mod, top_base + top_scale );
@@ -1170,29 +1214,28 @@ const effect_type *effect::get_effect_type() const
 // This contains all the effects checked in move_effects
 // It's here and not in json because it is hardcoded anyway
 static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
-        efftype_id( "beartrap" ),
-        efftype_id( "crushed" ),
-        efftype_id( "downed" ),
-        efftype_id( "grabbed" ),
-        efftype_id( "heavysnare" ),
-        efftype_id( "in_pit" ),
-        efftype_id( "lightsnare" ),
-        efftype_id( "tied" ),
-        efftype_id( "webbed" ),
+        effect_beartrap,
+        effect_crushed,
+        effect_downed,
+        effect_grabbed,
+        effect_heavysnare,
+        effect_in_pit,
+        effect_lightsnare,
+        effect_tied,
+        effect_webbed,
     }
 };
 
-void load_effect_type( JsonObject &jo )
+void load_effect_type( const JsonObject &jo )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if( jo.has_member( "name" ) ) {
-        JsonArray jsarr = jo.get_array( "name" );
-        while( jsarr.has_more() ) {
+        for( const JsonValue entry : jo.get_array( "name" ) ) {
             translation name;
-            if( !jsarr.read_next( name ) ) {
-                jsarr.throw_error( "Error reading effect names" );
+            if( !entry.read( name ) ) {
+                entry.throw_error( "Error reading effect names" );
             }
             new_etype.name.emplace_back( name );
         }
@@ -1202,17 +1245,15 @@ void load_effect_type( JsonObject &jo )
     new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
 
     if( jo.has_member( "desc" ) ) {
-        JsonArray jsarr = jo.get_array( "desc" );
-        while( jsarr.has_more() ) {
-            new_etype.desc.push_back( jsarr.next_string() );
+        for( const std::string line : jo.get_array( "desc" ) ) {
+            new_etype.desc.push_back( line );
         }
     } else {
         new_etype.desc.push_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        JsonArray jsarr = jo.get_array( "reduced_desc" );
-        while( jsarr.has_more() ) {
-            new_etype.reduced_desc.push_back( jsarr.next_string() );
+        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
+            new_etype.reduced_desc.push_back( line );
         }
     } else {
         new_etype.reduced_desc = new_etype.desc;
@@ -1241,6 +1282,8 @@ void load_effect_type( JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
+    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
+
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
@@ -1254,19 +1297,32 @@ void load_effect_type( JsonObject &jo )
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 
+    if( jo.has_string( "max_duration" ) ) {
+        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+                                 time_duration::units );
+    } else {
+        new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
+    }
+
+    if( jo.has_string( "int_dur_factor" ) ) {
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+                                   time_duration::units );
+    } else {
+        new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
+    }
+
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
-    new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
     new_etype.int_add_val = jo.get_int( "int_add_val", 0 );
     new_etype.int_decay_step = jo.get_int( "int_decay_step", -1 );
     new_etype.int_decay_tick = jo.get_int( "int_decay_tick", 0 );
-    new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.show_intensity = jo.get_bool( "show_intensity", true );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
@@ -1280,8 +1336,14 @@ void load_effect_type( JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    effect_types[new_etype.id] = new_etype;
+    new_etype.flags = jo.get_tags( "flags" );
 
+    effect_types[new_etype.id] = new_etype;
+}
+
+bool effect::has_flag( const std::string &flag ) const
+{
+    return eff_type->flags.count( flag ) > 0;
 }
 
 void reset_effect_types()
@@ -1304,7 +1366,7 @@ void effect::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
-    json.member( "bp", static_cast<int>( bp ) );
+    json.member( "bp", bp.c_str() );
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
@@ -1313,13 +1375,21 @@ void effect::serialize( JsonOut &json ) const
 void effect::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    const efftype_id id( jo.get_string( "eff_type" ) );
+    efftype_id id;
+    jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = static_cast<body_part>( jo.get_int( "bp" ) );
-    permanent = jo.get_bool( "permanent" );
-    intensity = jo.get_int( "intensity" );
-    start_time = calendar::time_of_cataclysm;
+
+    // TEMPORARY until 0.F
+    if( jo.has_int( "bp" ) ) {
+        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
+    } else {
+        jo.read( "bp", bp );
+    }
+
+    jo.read( "permanent", permanent );
+    jo.read( "intensity", intensity );
+    start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }
 
@@ -1366,3 +1436,23 @@ std::string texitify_healing_power( const int power )
     }
     return "";
 }
+std::string texitify_bandage_power( const int power )
+{
+    if( power < 5 ) {
+        return colorize( _( "miniscule" ), c_red );
+    } else if( power < 10 ) {
+        return colorize( _( "small" ), c_light_red );
+    } else if( power < 15 ) {
+        return colorize( _( "moderate" ), c_yellow );
+    } else if( power < 20 ) {
+        return colorize( _( "good" ), c_light_green );
+    } else if( power < 30 ) {
+        return colorize( _( "excellent" ), c_light_green );
+    } else if( power < 51 ) {
+        return colorize( _( "outstanding" ), c_green );
+    } else {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
+}
+

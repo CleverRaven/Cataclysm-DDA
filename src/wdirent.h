@@ -232,7 +232,6 @@ struct _wdirent {
     int d_type;                                 /* File type */
     wchar_t d_name[PATH_MAX + 1];               /* File name */
 };
-typedef struct _wdirent _wdirent;
 
 struct _WDIR {
     struct _wdirent ent;                        /* Current directory entry */
@@ -241,7 +240,6 @@ struct _WDIR {
     HANDLE handle;                              /* Win32 search handle */
     wchar_t *patt;                              /* Initial directory name */
 };
-typedef struct _WDIR _WDIR;
 
 static _WDIR *_wopendir( const wchar_t *dirname );
 static struct _wdirent *_wreaddir( _WDIR *dirp );
@@ -264,13 +262,11 @@ struct dirent {
     int d_type;                                 /* File type */
     char d_name[PATH_MAX + 1];                  /* File name */
 };
-typedef struct dirent dirent;
 
 struct DIR {
     struct dirent ent;
     struct _WDIR *wdirp;
 };
-typedef struct DIR DIR;
 
 static DIR *opendir( const char *dirname );
 static struct dirent *readdir( DIR *dirp );
@@ -318,15 +314,13 @@ _wopendir(
     /* Allocate new _WDIR structure */
     dirp = static_cast<_WDIR *>( malloc( sizeof( struct _WDIR ) ) );
     if( dirp != NULL ) {
-        DWORD n;
-
         /* Reset _WDIR structure */
         dirp->handle = INVALID_HANDLE_VALUE;
         dirp->patt = NULL;
         dirp->cached = 0;
 
         /* Compute the length of full path plus zero terminator */
-        n = GetFullPathNameW( dirname, 0, NULL, NULL );
+        DWORD n = GetFullPathNameW( dirname, 0, NULL, NULL );
 
         /* Allocate room for absolute directory name and search pattern */
         dirp->patt = static_cast<wchar_t *>( malloc( sizeof( wchar_t ) * n + 16 ) );
@@ -339,10 +333,8 @@ _wopendir(
              */
             n = GetFullPathNameW( dirname, n, dirp->patt, NULL );
             if( n > 0 ) {
-                wchar_t *p;
-
                 /* Append search pattern \* to the directory name */
-                p = dirp->patt + n;
+                wchar_t *p = dirp->patt + n;
                 if( dirp->patt < p ) {
                     switch( p[-1] ) {
                         case '\\':
@@ -406,15 +398,11 @@ static struct _wdirent *
 _wreaddir(
     _WDIR *dirp )
 {
-    WIN32_FIND_DATAW *datap;
     struct _wdirent *entp;
 
     /* Read next directory entry */
-    datap = dirent_next( dirp );
+    WIN32_FIND_DATAW *datap = dirent_next( dirp );
     if( datap ) {
-        size_t n;
-        DWORD attr;
-
         /* Pointer to directory entry to return */
         entp = &dirp->ent;
 
@@ -423,7 +411,7 @@ _wreaddir(
          * long to fit in to the destination buffer, then truncate file name
          * to PATH_MAX characters and zero-terminate the buffer.
          */
-        n = 0;
+        size_t n = 0;
         while( n < PATH_MAX  &&  datap->cFileName[n] != 0 ) {
             entp->d_name[n] = datap->cFileName[n];
             n++;
@@ -434,7 +422,7 @@ _wreaddir(
         entp->d_namlen = n;
 
         /* File type */
-        attr = datap->dwFileAttributes;
+        DWORD attr = datap->dwFileAttributes;
         if( ( attr & FILE_ATTRIBUTE_DEVICE ) != 0 ) {
             entp->d_type = DT_CHR;
         } else if( ( attr & FILE_ATTRIBUTE_DIRECTORY ) != 0 ) {
@@ -581,7 +569,6 @@ static DIR *
 opendir(
     const char *dirname )
 {
-    struct DIR *dirp;
     int error;
 
     /* Must have directory name */
@@ -591,7 +578,7 @@ opendir(
     }
 
     /* Allocate memory for DIR structure */
-    dirp = static_cast<DIR *>( malloc( sizeof( struct DIR ) ) );
+    struct DIR *dirp = static_cast<DIR *>( malloc( sizeof( struct DIR ) ) );
     if( dirp ) {
         wchar_t wname[PATH_MAX + 1];
         size_t n;
@@ -652,18 +639,16 @@ static struct dirent *
 readdir(
     DIR *dirp )
 {
-    WIN32_FIND_DATAW *datap;
     struct dirent *entp;
 
     /* Read next directory entry */
-    datap = dirent_next( dirp->wdirp );
+    WIN32_FIND_DATAW *datap = dirent_next( dirp->wdirp );
     if( datap ) {
         size_t n;
-        int error;
 
         /* Attempt to convert file name to multi-byte string */
-        error = dirent_wcstombs_s(
-                    &n, dirp->ent.d_name, MAX_PATH + 1, datap->cFileName, MAX_PATH );
+        int error = dirent_wcstombs_s(
+                        &n, dirp->ent.d_name, MAX_PATH + 1, datap->cFileName, MAX_PATH );
 
         /*
          * If the file name cannot be represented by a multi-byte string,
@@ -683,8 +668,6 @@ readdir(
         }
 
         if( !error ) {
-            DWORD attr;
-
             /* Initialize directory entry for return */
             entp = &dirp->ent;
 
@@ -692,7 +675,7 @@ readdir(
             entp->d_namlen = n - 1;
 
             /* File attributes */
-            attr = datap->dwFileAttributes;
+            DWORD attr = datap->dwFileAttributes;
             if( ( attr & FILE_ATTRIBUTE_DEVICE ) != 0 ) {
                 entp->d_type = DT_CHR;
             } else if( ( attr & FILE_ATTRIBUTE_DIRECTORY ) != 0 ) {

@@ -316,7 +316,7 @@
         "r": "t_dirt",
         "t": "t_tree",
         "w": "t_window",
-        "x": "t_wall",
+        "x": "t_wall_w",
         "|": "t_dirt"
       },
       "furniture": {
