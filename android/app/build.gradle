@@ -128,6 +128,10 @@ if (!override_version.isEmpty()) {
     }
 }
 
+def projectRoot = './../..'
+def assetsDir = 'src/main/assets'
+def assetsDirWindows = 'src/main/assetsWinHost'
+
 task unzipDeps(type: Copy) {
     println("Using dependencies file: $deps")
     def zipFile = new File("$deps")
@@ -137,64 +141,95 @@ task unzipDeps(type: Copy) {
 }
 
 task makeLocalization(type: Exec) {
+    def args = []
     if (localize) {
-        println("Building with localization'")
+        println("Building with localization")
         switch (OperatingSystem.current()) {
             case OperatingSystem.LINUX:
-                workingDir './../..'
-                commandLine 'make', 'localization', 'LANGUAGES=all'
+                args = ['make', 'localization', 'LANGUAGES=all']
                 break
             case OperatingSystem.WINDOWS:
-                workingDir './../..'
-                commandLine 'sh.exe', 'android/app/makelocalizations.sh'
+                args = ['sh.exe', 'lang/compile_mo.sh']
                 break
             default:
-                workingDir './../..'
-                commandLine 'echo', 'Building without localization'
+                args = ['echo', 'Building without localization']
                 break
         }
     } else {
-        workingDir './../..'
-        commandLine 'echo', 'Building without localization'
+        args = ['echo', 'Building without localization']
+        if (OperatingSystem.current() == OperatingSystem.WINDOWS) {
+            args = ['cmd.exe', '/k'] + args
+        }
+    }
+    workingDir projectRoot
+    commandLine args
+}
+
+task generateVersionHeader() {
+    // this taks imitates `make version` while respecting version_header_path
+    if (override_version.isEmpty()) {
+        println("Generating version number to $version_header_path")
+        def output = new ByteArrayOutputStream()
+        exec {
+            workingDir projectRoot
+            commandLine 'git', 'describe', '--tags', '--always', '--dirty', '--match', '"[0-9A-Z]*.[0-9A-Z]*"'
+            standardOutput output
+        }
+        override_version = output.toString()
+        override_version = override_version.split()[0] // strip whitespaces
+    } else {
+        println("Overriding version number to $override_version")
+    }
+
+    def versionHeader = new File("$version_header_path")
+    versionHeader.text = "// NOLINT(cata-header-guard)\n#define VERSION \"$override_version\"\n"
+}
+
+task createWindowsJunctionLinks() {
+    onlyIf {
+        OperatingSystem.current() == OperatingSystem.WINDOWS
+    }
+
+    doLast {
+        def mkJunction = { to, from ->
+            def errOut = new ByteArrayOutputStream()
+            exec {
+                commandLine 'cmd', '/k', "mklink /J $to $from"
+                errorOutput errOut
+                standardOutput new ByteArrayOutputStream() // don't print the output
+            }
+            def errString = errOut.toString()
+            if (!errString.isEmpty() && !errString.endsWith('already exists.\r\n')) {
+                // we have an error that is not 'file already exists'
+                errString = errString.substring(0, errString.size() - 2) // discard \r\n
+                throw new GradleException("$errString")
+            }
+        }
+
+        println("Creating junctions for the assets")
+
+        mkdir assetsDirWindows
+        mkdir "$assetsDirWindows/lang"
+
+        def rootDir = projectRoot.replace('/', '\\')
+        def unixAssetsDir = assetsDir.replace('/', '\\')
+        def winAssetsDir = assetsDirWindows.replace('/', '\\')
+        
+        mkJunction("$winAssetsDir\\android", "$unixAssetsDir\\android")
+        for (dir in ['data', 'gfx', 'lang\\mo']) {
+            mkJunction("$winAssetsDir\\$dir", "$rootDir\\$dir")
+        }
     }
 }
 
-makeLocalization
-unzipDeps.dependsOn makeLocalization
 preBuild.dependsOn unzipDeps
+preBuild.dependsOn makeLocalization
+preBuild.dependsOn generateVersionHeader
+preBuild.dependsOn createWindowsJunctionLinks
+createWindowsJunctionLinks.dependsOn makeLocalization
 
 android {
     compileSdkVersion override_compileSdkVersion
-
-    if (override_version.isEmpty()) {
-        println("Generating version number to $version_header_path")
-        switch (OperatingSystem.current()) {
-            case OperatingSystem.LINUX:
-                exec {
-                    workingDir './../..'
-                    commandLine 'make', 'version'
-                }
-                break
-            case OperatingSystem.WINDOWS:
-                exec {
-                    workingDir './../..'
-                    commandLine 'sh.exe', '-c', 'make version'
-                }
-                break
-            default:
-                exec {
-                    workingDir './../..'
-                    commandLine 'make', 'version'
-                }
-                break
-        }
-    } else {
-        println("Overriding version number to $override_version")
-        exec {
-            workingDir './../..'
-            commandLine 'echo', '#define VERSION $override_version', '>', '$version_header_path'
-        }
-    }
 
     defaultConfig {
         minSdkVersion override_minSdkVersion
@@ -272,7 +307,7 @@ android {
                 debug {
                     storeFile file(keystoreProperties.getProperty("debug_storeFile"))
                     storePassword keystoreProperties.getProperty("debug_storePassword")
-                    keyAlias keystoreProperties.getProperty("debug_seyAlias")
+                    keyAlias keystoreProperties.getProperty("debug_keyAlias")
                     keyPassword keystoreProperties.getProperty("debug_keyPassword")
                 }
             } else {
@@ -320,6 +355,10 @@ android {
     }
     lintOptions {
         abortOnError false
+    }
+
+    if (OperatingSystem.current() == OperatingSystem.WINDOWS) {
+        sourceSets.main.assets.srcDirs = ['src/main/assetsWinHost']
     }
 
     if (buildAsLibrary) {
