@@ -6797,7 +6797,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         }
     }
 
-    if( get_option<bool>("ELECTRIC_GRID") && !tmpsub->active_furniture.empty() ) {
+    if( get_option<bool>( "ELECTRIC_GRID" ) && !tmpsub->active_furniture.empty() ) {
         for( auto &pr : tmpsub->active_furniture ) {
             tripoint p = sm_to_ms_copy( grid ) + pr.first;
             active_tiles.emplace( p );
