@@ -50,7 +50,7 @@
     "squeamish_penalty": 7,
     "base_hp": 60,
     "drench_capacity": 7,
-    "bash_message": "You smash the %s with a firm headbutt",
+    "bash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
     "bionic_slots": 18
   },
