@@ -11,12 +11,12 @@
     "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "element", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "plut_cell", 1 ] ]
+      [ [ "plastic_chunk", 34 ] ],
+      [ [ "superglue", 7 ] ],
+      [ [ "power_supply", 7 ] ],
+      [ [ "element", 7 ] ],
+      [ [ "scrap", 14 ] ],
+      [ [ "plut_cell", 7 ] ]
     ]
   },
   {
@@ -50,11 +50,11 @@
     "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "plut_cell", 2 ] ]
+      [ [ "plastic_chunk", 7 ] ],
+      [ [ "superglue", 4 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "cable", 7 ] ],
+      [ [ "plut_cell", 7 ] ]
     ]
   },
   {
@@ -156,11 +156,11 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
-      [ [ "brain", 2 ] ],
-      [ [ "eggs_bird", 1, "LIST" ] ],
-      [ [ "batter", 3, "LIST" ] ],
-      [ [ "salt", 1 ] ],
-      [ [ "seasoning_mild", 4, "LIST" ] ]
+      [ [ "brain", 3 ] ],
+      [ [ "eggs_bird", 2, "LIST" ] ],
+      [ [ "batter", 4, "LIST" ] ],
+      [ [ "salt", 2 ] ],
+      [ [ "seasoning_mild", 5, "LIST" ] ]
     ]
   },
   {
@@ -208,8 +208,8 @@
     "time": 50000,
     "reversible": true,
     "autolearn": [ [ "electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
+    "using": [ [ "soldering_standard", 381 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+    "components": [ [ [ "power_supply", 22 ] ], [ [ "processor", 22 ] ], [ [ "scrap", 55 ] ], [ [ "cable", 88 ] ] ]
   }
 ]
