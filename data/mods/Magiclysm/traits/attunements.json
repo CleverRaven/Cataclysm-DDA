@@ -33,7 +33,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -69,7 +69,7 @@
       "SHAPESHIFTER",
       "SUN_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -113,7 +113,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -192,7 +192,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -230,7 +230,7 @@
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "TUNDRA_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -269,7 +269,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -308,7 +308,7 @@
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "TUNDRA_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -349,7 +349,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -389,7 +389,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -428,7 +428,7 @@
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "TUNDRA_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -468,7 +468,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -505,7 +505,7 @@
       "SHAPESHIFTER",
       "SUN_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -543,7 +543,7 @@
       "SHAPESHIFTER",
       "SUN_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -584,7 +584,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -623,7 +623,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -661,7 +661,7 @@
       "SHAPESHIFTER",
       "SUN_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -702,7 +702,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -741,7 +741,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -781,7 +781,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -899,7 +899,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ]
@@ -938,7 +938,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -978,7 +978,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -1018,7 +1018,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -1058,7 +1058,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
@@ -1098,16 +1098,16 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ]
   },
   {
-    "id": "VOLCANO_MAGE",
+    "id": "VULCANIST",
     "type": "mutation",
-    "name": { "str": "Volcano Mage" },
+    "name": { "str": "Vulcanist" },
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
@@ -1139,7 +1139,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VOLCANO_MAGE",
+      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
