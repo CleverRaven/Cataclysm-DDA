@@ -208,7 +208,7 @@
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
-    {
+  {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Pants1",
     "dynamic_line": {
@@ -241,7 +241,7 @@
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
-    {
+  {
     "id": "MISSION_REFUGEE_Alonso_condoms",
     "type": "mission_definition",
     "name": { "str": "Alonso must have condoms" },
@@ -274,3 +274,4 @@
     }
   }
 ]
+
