@@ -766,6 +766,13 @@ static void smash()
                     tmp_bash_armor += i.bash_resist();
                 }
             }
+            for( const trait_id &mut : player_character.get_mutations() ) {
+                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
+                    if( res.first == bp.id() ) {
+                        tmp_bash_armor += static_cast<int>( res.second.type_resist( DT_BASH ) );
+                    }
+                }
+            }
             if( tmp_bash_armor > best_part_to_smash.second ) {
                 best_part_to_smash = {bp, tmp_bash_armor};
             }
@@ -783,9 +790,10 @@ static void smash()
                 add_msg( _( "You use your %s to smash the %s." ),
                          body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
             }
-            // your ability to smash without a weapon is capped by your best bash armor
-            smashskill = std::min( best_part_to_smash.second, smashskill );
         }
+
+        smashskill = std::min( best_part_to_smash.second + smashskill / 2,
+                               static_cast<int>( smashskill * 1.5 ) );
     }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
