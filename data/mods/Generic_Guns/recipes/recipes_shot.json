@@ -97,7 +97,7 @@
     "reversible": true,
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "tools": [ [ [ "press_dowel", -1 ] ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "components": [ [ [ "chem_black_powder", 32 ] ] ]
   },
   {
     "result": "reloaded_shot_pyro",
@@ -113,8 +113,8 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
-    "using": [ [ "req_shot", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "using": [ [ "req_shot", 2 ] ],
+    "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 3 ], [ "gunpowder_shotgun", 3 ] ], [ [ "magnesium", 10 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
@@ -130,8 +130,8 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
-    "using": [ [ "req_shot", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
+    "using": [ [ "req_shot", 2 ] ],
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "magnesium", 10 ] ] ]
   },
   {
     "result": "bp_shot_pyro",
@@ -265,9 +265,9 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
-    "using": [ [ "req_shot", 1 ] ],
+    "using": [ [ "req_shot", 2 ] ],
     "components": [
-      [ [ "gunpowder", 6 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
+      [ [ "gunpowder", 10 ], [ "gunpowder_pistol", 6 ], [ "gunpowder_shotgun", 6 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],
@@ -278,7 +278,7 @@
         [ "bearing", 2 ],
         [ "lead", 3 ],
         [ "silver_small", 3 ],
-        [ "bismuth", 3 ],
+        [ "bismuth", 5 ],
         [ "shrapnel", 2 ]
       ]
     ]
@@ -296,9 +296,9 @@
     "charges": 1,
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ] ],
-    "using": [ [ "req_shot", 1 ] ],
+    "using": [ [ "req_shot", 2 ] ],
     "components": [
-      [ [ "chem_black_powder", 6 ] ],
+      [ [ "chem_black_powder", 10 ] ],
       [
         [ "scrap", 1 ],
         [ "nail", 5 ],
@@ -309,7 +309,7 @@
         [ "bearing", 2 ],
         [ "lead", 3 ],
         [ "silver_small", 3 ],
-        [ "bismuth", 3 ],
+        [ "bismuth", 5 ],
         [ "shrapnel", 2 ]
       ]
     ]

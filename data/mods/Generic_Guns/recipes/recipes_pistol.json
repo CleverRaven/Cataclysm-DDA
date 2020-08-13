@@ -19,7 +19,7 @@
     "result": "bp_tiny_pistol_jhp",
     "type": "recipe",
     "copy-from": "reloaded_tiny_pistol_jhp",
-    "components": [ [ [ "chem_black_powder", 2 ] ] ]
+    "components": [ [ [ "chem_black_powder", 5 ] ] ]
   },
   {
     "result": "reloaded_tiny_pistol_ball",
@@ -32,7 +32,7 @@
     "result": "bp_tiny_pistol_ball",
     "type": "recipe",
     "copy-from": "reloaded_tiny_pistol_ball",
-    "components": [ [ [ "chem_black_powder", 2 ] ], [ [ "copper", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_pistol_jhp",
@@ -54,7 +54,7 @@
     "result": "bp_pistol_jhp",
     "type": "recipe",
     "copy-from": "reloaded_pistol_jhp",
-    "components": [ [ [ "chem_black_powder", 4 ] ] ]
+    "components": [ [ [ "chem_black_powder", 9 ] ] ]
   },
   {
     "result": "reloaded_pistol_ball",
@@ -70,7 +70,7 @@
     "result": "bp_pistol_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_ball",
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 7 ] ], [ [ "copper", 2 ], [ "pistol_tiny_casing", 2 ] ] ]
   },
   {
     "result": "reloaded_pistol_magnum_jhp",
@@ -92,7 +92,7 @@
     "result": "bp_pistol_magnum_jhp",
     "type": "recipe",
     "copy-from": "reloaded_pistol_magnum_jhp",
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "components": [ [ [ "chem_black_powder", 13 ] ] ]
   },
   {
     "result": "reloaded_pistol_magnum_ball",
@@ -108,6 +108,6 @@
     "result": "bp_pistol_magnum_ball",
     "type": "recipe",
     "copy-from": "reloaded_pistol_magnum_ball",
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ] ]
+    "components": [ [ [ "chem_black_powder", 9 ] ], [ [ "copper", 3 ], [ "pistol_magnum_casing", 2 ] ] ]
   }
 ]
