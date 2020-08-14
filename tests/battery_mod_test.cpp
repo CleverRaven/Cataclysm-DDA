@@ -6,11 +6,14 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "flat_set.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
+#include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -140,6 +143,30 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
                 THEN( "the flashlight has charges" ) {
                     CHECK( flashlight.ammo_remaining() == bat_charges );
+                }
+
+                AND_WHEN( "flashlight is activated" ) {
+                    const use_function *use = flashlight.type->get_use( "transform" );
+                    CHECK( use != nullptr );
+                    const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
+
+                    player &dummy = get_avatar();
+                    clear_avatar();
+                    actor->use( dummy, flashlight, false, dummy.pos() );
+
+                    // Regression tests for #42764 / #42854
+                    THEN( "mod remains installed" ) {
+                        CHECK_FALSE( flashlight.toolmods().empty() );
+                        CHECK_FALSE( flashlight.magazine_compatible().empty() );
+                    }
+                    THEN( "battery remains installed" ) {
+                        CHECK( flashlight.magazine_current() );
+                    }
+                    THEN( "medium battery remains the default" ) {
+                        itype_id mag_default = flashlight.magazine_default( false );
+                        CHECK_FALSE( mag_default.is_null() );
+                        CHECK( mag_default.str() == "medium_battery_cell" );
+                    }
                 }
             }
         }
