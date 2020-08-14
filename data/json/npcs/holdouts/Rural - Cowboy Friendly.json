@@ -79,4 +79,6 @@
    { "text": "I like it.", "topic": "TALK_NONE" },
    { "text": "I hate it.", "topic": "TALK_NONE" },
    { "text": "Fair enough.", "topic": "TALK_NONE" }
+   ]
+   }
 ]
