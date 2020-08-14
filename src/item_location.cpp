@@ -718,9 +718,15 @@ void item_location::deserialize( JsonIn &js )
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
-        auto iter = parent_contents.begin();
-        std::advance( iter, idx );
-        ptr.reset( new impl::item_in_container( parent, *iter ) );
+        if( idx < parent_contents.size() ) {
+            auto iter = parent_contents.begin();
+            std::advance( iter, idx );
+            ptr.reset( new impl::item_in_container( parent, *iter ) );
+        }
+        else {
+            // probably pointing to the wrong item
+            debugmsg( "contents index greater than contents size" );
+        }
     }
 }
 
