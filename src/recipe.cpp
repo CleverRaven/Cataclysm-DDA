@@ -378,7 +378,8 @@ bool recipe::check_weight_consistency() const
         // (example: meat_scrap is 0.1 of meat, which weighs 296g, but meat_scrap weighs 29.599g, and ten mutant_scrap = 295.99g, and fails the check)
         // That's why I'm tolerating 10 milligram
     } else if( results_weight > components_weight + 10_milligram ) {
-        debugmsg( "recipe %s (to craft %s) is inconsistent weight-wise (%dmg > %dmg)", ident_.str(),
+        debugmsg( "recipe %s (to craft %s) is inconsistent weight-wise (%dmg > %dmg)\nIf this inconsistency is intended, you can suppress this error with the BYPASS_MASS_CHECK flag.",
+                  ident_.str(),
                   result_.str(), results_weight.value(), components_weight.value() );
         return false;
     }
@@ -450,7 +451,7 @@ void recipe::finalize()
         }
     }
 
-    if( type_ == recipe_type::recipe && !obsolete ) {
+    if( type_ == recipe_type::recipe && !obsolete && !has_flag( "BYPASS_MASS_CHECK" ) ) {
         check_weight_consistency();
     }
 }

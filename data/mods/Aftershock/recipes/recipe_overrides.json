@@ -17,7 +17,8 @@
       [ [ "element", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "plut_cell", 1 ] ]
-    ]
+    ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "type": "recipe",
@@ -55,7 +56,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 2 ] ],
       [ [ "plut_cell", 2 ] ]
-    ]
+    ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "type": "recipe",
@@ -161,7 +163,8 @@
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 4, "LIST" ] ]
-    ]
+    ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "type": "recipe",
@@ -210,6 +213,7 @@
     "autolearn": [ [ "electronics", 2 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   }
 ]

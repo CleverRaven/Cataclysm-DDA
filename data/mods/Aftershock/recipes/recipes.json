@@ -37,7 +37,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "clockworks", 1 ] ],
       [ [ "cable", 15 ] ]
-    ]
+    ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "result": "plut_cell",
@@ -203,7 +204,8 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
+    "components": [ [ [ "afs_scrap_titanium", 2 ] ] ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "result": "afs_metal_rig",
@@ -320,7 +322,8 @@
       [ [ "e_scrap", 10 ] ],
       [ [ "lens", 2 ] ],
       [ [ "plastic_chunk", 6 ] ]
-    ]
+    ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "result": "plut_cell",
@@ -501,7 +504,8 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "afs_titanium_small", 400 ] ] ]
+    "components": [ [ [ "afs_titanium_small", 400 ] ] ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "result": "afs_material_1",
