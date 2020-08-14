@@ -59,6 +59,7 @@ enum class cata_variant_type : int {
     spell_id,
     string,
     ter_id,
+    ter_str_id,
     trait_id,
     trap_str_id,
     tripoint,
@@ -164,7 +165,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 29,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 30,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -287,6 +288,9 @@ struct convert<cata_variant_type::string> : convert_string<std::string> {};
 
 template<>
 struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
+
+template<>
+struct convert<cata_variant_type::ter_str_id> : convert_string_id<ter_str_id> {};
 
 template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
