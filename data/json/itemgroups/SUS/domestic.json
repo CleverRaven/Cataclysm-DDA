@@ -807,7 +807,7 @@
     "//2": "This group is for an oven that might have some pots and pans in the warming drawer.",
     "subtype": "collection",
     "entries": [
-      { "distribution": [ { "item": "extinguisher", "prob": 20 }, { "item": "sm_extinguisher", "prob": 80 } ], "prob": 65 },
+      { "distribution": [ { "item": "extinguisher", "prob": 20, "charges-min": 1 }, { "item": "sm_extinguisher", "prob": 80, "charges-min": 1 } ], "prob": 65 },
       {
         "distribution": [ { "item": "pot", "prob": 20 }, { "item": "pot_copper", "prob": 5 }, { "item": "iron_pot", "prob": 5 } ],
         "prob": 25

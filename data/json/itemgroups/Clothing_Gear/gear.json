@@ -81,8 +81,8 @@
     "type": "item_group",
     "id": "fireman_gear",
     "items": [
-      [ "extinguisher", 10 ],
-      [ "sm_extinguisher", 20 ],
+      { "item": "extinguisher", "prob": 10, "charges-min": 80 },
+      { "item": "sm_extinguisher", "prob": 20, "charges-min": 8 },
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
       [ "1st_aid", 10 ],
