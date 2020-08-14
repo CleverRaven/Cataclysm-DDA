@@ -97,7 +97,7 @@ std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements
     const inventory &crafting_inv, creature_size size, butcher_type butcher ) const
 {
     for( const std::pair<float, std::map<creature_size, std::map<butcher_type, requirement_id>>>
-        &riter : requirements ) {
+         &riter : requirements ) {
         if( riter.second.at( size ).at( butcher )->can_make_with_inventory( crafting_inv,
                 is_crafting_component ) ) {
             return std::make_pair( riter.first, riter.second.at( size ).at( butcher ) );
