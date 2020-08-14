@@ -831,16 +831,13 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
 
 int iuse::weed_edible( player *p, item *it, bool, const tripoint & )
 {
-	//different messages for different edibles
-	const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
-	if( comest_type == "FOOD" ) {
-		p->add_msg_if_player(
-        _( "You start scarfing down the delicious %s.  It tastes a little funny though…" ), it->tname() );
-	}
-	else if( comest_type == "DRINK" ) {
-		p->add_msg_if_player(
-        _( "You start gulping down the delicious %s.  It tastes a little funny though…" ), it->tname() );
-	}
+    if( it.get_comestible()->comesttype : "" == "FOOD" ) {
+         p->add_msg_if_player(
+             _( "You start scarfing down the delicious %s.  It tastes a little funny though…" ), it->tname() );
+    } else if( it.get_comestible()->comesttype : "" == "DRINK" ) {
+         p->add_msg_if_player(
+             _( "You start gulping down the delicious %s.  It tastes a little funny though…" ), it->tname() );
+    }
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
