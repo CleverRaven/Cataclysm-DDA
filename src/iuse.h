@@ -67,8 +67,7 @@ int sleep( player *, item *, bool, const tripoint & );
 int smoking( player *, item *, bool, const tripoint & );
 int thorazine( player *, item *, bool, const tripoint & );
 int vaccine( player *, item *, bool, const tripoint & );
-int weed_cake( player *, item *, bool, const tripoint & );
-int weed_drink( player *, item *, bool, const tripoint & );
+int weed_edible( player *, item *, bool, const tripoint & );
 int xanax( player *, item *, bool, const tripoint & );
 
 // TOOLS

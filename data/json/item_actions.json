@@ -966,13 +966,8 @@
   },
   {
     "type": "item_action",
-    "id": "WEED_CAKE",
+    "id": "WEED_EDIBLE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "WEED_DRINK",
-    "name": { "ctxt": "verb", "str": "Drink" }
   },
   {
     "type": "item_action",

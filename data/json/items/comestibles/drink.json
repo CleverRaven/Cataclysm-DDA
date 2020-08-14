@@ -799,7 +799,7 @@
     "price_postapoc": 75,
     "description": "Spiked soda that'll get you high alongside the sugar high.",
     "fun": 11,
-    "use_action": [ "WEED_DRINK" ]
+    "use_action": [ "WEED_EDIBLE" ]
   },
   {
     "type": "COMESTIBLE",
