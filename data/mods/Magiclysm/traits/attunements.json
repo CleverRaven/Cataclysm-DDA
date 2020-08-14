@@ -597,7 +597,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice. Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others. You're also starting to research more magic that focuses on your body's inherent ice affinity.",
+    "enchantments": [ "ICE_ELEMENTAL" ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
