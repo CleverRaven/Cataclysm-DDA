@@ -451,7 +451,8 @@ void recipe::finalize()
         }
     }
 
-    if( type_ == recipe_type::recipe && !obsolete && !has_flag( "BYPASS_MASS_CHECK" ) ) {
+    if( type_ == recipe_type::recipe && !obsolete && category != "CC_FOOD" &&
+        !has_flag( "BYPASS_MASS_CHECK" ) ) {
         check_weight_consistency();
     }
 }
