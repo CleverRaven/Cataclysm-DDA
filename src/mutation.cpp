@@ -385,8 +385,8 @@ void Character::mutation_effect( const trait_id &mut )
     size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -457,8 +457,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
     size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 

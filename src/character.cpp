@@ -7332,36 +7332,42 @@ social_modifiers Character::get_mutation_social_mods() const
     return mods;
 }
 
-template <float mutation_branch::*member>
+template <cata::optional<float> mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
     float lowest = 0.0f;
     float highest = 0.0f;
     for( const mutation_branch *mut : mutations ) {
-        float val = mut->*member;
-        lowest = std::min( lowest, val );
-        highest = std::max( highest, val );
+        if( ( mut->*member ).has_value() ) {
+            float val = ( mut->*member ).value();
+            lowest = std::min( lowest, val );
+            highest = std::max( highest, val );
+        }
     }
 
     return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
 }
 
-template <float mutation_branch::*member>
+template <cata::optional<float> mutation_branch::*member>
 float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
 {
     float ret = 0.0f;
     for( const mutation_branch *mut : mutations ) {
-        ret += mut->*member;
+        if( ( mut->*member ).has_value() ) {
+            ret += ( mut->*member ).value();
+        }
     }
     return ret;
 }
 
-template <float mutation_branch::*member>
+template <cata::optional<float> mutation_branch::*member>
 float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
 {
     float ret = 1.0f;
     for( const mutation_branch *mut : mutations ) {
-        ret *= mut->*member;
+        if( ( mut->*member ).has_value() ) {
+            ret *= ( mut->*member ).value();
+        }
     }
     return ret;
 }
