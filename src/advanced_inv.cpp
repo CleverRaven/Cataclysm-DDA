@@ -1345,7 +1345,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( player_character.can_unwield( *sitem->items.front() ).success() ) {
+            if( player_character.can_drop( *sitem->items.front() ).success() ) {
                 player_character.assign_activity( ACT_DROP );
                 player_character.activity.placement = squares[destarea].off;
 
