@@ -1006,6 +1006,7 @@
     "prereqs": [ "MAGUS", "KELVINIST" ],
     "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
+    "spells_learned": [ [ "solar_beam", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

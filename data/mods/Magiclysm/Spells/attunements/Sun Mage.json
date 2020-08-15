@@ -1,0 +1,32 @@
+[
+  {
+    "id": "solar_beam",
+    "type": "SPELL",
+    "name": "Solar Beam",
+    "description": "Fire a blast of sunlight in a wide beam, blinding everything in its path and leaving it bright enough for you to see for a few seconds.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SOMATIC" ],
+    "effect": "line_attack",
+    "effect_str": "blind",
+    "damage_type": "fire",
+    "min_damage": 20,
+    "damage_increment": 7.5,
+    "max_damage": 280,
+    "min_range": 12,
+    "max_range": 12,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_duration": 0,
+    "duration_increment": 100,
+    "max_duration": 3500,
+    "base_energy_cost": 750,
+    "field_id": "fd_clairvoyant",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "spell_class": "SUN_MAGE",
+    "difficulty": 5,
+    "max_level": 35,
+    "base_casting_time": 350,
+    "energy_source": "MANA"
+  }
+]
