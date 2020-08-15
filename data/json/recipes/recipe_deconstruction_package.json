@@ -2,7 +2,7 @@
   {
     "result": "mre_accessory",
     "type": "uncraft",
-    "time": "4 s",
+    "time": "3 s",
     "components": [
       [ [ "pur_tablets", 6 ] ],
       [ [ "gummy_vitamins", 1 ] ],
@@ -19,7 +19,7 @@
   {
     "result": "mre_dessert",
     "type": "uncraft",
-    "time": "4 s",
+    "time": "3 s",
     "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
