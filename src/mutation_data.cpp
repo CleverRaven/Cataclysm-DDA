@@ -537,6 +537,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         encumbrance_covered[bp] = enc;
     }
 
+    for( JsonMember ema : jo.get_object( "encumbrance_multiplier_always" ) ) {
+        const bodypart_str_id &bp = bodypart_str_id( ema.name() );
+        encumbrance_multiplier_always[bp] = ema.get_float();
+    }
+
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         restricts_gear.insert( bodypart_str_id( line ) );
     }

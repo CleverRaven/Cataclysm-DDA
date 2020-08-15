@@ -334,6 +334,8 @@ struct mutation_branch {
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
         std::map<bodypart_str_id, int> encumbrance_covered;
+        // a multiplier to encumbrance that is already modified by mutations
+        std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
         // Mutation stat mods

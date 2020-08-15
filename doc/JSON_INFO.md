@@ -1699,6 +1699,10 @@ it is present to help catch errors.
     [ "hand_l", 50 ],
     [ "hand_r", 50 ]
 ],
+"encumbrance_multiplier_always": { // if the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
+  "arm_l": 0.75,                   // DOES NOT AFFECT CLOTHING ENCUMBRANCE
+  "arm_r": 0.75
+},
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
     [
         [ "head" ],
