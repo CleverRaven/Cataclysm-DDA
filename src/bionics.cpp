@@ -2744,6 +2744,7 @@ void Character::clear_bionics()
 void reset_bionics()
 {
     faulty_bionics.clear();
+    bionic_factory.reset();
 }
 
 void bionic::set_flag( const std::string &flag )
