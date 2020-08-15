@@ -955,6 +955,48 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
     g->open_gate( examp );
 }
 
+static bool try_start_hacking( player &p, const tripoint &examp )
+{
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        add_msg( _( "You cannot read!" ) );
+        return false;
+    }
+    const bool has_item = p.has_charges( itype_electrohack, 25 );
+    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
+    if( !has_item && !has_bionic ) {
+        add_msg( _( "You don't have a hacking tool with enough charges!" ) );
+        return false;
+    }
+    bool use_bionic = has_bionic;
+    if( has_item && has_bionic ) {
+        uilist menu;
+        menu.settext( _( "Use which hacking tool?" ) );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
+        menu.query();
+        switch( menu.ret ) {
+            case 0:
+                use_bionic = false;
+                break;
+            case 1:
+                use_bionic = true;
+                break;
+            default:
+                return false;
+        }
+    }
+    if( use_bionic ) {
+        p.mod_power_level( -25_kJ );
+        p.assign_activity( player_activity( hacking_activity_actor(
+                                                hacking_activity_actor::use_bionic {} ) ) );
+    } else {
+        p.use_charges( itype_electrohack, 25 );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
+    }
+    p.activity.placement = examp;
+    return true;
+}
+
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
@@ -989,8 +1031,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -1051,8 +1092,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            p.assign_activity( player_activity( hacking_activity_actor() ) );
-            p.activity.placement = examp;
+            try_start_hacking( p, examp );
         }
     }
 }
@@ -1408,8 +1448,7 @@ void iexamine::safe( player &p, const tripoint &examp )
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -4402,8 +4441,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 
     if( refund == choice ) {
