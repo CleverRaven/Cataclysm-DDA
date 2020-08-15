@@ -1,0 +1,101 @@
+[
+  {
+    "id": "Wildshape Cloak: Fish",
+    "type": "ARMOR",
+    "name": "Wildshape Cloak: Fish",
+    "description": "A magical cloak that shimmers like fresh water under a warm sun. It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 250000,
+    "symbol": "w",
+    "color": "blue",
+    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+    "coverage": 0,
+    "encumbrance": 0,
+    "msg": "You feel your body change its form!",
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN" ] } ] }
+  },
+  {
+    "id": "Wildshape Cloak: Bear",
+    "type": "ARMOR",
+    "name": "Wildshape Cloak: Bear",
+    "description": "A magical cloak that smells of the forest. It can be worn to morph your body to a form that is strong and resilient in melee combat. However, you feel as if you would lose a part of yourself.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 500000,
+    "symbol": "w",
+    "color": "green",
+    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+    "coverage": 0,
+    "encumbrance": 0,
+    "msg": "You feel your body change its form!",
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "INTELLIGENCE", "add": -6 } ],
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [
+            "ILLITERATE",
+            "WAYFARER",
+            "DISORGANIZED",
+            "URSINE_EYE",
+            "SMELLY",
+            "STR_UP",
+            "PSYCHOPATH",
+            "CLUMSY",
+            "TOUGH",
+            "FANGS",
+            "CLAWS",
+            "SHOUT3",
+            "FUR",
+            "PARKOUR",
+            "WILDSHAPE:BEAR"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "Wildshape Cloak: Deer",
+    "type": "ARMOR",
+    "name": "Wildshape Cloak: Deer",
+    "description": "A magical cloak that feels soft to the touch. It can be worn to morph your body to a form well-suited to escaping difficult situations. However, it places a great strain on your body.",
+    "looks_like": "cloak_leather",
+    "weight": "2060 g",
+    "volume": "3050 ml",
+    "price": 350000,
+    "symbol": "w",
+    "color": "green",
+    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+    "coverage": 0,
+    "encumbrance": 0,
+    "msg": "You feel your body change its form!",
+    "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [
+            "FUR",
+            "WILDSHAPE:DEER",
+            "FLEET2",
+            "PARKOUR",
+            "GOODCARDIO2",
+            "QUICK",
+            "LIGHTSTEP",
+            "WEAKSCENT",
+            "DISORGANIZED",
+            "PACIFIST",
+            "HUNGER2"
+          ]
+        }
+      ]
+    }
+  }
+]
