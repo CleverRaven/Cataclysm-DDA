@@ -718,7 +718,7 @@ void item_location::deserialize( JsonIn &js )
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
-        if( idx < parent_contents.size() ) {
+        if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
             ptr.reset( new impl::item_in_container( parent, *iter ) );
