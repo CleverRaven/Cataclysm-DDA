@@ -73,7 +73,24 @@
         }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
-      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" }
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" },
+      {
+        "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
+        "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
+        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
+      },
+      {
+        "text": "I need your help.",
+        "topic": "TALK_REFUGEE_Alonso_Normal_Action",
+        "condition": {
+          "and": [ { "unot_has_trait": "PRETTY" }, { "unot_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ]
+        }
+      },
+      {
+        "text": "[UGLY] I'm desperate.  You're my only chance.",
+        "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
+        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
+      }
     ]
   },
   {
@@ -248,10 +265,10 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,
-    "item": "illegal_condoms",
+    "item": "condoms",
     "start": {
-      "assign_mission_target": { "om_terrain": "sewer", "reveal_radius": 1, "random": true, "search_range": 120 },
-      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "illegal_condoms", "x": 5, "y": 16 } ] },
+      "assign_mission_target": { "om_terrain": "sewer", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
+      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "condoms", "x": 5, "y": 16 } ] },
       "effect": { "u_add_var": "Alonso_condoms", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
@@ -272,5 +289,56 @@
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
       "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
     }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Pretty_Action",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "My jewel of the New England, I give to you my biggest prize.",
+      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+    },
+    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Normal_Action",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
+      "yes": "Yeeeeah it's on!"
+    },
+    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Ugly_Action",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Oh, I mean Alonso is flattered but yes that is for certainly going to happen.",
+      "yes": "Woo!  I got no standards at all!  Sorry, I shouldn't have said that out loud, I will make it up to you."
+    },
+    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]
