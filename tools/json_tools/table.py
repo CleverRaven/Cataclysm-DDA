@@ -38,7 +38,8 @@ parser.add_argument(
     help="output format: 'md' for markdown, 'csv' for comma-separated")
 parser.add_argument(
     "-t", "--type",
-    help="only include JSON data matching this type")
+    help="only include JSON data matching these types, separated by comma",
+    type=lambda s: list([i for i in s.split(',')]))
 parser.add_argument(
     "--nonestring",
     default="None",
@@ -198,11 +199,11 @@ class CDDAValues:
         format_class = get_format_class_by_extension(format_string)
         self.output = format_class()
 
-    def print_table(self, data, columns, type_filter, none_string, with_header):
+    def print_table(self, data, columns, types_filter, none_string, with_header):
         if with_header:
             self.output.header(columns)
         for item in data:
-            if type_filter and item.get('type') != type_filter:
+            if types_filter and item.get('type') not in types_filter:
                 continue
 
             self.output.row(item_values(item, columns, none_string))
