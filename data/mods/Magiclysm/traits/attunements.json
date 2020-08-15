@@ -639,6 +639,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions. An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "spells_learned": [ [ "spear_of_light", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "spear_of_light",
+    "type": "SPELL",
+    "name": "Spear of Light",
+    "description": "Shoot directed light from your fingertips that is so bright you can see through the skin of the targets for an instant.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL", "SILENT" ],
+    "effect": "line_attack",
+    "effect_str": "blind",
+    "damage_type": "stab",
+    "min_damage": 40,
+    "damage_increment": 15.0,
+    "max_damage": 565,
+    "min_range": 8,
+    "max_range": 8,
+    "min_duration": 0,
+    "duration_increment": 100,
+    "max_duration": 3500,
+    "base_energy_cost": 600,
+    "spell_class": "ILLUSIONIST",
+    "difficulty": 5,
+    "max_level": 35,
+    "base_casting_time": 180,
+    "energy_source": "MANA"
+  }
+]
