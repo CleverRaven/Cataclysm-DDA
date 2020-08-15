@@ -4480,6 +4480,10 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( has_trait_flag( "STEADY" ) ) {
+        return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
+                get_speedydex_bonus( get_dex() ) );
+    }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
