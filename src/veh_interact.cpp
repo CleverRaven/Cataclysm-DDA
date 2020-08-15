@@ -2464,7 +2464,7 @@ void veh_interact::display_stats() const
     vehicle_part *most_repairable = get_most_repariable_part();
 
     // Write the most damaged part
-    if( mostDamagedPart ) {
+    if( mostDamagedPart && mostDamagedPart->damage_percent() ) {
         const std::string damaged_header = mostDamagedPart == most_repairable ?
                                            _( "Most damaged:" ) :
                                            _( "Most damaged (can't repair):" );
