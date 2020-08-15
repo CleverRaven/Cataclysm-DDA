@@ -10,8 +10,8 @@
       { "trait": "GOODCARDIO" },
       { "trait": "LIGHTSTEP" },
       { "trait": "ROBUST" },
+      { "trait": "SKIN_DARK" },
       { "trait": "seer_mark" },
-      { "group": "Appearance_African" },
       { "trait": "hair_black_mohawk" }
     ],
     "common": false,
@@ -231,6 +231,11 @@
         "condition": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
       { "text": "What exactly did he do?", "topic": "TALK_BONE_SEER_COOPER2" },
+      {
+        "text": "Sounds like there is another side to this.  Sometimes, what is necessary is not pretty.",
+        "topic": "TALK_BONE_SEER_COOPER3",
+        "effect": { "u_add_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+      },
       { "text": "What cause is that?  What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
       { "text": "I see.  I wanted to ask about something else…", "topic": "TALK_BONE_SEER" }
     ]
@@ -240,7 +245,20 @@
     "id": "TALK_BONE_SEER_COOPER2",
     "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he…  he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
-    "responses": [ { "text": "Well…  shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" } ]
+    "responses": [
+      { "text": "Well…  shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" },
+      {
+        "text": "What if he is right?  Maybe what you do isn't enough and he's the only one to do what it takes.",
+        "topic": "TALK_BONE_SEER_COOPER3",
+        "effect": { "u_add_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_COOPER3",
+    "dynamic_line": "You do not realize the gravity of your claim.  When you understand the Song better, you will understand the danger of his actions.",
+    "responses": [ { "text": "I see.", "topic": "TALK_BONE_SEER" }, { "text": "We'll see about that.", "topic": "TALK_BONE_SEER" } ]
   },
   {
     "type": "talk_topic",
@@ -253,7 +271,7 @@
     "id": "TALK_BONE_SEER_END",
     "dynamic_line": "The Song holds immeasurable power.  A grand symphony could revert the Cataclysm - or accelerate it to a time beyond all.  But with the world looking as is, both options are preferable.",
     "responses": [
-      { "text": "A strange belief, but there may be some truth to it.", "topic": "TALK_BONE_SEER_POSITIVE" },
+      { "text": "A strange belief, but maybe there is some truth to it.", "topic": "TALK_BONE_SEER_POSITIVE" },
       { "text": "Well, at least you're trying to help.", "topic": "TALK_BONE_SEER_POSITIVE" },
       { "text": "You're nuts.", "topic": "TALK_BONE_SEER_INSULT" }
     ]
@@ -470,6 +488,16 @@
         "text": "He was reasonable.  We talked, then parted ways peacefully.",
         "topic": "TALK_BONE_SEER_COOPERPEACE",
         "condition": { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } }
+      },
+      {
+        "text": "I agree with him.  What he does is necessary.",
+        "topic": "TALK_BONE_SEER_COOPERAGREE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
       }
     ]
   },
@@ -499,7 +527,26 @@
         "text": "He was reasonable.  We talked, then parted ways peacefully.",
         "topic": "TALK_BONE_SEER_COOPERPEACE",
         "condition": { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } }
+      },
+      {
+        "text": "I agree with him.  What he does is necessary.",
+        "topic": "TALK_BONE_SEER_COOPERAGREE",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
+            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+          ]
+        }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_COOPERAGREE",
+    "dynamic_line": "Tread carefully.  I can't allow anyone else to go down such a path.  I can't fail again.",
+    "responses": [
+      { "text": "I'm sorry.  I'll think about it some more.", "topic": "TALK_BONE_SEER" },
+      { "text": "Just saying he has a point, that's all.", "topic": "TALK_BONE_SEER" }
     ]
   }
 ]
