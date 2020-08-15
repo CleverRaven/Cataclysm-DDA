@@ -203,11 +203,11 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [
-      [ [ "brain", 3 ] ],
-      [ [ "eggs_bird", 2, "LIST" ] ],
-      [ [ "batter", 4, "LIST" ] ],
-      [ [ "salt", 2 ] ],
-      [ [ "seasoning_mild", 5, "LIST" ] ]
+      [ [ "brain", 2 ] ],
+      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "batter", 3, "LIST" ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "seasoning_mild", 4, "LIST" ] ]
     ]
   },
   {
