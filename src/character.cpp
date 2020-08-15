@@ -3550,7 +3550,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 ret_val<bool> Character::can_drop( const item &it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+        return ret_val<bool>::make_failure( _( "You cannot drop your %s." ), it.tname() );
     }
     return ret_val<bool>::make_success();
 }
