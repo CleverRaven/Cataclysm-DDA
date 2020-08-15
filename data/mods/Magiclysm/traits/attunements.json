@@ -9,6 +9,7 @@
     "valid": false,
     "description": "With the mechanically-minded Technomancer and the sheer power of lightning from a Stormshaper, the Artificer has a unique confluence of skills and spells to be perfect for invention. While modern inventions and machines have won out in a modern society, after a cataclysm one has a chance to go back to roots of things. To make weird gadgets that are just as likely to explode as explode the thing you're pointing at.",
     "prereqs": [ "STORMSHAPER", "TECHNOMANCER" ],
+    "spells_learned": [ [ "spy_wasp", 5 ] ],
     "cancels": [
       "AURA_MAGE",
       "BIOTEK",
