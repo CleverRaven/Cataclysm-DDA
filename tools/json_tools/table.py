@@ -48,11 +48,20 @@ parser.add_argument(
     "--noheader",
     dest='with_header', action='store_false',
     help="do not output table header")
-parser.set_defaults(with_header=True)
+parser.add_argument(
+    "--tileset",
+    dest='tileset_types_only', action='store_true',
+    help="override --type filter with a set of types required for a tileset")
+parser.set_defaults(with_header=True, tileset_types_only=False)
 
 
 I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt')
 I18N_DICT_KEYS_SET = set(I18N_DICT_KEYS)
+TILESET_TYPES=[
+    "AMMO", "ARMOR", "BATTERY", "BIONIC_ITEM", "bionic", "BOOK", "COMESTIBLE",
+    "ENGINE", "field_type", "furniture", "gate", "GENERIC", "GUN", "GUNMOD",
+    "MAGAZINE", "MONSTER", "mutation", "PET_ARMOR", "terrain", "TOOL",
+    "TOOL_ARMOR", "TOOLMOD", "trap", "vehicle_part", "WHEEL"]
 
 
 def item_values(item, fields, none_string="None"):
@@ -211,6 +220,8 @@ class CDDAValues:
 
 if __name__ == "__main__":
     args = parser.parse_args()
+    if args.tileset_types_only:
+        args.type = TILESET_TYPES
 
     # Get data (don't care about load errors)
     json_data, _ = util.import_data(json_fmatch=args.fnmatch)
