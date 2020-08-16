@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_exodii_worker",
     "symbol": ",",
     "color": "light_gray",
@@ -17,7 +17,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_exodii_quad",
     "symbol": ",",
     "color": "light_gray",
@@ -34,7 +34,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_exodii_turret",
     "symbol": ",",
     "color": "yellow",
@@ -51,7 +51,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_exodii_sniper_drone",
     "symbol": ",",
     "color": "yellow",

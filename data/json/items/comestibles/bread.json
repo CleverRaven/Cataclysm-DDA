@@ -22,7 +22,7 @@
   },
   {
     "id": "sourdough_young",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "juvenile sourdough starter" },
     "description": "This jar contains a floury paste that is slowly going bad.  Someday it will be sourdough.",
@@ -46,7 +46,7 @@
   },
   {
     "id": "sourdough_split",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "freshly fed sourdough starter" },
     "description": "This jar contains a floury paste with sourdough starter mixed in.  It needs a day to recover its strength before it can be used again.",
@@ -70,7 +70,7 @@
   },
   {
     "id": "sourdough_starter",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "sourdough starter" },
     "description": "This jar contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",

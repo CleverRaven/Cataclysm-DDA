@@ -11,7 +11,7 @@
   {
     "id": "alternator_car",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "car alternator" },
     "description": "A standard alternator used to power vehicle electrical systems.",
     "weight": "4000 g",
@@ -22,7 +22,7 @@
   {
     "id": "alternator_motorbike",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "motorbike alternator" },
     "description": "A compact lightweight alternator used to power small vehicle electrical systems.",
     "weight": "1100 g",
@@ -33,7 +33,7 @@
   {
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "bicycle alternator" },
     "description": "A very lightweight alternator used to power a bicycle's headlights.",
     "weight": "1100 g",
@@ -44,7 +44,7 @@
   {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "truck alternator" },
     "description": "A larger and more powerful alternator used to power vehicle electrical systems.",
     "weight": "5800 g",
@@ -55,7 +55,7 @@
   {
     "id": "generator_7500w",
     "copy-from": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "7.5kW generator" },
     "description": "A bulky but efficient electrical generator designed to be attached to an engine.",
     "weight": "48000 g",

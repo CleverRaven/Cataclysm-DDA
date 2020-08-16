@@ -352,7 +352,7 @@
   },
   {
     "id": "landough_calrisean",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "sourdough_starter",
     "looks_like": "sourdough_starter",
     "name": { "str_sp": "Dana's family sourdough starter" },

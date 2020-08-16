@@ -336,7 +336,7 @@
   {
     "id": "makeshift_bayonet",
     "copy-from": "spike",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "makeshift bayonet" },
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
     "gunmod_data": {

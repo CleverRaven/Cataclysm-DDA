@@ -35,7 +35,7 @@
     "max_charges": 10000
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mountable_cooler",
     "name": { "str": "vehicle cooler" },
     "description": "A vehicle-mounted area cooler.",
@@ -51,7 +51,7 @@
     "price_postapoc": 1500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mountable_heater",
     "name": { "str": "vehicle heater" },
     "description": "A vehicle-mounted area heater.",
@@ -67,7 +67,7 @@
     "price_postapoc": 1500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "towel_hanger",
     "name": { "str": "towel hanger" },
     "description": "A towel hanger with towels.",
@@ -83,7 +83,7 @@
     "price_postapoc": 10
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "recharge_station",
     "name": { "str": "recharging station" },
     "description": "A universal recharging station designed to operate on vehicle power.  While on it will steadily charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  The system can only be installed onto existing storage compartments, and is controlled from a dashboard or electronics control unit.",
@@ -99,7 +99,7 @@
     "price_postapoc": 1000
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "battery_charger",
     "name": { "str": "battery charger" },
     "description": "A small device for recharging batteries, given a source of electricty.  It could easily be wired into a vehicle with power.  It will slowly charge all rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly within its storage space.  It can only be installed onto existing storage compartments.",
@@ -113,7 +113,7 @@
     "copy-from": "recharge_station"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
@@ -129,7 +129,7 @@
     "price_postapoc": 500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "programmable_autopilot",
     "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
@@ -145,7 +145,7 @@
     "price_postapoc": 2500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "vh_autoclave",
     "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
@@ -158,7 +158,7 @@
     "copy-from": "washing_machine"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "washing_machine",
     "id": "minifridge",
     "name": { "str": "minifridge" },
@@ -166,7 +166,7 @@
     "insulation": 2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "minifreezer",
     "name": { "str": "minifreezer" },
     "description": "Compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
@@ -176,7 +176,7 @@
     "copy-from": "minifridge"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "dishwasher",
     "name": { "str": "dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",
@@ -184,7 +184,7 @@
     "copy-from": "washing_machine"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "washing_machine",
     "id": "fridgetank",
     "name": { "str": "refrigerated tank" },
@@ -203,7 +203,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "description": "A metal faucet that can be attached to a water tank for easy access.",

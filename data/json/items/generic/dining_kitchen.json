@@ -2,7 +2,7 @@
   {
     "id": "base_silverware",
     "name": { "str": "generic silverware" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
@@ -18,7 +18,7 @@
   {
     "id": "base_utensil",
     "name": { "str": "generic utensil" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
@@ -34,7 +34,7 @@
   {
     "id": "base_plastic_silverware",
     "name": { "str": "generic silverware" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
@@ -51,7 +51,7 @@
     "id": "base_ceramic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ")",
     "color": "yellow",
     "price": 1200,
@@ -66,7 +66,7 @@
     "id": "base_glass_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ")",
     "color": "cyan",
     "price": 1400,
@@ -81,7 +81,7 @@
     "id": "base_tin_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ")",
     "color": "light_gray",
     "price": 400,
@@ -96,7 +96,7 @@
     "id": "base_plastic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ")",
     "color": "light_cyan",
     "price": 400,
@@ -122,7 +122,7 @@
   },
   {
     "copy-from": "base_ceramic_dish",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "ceramic_plate",
     "volume": "125 ml",
@@ -132,7 +132,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "ceramic_bowl",
     "name": { "str": "ceramic bowl" },
@@ -152,7 +152,7 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "ceramic_cup",
     "name": { "str": "ceramic cup" },
@@ -171,7 +171,7 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
@@ -214,7 +214,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "tin_plate",
     "name": { "str": "tin plate" },
@@ -225,7 +225,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "tin_cup",
     "name": { "str": "tin cup" },
@@ -246,7 +246,7 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
@@ -265,7 +265,7 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "glass_plate",
     "name": { "str": "glass plate" },
@@ -276,7 +276,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "glass",
     "name": { "str": "drinking glass", "str_pl": "drinking glasses" },
@@ -296,7 +296,7 @@
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "wine_glass",
     "volume": "262 ml",
@@ -317,7 +317,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "glass_bowl",
     "name": { "str": "glass bowl" },
@@ -337,7 +337,7 @@
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_plate",
     "name": { "str": "plastic plate" },
@@ -347,7 +347,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "tumbler_plastic",
     "name": { "str": "plastic tumbler" },
@@ -367,7 +367,7 @@
   },
   {
     "id": "bowl_plastic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
@@ -387,7 +387,7 @@
   },
   {
     "id": "plastic_bowl_kids",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "kiddie bowl" },
     "symbol": "u",
@@ -421,7 +421,7 @@
   },
   {
     "id": "sippy_cup",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "sippy cup" },
     "symbol": "u",
@@ -441,7 +441,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "fork",
     "name": { "str": "fork" },
@@ -450,7 +450,7 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_fork",
     "name": { "str": "plastic fork" },
@@ -460,7 +460,7 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "spoon",
     "name": { "str": "spoon" },
@@ -469,7 +469,7 @@
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_spoon",
     "name": { "str": "plastic spoon" },
@@ -479,7 +479,7 @@
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_spoon_kids",
     "name": { "str": "kiddie spoon" },
@@ -499,7 +499,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
@@ -508,7 +508,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_knife",
     "name": { "str": "plastic knife", "str_pl": "plastic knives" },
@@ -518,7 +518,7 @@
     "copy-from": "base_plastic_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
@@ -527,7 +527,7 @@
     "copy-from": "base_plastic_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "corkscrew",
     "name": { "str": "corkscrew" },
@@ -537,7 +537,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
@@ -547,7 +547,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "bottle_opener",
     "name": { "str": "bottle opener" },
@@ -573,7 +573,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "spork",
     "name": { "str": "spork" },
@@ -583,7 +583,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "foon",
     "name": { "str": "foon" },
@@ -593,7 +593,7 @@
     "copy-from": "base_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
@@ -611,7 +611,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "ladle",
     "name": { "str": "ladle" },
@@ -620,7 +620,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "whisk",
     "name": { "str": "whisk" },
@@ -629,7 +629,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "potato_masher",
     "name": { "str": "potato masher" },
@@ -638,7 +638,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "garlic_press",
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
@@ -647,7 +647,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "can_opener",
     "name": { "str": "can opener" },
@@ -656,7 +656,7 @@
     "copy-from": "base_utensil"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "carving_fork",
     "name": { "str": "carving fork" },
@@ -667,7 +667,7 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "spatula",
     "name": { "str": "spatula" },
@@ -678,7 +678,7 @@
     "copy-from": "base_plastic_silverware"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "id": "rolling_pin",
     "name": { "str": "rolling pin" },
@@ -694,7 +694,7 @@
     "price": 700
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "pot",
     "name": { "str": "pot" },
@@ -716,7 +716,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "iron_pot",
     "name": { "str": "cast-iron pot" },
@@ -738,7 +738,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "pot_copper",
     "name": { "str": "copper pot" },
@@ -761,7 +761,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "casserole",
     "name": { "str": "casserole" },
@@ -783,7 +783,7 @@
     ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "stock_pot",
     "name": { "str": "stock pot" },
@@ -806,7 +806,7 @@
   },
   {
     "id": "pot_canning",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "canning pot" },
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
@@ -832,7 +832,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "pan",
     "name": { "str": "cast-iron frying pan" },
@@ -857,7 +857,7 @@
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "steel_pan",
     "name": { "str": "steel frying pan" },
@@ -883,7 +883,7 @@
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "copper_pan",
     "name": { "str": "copper frying pan" },
@@ -910,7 +910,7 @@
   },
   {
     "id": "pot_makeshift",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
@@ -937,7 +937,7 @@
   },
   {
     "id": "pot_makeshift_copper",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
@@ -963,7 +963,7 @@
     "use_action": [ "HEAT_FOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "id": "kettle",
     "name": { "str": "kettle" },
@@ -982,7 +982,7 @@
     "name": { "str": "mesh colander" },
     "category": "other",
     "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
@@ -993,7 +993,7 @@
     "id": "splatter_guard",
     "name": { "str": "splatter guard" },
     "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
@@ -1002,7 +1002,7 @@
   },
   {
     "id": "cutting_board",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "cutting board" },
     "description": "A large flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
@@ -1022,7 +1022,7 @@
     "name": { "str": "meal tray" },
     "description": "A stainless steel tray used for serving food in cafeterias, mess halls, or similar places.",
     "looks_like": "tin_plate",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ")",
     "color": "light_gray",
     "price": 10,

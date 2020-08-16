@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor",
     "name": { "str": "electric motor" },
     "description": "A powerful electric motor.  Useful for crafting.",
@@ -15,7 +15,7 @@
     "price_postapoc": 1500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_enhanced",
     "name": { "str": "enhanced electric motor" },
     "description": "A very powerful and yet lightweight electric motor.  Useful for crafting.",
@@ -27,7 +27,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_super",
     "name": { "str": "super electric motor" },
     "description": "The most powerfull electric motor on the market.  Useful for crafting.",
@@ -38,7 +38,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_large",
     "name": { "str": "large electric motor" },
     "description": "A large and very powerful electric motor.  Useful for crafting.",
@@ -52,7 +52,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_small",
     "name": { "str": "small electric motor" },
     "description": "A small electric motor.  Useful for crafting.",
@@ -64,7 +64,7 @@
     "copy-from": "motor"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
     "description": "A tiny electric motor.  Useful for crafting.",

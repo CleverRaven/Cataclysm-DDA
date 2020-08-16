@@ -98,7 +98,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",

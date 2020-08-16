@@ -316,7 +316,7 @@
     "effects": [ "EXPLOSIVE_SMALL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "exploding_arrow_warhead",
     "category": "spare_parts",
     "symbol": "=",

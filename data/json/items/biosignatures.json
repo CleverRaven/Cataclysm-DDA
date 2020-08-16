@@ -54,7 +54,7 @@
     "description": "Large black pellets of rotting material."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fetid_goop",
     "symbol": "~",
     "color": "white",

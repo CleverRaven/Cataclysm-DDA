@@ -1,7 +1,7 @@
 [
   {
     "id": "magnetron",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "microwave generator" },
     "description": "This electrical component is designed to produce microwaves, for use in your microwave.",
@@ -16,7 +16,7 @@
   },
   {
     "id": "flux_comp_gen",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "explosively pumped flux compression generator" },
     "description": "This large device consists mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",

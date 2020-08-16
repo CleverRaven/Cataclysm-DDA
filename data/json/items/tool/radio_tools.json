@@ -1,7 +1,7 @@
 [
   {
     "id": "radio_car_box",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "radio car box", "str_pl": "radio car boxes" },
     "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",

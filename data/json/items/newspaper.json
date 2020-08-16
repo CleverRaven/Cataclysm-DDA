@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "flyer",
     "category": "books",
     "symbol": ",",
@@ -15,7 +15,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "survnote",
     "category": "books",
     "symbol": ",",
@@ -31,7 +31,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "character_sheet",
     "category": "books",
     "symbol": ",",
@@ -48,7 +48,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "scorecard",
     "category": "other",
     "symbol": ",",
@@ -64,7 +64,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "newest_newspaper",
     "category": "books",
     "symbol": ",",
@@ -79,7 +79,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "many_years_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -94,7 +94,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "years_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -109,7 +109,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "one_year_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -124,7 +124,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "months_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -139,7 +139,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "weeks_old_newspaper",
     "category": "books",
     "symbol": ",",
@@ -154,7 +154,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "necropolis_leaflet",
     "category": "books",
     "symbol": ",",
@@ -169,7 +169,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "death_note",
     "category": "books",
     "symbol": ",",
@@ -186,7 +186,7 @@
     "volume": "10 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "evac_pamphlet",
     "category": "books",
     "name": { "str": "FEMA evacuation pamphlet" },

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bagh_nakha",
     "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
@@ -35,7 +35,7 @@
     "material_thickness": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "knuckle_brass",
     "symbol": "3",
     "color": "yellow",
@@ -50,7 +50,7 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "knuckle_katar",
     "symbol": "!",
     "color": "dark_gray",
@@ -67,7 +67,7 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "knuckle_nail",
     "symbol": "]",
     "color": "brown",
@@ -82,7 +82,7 @@
     "flags": [ "UNARMED_WEAPON", "STAB" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "knuckle_steel",
     "symbol": "3",
     "color": "dark_gray",
@@ -97,7 +97,7 @@
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "punch_dagger",
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",

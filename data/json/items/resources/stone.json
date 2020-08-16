@@ -22,7 +22,7 @@
     "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_60" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "rock_large",
     "symbol": ";",
     "color": "brown",

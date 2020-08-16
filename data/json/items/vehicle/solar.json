@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "solar_panel",
     "name": { "str": "solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
@@ -17,7 +17,7 @@
     "price_postapoc": 1000
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "reinforced_solar_panel",
     "name": { "str": "reinforced solar panel" },
     "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.  Useful for a vehicle.",
@@ -30,7 +30,7 @@
     "copy-from": "solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "solar_panel_v2",
     "name": { "str": "upgraded solar panel" },
     "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
@@ -41,7 +41,7 @@
     "copy-from": "solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "reinforced_solar_panel_v2",
     "name": { "str": "upgraded reinforced solar panel" },
     "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle.",
@@ -53,7 +53,7 @@
     "copy-from": "reinforced_solar_panel"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "solar_cell",
     "name": { "str": "solar cell" },
     "description": "A small electronic device that can convert solar radiation into electric power.  Useful for crafting.",

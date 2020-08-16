@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "log",
     "symbol": "/",
     "color": "brown",
@@ -18,7 +18,7 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "splinter",
     "symbol": "/",
     "color": "brown",
@@ -35,7 +35,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "stick",
     "symbol": "/",
     "color": "brown",
@@ -52,7 +52,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "stick_long",
     "symbol": "/",
     "color": "brown",
@@ -71,7 +71,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "long_pole",
     "name": { "str": "long pole" },
     "description": "A stout, ten-foot pole.  Could be used similarly to a spear.  The Cataclysm gives fresh meaning to walking softly and carrying a big stick.",
@@ -91,7 +91,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "2x4",
     "name": { "str": "plank" },
     "description": "A narrow, thick plank of wood, like a 2 by 4 or similar piece of dimensional lumber.  Makes a decent melee weapon, and can be used for all kinds construction.",
@@ -110,7 +110,7 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wood_beam",
     "name": { "str": "heavy wooden beam" },
     "description": "An enormous beam of solid wood, very heavy and hard to lug around, but also very sturdy for construction.  You could saw or chop it into smaller pieces, like planks or panels.",
@@ -129,7 +129,7 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wood_panel",
     "name": { "str": "wooden panel" },
     "description": "A wide, thin wooden board - plywood, OSB, MDF, tongue-in-groove boards, or similar, already cut to shape.  These large flat boards are good for all kinds of construction, but for really big projects you'd need a proper sheet of uncut plywood or the like.",
@@ -150,7 +150,7 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wood_sheet",
     "name": { "str": "large wooden sheet" },
     "description": "A standard 4x8 sheet of flat wood - usually plywood, OSB, or MDF.  Heavy and bulky, this is extremely useful for all manner of construction, but you might have to cut it to size before doing smaller projects.",

@@ -249,7 +249,7 @@
   },
   {
     "id": "grapnel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
@@ -432,7 +432,7 @@
   },
   {
     "id": "makeshift_halberd",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "makeshift glaive" },
     "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
@@ -452,7 +452,7 @@
     "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mind_splicer",
     "symbol": "o",
     "color": "white",
@@ -748,7 +748,7 @@
   },
   {
     "id": "teleumbrella",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "telescoping umbrella" },
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
@@ -798,7 +798,7 @@
   },
   {
     "id": "umbrella",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",

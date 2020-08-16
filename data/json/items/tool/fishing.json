@@ -19,7 +19,7 @@
   },
   {
     "id": "fishing_hook_basic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "fishing hook" },
     "description": "A simple fishing hook.",
     "weight": "1 g",
@@ -33,7 +33,7 @@
   },
   {
     "id": "fishing_hook_bone",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "improvised fishing hook" },
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",

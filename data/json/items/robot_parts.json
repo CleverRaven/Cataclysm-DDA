@@ -14,56 +14,56 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "targeting_module",
     "name": { "str": "targeting module" },
     "description": "This module integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "identification_module",
     "name": { "str": "identification module" },
     "description": "This module continuously runs image recognition algorithms to identify friends from foe.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pathfinding_module",
     "name": { "str": "pathfinding module" },
     "description": "This module uses a combination of vector integration and egocentric mapping to find the best path available.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "memory_module",
     "name": { "str": "memory banks module" },
     "description": "Allows for storage and recovery of information.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sensor_module",
     "name": { "str": "sensor array" },
     "description": "A wide range of sensors meant to give the ability to perceive the surrounding world.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "self_monitoring_module",
     "name": { "str_sp": "self monitoring sensors" },
     "description": "An array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ai_module",
     "name": { "str": "AI core" },
     "description": "This module is responsible for decision-making, it basically runs the AI of the robot.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ai_module_basic",
     "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
@@ -71,21 +71,21 @@
     "copy-from": "ai_module"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ai_module_advanced",
     "name": { "str": "advanced AI core" },
     "description": "An advanced AI core with impressive cognitive abilities.",
     "copy-from": "ai_module"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "gun_module",
     "name": { "str": "gun operating system" },
     "description": "This system can operate most conventional weapons.",
     "copy-from": "robot_module_abstract"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spidery_legs_small",
     "name": { "str": "set of tiny spidery legs", "str_pl": "sets of tiny spidery legs" },
     "description": "A set of tiny pointy legs, like the ones found under a skitterbot.",
@@ -99,7 +99,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "reverse_jointed_legs",
     "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
     "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
@@ -113,7 +113,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "omni_wheel",
     "name": { "str": "set of omni wheels", "str_pl": "sets of omni wheels" },
     "description": "A set of omni wheels, like the ones found under a police bot.",
@@ -127,7 +127,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "quad_rotors",
     "name": { "str": "set of rotors", "str_pl": "sets of rotors" },
     "description": "A set of rotors able to lift a small drone.",
@@ -141,7 +141,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "android_legs",
     "name": { "str": "set of android legs", "str_pl": "sets of android legs" },
     "description": "A set of human-like legs.",
@@ -155,7 +155,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "android_arms",
     "name": { "str": "set of android arms", "str_pl": "sets of android arms" },
     "description": "A set of human-like arms.",
@@ -169,7 +169,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tank_tread",
     "name": { "str": "set of small tank tread", "str_pl": "sets of small tank tread" },
     "description": "A set of small tank tread, like the one used by the \"Beagle\" mini-tank.",
@@ -183,7 +183,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "turret_chassis",
     "name": { "str_sp": "turret interior chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton of a turret.",
@@ -197,7 +197,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "copbot_chassis",
     "name": { "str_sp": "police bot chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the police bot.",
@@ -211,7 +211,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "android_chassis",
     "name": { "str": "android skeleton" },
     "description": "What's left when you strip an android body from its components.",

@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pipe",
     "name": { "str": "pipe" },
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
@@ -36,7 +36,7 @@
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spike",
     "name": { "str": "spike" },
     "description": "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
@@ -54,7 +54,7 @@
     "price_postapoc": 10
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cu_pipe",
     "name": { "str": "copper tubing" },
     "description": "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
@@ -72,7 +72,7 @@
   },
   {
     "id": "material_aluminium_ingot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "aluminum ingot" },
     "description": "A small aluminum ingot, standardized for further processing.  Light but durable, this could be cast into various shapes for construction or ground down to a powder, for more… high-profile applications.",
@@ -292,7 +292,7 @@
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "scrap_copper",
     "symbol": ",",
     "color": "light_gray",

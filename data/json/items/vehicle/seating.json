@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "seat",
     "name": { "str": "seat" },
     "description": "A soft car seat made from synthetic fabric.",
@@ -16,7 +16,7 @@
     "price_postapoc": 100
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "seat",
     "id": "seat_leather",
     "name": { "str": "leather seat" },
@@ -26,7 +26,7 @@
     "price_postapoc": 250
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "saddle",
     "name": { "str": "saddle" },
     "description": "A leather-covered seat designed to be straddled.",

@@ -2,7 +2,7 @@
   {
     "id": "base_toiletries",
     "name": { "str": "generic grooming" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "generic item template",
     "symbol": "+",
     "color": "blue",
@@ -17,7 +17,7 @@
   {
     "id": "soap_holder",
     "name": { "str": "soap dish", "str_pl": "soap dishes" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
     "copy-from": "base_toiletries"
@@ -25,7 +25,7 @@
   {
     "id": "razor_shaving",
     "name": { "str": "shaving razor" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
     "copy-from": "base_toiletries",
@@ -39,7 +39,7 @@
   {
     "id": "toothbrush_plain",
     "name": { "str": "toothbrush", "str_pl": "toothbrushes" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
     "copy-from": "base_toiletries",
@@ -69,7 +69,7 @@
   {
     "id": "toothbrush_dirty",
     "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
     "symbol": "/",
     "flags": [ "FILTHY" ],
@@ -78,7 +78,7 @@
   {
     "id": "hairbrush",
     "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "An instrument of hair torture.",
     "symbol": "/",
     "copy-from": "base_toiletries",
@@ -92,7 +92,7 @@
   {
     "id": "curler_hair",
     "name": { "str": "hair curler" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A soft plastic cylinder you can wrap a lock of your hair around to curl it.",
     "copy-from": "base_toiletries",
     "symbol": ",",
@@ -103,7 +103,7 @@
   {
     "id": "string_floss",
     "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
     "weight": "28 g",
     "copy-from": "base_toiletries",
@@ -113,7 +113,7 @@
   {
     "id": "comb_pocket",
     "name": { "str": "comb" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A grooming tool with teeth for straightening your hair.",
     "symbol": "/",
     "copy-from": "base_toiletries",
@@ -130,7 +130,7 @@
   {
     "id": "plunger_toilet",
     "name": { "str": "toilet plunger" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",
     "color": "red",
@@ -146,7 +146,7 @@
   {
     "id": "plunger_futuristic",
     "name": { "str": "professional plunger" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
     "color": "black",
@@ -161,7 +161,7 @@
   {
     "id": "toilet_paper",
     "name": { "str": "toilet paper", "str_pl": "rolls of toilet paper" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
     "color": "white",
@@ -192,7 +192,7 @@
   {
     "id": "hair_dryer",
     "name": { "str": "hair dryer" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
     "symbol": "(",
     "color": "black",
@@ -207,7 +207,7 @@
   {
     "id": "curling_iron",
     "name": { "str": "curling iron" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",
     "color": "magenta",
@@ -222,7 +222,7 @@
   {
     "id": "brush_toilet",
     "name": { "str": "toilet brush", "str_pl": "toilet brushes" },
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
     "symbol": "p",
     "color": "white",

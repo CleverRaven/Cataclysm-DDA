@@ -746,7 +746,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bone_human",
     "copy-from": "bone",
     "name": { "str": "human bone" },
@@ -754,7 +754,7 @@
     "flags": [ "CANNIBALISM" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bone_demihuman",
     "copy-from": "bone",
     "name": { "str": "demihuman bone" },

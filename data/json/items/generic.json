@@ -106,7 +106,7 @@
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "file",
     "name": { "str": "file" },
     "category": "books",
@@ -120,7 +120,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "log_immersion27",
     "copy-from": "file",
     "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
@@ -128,21 +128,21 @@
     "snippet_category": "log_immersion27"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "MATERIAL: T-SUBSTRATE" },
     "snippet_category": "t-substrate"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
     "snippet_category": "HAADF_t-substrate"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -157,7 +157,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "withered",
     "symbol": "%",
     "color": "light_gray",
@@ -170,7 +170,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
@@ -185,7 +185,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
@@ -196,7 +196,7 @@
     "material": [ "faux_fur" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "leather",
     "symbol": ",",
     "color": "brown",
@@ -212,7 +212,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "felt_patch",
     "symbol": ",",
     "color": "white",
@@ -228,7 +228,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "nomex",
     "category": "spare_parts",
     "symbol": ",",
@@ -243,7 +243,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "superglue",
     "category": "spare_parts",
     "symbol": ",",
@@ -259,7 +259,7 @@
     "flags": [ "UNRECOVERABLE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bone_glue",
     "symbol": ",",
     "category": "spare_parts",
@@ -275,7 +275,7 @@
     "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fertilizer",
     "symbol": "*",
     "color": "green",
@@ -285,7 +285,7 @@
     "flags": [ "ZERO_WEIGHT" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "chain",
     "category": "spare_parts",
     "name": { "str": "steel chain" },
@@ -303,7 +303,7 @@
     "price_postapoc": 50
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "chitin_piece",
     "category": "spare_parts",
     "symbol": ",",
@@ -322,7 +322,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "endochitin",
     "category": "spare_parts",
     "symbol": ",",
@@ -339,7 +339,7 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mutant_bug_hydrogen_sacs",
     "category": "spare_parts",
     "symbol": "o",
@@ -354,7 +354,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ceramicdisks",
     "category": "spare_parts",
     "symbol": ",",
@@ -370,7 +370,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
@@ -382,7 +382,7 @@
   },
   {
     "id": "bundle_rag",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of rags", "str_pl": "bundles of rags" },
     "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
@@ -396,7 +396,7 @@
   },
   {
     "id": "bundle_leather",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -410,7 +410,7 @@
   },
   {
     "id": "bundle_wool",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of felt", "str_pl": "bundles of felt" },
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
@@ -424,7 +424,7 @@
   },
   {
     "id": "bundle_plank",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of planks", "str_pl": "bundles of planks" },
     "description": "Ten construction planks securely tied together for easier transport.  Disassemble to untie them.",
@@ -440,7 +440,7 @@
   },
   {
     "id": "bundle_branch",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of stout branches", "str_pl": "bundles of stout branches" },
     "description": "Ten stout branches securely tied together for easier transport.  Disassemble to untie them.",
@@ -456,7 +456,7 @@
   },
   {
     "id": "bundle_branch_long",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "bundle of long stout branches", "str_pl": "bundles of long stout branches" },
     "description": "Five long stout branches securely tied together for easier transport.  Disassemble to untie them.",
@@ -471,7 +471,7 @@
     "color": "brown"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sample_t_substrate",
     "category": "spare_parts",
     "symbol": ",",
@@ -487,7 +487,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "biollante_bud",
     "symbol": ",",
     "color": "magenta",
@@ -501,7 +501,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "canister_empty",
     "symbol": "*",
     "color": "light_gray",
@@ -516,7 +516,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
@@ -532,7 +532,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "light_gray",
@@ -549,7 +549,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "usb_drive",
     "symbol": ",",
     "color": "white",
@@ -564,7 +564,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "data_card",
     "symbol": ",",
     "color": "white",
@@ -578,7 +578,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
@@ -594,7 +594,7 @@
     "bashing": 9
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "blade",
     "symbol": "/",
     "color": "light_gray",
@@ -612,7 +612,7 @@
     "qualities": [ [ "BUTCHER", -38 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "blade_scythe",
     "symbol": "(",
     "color": "light_gray",
@@ -630,7 +630,7 @@
     "qualities": [ [ "BUTCHER", -38 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "circsaw_blade",
     "symbol": "/",
     "color": "light_gray",
@@ -647,7 +647,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tree_spile",
     "symbol": ".",
     "color": "light_gray",
@@ -661,7 +661,7 @@
     "volume": "50 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wire",
     "symbol": ";",
     "color": "light_gray",
@@ -676,7 +676,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wire_barbed",
     "symbol": ";",
     "color": "light_gray",
@@ -690,7 +690,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wire_mesh",
     "symbol": ";",
     "color": "light_gray",
@@ -705,7 +705,7 @@
     "material": [ "steel" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -723,7 +723,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "railroad_track_small",
     "symbol": "=",
     "color": "dark_gray",
@@ -737,7 +737,7 @@
     "volume": "30000 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "concrete",
     "symbol": "%",
     "color": "light_gray",
@@ -753,7 +753,7 @@
     "bashing": 4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "skewer_bone",
     "symbol": ",",
     "color": "white",
@@ -768,7 +768,7 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
@@ -782,7 +782,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "handflare_dead",
     "category": "other",
     "symbol": ";",
@@ -796,7 +796,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
@@ -810,7 +810,7 @@
     "volume": "750 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lawnmower",
     "symbol": ";",
     "color": "green",
@@ -826,7 +826,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broketent",
     "symbol": ";",
     "color": "green",
@@ -842,7 +842,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "largebroketent",
     "symbol": ";",
     "color": "green",
@@ -858,7 +858,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "element",
     "symbol": ",",
     "color": "light_gray",
@@ -872,7 +872,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "thermostat",
     "symbol": ",",
     "color": "light_gray",
@@ -886,7 +886,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -901,7 +901,7 @@
     "to_hit": -5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pilot_light",
     "symbol": ",",
     "color": "light_gray",
@@ -915,7 +915,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
@@ -929,7 +929,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
@@ -943,7 +943,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "toaster",
     "symbol": ",",
     "color": "light_gray",
@@ -956,7 +956,7 @@
     "volume": "750 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "microwave",
     "symbol": ",",
     "color": "light_gray",
@@ -969,7 +969,7 @@
     "volume": "9 L"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "laptop",
     "symbol": ",",
     "color": "dark_gray",
@@ -984,7 +984,7 @@
     "bashing": 6
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
@@ -1002,7 +1002,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_skitterbot",
     "symbol": ",",
     "color": "green",
@@ -1020,7 +1020,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_science_bot",
     "symbol": ",",
     "color": "green",
@@ -1038,7 +1038,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_copbot",
     "symbol": ",",
     "color": "green",
@@ -1056,7 +1056,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_nursebot",
     "symbol": ",",
     "color": "dark_gray",
@@ -1074,7 +1074,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_grocerybot",
     "symbol": ",",
     "color": "dark_gray",
@@ -1092,7 +1092,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_grocerybot_busted",
     "symbol": ",",
     "color": "dark_gray",
@@ -1110,13 +1110,13 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_nursebot_defective",
     "name": { "str": "broken nurse bot" },
     "copy-from": "broken_nursebot"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_riotbot",
     "symbol": ",",
     "color": "green",
@@ -1134,7 +1134,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_robofac_prototype",
     "symbol": ",",
     "color": "green",
@@ -1152,7 +1152,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_molebot",
     "symbol": ",",
     "color": "green",
@@ -1170,7 +1170,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_mech_recon",
     "name": { "str": "broken recon mech" },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
@@ -1186,7 +1186,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_mech_lifter",
     "name": { "str": "broken mech lifter" },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
@@ -1202,7 +1202,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_mech_combat",
     "name": { "str": "broken combat mech" },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
@@ -1218,7 +1218,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_dispatch",
     "symbol": ",",
     "color": "yellow",
@@ -1236,7 +1236,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_dispatch_military",
     "symbol": ",",
     "color": "green",
@@ -1254,7 +1254,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_manhack",
     "symbol": ",",
     "color": "light_green",
@@ -1272,7 +1272,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_grenade_hack",
     "symbol": ",",
     "color": "green",
@@ -1290,7 +1290,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_mininuke_hack",
     "symbol": ",",
     "color": "magenta",
@@ -1308,7 +1308,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_gasbomb_hack",
     "symbol": ",",
     "color": "dark_gray",
@@ -1326,7 +1326,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_EMP_hack",
     "symbol": ",",
     "color": "cyan",
@@ -1344,7 +1344,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_flashbang_hack",
     "symbol": ",",
     "color": "dark_gray",
@@ -1362,7 +1362,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_c4_hack",
     "symbol": ",",
     "color": "light_gray",
@@ -1380,7 +1380,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_turret_speaker",
     "symbol": ",",
     "color": "yellow",
@@ -1396,7 +1396,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
@@ -1411,7 +1411,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "RAM",
     "symbol": ",",
     "color": "dark_gray",
@@ -1427,7 +1427,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "power_supply",
     "symbol": ",",
     "color": "light_gray",
@@ -1443,7 +1443,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "amplifier",
     "symbol": ",",
     "color": "light_gray",
@@ -1458,7 +1458,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "transponder",
     "symbol": ",",
     "color": "light_gray",
@@ -1473,7 +1473,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "receiver",
     "symbol": ",",
     "color": "light_gray",
@@ -1488,7 +1488,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "large_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
@@ -1503,7 +1503,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "small_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
@@ -1518,7 +1518,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
@@ -1535,7 +1535,7 @@
     "flags": [ "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lens_small",
     "symbol": ".",
     "color": "light_cyan",
@@ -1549,7 +1549,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
@@ -1564,7 +1564,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "dark_gray",
@@ -1580,7 +1580,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "standard_template_construct",
     "symbol": ",",
     "color": "cyan",
@@ -1596,7 +1596,7 @@
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "template_photonics",
     "copy-from": "standard_template_construct",
     "color": "yellow",
@@ -1608,7 +1608,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
@@ -1623,7 +1623,7 @@
     "to_hit": 2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "motor_micro",
     "symbol": ",",
     "color": "light_gray",
@@ -1637,7 +1637,7 @@
     "volume": "25 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "circuit",
     "symbol": ",",
     "color": "green",
@@ -1651,7 +1651,7 @@
     "volume": "15 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "e_scrap",
     "symbol": ",",
     "color": "green",
@@ -1665,7 +1665,7 @@
     "volume": "5 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "radio_repeater_mod",
     "symbol": ",",
     "color": "light_gray",
@@ -1681,7 +1681,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fan",
     "symbol": ",",
     "color": "light_gray",
@@ -1694,7 +1694,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ceramic_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -1709,7 +1709,7 @@
     "bashing": 4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
@@ -1723,7 +1723,7 @@
     "to_hit": -6
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "rag_bloody",
     "symbol": ",",
     "color": "red",
@@ -1736,7 +1736,7 @@
   },
   {
     "id": "pipe_cleaner",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "pipe cleaner" },
     "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
     "weight": "50 g",
@@ -1748,7 +1748,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "clock",
     "symbol": ";",
     "color": "light_gray",
@@ -1763,7 +1763,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "clockworks",
     "category": "spare_parts",
     "symbol": ";",
@@ -1777,7 +1777,7 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
@@ -1792,7 +1792,7 @@
     "volume": "2 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mobile_memory_card_used",
     "symbol": ",",
     "color": "white",
@@ -1807,7 +1807,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mobile_memory_card_encrypted",
     "symbol": ",",
     "color": "white",
@@ -1821,7 +1821,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mobile_memory_card_science",
     "symbol": ",",
     "color": "white",
@@ -1835,7 +1835,7 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mirror",
     "symbol": "o",
     "color": "light_cyan",
@@ -1850,7 +1850,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "manhole_cover",
     "symbol": "]",
     "color": "dark_gray",
@@ -1867,7 +1867,7 @@
     "to_hit": -5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pine_bough",
     "symbol": "/",
     "color": "green",
@@ -1880,7 +1880,7 @@
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pinecone",
     "symbol": ",",
     "color": "brown",
@@ -1892,7 +1892,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "poppy_bud",
     "name": { "str": "poppy bud" },
     "category": "chems",
@@ -1907,7 +1907,7 @@
     "price_postapoc": 50
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sunflower",
     "name": { "str": "sunflower" },
     "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
@@ -1921,7 +1921,7 @@
     "price_postapoc": 10
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
@@ -1934,7 +1934,7 @@
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lotus",
     "name": { "str": "lotus flower" },
     "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
@@ -1947,7 +1947,7 @@
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spurge",
     "name": { "str_sp": "spurge flowers" },
     "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
@@ -1960,7 +1960,7 @@
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -1975,7 +1975,7 @@
     "to_hit": -4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "brick",
     "symbol": ",",
     "color": "brown",
@@ -1992,7 +1992,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mortar_build",
     "symbol": "%",
     "color": "light_gray",
@@ -2008,7 +2008,7 @@
     "bashing": 4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "soft_adobe_brick",
     "category": "spare_parts",
     "symbol": ",",
@@ -2033,7 +2033,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "adobe_brick",
     "category": "spare_parts",
     "symbol": ",",
@@ -2052,7 +2052,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "mortar_adobe",
     "symbol": "%",
     "color": "brown",
@@ -2068,7 +2068,7 @@
     "bashing": 4
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tanbark",
     "symbol": ",",
     "color": "brown",
@@ -2083,7 +2083,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "birchbark",
     "symbol": ",",
     "color": "brown",
@@ -2098,7 +2098,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "willowbark",
     "symbol": ",",
     "color": "brown",
@@ -2113,7 +2113,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "diamond",
     "symbol": "*",
     "color": "white",
@@ -2127,7 +2127,7 @@
     "to_hit": -5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "garnet",
     "symbol": "*",
     "color": "red",
@@ -2141,7 +2141,7 @@
     "to_hit": -5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "amethyst",
     "copy-from": "garnet",
     "color": "blue",
@@ -2149,7 +2149,7 @@
     "description": "A sparkling amethyst."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "aquamarine",
     "copy-from": "garnet",
     "color": "cyan",
@@ -2157,7 +2157,7 @@
     "description": "A sparkling aquamarine."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "emerald",
     "copy-from": "garnet",
     "color": "green",
@@ -2165,7 +2165,7 @@
     "description": "A sparkling emerald."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "alexandrite",
     "copy-from": "garnet",
     "color": "green",
@@ -2173,7 +2173,7 @@
     "description": "A sparkling alexandrite."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pearl",
     "copy-from": "garnet",
     "color": "white",
@@ -2181,7 +2181,7 @@
     "description": "A lustrous pearl."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ruby",
     "copy-from": "garnet",
     "color": "red",
@@ -2189,7 +2189,7 @@
     "description": "A sparkling ruby."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "peridot",
     "copy-from": "garnet",
     "color": "green",
@@ -2197,7 +2197,7 @@
     "description": "A sparkling peridot."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sapphire",
     "copy-from": "garnet",
     "color": "blue",
@@ -2205,7 +2205,7 @@
     "description": "A sparkling sapphire."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "opal",
     "copy-from": "garnet",
     "color": "white",
@@ -2213,7 +2213,7 @@
     "description": "A lustrous opal."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tourmaline",
     "copy-from": "garnet",
     "color": "light_red",
@@ -2221,7 +2221,7 @@
     "description": "A sparkling tourmaline."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "citrine",
     "copy-from": "garnet",
     "color": "yellow",
@@ -2229,7 +2229,7 @@
     "description": "A sparkling citrine."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
@@ -2237,7 +2237,7 @@
     "description": "A sparkling blue topaz."
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cured_hide",
     "symbol": ",",
     "color": "white",
@@ -2253,7 +2253,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tanned_hide",
     "symbol": ",",
     "color": "brown",
@@ -2268,7 +2268,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
@@ -2284,7 +2284,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tanned_pelt",
     "symbol": ",",
     "color": "brown",
@@ -2299,7 +2299,7 @@
     "to_hit": -1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
@@ -2313,7 +2313,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "straw_doll",
     "symbol": "o",
     "color": "light_gray",
@@ -2326,7 +2326,7 @@
     "volume": "500 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pillow",
     "symbol": ",",
     "color": "blue",
@@ -2341,7 +2341,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bodypillow",
     "symbol": "[",
     "color": "white",
@@ -2356,7 +2356,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
@@ -2371,7 +2371,7 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "teddy",
     "symbol": "o",
     "color": "brown",
@@ -2385,7 +2385,7 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "teddy_bear",
     "symbol": "o",
     "color": "brown",
@@ -2399,7 +2399,7 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "money_bundle",
     "name": { "str": "money bundle" },
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
@@ -2430,7 +2430,7 @@
     "color": "light_gray"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cigar_lit",
     "name": { "str": "cigar" },
     "color": "brown",
@@ -2453,7 +2453,7 @@
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cigar_butt",
     "name": { "str": "cigar butt" },
     "color": "dark_gray",
@@ -2465,7 +2465,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cig_lit",
     "name": { "str": "cigarette" },
     "color": "white",
@@ -2488,7 +2488,7 @@
     "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cig_butt",
     "name": { "str": "cigarette butt" },
     "color": "dark_gray",
@@ -2500,7 +2500,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "joint_lit",
     "name": { "str": "joint" },
     "color": "light_green",
@@ -2523,7 +2523,7 @@
     "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "joint_roach",
     "name": { "str": "joint roach", "str_pl": "joint roaches" },
     "color": "green",
@@ -2535,7 +2535,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "cannabis",
     "symbol": "%",
     "color": "light_green",
@@ -2548,7 +2548,7 @@
     "volume": "1 L"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
@@ -2685,7 +2685,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "id_science",
     "symbol": ",",
     "color": "blue",
@@ -2699,7 +2699,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "id_military",
     "symbol": ",",
     "color": "green",
@@ -2713,7 +2713,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "id_industrial",
     "looks_like": "id_science",
     "symbol": ",",
@@ -2728,7 +2728,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -2744,7 +2744,7 @@
   },
   {
     "id": "light_bulb",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "light bulb" },
     "description": "A rather outdated light bulb used in all sorts of light equipment.",
     "symbol": ",",
@@ -2772,7 +2772,7 @@
   },
   {
     "id": "clay_pot_flower",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "clay flower pot" },
     "description": "A nice looking clay pot used for planting.",
@@ -2787,7 +2787,7 @@
   },
   {
     "id": "plastic_pot_flower",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "plastic flower pot" },
     "description": "A cheap plastic pot used for planting.",
@@ -2802,7 +2802,7 @@
   },
   {
     "id": "fluid_preserved_brain",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "fluid preserved brain" },
     "description": "This 3L jar contains a human brain preserved in a formaldehyde solution.",
@@ -2819,7 +2819,7 @@
   },
   {
     "id": "evaporator_coil",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "evaporator coil" },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
@@ -2833,7 +2833,7 @@
   },
   {
     "id": "condensor_coil",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "condensor coil" },
     "description": "A compressor and a fan work together to cool down the refrigerant.",
@@ -2847,7 +2847,7 @@
   },
   {
     "id": "refrigerant_tank",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "refrigerant tank" },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
     "weight": "410 g",
@@ -2861,7 +2861,7 @@
     "color": "light_cyan"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hard_steel_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -2876,7 +2876,7 @@
     "bashing": 6
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "steel_armor",
     "category": "spare_parts",
     "symbol": ",",
@@ -2891,7 +2891,7 @@
     "bashing": 5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lock",
     "category": "spare_parts",
     "symbol": "P",
@@ -2906,7 +2906,7 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "craft",
     "symbol": "%",
     "color": "white",
@@ -2920,7 +2920,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spare_tire_carrier",
     "category": "spare_parts",
     "symbol": "t",
@@ -2935,7 +2935,7 @@
     "bashing": 8
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "welding_components",
     "category": "spare_parts",
     "material": [ "steel" ],
@@ -2950,7 +2950,7 @@
     "bashing": 8
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "amplifier_head",
     "symbol": ";",
     "color": "blue",
@@ -2963,7 +2963,7 @@
     "volume": "3 L"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_turret",
     "symbol": ",",
     "color": "green",
@@ -2981,7 +2981,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_turret_riot",
     "symbol": ",",
     "color": "blue",
@@ -2990,7 +2990,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_turret_rifle",
     "symbol": ",",
     "color": "green",
@@ -2999,7 +2999,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_crows_m240",
     "symbol": ",",
     "color": "green",
@@ -3008,7 +3008,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_turret_bmg",
     "symbol": ",",
     "color": "green",
@@ -3017,7 +3017,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
@@ -3035,7 +3035,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_talon_m202a1",
     "symbol": ",",
     "color": "green",
@@ -3053,7 +3053,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_robofac_laserturret_mk1",
     "symbol": ",",
     "color": "green",
@@ -3062,7 +3062,7 @@
     "copy-from": "broken_turret"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
@@ -3080,7 +3080,7 @@
   },
   {
     "id": "survival_kit",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "survival kit" },
     "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
@@ -3096,7 +3096,7 @@
   },
   {
     "id": "premium_survival_kit",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "survival kit" },
     "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
@@ -3111,7 +3111,7 @@
   },
   {
     "id": "plastic_six_dice",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str_sp": "plastic dice" },
     "description": "A six-sided plastic dice.",
@@ -3126,7 +3126,7 @@
   },
   {
     "id": "salt_lick",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "salt lick" },
     "description": "A heavy cube-shaped block of salt for livestock.  Don't lick it, it's gross.",

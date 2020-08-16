@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "leaf_spring",
     "symbol": ",",
     "color": "light_gray",
@@ -674,7 +674,7 @@
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hydrangea_flower",
     "name": { "str": "hydrangea" },
     "description": "A hydrangea stalk with some petals.",
@@ -687,7 +687,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hydrangea_bud",
     "name": { "str": "hydrangea bud" },
     "description": "A hydrangea bud.  Contains some substances commonly produced by a hydrangea flower.",
@@ -700,7 +700,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tulip_flower",
     "name": { "str": "tulip" },
     "description": "A tulip stalk with some petals.",
@@ -713,7 +713,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tulip_bud",
     "name": { "str": "tulip bud" },
     "description": "A tulip bud.  Contains some substances commonly produced by a tulip flower.",
@@ -726,7 +726,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spurge_flower",
     "name": { "str": "spurge" },
     "description": "A spurge stalk with some petals.",
@@ -739,7 +739,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spurge_bud",
     "name": { "str": "spurge bud" },
     "description": "A spurge bud.  Contains some substances commonly produced by a spurge flower.",
@@ -752,7 +752,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "black_eyed_susan_flower",
     "name": { "str": "black eyed susan" },
     "description": "A black eyed susan stalk with some petals.",
@@ -765,7 +765,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "black_eyed_susan_bud",
     "name": { "str": "black eyed susan bud" },
     "description": "A black eyed susan bud.  Contains some substances commonly produced by a black eyed susan flower.",
@@ -778,7 +778,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lily_flower",
     "name": { "str": "lily", "str_pl": "lilies" },
     "description": "A lily stalk with some petals.",
@@ -791,7 +791,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lily_bud",
     "name": { "str": "lily bud" },
     "description": "A lily bud.  Contains some substances commonly produced by a lily flower.",
@@ -804,7 +804,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lotus_flower",
     "name": { "str": "lotus", "str_pl": "lotuses" },
     "description": "A lotus stalk with some petals.",
@@ -817,7 +817,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lotus_bud",
     "name": { "str": "lotus bud" },
     "description": "A lotus bud.  Contains some substances commonly produced by a lotus flower.",
@@ -830,7 +830,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lilac_flower",
     "name": { "str": "lilac" },
     "description": "A lilac stalk with some petals.",
@@ -843,7 +843,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lilac_bud",
     "name": { "str": "lilac bud" },
     "description": "A lilac bud.  Contains some substances commonly produced by a lilac flower.",
@@ -856,7 +856,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "rose_bud",
     "name": { "str": "rose bud" },
     "description": "A rose bud.  Contains some substances commonly produced by a rose flower.",
@@ -869,7 +869,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "dahlia_bud",
     "name": { "str": "dahlia bud" },
     "description": "A dahlia bud.  Contains some substances commonly produced by a dahlia.",
@@ -882,7 +882,7 @@
     "price": 200
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "rose_flower",
     "name": { "str": "rose" },
     "description": "A rose stalk with some petals.",
@@ -895,7 +895,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bluebell_flower",
     "name": { "str": "bluebell" },
     "description": "A bluebell stalk with some petals.",
@@ -908,7 +908,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "dahlia_flower",
     "name": { "str": "dahlia" },
     "description": "A dahlia stalk with some petals.",
@@ -921,7 +921,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "poppy_flower",
     "name": { "str": "poppy flower" },
     "description": "A poppy stalk with some petals.",
@@ -934,7 +934,7 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bluebell_bud",
     "name": { "str": "bluebell bud" },
     "description": "A bluebell bud.  Contains some substances commonly produced by a bluebell flower.",
@@ -1092,7 +1092,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_chickenbot",
     "looks_like": "broken_tripod",
     "symbol": ",",
@@ -1144,7 +1144,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_tripod",
     "symbol": ",",
     "color": "green",
@@ -1161,7 +1161,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_tankbot",
     "symbol": ",",
     "color": "green",
@@ -1178,7 +1178,7 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tripod_chassis",
     "name": { "str_sp": "tripod chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the tripod.",
@@ -1191,7 +1191,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "chickenbot_chassis",
     "name": { "str_sp": "chicken walker chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the chicken walker.",
@@ -1204,7 +1204,7 @@
     "category": "spare_parts"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "tankbot_chassis",
     "name": { "str_sp": "Beagle chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank.",
@@ -1239,7 +1239,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "spidery_legs_big",
     "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
     "description": "A set of big pointy legs, like the ones found under a tripod.",
@@ -1253,7 +1253,7 @@
   },
   {
     "id": "rock_pot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "stone pot" },
     "description": "A large stone, roughly hollowed out into a pot.",
@@ -1603,7 +1603,7 @@
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "battletorch_done",
     "name": { "str": "burnt out Louisville Slaughterer" },
     "description": "A sturdy wood bat, wrapped in flame-resistant Nomex fabric.  Makes a good melee weapon but better be disassembled to recycle the baseball bat and some Nomex patches.",
@@ -1950,7 +1950,7 @@
     "difficulty": 8
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "solar_panel_v3",
     "name": "quantum solar panel",
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
@@ -2681,7 +2681,7 @@
     }
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broken_laserturret",
     "symbol": ",",
     "color": "green",
@@ -2691,7 +2691,7 @@
   },
   {
     "id": "cerberus_laser",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "(",
     "color": "magenta",
     "name": { "str": "TX-5LR Laser Cannon" },
@@ -2741,7 +2741,7 @@
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bone_plate",
     "symbol": "]",
     "color": "white",

@@ -47,7 +47,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 150 } } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "it_battery_mount",
     "name": { "str": "storage battery case" },
     "description": "An empty case that can hold a storage battery.  Complete with charging controller chip and connecting wires.",

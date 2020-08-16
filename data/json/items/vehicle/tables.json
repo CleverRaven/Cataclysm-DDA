@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "v_table",
     "name": { "str": "fancy table" },
     "description": "A very fancy table from a very fancy RV.  If times were better it might be useful for something more than firewood.",
@@ -17,7 +17,7 @@
     "price_postapoc": 100
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "w_table",
     "name": { "str": "wooden table" },
     "description": "A crude wooden table.",
@@ -25,7 +25,7 @@
     "copy-from": "v_table"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "workbench",
     "name": { "str": "workbench", "str_pl": "workbenches" },
     "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",

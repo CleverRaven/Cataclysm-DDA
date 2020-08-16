@@ -160,7 +160,7 @@
     "count": 5
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "peephole",
     "symbol": ".",
     "color": "yellow",
@@ -175,7 +175,7 @@
     "to_hit": -3
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "screen_mesh",
     "symbol": "#",
     "color": "brown",

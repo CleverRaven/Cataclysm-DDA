@@ -122,7 +122,7 @@
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hatchet",
     "symbol": ";",
     "color": "light_gray",

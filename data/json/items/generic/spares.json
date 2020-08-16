@@ -11,7 +11,7 @@
   {
     "id": "drivebelt",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "drive belt" },
     "description": "A synthetic rubber V-belt with steel reinforcement fibers commonly fitted to engines or other industrial equipment.",
     "material": [ "rubber", "steel" ],
@@ -23,7 +23,7 @@
   {
     "id": "drivebelt_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "makeshift drive belt" },
     "description": "An improvised belt useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "cotton", "leather" ],
@@ -35,7 +35,7 @@
   {
     "id": "filter_air",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "air filter" },
     "description": "A plastic box containing creped paper used to filter the air supply for combustion engines or other industrial equipment.",
     "material": [ "plastic", "paper" ],
@@ -47,7 +47,7 @@
   {
     "id": "filter_air_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "makeshift air filter" },
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
@@ -59,7 +59,7 @@
   {
     "id": "filter_liquid",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
@@ -71,7 +71,7 @@
   {
     "id": "filter_liquid_makeshift",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "makeshift automotive filter" },
     "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "steel", "paper" ],
@@ -83,7 +83,7 @@
   {
     "id": "glowplug",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "glow plug" },
     "description": "A cylindrical heating device designed to be screwed in to a diesel engine to aid starting in cold weather.",
     "material": [ "plastic", "copper" ],
@@ -95,7 +95,7 @@
   {
     "id": "pump_complex",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "high-pressure pump" },
     "description": "A complex mechanical pump capable of achieving high pressures.  Far beyond anything you could reasonably improvise.",
     "material": [ "iron" ],
@@ -108,7 +108,7 @@
   {
     "id": "well_pump",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "mechanical pump" },
     "description": "A simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
     "material": [ "iron" ],
@@ -120,7 +120,7 @@
   {
     "id": "pipe_fittings",
     "copy-from": "spare_part",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "set of pipe fittings", "str_pl": "sets of pipe fittings" },
     "description": "A loose assortment of metal pipe fittings - end caps, pipe junctions, and similar items.  They can be used in a variety of projects.",
     "material": [ "iron" ],

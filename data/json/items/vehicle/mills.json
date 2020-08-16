@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wind_turbine",
     "name": { "str": "wind turbine" },
     "description": "A small turbine that can convert wind into electric power.",
@@ -16,7 +16,7 @@
     "price_postapoc": 1000
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "xl_wind_turbine",
     "name": { "str": "large wind turbine" },
     "description": "A large turbine that can convert wind into electric power.",
@@ -29,7 +29,7 @@
     "copy-from": "wind_turbine"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "water_wheel",
     "name": { "str": "water wheel" },
     "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
@@ -44,7 +44,7 @@
     "copy-from": "wind_turbine"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "xl_water_wheel",
     "name": { "str": "large water wheel" },
     "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",

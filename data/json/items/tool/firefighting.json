@@ -171,7 +171,7 @@
   },
   {
     "id": "pike_pole",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "yellow",
     "looks_like": "spear_pipe",

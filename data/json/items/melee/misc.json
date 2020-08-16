@@ -1,7 +1,7 @@
 [
   {
     "id": "bullwhip",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bullwhip" },

@@ -17,7 +17,7 @@
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "disc_golf",
     "category": "weapons",
     "price": 1000,
@@ -33,7 +33,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "frisbee",
     "category": "weapons",
     "price": 1000,
@@ -66,7 +66,7 @@
     "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lawn_dart",
     "category": "weapons",
     "price": 1000,
@@ -83,7 +83,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "throwing_axe",
     "category": "weapons",
     "price": 12400,
@@ -101,7 +101,7 @@
     "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "throwing_knife",
     "category": "weapons",
     "price": 5200,

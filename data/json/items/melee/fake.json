@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bio_claws_weapon",
     "name": { "str_sp": "bionic claws" },
     "description": "Short and sharp claws made from a high-tech metal.",
@@ -15,7 +15,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bio_blade_weapon",
     "name": { "str": "monomolecular blade" },
     "description": "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",

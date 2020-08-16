@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sword_wood",
     "symbol": "!",
     "color": "brown",
@@ -18,7 +18,7 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sword_nail",
     "symbol": "!",
     "color": "light_gray",
@@ -35,7 +35,7 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sword_crude",
     "symbol": "!",
     "color": "light_gray",
@@ -461,7 +461,7 @@
   },
   {
     "id": "jian_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "jian" },
@@ -522,7 +522,7 @@
   },
   {
     "id": "scimitar_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scimitar" },
@@ -542,7 +542,7 @@
   },
   {
     "id": "estoc",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc" },
@@ -563,7 +563,7 @@
   },
   {
     "id": "estoc_inferior",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc" },
@@ -582,7 +582,7 @@
   },
   {
     "id": "estoc_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc" },
@@ -644,7 +644,7 @@
   },
   {
     "id": "longsword_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "longsword" },
@@ -685,7 +685,7 @@
   },
   {
     "id": "arming_sword_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "arming_sword",
@@ -950,7 +950,7 @@
   },
   {
     "id": "tanto_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "weapons",
     "name": { "str": "tanto" },
     "description": "This is a dull, cheaply made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
@@ -972,7 +972,7 @@
   },
   {
     "id": "tanto_inferior",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "weapons",
     "name": { "str": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced",
@@ -1014,7 +1014,7 @@
   },
   {
     "id": "nodachi_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "nodachi" },
@@ -1034,7 +1034,7 @@
   },
   {
     "id": "nodachi_inferior",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "nodachi" },
@@ -1054,7 +1054,7 @@
   },
   {
     "id": "fencing_foil",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing foil" },
@@ -1072,7 +1072,7 @@
   },
   {
     "id": "fencing_epee",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing épée" },
@@ -1090,7 +1090,7 @@
   },
   {
     "id": "fencing_sabre",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing saber" },
@@ -1108,7 +1108,7 @@
   },
   {
     "id": "fencing_foil_sharpened",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "fencing_foil",
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
@@ -1117,7 +1117,7 @@
   },
   {
     "id": "fencing_epee_sharpened",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "fencing_epee",
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
@@ -1126,7 +1126,7 @@
   },
   {
     "id": "fencing_sabre_sharpened",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "copy-from": "fencing_sabre",
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
@@ -1206,7 +1206,7 @@
   },
   {
     "id": "hollow_cane",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "brown",
     "name": { "str": "hollow cane" },
@@ -1233,7 +1233,7 @@
   },
   {
     "id": "sword_cane",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "sword cane" },
@@ -1294,7 +1294,7 @@
   },
   {
     "id": "cutlass_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
@@ -1376,7 +1376,7 @@
   },
   {
     "id": "katana_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "katana" },
@@ -1417,7 +1417,7 @@
   },
   {
     "id": "zweihander_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "zweihänder" },
@@ -1458,7 +1458,7 @@
   },
   {
     "id": "broadsword_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "broadsword" },
@@ -1478,7 +1478,7 @@
   },
   {
     "id": "cavalry_sabre_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "weapons",
     "name": { "str": "cavalry saber" },
     "description": "This is a dull, cheap replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
@@ -1498,7 +1498,7 @@
   },
   {
     "id": "rapier_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "rapier" },
@@ -1518,7 +1518,7 @@
   },
   {
     "id": "wakizashi_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "wakizashi" },
@@ -1558,7 +1558,7 @@
   },
   {
     "id": "kris_fake",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "kris", "str_pl": "krises" },
@@ -1704,7 +1704,7 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "lajatang",
     "symbol": "/",
     "color": "brown",

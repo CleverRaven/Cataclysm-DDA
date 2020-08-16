@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "bee_sting",
     "name": { "str": "bee sting" },
     "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",
@@ -16,7 +16,7 @@
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "broom",
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
@@ -32,7 +32,7 @@
     "price_postapoc": 0
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "ceramic_shard",
     "symbol": "*",
     "color": "white",
@@ -48,7 +48,7 @@
     "qualities": [ [ "BUTCHER", -66 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "fighter_sting",
     "name": { "str": "fungal fighter sting" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
@@ -83,7 +83,7 @@
   },
   {
     "id": "mattress",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "mattress", "str_pl": "mattresses" },
     "description": "This is a single, or twin, sized mattress.",
@@ -99,7 +99,7 @@
   },
   {
     "id": "down_mattress",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "down mattress", "str_pl": "down mattresses" },
     "description": "This is a single, or twin, sized down filled mattress.",
@@ -131,7 +131,7 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "sharp_rock",
     "symbol": "*",
     "color": "light_gray",
@@ -163,7 +163,7 @@
   },
   {
     "id": "esapi_plate",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "ESAPI ballistic plate" },
     "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
@@ -177,7 +177,7 @@
   },
   {
     "id": "esbi_plate",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "ESBI ballistic plate" },
     "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  \"STRIKE FACE\" is printed on its outer surface.  This is designed to be worn in the sides of a plate carrier and can withstand several high energy rifle rounds before breaking.",
@@ -191,7 +191,7 @@
   },
   {
     "id": "ugl_buttstock",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "symbol": ",",
     "color": "dark_gray",
     "name": { "str": "grenade launcher buttstock" },
@@ -205,7 +205,7 @@
     "to_hit": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "wasp_sting",
     "name": { "str": "wasp sting" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",

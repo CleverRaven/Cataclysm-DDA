@@ -1,7 +1,7 @@
 [
   {
     "id": "awl_bone",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "bone sewing awl" },
     "description": "This is a crude sharpened bone awl; those were used for leatherworking before metal was discovered.  It can also serve as an improvised stabbing weapon, but will break quickly.",
@@ -21,7 +21,7 @@
   {
     "id": "awl_steel",
     "copy-from": "awl_bone",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "steel sewing awl" },
     "description": "This is a steel awl with a wooden grip, usually used for leatherworking.  It can also serve as an improvised stabbing weapon, but will break quickly.",
     "weight": "170 g",
@@ -34,7 +34,7 @@
   },
   {
     "id": "knitting_needles",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "knitting needles", "str_pl": "pairs of knitting needles" },
     "description": "A pair of stout wooden needles with round ends used to turn thread and yarn into cloth.",
@@ -51,7 +51,7 @@
   },
   {
     "id": "loom_frame",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "frame loom" },
     "description": "This is a rather bulky and primitive wooden frame which can be used to weave cloth sheets.  It is very slow, though.",
@@ -179,7 +179,7 @@
   },
   {
     "id": "shed_stick",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "wooden shed stick" },
     "description": "This is a short thin flat wooden stick, used as a tool while weaving cloth with a frame loom.",
@@ -244,7 +244,7 @@
   },
   {
     "id": "tailoring_pattern_set",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "tailoring pattern set" },
     "description": "This is a large set of tailoring patterns made from paper.  They're useful for making any kind of cloth or leather items from scratch, but are necessary for more advanced projects.",

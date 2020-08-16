@@ -1037,7 +1037,7 @@
   },
   {
     "id": "light_detector",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "light detector" },
     "description": "This is a photodiode on a chip, designed to convert incoming light to electrical energy for quantification.",
@@ -1054,7 +1054,7 @@
   },
   {
     "id": "glass_prism",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "glass prism" },
     "description": "This is a high quality crystal glass prism for separating and redirecting light.",
@@ -1070,7 +1070,7 @@
   },
   {
     "id": "glass_tube_small",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "small glass tube" },
     "description": "This is a small glass tube.  What more could you possibly want to know about it?",
@@ -1243,7 +1243,7 @@
   },
   {
     "id": "stopcock",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "plastic stopcock" },
     "description": "Stop giggling.  This is a tiny plastic valve, get your mind out of the gutter.",
@@ -1260,7 +1260,7 @@
   },
   {
     "id": "rack_test_tube",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "test tube rack" },
     "description": "A plastic box with holes in it.  Not that exciting, unless you're desperate for a place to store a test tube.  Then it's great.",
@@ -1277,7 +1277,7 @@
   },
   {
     "id": "rack_test_tube_micro",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "microcentrifuge tube tray" },
     "description": "A plastic tray riddled with small holes, for storing microcentrifuge tubes.",
@@ -1294,7 +1294,7 @@
   },
   {
     "id": "stand_ring",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "ring stand" },
     "description": "This is a heavy metal plate and a sturdy rod, for clamping lab stuff to.",
@@ -1311,7 +1311,7 @@
   },
   {
     "id": "stand_ring_clamps",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "spare_parts",
     "name": { "str": "set of ring stand clamps", "str_pl": "sets of ring stand clamps" },
     "description": "This is a small box with a jumbled assortment of clamps for mounting on ring stands.  There seems to be some sort of rule that all of them are missing at least one wing nut for tightening them; it looks like judicious use of twist ties, duct tape, and other random stuff has been used to compensate.",

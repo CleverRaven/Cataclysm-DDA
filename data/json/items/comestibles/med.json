@@ -1,7 +1,7 @@
 [
   {
     "id": "1st_aid",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "drugs",
     "name": { "str": "first aid kit" },
     "description": "A typical universal first aid kit, one you'd see in a car or in a household.  It contains a variety of common medical items stored in case of accidents and injuries.  Disassemble to get its content.",
@@ -17,7 +17,7 @@
   },
   {
     "id": "ifak",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "drugs",
     "name": { "str": "IFAK" },
     "description": "An IFAK, or individual first aid kit, is a specialized set of wound dressings and accessories, and being of military origin focuses on combat trauma and preventing blood loss.  Disassemble to get its content.",

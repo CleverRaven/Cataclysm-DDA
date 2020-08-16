@@ -1,7 +1,7 @@
 [
   {
     "id": "magic_8_ball",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Magic 8-Ball" },
     "description": "A fortune-telling device from the 1950s.  The kind of moral support you didn't know you needed.",
@@ -16,7 +16,7 @@
   },
   {
     "id": "deck_of_cards",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "deck of cards", "str_pl": "decks of cards" },
     "description": "A deck of 52 playing cards.",
@@ -32,7 +32,7 @@
   },
   {
     "id": "coin_quarter",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "coin" },
     "description": "A now-ancient form of currency.  Stripped of its original purpose, it now serves, faithfully, flippant Flippists for free.",
@@ -47,7 +47,7 @@
   },
   {
     "id": "coin_nickel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "coin" },
     "description": "An ancient form of currency bearing the inscription \"E PLURIBUS UNUM.\"",
@@ -62,7 +62,7 @@
   },
   {
     "id": "family_photo",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "//": "Unique mission item for the CITY_COP.",
     "category": "other",
     "name": { "str": "family photo" },
@@ -77,7 +77,7 @@
   },
   {
     "id": "polaroid_photo",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "polaroid photo" },
     "description": "A poorly taken polaroid photo of a young man wearing bell-bottoms and a fedora.  It's pretty blurry.",
@@ -91,7 +91,7 @@
   },
   {
     "id": "chess",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "chess set" },
     "description": "A wooden box containing all the equipment needed to play a game of chess.",
@@ -107,7 +107,7 @@
   },
   {
     "id": "checkers",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "checkers set" },
     "description": "A wooden box containing a set of round tokens used to play checkers.",
@@ -123,7 +123,7 @@
   },
   {
     "id": "cards_magic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
     "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
@@ -139,7 +139,7 @@
   },
   {
     "id": "pictionary",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Picturesque", "str_pl": "sets of Picturesque" },
     "description": "A game where one draws an image, and the others attempt to guess what it is.",
@@ -155,7 +155,7 @@
   },
   {
     "id": "monopoly",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Capitalism", "str_pl": "sets of Capitalism" },
     "description": "A game where players traverse around the board buying property and swindling their friends.",
@@ -171,7 +171,7 @@
   },
   {
     "id": "dnd",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Blobs and Bandits", "str_pl": "sets of Blobs and Bandits" },
     "description": "A roleplaying game set in the post-apocalypse, so you can pretend to survive the apocalypse while surviving the apocalypse.",
@@ -187,7 +187,7 @@
   },
   {
     "id": "g_warhammer",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Battlehammer", "str_pl": "sets of Battlehammer" },
     "description": "A strategy game featuring a set of tiny figurines of fantasy creatures.",
@@ -203,7 +203,7 @@
   },
   {
     "id": "g_warhammer40k",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Battlehammer 20k", "str_pl": "sets of Battlehammer 20k" },
     "description": "A strategy game featuring a set of tiny figurines of space aliens and grotesque space marines.",
@@ -219,7 +219,7 @@
   },
   {
     "id": "catan",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Settlers of the Ranch", "str_pl": "sets of Settlers of the Ranch" },
     "description": "A strategy game where players build settlements and trade for supplies.",
@@ -235,7 +235,7 @@
   },
   {
     "id": "battleship",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Warships", "str_pl": "sets of Warships" },
     "description": "A game where players try to guess where the opponent placed their ships on the board.",
@@ -251,7 +251,7 @@
   },
   {
     "id": "clue",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "Murder Mystery", "str_pl": "sets of Murder Mystery" },
     "description": "A game where players try to figure out who murdered the butler.",
@@ -267,7 +267,7 @@
   },
   {
     "id": "old_key",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "key" },
     "description": "This is an old nondescript North American Cylinder key.  Lord knows what lock it goes to; best not to bother with it.",

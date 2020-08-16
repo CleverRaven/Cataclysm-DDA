@@ -137,7 +137,7 @@
   {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
     "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
@@ -145,7 +145,7 @@
   {
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
     "emits": [ "emit_small_smoke_plume" ],

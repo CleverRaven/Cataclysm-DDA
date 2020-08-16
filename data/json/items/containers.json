@@ -1,7 +1,7 @@
 [
   {
     "id": "2lcanteen",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "2.5L canteen" },
     "looks_like": "bottle_plastic",
@@ -30,7 +30,7 @@
   },
   {
     "id": "30gal_barrel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "30 gallon barrel" },
     "looks_like": "55gal_drum",
@@ -57,7 +57,7 @@
   },
   {
     "id": "30gal_drum",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
@@ -84,7 +84,7 @@
   },
   {
     "id": "55gal_drum",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
@@ -111,7 +111,7 @@
   },
   {
     "id": "bag_canvas",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "canvas sack" },
     "looks_like": "bag_plastic",
@@ -128,7 +128,7 @@
   },
   {
     "id": "bag_canvas_small",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "canvas bag" },
     "looks_like": "bag_canvas",
@@ -145,7 +145,7 @@
   },
   {
     "id": "bag_plastic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
@@ -163,7 +163,7 @@
   },
   {
     "id": "bag_zipper",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "zipper bag" },
     "looks_like": "bag_plastic",
@@ -188,7 +188,7 @@
   },
   {
     "id": "bag_body_bag",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
@@ -216,7 +216,7 @@
   },
   {
     "id": "bag_iv",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "IV bag" },
     "description": "A small, sealed plastic bag for liquids used in intravenous therapy.",
@@ -242,7 +242,7 @@
   },
   {
     "id": "bottle_glass",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "glass bottle" },
     "looks_like": "bottle_plastic",
@@ -273,7 +273,7 @@
   },
   {
     "id": "bottle_plastic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic bottle" },
     "description": "A resealable plastic bottle, holds 500 ml of liquid.",
@@ -300,7 +300,7 @@
   },
   {
     "id": "condiment_bottle_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "condiment bottle" },
     "looks_like": "bottle_plastic",
@@ -329,7 +329,7 @@
   },
   {
     "id": "bottle_plastic_small",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "small plastic bottle" },
     "looks_like": "bottle_plastic",
@@ -356,7 +356,7 @@
   },
   {
     "id": "bottle_twoliter",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large plastic bottle" },
     "looks_like": "bottle_plastic",
@@ -382,7 +382,7 @@
   },
   {
     "id": "bowl_clay",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "clay bowl" },
     "looks_like": "bowl_plastic",
@@ -408,7 +408,7 @@
   },
   {
     "id": "box_cigarette",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "pack" },
     "looks_like": "box_small",
@@ -425,7 +425,7 @@
   },
   {
     "id": "box_small",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
@@ -440,7 +440,7 @@
   },
   {
     "id": "box_medium",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
@@ -465,7 +465,7 @@
   },
   {
     "id": "box_large",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
@@ -491,7 +491,7 @@
   },
   {
     "id": "bucket",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "bucket" },
     "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, French fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
@@ -516,7 +516,7 @@
   },
   {
     "id": "camelbak",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "hydration pack" },
     "looks_like": "runner_bag",
@@ -545,7 +545,7 @@
   },
   {
     "id": "can_drink",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
@@ -573,7 +573,7 @@
   },
   {
     "id": "carton_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "paper carton" },
     "looks_like": "box_small",
@@ -598,7 +598,7 @@
   },
   {
     "id": "plastic_bag_vac",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "vacuum-packed bag" },
     "looks_like": "bag_plastic",
@@ -622,7 +622,7 @@
   },
   {
     "id": "can_food",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "small tin can" },
     "looks_like": "can_drink",
@@ -650,7 +650,7 @@
   {
     "id": "can_medium",
     "copy-from": "can_food",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "medium tin can" },
     "description": "A medium tin can, like what soup comes in.",
     "//": "Represents a 4 cm radius x 10 cm height steel can.",
@@ -671,7 +671,7 @@
   },
   {
     "id": "canteen",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic canteen" },
     "looks_like": "2lcanteen",
@@ -699,7 +699,7 @@
   },
   {
     "id": "thermos",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "thermos", "str_pl": "thermoses" },
     "looks_like": "bottle_plastic",
@@ -724,7 +724,7 @@
   },
   {
     "id": "clay_canister",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "clay canister" },
     "looks_like": "bowl_clay",
@@ -750,7 +750,7 @@
   },
   {
     "id": "clay_hydria",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "clay hydria" },
     "looks_like": "bowl_clay",
@@ -777,7 +777,7 @@
   },
   {
     "id": "clay_watercont",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large clay pot" },
     "looks_like": "bowl_clay",
@@ -803,7 +803,7 @@
   },
   {
     "id": "cup_plastic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic cup" },
     "description": "A small, vacuum formed cup.",
@@ -829,7 +829,7 @@
   },
   {
     "id": "flask_glass",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "glass flask" },
     "looks_like": "bottle_glass",
@@ -857,7 +857,7 @@
   },
   {
     "id": "test_tube",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "test tube" },
     "looks_like": "flask_glass",
@@ -885,7 +885,7 @@
   },
   {
     "id": "beaker",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "beaker" },
     "looks_like": "flask_glass",
@@ -913,7 +913,7 @@
   },
   {
     "id": "gradcylinder",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "graduated cylinder" },
     "looks_like": "flask_glass",
@@ -943,7 +943,7 @@
   },
   {
     "id": "test_tube_micro",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "microcentrifuge tube" },
     "looks_like": "test_tube",
@@ -969,7 +969,7 @@
   },
   {
     "id": "flask_hip",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "hip flask" },
     "looks_like": "2lcanteen",
@@ -999,7 +999,7 @@
   },
   {
     "id": "jar_3l_glass_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "3L glass jar" },
     "looks_like": "jar_glass_sealed",
@@ -1028,7 +1028,7 @@
   },
   {
     "id": "jar_glass_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "glass jar" },
     "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Preserves content from rot until opened (assuming it was sterile before sealing).",
@@ -1054,7 +1054,7 @@
   },
   {
     "id": "jerrycan",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic jerrycan" },
     "description": "A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
@@ -1079,7 +1079,7 @@
   },
   {
     "id": "jerrycan_big",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "steel jerrycan" },
     "looks_like": "jerrycan",
@@ -1107,7 +1107,7 @@
   },
   {
     "id": "jug_clay",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "clay jug" },
     "looks_like": "bowl_clay",
@@ -1133,7 +1133,7 @@
   },
   {
     "id": "jug_plastic",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
@@ -1159,7 +1159,7 @@
   },
   {
     "id": "keg",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "aluminum keg" },
     "looks_like": "30l_barrel",
@@ -1187,7 +1187,7 @@
   },
   {
     "id": "keg_steel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "steel keg" },
     "looks_like": "keg",
@@ -1215,7 +1215,7 @@
   },
   {
     "id": "large_stomach_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large sealed stomach" },
     "description": "The stomach of a large creature, cleaned and sealed with strings.  It can hold 3 liters of water.",
@@ -1240,7 +1240,7 @@
   },
   {
     "id": "metal_tank",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "looks_like": "keg",
     "name": { "str": "metal tank (60L)", "str_pl": "metal tanks (60L)" },
@@ -1267,7 +1267,7 @@
   },
   {
     "id": "metal_tank_little",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "looks_like": "keg",
     "name": { "str": "metal tank (2L)", "str_pl": "metal tanks (2L)" },
@@ -1294,7 +1294,7 @@
   },
   {
     "id": "canteen_wood",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "wooden canteen" },
     "looks_like": "canteen",
@@ -1322,7 +1322,7 @@
   },
   {
     "id": "stomach_sealed",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "sealed stomach" },
     "description": "The stomach of a creature, cleaned and sealed with a string.  It can hold 1.5 liters of water.",
@@ -1347,7 +1347,7 @@
   },
   {
     "id": "waterskin",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "small waterskin" },
     "looks_like": "canvas_bag",
@@ -1375,7 +1375,7 @@
   },
   {
     "id": "waterskin2",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "waterskin" },
     "looks_like": "waterskin",
@@ -1403,7 +1403,7 @@
   },
   {
     "id": "waterskin3",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large waterskin" },
     "looks_like": "waterskin2",
@@ -1431,7 +1431,7 @@
   },
   {
     "id": "wooden_barrel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "wooden barrel" },
     "looks_like": "30l_barrel",
@@ -1450,7 +1450,7 @@
   },
   {
     "id": "wrapper",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "paper wrapper" },
     "description": "Just a piece of butcher's paper.  Good for starting fires.",
@@ -1467,7 +1467,7 @@
   },
   {
     "id": "wrapper_pr",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "wrapper" },
     "//desc": "Daizu is Japanese for soy, hence DaiZoom",
     "description": "\"DaiZoom Protein Bar, brought to you by SoyPelusa\" is emblazoned proudly upon this greaseproof wrapper.",
@@ -1476,7 +1476,7 @@
   },
   {
     "id": "styrofoam_cup",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "styrofoam cup" },
     "looks_like": "cup_plastic",
@@ -1500,7 +1500,7 @@
   },
   {
     "id": "plastic_bucket",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
@@ -1524,7 +1524,7 @@
   },
   {
     "id": "condom",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "condom" },
     "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.  This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
@@ -1541,7 +1541,7 @@
   },
   {
     "id": "balloon",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "looks_like": "condom",
     "name": { "str": "balloon" },
@@ -1550,7 +1550,7 @@
   },
   {
     "id": "can_food_big",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "large tin can" },
     "looks_like": "can_food",
@@ -1575,7 +1575,7 @@
   },
   {
     "id": "survival_kit_box",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "survival kit box", "str_pl": "survival kit boxes" },
     "looks_like": "box_small",
@@ -1600,7 +1600,7 @@
   },
   {
     "id": "box_tea",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "container",
     "name": { "str": "small cardboard box of tea bags", "str_pl": "small cardboard boxes of tea bags" },
     "looks_like": "box_small",

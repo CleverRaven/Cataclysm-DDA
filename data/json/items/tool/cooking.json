@@ -1,7 +1,7 @@
 [
   {
     "id": "atomic_coffeepot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "atomic coffee maker" },
     "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
@@ -52,7 +52,7 @@
   },
   {
     "id": "can_sealer",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "can sealer" },
     "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
@@ -179,7 +179,7 @@
   },
   {
     "id": "clay_pot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "clay pot" },
     "description": "A crude clay pot with lid used for cooking.",
@@ -198,7 +198,7 @@
   },
   {
     "id": "clay_quern",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "clay quern" },
     "description": "This is a simple hand-powered clay quern for grinding grain.",
@@ -212,7 +212,7 @@
   },
   {
     "id": "clay_teapot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "clay teapot" },
     "description": "A clay teapot.  Now all you need is tea and water.",
@@ -287,7 +287,7 @@
   },
   {
     "id": "eggs_ferment",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "fermenting eggs jar" },
     "description": "This jar contains a batch of eggs in a pickling solution.  You can seal up the jar once the process is completed.",
@@ -334,7 +334,7 @@
   },
   {
     "id": "flask_yeast",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
@@ -552,7 +552,7 @@
   },
   {
     "id": "mess_tin",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "mess tin" },
     "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove.  It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
@@ -570,7 +570,7 @@
   },
   {
     "id": "milk_cream_jar",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "milk cream jar" },
     "looks_like": "jar_glass_sealed",
@@ -586,7 +586,7 @@
   },
   {
     "id": "milk_cream_rising",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "rising cream jar" },
     "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
@@ -714,7 +714,7 @@
   },
   {
     "id": "pastaextruder",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "pasta extruder" },
     "description": "A pasta extruder run by a hand-crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
@@ -730,7 +730,7 @@
   },
   {
     "id": "pickles_ferment",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "fermenting pickle jar" },
     "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
@@ -778,7 +778,7 @@
   },
   {
     "id": "pressure_cooker",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "pressure cooker" },
     "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
@@ -814,7 +814,7 @@
   },
   {
     "id": "sauerkraut_ferment",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "food",
     "name": { "str": "fermenting sauerkraut jar" },
     "description": "This jar contains a batch of sauerkraut set to ferment.  You can seal up the jar once the process is completed.",
@@ -840,7 +840,7 @@
   },
   {
     "id": "sieve_primitive",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "wicker sieve" },
     "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
@@ -855,7 +855,7 @@
   },
   {
     "id": "sieve_steel",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "sieve" },
     "description": "This is no mere strainer for noodles; it's a sieve used to separate particles of certain sizes.  You could use this to do a really good job sifting flour, remove dust and soil from grain, or perhaps conduct gradiation tests for any civil engineers you might know.  This one has been constructed from steel mesh.",
@@ -908,7 +908,7 @@
   },
   {
     "id": "teapot",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
@@ -954,7 +954,7 @@
   },
   {
     "id": "waffleiron",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "waffle iron" },
     "description": "A waffle iron.  For making waffles.",

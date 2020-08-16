@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "camera_control",
     "name": { "str": "camera display" },
     "description": "A set of small monitors.  Required to view cameras' output.",
@@ -15,7 +15,7 @@
     "price_postapoc": 1250
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "omnicamera",
     "name": { "str": "security camera" },
     "description": "A security camera you could connect to a display.  Image quality is quite low, but the field of vision is great.",
@@ -30,7 +30,7 @@
     "price_postapoc": 750
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "vehicle_controls",
     "name": { "str": "vehicle controls", "str_pl": "sets of vehicle controls" },
     "description": "A set of various vehicle controls.  Useful for crafting.",
@@ -46,7 +46,7 @@
     "price_postapoc": 500
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "veh_tracker",
     "name": { "str": "vehicle tracking device" },
     "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
@@ -62,7 +62,7 @@
   },
   {
     "id": "reins_tackle",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "name": { "str": "rein and tackle", "str_pl": "reins and tackles" },
     "category": "veh_parts",
     "description": "A set of leather bindings to control a mountable creature.",
@@ -78,7 +78,7 @@
     "looks_like": "rope_6"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "vehicle_dashboard",
     "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
@@ -94,7 +94,7 @@
     "price_postapoc": 250
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "electronics_controls",
     "copy-from": "vehicle_dashboard",
     "name": { "str": "electronics control unit" },
@@ -107,7 +107,7 @@
     "price_postapoc": 250
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "drive_by_wire_controls",
     "name": { "str": "drive by wire controls", "str_pl": "sets of drive by wire controls" },
     "description": "Fully electronic vehicle control system.  You could control it remotely if you had proper tools.",
@@ -120,7 +120,7 @@
     "copy-from": "vehicle_controls"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "robot_controls",
     "name": { "str": "robot driving unit" },
     "description": "A set of servos, microcontrollers and other devices, together capable of driving an unmanned vehicle.  Its AI is not functional, but it should still have some sort of maintenance mode.",
@@ -134,7 +134,7 @@
     "copy-from": "vehicle_controls"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "turret_controls",
     "name": { "str": "turret control unit" },
     "description": "A set of motor, camera, and various electronic modules banded together to allow for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.",

@@ -1,7 +1,7 @@
 [
   {
     "id": "stapler",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "stapler" },
     "description": "A stapler for fastening sheets of paper together.",
@@ -15,7 +15,7 @@
   },
   {
     "id": "office_holepunch",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "hole puncher" },
     "description": "This metal tool can help you punch a single hole in a piece of paper.  I mean, you could do more if you wanted, but you'd have to do them one at a time.  Or, if you really wanted more holes with one punch, I suppose you could fold the paper…  This is a one cylinder hole puncher.",
@@ -29,7 +29,7 @@
   },
   {
     "id": "office_letter_opener",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "weapons",
     "name": { "str": "letter opener" },
     "description": "This sterling silver letter opener resembling a small dagger has a sharp point and no cutting edge.  It was used to open mail envelopes neatly and quickly.",
@@ -49,7 +49,7 @@
   },
   {
     "id": "pen",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "pen" },
     "description": "A plastic ball point pen.",

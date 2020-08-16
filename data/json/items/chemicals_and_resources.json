@@ -140,7 +140,7 @@
     "stack_size": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "material_shrd_limestone",
     "symbol": ",",
     "color": "light_gray",
@@ -156,7 +156,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "material_rocksalt",
     "category": "food",
     "price": 50,
@@ -171,7 +171,7 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "material_rhodonite",
     "category": "spare_parts",
     "price": 250,
@@ -187,7 +187,7 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "material_zincite",
     "category": "spare_parts",
     "price": 250,
@@ -668,7 +668,7 @@
     "container": "bottle_glass"
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "plutonium",
     "name": { "str": "plutonium" },
     "category": "chems",
@@ -973,7 +973,7 @@
     "flags": [ "NO_INGEST" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hickory_root",
     "symbol": "/",
     "color": "brown",
@@ -987,7 +987,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hickory_nut",
     "category": "food",
     "symbol": "%",
@@ -1002,7 +1002,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pecan",
     "category": "food",
     "symbol": "%",
@@ -1017,7 +1017,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "pistachio",
     "category": "food",
     "symbol": "%",
@@ -1032,7 +1032,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "almond",
     "category": "food",
     "symbol": "%",
@@ -1047,7 +1047,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "peanut",
     "category": "food",
     "symbol": "%",
@@ -1062,7 +1062,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "hazelnut",
     "category": "food",
     "symbol": "%",
@@ -1077,7 +1077,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "chestnut",
     "category": "food",
     "symbol": "%",
@@ -1092,7 +1092,7 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "id": "walnut",
     "category": "food",
     "symbol": "%",
@@ -1366,7 +1366,7 @@
   },
   {
     "id": "steel_grille",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "steel grille" },
     "description": "This is a metal grille.  It can be used as a framework for making a chemical catalyst.",
@@ -1384,7 +1384,7 @@
   },
   {
     "id": "cobalt_60",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "price": 1000,
     "price_postapoc": 50,
@@ -1416,7 +1416,7 @@
   },
   {
     "id": "sandbag",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "sandbag" },
     "description": "This is a canvas sack filled with sand.  It can be used to construct simple barricades.",
@@ -1431,7 +1431,7 @@
   },
   {
     "id": "earthbag",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "other",
     "name": { "str": "earthbag" },
     "description": "This is a canvas sack filled with soil.  It can be used to construct simple barricades.",

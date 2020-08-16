@@ -79,7 +79,7 @@
   },
   {
     "id": "char_kiln",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "charcoal kiln" },
     "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
@@ -211,7 +211,7 @@
   },
   {
     "id": "kiln_lit",
-    "type": "GENERIC",
+    "type": "TANGIBLE",
     "category": "tools",
     "name": { "str": "lit charcoal kiln" },
     "description": "A kiln full of wood that has been lit; better drop it!",
