@@ -94,7 +94,6 @@
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "coverage": 0,
     "encumbrance": 0,
-    "msg": "You feel your body change its form!",
     "flags": [ "OUTER", "OVERSIZE", "NONCONDUCTIVE", "WATER_FRIENDLY", "RAINPROOF" ],
     "relic_data": { "passive_effects": [ { "id": "ench_deerform" } ] }
   }
