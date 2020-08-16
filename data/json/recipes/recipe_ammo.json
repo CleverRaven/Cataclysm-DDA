@@ -437,19 +437,19 @@
     "difficulty": 6,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "using": [ [ "soldering_standard", 153 ] ],
+    "using": [ [ "soldering_standard", 217 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "can_food", 3 ], [ "can_drink", 7 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 3 ], [ "cordage", 7, "LIST" ] ],
+      [ [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 7, "LIST" ] ],
       [
-        [ "smpistol_primer", 7 ],
-        [ "lgpistol_primer", 3 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
         [ "smrifle_primer", 1 ],
         [ "lgrifle_primer", 1 ],
         [ "shotgun_primer", 1 ]
       ],
-      [ [ "gunpowder", 125 ], [ "chem_black_powder", 49 ] ]
+      [ [ "gunpowder", 125 ], [ "chem_black_powder", 71 ] ]
     ]
   },
   {
@@ -462,20 +462,20 @@
     "difficulty": 5,
     "time": "10 m",
     "book_learn": [ [ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
-    "using": [ [ "soldering_standard", 116 ] ],
+    "using": [ [ "soldering_standard", 219 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "bolt_metal", 3 ], [ "bolt_steel", 5 ] ],
-      [ [ "can_food", 3 ], [ "can_drink", 5 ], [ "canister_empty", 1 ] ],
-      [ [ "superglue", 3 ], [ "cordage", 5, "LIST" ] ],
+      [ [ "bolt_metal", 1 ], [ "bolt_steel", 1 ] ],
+      [ [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
-        [ "smpistol_primer", 5 ],
-        [ "lgpistol_primer", 3 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
         [ "smrifle_primer", 1 ],
         [ "lgrifle_primer", 1 ],
         [ "shotgun_primer", 1 ]
       ],
-      [ [ "gunpowder", 96 ], [ "chem_black_powder", 49 ] ]
+      [ [ "gunpowder", 96 ], [ "chem_black_powder", 93 ] ]
     ]
   },
   {

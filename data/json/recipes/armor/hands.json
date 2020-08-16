@@ -83,7 +83,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 19 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "gloves_fingerless", 2 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "gloves_fingerless", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "gloves_fsurvivor",
@@ -155,11 +155,11 @@
       [ [ "leather", 3 ] ],
       [ [ "scrap", 5 ] ],
       [ [ "duct_tape", 63 ] ],
-      [ [ "gloves_tactical", 2 ], [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
-        [ "gloves_liner", 2 ],
+        [ "gloves_liner", 1 ],
         [ "wetsuit_gloves", 1 ],
         [ "fire_gauntlets", 1 ]
       ]

@@ -168,9 +168,9 @@
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 178 ] ],
       [ [ "pipe", 8 ] ],
-      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 2 ] ],
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
       [ [ "wire", 11 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
-      [ [ "chain", 1 ], [ "rope_natural", 2, "LIST" ] ],
+      [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 8 ] ],
       [ [ "rock", 72 ] ]
     ]
@@ -387,7 +387,7 @@
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 13 ] ],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "element", 18 ], [ "hotplate", 2 ] ], [ [ "cable", 26 ] ] ]
+    "components": [ [ [ "element", 18 ], [ "hotplate", 1 ] ], [ [ "cable", 26 ] ] ]
   },
   {
     "type": "recipe",
@@ -457,8 +457,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
-      [ [ "flashlight", 3 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 3, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "flashlight", 1 ] ],
+      [ [ "rag", 4 ], [ "leather", 4 ], [ "cordage", 9, "LIST" ], [ "duct_tape", 80 ], [ "medical_tape", 107 ] ]
     ]
   },
   {
@@ -536,8 +536,8 @@
     "components": [
       [ [ "scrap", 10 ] ],
       [ [ "rag", 10 ] ],
-      [ [ "bottle_glass", 1 ], [ "flask_glass", 10 ], [ "jar_glass_sealed", 1 ] ],
-      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 10 ], [ "canister_empty", 1 ] ]
+      [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
+      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -553,8 +553,8 @@
     "components": [
       [ [ "scrap", 8 ] ],
       [ [ "rag", 8 ] ],
-      [ [ "bottle_glass", 1 ], [ "flask_glass", 8 ], [ "jar_glass_sealed", 1 ] ],
-      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 8 ], [ "canister_empty", 1 ] ]
+      [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
+      [ [ "clay_teapot", 1 ], [ "jug_clay", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -594,7 +594,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "car_wide_headlight", 3 ] ], [ [ "wire", 7 ] ], [ [ "superglue", 3 ] ] ]
+    "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 23 ] ], [ [ "superglue", 13 ] ] ]
   },
   {
     "type": "recipe",
@@ -608,7 +608,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 4 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel", 2 ] ], [ [ "reinforced_glass_pane", 2 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "solar_panel", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -622,7 +622,7 @@
     "book_learn": [ [ "textbook_robots", 8 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 2 ] ], [ [ "reinforced_glass_pane", 2 ] ], [ [ "scrap", 3 ] ], [ [ "wire", 3 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 3 ] ], [ [ "wire", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -780,9 +780,9 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "stick", 2 ], [ "2x4", 1 ] ],
-      [ [ "copper_scrap_equivalent", 43, "LIST" ] ],
-      [ [ "cordage_short", 3, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "copper_scrap_equivalent", 44, "LIST" ] ],
+      [ [ "cordage_short", 4, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {
@@ -1062,7 +1062,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 5 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "pipe_fittings", 3 ] ] ]
+    "components": [ [ [ "pipe", 5 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1616,9 +1616,9 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
-    "using": [ [ "cordage_short", 2 ] ],
+    "using": [ [ "cordage_short", 30 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "grenade", 2 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 2 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
+    "components": [ [ [ "grenade", 1 ] ], [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1633,17 +1633,17 @@
     "book_learn": [ [ "manual_traps_mil", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 11 ], [ "duct_tape", 191 ] ],
-      [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 3 ], [ "clay_canister", 2 ], [ "can_food", 8 ] ],
-      [ [ "bb", 1411 ], [ "nail", 354 ] ],
+      [ [ "superglue", 14 ], [ "duct_tape", 191 ] ],
+      [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
+      [ [ "bb", 1565 ], [ "nail", 375 ] ],
       [
         [ "gunpowder", 476 ],
-        [ "chem_black_powder", 183 ],
+        [ "chem_black_powder", 203 ],
         [ "shot_bird", 24 ],
         [ "shot_00", 12 ],
         [ "shot_slug", 12 ],
         [ "shot_flechette", 12 ],
-        [ "shot_he", 6 ],
+        [ "shot_he", 7 ],
         [ "gasoline", 600 ],
         [ "diesel", 600 ],
         [ "biodiesel", 600 ],
@@ -1964,7 +1964,7 @@
     "decomp_learn": 0,
     "flags": [ "BLIND_HARD" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
-    "components": [ [ [ "cable", 20 ], [ "wire", 1 ] ], [ [ "hotplate", 2 ] ], [ [ "chemistry_set_basic", 2 ] ] ]
+    "components": [ [ [ "cable", 1261 ], [ "wire", 26 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2089,7 +2089,7 @@
     "time": "20 m",
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink", 3 ] ], [ [ "bottle_plastic", 2 ] ] ]
+    "components": [ [ [ "can_drink", 3 ] ], [ [ "bottle_plastic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2120,7 +2120,7 @@
       [ [ "element", 37 ] ],
       [ [ "steel_lump", 2 ], [ "steel_chunk", 4 ], [ "scrap", 48 ] ],
       [ [ "cable", 19 ] ],
-      [ [ "power_supply", 5 ] ]
+      [ [ "power_supply", 1 ] ]
     ]
   },
   {
@@ -2586,10 +2586,10 @@
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
-      [ [ "1cyl_combustion", 2 ], [ "1cyl_combustion_small", 3 ] ],
-      [ [ "metal_tank_little", 4 ] ],
-      [ [ "rebar", 3 ], [ "steel_chunk", 10 ] ],
-      [ [ "scrap", 8 ] ]
+      [ [ "1cyl_combustion", 1 ], [ "1cyl_combustion_small", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "rebar", 13 ], [ "steel_chunk", 19 ] ],
+      [ [ "scrap", 53 ] ]
     ]
   },
   {
@@ -2604,7 +2604,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 12 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "lens", 2 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "lens", 1 ] ], [ [ "wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2682,9 +2682,9 @@
     ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ], [ "oxy_torch", 20 ] ] ],
     "components": [
-      [ [ "pilot_light", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
       [ [ "steel_lump", 3 ], [ "steel_chunk", 12 ], [ "scrap", 43 ] ],
-      [ [ "metal_tank_little", 2 ] ],
+      [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
       [ [ "pipe_fittings", 3 ] ]
     ]
@@ -2708,7 +2708,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "soldering_iron", 75 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "pilot_light", 4 ] ], [ [ "scrap", 16 ] ], [ [ "metal_tank_little", 4 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 33 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2858,8 +2858,8 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [ [ "splinter", 40 ], [ "2x4", 6 ], [ "stick", 8 ], [ "bone_any", 40, "LIST" ], [ "pine_bough", 29 ], [ "log", 1 ] ],
-      [ [ "char_kiln", 2 ] ]
+      [ [ "splinter", 59 ], [ "2x4", 6 ], [ "stick", 8 ], [ "bone_any", 42, "LIST" ], [ "pine_bough", 40 ], [ "log", 2 ] ],
+      [ [ "char_kiln", 1 ] ]
     ]
   },
   {
@@ -2872,7 +2872,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "jug_plastic", 2 ] ], [ [ "rag", 6 ] ], [ [ "charcoal", 103 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 7 ] ], [ [ "charcoal", 104 ] ] ]
   },
   {
     "type": "recipe",
@@ -3166,8 +3166,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "components": [
-      [ [ "rx12_injector", 2 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 2, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "rx12_injector", 1 ] ],
+      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 2, "LIST" ], [ "duct_tape", 12 ], [ "medical_tape", 20 ] ]
     ]
   },
   {
@@ -3896,7 +3896,7 @@
       [ [ "clay_lump", 2 ] ],
       [ [ "material_sand", 6 ] ],
       [ [ "rock", 1 ], [ "pebble", 12 ] ],
-      [ [ "water", 2 ], [ "water_clean", 1 ] ]
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -3992,7 +3992,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oil_lamp", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 55 ] ] ]
+    "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 4 ] ], [ [ "duct_tape", 55 ] ] ]
   },
   {
     "type": "recipe",
@@ -4096,7 +4096,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 5 ] ],
-    "components": [ [ [ "leather", 2 ], [ "fur", 1 ] ], [ [ "rag", 2 ] ], [ [ "scissors", 2 ] ], [ [ "mirror", 2 ] ] ]
+    "components": [ [ [ "leather", 2 ], [ "fur", 1 ] ], [ [ "rag", 2 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4229,7 +4229,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 2 ] ], [ [ "sponge", 1 ], [ "rag", 1 ], [ "brush", 2 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 2 ], [ "brush", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -4570,7 +4570,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "razor_blade", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",

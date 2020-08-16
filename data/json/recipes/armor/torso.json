@@ -397,7 +397,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 34 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "jacket_leather", 2 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 11 ] ] ]
+    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 11 ] ] ]
   },
   {
     "result": "leotard",

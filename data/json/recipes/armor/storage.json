@@ -203,8 +203,8 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "rag", 6 ], [ "fur", 2 ], [ "leather", 2 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 2 ], [ "pointy_stick", 1 ] ]
+      [ [ "rag", 6 ], [ "fur", 5 ], [ "leather", 5 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -385,7 +385,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "components": [ [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 4, "LIST" ] ], [ [ "jerrycan", 2 ] ] ]
+    "components": [ [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 4, "LIST" ] ], [ [ "jerrycan", 1 ] ] ]
   },
   {
     "result": "boxpack",
@@ -493,7 +493,7 @@
         [ "pants_army", 1 ],
         [ "pants_checkered", 1 ],
         [ "striped_pants", 1 ],
-        [ "technician_pants_gray", 2 ],
+        [ "technician_pants_gray", 1 ],
         [ "jeans", 1 ]
       ]
     ],

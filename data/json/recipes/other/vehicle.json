@@ -39,7 +39,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "jack", 2 ] ], [ [ "pipe", 5 ] ] ]
+    "components": [ [ [ "jack", 1 ] ], [ [ "pipe", 5 ] ] ]
   },
   {
     "result": "drivebelt_makeshift",
@@ -52,7 +52,7 @@
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 5 ], [ "leather_belt", 7 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "duct_tape", 231 ] ] ]
+    "components": [ [ [ "rag", 5 ], [ "leather_belt", 1 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "duct_tape", 287 ] ] ]
   },
   {
     "result": "filter_air_makeshift",
@@ -65,7 +65,7 @@
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bottle_plastic", 2 ] ], [ [ "paper", 99 ] ], [ [ "duct_tape", 40 ] ] ]
+    "components": [ [ [ "bottle_plastic", 1 ] ], [ [ "paper", 102 ] ], [ [ "duct_tape", 41 ] ] ]
   },
   {
     "result": "filter_liquid_makeshift",
@@ -78,7 +78,7 @@
     "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink", 3 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ], [ [ "paper", 142 ] ], [ [ "duct_tape", 57 ] ] ]
+    "components": [ [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ], [ [ "paper", 147 ] ], [ [ "duct_tape", 59 ] ] ]
   },
   {
     "result": "cargo_lock",

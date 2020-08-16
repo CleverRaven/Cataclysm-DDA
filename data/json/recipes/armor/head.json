@@ -300,7 +300,7 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 2 ], [ "bandana", 2 ] ], [ [ "hat_hard", 2 ] ] ]
+    "components": [ [ [ "rag", 2 ], [ "bandana", 2 ] ], [ [ "hat_hard", 1 ] ] ]
   },
   {
     "result": "hat_hunting",
@@ -832,7 +832,7 @@
     ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
-    "components": [ [ [ "mask_gas", 2 ] ], [ [ "mask_filter", 2 ] ], [ [ "plastic_chunk", 4 ] ] ]
+    "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ], [ [ "plastic_chunk", 5 ] ] ]
   },
   {
     "result": "mask_h20survivor",
@@ -1021,9 +1021,9 @@
     "autolearn": true,
     "reversible": true,
     "components": [
-      [ [ "hat_hard", 1 ], [ "helmet_bike", 3 ] ],
-      [ [ "flashlight", 3 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 3, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
+      [ [ "flashlight", 1 ] ],
+      [ [ "rag", 10 ], [ "leather", 8 ], [ "cordage", 21, "LIST" ], [ "duct_tape", 182 ], [ "medical_tape", 242 ] ]
     ]
   },
   {

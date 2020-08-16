@@ -530,8 +530,8 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ] ],
     "components": [
-      [ [ "50_casing", 2 ] ],
-      [ [ "lgrifle_primer", 2 ] ],
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 31 ], [ "gunpowder_large_rifle", 30 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "copper", 7 ] ]

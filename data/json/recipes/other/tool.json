@@ -205,7 +205,7 @@
     "time": "3 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ] ],
@@ -242,7 +242,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 2 ] ],
@@ -493,7 +493,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "pot", 7 ], [ "pot_copper", 6 ] ], [ [ "hose", 13 ], [ "makeshift_hose", 11 ] ] ]
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "hose", 18 ], [ "makeshift_hose", 16 ] ] ]
   },
   {
     "result": "food_processor",
@@ -510,7 +510,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "cable", 3 ] ],
-      [ [ "pot", 2 ], [ "pot_copper", 1 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "e_scrap", 2 ] ]
     ]
@@ -552,7 +552,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "components": [
       [ [ "rock", 3 ] ],
-      [ [ "water", 2 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "material_sand", 2 ] ]
     ]
   },
@@ -759,8 +759,8 @@
     "skill_used": "fabrication",
     "time": "2 m",
     "autolearn": true,
-    "using": [ [ "flammable_liquid", 124 ] ],
-    "components": [ [ [ "rag", 2 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 2 ], [ "torch_done", 1 ] ] ],
+    "using": [ [ "flammable_liquid", 135 ] ],
+    "components": [ [ [ "rag", 3 ] ], [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -847,7 +847,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_extraction", 5 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 29 ] ],
+    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_standard", 44 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "HAMMER_FINE", "level": 1 },
@@ -863,11 +863,11 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "30gal_drum", 1 ], [ "metal_tank", 3 ] ],
-      [ [ "pipe", 9 ] ],
-      [ [ "hose", 29 ] ],
-      [ [ "recovery_pump", 3 ] ],
-      [ [ "gasket_plastic", 40 ] ],
-      [ [ "metal_funnel", 9 ] ]
+      [ [ "pipe", 15 ] ],
+      [ [ "hose", 44 ] ],
+      [ [ "recovery_pump", 1 ] ],
+      [ [ "gasket_plastic", 60 ] ],
+      [ [ "metal_funnel", 15 ] ]
     ]
   },
   {
@@ -884,10 +884,10 @@
     "book_learn": [ [ "textbook_extraction", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [
-      [ [ "55gal_drum", 2 ] ],
-      [ [ "pipe", 1 ], [ "stick_long", 1 ], [ "pointy_stick", 2 ] ],
-      [ [ "water_faucet", 2 ] ],
-      [ [ "duct_tape", 10 ], [ "gasket_plastic", 2 ] ]
+      [ [ "55gal_drum", 1 ] ],
+      [ [ "pipe", 1 ], [ "stick_long", 1 ], [ "pointy_stick", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "duct_tape", 225 ], [ "gasket_plastic", 180 ] ]
     ]
   },
   {
@@ -917,11 +917,11 @@
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "pipe", 8 ] ],
-      [ [ "hose", 4 ] ],
-      [ [ "gasket_plastic", 8 ] ],
-      [ [ "well_pump", 4 ] ],
-      [ [ "drivebelt", 4 ], [ "drivebelt_makeshift", 1 ] ]
+      [ [ "pipe", 13 ] ],
+      [ [ "hose", 7 ] ],
+      [ [ "gasket_plastic", 13 ] ],
+      [ [ "well_pump", 1 ] ],
+      [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ]
     ]
   },
   {
@@ -978,7 +978,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "pipe", 13 ] ], [ [ "hose", 7 ] ], [ [ "gasket_plastic", 7 ] ], [ [ "well_pump", 4 ] ] ]
+    "components": [ [ [ "pipe", 16 ] ], [ [ "hose", 9 ] ], [ [ "gasket_plastic", 9 ] ], [ [ "well_pump", 1 ] ] ]
   },
   {
     "type": "recipe",
