@@ -118,6 +118,7 @@ class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
 class ui_adaptor;
 struct visibility_variables;
@@ -1084,6 +1085,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.
