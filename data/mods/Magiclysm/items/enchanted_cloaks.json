@@ -18,7 +18,8 @@
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN" ] } ] }
   },
   {
-    "id": "Wildshape Cloak: Bear",
+    "id": "wildshape_cloak_bear",
+
     "type": "ARMOR",
     "name": "Wildshape Cloak: Bear",
     "description": "A magical cloak that smells of the forest. It can be worn to morph your body to a form that is strong and resilient in melee combat. However, you feel as if you would lose a part of yourself.",
