@@ -617,22 +617,12 @@ void mission::set_target_npc_id( const character_id &npc_id )
 
 bool mission::is_assigned() const
 {
-    return player_id.is_valid() || legacy_no_player_id;
+    return player_id.is_valid();
 }
 
 character_id mission::get_assigned_player_id() const
 {
     return player_id;
-}
-
-void mission::set_player_id_legacy_0c( character_id id )
-{
-    if( !legacy_no_player_id || player_id.is_valid() ) {
-        debugmsg( "Not a legacy mission, tried to set id %d", id.get_value() );
-    } else {
-        player_id = id;
-        legacy_no_player_id = false;
-    }
 }
 
 std::string mission::name()
