@@ -530,14 +530,9 @@ void Character::load( const JsonObject &data )
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
-    // Changed from a single element to a list, handle either.
-    // Can deprecate once we stop handling pre-0.B saves.
+
     if( data.has_array( "backlog" ) ) {
         data.read( "backlog", backlog );
-    } else {
-        player_activity temp;
-        data.read( "backlog", temp );
-        backlog.push_front( temp );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
             activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
