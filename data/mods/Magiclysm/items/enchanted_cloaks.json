@@ -54,7 +54,7 @@
     "volume": "3050 ml",
     "price": 200000,
     "symbol": "w",
-    "color": "green",
+    "color": "brown",
     "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "coverage": 0,
     "encumbrance": 0,
