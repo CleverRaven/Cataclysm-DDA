@@ -199,7 +199,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
-    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 1 );
+    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
 
     mandatory( jo, was_loaded, "main_part", main_part );
     if( main_part == id ) {
