@@ -4027,12 +4027,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( jsin.get_string() );
-            if( trid == tr_brazier ) {
-                frn[p.x][p.y] = furn_id( "f_brazier" );
-            } else {
-                trp[p.x][p.y] = trid.id();
-            }
-            // TODO: remove brazier trap-to-furniture conversion after 0.D
+            trp[p.x][p.y] = trid.id();
             jsin.end_array();
         }
     } else if( member_name == "fields" ) {
