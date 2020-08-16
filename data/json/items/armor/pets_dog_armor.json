@@ -14,7 +14,7 @@
     "volume": "4500 ml",
     "bashing": 5,
     "to_hit": -1,
-    "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
+    "flags": [ "IS_PET_ARMOR" ],
     "material_thickness": 2,
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
@@ -86,7 +86,8 @@
     "price_postapoc": 3500,
     "material": [ "iron", "budget_steel" ],
     "weight": "6434 g",
-    "material_thickness": 0
+    "material_thickness": 0,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "PET_ARMOR",
@@ -98,8 +99,7 @@
     "price": 17500,
     "price_postapoc": 1750,
     "material": [ "leather" ],
-    "weight": "1530670 mg",
-    "extend": { "flags": [ "NO_SALVAGE" ] }
+    "weight": "1530670 mg"
   },
   {
     "type": "PET_ARMOR",

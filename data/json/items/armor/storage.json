@@ -247,7 +247,7 @@
       }
     ],
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS" ]
   },
   {
     "id": "bigback",
