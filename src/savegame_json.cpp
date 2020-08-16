@@ -586,25 +586,8 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    if( savegame_loading_version <= 23 ) {
-        std::unordered_set<trait_id> old_my_mutations;
-        data.read( "mutations", old_my_mutations );
-        for( const trait_id &mut : old_my_mutations ) {
-            my_mutations[mut]; // Creates a new entry with default values
-        }
-        std::map<trait_id, char> trait_keys;
-        data.read( "mutation_keys", trait_keys );
-        for( const std::pair<const trait_id, char> &k : trait_keys ) {
-            my_mutations[k.first].key = k.second;
-        }
-        std::set<trait_id> active_muts;
-        data.read( "active_mutations_hacky", active_muts );
-        for( const auto &mut : active_muts ) {
-            my_mutations[mut].powered = true;
-        }
-    } else {
-        data.read( "mutations", my_mutations );
-    }
+    data.read( "mutations", my_mutations );
+
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const trait_id &mid = it->first;
         if( mid.is_valid() ) {
@@ -820,12 +803,6 @@ void Character::load( const JsonObject &data )
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
-
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1283,11 +1260,9 @@ void avatar::load( const JsonObject &data )
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
-        // Only display error message if from a game file after scenarios existed.
-        if( savegame_loading_version > 20 ) {
-            debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
-                      scen_ident.c_str(), generic_scenario->ident().c_str() );
-        }
+
+        debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
+                  scen_ident.c_str(), generic_scenario->ident().c_str() );
         set_scenario( generic_scenario );
     }
 
@@ -1312,17 +1287,7 @@ void avatar::load( const JsonObject &data )
 
     int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
-        if( savegame_loading_version <= 23 ) {
-            // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
-            // And it would as often as not be out of bounds (e.g. when a questgiver died).
-            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
-            // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
-            if( tmpactive_mission >= 0 && tmpactive_mission < static_cast<int>( active_missions.size() ) ) {
-                active_mission = active_missions[tmpactive_mission];
-            } else if( !active_missions.empty() ) {
-                active_mission = active_missions.back();
-            }
-        } else if( tmpactive_mission != -1 ) {
+        if( tmpactive_mission != -1 ) {
             active_mission = mission::find( tmpactive_mission );
         }
     }
@@ -1342,16 +1307,6 @@ void avatar::load( const JsonObject &data )
             active_mission = nullptr;
         } else {
             active_mission = active_missions.front();
-        }
-    }
-
-    if( savegame_loading_version <= 23 && is_player() ) {
-        // In 0.C there was no player_id member of mission, so it'll be the default -1.
-        // When the member was introduced, no steps were taken to ensure compatibility with 0.C, so
-        // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
-        // see dialogue_chatbin::check_missions and npc::talk_to_u
-        for( mission *miss : active_missions ) {
-            miss->set_player_id_legacy_0c( getID() );
         }
     }
 
@@ -1516,15 +1471,7 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        if( savegame_loading_version <= 23 ) {
-            // In 0.C, it was an index into the missions_assigned vector
-            if( tmpmission_selected >= 0 &&
-                tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
-                mission_selected = missions_assigned[tmpmission_selected];
-            }
-        } else {
-            mission_selected = mission::find( tmpmission_selected );
-        }
+        mission_selected = mission::find( tmpmission_selected );
     }
 }
 
@@ -2508,10 +2455,6 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
-    // made for fast forwarding time from 0.D to 0.E
-    if( savegame_loading_version < 27 ) {
-        legacy_fast_forward_time();
-    }
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2917,17 +2860,6 @@ void vehicle::deserialize( JsonIn &jsin )
         } else {
             install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
         }
-    }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    if( savegame_loading_version < 11 ) {
-        add_missing_frames();
-    }
-
-    // Handle steering changes
-    if( savegame_loading_version < 25 ) {
-        add_steerable_wheels();
     }
 
     refresh();
@@ -4113,10 +4045,6 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 
                 if( tmp.is_emissive() ) {
                     update_lum_add( p, tmp );
-                }
-
-                if( savegame_loading_version >= 27 && version < 27 ) {
-                    tmp.legacy_fast_forward_time();
                 }
 
                 const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
