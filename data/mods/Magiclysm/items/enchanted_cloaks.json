@@ -61,7 +61,8 @@
     }
   },
   {
-    "id": "Wildshape Cloak: Deer",
+    "id": "wildshape_cloak_deer",
+
     "type": "ARMOR",
     "name": "Wildshape Cloak: Deer",
     "description": "A magical cloak that feels soft to the touch. It can be worn to morph your body to a form well-suited to escaping difficult situations. However, it places a great strain on your body.",
