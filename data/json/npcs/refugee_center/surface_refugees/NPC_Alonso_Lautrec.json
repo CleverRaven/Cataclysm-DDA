@@ -88,7 +88,7 @@
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Normal_Action",
         "condition": {
-          "and": [ { "unot_has_trait": "PRETTY" }, { "unot_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" } ]
+          "and": [ { "not": { "u_has_trait": "PRETTY" } }, { "not": { "u_has_trait": "UGLY" } }, { "npc_has_effect": "Alonso_condoms_restored" } ]
         }
       },
       {
@@ -374,7 +374,7 @@
       "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
       "advice": "I think the places of shopping and the homes will have something?",
       "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
-      "success": "I haven't been this happy since I went to the party and it was crazy.  You cannot believe.",
+      "success": "I haven't been this happy since I went to the club and it was crazy.  You cannot believe.  I never see bingo played like that.",
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
       "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
     }
