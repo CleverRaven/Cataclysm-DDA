@@ -722,8 +722,7 @@ void item_location::deserialize( JsonIn &js )
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
             ptr.reset( new impl::item_in_container( parent, *iter ) );
-        }
-        else {
+        } else {
             // probably pointing to the wrong item
             debugmsg( "contents index greater than contents size" );
         }
