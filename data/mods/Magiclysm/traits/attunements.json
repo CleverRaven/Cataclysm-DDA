@@ -130,6 +130,7 @@
     "valid": false,
     "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.",
     "prereqs": [ "BIOMANCER", "ANIMIST" ],
+    "spells_learned": [ [ "banishment_greater", 5 ] ],
     "cancels": [
       "AURA_MAGE",
       "BIOTEK",

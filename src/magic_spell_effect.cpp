@@ -1102,3 +1102,79 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
         here.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
 }
+
+void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint &target )
+{
+    int total_dam = sp.damage();
+    if( total_dam <= 0 ) {
+        debugmsg( "ERROR: Banishment has negative or 0 damage value" );
+    }
+
+    const std::set<tripoint> area = spell_effect_blast(
+                                        sp, caster.pos(), target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) );
+
+    std::vector<monster *> target_mons;
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        // you can't banish npcs.
+        monster *mon = g->critter_at<monster>( potential_target );
+        if( mon != nullptr ) {
+            target_mons.push_back( mon );
+        }
+    }
+
+    if( target_mons.empty() ) {
+        return;
+    }
+
+    for( monster *mon : target_mons ) {
+        int overflow = -( total_dam -= mon->get_hp() );
+        // reset overflow in case we have more monsters to do
+        total_dam = 0;
+        while( overflow > 0 ) {
+            int caster_total_hp = 0;
+            int unbroken_parts = 0;
+            for( const bodypart_id &part : caster.get_all_body_parts( true ) ) {
+                const int cur_part_hp = caster.as_character()->get_part_hp_cur( part );
+                if( cur_part_hp != 0 ) {
+                    caster_total_hp += cur_part_hp;
+                    unbroken_parts++;
+                }
+            }
+            // we wannt to leave 1 hp on each already unbroken limb
+            caster_total_hp -= unbroken_parts;
+            if( overflow > caster_total_hp ) {
+                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                return;
+            } else {
+                // can change if a part has less hp than this
+                float damage_per_part = static_cast<float>( overflow ) / static_cast<float>( unbroken_parts );
+                int parts_checked = 0;
+
+                for( const bodypart_id &part : caster.get_all_body_parts( true ) ) {
+                    Character &char_caster = *caster.as_character();
+                    const int cur_part_hp = char_caster.get_part_hp_cur( part );
+                    if( cur_part_hp > std::ceil( damage_per_part ) ) {
+                        const int rolled_dam = roll_remainder( damage_per_part );
+                        char_caster.mod_part_hp_cur( part, -rolled_dam );
+                        overflow -= rolled_dam;
+                    } else {
+                        char_caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
+                        overflow -= cur_part_hp - 1;
+                        damage_per_part = static_cast<float>( overflow ) /
+                                          static_cast<float>( unbroken_parts - parts_checked );
+                    }
+                    parts_checked++;
+                }
+            }
+        }
+
+        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        // banished monsters take their stuff with them
+        mon->death_drops = false;
+        mon->die( &caster );
+    }
+
+}

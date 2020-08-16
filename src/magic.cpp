@@ -195,6 +195,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
         { "bash", spell_effect::bash },
+        { "banishment", spell_effect::banishment },
         { "none", spell_effect::none }
     };
 
@@ -1803,6 +1804,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                        monster_name );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
+    } else if( fx == "banishment" ) {
+        damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
+                                       sp.damage_type_string() );
+        if( sp.aoe() > 0 ) {
+            ;
+            aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
+        }
     }
 
     range_string = string_format( "%s: %s", _( "Range" ),
