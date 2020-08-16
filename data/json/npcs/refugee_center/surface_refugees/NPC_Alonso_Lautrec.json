@@ -88,7 +88,11 @@
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Normal_Action",
         "condition": {
-          "and": [ { "not": { "u_has_trait": "PRETTY" } }, { "not": { "u_has_trait": "UGLY" } }, { "npc_has_effect": "Alonso_condoms_restored" } ]
+          "and": [
+            { "not": { "u_has_trait": "PRETTY" } },
+            { "not": { "u_has_trait": "UGLY" } },
+            { "npc_has_effect": "Alonso_condoms_restored" }
+          ]
         }
       },
       {
@@ -99,7 +103,12 @@
       {
         "text": "Are you okay Alonso, you don't seem like yourself?",
         "topic": "MISSION_REFUGEE_Alonso_condoms2",
-        "condition": { "and": [ { "u_has_var": "Alonso_condoms" }, { "not": { "npc_has_effect": "Alonso_condoms_restored" } } ] }
+        "condition": {
+          "and": [
+            { "u_has_var": "Alonso_condoms", "type": "mission", "context": "flag", "value": "yes" },
+            { "not": { "npc_has_effect": "Alonso_condoms_restored" } }
+          ]
+        }
       }
     ]
   },
