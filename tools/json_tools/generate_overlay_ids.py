@@ -18,15 +18,19 @@ TILESET_OVERLAY_TYPES = {
     },
     'mutation': {
         'prefix': 'mutation_',
+        'gendered': True,
     },
     'bionic': {
         'prefix': 'mutation_',
+        'gendered': True,
     },
     'ARMOR': {
-        'prefix': 'worn_'
+        'prefix': 'worn_',
+        'gendered': True,
     },
     'TOOL_ARMOR': {
-        'prefix': 'worn_'
+        'prefix': 'worn_',
+        'gendered': True,
     },
     'GENERIC': {
         'prefix': 'wielded_'
@@ -73,9 +77,10 @@ if __name__ == '__main__':
         variable_prefix = ('',)
         if 'BIONIC_TOGGLED' in flags:
             variable_prefix = ('active_', '')
+        genders = GENDERS if overlay_data.get('gendered') else ('',)
 
         for p in product(
-                GENDERS,
+                genders,
                 (overlay_data['prefix'],),
                 variable_prefix,
                 (game_id,)):
