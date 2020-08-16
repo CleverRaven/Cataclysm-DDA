@@ -57,6 +57,11 @@
     "entries": [ { "item": "cudgel" } ]
   },
   {
+    "type": "effect_type",
+    "id": "Alonso_condoms_restored",
+    "//": "Applied as a timer to make Alonso's condoms run out over time."
+  },
+  {
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
@@ -77,24 +82,24 @@
       {
         "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
+        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_condoms_restored" } ] }
       },
       {
         "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Normal_Action",
         "condition": {
-          "and": [ { "unot_has_trait": "PRETTY" }, { "unot_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ]
+          "and": [ { "unot_has_trait": "PRETTY" }, { "unot_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" } ]
         }
       },
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
+        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" } ] }
       },
       {
         "text": "Are you okay Alonso, you don't seem like yourself?",
         "topic": "MISSION_REFUGEE_Alonso_condoms2",
-        "condition": { "and": [ { "u_has_var": "Alonso_condoms" }, { "npcnot_has_var": "Alonso_condoms_restored" } ] }
+        "condition": { "and": [ { "u_has_var": "Alonso_condoms" }, { "not": { "npc_has_effect": "Alonso_condoms_restored" } } ] }
       }
     ]
   },
