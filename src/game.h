@@ -91,7 +91,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
 
 class achievements_tracker;

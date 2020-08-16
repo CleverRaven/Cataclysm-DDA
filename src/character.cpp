@@ -1732,11 +1732,11 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
     if( healt_thresh && healt_thresh.value() < get_healthy() ) {
         return;
     }
-    const std::set<body_part> &bps = dis_type->affected_bodyparts;
+    const std::set<bodypart_str_id> &bps = dis_type->affected_bodyparts;
     if( !bps.empty() ) {
-        for( const body_part &bp : bps ) {
-            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ),
-                        convert_bp( bp ).id(), false,
+        for( const bodypart_str_id &bp : bps ) {
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp.id(),
+                        false,
                         rng( dis_type->min_intensity, dis_type->max_intensity ) );
         }
     } else {
@@ -6799,9 +6799,9 @@ bool Character::is_immune_field( const field_type_id &fid ) const
         }
     }
     bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
-    for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
+    for( const std::pair<bodypart_str_id, int> &fide : ft.immunity_data_body_part_env_resistance ) {
         immune_by_body_part_resistance = immune_by_body_part_resistance &&
-                                         get_env_resist( convert_bp( fide.first ).id() ) >= fide.second;
+                                         get_env_resist( fide.first.id() ) >= fide.second;
     }
     if( immune_by_body_part_resistance ) {
         return true;

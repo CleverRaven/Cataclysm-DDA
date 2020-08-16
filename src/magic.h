@@ -275,7 +275,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
@@ -376,7 +376,7 @@ class spell
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input

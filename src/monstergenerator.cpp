@@ -666,7 +666,7 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
-                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
+                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
                             e.get_bool( "permanent", false ),
                             e.get_int( "chance", 100 ) );
 }

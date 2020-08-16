@@ -20,8 +20,6 @@ class monster;
 
 template<typename T> struct enum_traits;
 
-enum body_part : int;
-
 enum damage_type : int {
     DT_NONE = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through

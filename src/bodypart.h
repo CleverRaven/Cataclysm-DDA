@@ -356,18 +356,4 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( const bodypart_id &bp );
 
-/** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
-
-/** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
-body_part mutate_to_main_part( body_part bp );
-/** Returns the opposite body part (limb on the other side) */
-body_part opposite_body_part( body_part bp );
-
-/** Returns the matching body_part key from the corresponding body_part token. */
-std::string get_body_part_id( body_part bp );
-
-/** Returns the matching body_part token from the corresponding body_part string. */
-body_part get_body_part_token( const std::string &id );
-
 #endif // CATA_SRC_BODYPART_H

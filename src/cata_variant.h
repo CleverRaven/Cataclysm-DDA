@@ -22,7 +22,6 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class mutagen_technique : int;
 
 namespace debug_menu
@@ -184,7 +183,7 @@ template<>
 struct convert<cata_variant_type::bionic_id> : convert_string_id<bionic_id> {};
 
 template<>
-struct convert<cata_variant_type::body_part> : convert_enum<body_part> {};
+struct convert<cata_variant_type::body_part> : convert_int_id<bodypart_id> {};
 
 template<>
 struct convert<cata_variant_type::bool_> {
