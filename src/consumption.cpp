@@ -964,7 +964,7 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
@@ -974,7 +974,7 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
                                        food.tname() );
         }
     } else if( chew ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );

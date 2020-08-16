@@ -1562,8 +1562,6 @@ class Character : public Creature, public visitable<Character>
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
 
-        virtual bool has_artifact_with( art_effect_passive effect ) const;
-
         bool is_wielding( const item &target ) const;
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
@@ -2577,7 +2575,6 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
-        void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
         void suffer_from_tourniquet();
