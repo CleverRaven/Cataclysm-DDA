@@ -2,6 +2,7 @@
   {
     "type": "recipe",
     "result": "black_dragon_tanning_hide",
+    "byproducts": [ [ "dragon_black_scale", 20 ] ],
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_MATERIALS",
     "skill_used": "survival",
@@ -18,7 +19,8 @@
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "book_learn": [ [ "black_dragons", 2 ] ],
-    "components": [ [ [ "dragon_essence", 1 ] ], [ [ "black_dragon_hide_raw", 1 ] ] ]
+    "components": [ [ [ "dragon_essence", 1 ] ], [ [ "black_dragon_hide_raw", 1 ] ] ],
+    "flags": [ "BYPASS_MASS_CHECK" ]
   },
   {
     "result": "suit_black_dragon_hide",
