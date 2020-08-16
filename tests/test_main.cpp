@@ -49,6 +49,12 @@
 #include "weather.h"
 #include "worldfactory.h"
 
+#if defined(_WIN32)
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#   endif
+#endif
+
 class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
