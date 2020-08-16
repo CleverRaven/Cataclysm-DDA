@@ -2,6 +2,7 @@
   {
     "result": "broken_afs_mon_migoturret",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "survival",
     "difficulty": 5,
     "time": "1 h",
@@ -21,6 +22,7 @@
   {
     "result": "broken_tankbot",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -48,6 +50,7 @@
   {
     "result": "broken_chickenbot",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -72,6 +75,7 @@
   {
     "result": "broken_tripod",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "5 h",
@@ -96,6 +100,7 @@
   {
     "result": "broken_afs_mon_sentinel_lx",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -120,6 +125,7 @@
   {
     "result": "broken_bloodhound_drone",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "2 m",
@@ -140,6 +146,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 10,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -162,6 +169,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack_on",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 10,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],

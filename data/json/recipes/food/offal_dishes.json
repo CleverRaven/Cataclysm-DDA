@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brain_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -16,6 +17,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -24,6 +26,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "brain_cooked",
     "result": "kidney_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -32,6 +35,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "brain_cooked",
     "result": "sweetbread_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -40,6 +44,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "brain_cooked",
     "result": "liver_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -48,6 +53,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "foie_gras",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -67,6 +73,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "liver_onion",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -86,6 +93,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fried_livers",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -107,6 +115,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "humble_pie",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -120,6 +129,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "stewed_tripe",
     "byproducts": [ [ "broth", 4 ] ],
     "category": "CC_FOOD",
@@ -159,6 +169,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fried_tripe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -175,6 +186,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leverpostej",
     "category": "CC_FOOD",
     "skill_used": "cooking",
@@ -196,6 +208,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fried_brain",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -216,6 +229,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deviled_kidney",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -240,6 +254,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "grilled_sweetbread",
     "charges": 1,
     "category": "CC_FOOD",
@@ -255,6 +270,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "canned_liver",
     "id_suffix": "jarred",
     "category": "CC_FOOD",
@@ -272,6 +288,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "canned_liver",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -299,6 +316,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lung_provence",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -324,6 +342,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tÖttchen",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -351,6 +370,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "scrambledeggsandbrain",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -376,6 +396,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_casings",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -398,6 +419,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "homemade_hotdogs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
