@@ -130,6 +130,8 @@ struct body_part_type {
         float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
 
+        int fire_warmth_bonus = 1;
+
         int base_hp = 60;
         stat_hp_mods hp_mods;
 

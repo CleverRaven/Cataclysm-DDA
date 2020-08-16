@@ -5996,37 +5996,20 @@ void Character::update_bodytemp()
         int bonus_fire_warmth = 0;
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
-            // Extremities are easier to extend over a fire
-            switch( bp->token ) {
-                case bp_head:
-                case bp_torso:
-                case bp_mouth:
-                case bp_leg_l:
-                case bp_leg_r:
-                    bonus_fire_warmth = best_fire * best_fire * 150; // Not much
-                    break;
-                case bp_arm_l:
-                case bp_arm_r:
-                    bonus_fire_warmth = best_fire * 600; // A fair bit
-                    break;
-                case bp_foot_l:
-                case bp_foot_r:
-                    if( furn_at_pos != f_null ) {
-                        // Can sit on something to lift feet up to the fire
-                        bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
-                    } else if( boardable ) {
-                        bonus_fire_warmth = best_fire * boardable->info().bonus_fire_warmth_feet;
-                    } else {
-                        // Has to stand
-                        bonus_fire_warmth = best_fire * 300;
-                    }
-                    break;
-                case bp_hand_l:
-                case bp_hand_r:
-                    bonus_fire_warmth = best_fire * 1500; // A lot
-                default:
-                    break;
+            if( bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "foot_r" ) ) {
+                if( furn_at_pos != f_null ) {
+                    // Can sit on something to lift feet up to the fire
+                    bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
+                } else if( boardable ) {
+                    bonus_fire_warmth = best_fire * boardable->info().bonus_fire_warmth_feet;
+                } else {
+                    // Has to stand
+                    bonus_fire_warmth = best_fire * bp->fire_warmth_bonus;
+                }
+            } else {
+                bonus_fire_warmth = best_fire * bp->fire_warmth_bonus;
             }
+
         }
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
