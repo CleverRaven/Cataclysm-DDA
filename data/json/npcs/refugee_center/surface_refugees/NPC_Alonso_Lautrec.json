@@ -80,7 +80,7 @@
         "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
       },
       {
-        "text": "I need your help.",
+        "text": "So about those condoms.  I thought of a good use for them…",
         "topic": "TALK_REFUGEE_Alonso_Normal_Action",
         "condition": {
           "and": [ { "unot_has_trait": "PRETTY" }, { "unot_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ]
@@ -90,6 +90,11 @@
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
         "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_var": "Alonso_condoms_restored" } ] }
+      },
+      {
+        "text": "Are you okay Alonso, you don't seem like yourself?",
+        "topic": "MISSION_REFUGEE_Alonso_condoms2",
+        "condition": { "and": [ { "u_has_var": "Alonso_condoms" }, { "npcnot_has_var": "Alonso_condoms_restored" } ] }
       }
     ]
   },
@@ -285,7 +290,7 @@
       "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
       "advice": "It can be wet there.  Aha.  Gushy too you see.  Maybe some of the galoshes to bring?",
       "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
-      "success": "This is the best news since I agreed to be a nude model at the college for the blind.  Surely we will find some use for them.  It has been a while, I am, how to say, very prepared.",
+      "success": "This is the best news since those lonely teachers asked me to be a nude model at the college for the blind.  Surely we will find some use for them.  It has been a while, I am, how to say, very prepared.",
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
       "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
     }
@@ -340,5 +345,33 @@
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Alonso_condoms2",
+    "type": "mission_definition",
+    "name": { "str": "Alonso needs more condoms" },
+    "goal": "MGOAL_FIND_ANY_ITEM",
+    "difficulty": 1,
+    "value": 1000,
+    "item": "condoms",
+    "start": { "effect": { "u_add_var": "Alonso_condoms2", "type": "mission", "context": "flag", "value": "in_progress" } },
+    "end": {
+      "effect": [
+        { "u_add_var": "Alonso_condoms2", "type": "mission", "context": "flag", "value": "yes" },
+        { "npc_add_effect": "Alonso_condoms_restored", "duration": 100000 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I tried to save them as long as I could but they're all gone…",
+      "offer": "I swear to you I did not waste one, each produced the maximum possible benefit to the community.  Yes, I am as of a saint for this service I provide to the people.  But tragedy has stroke and Alonso is left with nothing to console the public.  Will you help me again?  I can make do with any condoms, the life she finds a way.",
+      "accepted": "You make me so happy I could give you little kisses, and some big kisses, and then something else maybe.",
+      "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
+      "advice": "I think the places of shopping and the homes will have something?",
+      "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
+      "success": "I haven't been this happy since I went to the party and it was crazy.  You cannot believe.",
+      "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
+      "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
+    }
   }
 ]
