@@ -2573,13 +2573,10 @@ void vehicle_part::deserialize( JsonIn &jsin )
         { "hydrogen_tank", { "tank", "none" } }
     };
 
-    // required for compatibility with 0.C saves
-    itype_id legacy_fuel;
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
         pid = vpart_id( dep->second.first );
-        legacy_fuel = itype_id( dep->second.second );
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
@@ -2629,24 +2626,6 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "target_second_y", target.second.y );
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
-
-    if( legacy_fuel.is_empty() ) {
-        legacy_fuel = id.obj().fuel_type;
-    }
-
-    // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
-        if( data.has_int( "amount" ) && !base.ammo_types().empty() && legacy_fuel != itype_battery ) {
-            ammo_set( legacy_fuel, data.get_int( "amount" ) );
-        }
-
-        // without VEHICLE flag always migrate both batteries and fuel tanks
-    } else {
-        if( !base.ammo_types().empty() ) {
-            ammo_set( legacy_fuel, data.get_int( "amount" ) );
-        }
-        base.item_tags.insert( "VEHICLE" );
-    }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
