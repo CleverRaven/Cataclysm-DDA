@@ -1210,9 +1210,9 @@
     "//": "all the rare enchanted cloaks.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
     "items": [
-      { "item": "Wildshape Cloak: Deer", "prob": 10 },
-      { "item": "Wildshape Cloak: Fish", "prob": 10 },
-      { "item": "Wildshape Cloak: Bear", "prob": 10 }
+      { "item": "wildshape_cloak_deer", "prob": 10 },
+      { "item": "wildshape_cloak_fish", "prob": 10 },
+      { "item": "wildshape_cloak_bear", "prob": 10 }
     ]
   }
 ]
