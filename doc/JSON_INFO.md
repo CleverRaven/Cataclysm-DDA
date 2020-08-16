@@ -2061,7 +2061,13 @@ See also VEHICLE_JSON.md
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
+"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+  "grip": "solid",                           // the item's grip value
+  "length": "long",                          // the item's length value
+  "surface": "point",                        // the item's striking surface value
+  "balance": "neutral"                       // the item's balance value
+}
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2087,6 +2093,19 @@ See also VEHICLE_JSON.md
     }
 },
 ```
+
+#### To hit object
+For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 fields.  All the fields are mandatory:
+
+```C++
+"to_hit": {
+    "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
+    "length": "hand",      // one of "hand", "short", or "long" 
+    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
+}
+```
+See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
 ### Ammo
 

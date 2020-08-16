@@ -2608,6 +2608,148 @@ void Item_factory::add_special_pockets( itype &def )
     }
 }
 
+enum class grip_val : int {
+    BAD = 0,
+    NONE = 1,
+    SOLID = 2,
+    WEAPON = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<grip_val> {
+    static constexpr auto last = grip_val::LAST;
+};
+enum class length_val : int {
+    HAND = 0,
+    SHORT = 1,
+    LONG = 2,
+    LAST = 3
+};
+template<>
+struct enum_traits<length_val> {
+    static constexpr auto last = length_val::LAST;
+};
+enum class surface_val : int {
+    POINT = 0,
+    LINE = 1,
+    ANY = 2,
+    EVERY = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<surface_val> {
+    static constexpr auto last = surface_val::LAST;
+};
+enum class balance_val : int {
+    CLUMSY = 0,
+    UNEVEN = 1,
+    NEUTRAL = 2,
+    GOOD = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<balance_val> {
+    static constexpr auto last = balance_val::LAST;
+};
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<grip_val>( grip_val val )
+{
+    switch( val ) {
+        case grip_val::BAD: return "bad";
+        case grip_val::NONE: return "none";
+        case grip_val::SOLID: return "solid";
+        case grip_val::WEAPON: return "weapon";
+        default: break;
+    }
+    debugmsg( "Invalid grip val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<length_val>( length_val val )
+{
+    switch( val ) {
+        case length_val::HAND: return "hand";
+        case length_val::SHORT: return "short";
+        case length_val::LONG: return "long";
+        default: break;
+    }
+    debugmsg( "Invalid length val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<surface_val>( surface_val val )
+{
+    switch( val ) {
+        case surface_val::POINT: return "point";
+        case surface_val::LINE: return "line";
+        case surface_val::ANY: return "any";
+        case surface_val::EVERY: return "every";
+        default: break;
+    }
+    debugmsg( "Invalid surface val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<balance_val>( balance_val val )
+{
+    switch( val ) {
+        case balance_val::CLUMSY: return "clumsy";
+        case balance_val::UNEVEN: return "uneven";
+        case balance_val::NEUTRAL: return "neutral";
+        case balance_val::GOOD: return "good";
+        default: break;
+    }
+    debugmsg( "Invalid balance val" );
+    abort();
+}
+
+struct acc_data {
+    grip_val grip = grip_val::WEAPON;
+    length_val length = length_val::HAND;
+    surface_val surface = surface_val::ANY;
+    balance_val balance = balance_val::NEUTRAL;
+
+    // all items have a basic accuracy of -2, per GAME_BALANCE.md
+    static constexpr int base_acc = -2;
+    // grip val should go from -1 to 2 but enum_to_string wants to start at 0
+    static constexpr int grip_offset = -1;
+    // surface val should from from -2 to 1 but enum_to_string wants to start at 0
+    static constexpr int surface_offset = -2;
+    // balance val should from from -2 to 1 but enum_to_string wants to start at 0
+    static constexpr int balance_offset = -2;
+    // all the constant offsets and the base accuracy together
+    static constexpr int acc_offset = base_acc + grip_offset + surface_offset + balance_offset;
+    int sum_values() {
+        return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
+               static_cast<int>( surface ) + static_cast<int>( balance );
+    }
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
+};
+
+void acc_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void acc_data::load( const JsonObject &jo )
+{
+    bool was_loaded = false;
+    optional( jo, was_loaded, "grip", grip, grip_val::WEAPON );
+    optional( jo, was_loaded, "length", length, length_val::HAND );
+    optional( jo, was_loaded, "surface", surface, surface_val::ANY );
+    optional( jo, was_loaded, "balance", balance, balance_val::NEUTRAL );
+}
+// *INDENT-ON*
+} // namespace io
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2623,7 +2765,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
-    assign( jo, "to_hit", def.m_to_hit, strict );
+    if( jo.has_int( "to_hit" ) ) {
+        assign( jo, "to_hit", def.m_to_hit, strict );
+    } else if( jo.has_object( "to_hit" ) ) {
+        io::acc_data temp;
+        bool was_loaded = false;
+        mandatory( jo, was_loaded, "to_hit", temp );
+        def.m_to_hit = temp.sum_values();
+    }
     assign( jo, "container", def.default_container );
     assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
