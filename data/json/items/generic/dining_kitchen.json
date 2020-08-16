@@ -111,7 +111,7 @@
     "abstract": "base_cookpot",
     "name": { "str": "generic cook pot" },
     "description": "generic item template",
-    "type": "GENERIC",
+    "type": "ABSTRACT",
     "symbol": ")",
     "to_hit": 1,
     "price": 4500,

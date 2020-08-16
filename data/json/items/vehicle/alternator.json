@@ -1,7 +1,7 @@
 [
   {
     "abstract": "vehicle_alternator",
-    "type": "GENERIC",
+    "type": "ABSTRACT",
     "name": { "str": "vehicle alternator" },
     "category": "veh_parts",
     "material": [ "steel", "copper" ],

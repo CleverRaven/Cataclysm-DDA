@@ -1,6 +1,7 @@
 [
   {
     "id": "bio_shotgun_gun",
+    "copy-from": "fake_item",
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "bionic shotgun" },
@@ -25,6 +26,7 @@
   },
   {
     "id": "bio_emp_gun",
+    "copy-from": "fake_item",
     "type": "GUN",
     "name": { "str": "EMP Projector" },
     "description": "this a pseudo item",
@@ -48,6 +50,7 @@
   },
   {
     "id": "bio_laser_gun",
+    "copy-from": "fake_item",
     "type": "GUN",
     "name": { "str": "laser finger" },
     "description": "this a pseudo item",
@@ -68,6 +71,7 @@
   },
   {
     "id": "bio_lightning",
+    "copy-from": "fake_item",
     "type": "GUN",
     "name": { "str": "Chain Lightning" },
     "description": "this a pseudo item",
@@ -88,6 +92,7 @@
   },
   {
     "id": "mut_quills",
+    "copy-from": "fake_item",
     "type": "GUN",
     "name": { "str_sp": "Assault barbs" },
     "description": "this a pseudo item",

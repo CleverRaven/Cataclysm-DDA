@@ -1,6 +1,6 @@
 [
   {
-    "type": "GENERIC",
+    "type": "ABSTRACT",
     "abstract": "robot_module_abstract",
     "name": { "str": "module template" },
     "description": "This is a template for robot module.  If found in a game it is a bug.",

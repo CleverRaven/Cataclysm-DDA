@@ -312,6 +312,15 @@ void DynamicDataLoader::initialize()
     add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );
+    add( "SOFTWARE", []( const JsonObject & jo, const std::string & src ) {
+        item_controller->load_generic( jo, src );
+    } );
+    add( "ABSTRACT", []( const JsonObject & jo, const std::string & src ) {
+        item_controller->load_generic( jo, src );
+    } );
+    add( "TANGIBLE", []( const JsonObject & jo, const std::string & src ) {
+        item_controller->load_generic( jo, src );
+    } );
     add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
         item_controller->load_bionic( jo, src );
     } );

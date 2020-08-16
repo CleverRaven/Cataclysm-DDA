@@ -1,7 +1,7 @@
 [
   {
     "abstract": "casing",
-    "type": "GENERIC",
+    "type": "ABSTRACT",
     "category": "spare_parts",
     "name": { "str": "Casing from ammunition cartridge" },
     "stackable": true,
