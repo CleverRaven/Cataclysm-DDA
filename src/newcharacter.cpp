@@ -3116,7 +3116,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     set_scenario( scen );
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier != 0 ) {
+        if( t.obj().hp_modifier.has_value() ) {
             u.toggle_trait( t );
         }
     }
