@@ -9348,6 +9348,33 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     }
 }
 
+std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
+{
+    if( !is_relic() ) {
+        return std::vector<trait_id> {};
+    }
+    std::vector<trait_id> muts;
+
+    for( const enchantment &ench : relic_data->get_enchantments() ) {
+        for( const trait_id &mut : ench.get_mutations() ) {
+            // this may not be perfectly accurate due to conditions
+            muts.push_back( mut );
+        }
+    }
+
+    for( const trait_id &char_mut : guy.get_mutations() ) {
+        for( auto iter = muts.begin(); iter != muts.end(); ) {
+            if( char_mut == *iter ) {
+                iter = muts.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+    return muts;
+}
+
 void item::overwrite_relic( const relic &nrelic )
 {
     this->relic_data = cata::make_value<relic>( nrelic );

@@ -97,7 +97,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) > 0;
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut == b ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -151,7 +156,7 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait );
+    mutation_effect( trait, false );
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -349,7 +354,7 @@ creature_size calculate_size( const Character &c )
     return creature_size::medium;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -398,7 +403,7 @@ void Character::mutation_effect( const trait_id &mut )
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( branch.destroys_gear ) {
+        if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),

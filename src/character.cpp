@@ -10722,11 +10722,29 @@ void Character::on_worn_item_washed( const item &it )
 
 void Character::on_item_wear( const item &it )
 {
+    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
+        mutation_effect( mut, true );
+        recalc_sight_limits();
+        calc_encumbrance();
+
+        // If the stamina is higher than the max (Languorous), set it back to max
+        if( get_stamina() > get_stamina_max() ) {
+            set_stamina( get_stamina_max() );
+        }
+    }
     morale->on_item_wear( it );
 }
 
 void Character::on_item_takeoff( const item &it )
 {
+    for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
+        mutation_loss_effect( mut );
+        recalc_sight_limits();
+        calc_encumbrance();
+        if( get_stamina() > get_stamina_max() ) {
+            set_stamina( get_stamina_max() );
+        }
+    }
     morale->on_item_takeoff( it );
 }
 
