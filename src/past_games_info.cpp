@@ -13,6 +13,11 @@
 
 static void no_op( const achievement *, bool ) {}
 
+class too_old_memorial_file_error : std::runtime_error
+{
+        using runtime_error::runtime_error;
+};
+
 past_game_info::past_game_info( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
@@ -33,6 +38,9 @@ past_game_info::past_game_info( JsonIn &jsin )
     event_multiset &events = stats_->get_events( event_type::game_start );
     const event_multiset::summaries_type &counts = events.counts();
     if( counts.size() != 1 ) {
+        if( counts.empty() ) {
+            throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+        }
         debugmsg( "Unexpected number of game start events: %d\n", counts.size() );
         return;
     }
@@ -99,6 +107,8 @@ void past_games_info::ensure_loaded()
             info_.push_back( past_game_info( jsin ) );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );
+        } catch( const too_old_memorial_file_error & ) {
+            // do nothing
         }
     }
 

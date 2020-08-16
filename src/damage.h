@@ -18,8 +18,10 @@ class JsonOut;
 class item;
 class monster;
 
+template<typename T> struct enum_traits;
+
 enum damage_type : int {
-    DT_NULL = 0, // null damage, doesn't exist
+    DT_NONE = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_BIOLOGICAL, // internal damage, like from smoke or poison
     DT_BASH, // bash damage
@@ -31,6 +33,11 @@ enum damage_type : int {
     DT_ELECTRIC, // e.g. electrical discharge
     DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
+};
+
+template<>
+struct enum_traits<damage_type> {
+    static constexpr damage_type last = damage_type::NUM_DT;
 };
 
 struct damage_unit {

@@ -174,7 +174,7 @@ else
         run_tests ./tests/cata_test &
         if [ -n "$MODS" ]
         then
-            run_tests ./tests/cata_test --user-dir=modded $MODS &
+            run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
             wait -n
         fi
         wait -n

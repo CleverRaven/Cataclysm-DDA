@@ -2882,7 +2882,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     activity.placement = target - pos();
 
     for( drop_location item_pair : what ) {
-        if( can_unwield( *item_pair.first ).success() ) {
+        if( can_drop( *item_pair.first ).success() ) {
             activity.targets.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
@@ -3544,6 +3544,14 @@ ret_val<bool> Character::can_unwield( const item &it ) const
         }
     }
 
+    return ret_val<bool>::make_success();
+}
+
+ret_val<bool> Character::can_drop( const item &it ) const
+{
+    if( it.has_flag( "NO_UNWIELD" ) ) {
+        return ret_val<bool>::make_failure( _( "You cannot drop your %s." ), it.tname() );
+    }
     return ret_val<bool>::make_success();
 }
 
@@ -4941,7 +4949,7 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
         int healing_apply = roll_remainder( healing );
         mod_part_healed_total( bp, healing_apply );
@@ -6845,7 +6853,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 bool Character::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
             return true;
         case DT_TRUE:
             return false;
@@ -7086,7 +7094,7 @@ bool Character::pour_into( item &container, item &liquid )
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
-    liquid.charges -= container.fill_with( *liquid.type, amount );
+    liquid.charges -= container.fill_with( liquid, amount );
     inv->unsort();
 
     if( liquid.charges > 0 ) {
@@ -7279,7 +7287,7 @@ std::string Character::extended_description() const
 
     ss += "\n--\n";
 
-    const std::vector<bodypart_id> &bps = get_all_body_parts( true );
+    const std::vector<bodypart_id> &bps = get_all_body_parts( get_body_part_flags::only_main );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
     int longest = std::accumulate( bps.begin(), bps.end(), 0,
@@ -7396,7 +7404,7 @@ mutation_value_map = {
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
-    { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
+    { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
@@ -7770,7 +7778,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             ret += mutation_armor( bp, dt );
             return ret;
         }
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             // Let it error below
             break;
@@ -9188,7 +9196,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
-        can_unwield( weapon ).success() ) {
+        can_drop( weapon ).success() ) {
         add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
                            weapon.display_name() );
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
@@ -9420,7 +9428,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
@@ -9435,7 +9443,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );

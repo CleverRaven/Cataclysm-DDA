@@ -1345,7 +1345,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( player_character.can_unwield( *sitem->items.front() ).success() ) {
+            if( player_character.can_drop( *sitem->items.front() ).success() ) {
                 player_character.assign_activity( ACT_DROP );
                 player_character.activity.placement = squares[destarea].off;
 
@@ -1793,7 +1793,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         popup( err );
         return false;
     }
-    dest_container.fill_with( *src_contents.type, amount );
+    dest_container.fill_with( src_contents, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {

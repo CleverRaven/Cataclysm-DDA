@@ -783,7 +783,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    input_context ctxt( input_category, keyboard_mode::keycode );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -817,7 +817,7 @@ void uilist::query( bool loop, int timeout )
     do {
         ret_act = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
-        keypress = event.get_first_input();
+        keypress = event.modifiers.empty() ? event.get_first_input() : 0;
         const auto iter = keymap.find( keypress );
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {

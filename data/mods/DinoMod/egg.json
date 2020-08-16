@@ -195,5 +195,12 @@
     "name": "ceratosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_ceratosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mosasaurus",
+    "name": "mosasaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_mosasaurus"
   }
 ]

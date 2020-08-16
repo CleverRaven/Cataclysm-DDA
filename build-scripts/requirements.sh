@@ -23,9 +23,11 @@ else
     travis_retry=
 fi
 
-if just_json; then
-    export JUST_JSON=true
-    export CODE_COVERAGE=""
+if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]; then
+    if just_json; then
+        export JUST_JSON=true
+        export CODE_COVERAGE=""
+    fi
 fi
 
 set -x

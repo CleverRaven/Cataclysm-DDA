@@ -206,6 +206,17 @@ enum class FacingDirection : int {
     RIGHT = 2
 };
 
+enum class get_body_part_flags : int {
+    none = 0,
+    only_main = 1 << 0,
+    sorted = 1 << 1,
+};
+
+template<>
+struct enum_traits<get_body_part_flags> {
+    static constexpr bool is_flag_enum = true;
+};
+
 class Creature : public location, public viewer
 {
     public:
@@ -615,7 +626,8 @@ class Creature : public location, public viewer
          * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
-        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+        std::vector<bodypart_id> get_all_body_parts(
+            get_body_part_flags = get_body_part_flags::none ) const;
 
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
