@@ -1860,7 +1860,12 @@ it is present to help catch errors.
       "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
     }
   ]
-]
+],
+"enchantments": [ "ench_id_1" ],   // List of IDs of enchantments granted by this mutation
+"temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
+                                   // 1.0 gives +/-1% speed for each degree above or below 65F
+"mana_modifier": 100               // Positive or negative change to total mana pool
+
 ```
 	**Triggers:**
 		| trigger_type  | Description
@@ -2007,7 +2012,7 @@ Otherwise, variants can use any of the following suffices:
 "horizontal_rear", "horizontal_rear_edge",
 "horizontal_2", "horizontal_2_front", "horizontal_2_rear",
 "vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
-"vertical_2", "vertical_2_right", "vertical_2_left", 
+"vertical_2", "vertical_2_right", "vertical_2_left",
 "ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
 ```
 
@@ -2225,8 +2230,8 @@ For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 f
 ```C++
 "to_hit": {
     "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
-    "length": "hand",      // one of "hand", "short", or "long" 
-    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "length": "hand",      // one of "hand", "short", or "long"
+    "surface": "any",      // one of "point", "line", "any", or "every"
     "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
 }
 ```
@@ -2256,7 +2261,7 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 ```C++
 "type": "MAGAZINE",              // Defines this as a MAGAZINE
 ...                              // same entries as above for the generic item.
-                                 // additional some magazine specific entries:
+// Only MAGAZINE type items may define the following fields:
 "ammo_type": [ "40", "357sig" ], // What types of ammo this magazine can be loaded with
 "capacity" : 15,                 // Capacity of magazine (in equivalent units to ammo charges)
 "count" : 0,                     // Default amount of ammo contained by a magazine (set this for ammo belts)
@@ -2264,6 +2269,7 @@ See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting e
 "reload_time" : 100,             // How long it takes to load each unit of ammo into the magazine
 "linkage" : "ammolink"           // If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
+
 
 ### Armor
 
@@ -2443,7 +2449,7 @@ CBMs can be defined like this:
 ```C++
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
-                            // additional some comestible specific entries:
+// Only COMESTIBLE type items may define the following fields:
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
@@ -2452,7 +2458,7 @@ CBMs can be defined like this:
 "radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
-"heal" : -2,                // Health effects (used for sickness chances)
+"healthy" : -2,             // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
 "monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
@@ -2467,7 +2473,13 @@ CBMs can be defined like this:
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
+"material": [ "flesh", "wheat" ], // All materials (IDs) this food is made of
+"primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
+"rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
+"rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
+"smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
 ```
+
 
 ### Containers
 
@@ -2536,7 +2548,6 @@ Guns can be defined like this:
 // sight to use for each aim action, which is the fastest sight with a dispersion under the current
 // aim threshold.
 "sight_dispersion": 10,    // Inaccuracy of gun derived from the sight mechanism, also in quarter-degrees
-"aim_speed": 3,            // A measure of how quickly the player can aim, in moves per point of dispersion.
 "recoil": 0,               // Recoil caused when firing, in quarter-degrees of dispersion.
 "durability": 8,           // Resistance to damage/rusting, also determines misfire chance
 "blackpowder_tolerance": 8,// One in X chance to get clogged up (per shot) when firing blackpowder ammunition (higher is better). Optional, default is 8.
@@ -2569,6 +2580,7 @@ Gun mods can be defined like this:
 "type": "GUNMOD",              // Defines this as a GUNMOD
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
+// Only GUNMOD type items may define the following fields:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
 "mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
@@ -2585,7 +2597,14 @@ Gun mods can be defined like this:
 "ups_charges_multiplier": 2.5, // Optional field increasing or decreasing base gun UPS consumption (per shot) by multiplying by given value
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
+"aim_speed": 3,                // A measure of how quickly the player can aim, in moves per point of dispersion.
+"ammo_effects": [ "BEANBAG" ], // List of IDs of ammo_effect types
+"consume_chance": 5000,        // Odds against CONSUMABLE mod being destroyed when gun is fired (default 1 in 10000)
+"consume_divisor": 10,         // Divide damage against mod by this amount (default 1)
+"handling_modifier": 4,        // Improve gun handling. For example a forward grip might have 6, a bipod 18
+"mode_modifier": [ [ "AUTO", "auto", 4 ] ], // Modify firing modes of the gun, to give AUTO or REACH for example
 ```
+
 Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
 ```
 "type": "TOOL",       // Or any other item type
@@ -2596,6 +2615,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
     ...
 }
 ```
+
 
 ### Batteries
 ```C++
@@ -2623,18 +2643,20 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "bashing": 12,        // Bashing damage caused by using it as a melee weapon
 "cutting": 0,         // Cutting damage caused by using it as a melee weapon
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
-"max_charges": 75,    // Maximum charges tool can hold
-"initial_charges": 75, // Charges when spawned
-"rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
-"sub": "hotplate",    // optional; this tool has the same functions as another tool
-"charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
-"charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"power_draw": 50,       // Energy consumption rate in mW
-"ammo": [ "NULL" ],       // Ammo types used for reloading
-"revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
+// Only TOOL type items may define the following fields:
+"ammo": [ "NULL" ],        // Ammo types used for reloading
+"charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
+"charges_per_use": 1,      // Charges consumed per tool use
+"initial_charges": 75,     // Charges when spawned
+"max_charges": 75,         // Maximum charges tool can hold
+"rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+"power_draw": 50,          // Energy consumption rate in mW
+"revert_to": "torch_done", // Transforms into item when charges are expended
+"sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
+
 
 ### Seed Data
 
