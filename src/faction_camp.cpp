@@ -420,7 +420,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt, const std::ve
  */
 tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
-    const std::vector<std::string> &possible_om_types = {}, bool must_see = true,
+    const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type = ot_match_type::exact, bool must_see = true,
     bool popup_notice = true, const tripoint_abs_omt &source = tripoint_abs_omt( -999, -999, -999 ),
     bool bounce = false );
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
@@ -1915,9 +1915,9 @@ void basecamp::start_menial_labor()
 
 void basecamp::start_cut_logs()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water", "forest_trail" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1952,7 +1952,7 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
+                if( omt_trees.id() != "forest_wet" ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -1962,9 +1962,9 @@ void basecamp::start_cut_logs()
 
 void basecamp::start_clearcut()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail" };
     popup( _( "Forests are the only valid cutting locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1997,11 +1997,11 @@ void basecamp::start_clearcut()
 
 void basecamp::start_setup_hide_site()
 {
-    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water",
+    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water", "forest_trail"
                                                 "field"
                                               };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::type, true, true,
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
@@ -2044,7 +2044,7 @@ void basecamp::start_relay_hide_site()
 {
     std::vector<std::string> hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact, true, true,
                               omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
@@ -2107,14 +2107,14 @@ void basecamp::start_relay_hide_site()
 void basecamp::start_fortifications( std::string &bldg_exp )
 {
     std::vector<std::string> allowed_locations = {
-        "forest", "forest_thick", "forest_water", "field"
+        "forest", "forest_thick", "forest_water", "forest_trail", "field"
     };
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations );
+    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type );
     popup( _( "Select an end point." ) );
-    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
+    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type, true, false, start );
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( bldg_exp ).obj();
@@ -3334,7 +3334,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 }
 
 tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range, int range,
-                                 const std::vector<std::string> &possible_om_types, bool must_see,
+                                 const std::vector<std::string> &possible_om_types, ot_match_type match_type, bool must_see,
                                  bool popup_notice, const tripoint_abs_omt &source, bool bounce )
 {
     bool errors = false;
@@ -3380,7 +3380,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
-                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, false,
+                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, match_type, true, false,
                                         omt_tgt, true );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
@@ -3393,13 +3393,13 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
         }
 
         for( const std::string &pos_om : possible_om_types ) {
-            if( omt_ref.id().c_str() == pos_om ) {
+            if( is_ot_match( pos_om, omt_ref, match_type ) ) {
                 return omt_tgt;
             }
         }
     }
 
-    return om_target_tile( omt_pos, min_range, range, possible_om_types );
+    return om_target_tile( omt_pos, min_range, range, possible_om_types, match_type );
 }
 
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
@@ -3503,6 +3503,8 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         //Player walks 1 om is roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
+        } else if( is_ot_match( "forest_trail", omt_ref, ot_match_type::type ) ) {
+            one_way += 35 + 30 * haulage;
         } else if( om_id == "forest" ) {
             one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
@@ -3552,7 +3554,7 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, true, last, false );
         if( spt == tripoint_abs_omt( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
