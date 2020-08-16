@@ -1078,9 +1078,9 @@ constexpr float b = 0.146661f;
 constexpr float c = -62.5f;
 #else
 // ARM64 needs double
-constexpr double a = 6200.0f;
-constexpr double b = 0.146661f;
-constexpr double c = -62.5f;
+constexpr double a = 6200.0;
+constexpr double b = 0.146661;
+constexpr double c = -62.5;
 #endif
 
 int spell::get_level() const
