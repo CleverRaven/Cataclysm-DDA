@@ -1,0 +1,22 @@
+[
+  {
+    "id": "banishment_greater",
+    "type": "SPELL",
+    "name": "Greater Banishment",
+    "description": "A more advanced version of Banishment, which is a ritual spell that attempts to banish a monster.  Being closely related to blood magic, the Blood Mage is much more specialized to use a spell like this.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "effect": "banishment",
+    "min_damage": 120,
+    "damage_increment": 15,
+    "max_damage": 640,
+    "min_range": 6,
+    "max_range": 6,
+    "base_energy_cost": 400,
+    "spell_class": "BLOOD_MAGE",
+    "difficulty": 9,
+    "max_level": 35,
+    "base_casting_time": 500,
+    "energy_source": "MANA"
+  }
+]
