@@ -435,8 +435,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         bool found_glove = false;
         for( item &worn_item : worn ) {
             // Uses enum layer_level to make distinction for top layer.
-            if( ( worn_item.covers( bodypart_id( bp_hand_l ) ) &&
-                  worn_item.covers( bodypart_id( bp_hand_r ) ) ) ) {
+            if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
+                  worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
                 if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
                     cur_weapon = &worn_item;
                     found_glove = true;
