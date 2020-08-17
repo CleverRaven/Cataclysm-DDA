@@ -71,7 +71,7 @@
     "symbol": ",",
     "color": "blue",
     "looks_like": "wristwatch",
-    "name": { "str": "glitching stopwatch" },
+    "name": { "str": "glitching stopwatch", "str_pl": "glitching stopwatches" },
     "description": "A small digital stopwatch, looking slightly old by today's standards.  Its digital display prints ever-changing gibberish.",
     "price": 1000,
     "price_postapoc": 10,
