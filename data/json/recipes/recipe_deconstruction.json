@@ -2906,7 +2906,7 @@
   {
     "result": "rag",
     "type": "uncraft",
-    "time": "15 m",
+    "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
   },
