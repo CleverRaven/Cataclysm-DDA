@@ -125,6 +125,11 @@ int input_event::get_first_input() const
     return sequence[0];
 }
 
+bool input_event::operator!=( const input_event &other ) const
+{
+    return !operator==( other );
+}
+
 input_manager inp_mngr;
 
 void input_manager::init()

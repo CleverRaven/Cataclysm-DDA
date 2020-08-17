@@ -208,7 +208,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact( vehicle &veh, const point &p )
-    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keychar )
+    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {
@@ -1345,38 +1345,45 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
-    const auto next_hotkey = [&]( const vehicle_part & pt, char &hotkey ) {
+    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
         if( overview_action && overview_enable && overview_enable( pt ) ) {
-            const char ret = hotkey;
-            // Calculate next hotkey
-            ++hotkey;
-            bool finish = false;
-            while( !finish ) {
-                switch( hotkey ) {
-                    default:
-                        finish = true;
-                        break;
-                    case '{':
-                        hotkey = 'A';
-                        break;
-                    case 'c':
-                    case 'g':
-                    case 'j':
-                    case 'k':
-                    case 'l':
-                    case 'p':
-                    case 'q':
-                    case 't':
-                    case 'v':
-                    case 'x':
-                    case 'z':
-                        ++hotkey;
-                        break;
+            switch( evt.type ) {
+                case input_event_t::keyboard_char: {
+                    const input_event next = evt;
+                    do {
+                        if( evt.sequence[0] == 'z' ) {
+                            evt.sequence[0] = 'A';
+                        } else if( evt.sequence[0] == 'Z' ) {
+                            evt = input_event();
+                        } else {
+                            ++evt.sequence[0];
+                        }
+                    } while( evt.type == input_event_t::keyboard_char &&
+                             main_context.input_to_action( evt ) != "ERROR" );
+                    return next;
                 }
+                case input_event_t::keyboard_code: {
+                    const input_event next = evt;
+                    do {
+                        if( evt.sequence[0] == 'z' ) {
+                            if( evt.modifiers.count( keymod_t::shift ) ) {
+                                evt = input_event();
+                            } else {
+                                evt.sequence[0] = 'a';
+                                evt.modifiers.emplace( keymod_t::shift );
+                            }
+                        } else {
+                            ++evt.sequence[0];
+                        }
+                    } while( evt.type == input_event_t::keyboard_code &&
+                             main_context.input_to_action( evt ) != "ERROR" );
+                    return next;
+                }
+                default:
+                    return input_event();
             }
-            return ret;
         } else {
-            return '\0';
+            return input_event();
         }
     };
 
@@ -1434,7 +1441,9 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
-    char hotkey = 'a';
+    input_event hotkey = main_context.is_event_type_enabled( input_event_t::keyboard_code )
+                         ? input_event( 'a', input_event_t::keyboard_code )
+                         : input_event( 'a', input_event_t::keyboard_char );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( vpr.part().is_engine() && vpr.part().is_available() ) {
@@ -1610,11 +1619,27 @@ void veh_interact::display_overview()
         }
 
         // print part name
-        nc_color col = overview_opts[idx].hotkey ? c_white : c_dark_gray;
+        const input_event &hotkey = overview_opts[idx].hotkey;
+        nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
+        std::string maybe_shift_symbol;
+        switch( hotkey.type ) {
+            case input_event_t::keyboard_char:
+                maybe_shift_symbol = " ";
+                break;
+            case input_event_t::keyboard_code:
+                if( hotkey.modifiers.count( keymod_t::shift ) ) {
+                    maybe_shift_symbol = "\u21E7"; // upwards white arrow
+                } else {
+                    maybe_shift_symbol = " ";
+                }
+                break;
+            default:
+                maybe_shift_symbol = " ";
+        }
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
-                        "<color_dark_gray>%c </color>%s",
-                        overview_opts[idx].hotkey ? overview_opts[idx].hotkey : ' ', pt.name() );
+                        "<color_dark_gray>%s%c </color>%s", maybe_shift_symbol,
+                        hotkey != input_event() ? hotkey.sequence[0] : ' ', pt.name() );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
@@ -1654,12 +1679,12 @@ void veh_interact::overview( const overview_enable_t &enable,
                     overview_pos = -1;
                     break; // nothing could be selected
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         }
 
         const bool has_any_hotkey = std::any_of( overview_opts.begin(), overview_opts.end(),
         []( const part_option & e ) {
-            return e.hotkey;
+            return e.hotkey != input_event();
         } );
         if( !has_any_hotkey ) {
             return; // nothing is selectable
@@ -1680,7 +1705,7 @@ void veh_interact::overview( const overview_enable_t &enable,
 
         const std::string input = main_context.handle_input();
         msg.reset();
-        if( input == "CONFIRM" && overview_opts[overview_pos].hotkey && overview_action ) {
+        if( input == "CONFIRM" && overview_opts[overview_pos].hotkey != input_event() && overview_action ) {
             overview_action( *overview_opts[overview_pos].part );
             break;
 
@@ -1693,18 +1718,18 @@ void veh_interact::overview( const overview_enable_t &enable,
                 if( --overview_pos < 0 ) {
                     overview_pos = overview_opts.size() - 1;
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
                 if( ++overview_pos >= static_cast<int>( overview_opts.size() ) ) {
                     overview_pos = 0;
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         } else {
             // did we try and activate a hotkey option?
-            char hotkey = main_context.get_raw_input().get_first_input();
-            if( hotkey && overview_action ) {
+            const input_event hotkey = main_context.get_raw_input();
+            if( hotkey != input_event() && overview_action ) {
                 auto iter = std::find_if( overview_opts.begin(),
                 overview_opts.end(), [&hotkey]( const part_option & e ) {
                     return e.hotkey == hotkey;
