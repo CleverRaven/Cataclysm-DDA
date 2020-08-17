@@ -42,7 +42,6 @@
     "description": "Pull objects.",
     "effect": "area_pull",
     "effect_filter": [ "ally", "hostile", "item", "fd_fire", "fd_blood" ],
-    "effect_iterations": 9,
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "message": "An unnatural implosion sends objects flying.",
     "min_range": 15,
