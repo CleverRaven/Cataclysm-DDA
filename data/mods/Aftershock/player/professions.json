@@ -68,7 +68,7 @@
         "items": [ "socks", "afs_calorie_pill", "afs_atomic_smartphone", "undershirt", "dump_pouch" ],
         "entries": [
           { "item": "water_clean", "container-item": "camelbak" },
-          { "item": "crowbar", "custom_flags": [ "auto_wield" ] },
+          { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
           { "item": "phase_immersion_suit", "ammo-item": "heavy_atomic_battery_cell", "charges": 10000 },
           { "item": "dimensional_anchor", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 }
         ]
