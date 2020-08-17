@@ -1514,6 +1514,7 @@ bool avatar::wield( item_location target )
 
 bool avatar::wield( item &target )
 {
+    invalidate_inventory_validity_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :

@@ -1145,6 +1145,7 @@ bool npc::wield( item &it )
         return true;
     }
 
+    invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );

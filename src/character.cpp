@@ -2480,6 +2480,7 @@ int Character::get_standard_stamina_cost( item *thrown_item )
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
         bool interactive )
 {
+    invalidate_inventory_validity_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -2606,6 +2607,7 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
 
 item *Character::try_add( item it, const item *avoid, const bool allow_wield )
 {
+    invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
@@ -2663,6 +2665,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
 item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop,
                         const bool allow_wield )
 {
+    invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, /*allow_wield=*/allow_wield );
     if( added == nullptr ) {
         if( !allow_wield || !wield( it ) ) {
@@ -2681,6 +2684,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
+    invalidate_inventory_validity_cache();
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
@@ -2861,6 +2865,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 void Character::drop( item_location loc, const tripoint &where )
 {
     drop( { std::make_pair( loc, loc->count() ) }, where );
+    invalidate_inventory_validity_cache();
 }
 
 void Character::drop( const drop_locations &what, const tripoint &target,
@@ -3555,8 +3560,16 @@ ret_val<bool> Character::can_drop( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
+void Character::invalidate_inventory_validity_cache()
+{
+    cache_inventory_is_valid = false;
+}
+
 void Character::drop_invalid_inventory()
 {
+    if( cache_inventory_is_valid ) {
+        return;
+    }
     bool dropped_liquid = false;
     for( const std::list<item> *stack : inv->const_slice() ) {
         const item &it = stack->front();
@@ -3575,6 +3588,8 @@ void Character::drop_invalid_inventory()
     for( item &w : worn ) {
         w.contents.overflow( pos() );
     }
+
+    cache_inventory_is_valid = true;
 }
 
 bool Character::has_artifact_with( const art_effect_passive effect ) const
@@ -10719,6 +10734,7 @@ void Character::on_worn_item_washed( const item &it )
 
 void Character::on_item_wear( const item &it )
 {
+    invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_effect( mut, true );
         recalc_sight_limits();
@@ -10734,6 +10750,7 @@ void Character::on_item_wear( const item &it )
 
 void Character::on_item_takeoff( const item &it )
 {
+    invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_loss_effect( mut );
         recalc_sight_limits();
