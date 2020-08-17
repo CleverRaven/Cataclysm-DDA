@@ -179,8 +179,6 @@ template <typename W, typename T> struct weighted_list {
             return objects.empty();
         }
 
-        void precalc();
-
     protected:
         W total_weight;
         std::vector<weighted_object<W, T> > objects;
