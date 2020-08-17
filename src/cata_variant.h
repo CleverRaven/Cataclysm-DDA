@@ -341,6 +341,13 @@ class cata_variant
                     std::forward<Value>( value ) ) );
         }
 
+        // Call this to construct from a type + string.  This should rarely be
+        // necessary, so think twice before using it (that's why the equivalent
+        // constructor is private).
+        static cata_variant from_string( cata_variant_type t, std::string &&v ) {
+            return cata_variant( t, std::move( v ) );
+        }
+
         cata_variant_type type() const {
             return type_;
         }
