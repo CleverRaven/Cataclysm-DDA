@@ -34,8 +34,6 @@ std::string keybindings();
 std::string keybindings_vehicle();
 std::string keymap();
 std::string lastworld();
-std::string legacy_autopickup();
-std::string legacy_autopickup2();
 std::string legacy_fontdata();
 std::string memorialdir();
 std::string jsondir();
