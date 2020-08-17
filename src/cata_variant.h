@@ -102,14 +102,6 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
     return cata_variant_type::num_types;
 }
 
-template<typename T>
-constexpr cata_variant_type type_for()
-{
-    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
-    return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
-}
-
 // Inherit from this struct to easily implement convert specializations for any
 // string type
 template<typename T>
@@ -311,6 +303,14 @@ struct convert<cata_variant_type::tripoint> {
 
 } // namespace cata_variant_detail
 
+template<typename T>
+constexpr cata_variant_type cata_variant_type_for()
+{
+    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
+    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
+    return cata_variant_detail::type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
+}
+
 class cata_variant
 {
     public:
@@ -322,9 +322,9 @@ class cata_variant
         // value passed.
         template < typename Value,
                    typename = std::enable_if_t <(
-                           cata_variant_detail::type_for<Value>() < cata_variant_type::num_types )>>
+                           cata_variant_type_for<Value>() < cata_variant_type::num_types )>>
         explicit cata_variant( Value && value ) {
-            constexpr cata_variant_type Type = cata_variant_detail::type_for<Value>();
+            constexpr cata_variant_type Type = cata_variant_type_for<Value>();
             type_ = Type;
             value_ =
                 cata_variant_detail::convert<Type>::to_string( std::forward<Value>( value ) );
@@ -358,7 +358,7 @@ class cata_variant
 
         template<typename T>
         T get() const {
-            return get<cata_variant_detail::type_for<T>()>();
+            return get<cata_variant_type_for<T>()>();
         }
 
         const std::string &get_string() const {
