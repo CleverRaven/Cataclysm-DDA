@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "GastonMod",
+    "name": "Gaston Mod",
+    "authors": [ "Dad" ],
+    "maintainers": [ "Dad" ],
+    "description": "Gaston's World and Scenario",
+    "category": "buildings",
+    "dependencies": [ "content" ]
+  }
+]
