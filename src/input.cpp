@@ -887,7 +887,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == input_event_t::keyboard_char && events_event.sequence.size() == 1 ) {
+        if( ( events_event.type == input_event_t::keyboard_char
+              || events_event.type == input_event_t::keyboard_code )
+            && is_event_type_enabled( events_event.type )
+            && events_event.sequence.size() == 1
+            && events_event.modifiers.empty() ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
                                             isprint( events_event.sequence.front() ) ) ) {
                 result.push_back( static_cast<char>( events_event.sequence.front() ) );

@@ -115,14 +115,6 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
     return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
-action_id action_from_key( char ch )
-{
-    input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, input_event_t::keyboard_char );
-    const std::string &action = ctxt.input_to_action( event );
-    return look_up_action( action );
-}
-
 std::string action_ident( action_id act )
 {
     switch( act ) {
@@ -1023,7 +1015,7 @@ action_id handle_main_menu()
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );

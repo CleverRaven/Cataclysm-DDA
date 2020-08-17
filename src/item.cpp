@@ -874,7 +874,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
         item ret( cont, birthday() );
         if( ret.has_pockets() ) {
             if( count_by_charges() ) {
-                ret.fill_with( *type, qty );
+                ret.fill_with( *this, qty );
             } else {
                 ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
             }
@@ -2742,14 +2742,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    for( const body_part &legacy_part : all_body_parts ) {
-                        const bodypart_str_id &bp( convert_bp( legacy_part ) );
-                        bodypart_str_id opposite = bp->opposite_part;
-                        if( opposite != bp && covers( bp ) && covers( opposite )
-                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).active ) {
-                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).active = false;
+                    for( const armor_portion_data &piece : t->data ) {
+                        for( const bodypart_str_id &bp : *piece.covers ) {
+                            bodypart_str_id opposite = bp->opposite_part;
+                            if( opposite != bp && covers( bp ) && covers( opposite )
+                                && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                                && to_display_data.at( opposite ).active ) {
+                                to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                                to_display_data.at( bp ).active = false;
+                            }
                         }
                     }
                 }
@@ -5187,7 +5188,7 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NULL && dt < NUM_DT );
+    assert( dt >= DT_NONE && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
@@ -5234,7 +5235,7 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
+    for( size_t i = DT_NONE + 1; i < NUM_DT; i++ ) {
         damage_type dt = static_cast<damage_type>( i );
         int dam = damage_melee( dt );
         if( dam > 0 ) {
@@ -6240,7 +6241,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
 bool item::mod_damage( const int qty )
 {
-    return mod_damage( qty, DT_NULL );
+    return mod_damage( qty, DT_NONE );
 }
 
 bool item::inc_damage( const damage_type dt )
@@ -6250,7 +6251,7 @@ bool item::inc_damage( const damage_type dt )
 
 bool item::inc_damage()
 {
-    return inc_damage( DT_NULL );
+    return inc_damage( DT_NONE );
 }
 
 nc_color item::damage_color() const
@@ -6364,7 +6365,7 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             return 0;
         case DT_TRUE:
@@ -6703,7 +6704,7 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         if( is_melee( static_cast<damage_type>( idx ) ) ) {
             return true;
         }
@@ -6962,6 +6963,11 @@ bool item::is_relic() const
     return !!relic_data;
 }
 
+bool item::has_relic_recharge() const
+{
+    return is_relic() && relic_data->has_recharge();
+}
+
 std::vector<enchantment> item::get_enchantments() const
 {
     if( !is_relic() ) {
@@ -7210,7 +7216,7 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         const int val = damage_melee( static_cast<damage_type>( idx ) );
         const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
@@ -8096,7 +8102,8 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo->type, qty );
+        item contents( ammo->type );
+        fill_with( contents, qty );
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8364,7 +8371,7 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
     std::vector<item *> removed_items;
-    for( item *contained : contents.all_items_top() ) {
+    for( item *contained : contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
         if( contained->use_amount_internal( it, quantity, used, filter ) ) {
             removed_items.push_back( contained );
         }
@@ -8565,14 +8572,15 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const itype &contained, const int amount )
+int item::fill_with( const item &contained, const int amount )
 {
     if( amount <= 0 ) {
         return 0;
     }
 
-    item contained_item( &contained );
-    const bool count_by_charges = contained_item.count_by_charges();
+    item contained_item( contained );
+    const bool count_by_charges = contained.count_by_charges();
+    contained_item.charges = count_by_charges ? 1 : -1;
     item_location loc;
     item_pocket *pocket = nullptr;
 
@@ -8940,7 +8948,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() ) {
+            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9341,6 +9349,33 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     }
 }
 
+std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
+{
+    if( !is_relic() ) {
+        return std::vector<trait_id> {};
+    }
+    std::vector<trait_id> muts;
+
+    for( const enchantment &ench : relic_data->get_enchantments() ) {
+        for( const trait_id &mut : ench.get_mutations() ) {
+            // this may not be perfectly accurate due to conditions
+            muts.push_back( mut );
+        }
+    }
+
+    for( const trait_id &char_mut : guy.get_mutations() ) {
+        for( auto iter = muts.begin(); iter != muts.end(); ) {
+            if( char_mut == *iter ) {
+                iter = muts.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+    return muts;
+}
+
 void item::overwrite_relic( const relic &nrelic )
 {
     this->relic_data = cata::make_value<relic>( nrelic );
@@ -9351,11 +9386,19 @@ bool item::use_relic( Character &guy, const tripoint &pos )
     return relic_data->activate( guy, pos );
 }
 
-void item::process_relic( Character *carrier )
+void item::process_relic( Character *carrier, const tripoint &pos )
 {
     if( !is_relic() ) {
         return;
     }
+
+    relic_data->try_recharge( *this, carrier, pos );
+
+    if( carrier == nullptr ) {
+        // return early; all of the rest of this function is character-specific
+        return;
+    }
+
     std::vector<enchantment> active_enchantments;
 
     for( const enchantment &ench : get_enchantments() ) {
@@ -9367,8 +9410,6 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
-
-    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
@@ -9790,6 +9831,7 @@ bool item::process_blackpowder_fouling( player *carrier )
 bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
+    process_relic( carrier, pos );
     contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
     return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );

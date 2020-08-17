@@ -1,6 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <climits>
 #include <list>
 #include <memory>
 
@@ -10,9 +9,9 @@
 #include "item.h"
 #include "monster.h"
 #include "mtype.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 static player &get_sanitized_player( )

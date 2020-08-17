@@ -71,7 +71,6 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum body_part : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -720,7 +719,8 @@ class item : public visitable<item>
          * @param amount Amount to fill item with, capped by remaining capacity
          * @returns amount of contained that was put into it
          */
-        int fill_with( const itype &contained, int amount = INFINITE_CHARGES );
+        int fill_with( const item &contained, int amount = INFINITE_CHARGES );
+
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -1069,7 +1069,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        /// same as other mod_damage, but uses @ref DT_NONE as damage type.
         bool mod_damage( int qty );
 
         /**
@@ -1078,7 +1078,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        /// same as other inc_damage, but uses @ref DT_NONE as damage type.
         bool inc_damage();
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1155,7 +1155,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character *carrier );
+        void process_relic( Character *carrier, const tripoint &pos );
 
         void overwrite_relic( const relic &nrelic );
 
@@ -1359,11 +1359,13 @@ class item : public visitable<item>
         /**
          * Callback immediately **before** an item is damaged
          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or DT_NULL)
+         * @param dt type of damage (or DT_NONE)
          */
         void on_damage( int qty, damage_type dt );
 
         bool use_relic( Character &guy, const tripoint &pos );
+        bool has_relic_recharge() const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.

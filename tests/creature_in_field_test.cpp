@@ -1,7 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <memory>
-
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"

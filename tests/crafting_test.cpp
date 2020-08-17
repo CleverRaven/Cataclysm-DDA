@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -13,8 +14,10 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -25,7 +28,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "string_id.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

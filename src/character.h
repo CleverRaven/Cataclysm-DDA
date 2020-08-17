@@ -1042,7 +1042,7 @@ class Character : public Creature, public visitable<Character>
         float mabuff_attack_cost_mult() const;
 
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
+        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
@@ -1195,7 +1195,7 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**When a critical failure occurs*/
-        void roll_critical_bionics_failure( body_part bp );
+        void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1549,6 +1549,11 @@ class Character : public Creature, public visitable<Character>
          * @param it Thing to be unwielded
          */
         ret_val<bool> can_unwield( const item &it ) const;
+        /**
+         * Check player capable of droping an item.
+         * @param it Thing to be unwielded
+         */
+        ret_val<bool> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */

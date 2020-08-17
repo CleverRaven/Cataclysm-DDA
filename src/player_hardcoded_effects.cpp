@@ -154,7 +154,7 @@ static void eff_fun_antifungal( player &u, effect & )
         }
         u.mod_pain( 1 );
         // not using u.get_random_body_part() as it is weighted & not fully random
-        std::vector<bodypart_id> bparts = u.get_all_body_parts( true );
+        std::vector<bodypart_id> bparts = u.get_all_body_parts( get_body_part_flags::only_main );
         bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
         u.apply_damage( nullptr, random_bpart, 1 );
     }
@@ -658,8 +658,8 @@ void player::hardcoded_effects( effect &it )
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
-                body_part itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, convert_bp( itch ).id() );
+                const bodypart_id &itch = random_body_part( true );
+                add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -1616,7 +1616,7 @@ void player::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_unwield( weapon ).success() ) {
+                        if( is_armed() && can_drop( weapon ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
                             } else {

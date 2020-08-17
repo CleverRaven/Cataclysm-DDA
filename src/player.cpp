@@ -302,7 +302,6 @@ void player::process_turn()
 
     visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
-        e->process_relic( this );
         return VisitResponse::NEXT;
     } );
 
@@ -1252,7 +1251,7 @@ int player::impact( const int force, const tripoint &p )
 
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
-        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );

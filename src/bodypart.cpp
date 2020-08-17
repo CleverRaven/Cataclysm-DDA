@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -132,11 +133,6 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
-body_part get_body_part_token( const std::string &id )
-{
-    return legacy_id_to_enum( id );
-}
-
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
@@ -160,11 +156,6 @@ const bodypart_str_id &convert_bp( body_part bp )
     }
 
     return body_parts[static_cast<size_t>( bp )];
-}
-
-static const body_part_type &get_bp( body_part bp )
-{
-    return convert_bp( bp ).obj();
 }
 
 void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
@@ -209,6 +200,11 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     token = legacy_id_to_enum( legacy_id );
 
     mandatory( jo, was_loaded, "main_part", main_part );
+    if( main_part == id ) {
+        mandatory( jo, was_loaded, "connected_to", connected_to );
+    } else {
+        connected_to = main_part;
+    }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
@@ -250,7 +246,7 @@ void body_part_type::check_consistency()
 
 void body_part_type::check() const
 {
-    const auto &under_token = get_bp( token );
+    const body_part_type &under_token = convert_bp( token ).obj();
     if( this != &under_token ) {
         debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
@@ -270,6 +266,21 @@ void body_part_type::check() const
 
     if( !opposite_part.is_valid() ) {
         debugmsg( "Body part %s has invalid opposite part %s.", id.c_str(), opposite_part.c_str() );
+    } else if( opposite_part->opposite_part != id ) {
+        debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
+    }
+
+    // Check that connected_to leads eventually to the root bodypart (currently always head),
+    // without any loops
+    std::unordered_set<bodypart_str_id> visited = { id };
+    bodypart_str_id next = connected_to;
+    while( !visited.count( next ) ) {
+        visited.insert( next );
+        next = next->connected_to;
+    }
+
+    if( next != next->connected_to ) {
+        debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
 }
 
@@ -303,27 +314,6 @@ std::string encumb_text( const bodypart_id &bp )
 {
     const std::string &txt = bp->encumb_text;
     return !txt.empty() ? _( txt ) : txt;
-}
-
-body_part random_body_part( bool main_parts_only )
-{
-    const auto &part = anatomy_human_anatomy->random_body_part();
-    return main_parts_only ? part->main_part->token : part->token;
-}
-
-body_part mutate_to_main_part( body_part bp )
-{
-    return get_bp( bp ).main_part->token;
-}
-
-body_part opposite_body_part( body_part bp )
-{
-    return get_bp( bp ).opposite_part->token;
-}
-
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
 }
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )

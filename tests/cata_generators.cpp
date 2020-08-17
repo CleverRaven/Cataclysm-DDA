@@ -1,5 +1,8 @@
 #include "cata_generators.h"
 
+#include <memory>
+#include <random>
+
 #include "point.h"
 #include "rng.h"
 

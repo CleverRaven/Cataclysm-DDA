@@ -1,12 +1,11 @@
 #include "catch/catch.hpp"
 
-#include <array>
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "item.h"
 #include "itype.h"

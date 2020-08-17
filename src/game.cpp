@@ -121,6 +121,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "panels.h"
+#include "past_games_info.h"
 #include "path_info.h"
 #include "pickup.h"
 #include "player.h"
@@ -284,6 +285,29 @@ static void achievement_attained( const achievement *a, bool achievements_enable
     if( achievements_enabled ) {
         add_msg( m_good, _( "You completed the achievement \"%s\"." ),
                  a->name() );
+        std::string popup_option = get_option<std::string>( "ACHIEVEMENT_COMPLETED_POPUP" );
+        bool show_popup;
+        if( test_mode || popup_option == "never" ) {
+            show_popup = false;
+        } else if( popup_option == "always" ) {
+            show_popup = true;
+        } else if( popup_option == "first" ) {
+            const achievement_completion_info *past_info = get_past_games().achievement( a->id );
+            show_popup = !past_info || past_info->games_completed.empty();
+        } else {
+            debugmsg( "Unexpected ACHIEVEMENT_COMPLETED_POPUP option value %s", popup_option );
+            show_popup = false;
+        }
+
+        if( show_popup ) {
+            std::string message = colorize( _( "Achievement completed!" ), c_light_green );
+            message += "\n\n";
+            message += get_achievements().ui_text_for( a );
+            message += "\n";
+            message += colorize( _( "Achievement completion popups can be\nconfigured via the "
+                                    "Interface options" ), c_dark_gray );
+            popup( message );
+        }
     }
     get_event_bus().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
 }
@@ -746,10 +770,10 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, convert_bp( random_body_part() ).id(), true );
+        u.add_effect( effect_infected, 1_turns, get_player_character().random_body_part(), true );
     }
     if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
-        u.add_effect( effect_fungus, 1_turns, convert_bp( random_body_part() ).id(), true );
+        u.add_effect( effect_fungus, 1_turns, get_player_character().random_body_part(), true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -1469,6 +1493,7 @@ bool game::do_turn()
                 }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
+                    wait_popup.reset();
                     ui_manager::redraw();
                 }
 
@@ -1604,14 +1629,15 @@ bool game::do_turn()
 
             // Avoid redrawing the main UI every time due to invalidation
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-            static_popup popup;
-            popup.on_top( true ).wait_message( "%s", wait_message );
+            wait_popup = std::make_unique<static_popup>();
+            wait_popup->on_top( true ).wait_message( "%s", wait_message );
             ui_manager::redraw();
             refresh_display();
             first_redraw_since_waiting_started = false;
         }
     } else {
         // Nothing to wait for now
+        wait_popup.reset();
         first_redraw_since_waiting_started = true;
     }
 
@@ -2497,7 +2523,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 
 input_context get_default_mode_input_context()
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
     ctxt.register_action( "UP", to_translation( "Move North" ) );

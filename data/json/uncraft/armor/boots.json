@@ -4,7 +4,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "600 s",
+    "time": "10 m",
     "qualities": [ { "id": "PRY", "level": 1 } ],
     "components": [ [ [ "wheel_skate", 6 ] ], [ [ "rag", 6 ] ], [ [ "plastic_chunk", 6 ] ], [ [ "scrap", 18 ] ], [ [ "bearing", 6 ] ] ]
   },
@@ -13,7 +13,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "600 s",
+    "time": "10 m",
     "qualities": [ { "id": "PRY", "level": 1 } ],
     "components": [ [ [ "wheel_skate", 8 ] ], [ [ "scrap_leather", 6 ] ], [ [ "scrap", 20 ] ], [ [ "bearing", 8 ] ] ]
   }

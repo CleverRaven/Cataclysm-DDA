@@ -458,8 +458,8 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 45_minutes, convert_bp( bp ).id() );
+        const bodypart_id &bp = random_body_part( true );
+        add_effect( effect_formication, 45_minutes, bp );
         add_msg_if_player( m_bad, "%s", snip );
         return;
     }
@@ -822,11 +822,11 @@ void Character::suffer_from_albinism()
         }
     };
     //pecentage of "open skin" by body part
-    std::map<body_part, float> open_percent;
+    std::map<bodypart_id, float> open_percent;
     //initialize coverage
     for( const bodypart_id  &bp : get_all_body_parts() ) {
         if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp->token] = 1.0;
+            open_percent[bp] = 1.0;
         }
     }
     //calculate coverage for every body part
@@ -838,16 +838,16 @@ void Character::suffer_from_albinism()
             }
             //percent of "not covered skin"
             float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            open_percent[bp->token] = open_percent[bp->token] * p;
+            open_percent[bp] = open_percent[bp] * p;
         }
     }
 
     const float COVERAGE_LIMIT = 0.01f;
-    body_part max_affected_bp = num_bp;
+    bodypart_id max_affected_bp;
     float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
-    for( const std::pair<const body_part, float> &it : open_percent ) {
-        const body_part &bp = it.first;
+    for( const std::pair<const bodypart_id, float> &it : open_percent ) {
+        const bodypart_id &bp = it.first;
         const float &p = it.second;
 
         if( p <= COVERAGE_LIMIT ) {
@@ -859,18 +859,18 @@ void Character::suffer_from_albinism()
             max_affected_bp = bp;
         }
     }
-    if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+    if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
         //Check if both arms/legs are affected
         int parts_count = 1;
-        body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
-        body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+        const bodypart_id &other_bp = max_affected_bp->opposite_part;
+        const bodypart_id &other_bp_rev = other_bp->opposite_part;
         if( other_bp != other_bp_rev ) {
             const auto found = open_percent.find( other_bp );
             if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
                 ++parts_count;
             }
         }
-        std::string bp_name = body_part_name( convert_bp( max_affected_bp ).id(), parts_count );
+        std::string bp_name = body_part_name( max_affected_bp, parts_count );
         if( count_affected_bp > parts_count ) {
             bp_name = string_format( _( "%s and other body parts" ), bp_name );
         }
@@ -1267,8 +1267,8 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, convert_bp( bp ).id() );
+        const bodypart_id &bp = random_body_part( true );
+        add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         get_power_level() > 1_kJ ) {
@@ -1450,7 +1450,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
 
 void Character::suffer_from_tourniquet()
 {
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
             mod_pain( 1 );
             apply_damage( nullptr, bp, 1, true );
@@ -1471,7 +1471,7 @@ void Character::suffer()
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
+            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1691,7 +1691,7 @@ void Character::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             set_part_hp_cur( bp, 1 );
             remove_effect( effect_mending, bp );
-            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
+            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( bp ) );

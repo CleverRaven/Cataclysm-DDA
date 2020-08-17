@@ -89,6 +89,7 @@
         "faux_fur",
         "nomex",
         "kevlar",
+        "kevlar_layered",
         "gutskin",
         "demon_chitin",
         "black_dragon_hide"
@@ -118,6 +119,7 @@
           "faux_fur",
           "nomex",
           "kevlar",
+          "kevlar_layered",
           "neoprene",
           "gutskin",
           "black_dragon_hide",

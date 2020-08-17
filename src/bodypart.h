@@ -114,9 +114,11 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
-        // "Parent" of this part - main parts are their own "parents"
-        // TODO: Connect head and limbs to torso
+        // "Parent" of this part for damage purposes - main parts are their own "parents"
         bodypart_str_id main_part;
+        // "Parent" of this part for connectedness - should be next part towards head.
+        // Head connects to itself.
+        bodypart_str_id connected_to;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
@@ -353,19 +355,5 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( const bodypart_id &bp );
-
-/** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
-
-/** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
-body_part mutate_to_main_part( body_part bp );
-/** Returns the opposite body part (limb on the other side) */
-body_part opposite_body_part( body_part bp );
-
-/** Returns the matching body_part key from the corresponding body_part token. */
-std::string get_body_part_id( body_part bp );
-
-/** Returns the matching body_part token from the corresponding body_part string. */
-body_part get_body_part_token( const std::string &id );
 
 #endif // CATA_SRC_BODYPART_H

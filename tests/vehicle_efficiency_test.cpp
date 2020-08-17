@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -12,7 +11,6 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "enums.h"
@@ -26,6 +24,7 @@
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

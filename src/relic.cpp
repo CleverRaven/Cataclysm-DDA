@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <set>
 
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -12,9 +14,22 @@
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "map.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "weather.h"
+
+/*
+ * A little helper function to tell if you can load one ammo into a gun.
+ * Checks if you can load ammo directly into the gun, or if you can load it into a magazine in the gun.
+ */
+static bool item_can_not_load_ammo( const item &gun )
+{
+    return ( gun.is_magazine() && gun.remaining_ammo_capacity() == 0 ) ||
+           ( !gun.is_magazine() && gun.magazine_current() == nullptr ) ||
+           ( gun.magazine_current() != nullptr && gun.magazine_current()->remaining_ammo_capacity() == 0 );
+}
 
 namespace io
 {
@@ -41,6 +56,7 @@ std::string enum_to_string<relic_recharge>( relic_recharge type )
     switch( type ) {
         case relic_recharge::none: return "none";
         case relic_recharge::periodic: return "periodic";
+        case relic_recharge::solar_sunny: return "solar_sunny";
         case relic_recharge::num: break;
     }
     // *INDENT-ON*
@@ -246,7 +262,8 @@ void relic_charge_info::load( const JsonObject &jo )
     jo.read( "charges_per_use", charges_per_use );
     jo.read( "max_charges", max_charges );
     jo.read( "recharge_type", type );
-    jo.read( "last_charge", last_charge );
+    jo.read( "regenerate_ammo", regenerate_ammo );
+    jo.read( "activation_accumulator", activation_accumulator );
     jo.read( "time", activation_time );
 }
 
@@ -256,10 +273,40 @@ void relic_charge_info::serialize( JsonOut &jsout ) const
     jsout.member( "charges", charges );
     jsout.member( "charges_per_use", charges_per_use );
     jsout.member( "max_charges", max_charges );
+    jsout.member( "regenerate_ammo", regenerate_ammo );
     jsout.member( "recharge_type", type );
-    jsout.member( "last_charge", last_charge );
+    jsout.member( "activation_accumulator", activation_accumulator );
     jsout.member( "time", activation_time );
     jsout.end_object();
+}
+
+void relic_charge_info::accumulate_charge( item &parent )
+{
+    const bool time = activation_time == 0_seconds;
+    const bool regen_ammo = regenerate_ammo && item_can_not_load_ammo( parent );
+    const bool has_max_charges = !regenerate_ammo && charges >= max_charges && max_charges != 0;
+    if( time || regen_ammo || has_max_charges ) {
+        return;
+    }
+
+    activation_accumulator += 1_seconds;
+    if( activation_accumulator >= activation_time ) {
+        activation_accumulator -= activation_time;
+        if( regenerate_ammo ) {
+            item *current_magazine = &parent;
+            if( parent.magazine_current() ) {
+                current_magazine = parent.magazine_current();
+            }
+            const itype_id current_ammo = current_magazine->ammo_current();
+            if( current_ammo == itype_id::NULL_ID() ) {
+                current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
+            } else {
+                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining() + 1 );
+            }
+        } else {
+            charges++;
+        }
+    }
 }
 
 void relic::load( const JsonObject &jo )
@@ -357,27 +404,40 @@ int relic::max_charges() const
     return charge.max_charges;
 }
 
-// Adds num charges to the relic, as long as it doesn't exceed max_charges
-static void add_charges( relic_charge_info &rel, int num = 1 )
+bool relic::has_recharge() const
 {
-    if( rel.charges + num <= rel.max_charges ) {
-        rel.charges += num;
-    }
+    return charge.type != relic_recharge::none;
 }
 
-void relic::try_recharge()
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_solar( const item &it, Character *carrier, const tripoint &pos )
 {
-    if( charge.charges == charge.max_charges ) {
+    return get_map().is_outside( pos ) && is_day( calendar::turn ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
+void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
+{
+    if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
+        return;
+    } else if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
         return;
     }
+
     switch( charge.type ) {
         case relic_recharge::none: {
             return;
         }
         case relic_recharge::periodic: {
-            if( calendar::turn - charge.last_charge >= charge.activation_time ) {
-                add_charges( charge );
-                break;
+            charge.accumulate_charge( parent );
+            return;
+        }
+        case relic_recharge::solar_sunny: {
+            if( can_recharge_solar( parent, carrier, pos ) &&
+                get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge( parent );
             }
             return;
         }
@@ -386,13 +446,6 @@ void relic::try_recharge()
             return;
         }
     }
-
-    charge.last_charge = calendar::turn;
-}
-
-relic_charge_info::relic_charge_info()
-{
-    last_charge = calendar::turn;
 }
 
 void relic::overwrite_charge( const relic_charge_info &info )

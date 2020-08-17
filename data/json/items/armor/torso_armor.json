@@ -451,6 +451,7 @@
   },
   {
     "id": "jacket_eod",
+    "repairs_like": "survivor_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "EOD jacket" },
@@ -471,6 +472,7 @@
   },
   {
     "id": "jacket_eod_light",
+    "repairs_like": "lsurvivor_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "light EOD jacket" },

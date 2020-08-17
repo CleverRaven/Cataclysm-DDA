@@ -3,11 +3,13 @@
 #include <utility>
 #include <vector>
 
-#include "messages.h"
 #include "enums.h"
+#include "messages.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
+struct tripoint;
 
 namespace catacurses
 {

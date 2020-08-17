@@ -173,18 +173,18 @@ struct mutation_branch {
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
         // Healing per turn
-        float healing_awake = 0.0f;
-        float healing_resting = 0.0f;
+        cata::optional<float> healing_awake = cata::nullopt;
+        cata::optional<float> healing_resting = cata::nullopt;
         // Limb mending bonus
-        float mending_modifier = 1.0f;
+        cata::optional<float> mending_modifier = cata::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        float hp_modifier = 0.0f;
+        cata::optional<float> hp_modifier = cata::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
-        float hp_modifier_secondary = 0.0f;
+        cata::optional<float> hp_modifier_secondary = cata::nullopt;
         // Flat bonus/penalty to hp.
-        float hp_adjustment = 0.0f;
+        cata::optional<float> hp_adjustment = cata::nullopt;
         // Modify strength stat without changing HP
-        float str_modifier = 0.0f;
+        cata::optional<float> str_modifier = cata::nullopt;
         //melee bonuses
         int cut_dmg_bonus = 0;
         float pierce_dmg_bonus = 0.0f;
@@ -192,17 +192,17 @@ struct mutation_branch {
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        float dodge_modifier = 0.0f;
-        float speed_modifier = 1.0f;
-        float movecost_modifier = 1.0f;
-        float movecost_flatground_modifier = 1.0f;
-        float movecost_obstacle_modifier = 1.0f;
-        float attackcost_modifier = 1.0f;
-        float max_stamina_modifier = 1.0f;
-        float weight_capacity_modifier = 1.0f;
-        float hearing_modifier = 1.0f;
-        float movecost_swim_modifier = 1.0f;
-        float noise_modifier = 1.0f;
+        cata::optional<float> dodge_modifier = cata::nullopt;
+        cata::optional<float> speed_modifier = cata::nullopt;
+        cata::optional<float> movecost_modifier = cata::nullopt;
+        cata::optional<float> movecost_flatground_modifier = cata::nullopt;
+        cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
+        cata::optional<float> attackcost_modifier = cata::nullopt;
+        cata::optional<float> max_stamina_modifier = cata::nullopt;
+        cata::optional<float> weight_capacity_modifier = cata::nullopt;
+        cata::optional<float> hearing_modifier = cata::nullopt;
+        cata::optional<float> movecost_swim_modifier = cata::nullopt;
+        cata::optional<float> noise_modifier = cata::nullopt;
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
@@ -232,40 +232,40 @@ struct mutation_branch {
         int weakness_to_water = 0;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        float stealth_modifier = 0.0f;
+        cata::optional<float> stealth_modifier = cata::nullopt;
 
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        float temperature_speed_modifier = 0.0f;
+        cata::optional<float> temperature_speed_modifier = cata::nullopt;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        float metabolism_modifier = 0.0f;
+        cata::optional<float> metabolism_modifier = cata::nullopt;
         // As above but for thirst.
-        float thirst_modifier = 0.0f;
+        cata::optional<float> thirst_modifier = cata::nullopt;
         // As above but for fatigue.
-        float fatigue_modifier = 0.0f;
+        cata::optional<float> fatigue_modifier = cata::nullopt;
         // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        float fatigue_regen_modifier = 0.0f;
+        cata::optional<float> fatigue_regen_modifier = cata::nullopt;
         // Modifier for the rate at which stamina regenerates.
-        float stamina_regen_modifier = 0.0f;
+        cata::optional<float> stamina_regen_modifier = cata::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
-        float obtain_cost_multiplier = 1.0f;
+        cata::optional<float> obtain_cost_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        float overmap_sight = 0.0f;
+        cata::optional<float> overmap_sight = cata::nullopt;
 
         // Multiplier for sight range, defaulting to 1.
-        float overmap_multiplier = 1.0f;
+        cata::optional<float> overmap_multiplier = cata::nullopt;
 
         // Multiplier for map memory capacity, defaulting to 1.
-        float map_memory_capacity_multiplier = 1.0f;
+        cata::optional<float> map_memory_capacity_multiplier = cata::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
-        float reading_speed_multiplier = 1.0f;
+        cata::optional<float> reading_speed_multiplier = cata::nullopt;
 
         // Multiplier for skill rust, defaulting to 1.
-        float skill_rust_multiplier = 1.0f;
+        cata::optional<float> skill_rust_multiplier = cata::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
-        float consume_time_modifier = 1.0f;
+        cata::optional<float> consume_time_modifier = cata::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -293,9 +293,9 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        float mana_modifier = 0.0f;
-        float mana_multiplier = 1.0f;
-        float mana_regen_multiplier = 1.0f;
+        cata::optional<float> mana_modifier = cata::nullopt;
+        cata::optional<float> mana_multiplier = cata::nullopt;
+        cata::optional<float> mana_regen_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */

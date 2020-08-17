@@ -1,9 +1,12 @@
 #include "catch/catch.hpp"
 
-#include "coordinates.h"
-#include "coordinate_conversions.h"
+#include <string>
+#include <tuple>
+
 #include "cata_generators.h"
-#include "stringmaker.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "point.h"
 
 constexpr int num_trials = 5;
 
