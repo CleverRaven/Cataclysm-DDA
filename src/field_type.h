@@ -18,7 +18,9 @@
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
+#include "int_id.h"
 #include "mapdata.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -62,7 +64,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp;
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -151,7 +153,7 @@ struct field_type {
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
@@ -160,6 +162,7 @@ struct field_type {
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
+        bool legacy_make_rubble = false;
         field_type_id wandering_field;
         std::string looks_like;
 
@@ -279,7 +282,6 @@ extern field_type_id fd_null,
        fd_sap,
        fd_sludge,
        fd_fire,
-       fd_rubble,
        fd_smoke,
        fd_toxic_gas,
        fd_tear_gas,
@@ -294,17 +296,12 @@ extern field_type_id fd_null,
        fd_acid_vent,
        fd_plasma,
        fd_laser,
-       fd_spotlight,
        fd_dazzling,
        fd_blood_veggy,
        fd_blood_insect,
        fd_blood_invertebrate,
        fd_gibs_insect,
        fd_gibs_invertebrate,
-       fd_cigsmoke,
-       fd_weedsmoke,
-       fd_cracksmoke,
-       fd_methsmoke,
        fd_bees,
        fd_incendiary,
        fd_relax_gas,

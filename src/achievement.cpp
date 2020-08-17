@@ -1,9 +1,23 @@
 #include "achievement.h"
 
+#include <cassert>
+#include <cstdlib>
+#include <set>
+#include <tuple>
+#include <utility>
+
+#include "color.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "past_games_info.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+
+template <typename E> struct enum_traits;
 
 // Some details about how achievements work
 // ========================================
@@ -146,7 +160,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false;
+    bool becomes_false = false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -704,6 +718,23 @@ std::string achievement_tracker::ui_text() const
     std::string result = colorize( achievement_->name(), c_title ) + "\n";
     if( !achievement_->description().empty() ) {
         result += "  " + colorize( achievement_->description(), c ) + "\n";
+    }
+
+    // Note if it's been completed in other games
+    const achievement_completion_info *other_games =
+        get_past_games().achievement( achievement_->id );
+    if( other_games && !other_games->games_completed.empty() ) {
+        std::string message =
+            string_format( _( "Previously completed by %s" ),
+                           other_games->games_completed.front()->avatar_name() );
+        size_t num_completions = other_games->games_completed.size();
+        if( num_completions > 1 ) {
+            message +=
+                string_format(
+                    ngettext( " and %d other", " and %d others", num_completions - 1 ),
+                    num_completions - 1 );
+        }
+        result += "  " + colorize( message, c_blue ) + "\n";
     }
 
     // Next: the time constraint

@@ -1,39 +1,40 @@
 #include "inventory.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
-#include <algorithm>
-#include <iterator>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "game.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory_ui.h" // auto inventory blocking
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
+#include "point.h"
+#include "ret_val.h"
+#include "rng.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
-#include "material.h"
-#include "type_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "point.h"
-#include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_codeine( "codeine" );
@@ -449,6 +450,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 {
     items.clear();
     for( const tripoint &p : pts ) {
+        // a temporary hack while trees are terrain
+        if( m.ter( p )->has_flag( "TREE" ) ) {
+            item tree_pseudo( "butchery_tree_pseudo" );
+            tree_pseudo.item_tags.insert( "PSEUDO" );
+            add_item( tree_pseudo );
+        }
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -585,7 +592,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item food_processor = item_with_battery( "food_processor", veh_battery );
             add_item( food_processor );
 
-            item press = item_with_battery( "press", veh_battery );
+            item press = item( "press" );
+            press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
@@ -754,7 +762,7 @@ int inventory::position_by_item( const item *it ) const
 int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
-    for( auto &elem : items ) {
+    for( const auto &elem : items ) {
         if( elem.front().typeId() == type ) {
             return i;
         }
@@ -1127,13 +1135,6 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     }
 }
 
-void inventory::set_stack_favorite( const int position, const bool favorite )
-{
-    for( auto &e : *std::next( items.begin(), position ) ) {
-        e.set_favorite( favorite );
-    }
-}
-
 invlets_bitset inventory::allocated_invlets() const
 {
     invlets_bitset invlets;
@@ -1158,6 +1159,9 @@ const itype_bin &inventory::get_binned_items() const
     inventory *this_nonconst = const_cast<inventory *>( this );
     this_nonconst->visit_items( [ this ]( item * e ) {
         binned_items[ e->typeId() ].push_back( e );
+        for( const item *it : e->softwares() ) {
+            binned_items[it->typeId()].push_back( it );
+        }
         return VisitResponse::NEXT;
     } );
 

@@ -1,8 +1,10 @@
-#include <memory>
+#include "catch/catch.hpp"
+#include "vehicle.h"
+
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"
@@ -11,7 +13,6 @@
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
-#include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {

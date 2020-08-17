@@ -1,16 +1,22 @@
+#include "catch/catch.hpp"
+#include "item.h"
+
 #include <cmath>
 #include <initializer_list>
 #include <limits>
 #include <memory>
+#include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
-#include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "monstergenerator.h"
+#include "mtype.h"
 #include "ret_val.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 

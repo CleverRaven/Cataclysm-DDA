@@ -1,13 +1,16 @@
 #include "martialarts.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "bodypart.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -25,7 +28,6 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -337,7 +339,7 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( auto &r : req.req_buffs ) {
+    for( const mabuff_id &r : req.req_buffs ) {
         if( !r.is_valid() ) {
             debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
         }
@@ -449,13 +451,13 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    bool melee_style = u.martial_arts_data.selected_strictly_melee();
+    bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
     bool unarmed_weapon = is_armed && u.used_weapon().has_flag( flag_UNARMED_WEAPON );
-    bool forced_unarmed = u.martial_arts_data.selected_force_unarmed();
+    bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( u.weapon );
-    bool style_weapon = u.martial_arts_data.selected_has_weapon( u.weapon.typeId() );
-    bool all_weapons = u.martial_arts_data.selected_allow_melee();
+    bool style_weapon = u.martial_arts_data->selected_has_weapon( u.weapon.typeId() );
+    bool all_weapons = u.martial_arts_data->selected_allow_melee();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -938,18 +940,26 @@ bool player::can_grab_break( const item &weap ) const
         return false;
     }
 
-    ma_technique tec = martial_arts_data.get_grab_break_tec( weap );
+    ma_technique tec;
+    for( const matec_id &technique : martial_arts_data->get_all_techniques( weap ) ) {
+        if( technique->grab_break ) {
+            tec = technique.obj();
+            if( tec.is_valid_character( *this ) ) {
+                return true;
+            }
+        }
+    }
 
-    return tec.is_valid_character( *this );
+    return false;
 }
 
 bool Character::can_miss_recovery( const item &weap ) const
 {
-    if( !martial_arts_data.has_miss_recovery_tec( weap ) ) {
+    if( !martial_arts_data->has_miss_recovery_tec( weap ) ) {
         return false;
     }
 
-    ma_technique tec = martial_arts_data.get_miss_recovery_tec( weap );
+    ma_technique tec = martial_arts_data->get_miss_recovery_tec( weap );
 
     return tec.is_valid_character( *this );
 }
@@ -1079,7 +1089,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 // bonuses
 float Character::mabuff_tohit_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
@@ -1087,7 +1097,7 @@ float Character::mabuff_tohit_bonus() const
 }
 float Character::mabuff_critical_hit_chance_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
     } );
@@ -1095,7 +1105,7 @@ float Character::mabuff_critical_hit_chance_bonus() const
 }
 float Character::mabuff_dodge_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.dodge_bonus( *this );
     } );
@@ -1202,6 +1212,11 @@ bool Character::has_mabuff( const mabuff_id &id ) const
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
         return b.id == id;
     } );
+}
+
+bool Character::has_grab_break_tec() const
+{
+    return martial_arts_data->has_grab_break_tec();
 }
 
 bool character_martial_arts::has_martialart( const matype_id &ma ) const

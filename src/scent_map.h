@@ -13,7 +13,11 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
+
+struct point;
+struct tripoint;
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 
@@ -32,7 +36,7 @@ class scent_type
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
-        bool was_loaded;
+        bool was_loaded = false;
 
         scenttype_id id;
         std::set<species_id> receptive_species;

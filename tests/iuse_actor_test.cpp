@@ -1,17 +1,17 @@
-#include <climits>
+#include "catch/catch.hpp"
+
 #include <list>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "monster.h"
 #include "mtype.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 static player &get_sanitized_player( )
@@ -20,7 +20,7 @@ static player &get_sanitized_player( )
     // Remove first worn item until there are none left.
     std::list<item> temp;
     while( player_character.takeoff( player_character.i_at( -2 ), &temp ) ) {}
-    player_character.inv.clear();
+    player_character.inv->clear();
     player_character.remove_weapon();
 
     return player_character;

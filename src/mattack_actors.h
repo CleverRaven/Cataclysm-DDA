@@ -80,7 +80,7 @@ class melee_actor : public mattack_actor
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        weighted_float_list<body_part> body_parts;
+        weighted_float_list<bodypart_str_id> body_parts;
 
         /** Extra effects applied on damaging hit. */
         std::vector<mon_effect_data> effects;
@@ -150,13 +150,13 @@ class gun_actor : public mattack_actor
         int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
-        std::string description;
+        translation description;
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
-        std::string failure_msg;
+        translation failure_msg;
 
         /** Sound (if any) when either ammo depleted or max_ammo reached */
-        std::string no_ammo_sound;
+        translation no_ammo_sound;
 
         /** Number of moves required for each attack */
         int move_cost = 150;
@@ -173,7 +173,7 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
-        std::string targeting_sound;
+        translation targeting_sound;
         int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */

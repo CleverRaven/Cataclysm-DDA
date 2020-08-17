@@ -11,16 +11,17 @@
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -36,6 +37,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "kill_tracker.h"
@@ -50,11 +52,13 @@
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
+#include "omdata.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -71,9 +75,11 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -414,8 +420,10 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt, const std::ve
  */
 tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
-    const std::vector<std::string> &possible_om_types = {}, bool must_see = true,
-    bool popup_notice = true, const tripoint_abs_omt &source = tripoint_abs_omt( -999, -999, -999 ),
+    const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type =
+        ot_match_type::exact, bool must_see = true,
+    bool popup_notice = true,
+    const tripoint_abs_omt &source = tripoint_abs_omt( -999, -999, -999 ),
     bool bounce = false );
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
                     const std::string &message = "Y;X: MAX RANGE" );
@@ -480,7 +488,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
     Character &player_character = get_player_character();
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         if( comp->companion_mission_time_ret < calendar:: turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
@@ -499,7 +507,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
                                const time_duration &duration )
 {
     bool avail = false;
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
         entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
                 to_string( duration ) + "]\n";
@@ -660,10 +668,10 @@ void talk_function::basecamp_mission( npc &p )
         tripoint src_loc;
         const auto abspos = p.global_square_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
+            for( const tripoint &src : src_sorted ) {
                 src_loc = here.getlocal( src );
                 break;
             }
@@ -1909,9 +1917,9 @@ void basecamp::start_menial_labor()
 
 void basecamp::start_cut_logs()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_water", "forest_trail" };
     popup( _( "Forests and swamps are the only valid cutting locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1946,7 +1954,7 @@ void basecamp::start_cut_logs()
             if( om_cutdown_trees_est( forest ) < 5 ) {
                 const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
-                if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
+                if( omt_trees.id() != "forest_wet" ) {
                     overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
@@ -1956,9 +1964,9 @@ void basecamp::start_cut_logs()
 
 void basecamp::start_clearcut()
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick" };
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail" };
     popup( _( "Forests are the only valid cutting locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
@@ -1991,15 +1999,15 @@ void basecamp::start_clearcut()
 
 void basecamp::start_setup_hide_site()
 {
-    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water",
+    std::vector<std::string> hide_locations = { "forest", "forest_thick", "forest_water", "forest_trail"
                                                 "field"
                                               };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                              omt_pos, true );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::type,
+                              true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = get_player_character().inv;
+        inventory tgt_inv = *get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
@@ -2038,11 +2046,11 @@ void basecamp::start_relay_hide_site()
 {
     std::vector<std::string> hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
-    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                              omt_pos, true );
+    tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact,
+                              true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = get_player_character().inv;
+        inventory tgt_inv = *get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
@@ -2101,14 +2109,15 @@ void basecamp::start_relay_hide_site()
 void basecamp::start_fortifications( std::string &bldg_exp )
 {
     std::vector<std::string> allowed_locations = {
-        "forest", "forest_thick", "forest_water", "field"
+        "forest", "forest_thick", "forest_water", "forest_trail", "field"
     };
     popup( _( "Select a start and end point.  Line must be straight.  Fields, forests, and "
               "swamps are valid fortification locations.  In addition to existing fortification "
               "constructions." ) );
-    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations );
+    tripoint_abs_omt start = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type );
     popup( _( "Select an end point." ) );
-    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
+    tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, ot_match_type::type,
+                                            true, false, start );
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
         const recipe &making = recipe_id( bldg_exp ).obj();
@@ -3328,7 +3337,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
 }
 
 tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range, int range,
-                                 const std::vector<std::string> &possible_om_types, bool must_see,
+                                 const std::vector<std::string> &possible_om_types, ot_match_type match_type, bool must_see,
                                  bool popup_notice, const tripoint_abs_omt &source, bool bounce )
 {
     bool errors = false;
@@ -3374,7 +3383,7 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
                 if( query_yn( _( "Do you want to bounce off this location to extend range?" ) ) ) {
                     om_line_mark( omt_pos, omt_tgt );
                     tripoint_abs_omt dest =
-                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, true, false,
+                        om_target_tile( omt_tgt, 2, range * .75, possible_om_types, match_type, true, false,
                                         omt_tgt, true );
                     om_line_mark( omt_pos, omt_tgt, false );
                     return dest;
@@ -3387,13 +3396,13 @@ tripoint_abs_omt om_target_tile( const tripoint_abs_omt &omt_pos, int min_range,
         }
 
         for( const std::string &pos_om : possible_om_types ) {
-            if( omt_ref.id().c_str() == pos_om ) {
+            if( is_ot_match( pos_om, omt_ref, match_type ) ) {
                 return omt_tgt;
             }
         }
     }
 
-    return om_target_tile( omt_pos, min_range, range, possible_om_types );
+    return om_target_tile( omt_pos, min_range, range, possible_om_types, match_type );
 }
 
 void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
@@ -3462,12 +3471,12 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
     tinymap target_bay;
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
-    for( auto i : itms_rem ) {
+    for( item *i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
         target_bay.i_rem( point( 11, 10 ), i );
     }
     Character &player_character = get_player_character();
-    for( auto i : itms ) {
+    for( const item *i : itms ) {
         target_bay.add_item_or_charges( point( 11, 10 ), *i );
         player_character.use_amount( i->typeId(), 1 );
     }
@@ -3491,12 +3500,14 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         time_duration work, int trips, int haulage )
 {
     int one_way = 0;
-    for( auto &om : journey ) {
+    for( const tripoint_abs_omt &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 30 seconds
         if( om_id == "field" ) {
             one_way += 30 + 30 * haulage;
+        } else if( is_ot_match( "forest_trail", omt_ref, ot_match_type::type ) ) {
+            one_way += 35 + 30 * haulage;
         } else if( om_id == "forest" ) {
             one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
@@ -3526,7 +3537,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
-    for( auto &i : itms ) {
+    for( const auto &i : itms ) {
         total_m += i->weight( true );
         total_v += i->volume( true );
     }
@@ -3546,7 +3557,8 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
     int range = range_start;
     int def_range = range_start;
     while( range > 3 ) {
-        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, false, true, last, false );
+        tripoint_abs_omt spt = om_target_tile( last, 0, range, {}, ot_match_type::exact, false, true, last,
+                                               false );
         if( spt == tripoint_abs_omt( -999, -999, -999 ) ) {
             scout_points.clear();
             return scout_points;
@@ -3617,7 +3629,7 @@ bool basecamp::validate_sort_points()
         const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( auto &src : src_sorted ) {
+        for( const tripoint &src : src_sorted ) {
             src_loc = here.getlocal( src );
             break;
         }
@@ -3799,7 +3811,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     std::map<std::string, int> itemnames;
     for( size_t a = 0; a < 6; a++ ) {
         const auto items = item_group::items_from( itemlist, calendar::turn );
-        for( auto &it : items ) {
+        for( const item &it : items ) {
             itemnames[it.display_name()]++;
         }
     }
@@ -3921,7 +3933,7 @@ bool basecamp::distribute_food()
         if( !it.goes_bad() ) {
             return 1.;
         }
-        float spoil_mod = 1;
+        float spoil_mod = 1.0f;
         if( container ) {
             if( item_pocket *const pocket = container->contained_where( it ) ) {
                 spoil_mod = pocket->spoil_multiplier();
@@ -4040,11 +4052,11 @@ void basecamp::place_results( const item &result )
         Character &player_character = get_player_character();
         const auto abspos = here.getabs( player_character.pos() );
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
-                const auto &src_loc = here.getlocal( src );
+            for( const tripoint &src : src_sorted ) {
+                const tripoint &src_loc = here.getlocal( src );
                 here.add_item_or_charges( src_loc, result, true );
                 apply_camp_ownership( src_loc, 10 );
                 break;

@@ -1,14 +1,13 @@
 #include "editmap.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <cstring>
-#include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <tuple>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -16,11 +15,13 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "field.h"
@@ -34,8 +35,8 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
@@ -46,7 +47,6 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
-#include "tileray.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -1025,7 +1025,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     }
 
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
             if( isvert && ( elem.y == alta || elem.y == altb ) ) {
@@ -1044,7 +1044,7 @@ void apply<furn_t>( const furn_t &t, const shapetype, const tripoint &,
 {
     const furn_id sel_frn = t.id.id();
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.furn_set( elem, sel_frn );
     }
 }
@@ -1054,7 +1054,7 @@ void apply<trap>( const trap &t, const shapetype, const tripoint &,
                   const tripoint &, const std::vector<tripoint> &target_list )
 {
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.trap_set( elem, t.loadid );
     }
 }
@@ -1130,7 +1130,7 @@ void editmap::edit_feature()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( emenu.input_category );
+        input_context ctxt( emenu.input_category, keyboard_mode::keychar );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
@@ -1247,7 +1247,7 @@ void editmap::edit_fld()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( fmenu.input_category );
+        input_context ctxt( fmenu.input_category, keyboard_mode::keychar );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
@@ -1842,7 +1842,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else {
             tmpmap_ptr = nullptr;
         }
-        input_context ctxt( gpmenu.input_category );
+        input_context ctxt( gpmenu.input_category, keyboard_mode::keychar );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
@@ -1884,6 +1884,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+                    if( srcsm == nullptr || destsm == nullptr ) {
+                        debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x,
+                                  src_pos.y, src_pos.z );
+                        continue;
+                    }
 
                     std::swap( *destsm, *srcsm );
 
@@ -1902,6 +1907,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 for( int y = 0; y < here.getmapsize(); y++ ) {
                     const tripoint dest_pos = tripoint( x, y, target.z );
                     const submap *destsm = here.get_submap_at_grid( dest_pos );
+                    if( destsm == nullptr ) {
+                        debugmsg( "Tried to update vehicle cache at (%d,%d,%d) but the submap is not loaded", dest_pos.x,
+                                  dest_pos.y, dest_pos.z );
+                        continue;
+                    }
                     here.update_vehicle_list( destsm, target.z ); // update real map's vcaches
                 }
             }
@@ -1943,6 +1953,10 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            if( destsm == nullptr ) {
+                debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
+                continue;
+            }
             for( const auto &vehicle : destsm->vehicles ) {
                 possible_vehicles.push_back( vehicle.get() );
             }
@@ -1976,6 +1990,10 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            if( destsm == nullptr ) {
+                debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
+                continue;
+            }
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
@@ -2110,7 +2128,7 @@ void editmap::edit_mapgen()
 
         blink = true;
 
-        input_context ctxt( gmenu.input_category );
+        input_context ctxt( gmenu.input_category, keyboard_mode::keychar );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),

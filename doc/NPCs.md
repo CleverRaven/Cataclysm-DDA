@@ -19,7 +19,7 @@ defined, and all defined topics are referenced in a response or an NPC's chat, i
 There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
 and vice versa.  Invoke it with
 ```sh
-python tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
+python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
 ```
 
 If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.

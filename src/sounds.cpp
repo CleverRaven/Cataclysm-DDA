@@ -5,31 +5,25 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
-#include <ostream>
-#include <set>
-#include <system_error>
-#include <type_traits>
 #include <unordered_map>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
-#include "creature.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
 #include "itype.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
@@ -40,12 +34,11 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -66,7 +59,7 @@ int prev_hostiles = 0;
 int previous_speed = 0;
 int previous_gear = 0;
 bool audio_muted = false;
-float g_sfx_volume_multiplier = 1;
+float g_sfx_volume_multiplier = 1.0f;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
@@ -1523,7 +1516,7 @@ int sfx::get_heard_volume( const tripoint &source )
 {
     int distance = sound_distance( get_player_character().pos(), source );
     // fract = -100 / 24
-    const float fract = -4.166666;
+    const float fract = -4.166666f;
     int heard_volume = fract * distance - 1 + 100;
     if( heard_volume <= 0 ) {
         heard_volume = 0;

@@ -1,12 +1,7 @@
-#include "coordinates.h"
-#include "omdata.h" // IWYU pragma: associated
-#include "overmap.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstring>
-#include <exception>
 #include <memory>
 #include <numeric>
 #include <ostream>
@@ -18,27 +13,28 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
+#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"
@@ -49,6 +45,7 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -1244,7 +1241,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
         return false;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( i.p == p.xy() ) {
             return true;
         }
@@ -1254,7 +1251,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
 
 bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
 {
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( !i.dangerous ) {
             continue;
         } else if( p.xy() == i.p ) {
@@ -1347,7 +1344,7 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
         return false;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].extras ) {
+    for( const om_map_extra &i : layer[p.z() + OVERMAP_DEPTH].extras ) {
         if( i.p == p.xy() ) {
             return true;
         }
@@ -1483,7 +1480,6 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_over = generate_over( z );
     } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
 
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -1525,7 +1521,7 @@ bool overmap::generate_sub( const int z )
 
             // implicitly skip skip_above oter_ids
             bool skipme = false;
-            for( auto &elem : skip_above ) {
+            for( const oter_id &elem : skip_above ) {
                 if( oter_above == elem ) {
                     skipme = true;
                     break;
@@ -1583,7 +1579,7 @@ bool overmap::generate_sub( const int z )
                 // but at this point we don't know
                 requires_sub = true;
             } else if( oter_above == "mine_finale" ) {
-                for( auto &q : points_in_radius( p, 1, 0 ) ) {
+                for( const tripoint_om_omt &q : points_in_radius( p, 1, 0 ) ) {
                     ter_set( q, oter_id( "spiral" ) );
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
@@ -1636,7 +1632,7 @@ bool overmap::generate_sub( const int z )
                 const std::vector<point_om_omt> &train_points,
     std::vector<point_om_omt> &real_train_points ) {
         bool is_first_in_pair = true;
-        for( auto &p : train_points ) {
+        for( const point_om_omt &p : train_points ) {
             tripoint_om_omt i( p, z );
             const std::vector<tripoint_om_omt> nearby_locations {
                 i + point_north,
@@ -1646,7 +1642,7 @@ bool overmap::generate_sub( const int z )
             if( is_first_in_pair ) {
                 ter_set( i, oter_id( "open_air" ) ); // mark tile to prevent subway gen
 
-                for( auto &nearby_loc : nearby_locations ) {
+                for( const tripoint_om_omt &nearby_loc : nearby_locations ) {
                     if( is_ot_match( "empty_rock", ter( nearby_loc ), ot_match_type::contains ) ) {
                         // mark tile to prevent subway gen
                         ter_set( nearby_loc, oter_id( "open_air" ) );
@@ -1690,7 +1686,7 @@ bool overmap::generate_sub( const int z )
     const std::vector<point_om_omt> &train_points ) {
         bool is_first_in_pair = true;
         std::vector<point_om_omt> extra_route;
-        for( auto &p : train_points ) {
+        for( const point_om_omt &p : train_points ) {
             tripoint_om_omt i( p, z );
             if( is_first_in_pair ) {
                 const std::vector<tripoint_om_omt> subway_possible_loc {
@@ -1701,7 +1697,7 @@ bool overmap::generate_sub( const int z )
                 extra_route.clear();
                 ter_set( i, oter_id( "empty_rock" ) ); // this clears marked tiles
                 bool is_depot_generated = false;
-                for( auto &subway_loc : subway_possible_loc ) {
+                for( const tripoint_om_omt &subway_loc : subway_possible_loc ) {
                     if( !is_depot_generated &&
                         is_ot_match( "subway", ter( subway_loc ), ot_match_type::contains ) ) {
                         extra_route.push_back( i.xy() );
@@ -1807,10 +1803,14 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
         const oter_id oter_ground_south = ter( tripoint_om_omt( bp, 0 ) + tripoint_south );
         const oter_id oter_ground_east = ter( tripoint_om_omt( bp, 0 ) + tripoint_east );
         const oter_id oter_ground_west = ter( tripoint_om_omt( bp, 0 ) + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type );
-        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type );
-        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type );
-        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type );
+        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type )
+                                     && ( oter_get_rotation( oter_ground_north ) % 2 == 0 );
+        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type )
+                                     && ( oter_get_rotation( oter_ground_south ) % 2 == 0 );
+        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type )
+                                    && ( oter_get_rotation( oter_ground_east ) % 2 == 1 );
+        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type )
+                                    && ( oter_get_rotation( oter_ground_west ) % 2 == 1 );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
             std::string ramp_facing;
@@ -2039,7 +2039,7 @@ void overmap::move_hordes()
             }
 
             // Check if the monster is a zombie.
-            auto &type = *( this_monster.type );
+            const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
@@ -4334,28 +4334,20 @@ void overmap::place_radios()
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint_om_omt pos_omt( i, j, 0 );
             point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
-
-            if( ter( pos_omt ) == "radio_tower" ) {
-                int choice = rng( 0, 2 );
-                switch( choice ) {
-                    case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d."
-                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
-                        radios.push_back( radio_tower( pos_sm, strength(), message ) );
-                        break;
-                    case 1:
-                        radios.push_back( radio_tower( pos_sm, strength(),
-                                                       _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
-                        break;
-                    case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
-                        break;
+            // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
+            if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
+                if( one_in( 3 ) ) {
+                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                } else {
+                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
+                                                  translation() ).translated() );
+                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
-            } else if( ter( pos_omt ) == "lmoe" ) {
+            } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
-            } else if( ter( pos_omt ) == "fema_entrance" ) {
+            } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
@@ -4479,7 +4471,7 @@ void overmap::for_each_npc( const std::function<void( npc & )> &callback )
 
 void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         callback( *guy );
     }
 }

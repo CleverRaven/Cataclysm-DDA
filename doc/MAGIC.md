@@ -15,12 +15,13 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
 	"effect_str": "template",                                 // special. see below
 	"extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
-	"affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ], // body parts affected by effects
+	"affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
 	"flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
   "spell_class": "NONE",                                    //
 	"base_casting_time": 100,                                 // this is the casting time (in moves)
 	"base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
 	"energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, FATIGUE, NONE (none will not use mana)
+  "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
 	"difficulty": 12,                                         // the difficulty to learn/cast the spell
 	"max_level": 10,                                          // maximum level you can achieve in the spell
 	"min_damage": 0,                                          // minimum damage (or "starting" damage)

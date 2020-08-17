@@ -1,21 +1,29 @@
-#include <memory>
+#include "catch/catch.hpp"
+#include "stats_tracker.h"
+
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "achievement.h"
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
+#include "event_subscriber.h"
+#include "game_constants.h"
+#include "json.h"
 #include "optional.h"
-#include "stats_tracker.h"
-#include "string_id.h"
-#include "stringmaker.h"
-#include "type_id.h"
 #include "options_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_run( "run" );

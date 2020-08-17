@@ -276,7 +276,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
@@ -294,7 +294,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
@@ -312,7 +312,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -323,7 +323,7 @@
           },
           {
             "effect_id": "badpoison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -347,7 +347,7 @@
     "has_fume": true,
     "percent_spread": 90,
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] }
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
   },
   {
     "id": "fd_rubble",
@@ -359,7 +359,8 @@
     "phase": "solid",
     "display_items": false,
     "display_field": true,
-    "looks_like": "f_rubble"
+    "looks_like": "f_rubble",
+    "legacy_make_rubble": true
   },
   {
     "id": "fd_smoke",
@@ -374,7 +375,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -390,7 +391,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
@@ -406,7 +407,7 @@
         "effects": [
           {
             "effect_id": "smoke",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
@@ -421,7 +422,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 7 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -443,7 +444,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
@@ -461,7 +462,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -478,7 +479,7 @@
         "effects": [
           {
             "effect_id": "poison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -489,7 +490,7 @@
           },
           {
             "effect_id": "badpoison",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 5,
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
@@ -507,7 +508,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas",
@@ -536,7 +537,7 @@
     "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "5 minutes",
     "phase": "gas",
@@ -582,7 +583,7 @@
     "wandering_field": "fd_toxic_gas",
     "gas_absorption_factor": 15,
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -780,7 +781,52 @@
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
-    "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
+    "intensity_levels": [
+      {
+        "name": "dazzling",
+        "color": "light_red_yellow",
+        "sym": "#",
+        "light_emitted": 5,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          },
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 5,
+            "chance_inside_vehicle": 5,
+            "chance_outside_vehicle": 5
+          }
+        ]
+      },
+      {
+        "//": "repeat last entry",
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "eyes",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          }
+        ]
+      },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
@@ -1037,7 +1083,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -1052,7 +1098,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -1066,7 +1112,7 @@
         "effects": [
           {
             "effect_id": "relax_gas",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 6,
             "min_duration": "3 seconds",
             "max_duration": "3 seconds",
@@ -1081,7 +1127,7 @@
     "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "50 minutes",
     "phase": "gas",
@@ -1103,7 +1149,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "15 minutes",
     "phase": "gas",
@@ -1147,7 +1193,7 @@
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "MOUTH", 15 ], [ "EYES", 15 ] ] },
+    "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "eyes", 15 ] ] },
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -1318,7 +1364,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "5 seconds",
             "max_duration": "10 seconds",
@@ -1332,7 +1378,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "10 seconds",
             "max_duration": "25 seconds"
@@ -1344,7 +1390,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "25 seconds"
@@ -1358,7 +1404,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
@@ -1378,7 +1424,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",
@@ -1400,7 +1446,7 @@
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "priority": 8,
     "half_life": "30 minutes",
     "phase": "gas",

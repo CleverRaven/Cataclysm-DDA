@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_FACTORY_H
 #define CATA_SRC_ITEM_FACTORY_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
@@ -15,6 +16,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class Item_group;
@@ -34,6 +36,7 @@ using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
+class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -45,7 +48,18 @@ class migration
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
-        std::set<itype_id> contents;
+
+        class content
+        {
+            public:
+                itype_id id;
+                int count = 0;
+
+                bool operator==( const content & ) const;
+                void deserialize( JsonIn &jsin );
+        };
+        std::vector<content> contents;
+        bool sealed = true;
 };
 
 struct item_blacklist_t {
@@ -120,7 +134,7 @@ class Item_factory
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identifier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode

@@ -20,24 +20,23 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -48,6 +47,7 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
@@ -64,6 +64,9 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
+
+class character_id;
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
@@ -164,9 +167,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    catacurses::window *w_preview = std::get<0>( preview_windows );
+    catacurses::window *w_preview_title = std::get<1>( preview_windows );
+    catacurses::window *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -431,7 +434,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
@@ -631,7 +634,7 @@ void draw(
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -772,7 +775,7 @@ void draw(
                     ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
-                    for( auto &mgp : groups ) {
+                    for( const mongroup *mgp : groups ) {
                         if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
@@ -1138,9 +1141,6 @@ void create_note( const tripoint_abs_omt &curs )
         update_note_preview( new_note, map_around, preview_windows );
     } );
 
-    // this implies enable_ime() and ensures that ime mode is always restored on return
-    ime_sentry sentry;
-
     bool esc_pressed = false;
     string_input_popup input_popup;
     input_popup
@@ -1163,8 +1163,6 @@ void create_note( const tripoint_abs_omt &curs )
             break;
         }
     } while( true );
-
-    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {

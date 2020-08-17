@@ -1,15 +1,12 @@
 #include "main_menu.h"
 
 #include <algorithm>
-#include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstring>
-#include <exception>
+#include <ctime>
 #include <functional>
 #include <istream>
 #include <memory>
-#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -24,7 +21,6 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
-#include "ime.h"
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -571,15 +567,6 @@ bool main_menu::opening_screen()
             std::string action = ctxt.handle_input();
 
             std::string sInput = ctxt.get_raw_input().text;
-
-            // switch off ime at program start
-            if( ctxt.get_raw_input().sequence.empty() ) {
-                // FIXME: disable_ime only seems to work after receiving an input event
-                // with empty input sequence. (empty input event is also fired when the
-                // window loses focus, might be related?)
-                disable_ime();
-                continue;
-            }
 
             // check automatic menu shortcuts
             for( size_t i = 0; i < vMenuHotkeys.size(); ++i ) {

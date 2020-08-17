@@ -1,11 +1,11 @@
 #include "weather_gen.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <ostream>
 #include <random>
 #include <string>
+#include <utility>
 
 #include "cata_utility.h"
 #include "game_constants.h"
@@ -14,7 +14,9 @@
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
+#include "string_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 namespace
 {
@@ -118,7 +120,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Noise factors
     const double T( weather_temperature_from_common_data( *this, common, t ) );
-    double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     // Humidity variation
@@ -162,10 +163,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         }
     }
     std::string wind_desc = get_wind_desc( W );
-    // Acid rains
-    const double acid_content = base_acid * A;
-    bool acid = acid_content >= 1.0;
-    return w_point{ T, H, P, W, wind_desc, current_winddir, acid, t };
+    return w_point{ T, H, P, W, wind_desc, current_winddir, t };
 }
 
 weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
@@ -212,8 +210,7 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w,
         bool test_windspeed =
             requires.windpower_max > w.windpower &&
             requires.windpower_min < w.windpower;
-        bool test_acidic = !requires.acidic || w.acidic;
-        if( !( test_temperature && test_windspeed && test_acidic ) ) {
+        if( !( test_temperature && test_windspeed ) ) {
             continue;
         }
 
@@ -262,7 +259,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
 int weather_generator::convert_winddir( const int inputdir ) const
 {
     // Convert from discrete distribution output to angle
-    float finputdir = inputdir * 22.5;
+    float finputdir = inputdir * 22.5f;
     return static_cast<int>( finputdir );
 }
 
@@ -338,7 +335,6 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.base_temperature = jo.get_float( "base_temperature", 0.0 );
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
-    ret.base_acid = jo.get_float( "base_acid", 0.0 );
     ret.base_wind = jo.get_float( "base_wind", 0.0 );
     ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 0 );
     ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 0 );

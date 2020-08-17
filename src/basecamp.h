@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "coordinates.h"
 #include "craft_command.h"
 #include "inventory.h"
 #include "map.h"

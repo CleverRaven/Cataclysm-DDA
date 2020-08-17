@@ -3,14 +3,16 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
-#include <string>
-#include <vector>
-#include <utility>
 #include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "optional.h"
 #include "item.h"
+#include "optional.h"
 #include "relic.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 struct itype;
 
@@ -146,6 +148,7 @@ class Item_spawn_data
          * The group spawns contained in this item
          */
         cata::optional<itype_id> container_item;
+        bool sealed = true;
 
         struct relic_generator {
             relic_procgen_data::generation_rules rules;
@@ -195,6 +198,7 @@ class Item_modifier
          * This is used to create the contents of an item.
          */
         std::unique_ptr<Item_spawn_data> contents;
+        bool sealed = true;
 
         /**
          * Custom flags to be added to the item.

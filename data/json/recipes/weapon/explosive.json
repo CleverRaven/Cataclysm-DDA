@@ -9,8 +9,8 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "jar_glass", 1 ], [ "bottle_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
-      [ [ "acid", 2 ] ],
+      [ [ "jar_glass_sealed", 1 ], [ "bottle_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
+      [ [ "any_strong_acid", 2, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
@@ -27,15 +27,10 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
-      [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
+      [ [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "chem_nitric_acid", 1 ] ],
       [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-      [
-        [ "soap", 3 ],
-        [ "edible_tallow_lard", 2, "LIST" ],
-        [ "tallow_tainted", 2 ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ]
-      ]
+      [ [ "chem_glycerol", 2 ] ]
     ]
   },
   {
@@ -334,8 +329,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "candy", 1 ], [ "cola", 1 ] ],
-      [ [ "vitamins", 10 ], [ "aspirin", 8 ] ],
+      [ [ "sugar", 16 ] ],
+      [ [ "chem_saltpetre", 24 ] ],
       [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "clay_canister", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]

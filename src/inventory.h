@@ -18,7 +18,10 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
-#include "units.h"
+#include "magic_enchantment.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
@@ -213,8 +216,6 @@ class inventory : public visitable<inventory>
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
-
-        void set_stack_favorite( int position, bool favorite );
 
         invlets_bitset allocated_invlets() const;
 

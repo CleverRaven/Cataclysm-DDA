@@ -1,20 +1,22 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
+#include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "dialogue.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -27,8 +29,6 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "string_id.h"
-#include "stringmaker.h"
 #include "talker.h"
 #include "type_id.h"
 

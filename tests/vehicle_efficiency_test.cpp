@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -10,9 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "enums.h"
 #include "game.h"
@@ -25,6 +24,7 @@
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -47,7 +47,7 @@ static void clear_game( const ter_id &terrain )
     REQUIRE_FALSE( player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
 
     build_test_map( terrain );
 }
@@ -165,7 +165,8 @@ const int cycle_limit = 100;
 static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
                             const ter_id &terrain,
                             const int reset_velocity_turn, const int target_distance,
-                            const bool smooth_stops = false, const bool test_mass = true )
+                            const bool smooth_stops = false, const bool test_mass = true,
+                            const bool in_reverse = false )
 {
     int min_dist = target_distance * 0.99;
     int max_dist = target_distance * 1.01;
@@ -209,7 +210,8 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
 
-    const int target_velocity = std::min( 70 * 100, veh.safe_ground_velocity( false ) );
+    const int sign = in_reverse ? -1 : 1;
+    const int target_velocity = sign * std::min( 50 * 100, veh.safe_ground_velocity( false ) );
     veh.cruise_velocity = target_velocity;
     // If we aren't testing repeated cold starts, start the vehicle at cruising velocity.
     // Otherwise changing the amount of fuel in the tank perturbs the test results.
@@ -267,12 +269,12 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
 static efficiency_stat find_inner(
     const std::string &type, int &expected_mass, const std::string &terrain, const int delay,
-    const bool smooth, const bool test_mass = false )
+    const bool smooth, const bool test_mass = false, const bool in_reverse = false )
 {
     efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
         efficiency.add( test_efficiency( vproto_id( type ), expected_mass, ter_id( terrain ),
-                                         delay, -1, smooth, test_mass ) );
+                                         delay, -1, smooth, test_mass, in_reverse ) );
     }
     return efficiency;
 }
@@ -316,57 +318,64 @@ static int average_from_stat( const efficiency_stat &st )
 }
 
 // Behold: power of laziness
-static void print_test_strings( const std::string &type )
+static int print_test_strings( const std::string &type, const bool in_reverse = false )
 {
     std::ostringstream ss;
     int expected_mass = 0;
     ss << "    test_vehicle( \"" << type << "\", ";
     const int d_pave = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
-                                          false, false ) );
+                                          false, false, in_reverse ) );
     ss << expected_mass << ", " << d_pave << ", ";
     ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1,
-                                         false, false ) ) << ", ";
+                                         false, false, in_reverse ) ) << ", ";
     ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5,
-                                         false, false ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false ) );
+                                         false, false, in_reverse ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5,
+                                         false, false, in_reverse ) );
     //ss << average_from_stat( find_inner( type, "t_pavement", 5, true ) ) << ", ";
     //ss << average_from_stat( find_inner( type, "t_dirt", 5, true ) );
+    if( in_reverse ) {
+        ss << ", 0, 0, true";
+    }
     ss << " );" << std::endl;
     printf( "%s", ss.str().c_str() );
     fflush( stdout );
+    return d_pave;
 }
 
 static void test_vehicle(
     const std::string &type, int expected_mass,
     const int pavement_target, const int dirt_target,
     const int pavement_target_w_stops, const int dirt_target_w_stops,
-    const int pavement_target_smooth_stops = 0, const int dirt_target_smooth_stops = 0 )
+    const int pavement_target_smooth_stops = 0, const int dirt_target_smooth_stops = 0,
+    const bool in_reverse = false )
 {
     SECTION( type + " on pavement" ) {
         test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), -1,
-                         pavement_target );
+                         pavement_target, false, true, in_reverse );
     }
     SECTION( type + " on dirt" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), -1, dirt_target );
+        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), -1,
+                         dirt_target, false, true, in_reverse );
     }
     SECTION( type + " on pavement, full stop every 5 turns" ) {
         test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
-                         pavement_target_w_stops );
+                         pavement_target_w_stops, false, true, in_reverse );
     }
     SECTION( type + " on dirt, full stop every 5 turns" ) {
         test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
-                         dirt_target_w_stops );
+                         dirt_target_w_stops, false, true, in_reverse );
     }
     if( pavement_target_smooth_stops > 0 ) {
         SECTION( type + " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
             test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
-                             pavement_target_smooth_stops, true );
+                             pavement_target_smooth_stops, true, true, in_reverse );
         }
     }
     if( dirt_target_smooth_stops > 0 ) {
         SECTION( type + " on dirt, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
             test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
-                             dirt_target_smooth_stops, true );
+                             dirt_target_smooth_stops, true, true, in_reverse );
         }
     }
 }
@@ -404,10 +413,18 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 }
 
 /** This is even less of a test. It generates C++ lines for the actual test below */
-TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
+TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
+    const float acceptable = 1.25;
+    std::map<std::string, int> forward_distance;
     for( const std::string &veh : vehs_to_test ) {
-        print_test_strings( veh );
+        const int in_forward = print_test_strings( veh );
+        forward_distance[ veh ] = in_forward;
+    }
+    printf( "// in reverse\n" );
+    for( const std::string &veh : vehs_to_test ) {
+        const int in_reverse = print_test_strings( veh, true );
+        CHECK( in_reverse < ( acceptable * forward_distance[ veh ] ) );
     }
 }
 
@@ -435,7 +452,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "humvee", 5503345, 767900, 306900, 25620, 9171 );
     test_vehicle( "road_roller", 8829220, 602500, 147100, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 96000, 69390, 35490, 14200 );
-// in reverse
+    // in reverse
     test_vehicle( "beetle", 816469, 58970, 58870, 44560, 43060, 0, 0, true );
     test_vehicle( "car", 1120618, 76060, 76060, 44230, 24920, 0, 0, true );
     test_vehicle( "car_sports", 1155014, 353200, 268000, 35220, 19540, 0, 0, true );

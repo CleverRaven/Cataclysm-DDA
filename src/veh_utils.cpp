@@ -1,29 +1,29 @@
 #include "veh_utils.h"
 
 #include <algorithm>
-#include <map>
 #include <cmath>
 #include <list>
-#include <memory>
+#include <map>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "calendar.h"
-#include "map.h"
-#include "player.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
 #include "character.h"
+#include "color.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "requirements.h"
-#include "translations.h"
-#include "color.h"
+#include "map.h"
+#include "player.h"
 #include "point.h"
+#include "requirements.h"
+#include "string_id.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 namespace veh_utils
 {
@@ -109,7 +109,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
-    auto &vp = pt.info();
+    const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?

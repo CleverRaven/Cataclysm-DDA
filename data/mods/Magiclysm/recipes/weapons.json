@@ -15,7 +15,7 @@
     "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
     "components": [
       [ [ "q_staff", 1 ] ],
-      [ [ "jar_glass", 2 ] ],
+      [ [ "jar_glass_sealed", 2 ] ],
       [ [ "rune_magus", 2 ] ],
       [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ], [ "lamp_oil", 250 ] ]
     ]

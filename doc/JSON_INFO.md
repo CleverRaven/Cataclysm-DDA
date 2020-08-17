@@ -43,7 +43,7 @@ Use the `Home` key to return to the top.
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
-      - [Recipe components](#recipe-components)
+      - [Recipe requirements](#recipe-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
@@ -303,9 +303,12 @@ Standard components and tools for crafting
 | uncraft.json                 | common results of taking stuff apart
 | vehicle.json                 | tools to work on vehicles
 
-Recipe requirements are JSON objects with `"type": "requirement"`.  They allow re-using common
-groups of recipe ingredients, or alternative ingredients.  For example, the `bread_sandwich`
-requirement includes several alternative breads you could make a sandwich with:
+Requirements are JSON objects with `"type": "requirement"`.  They allow re-using common tools,
+qualities, and components in all kinds of recipes, including regular crafting and uncrafting recipes
+as well as constructions and vehicle parts.
+
+For example, the `bread_sandwich` requirement includes several alternative breads you could make a
+sandwich with:
 
 ```json
 {
@@ -337,7 +340,41 @@ This lets you simplify the "components" of sandwich recipes that could work with
 }
 ```
 
-See the [Recipe components](#recipe-components) section for how to use the "components" syntax.
+Requirements may include "tools" or "qualities" in addition to "components". Here we have a standard
+soldering requirement needing either a "soldering_iron" or "toolset", plus 1 unit of the
+"solder_wire" component:
+
+
+```json
+{
+  "id": "soldering_standard",
+  "type": "requirement",
+  "//": "Tools and materials needed for soldering metal items or electronics",
+  "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+  "components": [ [ [ "solder_wire", 1 ] ] ]
+}
+```
+
+This simplifies recipes needing soldering, via the "using" field.  For instance, a simple "tazer"
+recipe could require 10 units of the soldering requirement, along with some other components:
+
+```json
+{
+  "type": "recipe",
+  "result": "tazer",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ],
+  "//": "..."
+}
+
+```
+
+The "using" field is supported by "recipe", "construction", "vehicle_part", and "fault" types, so
+you could re-use the "soldering_standard" requirement for any of those things that needed the same
+tools, qualities, and/or materials.
+
+See the [Recipe requirements](#recipe-requirements) section for how to use requirement definitions in
+crafting recipes with the "using" and "components" fields.
 
 
 ## `data/json/vehicles/`
@@ -434,7 +471,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
@@ -458,6 +495,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
+For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
 
 ### Body_parts
 
@@ -470,6 +508,7 @@ This section describes each json file and their contents. Each json has their ow
 | heading_multiple  | (_mandatory_) Plural form of heading.
 | hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
 | opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
@@ -548,6 +587,7 @@ This section describes each json file and their contents. Each json has their ow
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
 | installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
 
@@ -615,7 +655,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | max_intensity      | The maximum intensity of the effect.
 | health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
 | symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
 ```json
@@ -684,7 +724,7 @@ When you sort your inventory by category, these are the categories that are disp
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
+| `id`             | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
@@ -698,7 +738,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
-| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
@@ -713,7 +753,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 ```C++
 {
     "type": "material",
-    "ident": "hflesh",
+    "id": "hflesh",
     "name": "Human Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -739,6 +779,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     ]
 }
 ```
+
+Note that the above example gives floats, not integers, for the vitamins values.  This is likely incorrect; they should be replaced with integers.
 
 ### Monster Groups
 
@@ -853,12 +895,12 @@ Professions are specified as JSON object with "type" member set to "profession":
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     ...
 }
 ```
 
-The ident member should be the unique id of the profession.
+The id member should be the unique id of the profession.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -901,7 +943,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:addictions": [
         "nicotine"
@@ -942,7 +984,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:skills": [
         "archery"
@@ -988,7 +1030,7 @@ Example for mods:
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "items": {
         "remove:both": [
@@ -1052,16 +1094,23 @@ Crafting recipes are defined as a JSON object with the following fields:
 
 ```C++
 "result": "javelin",         // ID of resulting item
+"byproducts": [ [ "" ] ],    // Optional (default: empty). Additional items generated by crafting this recipe.
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
+"subcategory": "CSC_WEAPON_PIERCING",
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
-"book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
-    [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
-    [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
-],
+"book_learn": {	             // (optional) Books that this recipe can be learned from.
+    "textbook_anarch" : {    // ID of the book the recipe can be learned from
+        "skill_level" : 7,   // Skill level at which it can be learned
+        "recipe_name" : "something", // (optional) Name of the recipe as it should appear in the book's description (default is the name of resulting item of the recipe)
+        "hidden" : true },   // (optional) If set to true, recipe will not be shown in the description of the book
+    "textbook_gaswarfare" : { // Additional book this recipe can be learnt from.
+        "skill_level" : 8
+    }
+},
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
 "time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
@@ -1082,6 +1131,8 @@ Crafting recipes are defined as a JSON object with the following fields:
       "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
       "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
       "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+      "learning_time_multiplier": 1.2 // The multiplier on learning speed for this proficiency. By default, it's the time of the recipe, divded by the time multiplier, and by the number of proficiencies that can also be learned from it.
+      "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
 ]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
@@ -1092,12 +1143,16 @@ Crafting recipes are defined as a JSON object with the following fields:
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
-  {"id":"CUT","level":1,"amount":1}
+  { "id": "CUT", "level": 1, "amount": 1 }
 ],
 "tools": [                   // Specific tools needed to craft
 [
-    [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
+  [ "fire", -1 ]             // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
+"using": [                   // Requirement IDs and multipliers of tools and materials used
+  [ "req_a", 3 ],            // Second number multiplies requirement materials by that amount
+  [ "req_b", 5 ],            // Need 3x everything in req_a, 5x everything in req_b
+],
 "components": [              // Items (or item alternatives) required to craft this recipe
   [
     [ "item_a", 5 ]          // First ingredient: need 5 of item_a
@@ -1112,14 +1167,26 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 ```
 
-#### Recipe components
+#### Recipe requirements
+
+The tool quality and component requirements for a recipe may be expressed in a combination of
+several ways, with these JSON fields:
+
+- "qualities" defines item qualities like CUT or HAMMER, and quality levels needed to craft
+- "tools" lists *item* ids of tools (or several alternative tools) needed for crafting the recipe
+- "components" lists *item* or *requirement* ids, intended mainly for material ingredients
+- "using" gives *requirement* ids; the requirement may have nested tools, qualities, or components
+
+These fields may be used similarly in uncrafting, constructions, vehicle parts, and vehicle faults.
+The first three fields are applicable to "requirement" definitions as well, and may be nested; see
+the [requirements section](#datajsonrequirements).
 
 A recipe's "components" lists all the required items or ingredients needed to craft the finished
-item from the recipe.  Each ingredient is given as an integer quantity of a specific item id or
-requirement id, or as a list of several equivalent item/requirement quantities.
+item from the recipe.  Each component is given as an integer quantity of a specific item id or
+requirement id, or as a list of several alternative item/requirement quantities.
 
-The syntax of an ingredient in its simplest form is an item id and quantity.  Continuing the
-"javelin" recipe, let's require a single "spear_wood" item:
+The syntax of a component in its simplest form is an item id and quantity.  Continuing the "javelin"
+recipe, let's require a single "spear_wood" item:
 
 ```json
 "components": [
@@ -1164,9 +1231,9 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 "UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
 See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
 
-To avoid repeating commonly used sets of ingredient items, instead of an individual item id,
-provide the id of a "requirement" type, along with a quantity, and the "LIST" keyword.
-Typically these are defined within [`data/json/requirements`](#datajsonrequirements).
+To avoid repeating commonly used sets of components, instead of an individual item id, provide
+the id of a "requirement" type, along with a quantity, and the "LIST" keyword.  Typically these are
+defined within [`data/json/requirements`](#datajsonrequirements).
 
 For example if these "grip_patch" and "grip_wrap" requirements were defined:
 
@@ -1207,6 +1274,23 @@ And other recipes needing two such grips could simply require 2 of each:
 ]
 ```
 
+The "using" field in a recipe works similarly, but "using" may only refer to requirement ids, not
+specific items or tools.  A requirement included with "using" must also give a multiplier, telling
+how many units of that requirement are needed.  As with "components", the "using" list is formatted
+as a collection of alternatives, even if there is only one alternative.
+
+For instance, this "uncraft" recipe for a motorbike alternator uses either 20 units of the
+"soldering_standard" requirement, or 5 units of the "welding_standard" requirement:
+
+```json
+{
+  "type": "uncraft",
+  "result": "alternator_motorbike",
+  "qualities": [ { "id": "SCREW", "level": 1 } ],
+  "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+  "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
+}
+```
 
 
 #### Overlapping recipe component requirements
@@ -1557,7 +1641,7 @@ it is present to help catch errors.
 ### Skills
 
 ```C++
-"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
@@ -1745,52 +1829,136 @@ Vehicle components when installed on a vehicle.
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
-"looks_like": "small_wheel",  // hint to tilesets if this part has no tile, use the looks_like tile
+"looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
+                              // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
-"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
+"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
+                              // part hits something, as a percentage. Higher = more damage to
+                              // creature struck
 "durability": 200,            // How much damage the part can take before breaking
-"description": "A wheel."     // A description of this vehicle part when installing it
-"size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
-"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
-"wheel_width": 9,             /* (Optional, default = 0)
-                               * SPECIAL: A part may have at most ONE of the following fields:
-                               *    wheel_width = base wheel width in inches
-                               *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power in watts
-                               *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
-                               *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
-"wheel_type":                 // (Optional: standard, off-road)
-"contact_area":               // (Optional) Affects vehicle ground pressure
-"cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
-"fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
-
-"item": "wheel",              // The item used to install this part, and the item obtained when removing this part
+"description": "A wheel.",    // A description of this vehicle part when installing it
+"fuel_type": "diesel",        // (Optional, default = "NULL") Type of fuel/ammo the part consumes,
+                              // as an item id
+"epower": -10                 // The electrical power use of the part, in watts.
+                              // Negative values mean power is consumed, positive values mean power
+                              // is generated.  Power consumption usually also requires the
+                              // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+"item": "wheel",              // The item used to install this part, and the item obtained when
+                              // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
-"breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
+"breaks_into" : [             // When the vehicle part is destroyed, items from this item group
+                              // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
   {"item": "scrap", "count": [0,5]} // instead of an array, this can be an inline item group,
 ],
 "breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ],
+"requirements": {             // (Optional) Special installation, removal, or repair requirementsi
+                              // for the part.  Each field consists of an object, with fields
+                              // "skills", "time", and "using".
+  "install": {
+    "skills": [ [ "mechanics", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+    "time": "200 s",          // "time" is a string specifying the time to perform the action.
+    "using": [ [ "vehicle_screw", 1 ] ] // "using" is a list of list, with each list being a
+                              // crafting requirement.
+  },
+  "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+},
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
 },
-                              // The following optional fields are specific to ENGINEs.
-"m2c": 50,                    // Mandatory field for parts with the ENGINE flag, indicates ratio of cruise power to maximum power
-"backfire_threshold": 0.5,    // Optional field, defaults to 0. Indicates maximum ratio of damaged HP to max HP to trigger backfires
-"backfire_freq": 20,          // Optional field unless backfire threshold > 0, then mandatory, defaults to 0. One in X chance of a backfire.
-"noise_factor": 15,           // Optional field, defaults to 0. Multiple engine power by this number to declare noise.
-"damaged_power_factor": 0.5,  // Optional field, defaults to 0. If more than 0, power when damaged is scaled to power * ( damaged_power_factor + ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
-"muscle_power_factor": 0,     // Optional field, defaults to 0. If more than 0, each point of the survivor's Strength over 8 adds this much power to the engine, and each point less than 8 removes this much power.
-"exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
-"fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
-"comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
-"bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
+"qualities": [ [ "SELF_JACK", 17 ] ], // (Optional) A list of lists, with each list being a tool
+                              // quality and the quality level, that the vehicle part provides.
+                              // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
+"transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
+                              // One of "post_terain", "post_furniture", or "post_field" is required.
+  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
+  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
+  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
+  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
+  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+},
+```
+
+Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
+#### The following optional fields are specific to CARGO or FLUIDTANK parts.
+```c++
+"size": 2000,                 // with flag "FLUIDTANK" this is capacity in mLs,
+                              // else with "CARGO" flag the capacity in 250mL volume units.
+"cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
+```
+
+#### The following optional fields are specific to ENGINEs.
+```c++
+"power": 15000                // Engine motive power in watts.
+"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+                              // electrical power and the E_COMBUSTION flag turns it to thermal
+                              // power produced from fuel_type.  Should always be larger than "power".
+"m2c": 50,                    // The ratio of safe power to maximum power.
+"backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
+                              // and smoke if the ratio of damaged HP to max HP is below this value.
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the
+                              // ratio of damaged HP to max HP is below the backfire_threshold.
+"noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
+                              // determine noise.
+"damaged_power_factor": 0.5,  // (Optional, default = 0) If more than 0, power when damaged is
+                              // scaled to power * ( damaged_power_factor +
+                              // ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
+"muscle_power_factor": 0,     // (Optional, default = 0) Increases engine power by
+                              // avatar (ST - 8) * muscle_power_factor.
+"exclusions": [ "souls" ]     // (Optional, defaults to empty). A list of words. A new engine can't
+                              // be installed on the vehicle if any engine on the vehicle shares a
+                              // word from exclusions.
+"fuel_options": [ "soul", "black_soul" ] // (Optional field, defaults to fuel_type).  A list of
+                              // item_ids. An engine can be fueled by any fuel type in its
+                              // fuel_options.  If provided, it overrides fuel_type and should
+                              // include the fuel in fuel_type.
+```
+
+#### The following optional fields are specific to WHEELs.
+```c++
+"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
+                              // Indicates the class of wheel for determining off-road performance.
+"contact_area": 153,          // The surface area of the wheel in contact with the ground under
+                              // normal conditions in cm^2.  Wheels with higher contact area
+                              // perform better off-road.
+"rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
+                              // resistance increases vehicle drag linearly as vehicle weight
+                              // and speed increase.
+```
+The following `wheel_types` are available:
+* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
+* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
+* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
+* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+#### The following optional fields are specific to ROTORs.
+```c++
+"rotor_diameter": 15,         // Rotor diamater in meters.  Larger rotors provide more lift.
+```
+
+#### The following optional fields are specific to WORKBENCHes.
+These values apply to crafting tasks performed at the WORKBENCH.
+```c++
+"multiplier": 1.1,            // Crafting speed multipler.
+"mass": 1000000,              // Maximum mass in grams of a completed craft that can be crafted.
+"volume": "20L",              // Maximum volume (as a string) of a completed craft that can be craft.
+```
+
+#### The following optional fields are specific to SEATs.
+```c++
+"comfort": 3,                 // (Optional, default=0). Sleeping comfort as for terrain/furniture.
+"floor_bedding_warmth": 300,  // (Optional, default=0). Bonus warmth as for terrain/furniture.
+"bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
 ```
 
 ### Part Resistance
@@ -1961,7 +2129,7 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -1978,7 +2146,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
-    "covers" : ["FEET"],
+    "covers" : [ "foot_l", "foot_r" ],
     "warmth" : 10,
     "environmental_protection" : 0,
     "encumbrance" : 0,
@@ -2151,9 +2319,10 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
-"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
+"vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 ```
 
 ### Containers
@@ -2533,7 +2702,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
@@ -2564,7 +2734,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },
@@ -2605,17 +2775,12 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
-    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "npc_class_id": "true_foodperson", // npc id, see npcs/npc.json
     "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
-    "moves": 50 // how many move points the action takes.
+    "moves": 50, // how many move points the action takes.
+    "radius": 1 // maximum radius for random npc placement.
 },
-"use_action": {
-    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
-    "activate_msg": "You activate your foo.", // Message when the player activates the item.
-    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
-    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
-}
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
@@ -3257,12 +3422,12 @@ Scenarios are specified as JSON object with `type` member set to `scenario`.
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     ...
 }
 ```
 
-The ident member should be the unique id of the scenario.
+The id member should be the unique id of the scenario.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -3313,7 +3478,7 @@ Example for mods:
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     "edit-mode": "modify",
     "items": {
         "remove:both": [ "rock" ],
@@ -3374,14 +3539,14 @@ Starting locations are specified as JSON object with "type" member set to "start
 ```C++
 {
     "type": "start_location",
-    "ident": "field",
+    "id": "field",
     "name": "An empty field",
     "target": "field",
     ...
 }
 ```
 
-The ident member should be the unique id of the location.
+The id member should be the unique id of the location.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 

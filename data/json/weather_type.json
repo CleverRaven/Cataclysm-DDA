@@ -231,7 +231,7 @@
     "weather_animation": { "factor": 0.01, "color": "c_light_green", "glyph": "." },
     "sound_category": "drizzle",
     "sun_intensity": "normal",
-    "requirements": { "acidic": true, "required_weathers": [ "drizzle" ] }
+    "requirements": { "required_weathers": [ "drizzle" ] }
   },
   {
     "id": "acid_rain",
@@ -262,7 +262,7 @@
     "weather_animation": { "factor": 0.02, "color": "c_light_green", "glyph": "," },
     "sound_category": "rainy",
     "sun_intensity": "none",
-    "requirements": { "acidic": true, "required_weathers": [ "rain" ] }
+    "requirements": { "required_weathers": [ "rain" ] }
   },
   {
     "id": "flurries",

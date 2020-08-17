@@ -6,6 +6,8 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <tuple>
+#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -23,6 +25,7 @@
 #include "int_id.h"
 #include "line.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -31,6 +34,7 @@
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "path_info.h"
+#include "point.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
@@ -740,8 +744,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
                                  !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( ptype.only_water && ( !is_river_or_lake( oter ) ||
-                                  is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
+        if( ptype.only_water && !is_river_or_lake( oter ) ) {
             return pf::rejected;
         }
         if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
@@ -1241,7 +1244,7 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
         int radius )
 {
     std::vector<camp_reference> result;
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->camps.size() );
         std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
         [&]( basecamp & element ) {
@@ -1264,7 +1267,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs()
     std::vector<shared_ptr_fast<npc>> result;
     for( auto &om : overmaps ) {
         const overmap &overmap = *om.second;
-        for( auto &guy : overmap.npcs ) {
+        for( const auto &guy : overmap.npcs ) {
             result.push_back( guy );
         }
     }
@@ -1276,7 +1279,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
 {
     std::vector<city_reference> result;
 
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->cities.size() );
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {

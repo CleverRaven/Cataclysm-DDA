@@ -108,7 +108,7 @@
     "to_hit": -1
   },
   {
-    "id": "base_cookpot",
+    "abstract": "base_cookpot",
     "name": { "str": "generic cook pot" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -369,9 +369,9 @@
     "id": "bowl_plastic",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "plastic bowl" },
+    "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "787 ml",
     "pocket_data": [

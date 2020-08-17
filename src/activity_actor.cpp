@@ -1,26 +1,38 @@
 #include "activity_actor.h"
 
+#include <array>
+#include <cmath>
+#include <functional>
 #include <list>
 #include <utility>
 
+#include "action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "character.h"
-#include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "flat_set.h"
 #include "game.h"
 #include "gates.h"
+#include "gun_mode.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "morale_types.h"
 #include "npc.h"
 #include "options.h"
@@ -30,8 +42,14 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "sounds.h"
 #include "timed_event.h"
+#include "translations.h"
+#include "ui.h"
 #include "uistate.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -93,7 +111,6 @@ void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
     // Time spent on aiming is determined on the go by the player
     act.moves_total = 1;
     act.moves_left = 1;
-    act.interruptable_with_kb = false;
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -137,6 +154,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
         // to simulate avatar not loading them in the first place
         first_turn = false;
+
+        // Allow interrupting activity only during 'aim and fire'.
+        // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
+        // in case of high input lag (curses, sdl sometimes...), but allows to interrupt aiming
+        // if a bug happens / stars align to cause an endless aiming loop.
+        act.interruptable_with_kb = action != "AIM";
     }
 }
 
@@ -497,29 +520,12 @@ static int hack_level( const Character &who )
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, const bool using_bionic )
 {
-    if( who.has_trait( trait_ILLITERATE ) ) {
-        return hack_result::UNABLE;
-    }
-    const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
-                                   query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
-                                  who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return hack_result::UNABLE;
-    }
-
     // TODO: Remove this once player -> Character migration is complete
     {
         player *p = dynamic_cast<player *>( &who );
         p->practice( skill_computer, 20 );
-    }
-    if( using_fingerhack ) {
-        who.mod_power_level( -25_kJ );
-    } else {
-        who.use_charges( itype_electrohack, 25 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -528,14 +534,14 @@ static hack_result hack_attempt( Character &who )
     int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
+        if( using_bionic ) {
             who.mod_power_level( -25_kJ );
         } else {
             who.use_charges( itype_electrohack, 25 );
         }
 
         if( success <= -5 ) {
-            if( using_electrohack ) {
+            if( !using_bionic ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
                 who.use_amount( itype_electrohack, 1 );
             } else {
@@ -568,11 +574,16 @@ static hack_type get_hack_type( tripoint examp )
     return type;
 }
 
+hacking_activity_actor::hacking_activity_actor( use_bionic )
+    : using_bionic( true )
+{
+}
+
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, using_bionic ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -630,12 +641,24 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    jsout.member( "using_bionic", using_bionic );
+    jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
-    return hacking_activity_actor().clone();
+    std::unique_ptr<hacking_activity_actor> actor = std::make_unique<hacking_activity_actor>();
+    if( jsin.test_null() ) {
+        // Old saves might contain a null instead of an object.
+        // Since we do not know whether a bionic or an item was chosen we assume
+        // it was an item.
+        actor->using_bionic = false;
+    } else {
+        JsonObject jsobj = jsin.get_object();
+        jsobj.read( "using_bionic", actor->using_bionic );
+    }
+    return actor;
 }
 
 void hotwire_car_activity_actor::start( player_activity &act, Character & )
@@ -727,21 +750,20 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
 
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            newit.charges = std::min( newit.charges, quantity );
-            leftovers.charges -= quantity;
-        } else {
-            leftovers.charges = 0;
-        }
-
         // Check that we can pick it up.
-        if( !newit.made_of_from_type( phase_id::LIQUID ) ) {
+        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+            // Don't need to make a copy here since movement can't be canceled
+            item &leftovers = *target;
+            // Make a copy to be put in the destination location
+            item newit = leftovers;
+            // Handle charges, quantity == 0 means move all
+            if( quantity != 0 && newit.count_by_charges() ) {
+                newit.charges = std::min( newit.charges, quantity );
+                leftovers.charges -= quantity;
+            } else {
+                leftovers.charges = 0;
+            }
+
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( newit.is_owned_by( who, true ) ) {
@@ -1102,6 +1124,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
+            consume_menu_selected_items.clear();
             consume_menu_filter = std::string();
             return;
         }
@@ -1111,6 +1134,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
+            consume_menu_selected_items.clear();
             consume_menu_filter = std::string();
             return;
         }
@@ -1147,18 +1171,21 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
+    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
-    if( !temp_selections.empty() || !temp_filter.empty() ) {
+    if( !temp_selections.empty() || !temp_selected_items.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
             player_character.assign_activity( ACT_EAT_MENU );
             player_character.activity.values = temp_selections;
+            player_character.activity.targets = temp_selected_items;
             player_character.activity.str_values = { temp_filter };
         } else {
             player_activity eat_menu( ACT_EAT_MENU );
             eat_menu.values = temp_selections;
+            eat_menu.targets = temp_selected_items;
             eat_menu.str_values = { temp_filter };
             player_character.backlog.push_back( eat_menu );
         }
@@ -1172,6 +1199,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
     jsout.member( "consume_menu_selections", consume_menu_selections );
+    jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
 
@@ -1188,6 +1216,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
     data.read( "consume_menu_selections", actor.consume_menu_selections );
+    data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
 
@@ -1545,7 +1574,6 @@ bool workout_activity_actor::query_keep_training( player_activity &act, Characte
             act.moves_total = to_moves<int>( length * 1_minutes );
             act.moves_left = act.moves_total;
             return true;
-            break;
     }
 }
 

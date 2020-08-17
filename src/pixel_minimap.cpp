@@ -175,8 +175,6 @@ struct pixel_minimap::submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     submap_cache( shared_texture_pool &pool ) :
-        touched( false ),
-        ready( false ),
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -196,8 +194,10 @@ struct pixel_minimap::submap_cache {
     }
 };
 
-pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
+pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer,
+                              const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
+    geometry( geometry ),
     type( pixel_minimap_type::ortho ),
     screen_rect{ 0, 0, 0, 0 }
 {
@@ -269,7 +269,7 @@ void pixel_minimap::flush_cache_updates()
 
                     const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, tile_size.x, tile_size.y };
 
-                    render_fill_rect( renderer, rect, 0x00, 0x00, 0x00 );
+                    geometry->rect( renderer, rect, SDL_Color() );
                 }
             }
         }
@@ -282,8 +282,7 @@ void pixel_minimap::flush_cache_updates()
                 SetRenderDrawColor( renderer, tile_color.r, tile_color.g, tile_color.b, tile_color.a );
                 RenderDrawPoint( renderer, tile_pos );
             } else {
-                const SDL_Rect rect = SDL_Rect{ tile_pos.x, tile_pos.y, pixel_size.x, pixel_size.y };
-                render_fill_rect( renderer, rect, tile_color.r, tile_color.g, tile_color.b );
+                geometry->rect( renderer, tile_pos, pixel_size.x, pixel_size.y, tile_color );
             }
         }
 
@@ -511,9 +510,9 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            const auto critter = g->critter_at( p, true );
+            Creature *critter = g->critter_at( p, true );
 
-            if( critter == nullptr || !get_player_character().sees( *critter ) ) {
+            if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;
             }
 

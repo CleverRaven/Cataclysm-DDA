@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "MMA",
+    "id": "MMA",
     "name": "Mythical Martial Arts",
     "authors": [ "Photoloss" ],
     "maintainers": [ "Hymore246" ],

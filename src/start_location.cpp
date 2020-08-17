@@ -2,11 +2,10 @@
 
 #include <algorithm>
 #include <climits>
-#include <memory>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -23,7 +22,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -208,7 +206,8 @@ tripoint_abs_omt start_location::find_player_initial_location() const
         }
     }
     // Should never happen, if it does we messed up.
-    popup( _( "Unable to generate a valid starting location, please report this failure." ) );
+    popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
+           name(), id.str(), radius );
     return overmap::invalid_tripoint;
 }
 
@@ -392,7 +391,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }

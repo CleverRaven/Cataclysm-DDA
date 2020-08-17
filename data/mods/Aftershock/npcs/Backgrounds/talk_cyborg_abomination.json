@@ -1,0 +1,132 @@
+[
+  {
+    "id": "TALK_CYBORG_Abomination_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "cyborg_abomination_has_talked",
+      "type": "dialogue",
+      "context": "cyborg_abomination",
+      "value": "yes",
+      "no": "I… can move again.  I have a real body!  Is this a body?",
+      "yes": "Hey again.  *kzzz*"
+    },
+    "speaker_effect": {
+      "effect": { "npc_add_var": "cyborg_abomination_has_talked", "type": "dialogue", "context": "cyborg_abomination", "value": "yes" }
+    },
+    "responses": [
+      {
+        "switch": true,
+        "condition": { "npc_has_var": "cyborg_abomination_has_talked", "type": "dialogue", "context": "cyborg_abomination", "value": "yes" },
+        "text": "So you must have seen some weird stuff?",
+        "topic": "TALK_STRANGER_NEUTRAL"
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "I built this body and rescued you…",
+        "trial": { "type": "PERSUADE", "difficulty": 0 },
+        "success": { "topic": "TALK_CYBORG_ABOMINATION_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_WARY", "opinion": { "anger": 1, "fear": 1 } }
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "I can put you back in the pieces I found you in.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_CYBORG_ABOMINATION_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "No one deserves the hell you've been through.  I hope you find peace.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_CYBORG_ABOMINATION_FRIENDLY",
+    "type": "talk_topic",
+    "dynamic_line": "*crackle* So why would you do this?",
+    "responses": [
+      {
+        "text": "Come with me.  We can help each other out.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": -1, "fear": 1 } }
+      },
+      { "text": "We both go our separate ways.  Enjoy your freedom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CYBORG_ABOMINATION_WARY",
+    "type": "talk_topic",
+    "dynamic_line": "…This is just another torture isn't it!",
+    "responses": [
+      {
+        "text": "I went to a lot of trouble to provide you with a body.",
+        "trial": { "type": "PERSUADE", "difficulty": 5, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_CYBORG_ABOMINATION_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_LEAVES" }
+      },
+      {
+        "text": "For all you know, I did.  I'm being nice for now.  You'd better hope that it lasts.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_CYBORG_ABOMINATION_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+      },
+      { "text": "Forget it.  Enjoy your freedom.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CYBORG_ABOMINATION_FEARFUL",
+    "type": "talk_topic",
+    "dynamic_line": "Okay, okay, *sizzle* I'm sorry!  Don't hurt me again!  Anything to stay away from those fiends!",
+    "responses": [
+      {
+        "text": "Follow me and do my bidding, then.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+      },
+      {
+        "text": "Get out of my sight.",
+        "topic": "TALK_DONE",
+        "effect": "flee",
+        "opinion": { "trust": -1, "fear": -2, "anger": -2 }
+      },
+      {
+        "text": "No, *I'm* sorry, I didn't mean that.  Go do what you want.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
+        "failure": { "topic": "TALK_CYBORG_ABOMINATION_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+      }
+    ]
+  },
+  {
+    "id": "TALK_CYBORG_ABOMINATION_BREAKDOWN",
+    "type": "talk_topic",
+    "dynamic_line": "…You're one of those mocking monsters!  I'm going to tear you apart!",
+    "responses": [
+      {
+        "text": "Run while you still can!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "flee" },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      },
+      { "text": "Not if I kill you first!", "topic": "TALK_DONE", "effect": "hostile" },
+      {
+        "text": "I'm sorry!  I shouldn't have said that!",
+        "trial": { "type": "PERSUADE", "difficulty": 30 },
+        "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_CYBORG_ABOMINATION_LEAVES",
+    "type": "talk_topic",
+    "dynamic_line": "I don't know what's happening but I'm going back home.",
+    "responses": [ { "text": "Suit yourself.", "topic": "TALK_DONE" } ]
+  }
+]

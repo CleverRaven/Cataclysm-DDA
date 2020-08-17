@@ -172,6 +172,10 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+ifndef PCH
+  PCH = 1
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
@@ -233,6 +237,12 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+ifeq ($(PCH), 1)
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+else
+	CCACHEBIN = ccache
+endif
+
 # This sets CXX and so must be up here
 ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
@@ -249,8 +259,8 @@ ifneq ($(CLANG), 0)
     LDFLAGS += -stdlib=libc++
   endif
   ifeq ($(CCACHE), 1)
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
@@ -267,8 +277,8 @@ else
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
-    CXX = ccache $(CROSS)$(OS_COMPILER)
-    LD  = ccache $(CROSS)$(OS_LINKER)
+    CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
+    LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
   else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
@@ -383,6 +393,35 @@ endif
 
 ifeq ($(CYGWIN),1)
 WARNINGS += -Wimplicit-fallthrough=0
+endif
+
+ifeq ($(PCH), 1)
+  PCHFLAGS = -Ipch -Winvalid-pch
+  PCH_H = pch/main-pch.hpp
+
+  ifeq ($(CLANG), 0)
+    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCH_P = $(PCH_H).gch
+  else
+    PCH_P = $(PCH_H).pch
+    PCHFLAGS += -include-pch $(PCH_P)
+
+    # FIXME: dirty hack ahead
+    # ccache won't wort with clang unless it supports -fno-pch-timestamp
+    ifeq ($(CCACHE), 1)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1 || echo fail)
+      ifneq ($(CLANGVER),)
+        PCHFLAGS = ""
+        PCH_H = ""
+        PCH_P = ""
+        PCH = 0
+        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
+      else
+        CXXFLAGS += -Xclang -fno-pch-timestamp
+      endif
+    endif
+    
+  endif
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -852,6 +891,9 @@ ifeq ($(RELEASE), 1)
   endif
 endif
 
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -866,8 +908,8 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -892,6 +934,7 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
+	rm -f pch/*pch.hpp.{gch,pch,d}
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1075,7 +1118,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

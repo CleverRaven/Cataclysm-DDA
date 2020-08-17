@@ -33,8 +33,9 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -59,8 +60,6 @@ class optional_vpart_position;
 class player;
 class relic_procgen_data;
 class submap;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 class zone_data;
 struct fragment_cloud;
@@ -69,13 +68,15 @@ struct partial_con;
 struct rl_vec2d;
 struct spawn_data;
 struct trap;
+template<typename Tripoint>
+class tripoint_range;
 
 enum class special_item_type : int;
 class npc_template;
 class tileray;
 class vpart_reference;
-struct mongroup;
 struct MonsterGroupResult;
+struct mongroup;
 struct projectile;
 struct veh_collision;
 template<typename T>
@@ -395,7 +396,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst );
-        int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
+        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -664,6 +665,9 @@ class map
         // the map editor.
         uint8_t get_known_connections( const tripoint &p, int connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -1664,7 +1668,7 @@ class map
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
          */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
         int bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,

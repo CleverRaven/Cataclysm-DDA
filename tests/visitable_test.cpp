@@ -1,7 +1,11 @@
 #include "catch/catch.hpp"
+
 #include "calendar.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 TEST_CASE( "visitable_summation" )
 {

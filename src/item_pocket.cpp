@@ -1,21 +1,34 @@
 #include "item_pocket.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <utility>
+
 #include "ammo.h"
-#include "assign.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "crafting.h"
+#include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
-#include "player.h"
-#include "point.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 
 namespace io
 {
@@ -278,6 +291,9 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
+    if( _sealed != rhs._sealed ) {
+        return false;
+    }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
@@ -291,8 +307,6 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     // such as item types, may be invalidated.
     const std::vector<item> allowed_liquids{
         item( "water", calendar::turn_zero, 1 ),
-        item( "water_acid", calendar::turn_zero, 1 ),
-        item( "water_acid_weak", calendar::turn_zero, 1 )
     };
     if( !data->watertight ) {
         return false;
@@ -421,14 +435,16 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
     if( item_copy.count_by_charges() ) {
         item_copy.charges = 1;
     }
-    int count_of_item = 0;
-    item_pocket pocket_copy( *this );
-    while( pocket_copy.can_contain( item_copy ).success()
-           && count_of_item < it.count() ) {
-        pocket_copy.insert_item( item_copy );
-        count_of_item++;
+    if( !can_contain( item_copy ).success() ) {
+        return 0;
     }
-    return count_of_item;
+    if( item_copy.count_by_charges() ) {
+        return std::min( { it.charges,
+                           item_copy.charges_per_volume( remaining_volume() ),
+                           item_copy.charges_per_weight( remaining_weight() ) } );
+    } else {
+        return 1;
+    }
 }
 
 units::volume item_pocket::item_size_modifier() const
@@ -573,17 +589,17 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-void item_pocket::handle_liquid_or_spill( Character &guy )
+void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
             item liquid( *iter );
             iter = contents.erase( iter );
-            liquid_handler::handle_all_liquid( liquid, 1 );
+            liquid_handler::handle_all_liquid( liquid, 1, avoid );
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
-            guy.i_add_or_drop( i_copy );
+            guy.i_add_or_drop( i_copy, 1, avoid );
         }
     }
 }
@@ -678,10 +694,10 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
-    float spoil_multiplier = 1;
+    float spoil_multiplier = 1.0f;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            spoil_multiplier = 0;
+            spoil_multiplier = 0.0f;
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
             it = contents.erase( it );
@@ -1096,6 +1112,12 @@ void item_pocket::overflow( const tripoint &pos )
         // no items to overflow
         return;
     }
+
+    // overflow recursively
+    for( item &it : contents ) {
+        it.contents.overflow( pos );
+    }
+
     map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
@@ -1308,22 +1330,11 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations )
-{
-    for( const itype_id &c : migrations ) {
-        if( std::none_of( contents.begin(), contents.end(), [&]( const item & e ) {
-        return e.typeId() == c;
-        } ) ) {
-            add( item( c, obj.birthday() ) );
-        }
-    }
-}
-
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
-    const bool contain_override = !is_standard_type();
-    const ret_val<item_pocket::contain_code> ret = can_contain( it );
-    if( contain_override || ret.success() ) {
+    const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
+            ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
+    if( ret.success() ) {
         contents.push_back( it );
     }
     restack();

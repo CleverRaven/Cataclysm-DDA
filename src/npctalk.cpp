@@ -1,10 +1,7 @@
-#include "dialogue.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -17,7 +14,6 @@
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -27,20 +23,19 @@
 #include "color.h"
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "dialogue_chatbin.h"
+#include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
-#include "game_inventory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
-#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -50,11 +45,7 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "mission_companion.h"
-#include "monster.h"
-#include "mtype.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "npctalk.h"
 #include "npctrade.h"
 #include "output.h"
@@ -75,8 +66,6 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -87,7 +76,6 @@ static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
-static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_under_operation( "under_operation" );
@@ -140,6 +128,20 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
 
     int skill_level = get_player_character().get_skill_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
+}
+
+time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency )
+{
+    return std::min( 15_minutes, get_player_character().proficiency_training_needed( proficiency ) );
+}
+
+int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency )
+{
+    if( p.is_player_ally() ) {
+        return 0;
+    }
+
+    return to_seconds<int>( calc_proficiency_training_time( p, proficiency ) );
 }
 
 // TODO: all styles cost the same and take the same time to train,
@@ -221,8 +223,8 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
     } else {
         uilist nmenu;
         nmenu.text = prompt;
-        for( auto &elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, ( elem )->name );
+        for( const npc *elem : npc_list ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
@@ -970,6 +972,14 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
 }
 
 talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       const proficiency_id &proficiency, const bool first )
+{
+    talk_response &result = add_response( text, r, first );
+    result.proficiency = proficiency;
+    return result;
+}
+
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
                                        const spell_id &sp, const bool first )
 {
     talk_response &result = add_response( text, r, first );
@@ -1054,7 +1064,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         const std::vector<matype_id> &styles = beta->styles_offered_to( *alpha );
         const std::vector<skill_id> &trainable = beta->skills_offered_to( *alpha );
         const std::vector<spell_id> &teachable = beta->spells_offered_to( *alpha );
-        if( trainable.empty() && styles.empty() && teachable.empty() ) {
+        const std::vector<proficiency_id> &proficiencies = beta->proficiencies_offered_to( *alpha );
+        if( trainable.empty() && styles.empty() && teachable.empty() && proficiencies.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
         }
@@ -1072,6 +1083,12 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
+            if( !text.empty() ) {
+                add_response( text, "TALK_TRAIN_START", trained );
+            }
+        }
+        for( const proficiency_id &trained : proficiencies ) {
+            const std::string &text = beta->proficiency_training_text( *alpha, trained );
             if( !text.empty() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
@@ -1434,7 +1451,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     }
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE", keyboard_mode::keychar );
     for( size_t i = 0; i < responses.size(); i++ ) {
         ctxt.register_manual_key( 'a' + i );
     }
@@ -1502,7 +1519,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     // We can't set both skill and style or training will bug out
     // TODO: Allow setting both skill and style
-    beta->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell );
+    beta->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
+                                 chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
     return effects.apply( *this );
@@ -2351,8 +2369,13 @@ talk_response::talk_response()
         return true;
     };
     mission_selected = nullptr;
-    skill = skill_id::NULL_ID();
-    style = matype_id::NULL_ID();
+    // Why aren't these null ids? Well, it turns out most responses give
+    // empty ids, so things like the training code check for these empty ids
+    // and when it's given a null id, it breaks
+    // FIXME: Use null ids
+    skill = skill_id();
+    style = matype_id();
+    proficiency = proficiency_id();
     dialogue_spell = spell_id();
 }
 
@@ -2518,7 +2541,6 @@ dynamic_line_t::dynamic_line_t( const translation &line )
         return line.translated();
     };
 }
-
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
@@ -2711,7 +2733,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
 
     bool switch_done = false;
-    for( auto &r : responses ) {
+    for( const json_talk_response &r : responses ) {
         switch_done |= r.gen_responses( d, switch_done );
     }
     for( const json_talk_repeat_response &repeat : repeat_responses ) {

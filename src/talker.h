@@ -50,7 +50,7 @@ class talker
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual tripoint pos() const  = 0;
+        virtual tripoint pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual std::string distance_to_goal() const {
             return "";
@@ -114,10 +114,19 @@ class talker
         virtual bool knows_spell( const spell_id & ) const {
             return false;
         }
+        virtual bool knows_proficiency( const proficiency_id & ) const {
+            return false;
+        }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
+            return {};
+        }
+        virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
             return {};
         }
         virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
@@ -133,7 +142,7 @@ class talker
             return {};
         }
         virtual void store_chosen_training( const skill_id &, const matype_id &,
-                                            const spell_id & ) {
+                                            const spell_id &, const proficiency_id & ) {
         }
 
         // effects and values
@@ -182,7 +191,7 @@ class talker
         virtual void add_debt( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
             return {};
-        };
+        }
         virtual void i_add( const item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {

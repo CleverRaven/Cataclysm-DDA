@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -12,6 +13,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
@@ -32,6 +34,7 @@ class JsonOut;
 class avatar;
 class item;
 class mission;
+class npc;
 class overmapbuffer;
 class player;
 template<typename T> struct enum_traits;

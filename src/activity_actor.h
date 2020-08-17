@@ -4,21 +4,26 @@
 
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "activity_type.h"
+#include "calendar.h"
 #include "clone_ptr.h"
-#include "item_location.h"
 #include "item.h"
+#include "item_location.h"
+#include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
-class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
+class avatar;
 class player_activity;
 
 class activity_actor
@@ -282,8 +287,14 @@ class dig_channel_activity_actor : public activity_actor
 
 class hacking_activity_actor : public activity_actor
 {
+    private:
+        bool using_bionic = false;
+
     public:
+        struct use_bionic {};
+
         hacking_activity_actor() = default;
+        hacking_activity_actor( use_bionic );
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -506,6 +517,7 @@ class consume_activity_actor : public activity_actor
         item_location consume_location;
         item consume_item;
         std::vector<int> consume_menu_selections;
+        std::vector<item_location> consume_menu_selected_items;
         std::string consume_menu_filter;
         bool canceled = false;
         /**
@@ -519,8 +531,10 @@ class consume_activity_actor : public activity_actor
     public:
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
+                                const std::vector<item_location> &consume_menu_selected_items,
                                 const std::string &consume_menu_filter ) :
             consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ) {}
 
         consume_activity_actor( const item_location &consume_location ) :

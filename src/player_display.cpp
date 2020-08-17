@@ -1,7 +1,6 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>
@@ -10,15 +9,22 @@
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
+#include "int_id.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -28,7 +34,9 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -43,6 +51,7 @@ static const std::string title_PROFICIENCIES = translate_marker( "PROFICIENCIES"
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
+static const unsigned int grid_width = 26;
 
 // Rescale temperature value to one that the player sees
 static int temperature_print_rescaling( int temp )
@@ -53,8 +62,8 @@ static int temperature_print_rescaling( int temp )
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const encumbrance_data enc_l = p.get_part_encumbrance_data( l );
-    const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
+    const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
+    const encumbrance_data &enc_r = p.get_part_encumbrance_data( r );
 
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
@@ -72,11 +81,8 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
 {
     // bool represents whether the part has been combined with its other half
     std::vector<std::pair<bodypart_id, bool>> bps;
-    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+    for( const bodypart_id &bp : p.get_all_body_parts( get_body_part_flags::sorted ) ) {
         // assuming that a body part has at most one other half
-        if( bp->opposite_part->opposite_part != bp.id() ) {
-            debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
-        }
         if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
             if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
                            true ) ) == bps.end() ) {
@@ -314,22 +320,11 @@ static player_display_tab prev_tab( const player_display_tab tab )
     }
 }
 
-static std::vector<std::pair<proficiency_id, std::string>> sorted_proficiencies(
-            const Character &guy )
-{
-    std::vector<std::pair<proficiency_id, std::string>> ret;
-    for( const proficiency_id &id : guy.proficiencies() ) {
-        ret.emplace_back( id, id->name() );
-    }
-    std::sort( ret.begin(), ret.end(), localized_compare );
-    return ret;
-}
-
 static void draw_proficiencies_tab( const catacurses::window &win, const unsigned line,
                                     const Character &guy, const player_display_tab curtab )
 {
     werase( win );
-    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    const std::vector<display_proficiency> profs = guy.display_proficiencies();
     bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
@@ -342,8 +337,17 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( y > height ) {
             break;
         }
-        const nc_color col = focused && i == line ? hilite( c_white ) : c_white;
-        y += fold_and_print( win, point( 1, y ), width, col, profs[i].second );
+        std::string name;
+        const display_proficiency &cur = profs[i];
+        if( !cur.known && cur.id->can_learn() ) {
+            static_assert( grid_width == 26, "Reminder to update formatting"
+                           "for this string when grid width changes" );
+            name = string_format( "%-22s%2.0f%%", cur.id->name(), cur.practice * 100 );
+        } else {
+            name = cur.id->name();
+        }
+        const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
+        y += fold_and_print( win, point( 0, y ), width, col, name );
     }
 
     if( draw_scrollbar ) {
@@ -364,11 +368,24 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
                                      const Character &guy )
 {
     werase( w_info );
-    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    const std::vector<display_proficiency> profs = guy.display_proficiencies();
     if( line < profs.size() ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), getmaxx( w_info ) - 1,
-                        c_white, profs[line].first->description() );
+        const display_proficiency &cur = profs[line];
+        std::string progress;
+        if( cur.known ) {
+            progress = _( "You know this proficiency." );
+        } else {
+            progress = string_format( _( "You are %2.1f%% of the way towards learning this proficiency." ),
+                                      cur.practice * 100 );
+            if( debug_mode ) {
+                progress += string_format( "\nYou have spent %s practicing this proficiency.",
+                                           to_string( cur.spent ) );
+            }
+        }
+        int y = 0;
+        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, cur.color, cur.id->name() );
+        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_cyan, progress );
+        fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_white, cur.id->description() );
     }
     wnoutrefresh( w_info );
 }
@@ -1068,7 +1085,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
             line_end = skillslist.size();
             break;
         case player_display_tab::proficiencies:
-            line_end = sorted_proficiencies( you ).size();
+            line_end = you.display_proficiencies().size();
             break;
         case player_display_tab::num_tabs:
             abort();
@@ -1249,7 +1266,7 @@ void player::disp_info()
 
     std::vector<HeaderSkill> skillslist;
     skill_displayType_id prev_type = skill_displayType_id::NULL_ID();
-    for( auto &s : player_skill ) {
+    for( const auto &s : player_skill ) {
         if( s->display_category() != prev_type ) {
             prev_type = s->display_category();
             skillslist.emplace_back( s, true );
@@ -1259,7 +1276,6 @@ void player::disp_info()
     const unsigned int skill_win_size_y_max = 1 + skillslist.size();
     const unsigned int info_win_size_y = 6;
 
-    const unsigned int grid_width = 26;
     const unsigned int grid_height = 9;
 
     const unsigned int infooffsetytop = grid_height + 2;
@@ -1314,7 +1330,7 @@ void player::disp_info()
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : *effects ) {
-        for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
+        for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
@@ -1456,7 +1472,7 @@ void player::disp_info()
     ui_adaptor ui_proficiencies;
     ui_proficiencies.on_screen_resize( [&]( ui_adaptor & ui_proficiencies ) {
         const unsigned int maxy = static_cast<unsigned>( TERMY );
-        proficiency_win_size_y = std::min( _proficiencies.size(),
+        proficiency_win_size_y = std::min( display_proficiencies().size(),
                                            static_cast<size_t>( maxy - ( infooffsetybottom + effect_win_size_y ) ) ) + 1;
         w_proficiencies = catacurses::newwin( proficiency_win_size_y, grid_width,
                                               profstart );

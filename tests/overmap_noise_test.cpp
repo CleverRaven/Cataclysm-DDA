@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+#include "overmap_noise.h"
+
 #include <fstream>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "coordinates.h"
 #include "game_constants.h"
-#include "overmap_noise.h"
-#include "point.h"
 
 static void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
                               int width, int height )

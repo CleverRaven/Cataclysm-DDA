@@ -12,25 +12,25 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
-#include <algorithm>
+#include "catch/catch.hpp"
+
 #include <cassert>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <ctime>
-#include <exception>
-#include <memory>
-#include <ostream>
+#include <string>
 #include <string>
 #include <utility>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -48,6 +48,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -290,6 +292,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

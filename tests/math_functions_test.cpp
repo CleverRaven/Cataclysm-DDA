@@ -1,8 +1,8 @@
-#include <cstddef>
-#include <cmath>
-#include <random>
-
 #include "catch/catch.hpp"
+
+#include <cmath>
+#include <cstddef>
+
 #include "cata_utility.h"
 #include "rng.h"
 

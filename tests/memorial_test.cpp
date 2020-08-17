@@ -1,14 +1,20 @@
-#include <cstddef>
+#include "catch/catch.hpp"
+
+#include <algorithm>
+#include <chrono>
+#include <iterator>
 #include <memory>
+#include <numeric>
+#include <sstream>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
@@ -17,8 +23,6 @@
 #include "pldata.h"
 #include "profession.h"
 #include "type_id.h"
-
-class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -35,10 +39,10 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     CHECK( result_lines.back().empty() );
     result_lines.pop_back();
 
+    // Remove expected results by matching them against the strings we encounter.
     std::vector<std::string> ref_lines = string_split( ref, '\n' );
-    REQUIRE( result_lines.size() == ref_lines.size() );
-    for( size_t i = 0; i < ref_lines.size(); ++i ) {
-        std::string message = string_split( result_lines[i], '|' ).back();
+    for( const std::string &result_string : result_lines ) {
+        std::string message = string_split( result_string, '|' ).back();
         if( !message.empty() && message.front() == ' ' ) {
             message.erase( message.begin() );
         }
@@ -46,8 +50,12 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         while( !message.empty() && *message.rbegin() == '\r' ) {
             message.erase( message.end() - 1 );
         }
-        CHECK( message == ref_lines[i] );
+        ref_lines.erase( std::remove( ref_lines.begin(), ref_lines.end(), message ),
+                         ref_lines.end() );
     }
+    std::string unmatched_results;
+    INFO( std::accumulate( begin( ref_lines ), end( ref_lines ), unmatched_results ) );
+    CHECK( ref_lines.empty() );
 }
 
 TEST_CASE( "memorials", "[memorial]" )
@@ -89,15 +97,11 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
 
-    // To insure we don't trigger losing the Structural Integrity conduct during the test,
-    // Break the subject's leg first.
-    b.send<event_type::broken_bone>( ch, bp_leg_l );
-
     check_memorial<event_type::broken_bone>(
-        m, b, "Broke her right arm.", ch, bp_arm_r );
+        m, b, "Broke her right arm.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::broken_bone_mends>(
-        m, b, "Broken right arm began to mend.", ch, bp_arm_r );
+        m, b, "Broken right arm began to mend.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::buries_corpse>(
         m, b, "You buried monster_name.", ch, mon, "monster_name" );
@@ -210,9 +214,6 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
         player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
 
-    // Invokes achievement, so send another to clear the log for the test
-    b.send<event_type::installs_cbm>( ch, cbm );
-
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
 
@@ -234,22 +235,11 @@ TEST_CASE( "memorials", "[memorial]" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
-    // In magiclysm, the first character_forgets_spell event will trigger an
-    // achievement which also enters the log.  We don't want that to pollute
-    // the test case, so send another event first.
-    b.send<event_type::character_forgets_spell>( ch, spell_id( "pain_damage" ) );
-
     check_memorial<event_type::character_forgets_spell>(
         m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
 
-    // Similarly for character_learns_spell
-    b.send<event_type::character_learns_spell>( ch, spell_id( "pain_damage" ) );
-
     check_memorial<event_type::character_learns_spell>(
         m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
-
-    // Similarly for character_levels_spell
-    b.send<event_type::player_levels_spell>( ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::player_levels_spell>(
         m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );

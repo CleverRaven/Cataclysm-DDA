@@ -11,7 +11,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 5,
     "material_thickness": 2,
     "pocket_data": [
@@ -171,7 +171,7 @@
     "name": { "str": "technomancer's toolbelt" },
     "weight": "2000 g",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 2, "holster": true }
     ],

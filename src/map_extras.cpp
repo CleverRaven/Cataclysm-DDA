@@ -1,6 +1,8 @@
 #include "map_extras.h"
 
+#include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -1755,7 +1757,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 place_fumarole( m, p1 + extra, p2 + extra,
                                 ignited );
 
-                for( auto &i : ignited ) {
+                for( const point &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
                     if( m.ter( i ) != t_lava ) {
                         // Spawn an intense but short-lived fire

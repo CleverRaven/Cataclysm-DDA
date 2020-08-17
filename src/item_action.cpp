@@ -13,7 +13,6 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "clone_ptr.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -21,10 +20,12 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -39,6 +40,8 @@ static const std::string errstring( "ERROR" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
+
+static const itype_id itype_UPS( "UPS" );
 
 struct tripoint;
 
@@ -118,7 +121,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
         const std::vector<item *> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
-    for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
+    for( const auto &ia_ptr : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( ia_ptr.first );
     }
 
@@ -146,7 +149,9 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() ) {
+            if( !actual_item->ammo_sufficient() &&
+                ( !actual_item->has_flag( "USE_UPS" ) ||
+                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
                 continue;
             }
 
@@ -260,7 +265,7 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS" );
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keychar );
     for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
@@ -290,7 +295,7 @@ void game::item_action_menu()
             ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
-        const auto method = elem.second->get_use( elem.first );
+        const use_function *method = elem.second->get_use( elem.first );
         if( method ) {
             return std::make_tuple( method->get_type(), method->get_name(), ss );
         } else {
@@ -342,8 +347,8 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( u );
-    u.inv.unsort();
+    u.inv->restack( u );
+    u.inv->unsort();
 }
 
 std::string use_function::get_type() const

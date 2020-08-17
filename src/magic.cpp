@@ -1,7 +1,6 @@
 #include "magic.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -22,6 +21,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -38,9 +38,9 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
-#include "character.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -69,27 +69,6 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
-    abort();
-}
-template<>
-std::string enum_to_string<body_part>( body_part data )
-{
-    switch( data ) {
-        case body_part::bp_torso: return "TORSO";
-        case body_part::bp_head: return "HEAD";
-        case body_part::bp_eyes: return "EYES";
-        case body_part::bp_mouth: return "MOUTH";
-        case body_part::bp_arm_l: return "ARM_L";
-        case body_part::bp_arm_r: return "ARM_R";
-        case body_part::bp_hand_l: return "HAND_L";
-        case body_part::bp_hand_r: return "HAND_R";
-        case body_part::bp_leg_l: return "LEG_L";
-        case body_part::bp_leg_r: return "LEG_R";
-        case body_part::bp_foot_l: return "FOOT_L";
-        case body_part::bp_foot_r: return "FOOT_R";
-        case body_part::num_bp: break;
-    }
-    debugmsg( "Invalid body_part" );
     abort();
 }
 template<>
@@ -176,34 +155,6 @@ static magic_energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
-{
-    if( str == "fire" ) {
-        return DT_HEAT;
-    } else if( str == "acid" ) {
-        return DT_ACID;
-    } else if( str == "bash" ) {
-        return DT_BASH;
-    } else if( str == "bio" ) {
-        return DT_BIOLOGICAL;
-    } else if( str == "cold" ) {
-        return DT_COLD;
-    } else if( str == "cut" ) {
-        return DT_CUT;
-    } else if( str == "bullet" ) {
-        return DT_BULLET;
-    } else if( str == "electric" ) {
-        return DT_ELECTRIC;
-    } else if( str == "stab" ) {
-        return DT_STAB;
-    } else if( str == "none" || str == "NONE" ) {
-        return DT_TRUE;
-    } else {
-        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to none" ) );
-        return DT_TRUE;
-    }
-}
-
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
@@ -251,6 +202,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
+    optional( jo, was_loaded, "components", spell_components );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -285,8 +237,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
-    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+    optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
@@ -336,8 +287,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
-    dmg_type = damage_type_from_string( temp_string );
+    optional( jo, was_loaded, "damage_type", dmg_type, DT_NONE );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
 
@@ -702,11 +652,17 @@ bool spell::is_spell_class( const trait_id &mid ) const
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( const Character &guy ) const
+bool spell::can_cast( Character &guy ) const
 {
+    if( !type->spell_components.is_empty() &&
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
+                return_true<item> ) ) {
+        return false;
+    }
+
     switch( type->energy_source ) {
         case magic_energy_type::mana:
-            return guy.magic.available_mana() >= energy_cost( guy );
+            return guy.magic->available_mana() >= energy_cost( guy );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= energy_cost( guy );
         case magic_energy_type::hp: {
@@ -724,6 +680,22 @@ bool spell::can_cast( const Character &guy ) const
         case magic_energy_type::none:
         default:
             return true;
+    }
+}
+
+void spell::use_components( Character &guy ) const
+{
+    if( type->spell_components.is_empty() ) {
+        return;
+    }
+    const requirement_data &spell_components = type->spell_components.obj();
+    // if we're here, we're assuming the Character has the correct components (using can_cast())
+    inventory map_inv;
+    for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
+        guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
+    }
+    for( const std::vector<tool_comp> &tool_vec : spell_components.get_tools() ) {
+        guy.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
     }
 }
 
@@ -762,6 +734,16 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         }
     }
     return casting_time;
+}
+
+const requirement_data &spell::components() const
+{
+    return type->spell_components.obj();
+}
+
+bool spell::has_components() const
+{
+    return !type->spell_components.is_empty();
 }
 
 std::string spell::name() const
@@ -906,7 +888,7 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::mana ) {
-        return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
+        return colorize( to_string( guy.magic->available_mana() ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
@@ -928,9 +910,9 @@ bool spell::is_valid() const
     return type.is_valid();
 }
 
-bool spell::bp_is_affected( body_part bp ) const
+bool spell::bp_is_affected( const bodypart_str_id &bp ) const
 {
-    return type->affected_bps[bp];
+    return type->affected_bps.test( bp );
 }
 
 void spell::create_field( const tripoint &at ) const
@@ -1068,9 +1050,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-constexpr float a = 6200.0;
-constexpr float b = 0.146661;
-constexpr float c = -62.5;
+constexpr double a = 6200.0;
+constexpr double b = 0.146661;
+constexpr double c = -62.5;
 
 int spell::get_level() const
 {
@@ -1363,7 +1345,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( guy.magic.knows_spell( sp->id ) ) {
+    if( guy.magic->knows_spell( sp->id ) ) {
         // you already know the spell
         return;
     }
@@ -1569,7 +1551,7 @@ class spellcasting_callback : public uilist_callback
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
                     const bool invlet_set =
-                        get_player_character().magic.set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
+                        get_player_character().magic->set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
                     } else {
@@ -1578,7 +1560,7 @@ class spellcasting_callback : public uilist_callback
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
-                    get_player_character().magic.rem_invlet( known_spells[entnum]->id() );
+                    get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
             }
@@ -1837,6 +1819,24 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+
+    // helper function for printing tool and item component requirement lists
+    const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
+        for( const std::string &line_str : vec ) {
+            print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, line_str );
+        }
+    };
+
+    if( sp.has_components() ) {
+        if( !sp.components().get_components().empty() ) {
+            print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory(), return_true<item> ) );
+        }
+        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+            print_vec_string( sp.components().get_folded_tools_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory() ) );
+        }
+    }
 }
 
 bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
@@ -1883,7 +1883,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( const Character &guy )
+int known_magic::select_spell( Character &guy )
 {
     // max width of spell names
     const int max_spell_name_length = get_spellname_max_width();
@@ -2168,7 +2168,7 @@ void spell_events::notify( const cata::event &e )
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
                     std::string learn_spell_id = it->first;
-                    get_player_character().magic.learn_spell( learn_spell_id, get_player_character() );
+                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

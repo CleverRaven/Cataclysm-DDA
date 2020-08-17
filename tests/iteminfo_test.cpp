@@ -1,20 +1,27 @@
+#include "catch/catch.hpp"
+
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "clothing_mod.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "player_helpers.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 // ITEM INFO
@@ -720,7 +727,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                          item::encumber_flags::assume_full ) == 0 );
 
-
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
@@ -779,7 +785,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
-
 
         REQUIRE( swat_armor.get_avg_encumber( get_player_character(),
                                               item::encumber_flags::assume_full ) == 25 );
@@ -2234,7 +2239,6 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
            " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
            " wire (5).\n" );
 
-
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"
            "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
@@ -2514,7 +2518,6 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
 
     }
 }
-
 
 // Functions:
 // vol_to_info from item.cpp

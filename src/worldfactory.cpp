@@ -20,7 +20,6 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -29,7 +28,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -233,7 +231,7 @@ bool WORLD::save( const bool is_conversion ) const
 
             jout.start_array();
 
-            for( auto &elem : WORLD_OPTIONS ) {
+            for( const auto &elem : WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
                 if( !elem.second.getDefaultText().empty() ) {
                     jout.start_object();
@@ -355,7 +353,7 @@ bool worldfactory::has_world( const std::string &name ) const
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
-    for( auto &elem : all_worlds ) {
+    for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
     return result;
@@ -383,7 +381,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     // If we're skipping prompts, return the world with 0 save if there is one
     else if( !show_prompt ) {
-        for( const auto &name : world_names ) {
+        for( const std::string &name : world_names ) {
             if( get_world( name )->world_saves.empty() ) {
                 return get_world( name );
             }
@@ -1093,8 +1091,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
-        ime_sentry sentry;
-
         // On next redraw, call resize callback which will configure how popup is rendered
         ui.mark_resize();
 
@@ -1110,7 +1106,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             } else {
                 apply_filter( fpopup->text() );
             }
-        };
+        }
 
         fpopup.reset();
     };
@@ -1261,7 +1257,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     int namebar_x = 3 + utf8_width( _( "World Name:" ) );
 
     bool noname = false;
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
@@ -1270,9 +1266,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
 
     std::string worldname = world->world_name;
-
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );

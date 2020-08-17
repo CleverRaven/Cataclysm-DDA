@@ -10,15 +10,18 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
+class JsonIn;
 class JsonObject;
 class item;
 class time_duration;
-class Character;
+template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
     none = 0,
@@ -45,6 +48,17 @@ struct recipe_proficiency {
     bool required = false;
     float time_multiplier = 1.0f;
     float fail_multiplier = 2.5f;
+    float learning_time_mult = 1.0f;
+    cata::optional<time_duration> max_experience = cata::nullopt;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+struct book_recipe_data {
+    int skill_req = -1;
+    cata::optional<translation> alt_name = cata::nullopt;
+    bool hidden = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -130,7 +144,9 @@ class recipe
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
-        std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        // Books containing this recipe, and the skill level required
+        std::map<itype_id, book_recipe_data> booksets;
+
         std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
@@ -225,6 +241,9 @@ class recipe
 
         /** Does the item spawn contained in container? */
         bool contained = false;
+
+        /** Does the container spawn sealed? */
+        bool sealed = true;
 
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;

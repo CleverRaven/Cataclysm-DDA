@@ -1,8 +1,5 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <iostream>
 #include <iterator>
 #include <set>
@@ -13,12 +10,14 @@
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
+#include "game.h" // IWYU pragma: associated
 #include "init.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
-#include "material.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -28,6 +27,7 @@
 #include "stomach.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -106,14 +106,15 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        const bodypart_id bp_null( "bp_null" );
+        bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
+            r.push_back( to_string( obj.get_encumber( get_player_character(),  bp ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
+            r.push_back( to_string( obj.get_coverage( bp ) ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
             r.push_back( to_string( obj.bullet_resist() ) );
@@ -125,7 +126,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
-                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
+                if( bp == bp_null || obj.covers( bp ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
                         obj.item_tags.insert( "FIT" );
                     }
