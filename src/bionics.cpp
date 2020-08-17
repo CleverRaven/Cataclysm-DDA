@@ -1,7 +1,6 @@
 #include "bionics.h"
 
 #include <algorithm> //std::min
-#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -9,14 +8,15 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <type_traits>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
-#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -59,8 +59,8 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
@@ -76,6 +76,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -1704,10 +1705,10 @@ void Character::process_bionic( int b )
     }
 }
 
-void Character::roll_critical_bionics_failure( body_part bp )
+void Character::roll_critical_bionics_failure( const bodypart_id &bp )
 {
-    if( one_in( get_part_hp_cur( convert_bp( bp ).id() ) / 4 ) ) {
-        set_part_hp_cur( convert_bp( bp ).id(), 0 );
+    if( one_in( get_part_hp_cur( bp ) / 4 ) ) {
+        set_part_hp_cur( bp, 0 );
     }
 }
 
@@ -1731,7 +1732,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1743,12 +1744,11 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 2:
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
                 if( has_effect( effect_under_operation, bp.id() ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
                     apply_damage( this, bp, rng( 5, 10 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1759,15 +1759,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 4:
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
                 if( has_effect( effect_under_operation, bp.id() ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
 
                     apply_damage( this, bp, rng( 25, 50 ), true );
-                    roll_critical_bionics_failure( enum_bp );
+                    roll_critical_bionics_failure( bp );
 
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -1820,7 +1819,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                 break;
         }
     }
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1832,12 +1831,11 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 2:
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
                 if( has_effect( effect_under_operation, bp.id() ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
@@ -1850,15 +1848,14 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 4:
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
                 if( has_effect( effect_under_operation, bp.id() ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
 
                     patient.apply_damage( this, bp, rng( 25, 50 ), true );
-                    roll_critical_bionics_failure( enum_bp );
+                    roll_critical_bionics_failure( bp );
 
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -2464,7 +2461,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
-        std::set<body_part> bp_hurt;
+        std::set<bodypart_id> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2510,15 +2507,14 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 4:
             case 5: {
                 for( const bodypart_id &bp : get_all_body_parts() ) {
-                    const body_part enum_bp = bp->token;
                     if( has_effect( effect_under_operation, bp.id() ) ) {
-                        if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                        if( bp_hurt.count( bp->main_part ) > 0 ) {
                             continue;
                         }
-                        bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                        bp_hurt.emplace( bp->main_part );
 
                         apply_damage( this, bp, rng( 25, 50 ), true );
-                        roll_critical_bionics_failure( enum_bp );
+                        roll_critical_bionics_failure( bp );
 
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );
@@ -2743,6 +2739,7 @@ void Character::clear_bionics()
 void reset_bionics()
 {
     faulty_bionics.clear();
+    bionic_factory.reset();
 }
 
 void bionic::set_flag( const std::string &flag )

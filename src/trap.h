@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_TRAP_H
 #define CATA_SRC_TRAP_H
 
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <string>
@@ -10,10 +11,13 @@
 #include <vector>
 
 #include "color.h"
+#include "int_id.h"
 #include "magic.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;

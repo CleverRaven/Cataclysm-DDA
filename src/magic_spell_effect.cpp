@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,13 +33,16 @@
 #include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
-#include "monstergenerator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
 #include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -406,7 +410,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
 
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
-            if( sp.bp_is_affected( bp->token ) ) {
+            if( sp.bp_is_affected( bp.id() ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }

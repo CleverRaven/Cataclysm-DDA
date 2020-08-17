@@ -5,31 +5,25 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
-#include <ostream>
-#include <set>
-#include <system_error>
-#include <type_traits>
 #include <unordered_map>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
-#include "creature.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
 #include "itype.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
@@ -40,12 +34,11 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

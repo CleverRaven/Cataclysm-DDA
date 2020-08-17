@@ -1,5 +1,3 @@
-#include "npctalk.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
 #include <memory>
@@ -11,11 +9,12 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -30,27 +29,26 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
 #include "npctrade.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
 #include "ui.h"
+#include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -562,7 +560,8 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     Character &player_character = get_player_character();
-    for( const bodypart_id &bp : player_character.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
         player_character.heal( bp, 5 * rng( 2, 5 ) );
         if( player_character.has_effect( effect_bite, bp.id() ) ) {
             player_character.remove_effect( effect_bite, bp );
@@ -585,7 +584,8 @@ void talk_function::give_all_aid( npc &p )
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
-            for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
+            for( const bodypart_id &bp :
+                 guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp.id() ) ) {
                     guy.remove_effect( effect_bite, bp );

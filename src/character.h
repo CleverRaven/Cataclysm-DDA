@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
@@ -11,6 +12,7 @@
 #include <limits>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -18,38 +20,52 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class SkillLevel;
+class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
 class faction;
-class JsonIn;
-class JsonObject;
-class JsonOut;
+class inventory;
+class item_contents;
+class item_pocket;
 class known_magic;
+class ma_technique;
+class map;
 class monster;
 class nc_color;
 class npc;
@@ -57,23 +73,23 @@ class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
-class SkillLevel;
-class SkillLevelMap;
 class vehicle;
-
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
+struct item_comp;
 struct itype;
 struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
+struct requirement_data;
+struct tool_comp;
+struct trap;
 struct w_point;
-
 template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
@@ -1026,7 +1042,7 @@ class Character : public Creature, public visitable<Character>
         float mabuff_attack_cost_mult() const;
 
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
+        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
@@ -1179,7 +1195,7 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**When a critical failure occurs*/
-        void roll_critical_bionics_failure( body_part bp );
+        void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1533,6 +1549,11 @@ class Character : public Creature, public visitable<Character>
          * @param it Thing to be unwielded
          */
         ret_val<bool> can_unwield( const item &it ) const;
+        /**
+         * Check player capable of droping an item.
+         * @param it Thing to be unwielded
+         */
+        ret_val<bool> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */

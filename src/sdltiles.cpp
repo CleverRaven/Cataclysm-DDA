@@ -1,6 +1,7 @@
-#include "cursesdef.h" // IWYU pragma: associated
-#include "sdltiles.h" // IWYU pragma: associated
 #include "cuboid_rectangle.h"
+#include "cursesdef.h" // IWYU pragma: associated
+#include "point.h"
+#include "sdltiles.h" // IWYU pragma: associated
 
 #if defined(TILES)
 
@@ -52,8 +53,8 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -3226,7 +3227,7 @@ static void CheckMessages()
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
         window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ) );
+        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
         ui_manager::redraw();
     }
     if( needupdate ) {

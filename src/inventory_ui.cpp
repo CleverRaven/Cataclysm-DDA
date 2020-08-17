@@ -4,36 +4,43 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "map_selector.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
-#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -935,7 +942,6 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
     };
 
     // Do the actual drawing
-    rect_entry_map.clear();
     for( size_t index = page_offset, line = 0; index < entries.size() &&
          line < entries_per_page; ++index, ++line ) {
         inventory_entry &entry = entries[index];
@@ -1754,17 +1760,16 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
+    rect_entry_map.clear();
     for( const auto &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
-
         if( !is_active_column( *elem ) ) {
             elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
-
         x += elem->get_width() + gap;
     }
 

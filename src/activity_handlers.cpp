@@ -1,7 +1,6 @@
 #include "activity_handlers.h"
 
 #include <algorithm>
-#include <array>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -12,14 +11,15 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "calendar.h"
@@ -30,7 +30,7 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
@@ -52,8 +52,8 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
-#include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -65,7 +65,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -79,7 +78,6 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "proficiency.h"
 #include "ranged.h"
@@ -92,16 +90,14 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "text_snippets.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
-#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -1591,8 +1587,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( std::max( temp_to_kelvin( get_weather().get_temperature( p->pos() ) ),
-                                                   277.15 ) );
+            liquid.set_item_temperature( temp_to_kelvin( std::max( get_weather().get_temperature( p->pos() ),
+                                         temperatures::cold ) ) );
         }
 
         // 2. Transfer charges.
@@ -4404,7 +4400,7 @@ static void blood_magic( player *p, int cost )
     std::vector<uilist_entry> uile;
     std::vector<bodypart_id> parts;
     int i = 0;
-    for( const bodypart_id &bp : p->get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : p->get_all_body_parts( get_body_part_flags::only_main ) ) {
         const int hp_cur = p->get_part_hp_cur( bp );
         uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
 

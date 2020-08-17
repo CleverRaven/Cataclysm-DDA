@@ -1,20 +1,20 @@
 #include "input.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <array>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <utility>
 
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -26,13 +26,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "point.h"
 #include "sdltiles.h"
 
 using std::min; // from <algorithm>
@@ -888,7 +887,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == input_event_t::keyboard_char && events_event.sequence.size() == 1 ) {
+        if( ( events_event.type == input_event_t::keyboard_char
+              || events_event.type == input_event_t::keyboard_code )
+            && is_event_type_enabled( events_event.type )
+            && events_event.sequence.size() == 1
+            && events_event.modifiers.empty() ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
                                             isprint( events_event.sequence.front() ) ) ) {
                 result.push_back( static_cast<char>( events_event.sequence.front() ) );

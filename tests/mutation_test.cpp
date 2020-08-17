@@ -1,15 +1,15 @@
 #include "catch/catch.hpp"
+#include "mutation.h"
 
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "mutation.h"
 #include "npc.h"
 #include "player.h"
-#include "string_id.h"
+#include "player_helpers.h"
 #include "type_id.h"
 
 std::string get_mutations_as_string( const player &p );
@@ -123,6 +123,36 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
                 INFO( "MUTATIONS: " << get_mutations_as_string( dummy ) );
                 CHECK( breach_chance <= BREACH_CHANCE_MAX );
             }
+        }
+    }
+}
+
+TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mutations][overmap]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    WHEN( "character has Scout trait" ) {
+        dummy.toggle_trait( trait_id( "EAGLEEYED" ) );
+        THEN( "they have increased overmap sight range" ) {
+            CHECK( dummy.mutation_value( "overmap_sight" ) == 5 );
+        }
+        // Regression test for #42853
+        THEN( "the Self-Aware trait does not affect overmap sight range" ) {
+            dummy.toggle_trait( trait_id( "SELFAWARE" ) );
+            CHECK( dummy.mutation_value( "overmap_sight" ) == 5 );
+        }
+    }
+
+    WHEN( "character has Topographagnosia trait" ) {
+        dummy.toggle_trait( trait_id( "UNOBSERVANT" ) );
+        THEN( "they have reduced overmap sight range" ) {
+            CHECK( dummy.mutation_value( "overmap_sight" ) == -10 );
+        }
+        // Regression test for #42853
+        THEN( "the Self-Aware trait does not affect overmap sight range" ) {
+            dummy.toggle_trait( trait_id( "SELFAWARE" ) );
+            CHECK( dummy.mutation_value( "overmap_sight" ) == -10 );
         }
     }
 }

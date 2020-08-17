@@ -2,15 +2,16 @@
 
 #include <algorithm>
 #include <bitset>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <vector>
 
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -28,13 +29,14 @@
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
-#include "map.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -50,6 +52,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 
@@ -409,7 +412,11 @@ class pickup_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( phase_id::LIQUID ) ) {
-                    return _( "Can't pick up spilt liquids" );
+                    if( loc.has_parent() ) {
+                        return _( "Can't pick up liquids" );
+                    } else {
+                        return _( "Can't pick up spilt liquids" );
+                    }
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -1413,7 +1420,7 @@ drop_locations game_menus::inv::multidrop( player &p )
     p.inv->restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location ).success();
+        return p.can_drop( *location ).success();
     } );
 
     inventory_drop_selector inv_s( p, preset );

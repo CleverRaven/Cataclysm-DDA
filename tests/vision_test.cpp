@@ -16,10 +16,12 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 

@@ -1,7 +1,6 @@
 #include "magic.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -39,9 +38,9 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
-#include "character.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
+#include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -70,27 +69,6 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
-    abort();
-}
-template<>
-std::string enum_to_string<body_part>( body_part data )
-{
-    switch( data ) {
-        case body_part::bp_torso: return "TORSO";
-        case body_part::bp_head: return "HEAD";
-        case body_part::bp_eyes: return "EYES";
-        case body_part::bp_mouth: return "MOUTH";
-        case body_part::bp_arm_l: return "ARM_L";
-        case body_part::bp_arm_r: return "ARM_R";
-        case body_part::bp_hand_l: return "HAND_L";
-        case body_part::bp_hand_r: return "HAND_R";
-        case body_part::bp_leg_l: return "LEG_L";
-        case body_part::bp_leg_r: return "LEG_R";
-        case body_part::bp_foot_l: return "FOOT_L";
-        case body_part::bp_foot_r: return "FOOT_R";
-        case body_part::num_bp: break;
-    }
-    debugmsg( "Invalid body_part" );
     abort();
 }
 template<>
@@ -177,34 +155,6 @@ static magic_energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
-{
-    if( str == "fire" ) {
-        return DT_HEAT;
-    } else if( str == "acid" ) {
-        return DT_ACID;
-    } else if( str == "bash" ) {
-        return DT_BASH;
-    } else if( str == "bio" ) {
-        return DT_BIOLOGICAL;
-    } else if( str == "cold" ) {
-        return DT_COLD;
-    } else if( str == "cut" ) {
-        return DT_CUT;
-    } else if( str == "bullet" ) {
-        return DT_BULLET;
-    } else if( str == "electric" ) {
-        return DT_ELECTRIC;
-    } else if( str == "stab" ) {
-        return DT_STAB;
-    } else if( str == "none" || str == "NONE" ) {
-        return DT_TRUE;
-    } else {
-        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to none" ) );
-        return DT_TRUE;
-    }
-}
-
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
@@ -287,8 +237,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
-    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
-    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+    optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
@@ -338,8 +287,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
-    dmg_type = damage_type_from_string( temp_string );
+    optional( jo, was_loaded, "damage_type", dmg_type, DT_NONE );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
 
@@ -962,9 +910,9 @@ bool spell::is_valid() const
     return type.is_valid();
 }
 
-bool spell::bp_is_affected( body_part bp ) const
+bool spell::bp_is_affected( const bodypart_str_id &bp ) const
 {
-    return type->affected_bps[bp];
+    return type->affected_bps.test( bp );
 }
 
 void spell::create_field( const tripoint &at ) const
@@ -1102,9 +1050,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-constexpr float a = 6200.0f;
-constexpr float b = 0.146661f;
-constexpr float c = -62.5f;
+constexpr double a = 6200.0;
+constexpr double b = 0.146661;
+constexpr double c = -62.5;
 
 int spell::get_level() const
 {

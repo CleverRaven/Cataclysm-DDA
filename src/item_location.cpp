@@ -1,6 +1,9 @@
 #include "item_location.h"
 
+#include <cstddef>
 #include <iosfwd>
+#include <iterator>
+#include <list>
 #include <vector>
 
 #include "character.h"
@@ -10,16 +13,17 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "itype.h"
-#include "iuse.h"
-#include "iuse_actor.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
 #include "point.h"
+#include "ret_val.h"
 #include "safe_reference.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -57,10 +61,10 @@ static item *retrieve_index( const T &sel, int idx )
 class item_location::impl
 {
     public:
+        class item_in_container;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
-        class item_in_container;
         class nowhere;
 
         impl() = default;
@@ -714,9 +718,14 @@ void item_location::deserialize( JsonIn &js )
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
-        auto iter = parent_contents.begin();
-        std::advance( iter, idx );
-        ptr.reset( new impl::item_in_container( parent, *iter ) );
+        if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
+            auto iter = parent_contents.begin();
+            std::advance( iter, idx );
+            ptr.reset( new impl::item_in_container( parent, *iter ) );
+        } else {
+            // probably pointing to the wrong item
+            debugmsg( "contents index greater than contents size" );
+        }
     }
 }
 

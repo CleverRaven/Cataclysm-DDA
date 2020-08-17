@@ -9,6 +9,7 @@
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_set>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -31,16 +32,17 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
 #include "optional.h"
 #include "options.h"
-#include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -48,6 +50,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -1097,12 +1100,12 @@ void Item_factory::check_definitions() const
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
-                    for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) ) {
-                            if( observed_bps.count( convert_bp( bp ) ) ) {
+                    for( const bodypart_str_id &bp : *portion.covers ) {
+                        if( portion.covers->test( bp ) ) {
+                            if( observed_bps.count( bp ) ) {
                                 msg += "multiple portions with same body_part defined\n";
                             }
-                            observed_bps.insert( convert_bp( bp ) );
+                            observed_bps.insert( bp );
                         }
                     }
                 }
@@ -1733,7 +1736,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20, -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20, -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -2308,7 +2311,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
+    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20,
             -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );

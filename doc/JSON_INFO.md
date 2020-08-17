@@ -471,7 +471,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
@@ -495,6 +495,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
+For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
 
 ### Body_parts
 
@@ -507,6 +508,7 @@ This section describes each json file and their contents. Each json has their ow
 | heading_multiple  | (_mandatory_) Plural form of heading.
 | hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
 | opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
@@ -653,7 +655,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | max_intensity      | The maximum intensity of the effect.
 | health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
 | symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
 ```json
@@ -1902,7 +1904,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "m2c": 50,                    // The ratio of safe power to maximum power.
 "backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
                               // and smoke if the ratio of damaged HP to max HP is below this value.
-"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the
                               // ratio of damaged HP to max HP is below the backfire_threshold.
 "noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
                               // determine noise.
@@ -2700,7 +2702,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
@@ -2731,7 +2734,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },
@@ -2772,7 +2775,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
-    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "npc_class_id": "true_foodperson", // npc id, see npcs/npc.json
     "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50, // how many move points the action takes.

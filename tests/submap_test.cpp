@@ -1,8 +1,7 @@
 #include "catch/catch.hpp"
-
 #include "submap.h"
+
 #include "game_constants.h"
-#include "int_id.h"
 #include "point.h"
 #include "type_id.h"
 

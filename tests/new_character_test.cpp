@@ -1,6 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <array>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -15,15 +14,12 @@
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
-#include "itype.h"
-#include "optional.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "profession.h"
-#include "ret_val.h"
 #include "scenario.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "visitable.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {

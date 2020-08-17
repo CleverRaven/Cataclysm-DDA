@@ -21,6 +21,7 @@
   },
   {
     "id": "army_top",
+    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
@@ -239,6 +240,7 @@
   },
   {
     "id": "camisole",
+    "repairs_like": "tank_top",
     "type": "ARMOR",
     "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
@@ -337,6 +339,7 @@
   },
   {
     "id": "corset",
+    "repairs_like": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.",

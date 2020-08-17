@@ -10,7 +10,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 1,
             "min_duration": "5 seconds",
             "max_duration": "10 seconds",
@@ -24,7 +24,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 2,
             "min_duration": "10 seconds",
             "max_duration": "25 seconds"
@@ -36,7 +36,7 @@
         "effects": [
           {
             "effect_id": "migo_atmosphere",
-            "body_part": "MOUTH",
+            "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "25 seconds"
@@ -50,7 +50,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"

@@ -15,7 +15,21 @@
     "coverage": 0,
     "encumbrance": 0,
     "warmth": 0,
-    "artifact_data": { "charge_type": "ARTC_NULL", "effects_worn": [ "AEP_ALL_UP" ] },
+    "//": "Legacy artifact data is set for all stats +2",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 2 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 }
+          ]
+        }
+      ]
+    },
     "material_thickness": 10,
     "environmental_protection": 0,
     "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]

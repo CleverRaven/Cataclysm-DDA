@@ -11,15 +11,15 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "debug.h"
+#include "character.h"
 #include "game.h"
 #include "input.h"
+#include "memory_fast.h"
+#include "optional.h"
 #include "output.h"
-#include "player.h"
-#include "string_input_popup.h"
-#include "translations.h"
-#include "ui_manager.h"
 #include "sdltiles.h"
+#include "string_input_popup.h"
+#include "ui_manager.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -783,7 +783,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category, keyboard_mode::keychar );
+    input_context ctxt( input_category, keyboard_mode::keycode );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -817,7 +817,7 @@ void uilist::query( bool loop, int timeout )
     do {
         ret_act = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
-        keypress = event.get_first_input();
+        keypress = event.modifiers.empty() ? event.get_first_input() : 0;
         const auto iter = keymap.find( keypress );
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {

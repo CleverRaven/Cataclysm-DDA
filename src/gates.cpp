@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
@@ -29,7 +30,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 // Gates namespace

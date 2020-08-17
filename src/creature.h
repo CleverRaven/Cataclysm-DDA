@@ -5,10 +5,11 @@
 #include <climits>
 #include <map>
 #include <set>
-#include <unordered_map>
-#include <vector>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "damage.h"
@@ -17,31 +18,34 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 
+class monster;
+
 enum game_message_type : int;
-class nc_color;
 class effect;
 class effects_map;
+class nc_color;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class anatomy;
-class avatar;
 class Character;
-class field;
-class field_entry;
 class JsonObject;
 class JsonOut;
-struct tripoint;
-class time_duration;
+class anatomy;
+class avatar;
+class field;
+class field_entry;
 class player;
+class time_duration;
 struct point;
+struct tripoint;
 
 enum damage_type : int;
 enum m_flag : int;
@@ -200,6 +204,17 @@ enum class FacingDirection : int {
     NONE = 0,
     LEFT = 1,
     RIGHT = 2
+};
+
+enum class get_body_part_flags : int {
+    none = 0,
+    only_main = 1 << 0,
+    sorted = 1 << 1,
+};
+
+template<>
+struct enum_traits<get_body_part_flags> {
+    static constexpr bool is_flag_enum = true;
 };
 
 class Creature : public location, public viewer
@@ -611,15 +626,20 @@ class Creature : public location, public viewer
          * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
-        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+        std::vector<bodypart_id> get_all_body_parts(
+            get_body_part_flags = get_body_part_flags::none ) const;
 
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
+        // Does not fire debug message if part does not exist
+        bool has_part( const bodypart_id &id ) const;
+        // A debug message will be fired if part does not exist.
+        // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        const bodypart *get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
@@ -635,7 +655,7 @@ class Creature : public location, public viewer
 
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
-        encumbrance_data get_part_encumbrance_data( const bodypart_id &id )const;
+        const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
 
         void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
@@ -643,7 +663,7 @@ class Creature : public location, public viewer
         void set_part_damage_disinfected( const bodypart_id &id, int set );
         void set_part_damage_bandaged( const bodypart_id &id, int set );
 
-        void set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set );
+        void set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set );
 
         void set_part_wetness( const bodypart_id &id, int set );
         void set_part_temp_cur( const bodypart_id &id, int set );
@@ -1011,7 +1031,8 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

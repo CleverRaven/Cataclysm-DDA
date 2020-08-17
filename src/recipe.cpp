@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iterator>
+#include <memory>
 #include <numeric>
 #include <sstream>
 
@@ -9,8 +11,10 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "construction.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -21,7 +25,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"

@@ -1,6 +1,10 @@
 #include "weather_type.h"
-#include "weather.h"
-#include "game_constants.h"
+
+#include <cstdlib>
+#include <set>
+
+#include "assign.h"
+#include "debug.h"
 #include "generic_factory.h"
 
 namespace
@@ -318,4 +322,3 @@ void weather_types::load( const JsonObject &jo, const std::string &src )
 {
     weather_type_factory.load( jo, src );
 }
-

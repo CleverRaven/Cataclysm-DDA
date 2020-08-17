@@ -1,12 +1,7 @@
-#include "coordinates.h"
-#include "omdata.h" // IWYU pragma: associated
-#include "overmap.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstring>
-#include <exception>
 #include <memory>
 #include <numeric>
 #include <ostream>
@@ -18,27 +13,28 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "flood_fill.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
+#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"

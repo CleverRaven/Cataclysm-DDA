@@ -1,7 +1,7 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <cmath>
+#include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
@@ -10,7 +10,9 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );

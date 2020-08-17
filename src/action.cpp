@@ -9,10 +9,8 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -21,6 +19,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "optional.h"
 #include "options.h"
@@ -30,7 +29,6 @@
 #include "popup.h"
 #include "ret_val.h"
 #include "translations.h"
-#include "trap.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -115,14 +113,6 @@ std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable
 {
     input_context ctxt = get_default_mode_input_context();
     return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
-}
-
-action_id action_from_key( char ch )
-{
-    input_context ctxt = get_default_mode_input_context();
-    const input_event event( ch, input_event_t::keyboard_char );
-    const std::string &action = ctxt.input_to_action( event );
-    return look_up_action( action );
 }
 
 std::string action_ident( action_id act )
@@ -1025,7 +1015,7 @@ action_id handle_main_menu()
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );

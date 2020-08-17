@@ -1,18 +1,20 @@
 #include "computer_session.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -29,6 +31,7 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -44,6 +47,7 @@
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"

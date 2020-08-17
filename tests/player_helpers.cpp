@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "player_helpers.h"
 
 #include <cstddef>
@@ -15,15 +14,16 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
-#include "material.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
-#include "string_id.h"
+#include "ret_val.h"
+#include "stomach.h"
 #include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )

@@ -20,16 +20,14 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "point.h"
-#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -540,7 +538,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
                 float maluses = available[line].proficiency_maluses;
                 if( maluses != 1.0 ) {
-                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% more time "
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% of the normal time "
                                                         "because you lack some of the proficiencies used." ), maluses * 100 );
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
                 }

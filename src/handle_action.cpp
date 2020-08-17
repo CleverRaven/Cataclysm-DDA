@@ -1,13 +1,13 @@
-#include "game.h" // IWYU pragma: associated
-
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
-#include <set>
 #include <sstream>
 #include <utility>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -29,6 +29,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -38,7 +39,6 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
@@ -57,7 +57,6 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
-#include "player.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "ranged.h"
@@ -71,11 +70,14 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
@@ -170,7 +172,7 @@ input_context game::get_player_input( std::string &action )
 {
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
-        ctxt = input_context( "DEFAULTMODE", keyboard_mode::keychar );
+        ctxt = input_context( "DEFAULTMODE", keyboard_mode::keycode );
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*
@@ -1858,7 +1860,7 @@ bool game::handle_action()
                 if( player_character.is_mounted() ) {
                     auto *mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
+                        add_msg( m_info, _( "You can't go up stairs while you're riding." ) );
                         break;
                     }
                 }

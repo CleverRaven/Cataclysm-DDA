@@ -1,21 +1,27 @@
 #include "catch/catch.hpp"
 
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "clothing_mod.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "player_helpers.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 // ITEM INFO

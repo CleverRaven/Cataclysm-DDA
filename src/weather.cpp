@@ -4,10 +4,11 @@
 #include <array>
 #include <cmath>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
-#include "assign.h"
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -15,26 +16,34 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "regional_settings.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );

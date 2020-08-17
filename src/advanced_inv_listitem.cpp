@@ -1,9 +1,9 @@
+#include <algorithm>
 #include <cassert>
 
 #include "advanced_inv_listitem.h"
 #include "auto_pickup.h"
 #include "item.h"
-#include "item_category.h"
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
         aim_location area, bool from_vehicle )

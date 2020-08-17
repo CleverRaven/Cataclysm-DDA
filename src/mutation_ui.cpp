@@ -1,16 +1,15 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
 #include <cstddef>
 #include <memory>
 #include <unordered_map>
 
+#include "color.h"
 #include "enums.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
+#include "player.h" // IWYU pragma: associated
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_id.h"

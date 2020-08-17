@@ -2,12 +2,20 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
+#include <algorithm>
+#include <climits>
+#include <cmath>
 #include <string>
+#include <utility>
 #include <vector>
 
+#include "calendar.h"
+#include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class Creature;
@@ -15,9 +23,9 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class relic;
+class relic_procgen_data;
 struct relic_charge_info;
 struct relic_charge_template;
-class relic_procgen_data;
 struct tripoint;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
@@ -129,6 +137,7 @@ class relic_procgen_data
 enum class relic_recharge : int {
     none,
     periodic,
+    solar_sunny,
     num
 };
 
@@ -148,19 +157,24 @@ struct relic_charge_template {
 
 struct relic_charge_info {
 
+    bool regenerate_ammo = false;
     int charges = 0;
     int charges_per_use = 0;
     int max_charges = 0;
     relic_recharge type = relic_recharge::num;
 
-    time_point last_charge;
+    time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
 
-    relic_charge_info();
+    relic_charge_info() = default;
 
     // Because multiple different charge types can overlap, cache the power
     // level from the charge type we were generated from here to avoid confusion
     int power = 0;
+
+    // accumulates time for charge, and increases charge if it has enough accumulated.
+    // assumes exactly one second has passed.
+    void accumulate_charge( item &parent );
 
     void deserialize( JsonIn &jsin );
     void load( const JsonObject &jo );
@@ -187,7 +201,12 @@ class relic
         int charges() const;
         int charges_per_use() const;
         int max_charges() const;
-        void try_recharge();
+
+        bool has_activation() const;
+        // has a recharge type (which needs to be actively processed)
+        bool has_recharge() const;
+
+        void try_recharge( item &parent, Character *carrier, const tripoint &pos );
 
         void load( const JsonObject &jo );
 

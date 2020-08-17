@@ -1,7 +1,8 @@
 #include "panels.h"
 
-#include <array>
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iosfwd>
 #include <iterator>
@@ -13,14 +14,12 @@
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
-#include "behavior_oracle.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
-#include "character_oracle.h"
 #include "character_martial_arts.h"
+#include "character_oracle.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
@@ -30,6 +29,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "magic.h"
@@ -42,8 +42,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -52,9 +52,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -928,7 +930,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print bodypart health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
@@ -1124,7 +1127,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     werase( w );
     int ny2 = 0;
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1142,7 +1146,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     // display limbs status
     ny2 = 0;
     i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1166,7 +1171,8 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
@@ -1553,7 +1559,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( bp, true, true, true ), str );

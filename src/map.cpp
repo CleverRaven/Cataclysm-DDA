@@ -7,19 +7,17 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <iterator>
 #include <limits>
 #include <ostream>
 #include <queue>
-#include <type_traits>
 #include <unordered_map>
 
 #include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "basecamp.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
@@ -29,6 +27,7 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -51,21 +50,20 @@
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map_memory.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
-#include "math_defines.h"
+#include "mapgen.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "optional.h"
 #include "options.h"
@@ -74,6 +72,8 @@
 #include "pathfinding.h"
 #include "player.h"
 #include "projectile.h"
+#include "relic.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -86,9 +86,11 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -4470,17 +4472,24 @@ item &map::add_item( const tripoint &p, item new_item )
 item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        return item( "salt_water", 0, item::INFINITE_CHARGES );
+        item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        return ret;
     }
 
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
-        item ret( "water_sewage", 0, item::INFINITE_CHARGES );
+        item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
-    item ret( "water", 0, item::INFINITE_CHARGES );
+    item ret( "water", calendar::turn, item::INFINITE_CHARGES );
+    ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+                              temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id.obj().examine == &iexamine::water_source ) {
         int poison_chance = 0;

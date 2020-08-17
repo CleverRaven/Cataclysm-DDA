@@ -3,7 +3,8 @@
 #include <string>
 
 #include "avatar.h"
-#include "effect.h"
+#include "calendar.h"
+#include "character.h"
 #include "options.h"
 #include "player.h"
 #include "type_id.h"

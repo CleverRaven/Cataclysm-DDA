@@ -1,18 +1,16 @@
 #include "catch/catch.hpp"
 
-#include <memory>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "options.h"
 #include "point.h"
 #include "type_id.h"
 

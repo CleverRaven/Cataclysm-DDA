@@ -1284,6 +1284,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "1 h 30 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ], [ "tanned_hide", 5 ] ] ]

@@ -1,7 +1,6 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>
@@ -10,15 +9,22 @@
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
+#include "int_id.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -30,6 +36,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const skill_id skill_swimming( "swimming" );
 
@@ -55,8 +62,8 @@ static int temperature_print_rescaling( int temp )
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const encumbrance_data enc_l = p.get_part_encumbrance_data( l );
-    const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
+    const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
+    const encumbrance_data &enc_r = p.get_part_encumbrance_data( r );
 
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
@@ -74,11 +81,8 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
 {
     // bool represents whether the part has been combined with its other half
     std::vector<std::pair<bodypart_id, bool>> bps;
-    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+    for( const bodypart_id &bp : p.get_all_body_parts( get_body_part_flags::sorted ) ) {
         // assuming that a body part has at most one other half
-        if( bp->opposite_part->opposite_part != bp.id() ) {
-            debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
-        }
         if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
             if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
                            true ) ) == bps.end() ) {

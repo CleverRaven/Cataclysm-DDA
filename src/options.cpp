@@ -1,9 +1,11 @@
 #include "options.h"
 
+#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -17,6 +19,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
@@ -41,7 +44,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
@@ -1532,11 +1534,27 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
+    add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
+         translate_marker( "Number of messages to preserve in the history, and when saving." ),
+         1, 10000, 255
+       );
+
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
+
+    add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
+         translate_marker( "Popup window when achievmement completed" ),
+         translate_marker( "Whether to trigger a popup window when completing an achievement.  "
+                           "First: when completing an achievement that has not been completed in "
+    "a previous game." ), {
+        { "never", translate_marker( "Never" ) },
+        { "always", translate_marker( "Always" ) },
+        { "first", translate_marker( "First" ) }
+    },
+    "first" );
 
     add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
          translate_marker( "Switch between look around panel being left or right." ),

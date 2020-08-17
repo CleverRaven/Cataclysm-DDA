@@ -17,11 +17,14 @@
 #include <utility>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_id.h"
+#include "colony.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
@@ -32,10 +35,10 @@
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_group.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "math_defines.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -1314,7 +1317,7 @@ void veh_interact::do_refill()
     auto act = [&]( const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
-                if( obj.is_container() && !obj.contents.empty() ) {
+                if( obj.is_watertight_container() && !obj.contents.empty() ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
                     return pt.can_reload( obj.contents.only_item() );
                 }
@@ -1460,58 +1463,61 @@ void veh_interact::calc_overview()
     }
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            if( !pt.ammo_current().is_null() ) {
+                std::string specials;
+                // vehicle parts can only have one pocket, and we are showing a liquid,
+                // which can only be one.
+                const item &it = pt.base.contents.legacy_front();
+                // a space isn't actually needed in front of the tags here,
+                // but item::display_name tags use a space so this prevents
+                // needing *second* translation for the same thing with a
+                // space in front of it
+                if( it.item_tags.count( "FROZEN" ) ) {
+                    specials += _( " (frozen)" );
+                } else if( it.rotten() ) {
+                    specials += _( " (rotten)" );
+                }
+                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                int offset = 1;
+                std::string fmtstring = "%s %s  %5.1fL";
+                if( pt.is_leaking() ) {
+                    fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, pt_ammo_cur->color,
+                             string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
+                                            round_up( units::to_liter( it.volume() ), 1 ) ) );
+            } else {
+                if( pt.is_leaking() ) {
+                    std::string outputstr = leak_marker + "      " + leak_marker;
+                    right_print( w, y, 0, c_light_gray, outputstr );
+                }
+            }
+        };
+        auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            if( !pt.ammo_current().is_null() ) {
+                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                double vol_L = to_liter( pt.ammo_remaining() * units::legacy_volume_factor /
+                                         pt_ammo_cur->stack_size );
+                int offset = 1;
+                std::string fmtstring = "%s  %5.1fL";
+                if( pt.is_leaking() ) {
+                    fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, pt_ammo_cur->color,
+                             string_format( fmtstring, item::nname( pt.ammo_current() ),
+                                            round_up( vol_L, 1 ) ) );
+            }
+        };
         if( vpr.part().is_tank() && vpr.part().is_available() ) {
-            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( !pt.ammo_current().is_null() ) {
-                    std::string specials;
-                    // vehicle parts can only have one pocket, and we are showing a liquid, which can only be one.
-                    const item &it = pt.base.contents.legacy_front();
-                    // a space isn't actually needed in front of the tags here,
-                    // but item::display_name tags use a space so this prevents
-                    // needing *second* translation for the same thing with a
-                    // space in front of it
-                    if( it.item_tags.count( "FROZEN" ) ) {
-                        specials += _( " (frozen)" );
-                    } else if( it.rotten() ) {
-                        specials += _( " (rotten)" );
-                    }
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    int offset = 1;
-                    std::string fmtstring = "%s %s  %5.1fL";
-                    if( pt.is_leaking() ) {
-                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
-                        offset = 0;
-                    }
-                    right_print( w, y, offset, pt_ammo_cur->color,
-                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
-                } else {
-                    if( pt.is_leaking() ) {
-                        std::string outputstr = leak_marker + "      " + leak_marker;
-                        right_print( w, y, 0, c_light_gray, outputstr );
-                    }
-                }
-            };
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
-        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() || vpr.part().is_reactor() ) &&
-                   !vpr.part().is_broken() ) {
-            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( !pt.ammo_current().is_null() ) {
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    int offset = 1;
-                    std::string fmtstring = "%s  %5.1fL";
-                    if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
-                        offset = 0;
-                    }
-                    right_print( w, y, offset, pt_ammo_cur->color,
-                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
-                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
-                }
-            };
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                        tank_details );
+        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() ||
+                   vpr.part().is_reactor() ) && !vpr.part().is_broken() ) {
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                        no_tank_details );
         }
     }
 
@@ -3085,7 +3091,7 @@ void veh_interact::complete_vehicle( player &p )
             struct vehicle_part &pt = veh->part( vehicle_part );
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
                 item &contained = src->contents.legacy_front();
-                contained.charges -= pt.base.fill_with( *contained.type, contained.charges );
+                contained.charges -= pt.base.fill_with( contained, contained.charges );
                 src->on_contents_changed();
 
                 if( pt.remaining_ammo_capacity() ) {

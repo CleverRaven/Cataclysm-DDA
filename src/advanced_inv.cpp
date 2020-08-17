@@ -6,17 +6,17 @@
 #include <initializer_list>
 #include <list>
 #include <memory>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -35,9 +35,11 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -50,6 +52,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -1342,7 +1345,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             exit = true;
         } else {
             // important if item is worn
-            if( player_character.can_unwield( *sitem->items.front() ).success() ) {
+            if( player_character.can_drop( *sitem->items.front() ).success() ) {
                 player_character.assign_activity( ACT_DROP );
                 player_character.activity.placement = squares[destarea].off;
 
@@ -1790,7 +1793,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         popup( err );
         return false;
     }
-    dest_container.fill_with( *src_contents.type, amount );
+    dest_container.fill_with( src_contents, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {

@@ -6,9 +6,12 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "bodypart.h"
+#include "catacharset.h"
 #include "character.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -44,6 +47,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -52,6 +56,8 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
+#include "viewer.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -1293,7 +1299,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
             return true;
         case DT_TRUE:
             return false;
@@ -1486,9 +1492,9 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     // Add any on damage effects
-    for( const auto &eff : type->atk_effs ) {
+    for( const mon_effect_data &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit : convert_bp( eff.bp ).id();
+            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit :  eff.bp.id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1563,8 +1569,8 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
                 return;
             }
             break;
-        case DT_NULL:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NULL" );
+        case DT_NONE:
+            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NONE" );
             break;
         case DT_ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
@@ -1851,7 +1857,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_COLD:
         case DT_ELECTRIC:
             return worn_armor;
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             // Let it error below
             break;

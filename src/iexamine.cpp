@@ -11,8 +11,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "ammo.h"
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -22,11 +23,11 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -37,6 +38,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -48,7 +50,6 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -91,10 +92,12 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -4873,7 +4876,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
         case BONESETTING: {
             int broken_limbs_count = 0;
-            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
+            for( const bodypart_id &part :
+                 patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
@@ -4944,7 +4948,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( const bodypart_id &bp_healed : patient.get_all_body_parts( true ) ) {
+            for( const bodypart_id &bp_healed :
+                 patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -34,15 +35,17 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+struct mutation_branch;
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
@@ -533,7 +536,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    bodypart_id bp_hit =  select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
     // Bashing critical
@@ -1545,6 +1548,11 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
+bool Creature::has_part( const bodypart_id &id ) const
+{
+    return body.find( id.id() ) != body.end();
+}
+
 bodypart *Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
@@ -1555,169 +1563,204 @@ bodypart *Creature::get_part( const bodypart_id &id )
     return &found->second;
 }
 
-bodypart Creature::get_part( const bodypart_id &id ) const
+const bodypart *Creature::get_part( const bodypart_id &id ) const
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return bodypart();
+        return nullptr;
     }
-    return found->second;
+    return &found->second;
+}
+
+template<typename T>
+static T get_part_helper( const Creature &c, const bodypart_id &id,
+                          T( bodypart::* get )() const )
+{
+    const bodypart *const part = c.get_part( id );
+    if( part ) {
+        return ( part->*get )();
+    } else {
+        // If the bodypart doesn't exist, return the appropriate accessor on the null bodypart.
+        // Static null bodypart variable, otherwise the compiler notes the possible return of local variable address (#42798).
+        static const bodypart bp_null;
+        return ( bp_null.*get )();
+    }
+}
+
+namespace
+{
+template<typename T>
+class type_identity
+{
+    public:
+        using type = T;
+};
+} // namespace
+
+template<typename T>
+static void set_part_helper( Creature &c, const bodypart_id &id,
+                             void( bodypart::* set )( T ), typename type_identity<T>::type val )
+{
+    bodypart *const part = c.get_part( id );
+    if( part ) {
+        ( part->*set )( val );
+    }
 }
 
 int Creature::get_part_hp_cur( const bodypart_id &id ) const
 {
-    return get_part( id ).get_hp_cur();
+    return get_part_helper( *this, id, &bodypart::get_hp_cur );
 }
 
 int Creature::get_part_hp_max( const bodypart_id &id ) const
 {
-    return get_part( id ).get_hp_max();
+    return get_part_helper( *this, id, &bodypart::get_hp_max );
 }
 
 int Creature::get_part_healed_total( const bodypart_id &id ) const
 {
-    return get_part( id ).get_healed_total();
+    return get_part_helper( *this, id, &bodypart::get_healed_total );
 }
 
 int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
 {
-    return get_part( id ).get_damage_disinfected();
+    return get_part_helper( *this, id, &bodypart::get_damage_disinfected );
 }
 
 int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
 {
-    return get_part( id ).get_damage_bandaged();
+    return get_part_helper( *this, id, &bodypart::get_damage_bandaged );
 }
 
-encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+const encumbrance_data &Creature::get_part_encumbrance_data( const bodypart_id &id ) const
 {
-    return get_part( id ).get_encumbrance_data();
+    return get_part_helper( *this, id, &bodypart::get_encumbrance_data );
 }
 
 int Creature::get_part_drench_capacity( const bodypart_id &id ) const
 {
-    return get_part( id ).get_drench_capacity();
+    return get_part_helper( *this, id, &bodypart::get_drench_capacity );
 }
 
 int Creature::get_part_wetness( const bodypart_id &id ) const
 {
-    return get_part( id ).get_wetness();
+    return get_part_helper( *this, id, &bodypart::get_wetness );
 }
 
 int Creature::get_part_temp_cur( const bodypart_id &id ) const
 {
-    return get_part( id ).get_temp_cur();
+    return get_part_helper( *this, id, &bodypart::get_temp_cur );
 }
 
 int Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
-    return get_part( id ).get_temp_conv();
+    return get_part_helper( *this, id, &bodypart::get_temp_conv );
 }
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part( id ).get_frotbite_timer();
+    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
-    return get_part( id ).get_wetness_percentage();
+    return get_part_helper( *this, id, &bodypart::get_wetness_percentage );
 }
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_cur( set );
+    set_part_helper( *this, id, &bodypart::set_hp_cur, set );
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_max( set );
+    set_part_helper( *this, id, &bodypart::set_hp_max, set );
 }
 
 void Creature::set_part_healed_total( const bodypart_id &id, int set )
 {
-    get_part( id )->set_healed_total( set );
+    set_part_helper( *this, id, &bodypart::set_healed_total, set );
 }
 
 void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
 {
-    get_part( id )->set_damage_disinfected( set );
+    set_part_helper( *this, id, &bodypart::set_damage_disinfected, set );
 }
 
 void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
 {
-    get_part( id )->set_damage_bandaged( set );
+    set_part_helper( *this, id, &bodypart::set_damage_bandaged, set );
 }
 
-void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+void Creature::set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set )
 {
-    get_part( id )->set_encumbrance_data( set );
+    set_part_helper( *this, id, &bodypart::set_encumbrance_data, set );
 }
 
 void Creature::set_part_wetness( const bodypart_id &id, int set )
 {
-    get_part( id )->set_wetness( set );
+    set_part_helper( *this, id, &bodypart::set_wetness, set );
 }
 
 void Creature::set_part_temp_cur( const bodypart_id &id, int set )
 {
-    get_part( id )->set_temp_cur( set );
+    set_part_helper( *this, id, &bodypart::set_temp_cur, set );
 }
 
 void Creature::set_part_temp_conv( const bodypart_id &id, int set )
 {
-    get_part( id )->set_temp_conv( set );
+    set_part_helper( *this, id, &bodypart::set_temp_conv, set );
 }
 
 void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
 {
-    get_part( id )->set_frostbite_timer( set );
+    set_part_helper( *this, id, &bodypart::set_frostbite_timer, set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_cur( mod );
+    set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_max( mod );
+    set_part_helper( *this, id, &bodypart::mod_hp_max, mod );
 }
 
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_healed_total( mod );
+    set_part_helper( *this, id, &bodypart::mod_healed_total, mod );
 }
 
 void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_damage_disinfected( mod );
+    set_part_helper( *this, id, &bodypart::mod_damage_disinfected, mod );
 }
 
 void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_damage_bandaged( mod );
+    set_part_helper( *this, id, &bodypart::mod_damage_bandaged, mod );
 }
 
 void Creature::mod_part_wetness( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_wetness( mod );
+    set_part_helper( *this, id, &bodypart::mod_wetness, mod );
 }
 
 void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_temp_cur( mod );
+    set_part_helper( *this, id, &bodypart::mod_temp_cur, mod );
 }
 
 void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_temp_conv( mod );
+    set_part_helper( *this, id, &bodypart::mod_temp_conv, mod );
 }
 
 void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_frostbite_timer( mod );
+    set_part_helper( *this, id, &bodypart::mod_frostbite_timer, mod );
 }
 
 void Creature::set_all_parts_temp_cur( int set )
@@ -1767,7 +1810,7 @@ bool Creature::has_atleast_one_wet_part() const
 
 bool Creature::is_part_at_max_hp( const bodypart_id &id ) const
 {
-    return get_part( id ).is_at_max_hp();
+    return get_part_helper( *this, id, &bodypart::is_at_max_hp );
 }
 
 bodypart_id Creature::get_random_body_part( bool main ) const
@@ -1777,14 +1820,134 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+static void sort_body_parts( std::vector<bodypart_id> &bps )
 {
+    // We want to dynamically sort the parts based on their connections as
+    // defined in json.
+    // The goal is to performa a pre-order depth-first traversal starting
+    // with the root part (the head) and prioritising children with fewest
+    // descendants.
+
+    // First build a map with the reverse connections
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
+    bodypart_id root_part;
+    for( const bodypart_id &bp : bps ) {
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            root_part = bp;
+        } else {
+            parts_connected_to[conn].insert( bp );
+        }
+    }
+
+    if( root_part == bodypart_id() ) {
+        debugmsg( "No root part in body" );
+        return;
+    }
+
+    // Topo-sort the parts from the extremities towards the head
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> unaccounted_parts =
+                parts_connected_to;
+    cata::flat_set<bodypart_id> parts_with_no_connections;
+
+    for( const bodypart_id &bp : bps ) {
+        if( unaccounted_parts[bp].empty() ) {
+            parts_with_no_connections.insert( bp );
+        }
+    }
+
+    std::vector<bodypart_id> topo_sorted_parts;
+    while( !parts_with_no_connections.empty() ) {
+        auto last = parts_with_no_connections.end();
+        --last;
+
+        bodypart_id bp = *last;
+        parts_with_no_connections.erase( last );
+        unaccounted_parts.erase( bp );
+        topo_sorted_parts.push_back( bp );
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            break;
+        }
+        auto conn_it = unaccounted_parts.find( conn );
+        assert( conn_it != unaccounted_parts.end() );
+        conn_it->second.erase( bp );
+        if( conn_it->second.empty() ) {
+            parts_with_no_connections.insert( conn );
+        }
+    }
+
+    if( !unaccounted_parts.empty() || !parts_with_no_connections.empty() ) {
+        debugmsg( "Error in topo-sorting bodyparts: unaccounted_parts.size() == %d; "
+                  "parts_with_no_connections.size() == %d", unaccounted_parts.size(),
+                  parts_with_no_connections.size() );
+        return;
+    }
+
+    // Using the topo-sorted parts, we can count the descendants of each
+    // part
+    std::unordered_map<bodypart_id, int> num_descendants;
+    for( const bodypart_id &bp : topo_sorted_parts ) {
+        int this_num_descendants = 1;
+        for( const bodypart_id &child : parts_connected_to[bp] ) {
+            this_num_descendants += num_descendants[child];
+        }
+        num_descendants[bp] = this_num_descendants;
+    }
+
+    // Finally, we can do the depth-first traversal:
+    std::vector<bodypart_id> result;
+    std::stack<bodypart_id> pending;
+    pending.push( root_part );
+
+    const auto compare_children = [&]( const bodypart_id & l, const bodypart_id & r ) {
+        std::string l_name = l->name.translated();
+        std::string r_name = r->name.translated();
+        bodypart_id l_opp = l->opposite_part;
+        bodypart_id r_opp = r->opposite_part;
+        // Sorting first on the min of the name and opposite's name ensures
+        // that we put pairs together in the list.
+        std::string l_min_name = std::min( l_name, l_opp->name.translated(), localized_compare );
+        std::string r_min_name = std::min( r_name, r_opp->name.translated(), localized_compare );
+        // We delibarately reverse the comparison because the elements get
+        // reversed below when they are transferred from the vector to the
+        // stack.
+        return localized_compare(
+                   std::make_tuple( num_descendants[r], r_min_name, r_name ),
+                   std::make_tuple( num_descendants[l], l_min_name, l_name ) );
+    };
+
+    while( !pending.empty() ) {
+        bodypart_id next = pending.top();
+        pending.pop();
+        result.push_back( next );
+
+        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
+        std::sort( children.begin(), children.end(), compare_children );
+        for( const bodypart_id &child : children ) {
+            pending.push( child );
+        }
+    }
+
+    assert( bps.size() == result.size() );
+    bps = result;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags ) const
+{
+    bool only_main( flags & get_body_part_flags::only_main );
+
     std::vector<bodypart_id> all_bps;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
         all_bps.push_back( elem.first );
+    }
+
+    if( flags & get_body_part_flags::sorted ) {
+        sort_body_parts( all_bps );
     }
 
     return  all_bps;
@@ -2046,7 +2209,7 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
-body_part Creature::select_body_part( Creature *source, int hit_roll ) const
+bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
@@ -2055,7 +2218,13 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    return anatomy_human_anatomy->select_body_part( szdif, hit_roll )->token;
+    return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
+}
+
+bodypart_id Creature::random_body_part( bool main_parts_only ) const
+{
+    const bodypart_id &bp = get_anatomy()->random_body_part();
+    return  main_parts_only ? bp->main_part : bp ;
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )

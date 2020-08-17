@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <cmath>
 #include <cstddef>
 #include <list>
 #include <memory>
@@ -11,12 +12,13 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -46,16 +48,17 @@
 #include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "scent_block.h"
+#include "scent_map.h"
 #include "string_id.h"
 #include "submap.h"
 #include "teleport.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -119,21 +122,19 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
 }
 
 // Use a helper for a bit less boilerplate
-int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int scale )
+int map::burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, const int scale )
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
     const int damage = rng( 1, ( scale + intensity ) / 2 );
     // A bit ugly, but better than being annoyed by acid when in hazmat
-    if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
-        const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
-                                          damage_instance( DT_ACID, damage ) );
+    if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+        const dealt_damage_instance ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
         total_damage += ddi.total_damage();
     }
     // Represents acid seeping in rather than being splashed on
-    u.add_env_effect( effect_corroding, convert_bp( bp ).id(), 2 + intensity,
-                      time_duration::from_turns( rng( 2,
-                              1 + intensity ) ), convert_bp( bp ).id(), false, 0 );
+    u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
+                      1 + intensity ) ), bp, false, 0 );
     return total_damage;
 }
 
@@ -1409,21 +1410,21 @@ void map::player_in_field( player &u )
             // you're certainly not standing in it.
             if( !u.in_vehicle && !u.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
-                total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
+                total_damage += burn_body_part( u, cur, bodypart_id( "foot_l" ), 2 );
+                total_damage += burn_body_part( u, cur, bodypart_id( "foot_r" ), 2 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
                     // Apply the effect to the remaining body parts
-                    total_damage += burn_body_part( u, cur, bp_leg_l, 2 );
-                    total_damage += burn_body_part( u, cur, bp_leg_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
-                    total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
-                    total_damage += burn_body_part( u, cur, bp_torso, 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "leg_l" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "leg_r" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "hand_l" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "hand_r" ), 2 );
+                    total_damage += burn_body_part( u, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
                     if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                        total_damage += burn_body_part( u, cur, bp_arm_l, 1 );
-                        total_damage += burn_body_part( u, cur, bp_arm_r, 1 );
-                        total_damage += burn_body_part( u, cur, bp_head, 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "arm_l" ), 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "arm_r" ), 1 );
+                        total_damage += burn_body_part( u, cur, bodypart_id( "head" ), 1 );
                     }
                 }
 
@@ -1590,7 +1591,8 @@ void map::player_in_field( player &u )
             // Small universal damage based on intensity, only if not electroproofed.
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
-                for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+                for( const bodypart_id &bp :
+                     u.get_all_body_parts( get_body_part_flags::only_main ) ) {
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
@@ -1610,11 +1612,14 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_fatigue ) {
-            // Teleports you... somewhere.
-            if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
-                add_msg( m_bad, _( "You're violently teleported!" ) );
-                u.hurtall( cur.get_field_intensity(), nullptr );
-                teleport::teleport( u );
+            // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
+            if( !u.in_vehicle ) {
+                // Teleports you... somewhere.
+                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                    add_msg( m_bad, _( "You're violently teleported!" ) );
+                    u.hurtall( cur.get_field_intensity(), nullptr );
+                    teleport::teleport( u );
+                }
             }
         }
         // Why do these get removed???
@@ -1743,8 +1748,7 @@ void map::creature_in_field( Creature &critter )
             }
             bool effect_added = false;
             if( fe.is_environmental ) {
-                effect_added = critter.add_env_effect( fe.id, convert_bp( fe.bp ).id(), fe.intensity,
-                                                       fe.get_duration() );
+                effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
             } else {
                 effect_added = true;
                 critter.add_effect( field_fx );

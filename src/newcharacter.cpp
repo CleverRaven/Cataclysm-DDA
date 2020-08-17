@@ -1,8 +1,6 @@
-#include "avatar.h" // IWYU pragma: associated
-
 #include <algorithm>
-#include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
@@ -17,17 +15,21 @@
 #include <vector>
 
 #include "addiction.h"
+#include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"
+#include "item.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
@@ -42,7 +44,6 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
-#include "popup.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -3115,7 +3116,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     set_scenario( scen );
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier != 0 ) {
+        if( t.obj().hp_modifier.has_value() ) {
             u.toggle_trait( t );
         }
     }
