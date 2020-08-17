@@ -1566,16 +1566,16 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( mapgendata &dat );
+        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
-        void draw_temple( mapgendata &dat );
+        void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
-        void draw_anthill( mapgendata &dat );
-        void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
-        void draw_triffid( mapgendata &dat );
-        void draw_connections( mapgendata &dat );
+        void draw_spiral( const mapgendata &dat );
+        void draw_anthill( const mapgendata &dat );
+        void draw_slimepit( const mapgendata &dat );
+        void draw_spider_pit( const mapgendata &dat );
+        void draw_triffid( const mapgendata &dat );
+        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
