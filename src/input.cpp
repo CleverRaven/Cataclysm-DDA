@@ -240,7 +240,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string context = action.get_string( "category", default_context_id );
         t_actions &actions = action_contexts[context];
         if( action.has_member( "name" ) ) {
-                action.read( "name", actions[action_id].name );
+            action.read( "name", actions[action_id].name );
         }
 
         t_input_event_list events;
