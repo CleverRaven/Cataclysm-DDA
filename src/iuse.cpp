@@ -831,10 +831,10 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
 
 int iuse::weed_edible( player *p, item *it, bool, const tripoint & )
 {
-    if( (it->get_comestible()->comesttype : "") == "FOOD" ) {
+    if( (it->get_comestible()->comesttype) == comesttype_FOOD ) {
         p->add_msg_if_player(
             _( "You start scarfing down the delicious %s.  It tastes a little funny though…" ), it->tname() );
-    } else if( (it->get_comestible()->comesttype : "") == "DRINK" ) {
+    } else if( (it->get_comestible()->comesttype) == comesttype_DRINK ) {
         p->add_msg_if_player(
             _( "You start gulping down the delicious %s.  It tastes a little funny though…" ), it->tname() );
     }
