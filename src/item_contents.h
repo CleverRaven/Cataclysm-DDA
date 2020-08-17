@@ -241,7 +241,7 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input );
+        void combine( const item_contents &read_input, bool convert = false );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
