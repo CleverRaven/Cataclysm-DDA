@@ -3065,7 +3065,6 @@ void options_manager::load()
         if( load_legacy() ) {
             if( save() ) {
                 remove_file( PATH_INFO::legacy_options() );
-                remove_file( PATH_INFO::legacy_options2() );
             }
         }
     }
@@ -3100,8 +3099,7 @@ bool options_manager::load_legacy()
         }
     };
 
-    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
-           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
+    return read_from_file_optional( PATH_INFO::legacy_options(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const

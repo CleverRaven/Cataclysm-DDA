@@ -280,10 +280,6 @@ std::string PATH_INFO::legacy_options()
 {
     return "data/options.txt";
 }
-std::string PATH_INFO::legacy_options2()
-{
-    return config_dir_value + "options.txt";
-}
 std::string PATH_INFO::memorialdir()
 {
     return memorialdir_value;
