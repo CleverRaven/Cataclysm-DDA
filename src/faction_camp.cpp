@@ -2004,8 +2004,7 @@ void basecamp::start_setup_hide_site()
                                               };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::type,
-                              true, true,
-                              omt_pos, true );
+                              true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = *get_player_character().inv;
@@ -2048,8 +2047,7 @@ void basecamp::start_relay_hide_site()
     std::vector<std::string> hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 10, 90, hide_locations, ot_match_type::exact,
-                              true, true,
-                              omt_pos, true );
+                              true, true, omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = *get_player_character().inv;
