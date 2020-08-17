@@ -1,12 +1,16 @@
 #include "weather_type.h"
-#include "weather.h"
-#include "game_constants.h"
+
+#include <cstdlib>
+#include <set>
+
+#include "assign.h"
+#include "debug.h"
+#include "generic_factory.h"
 
 namespace
 {
 generic_factory<weather_type> weather_type_factory( "weather_type" );
 } // namespace
-
 
 namespace io
 {
@@ -268,7 +272,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_requires, was_loaded, "windpower_max", new_requires.windpower_max, INT_MAX );
         optional( weather_requires, was_loaded, "humidity_and_pressure", new_requires.humidity_and_pressure,
                   true );
-        optional( weather_requires, was_loaded, "acidic", new_requires.acidic, false );
         optional( weather_requires, was_loaded, "time", new_requires.time,
                   weather_time_requirement_type::both );
         for( const std::string &required_weather :
@@ -319,4 +322,3 @@ void weather_types::load( const JsonObject &jo, const std::string &src )
 {
     weather_type_factory.load( jo, src );
 }
-

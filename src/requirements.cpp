@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
@@ -16,6 +17,7 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
@@ -24,7 +26,6 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -144,7 +145,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
 std::string item_comp::to_string( const int batch, const int avail ) const
 {
     const int c = std::abs( count ) * batch;
-    const auto type_ptr = item::find_type( type );
+    const itype *type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement

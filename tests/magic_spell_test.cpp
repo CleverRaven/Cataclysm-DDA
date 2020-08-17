@@ -1,11 +1,17 @@
 #include "catch/catch.hpp"
 
+#include <memory>
+#include <string>
+
 #include "avatar.h"
 #include "game.h"
 #include "magic.h"
-
-#include "player_helpers.h"
 #include "map_helpers.h"
+#include "monster.h"
+#include "pimpl.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // Magic Spell tests
 // -----------------
@@ -495,7 +501,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     REQUIRE( pew_spell.range() >= 2 );
 
     // Ensure avatar has enough mana to cast
-    REQUIRE( dummy.magic.has_enough_energy( dummy, pew_spell ) );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, pew_spell ) );
 
     // Cast the spell and measure the defender's change in HP
     before_hp = mummy.get_hp();
@@ -525,7 +531,7 @@ TEST_CASE( "spell effect - summon", "[magic][spell][effect][summon]" )
     spell_id mummy_id( "test_spell_tp_mummy" );
 
     spell mummy_spell( mummy_id );
-    REQUIRE( dummy.magic.has_enough_energy( dummy, mummy_spell ) );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, mummy_spell ) );
 
     // Summon the mummy in the adjacent space
     mummy_spell.cast_spell_effect( dummy, mummy_loc );

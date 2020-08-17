@@ -6,7 +6,7 @@
       { "id": "note_1", "text": "\"WE WERE RIGHT THE GOVERNMENT DID IT\"" },
       {
         "id": "note_2",
-        "text": "\"Have seen a zombie making its kin raise even despite damage that normally would take them down, the air around it shimmered like around that hole in the air we've seen creatures coming through back home\""
+        "text": "\"Have seen a zombie making its kin raise even despite damage that normally would take them down, the surrounding air shimmered like around that hole in the air we've seen creatures coming through back home\""
       },
       { "id": "note_3", "text": "\"I shot the sheriff; but I couldn't find the deputy\"" },
       {
@@ -96,7 +96,7 @@
       { "id": "note_31", "text": "\"Why are all the lawnmowers broken?!\"" },
       {
         "id": "note_32",
-        "text": "\"Some of the bridges, they're right next to each other, right?  If you see something up ahead one of those, just careen through to the other side.  My van was long enough to bridge right across!\""
+        "text": "\"Some bridges, they're right next to each other, right?  If you see something up ahead one of those, just careen through to the other side.  My van was long enough to bridge right across!\""
       },
       { "id": "note_33", "text": "\"BURN BURN BURN BURN BURN ALL BURN ALL BURN ALL BURN\"" },
       {
@@ -580,6 +580,10 @@
       {
         "id": "note_223",
         "text": "\"followed what toby wrote down.  shells looked like theyd hold more, I put in some more.  traded most to h raiders for crank.  shot my 38 today and it fuckn exploded.  low on crank, good as dead, no gun, no toby.  headed to montreal real sorry bout the bullets\""
+      },
+      {
+        "id": "note_224",
+        "text": "\"…damn those hybrid cars are efficient.  Wish I was smart enough to finagle that engine controller out of it…  heard Scrapper Joe put one in his deathmobile and now doesn't need gas at all…  then again, Joe is full of shit…\""
       }
     ]
   }

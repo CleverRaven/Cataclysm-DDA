@@ -1,0 +1,155 @@
+[
+  {
+    "abstract": "windshield_abstract",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
+    "broken_color": "light_gray",
+    "broken_symbol": "0",
+    "color": "light_cyan",
+    "damage_modifier": 70,
+    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "durability": 50,
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "item": "glass_sheet",
+    "location": "center",
+    "looks_like": "t_wall_glass",
+    "name": { "str": "windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "symbol": "\"",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reinforced_windshield_abstract",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
+    "broken_color": "light_gray",
+    "broken_symbol": "0",
+    "color": "light_blue",
+    "damage_modifier": 80,
+    "damage_reduction": { "all": 16 },
+    "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
+    "durability": 250,
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "item": "reinforced_glass_sheet",
+    "location": "center",
+    "looks_like": "windshield",
+    "name": { "str": "reinforced windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "symbol": "\"",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield",
+    "symbol": "\"",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield",
+    "symbol": "\"",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_nw",
+    "symbol": "y",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield_nw",
+    "symbol": "y",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_ne",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield_ne",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_sw",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_se",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_nw_edge",
+    "symbol": "y",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_ne_edge",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_sw_edge",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_se_edge",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_vertical_left",
+    "symbol": "j",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_vertical_right",
+    "symbol": "H",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_horizontal_front_edge",
+    "symbol": "^",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_horizontal_front",
+    "symbol": "T",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reinforced_windshield_abstract",
+    "id": "reinforced_windshield_horizontal_front",
+    "symbol": "T",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "windshield_abstract",
+    "id": "windshield_horizontal_rear",
+    "symbol": "B",
+    "type": "vehicle_part"
+  }
+]

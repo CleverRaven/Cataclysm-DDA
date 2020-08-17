@@ -1,7 +1,19 @@
 #include "catch/catch.hpp"
 
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "flat_set.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 // Includes functions:
 // item::magazine_compatible
@@ -82,7 +94,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
                 CHECK( flashlight.tname() == "flashlight (off)+1" );
             }
-
 
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );

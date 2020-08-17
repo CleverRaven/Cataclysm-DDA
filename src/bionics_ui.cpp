@@ -1,12 +1,12 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
-#include <array>
 #include <cstddef>
 #include <memory>
 
 #include "bionics.h"
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "compatibility.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -15,12 +15,16 @@
 #include "inventory.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 
@@ -162,7 +166,7 @@ bionic *player::bionic_by_invlet( const int ch )
         return nullptr;
     }
 
-    for( auto &elem : *my_bionics ) {
+    for( bionic &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -172,7 +176,7 @@ bionic *player::bionic_by_invlet( const int ch )
 
 char get_free_invlet( player &p )
 {
-    for( auto &inv_char : bionic_chars ) {
+    for( const char &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }

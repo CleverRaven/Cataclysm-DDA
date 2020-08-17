@@ -10,6 +10,7 @@ args_dict = vars(args.parse_args())
 
 inheriting_item_ids = []
 
+
 def gen_new(path):
     change = False
     with open(path, "r") as json_file:

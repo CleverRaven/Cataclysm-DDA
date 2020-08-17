@@ -7,14 +7,14 @@
 #include <vector>
 
 #include "avatar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "game.h"
 #include "json.h"
-#include "line.h"
 #include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "messages.h"
@@ -24,7 +24,6 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "point.h"
 #include "rng.h"
 #include "talker.h"
 #include "translations.h"
@@ -540,7 +539,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &mission_function : funcs ) {
+        for( const auto &mission_function : funcs ) {
             mission_function( miss );
         }
     };

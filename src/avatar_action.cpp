@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -12,12 +13,12 @@
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -27,15 +28,12 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -43,14 +41,17 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -61,6 +62,7 @@ class player;
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
@@ -130,7 +132,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !is_riding ) {
+        !is_riding && !you.has_effect( effect_incorporeal ) ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -207,14 +209,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( new_d.x >= 0 && new_d.y >= 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                auto mons = you.mounted_creature.get();
+                auto *mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::RIGHT;
             }
         }
         if( new_d.y <= 0 && new_d.x <= 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                auto mons = you.mounted_creature.get();
+                auto *mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::LEFT;
             }
         }
@@ -368,7 +370,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
         if( is_riding ) {
-            auto mon = you.mounted_creature.get();
+            auto *mon = you.mounted_creature.get();
             if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
@@ -571,7 +573,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         m.board_vehicle( you.pos(), &you );
     }
     you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 );
-    you.inv.rust_iron_items();
+    you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );
@@ -967,6 +969,9 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 {
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
+        return;
+    } else if( you.has_effect( effect_incorporeal ) ) {
+        add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return;
     }
     if( you.is_mounted() ) {

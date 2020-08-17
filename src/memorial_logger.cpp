@@ -1,5 +1,6 @@
 #include "memorial_logger.h"
 
+#include <algorithm>
 #include <istream>
 #include <list>
 #include <map>
@@ -14,7 +15,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_variant.h"
+#include "character.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "debug_menu.h"
 #include "effect.h"
@@ -24,11 +27,12 @@
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "json.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -39,6 +43,8 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "past_games_info.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
 #include "skill.h"
@@ -203,7 +209,7 @@ std::string memorial_logger::dump() const
     static const char *eol = cata_files::eol();
     std::string output;
 
-    for( auto &elem : log ) {
+    for( const memorial_log_entry &elem : log ) {
         output += elem.to_string();
         output += eol;
     }
@@ -396,8 +402,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv.restack( u );
-    invslice slice = u.inv.slice();
+    u.inv->restack( u );
+    invslice slice = u.inv->slice();
     for( const std::list<item> *elem : slice ) {
         const item &next_item = elem->front();
         file << indent << next_item.invlet << " - " <<
@@ -441,6 +447,10 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.member( "scores", scores );
 
     jsout.end_object();
+
+    // Having written a new memorial file, we need to ensure that
+    // past_games_info now takes that into account
+    clear_past_games();
 }
 
 void memorial_logger::notify( const cata::event &e )
@@ -520,22 +530,22 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::broken_bone: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broke his %s." ),
                      pgettext( "memorial_female", "Broke her %s." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }

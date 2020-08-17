@@ -1,5 +1,3 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -10,9 +8,10 @@
 #include <tuple>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "bodypart.h"
+#include "character.h"
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
@@ -23,7 +22,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_factory.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
@@ -36,19 +36,22 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
-#include "player.h"
 #include "player_activity.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
+#include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -721,6 +724,26 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
         actions.push_back( [&] { control_engines(); refresh(); } );
+    }
+
+    if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
+        options.emplace_back( _( "Smart controller settings" ),
+                              keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) );
+        actions.push_back( [&] {
+            if( !smart_controller_cfg )
+            {
+                smart_controller_cfg = smart_controller_config();
+            }
+
+            auto cfg_view = smart_controller_settings( has_enabled_smart_controller,
+                    smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
+            smart_controller_ui( cfg_view ).control();
+            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
+            {
+                vp.part().enabled = cfg_view.enabled;
+            }
+            refresh();
+        } );
     }
 
     if( is_alarm_on ) {
@@ -1771,7 +1794,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
 
-    m.add_effect( effect_harnessed, 1_turns, num_bp, true );
+    m.add_effect( effect_harnessed, 1_turns, true );
     m.setpos( pos );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );

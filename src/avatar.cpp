@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
@@ -55,7 +56,6 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -68,6 +68,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -119,9 +120,6 @@ static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
 static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-
-class JsonIn;
-class JsonOut;
 
 avatar::avatar()
 {
@@ -566,7 +564,7 @@ bool avatar::read( item &it, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+            if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
@@ -1209,11 +1207,11 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, true );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -1303,7 +1301,7 @@ void avatar::reset_stats()
     }
 
     // Apply static martial arts buffs
-    martial_arts_data.ma_static_effects( *this );
+    martial_arts_data->ma_static_effects( *this );
 
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
@@ -1311,7 +1309,7 @@ void avatar::reset_stats()
 
     // Effects
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
@@ -1577,8 +1575,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
 
     return true;
 }
@@ -1586,11 +1584,15 @@ bool avatar::wield( item &target, const int obtain_cost )
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+    const int num_methods = use_methods.size();
 
-    if( use_methods.empty() ) {
+    const bool has_relic = used->is_relic();
+    if( use_methods.empty() && !has_relic ) {
         return false;
-    } else if( use_methods.size() == 1 ) {
+    } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt );
+    } else if( num_methods == 0 && has_relic ) {
+        return used->use_relic( *this, pt );
     }
 
     uilist umenu;
@@ -1603,6 +1605,10 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
+    if( has_relic ) {
+        umenu.addentry_desc( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN, _( "Use relic" ),
+                             _( "Activate this relic." ) );
+    }
 
     umenu.desc_enabled = std::any_of( umenu.entries.begin(),
     umenu.entries.end(), []( const uilist_entry & elem ) {
@@ -1612,7 +1618,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     umenu.query();
 
     int choice = umenu.ret;
-    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+    // Use the relic
+    if( choice == num_methods ) {
+        return used->use_relic( *this, pt );
+    }
+    if( choice < 0 || choice >= num_methods ) {
         return false;
     }
 
@@ -1663,6 +1673,7 @@ static const std::map<float, std::string> activity_levels_str = {
     { NO_EXERCISE, "NO_EXERCISE" },
     { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
     { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
     { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
@@ -1690,8 +1701,8 @@ std::string avatar::total_daily_calories_string() const
 {
     std::string ret =
         " E: Extra exercise\n A: Active exercise\n"
-        " M: Moderate exercise\n L: Light exercise\n"
-        " N: No exercise\n"
+        " B: Brisk Exercise\n M: Moderate exercise\n"
+        " L: Light exercise\n N: No exercise\n"
         " Each number refers to 5 minutes\n"
         "     gained     spent      total\n";
     int num_day = 1;
@@ -1699,12 +1710,13 @@ std::string avatar::total_daily_calories_string() const
         // Each row is 32 columns long - for the first row, it's
         // 5 for the day and the offset from it,
         // 18 for the numbers, and 9 for the spacing between them
-        // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
-        std::string activity_str = string_format( "%3dE  %3dA  %3dM  %3dL  %3dN",
+        // For the second, 5 offset + 6 labels + 5 spacing leaves 16 for the levels
+        std::string activity_str = string_format( "%3dE %3dA %3dB %3dM %3dL %3dN",
                                    day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
+                                   day.activity_levels.at( BRISK_EXERCISE ),
                                    day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
                                    day.activity_levels.at( NO_EXERCISE ) );
-        std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
+        std::string act_stats = string_format( " %1s %s", colorize( ">", c_light_gray ),
                                                colorize( activity_str, c_yellow ) );
         std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
                                     day.spent, day.total() );

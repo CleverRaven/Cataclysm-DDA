@@ -3,13 +3,22 @@
 #define CATA_SRC_SDLTILES_H
 
 #include <array>
+
+#include "point.h"
+
+struct point;
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+
 #if defined(TILES)
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "color_loader.h"
-#include "point.h"
 #include "sdl_wrappers.h"
 
 class cata_tiles;
@@ -41,4 +50,6 @@ window_dimensions get_window_dimensions( const point &pos, const point &size );
 
 #endif // TILES
 
+// Text level, valid only for a point relative to the window, not a point in overall space.
+bool window_contains_point_relative( const catacurses::window &win, const point &p );
 #endif // CATA_SRC_SDLTILES_H

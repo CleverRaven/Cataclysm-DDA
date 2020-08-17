@@ -23,7 +23,6 @@ void GeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const point &pos,
     this->rect( renderer, rect, color );
 }
 
-
 void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                                     const SDL_Color &color ) const
 {

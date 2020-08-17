@@ -932,7 +932,7 @@
     "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "1770 g",
     "volume": "4100 ml",
-    "longest_side": "35cm",
+    "longest_side": "35 cm",
     "price": 2500,
     "price_postapoc": 2000,
     "to_hit": -1,

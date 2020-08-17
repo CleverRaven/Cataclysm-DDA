@@ -1,5 +1,6 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <memory>
@@ -8,9 +9,9 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +19,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -27,10 +29,10 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "popup.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -205,7 +207,7 @@ void defense_game::game_over()
 
 void defense_game::init_mtypes()
 {
-    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_FACTORY_H
 #define CATA_SRC_ITEM_FACTORY_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
@@ -15,6 +16,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class Item_group;
@@ -132,7 +134,7 @@ class Item_factory
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identifier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode

@@ -1,11 +1,13 @@
 #include "damage.h"
 
-#include <cstddef>
 #include <algorithm>
+#include <cstddef>
 #include <map>
 #include <numeric>
 #include <utility>
 
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -13,7 +15,36 @@
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-#include "cata_utility.h"
+#include "units.h"
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<damage_type>( damage_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case damage_type::DT_NONE: return "none";
+        case damage_type::DT_TRUE: return "true";
+        case damage_type::DT_BIOLOGICAL: return "biological";
+        case damage_type::DT_BASH: return "bash";
+        case damage_type::DT_CUT: return "cut";
+        case damage_type::DT_ACID: return "acid";
+        case damage_type::DT_STAB: return "stab";
+        case damage_type::DT_HEAT: return "heat";
+        case damage_type::DT_COLD: return "cold";
+        case damage_type::DT_ELECTRIC: return "electric";
+        case damage_type::DT_BULLET: return "bullet";
+            // *INDENT-ON*
+        case damage_type::NUM_DT:
+            break;
+    }
+    debugmsg( "Invalid damage_type" );
+    abort();
+}
+
+} // namespace io
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -55,19 +86,19 @@ void damage_instance::mult_damage( double multiplier, bool pre_armor )
     }
 
     if( pre_armor ) {
-        for( auto &elem : damage_units ) {
+        for( damage_unit &elem : damage_units ) {
             elem.amount *= multiplier;
         }
     } else {
-        for( auto &elem : damage_units ) {
+        for( damage_unit &elem : damage_units ) {
             elem.damage_multiplier *= multiplier;
         }
     }
 }
 float damage_instance::type_damage( damage_type dt ) const
 {
-    float ret = 0;
-    for( const auto &elem : damage_units ) {
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
         if( elem.type == dt ) {
             ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
         }
@@ -77,8 +108,8 @@ float damage_instance::type_damage( damage_type dt ) const
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
 float damage_instance::total_damage() const
 {
-    float ret = 0;
-    for( const auto &elem : damage_units ) {
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
         ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
     }
     return ret;
@@ -95,7 +126,7 @@ bool damage_instance::empty() const
 
 void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : added_di.damage_units ) {
+    for( const damage_unit &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }
@@ -257,7 +288,7 @@ damage_type dt_by_name( const std::string &name )
 {
     const auto &iter = dt_map.find( name );
     if( iter == dt_map.end() ) {
-        return DT_NULL;
+        return DT_NONE;
     }
 
     return iter->second;
@@ -300,7 +331,7 @@ const skill_id &skill_by_dt( damage_type dt )
 static damage_unit load_damage_unit( const JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
-    if( dt == DT_NULL ) {
+    if( dt == DT_NONE ) {
         curr.throw_error( "Invalid damage type" );
     }
 

@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <string>
 #include <climits>
+#include <map>
+#include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "type_id.h"
 #include "weather_type.h"
 
-struct tripoint;
 class JsonObject;
+struct tripoint;
 
 struct w_point {
     double temperature = 0;
@@ -19,7 +22,6 @@ struct w_point {
     double windpower = 0;
     std::string wind_desc;
     int winddirection = 0;
-    bool acidic = false;
     time_point time;
 };
 
@@ -32,7 +34,6 @@ class weather_generator
         double base_humidity = 0;
         // Average atmospheric pressure
         double base_pressure = 0;
-        double base_acid = 0;
         //Average yearly windspeed
         double base_wind = 0;
         //How much the wind peaks above average

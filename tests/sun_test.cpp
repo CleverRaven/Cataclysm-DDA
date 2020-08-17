@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
+#include "calendar.h" // IWYU pragma: associated
 
-#include "calendar.h"
+#include <string>
 
 // SUN TESTS
 

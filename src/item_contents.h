@@ -7,6 +7,7 @@
 #include <list>
 #include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -15,20 +16,20 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
 class JsonIn;
 class JsonOut;
 class item;
-struct tripoint;
 class item;
 class item_location;
+class iteminfo_query;
 class player;
 class pocket_data;
-
 struct iteminfo;
+struct tripoint;
 struct tripoint;
 
 class item_contents
@@ -87,6 +88,8 @@ class item_contents
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
@@ -132,9 +135,6 @@ class item_contents
         float relative_encumbrance() const;
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
-
-        // True if every pocket is rigid. False if not or we have no pockets
-        bool contents_are_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
@@ -200,7 +200,7 @@ class item_contents
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
         // spills all liquid from the container. removing liquid from a magazine requires unload logic.
-        void handle_liquid_or_spill( Character &guy );
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
@@ -243,7 +243,7 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input );
+        void combine( const item_contents &read_input, bool convert = false );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -265,6 +265,7 @@ class item_contents
         std::list<item_pocket> contents;
 
         struct item_contents_helper;
+
         friend struct item_contents_helper;
 };
 

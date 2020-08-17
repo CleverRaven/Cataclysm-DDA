@@ -1,25 +1,47 @@
+#include <algorithm>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
+
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
+#include "debug.h"
 #include "dialogue_chatbin.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "item_location.h"
-#include "line.h"
+#include "itype.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "player.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
+#include "output.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "proficiency.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "talker.h"
 #include "talker_npc.h"
-#include "talker_character.h"
-
-class Character;
+#include "translations.h"
+#include "units.h"
+#include "units_fwd.h"
+#include "units_utility.h"
+#include "value_ptr.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -265,6 +287,40 @@ std::string talker_npc::skill_training_text( const talker &student,
                           cur_level_exercise, next_level, next_level_exercise, cost / 100 );
 }
 
+std::vector<proficiency_id> talker_npc::proficiencies_offered_to( const talker &student ) const
+{
+    if( student.get_character() ) {
+        return me_npc->proficiencies_offered_to( *student.get_character() );
+    } else {
+        return {};
+    }
+}
+
+std::string talker_npc::proficiency_training_text( const talker &student,
+        const proficiency_id &proficiency ) const
+{
+    const Character *pupil = student.get_character();
+    if( !pupil ) {
+        return "";
+    }
+    const time_duration time_needed = proficiency->time_to_learn();
+    const time_duration current_time = time_needed - pupil->proficiency_training_needed( proficiency );
+
+    const int cost = calc_proficiency_training_cost( *me_npc, proficiency );
+    const std::string name = proficiency->name();
+    const float pct_before = current_time / time_needed * 100;
+    const float pct_after = ( current_time + 15_minutes ) / time_needed * 100;
+    const std::string after_str = pct_after >= 100.0f ? pgettext( "NPC training: proficiency learned",
+                                  "done" ) : string_format( "%2.0f%%", pct_after );
+
+    if( cost > 0 ) {
+        //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
+        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
+    }
+    //~ Proficiency name: (current_practice) -> (next_practice)
+    return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
+}
+
 std::vector<matype_id> talker_npc::styles_offered_to( const talker &student ) const
 {
     if( student.get_character() ) {
@@ -301,8 +357,8 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
     if( !pupil ) {
         return "";
     }
-    const spell &temp_spell = me_npc->magic.get_spell( sp );
-    const bool knows = pupil->magic.knows_spell( sp );
+    const spell &temp_spell = me_npc->magic->get_spell( sp );
+    const bool knows = pupil->magic->knows_spell( sp );
     const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                      temp_spell.get_level() );
     std::string text;
@@ -317,9 +373,9 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
 }
 
 void talker_npc::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
-                                        const spell_id &c_spell )
+                                        const spell_id &c_spell, const proficiency_id &c_proficiency )
 {
-    me_npc->chatbin.store_chosen_training( c_skill, c_style, c_spell );
+    me_npc->chatbin.store_chosen_training( c_skill, c_style, c_spell, c_proficiency );
 }
 
 int talker_npc::debt() const
@@ -507,7 +563,6 @@ std::string talker_npc::give_item_to( const bool to_use )
             }
         }
     }
-
 
     if( taken ) {
         player_character.i_rem( &given );

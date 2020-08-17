@@ -11,10 +11,13 @@
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "relic.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -425,7 +428,7 @@ void Item_modifier::modify( item &new_item ) const
         }
     }
 
-    for( auto &flag : custom_flags ) {
+    for( const std::string &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }
@@ -629,7 +632,7 @@ std::set<const itype *> Item_group::every_item() const
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
@@ -651,7 +654,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id )
 
 item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return item();
     }
@@ -670,7 +673,7 @@ bool item_group::group_is_defined( const Group_tag &group_id )
 
 bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return false;
     }

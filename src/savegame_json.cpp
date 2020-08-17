@@ -1,15 +1,12 @@
 // Associated headers here are the ones for which their only non-inline
 // functions are serialization functions.  This allows IWYU to check the
 // includes in such headers.
-#include "enums.h" // IWYU pragma: associated
-#include "npc_favor.h" // IWYU pragma: associated
-#include "pldata.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
-#include <cstdint>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
@@ -20,6 +17,7 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -35,6 +33,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_io.h"
+#include "cata_utility.h"
 #include "cata_variant.h"
 #include "character.h"
 #include "character_id.h"
@@ -45,6 +44,7 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -52,7 +52,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
-#include "enum_conversions.h"
+#include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
 #include "field.h"
@@ -66,16 +66,17 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "kill_tracker.h"
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
+#include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -83,17 +84,22 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npc_favor.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "pldata.h" // IWYU pragma: associated
 #include "point.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -104,12 +110,14 @@
 #include "text_snippets.h"
 #include "tileray.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
 
 struct mutation_branch;
 struct oter_type_t;
@@ -504,8 +512,8 @@ void Character::load( const JsonObject &data )
         if( !temp_selected_style.is_valid() ) {
             temp_selected_style = matype_id( "style_none" );
         }
-        martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
-                            temp_keep_hands_free );
+        *martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
+                             temp_keep_hands_free );
     } else {
         data.read( "martial_arts_data", martial_arts_data );
     }
@@ -547,8 +555,13 @@ void Character::load( const JsonObject &data )
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
-        data.read( "proficiencies", _proficiencies );
+        if( data.has_array( "proficiencies" ) ) {
+            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
+        } else {
+            data.read( "proficiencies", _proficiencies );
+        }
     }
+
 
     //energy
     data.read( "stim", stim );
@@ -754,10 +767,10 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    inv.clear();
+    inv->clear();
     if( data.has_member( "inv" ) ) {
         JsonIn *invin = data.get_raw( "inv" );
-        inv.json_load_items( *invin );
+        inv->json_load_items( *invin );
     }
     // this is after inventory is loaded to make it more obvious that
     // it needs to be changed again when Character::i_at is removed for nested containers
@@ -1009,7 +1022,7 @@ void player::store( JsonOut &json ) const
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
-    inv.json_save_items( json );
+    inv->json_save_items( json );
 
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
@@ -1197,7 +1210,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( const auto &iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv->assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -1206,7 +1219,7 @@ void avatar::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "invcache" );
-    inv.json_save_invcache( json );
+    inv->json_save_invcache( json );
 
     json.member( "calorie_diary", calorie_diary );
 }
@@ -1349,13 +1362,13 @@ void avatar::load( const JsonObject &data )
     data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
-        inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
+        inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
     }
 
     if( data.has_member( "invcache" ) ) {
         JsonIn *jip = data.get_raw( "invcache" );
-        inv.json_load_invcache( *jip );
+        inv->json_load_invcache( *jip );
     }
 
     data.read( "calorie_diary", calorie_diary );
@@ -2067,7 +2080,7 @@ void monster::load( const JsonObject &data )
     }
 
     // make sure the loaded monster has every special attack its type says it should have
-    for( auto &sa : type->special_attacks ) {
+    for( const auto &sa : type->special_attacks ) {
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
@@ -2770,6 +2783,21 @@ void label::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void smart_controller_config::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "bat_lo", battery_lo );
+    data.read( "bat_hi", battery_hi );
+}
+
+void smart_controller_config::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "bat_lo", battery_lo );
+    json.member( "bat_hi", battery_hi );
+    json.end_object();
+}
+
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
@@ -2840,6 +2868,10 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "airworthy", flyable );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
+
+    smart_controller_cfg = cata::nullopt;
+    data.read( "smart_controller", smart_controller_cfg );
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -3003,6 +3035,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "airworthy", flyable );
     json.member( "summon_time_limit", summon_time_limit );
     json.member( "magic", magic );
+    json.member( "smart_controller", smart_controller_cfg );
+
     json.end_object();
 }
 
@@ -3190,16 +3224,7 @@ void Creature::store( JsonOut &jsout ) const
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
 
-    // Because JSON requires string keys we need to convert our int keys
-    std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for( const auto &maps : *effects ) {
-        for( const auto i : maps.second ) {
-            std::ostringstream convert;
-            convert << i.first;
-            tmp_map[maps.first.str()][convert.str()] = i.second;
-        }
-    }
-    jsout.member( "effects", tmp_map );
+    jsout.member( "effects", *effects );
 
     jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
@@ -3226,7 +3251,6 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "cut_mult", cut_mult );
     jsout.member( "melee_quiet", melee_quiet );
 
-    jsout.member( "grab_resist", grab_resist );
     jsout.member( "throw_resist", throw_resist );
 
     jsout.member( "body", body );
@@ -3241,9 +3265,8 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
-    if( savegame_loading_version >= 23 ) {
+    // TEMPORARY until 0.F
+    if( savegame_loading_version < 31 ) {
         if( jsin.has_object( "effects" ) ) {
             // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
@@ -3259,7 +3282,7 @@ void Creature::load( const JsonObject &jsin )
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
                         key_num = 0;
                     }
-                    const body_part bp = static_cast<body_part>( key_num );
+                    const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
                     const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
@@ -3267,6 +3290,8 @@ void Creature::load( const JsonObject &jsin )
                 }
             }
         }
+    } else {
+        jsin.read( "effects", *effects );
     }
     jsin.read( "values", values );
 
@@ -3294,7 +3319,6 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "cut_mult", cut_mult );
     jsin.read( "melee_quiet", melee_quiet );
 
-    jsin.read( "grab_resist", grab_resist );
     jsin.read( "throw_resist", throw_resist );
 
     jsin.read( "underwater", underwater );
@@ -3667,14 +3691,14 @@ void kill_tracker::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "kills" );
     jsout.start_object();
-    for( auto &elem : kills ) {
+    for( const auto &elem : kills ) {
         jsout.member( elem.first.str(), elem.second );
     }
     jsout.end_object();
 
     jsout.member( "npc_kills" );
     jsout.start_array();
-    for( auto &elem : npc_kills ) {
+    for( const auto &elem : npc_kills ) {
         jsout.write( elem );
     }
     jsout.end_array();
@@ -3895,7 +3919,7 @@ void submap::store( JsonOut &jsout ) const
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
-                for( auto &elem : fld[i][j] ) {
+                for( const auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
@@ -3923,7 +3947,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( auto &elem : spawns ) {
+    for( const auto &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -3940,7 +3964,7 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "vehicles" );
     jsout.start_array();
-    for( auto &elem : vehicles ) {
+    for( const auto &elem : vehicles ) {
         // json lib doesn't know how to turn a vehicle * into a vehicle,
         // so we have to iterate manually.
         jsout.write( *elem );
@@ -3949,14 +3973,14 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "partial_constructions" );
     jsout.start_array();
-    for( auto &elem : partial_constructions ) {
+    for( const auto &elem : partial_constructions ) {
         jsout.write( elem.first.x );
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( auto &it : elem.second.components ) {
+        for( const auto &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();
@@ -3970,7 +3994,7 @@ void submap::store( JsonOut &jsout ) const
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
-        for( auto &elem : computers ) {
+        for( const auto &elem : computers ) {
             jsout.write( elem.first );
             jsout.write( elem.second );
         }

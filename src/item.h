@@ -23,12 +23,14 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
@@ -36,6 +38,7 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class enchantment;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -54,6 +57,7 @@ struct mtype;
 struct tripoint;
 template<typename T>
 class ret_val;
+template <typename T> struct enum_traits;
 
 namespace enchant_vals
 {
@@ -67,7 +71,6 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum body_part : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -716,7 +719,8 @@ class item : public visitable<item>
          * @param amount Amount to fill item with, capped by remaining capacity
          * @returns amount of contained that was put into it
          */
-        int fill_with( const itype &contained, int amount = INFINITE_CHARGES );
+        int fill_with( const item &contained, int amount = INFINITE_CHARGES );
+
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -844,8 +848,14 @@ class item : public visitable<item>
         void set_rot( time_duration val );
 
         /**
-         * Get time left to rot, ignoring fridge.
-         * Returns time to rot if item is able to, max int - N otherwise,
+         * Get minimum time for this item or any of its contents to rot, ignoring
+         * fridge. If this item is a container, its spoil multiplier is taken into
+         * account, but the spoil multiplier of the parent container of this item,
+         * if any, is not.
+         *
+         * If this item does not rot and none of its contents rot either, the function
+         * returns INT_MAX - N,
+         *
          * where N is
          * 3 for food,
          * 2 for medication,
@@ -1059,7 +1069,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        /// same as other mod_damage, but uses @ref DT_NONE as damage type.
         bool mod_damage( int qty );
 
         /**
@@ -1068,7 +1078,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        /// same as other inc_damage, but uses @ref DT_NONE as damage type.
         bool inc_damage();
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1145,7 +1155,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character *carrier );
+        void process_relic( Character *carrier, const tripoint &pos );
 
         void overwrite_relic( const relic &nrelic );
 
@@ -1322,6 +1332,12 @@ class item : public visitable<item>
          * vector but will be removed immediately after the function returns
          */
         void on_takeoff( Character &p );
+
+        /**
+         * Calculate (but do not deduct) the number of moves required to wield this weapon
+         */
+        int on_wield_cost( const player &p ) const;
+
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
@@ -1343,9 +1359,13 @@ class item : public visitable<item>
         /**
          * Callback immediately **before** an item is damaged
          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or DT_NULL)
+         * @param dt type of damage (or DT_NONE)
          */
         void on_damage( int qty, damage_type dt );
+
+        bool use_relic( Character &guy, const tripoint &pos );
+        bool has_relic_recharge() const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1831,6 +1851,8 @@ class item : public visitable<item>
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
@@ -2126,6 +2148,13 @@ class item : public visitable<item>
         // calculates the enchantment value as if this item were wielded.
         double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
                                                bool round_value = false ) const;
+
+        /**
+         * Compute the number of moves needed to disassemble this item and its components
+         * @param guy The character performing the disassembly
+         * @return The number of moves to recursively disassemble this item
+         */
+        int get_recursive_disassemble_moves( const Character &guy ) const;
 
     private:
         /** migrates an item into this item. */

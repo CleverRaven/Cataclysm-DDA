@@ -12,18 +12,16 @@
 #include <utility>
 #include <vector>
 
-#include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
-#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,19 +29,18 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
-#include "player.h"
-#include "player_activity.h"
 #include "point.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
 class basecamp;
 class recipe;
+struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -157,10 +154,10 @@ void conditional_t<T>::set_npc_has_class( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
 {
-    const std::string &mission = jo.get_string( "u_has_mission" );
-    condition = [mission]( const T & ) {
-        for( auto miss_it : get_avatar().get_active_missions() ) {
-            if( miss_it->mission_id() == mission_type_id( mission ) ) {
+    const std::string &u_mission = jo.get_string( "u_has_mission" );
+    condition = [u_mission]( const T & ) {
+        for( mission *miss_it : get_avatar().get_active_missions() ) {
+            if( miss_it->mission_id() == mission_type_id( u_mission ) ) {
                 return true;
             }
         }
@@ -543,7 +540,7 @@ void conditional_t<T>::set_is_season( const JsonObject &jo )
 {
     std::string season_name = jo.get_string( "is_season" );
     condition = [season_name]( const T & ) {
-        const auto season = season_of_year( calendar::turn );
+        const season_type season = season_of_year( calendar::turn );
         return ( season == SPRING && season_name == "spring" ) ||
                ( season == SUMMER && season_name == "summer" ) ||
                ( season == AUTUMN && season_name == "autumn" ) ||

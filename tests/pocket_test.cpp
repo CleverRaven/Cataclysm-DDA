@@ -1,8 +1,16 @@
 #include "catch/catch.hpp"
 
-#include "ammo.h"
+#include <map>
+#include <string>
+#include <vector>
+
+#include "enums.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "optional.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
 
 // Pocket Tests
 // ------------

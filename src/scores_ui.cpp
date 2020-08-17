@@ -1,7 +1,10 @@
 #include "scores_ui.h"
 
+#include <algorithm>
 #include <cassert>
+#include <iterator>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -14,6 +17,7 @@
 #include "output.h"
 #include "point.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"

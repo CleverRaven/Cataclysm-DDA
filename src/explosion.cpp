@@ -1,5 +1,4 @@
 #include "explosion.h" // IWYU pragma: associated
-#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -11,12 +10,14 @@
 #include <queue>
 #include <random>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
@@ -24,6 +25,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flat_set.h"
+#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -35,8 +37,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -84,13 +84,13 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001;
+float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001;
+float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
-constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
+constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
+constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -136,9 +136,9 @@ static int ballistic_damage( float velocity, float mass )
 static float mass_to_area( const float mass )
 {
     // Density of steel in g/cm^3
-    constexpr float steel_density = 7.85;
+    constexpr float steel_density = 7.85f;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0f ) / ( 4.0f * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 
@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( const tripoint &pt : closed ) {
         if( here.impassable( pt ) ) {
             continue;
         }
@@ -410,7 +410,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        auto critter = g->critter_at( target );
+        Creature *critter = g->critter_at( target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
@@ -576,7 +576,7 @@ void flashbang( const tripoint &p, bool player_immune )
                        player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            player_character.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
                                              time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -888,11 +888,11 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5;
+    constexpr float Cd = 0.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
-                         ( 2.0 * fragment_mass ) ) );
+                         ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
     new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );

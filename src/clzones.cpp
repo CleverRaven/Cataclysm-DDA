@@ -7,8 +7,8 @@
 #include <string>
 #include <tuple>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -25,9 +25,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -254,7 +254,7 @@ plot_options::query_seed_result plot_options::query_seed()
     std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
             here.getabs( player_character.pos() ), 60 );
@@ -373,7 +373,7 @@ std::string blueprint_options::get_zone_name_suggestion() const
 std::string plot_options::get_zone_name_suggestion() const
 {
     if( !seed.is_empty() ) {
-        auto type = itype_id( seed );
+        const itype_id type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
             return it.type->seed->plant_name.translated();
@@ -565,7 +565,7 @@ void zone_manager::cache_data()
 {
     area_cache.clear();
 
-    for( auto &elem : zones ) {
+    for( const zone_data &elem : zones ) {
         if( !elem.get_enabled() ) {
             continue;
         }
@@ -586,7 +586,7 @@ void zone_manager::cache_vzones()
     vzone_cache.clear();
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
-    for( auto elem : vzones ) {
+    for( zone_data *elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
         }
@@ -664,7 +664,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
                              const faction_id &fac ) const
 {
     const auto &point_set = get_point_set( type, fac );
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -673,7 +673,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, in
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 return true;
@@ -720,7 +720,7 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
 
 bool zone_manager::custom_loot_has( const tripoint &where, const item *it ) const
 {
-    auto zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
+    const zone_data *zone = get_zone_at( where, zone_type_id( "LOOT_CUSTOM" ) );
     if( !zone || !it ) {
         return false;
     }
@@ -737,7 +737,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     const auto &point_set = get_point_set( type, fac );
     auto near_point_set = std::unordered_set<tripoint>();
 
-    for( auto &point : point_set ) {
+    for( const tripoint &point : point_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -752,7 +752,7 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     }
 
     const auto &vzone_set = get_vzone_set( type, fac );
-    for( auto &point : vzone_set ) {
+    for( const tripoint &point : vzone_set ) {
         if( point.z == where.z ) {
             if( square_dist( point, where ) <= range ) {
                 if( it && has( zone_type_id( "LOOT_CUSTOM" ), point ) ) {
@@ -903,7 +903,7 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
-        const auto zone = *it;
+        const zone_data *zone = *it;
         if( zone->get_faction() != fac ) {
             continue;
         }
@@ -1058,7 +1058,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1072,7 +1072,7 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
 {
     auto zones = std::vector<ref_const_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }
@@ -1081,7 +1081,7 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
     map &here = get_map();
     auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
-    for( auto zone : vzones ) {
+    for( zone_data *zone : vzones ) {
         if( zone->get_faction() == fac ) {
             zones.emplace_back( *zone );
         }
@@ -1221,7 +1221,7 @@ void zone_manager::revert_vzones()
     for( const auto &zpair : changed_vzones ) {
         *( zpair.second ) = zpair.first;
     }
-    for( auto zone : added_vzones ) {
+    for( zone_data *zone : added_vzones ) {
         remove( *zone );
     }
 }

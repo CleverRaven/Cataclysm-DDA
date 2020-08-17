@@ -3,12 +3,9 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdint>
 #include <cstdlib>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
@@ -16,41 +13,45 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "action.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "cursesdef.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
+#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -76,12 +77,10 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
-#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -92,12 +91,14 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_flu( "flu" );
@@ -408,12 +409,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    Character &player_character = get_player_character();
-    if( !where || *where == player_character.pos() ) {
+    location &player_location = get_player_location();
+    if( !where || *where == player_location.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint new_pos( player_location.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -550,7 +551,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -568,7 +569,7 @@ void character_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -627,7 +628,7 @@ void character_edit_menu()
                 it.on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
+            p.inv->clear();
             p.remove_weapon();
             break;
         case D_ITEM_WORN: {
@@ -933,7 +934,7 @@ void character_edit_menu()
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
-            for( auto &cl : npc_class::get_all() ) {
+            for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
                 classes.addentry( i, true, -1, cl.get_name() );
                 i++;
@@ -966,8 +967,24 @@ void character_edit_menu()
             }
         }
         break;
-        case D_FLU: {
-            p.add_effect( effect_flu, 1000_minutes );
+        case D_ADD_EFFECT: {
+            const auto text = string_input_popup()
+                              .title( _( "Choose an effect to add." ) )
+                              .width( 20 )
+                              .text( "" )
+                              .only_digits( false )
+                              .query_string();
+            efftype_id effect( text );
+            int intensity = 0;
+            int seconds = 0;
+            query_int( intensity, _( "What intensity?" ) );
+            query_int( seconds, _( "How many seconds?" ), 600 );
+
+            if( effect.is_valid() ) {
+                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
+            } else {
+                add_msg( _( "Invalid effect" ) );
+            }
             break;
         }
         case D_ASTHMA: {
@@ -1116,7 +1133,7 @@ void mission_debug::remove_mission( mission &m )
         add_msg( _( "Unsetting active mission" ) );
     }
 
-    const auto giver = g->find_npc( m.npc_id );
+    npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
             add_msg( _( "Removing from %s missions_assigned" ), giver->name );
@@ -1210,7 +1227,7 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1296,6 +1313,29 @@ void debug()
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+
+            std::unordered_map<std::string, int> creature_counts;
+            for( Creature &critter : g->all_creatures() ) {
+                std::string this_name = critter.get_name();
+                creature_counts[this_name]++;
+            }
+
+            if( !creature_counts.empty() ) {
+                std::vector<std::pair<std::string, int>> creature_names_sorted;
+                for( const std::pair<const std::string, int> &it : creature_counts ) {
+                    creature_names_sorted.emplace_back( it );
+                }
+
+                std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+                    return a.second > b.second;
+                } );
+
+                s += _( "\nSpecific creature type list:\n" );
+                for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
+                    s += string_format( "%i %s\n", crit_name.second, crit_name.first );
+                }
+            }
+
             popup_top(
                 s.c_str(),
                 player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
@@ -1398,7 +1438,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    player_character.martial_arts_data.add_martialart( style );
+                    player_character.martial_arts_data->add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1820,7 +1860,7 @@ void debug()
         }
         case debug_menu_index::PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
-                const std::vector<spell_id> spells = guy.magic.spells();
+                const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
                     std::cout << guy.disp_name() << " does not know any spells." << std::endl;
                     continue;
@@ -1904,14 +1944,14 @@ void debug()
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    player_character.magic.learn_spell( &learn, player_character, true );
+                    player_character.magic->learn_spell( &learn, player_character, true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
             }
             break;
         case debug_menu_index::LEVEL_SPELLS: {
-            std::vector<spell *> spells = player_character.magic.get_spells();
+            std::vector<spell *> spells = player_character.magic->get_spells();
             if( spells.empty() ) {
                 add_msg( m_bad, _( "Try learning some spells first." ) );
                 return;

@@ -1,22 +1,22 @@
 #include "output.h"
 
-#include <cerrno>
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
 #include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <array>
-#include <memory>
 #include <type_traits>
-#include <cmath>
+#include <vector>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -28,13 +28,13 @@
 #include "line.h"
 #include "name.h"
 #include "options.h"
+#include "point.h"
 #include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
-#include "units.h"
-#include "point.h"
+#include "units_utility.h"
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
@@ -150,7 +150,7 @@ std::string remove_color_tags( const std::string &s )
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t next_pos = 0;
 
-    if( tag_positions.size() > 1 ) {
+    if( !tag_positions.empty() ) {
         for( size_t tag_position : tag_positions ) {
             ret += s.substr( next_pos, tag_position - next_pos );
             next_pos = s.find( ">", tag_position, 1 ) + 1;
@@ -685,13 +685,13 @@ int border_helper::border_connection::as_curses_line() const
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
     return query_popup()
-           .preferred_keyboard_mode( keyboard_mode::keychar )
+           .preferred_keyboard_mode( keyboard_mode::keycode )
            .context( "YESNO" )
-           .message( force_uc ?
+           .message( force_uc && !is_keycode_mode_supported() ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :
                      pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
@@ -814,7 +814,7 @@ std::string replace_colors( std::string text )
         {"neutral", get_all_colors().get_name( c_yellow )}
     };
 
-    for( auto &elem : info_colors ) {
+    for( const auto &elem : info_colors ) {
         text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
         text = string_replace( text, "</" + elem.first + ">", "</color>" );
     }
@@ -900,7 +900,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             if( i.sValue != "-999" ) {
                 nc_color thisColor = c_yellow;
-                for( auto &k : vItemCompare ) {
+                for( const iteminfo &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( i.sName == k.sName && i.sType == k.sType ) {
                             if( i.dValue > k.dValue - .1 &&

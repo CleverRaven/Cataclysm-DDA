@@ -268,7 +268,7 @@
     "id": "bio_cqb",
     "type": "bionic",
     "name": { "str": "Close Quarters Battle" },
-    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills, but prevents you from improving them through combat experience.",
+    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand-to-hand combat skills, but prevents you from improving them through combat experience.",
     "occupied_bodyparts": [ [ "head", 4 ] ],
     "act_cost": "20 J",
     "react_cost": "20 J",

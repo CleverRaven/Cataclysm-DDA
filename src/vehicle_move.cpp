@@ -1,40 +1,41 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include <set>
 #include <memory>
 #include <ostream>
+#include <set>
+#include <tuple>
 
 #include "avatar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "veh_type.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
-#include "string_id.h"
-#include "enums.h"
-#include "int_id.h"
-#include "monster.h"
 #include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -52,7 +53,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const std::string part_location_structure( "structure" );
 
 // tile height in meters
-static const float tile_height = 4;
+static const float tile_height = 4.0f;
 // miles per hour to vehicle 100ths of miles per hour
 static const int mi_to_vmi = 100;
 // meters per second to miles per hour
@@ -170,14 +171,21 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
 
+    // get settings or defaults
+    smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
+
+    // ensure sane values
+    cfg.battery_hi = clamp( cfg.battery_hi, 0, 100 );
+    cfg.battery_lo = clamp( cfg.battery_lo, 0, cfg.battery_hi );
+
     // when battery > 90%, discharge is allowed
     // otherwise trying to charge battery to 90% within 30 minutes
-    bool discharge_forbidden_soft = battery_level_percent <= 90;
-    bool discharge_forbidden_hard = battery_level_percent <= 25;
+    bool discharge_forbidden_soft = battery_level_percent <= cfg.battery_hi;
+    bool discharge_forbidden_hard = battery_level_percent <= cfg.battery_lo;
     int target_charging_rate = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0 :
-                               ( 9 * max_battery_level - 10 * cur_battery_level ) / ( 6 * 3 );
-    //                         ( max_battery_level * 0.9 - cur_battery_level )  * (1000 / (60 * 30))   // originally
-    //                                              ^ 90%                   bat to W ^         ^ 30 minutes
+                               ( max_battery_level * cfg.battery_hi / 100 - cur_battery_level ) * 10 / ( 6 * 3 );
+    //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
+    //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
     int accel_demand = cruise_on
                        ? // using avg_velocity reduces unnecessary oscillations when traction is low
@@ -195,7 +203,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     bool gas_engine_shutdown_forbidden = smart_controller_state &&
                                          ( calendar::turn - smart_controller_state->gas_engine_last_turned_on ) <
                                          15_seconds;
-
 
     smart_controller_cache cur_state;
 
@@ -429,43 +436,41 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    int max_vel = traction * max_velocity();
-
-    // Get braking power
-    int brk = std::max( 1000, std::abs( max_vel ) * 3 / 10 );
-
+    const int max_vel = traction * max_velocity();
+    // maximum braking is 20 mph/s, assumes high friction tires
+    const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
-    int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
+    int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
     if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
-    //find power ratio used of engines max
+    //find ratio of used acceleration to maximum available, returned in tenths of a percent
+    //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
-            //find power ratio used of engines max
-            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
-            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        if( z != 0 ) {
-            // @TODO : actual engine strain / load for going up a z-level.
-            load = 1;
-            thrusting = true;
+        if( thrusting ) {
+            load = 1000 * std::abs( vel_inc ) / accel;
+        } else {
+            // brakes provide 20 mph/s of slowdown and the rest is engine braking
+            // TODO: braking depends on wheels, traction, driver skill
+            load = 1000 * std::max( 0, std::abs( vel_inc ) - max_brake ) / accel;
         }
     } else {
-        if( z != 0 ) {
-            load = 1;
-            thrusting = true;
-        } else {
-            load = ( thrusting ? 1000 : 0 );
-        }
+        load = ( thrusting ? 1000 : 0 );
+    }
+    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    if( is_rotorcraft() && is_flying_in_air() ) {
+        load = std::max( load, z > 0 ? 300 : 150 );
+        thrusting = true;
     }
 
     // only consume resources if engine accelerating
@@ -842,19 +847,19 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     int dmg_mod = part_info( ret.part ).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
-    float mass2 = 0;
+    float mass2 = 0.0f;
     // e = 0 -> plastic collision
-    float e = 0.3;
+    float e = 0.3f;
     // e = 1 -> inelastic collision
     //part density
-    float part_dens = 0;
+    float part_dens = 0.0f;
 
     if( is_body_collision ) {
         // Check any monster/NPC/player on the way
         // body
         ret.type = veh_coll_body;
         ret.target = critter;
-        e = 0.30;
+        e = 0.30f;
         part_dens = 15;
         mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
@@ -880,7 +885,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // not destructible
         ret.type = veh_coll_other;
         mass2 = 1000;
-        e = 0.10;
+        e = 0.10f;
         part_dens = 80;
         ret.target_name = here.disp_name( p );
     }
@@ -899,9 +904,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
     const auto &mats = type->materials;
-    float vpart_dens = 0;
+    float vpart_dens = 0.0f;
     if( !mats.empty() ) {
-        for( auto &mat_id : mats ) {
+        for( const material_id &mat_id : mats ) {
             vpart_dens += mat_id.obj().density();
         }
         // average
@@ -910,7 +915,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
-    float material_factor = ( part_dens - vpart_dens ) * 0.5;
+    float material_factor = ( part_dens - vpart_dens ) * 0.5f;
     material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
     // factor = -25 if mass is much greater than mass2
     // factor = +25 if mass2 is much greater than mass
@@ -972,11 +977,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
-            part_dmg = dmg * k / 100;
+            part_dmg = dmg * k / 100.0f;
             add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
-        const float obj_dmg = dmg * ( 100 - k ) / 100;
+        const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
 
         if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
@@ -996,7 +1001,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     smashed = false;
                     ret.type = veh_coll_other;
                     mass2 = 1000;
-                    e = 0.10;
+                    e = 0.10f;
                     part_dens = 80;
                     ret.target_name = here.disp_name( p );
                 }
@@ -2105,9 +2110,10 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
-            } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+            } else {
+                add_msg_if_player_sees( part_pos, m_bad,
+                                        _( "The %s is hurled from %s's by the power of the impact!" ),
+                                        pet->disp_name(), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng( 0, 60 ) - 30,

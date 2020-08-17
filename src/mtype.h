@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Creature;
 class monster;
@@ -26,7 +27,6 @@ struct dealt_projectile_attack;
 struct species_type;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
@@ -187,11 +187,11 @@ struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
-    body_part bp;
+    bodypart_str_id bp;
     bool permanent;
     int chance;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_str_id nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}
@@ -262,7 +262,7 @@ struct mtype {
         bool regen_morale = false;
 
         // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2;
+        float mountable_weight_ratio = 0.2f;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */

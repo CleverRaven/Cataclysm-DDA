@@ -28,7 +28,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -232,7 +231,7 @@ bool WORLD::save( const bool is_conversion ) const
 
             jout.start_array();
 
-            for( auto &elem : WORLD_OPTIONS ) {
+            for( const auto &elem : WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
                 if( !elem.second.getDefaultText().empty() ) {
                     jout.start_object();
@@ -354,7 +353,7 @@ bool worldfactory::has_world( const std::string &name ) const
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
-    for( auto &elem : all_worlds ) {
+    for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
     return result;
@@ -382,7 +381,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     // If we're skipping prompts, return the world with 0 save if there is one
     else if( !show_prompt ) {
-        for( const auto &name : world_names ) {
+        for( const std::string &name : world_names ) {
             if( get_world( name )->world_saves.empty() ) {
                 return get_world( name );
             }
@@ -1107,7 +1106,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             } else {
                 apply_filter( fpopup->text() );
             }
-        };
+        }
 
         fpopup.reset();
     };

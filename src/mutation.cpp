@@ -8,6 +8,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -15,6 +16,7 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -95,7 +97,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) > 0;
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut == b ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -149,9 +156,14 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait );
+    mutation_effect( trait, false );
     recalc_sight_limits();
     calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -280,7 +292,7 @@ bool reflex_activation_data::is_trigger_true( const Character &guy ) const
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
-    auto &mod_data = mut->mods;
+    const auto &mod_data = mut->mods;
     int ret = 0;
     auto found = mod_data.find( std::make_pair( false, arg ) );
     if( found != mod_data.end() ) {
@@ -342,7 +354,7 @@ creature_size calculate_size( const Character &c )
     return creature_size::medium;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -378,8 +390,8 @@ void Character::mutation_effect( const trait_id &mut )
     size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -391,7 +403,7 @@ void Character::mutation_effect( const trait_id &mut )
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( branch.destroys_gear ) {
+        if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
@@ -450,8 +462,8 @@ void Character::mutation_loss_effect( const trait_id &mut )
     size_class = calculate_size( *this );
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -1268,7 +1280,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1290,7 +1302,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     // Duplicated for prereq2
     if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1396,7 +1408,7 @@ bool Character::has_child_flag( const trait_id &flag ) const
 
 void Character::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : flag->replacements ) {
+    for( const auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );

@@ -1,24 +1,30 @@
 #include "animation.h"
 
+#include <ctime>
+
 #include "avatar.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "explosion.h"
 #include "game.h"
+#include "game_constants.h"
+#include "input.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "popup.h"
-#include "weather.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
-#include "explosion.h"
-#include "point.h"
 #include "ui_manager.h"
+#include "viewer.h"
+#include "weather.h"
 
 #if defined(TILES)
 #include <memory>
@@ -28,8 +34,10 @@
 #endif
 
 #include <algorithm>
+#include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -84,7 +92,7 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && get_player_character().sees( p );
+    return g->is_in_viewport( p, margin ) && get_player_view().sees( p );
 }
 
 bool is_radius_visible( const tripoint &center, int radius )
@@ -617,7 +625,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
 {
     avatar &player_character = get_avatar();
     for( const tripoint &p : ret ) {
-        const auto critter = g.critter_at( p, true );
+        const Creature *critter = g.critter_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && player_character.sees( *critter ) ) {
@@ -755,7 +763,7 @@ void draw_sct_curses( const game &g )
     avatar &player_character = get_avatar();
     const tripoint off = relative_view_pos( player_character, tripoint_zero );
 
-    for( const auto &text : SCT.vSCT ) {
+    for( const scrollingcombattext::cSCT &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();
         const int dx = off.x + text.getPosX();
 

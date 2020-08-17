@@ -175,8 +175,6 @@ struct pixel_minimap::submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     submap_cache( shared_texture_pool &pool ) :
-        touched( false ),
-        ready( false ),
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -512,9 +510,9 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            const auto critter = g->critter_at( p, true );
+            Creature *critter = g->critter_at( p, true );
 
-            if( critter == nullptr || !get_player_character().sees( *critter ) ) {
+            if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;
             }
 

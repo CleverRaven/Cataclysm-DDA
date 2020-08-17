@@ -1,17 +1,19 @@
 #include "catch/catch.hpp"
 
-#include <cstdio>
-#include <string>
 #include <list>
-#include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
+#include "map_selector.h"
 #include "player_helpers.h"
-#include "item.h"
-#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const int expected_moves )
 {
@@ -81,7 +83,7 @@ TEST_CASE( "Wield time test", "[wield]" )
         item_location knife_loc( sheath_loc, &sheath_loc->contents.only_item() );
 
         const int knife_obtain_cost = knife_loc.obtain_cost( guy );
-        REQUIRE( knife_obtain_cost == 1257 );
+        REQUIRE( knife_obtain_cost == 112 );
     }
 
     SECTION( "Wielding without hand encumbrance" ) {

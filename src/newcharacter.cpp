@@ -1,8 +1,6 @@
-#include "avatar.h" // IWYU pragma: associated
-
 #include <algorithm>
-#include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
@@ -17,19 +15,24 @@
 #include <vector>
 
 #include "addiction.h"
+#include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"
+#include "item.h"
 #include "json.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -41,7 +44,6 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
-#include "popup.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -57,6 +59,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "worldfactory.h"
 
@@ -157,13 +160,13 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
-    for( auto &s : styles ) {
-        auto &style = s.obj();
+    for( const matype_id &s : styles ) {
+        const martialart &style = s.obj();
         menu.addentry_desc( style.name.translated(), style.description.translated() );
     }
     while( true ) {
         menu.query( true );
-        auto &selected = styles[menu.ret];
+        const matype_id &selected = styles[menu.ret];
         if( query_yn( _( "Use this style?" ) ) ) {
             return selected;
         }
@@ -297,7 +300,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
             case 4:
                 if( allow_traits ) {
                     rn = random_good_trait();
-                    auto &mdata = rn.obj();
+                    const mutation_branch &mdata = rn.obj();
                     if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                         toggle_trait( rn );
@@ -381,19 +384,19 @@ void avatar::add_profession_items()
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
+            inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
-                inv.push_back( it );
+                inv->push_back( it );
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
         } else {
-            inv.push_back( it );
+            inv->push_back( it );
         }
         if( it.is_book() ) {
             items_identified.insert( it.typeId() );
@@ -597,14 +600,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
-            if( !martial_arts_data.has_martialart( s ) ) {
+            if( !martial_arts_data->has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             const matype_id ma_type = choose_ma_style( type, styles, *this );
-            martial_arts_data.add_martialart( ma_type );
-            martial_arts_data.set_style( ma_type );
+            martial_arts_data->add_martialart( ma_type );
+            martial_arts_data->set_style( ma_type );
         }
     }
 
@@ -1014,15 +1017,14 @@ tab_direction set_traits( avatar &u, points_left &points )
 
     std::vector<trait_id> vStartingTraits[3];
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
         if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
             continue;
         }
 
         const std::set<trait_id> scentraits = get_scenario()->get_locked_traits();
-        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
-                                             traits_iter.id ) != scentraits.end();
+        const bool is_scentrait = scentraits.find( traits_iter.id ) != scentraits.end();
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
@@ -1473,8 +1475,8 @@ tab_direction set_profession( avatar &u, points_left &points,
             const auto prof_addictions = sorted_profs[cur_id]->addictions();
             if( !prof_addictions.empty() ) {
                 buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
-                for( const auto &a : prof_addictions ) {
-                    const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                for( const addiction &a : prof_addictions ) {
+                    const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
                     buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
                 }
             }
@@ -1497,7 +1499,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &sl : prof_skills ) {
-                    const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
+                    const char *format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
                     buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
                 }
             }
@@ -2894,7 +2896,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
             result.push_back( t.first );
         }
     }
-    for( const trait_id &ench_trait : enchantment_cache.get_mutations() ) {
+    for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;
             for( const trait_id &exist : result ) {
@@ -2956,7 +2958,7 @@ trait_id Character::random_good_trait()
 {
     std::vector<trait_id> vTraitsGood;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.points >= 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsGood.push_back( traits_iter.id );
         }
@@ -2969,7 +2971,7 @@ trait_id Character::random_bad_trait()
 {
     std::vector<trait_id> vTraitsBad;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.points < 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsBad.push_back( traits_iter.id );
         }
@@ -3114,7 +3116,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     set_scenario( scen );
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier != 0 ) {
+        if( t.obj().hp_modifier.has_value() ) {
             u.toggle_trait( t );
         }
     }

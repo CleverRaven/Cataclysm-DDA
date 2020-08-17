@@ -9,6 +9,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
@@ -16,9 +17,9 @@
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
-#include "material.h"
 #include "monster.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -69,7 +70,7 @@ static void reset_player( Character &p, const throw_test_pstats &pstats, const t
     p.set_per_bonus( 0 );
     p.set_dex_bonus( 0 );
     p.worn.clear();
-    p.inv.clear();
+    p.inv->clear();
     p.remove_weapon();
     p.set_skill_level( skill_throw, pstats.skill_lvl );
 }

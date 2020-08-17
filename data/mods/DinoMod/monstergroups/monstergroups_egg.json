@@ -4,7 +4,7 @@
     "type": "monstergroup",
     "default": "mon_compsognathus_hatchling",
     "monsters": [
-      { "monster": "mon_compsognathus_hatchling", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_compsognathus_hatchling", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_gallimimus_hatchling", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_pachycephalosaurus_hatchling", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
@@ -14,8 +14,8 @@
       { "monster": "mon_stegosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_ankylosaurus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_diplodocus_hatchling", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_camarasaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 1 },
       { "monster": "mon_eoraptor_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 1 },
@@ -25,8 +25,11 @@
       { "monster": "mon_parasaurolophus_hatchling", "freq": 3, "cost_multiplier": 1 },
       { "monster": "mon_corythosaurus_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_edmontosaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
-      { "monster": "mon_dimorphodon_hatchling", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_dilophosaurus_hatchling", "freq": 1, "cost_multiplier": 1 }
+      { "monster": "mon_dimorphodon_hatchling", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_pteranodon_hatchling", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_dilophosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_mosasaurus_hatchling", "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -90,16 +93,16 @@
     "monsters": [ { "monster": "mon_diplodocus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_camarasaurus",
+    "type": "monstergroup",
+    "default": "mon_camarasaurus_hatchling",
+    "monsters": [ { "monster": "mon_camarasaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_apatosaurus",
     "type": "monstergroup",
     "default": "mon_apatosaurus_hatchling",
     "monsters": [ { "monster": "mon_apatosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_ceratosaurus",
-    "type": "monstergroup",
-    "default": "mon_ceratosaurus_hatchling",
-    "monsters": [ { "monster": "mon_ceratosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_allosaurus",
@@ -162,9 +165,27 @@
     "monsters": [ { "monster": "mon_dimorphodon_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_pteranodon",
+    "type": "monstergroup",
+    "default": "mon_pteranodon_hatchling",
+    "monsters": [ { "monster": "mon_pteranodon_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_dilophosaurus",
     "type": "monstergroup",
     "default": "mon_dilophosaurus_hatchling",
     "monsters": [ { "monster": "mon_dilophosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_ceratosaurus",
+    "type": "monstergroup",
+    "default": "mon_ceratosaurus_hatchling",
+    "monsters": [ { "monster": "mon_ceratosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_mosasaurus",
+    "type": "monstergroup",
+    "default": "mon_mosasaurus_hatchling",
+    "monsters": [ { "monster": "mon_mosasaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]

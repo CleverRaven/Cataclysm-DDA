@@ -1,20 +1,20 @@
 #include "input.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <array>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <utility>
 
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -26,13 +26,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "point.h"
 #include "sdltiles.h"
 
 using std::min; // from <algorithm>
@@ -80,10 +79,12 @@ bool is_mouse_enabled()
 #endif
 }
 
-static bool is_keycode_mode_supported()
+extern bool keycode_mode;
+
+bool is_keycode_mode_supported()
 {
-#if defined(TILES) and !defined(__ANDROID__)
-    return true;
+#if defined(TILES) && !defined(__ANDROID__)
+    return keycode_mode;
 #else
     return false;
 #endif
@@ -818,12 +819,12 @@ const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
-    for( auto &elem : registered_actions ) {
+    for( const std::string &elem : registered_actions ) {
         const std::string &action = elem;
         const std::vector<input_event> &check_inp = inp_mngr.get_input_for_action( action, category );
 
         // Does this action have our queried input event in its keybindings?
-        for( auto &check_inp_i : check_inp ) {
+        for( const input_event &check_inp_i : check_inp ) {
             if( check_inp_i == inp ) {
                 return action;
             }
@@ -886,7 +887,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == input_event_t::keyboard_char && events_event.sequence.size() == 1 ) {
+        if( ( events_event.type == input_event_t::keyboard_char
+              || events_event.type == input_event_t::keyboard_code )
+            && is_event_type_enabled( events_event.type )
+            && events_event.sequence.size() == 1
+            && events_event.modifiers.empty() ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
                                             isprint( events_event.sequence.front() ) ) ) {
                 result.push_back( static_cast<char>( events_event.sequence.front() ) );
@@ -923,18 +928,25 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const input_context::input_event_filter input_context::disallow_lower_case =
-[]( const input_event &evt ) -> bool {
-    return evt.type != input_event_t::keyboard_char ||
-    // std::lower from <cctype> is undefined outside unsigned char range
-    // and std::lower from <locale> may throw bad_cast for some locales
-    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-};
+bool input_context::disallow_lower_case_or_non_modified_letters( const input_event &evt )
+{
+    const int ch = evt.get_first_input();
+    switch( evt.type ) {
+        case input_event_t::keyboard_char:
+            // std::lower from <cctype> is undefined outside unsigned char range
+            // and std::lower from <locale> may throw bad_cast for some locales
+            return ch < 'a' || ch > 'z';
+        case input_event_t::keyboard_code:
+            return !( evt.modifiers.empty() && ( ( ch >= 'a' && ch <= 'z' ) || ( ch >= 'A' && ch <= 'Z' ) ) );
+        default:
+            return true;
+    }
+}
 
-const input_context::input_event_filter input_context::allow_all_keys =
-[]( const input_event & ) -> bool {
+bool input_context::allow_all_keys( const input_event & )
+{
     return true;
-};
+}
 
 static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
     { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
@@ -959,7 +971,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     std::vector<input_event> inputs_to_show;
-    for( auto &events_i : events ) {
+    for( const input_event &events_i : events ) {
         const input_event &event = events_i;
 
         if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
@@ -1551,36 +1563,24 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+cata::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_pair( point(), false );
+    return cata::nullopt;
 #else
     if( !coordinate_input_received ) {
-        return std::make_pair( point(), false );
+        return cata::nullopt;
     }
-
     const window_dimensions dim = get_window_dimensions( capture_win );
-
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
-    const point win_max = win_min + win_size;
-
-    const half_open_rectangle<point> win_bounds( win_min, win_max );
-
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
-
-    if( !win_bounds.contains( coordinate ) ) {
-        return std::make_pair( selected, false );
-    }
-
-    return std::make_pair( selected, true );
+    return selected;
 #endif
 }
 
@@ -1670,7 +1670,7 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
 {
     std::vector<std::string> filtered_strings;
 
-    for( auto &str : strings ) {
+    for( const std::string &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {
             filtered_strings.push_back( str );
         }

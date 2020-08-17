@@ -471,7 +471,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
@@ -495,6 +495,7 @@ This section describes each json file and their contents. Each json has their ow
     ]
   }
 ```
+For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
 
 ### Body_parts
 
@@ -507,6 +508,7 @@ This section describes each json file and their contents. Each json has their ow
 | heading_multiple  | (_mandatory_) Plural form of heading.
 | hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
 | main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| connected_to      | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | base_hp           | (_mandatory_) The amount of hp this part has before any modification.
 | opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
@@ -585,6 +587,7 @@ This section describes each json file and their contents. Each json has their ow
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
 | installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
 
@@ -652,7 +655,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | max_intensity      | The maximum intensity of the effect.
 | health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
 | symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
 ```json
@@ -721,7 +724,7 @@ When you sort your inventory by category, these are the categories that are disp
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
+| `id`             | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
@@ -735,7 +738,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Density of a material.
-| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
+| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
 | `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
@@ -750,7 +753,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 ```C++
 {
     "type": "material",
-    "ident": "hflesh",
+    "id": "hflesh",
     "name": "Human Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -776,6 +779,8 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
     ]
 }
 ```
+
+Note that the above example gives floats, not integers, for the vitamins values.  This is likely incorrect; they should be replaced with integers.
 
 ### Monster Groups
 
@@ -890,12 +895,12 @@ Professions are specified as JSON object with "type" member set to "profession":
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     ...
 }
 ```
 
-The ident member should be the unique id of the profession.
+The id member should be the unique id of the profession.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -938,7 +943,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:addictions": [
         "nicotine"
@@ -979,7 +984,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:skills": [
         "archery"
@@ -1025,7 +1030,7 @@ Example for mods:
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "items": {
         "remove:both": [
@@ -1089,16 +1094,23 @@ Crafting recipes are defined as a JSON object with the following fields:
 
 ```C++
 "result": "javelin",         // ID of resulting item
+"byproducts": [ [ "" ] ],    // Optional (default: empty). Additional items generated by crafting this recipe.
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
+"subcategory": "CSC_WEAPON_PIERCING",
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
 "override": false,           // Optional (default: false). If false and the ident of the recipe is already used by another recipe, loading of recipes fails. If true and a recipe with the ident is already defined, the existing recipe is replaced by the new recipe.
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
-"book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
-    [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
-    [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
-],
+"book_learn": {	             // (optional) Books that this recipe can be learned from.
+    "textbook_anarch" : {    // ID of the book the recipe can be learned from
+        "skill_level" : 7,   // Skill level at which it can be learned
+        "recipe_name" : "something", // (optional) Name of the recipe as it should appear in the book's description (default is the name of resulting item of the recipe)
+        "hidden" : true },   // (optional) If set to true, recipe will not be shown in the description of the book
+    "textbook_gaswarfare" : { // Additional book this recipe can be learnt from.
+        "skill_level" : 8
+    }
+},
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
 "time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
@@ -1119,6 +1131,8 @@ Crafting recipes are defined as a JSON object with the following fields:
       "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
       "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
       "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+      "learning_time_multiplier": 1.2 // The multiplier on learning speed for this proficiency. By default, it's the time of the recipe, divded by the time multiplier, and by the number of proficiencies that can also be learned from it.
+      "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
 ]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
@@ -1627,7 +1641,7 @@ it is present to help catch errors.
 ### Skills
 
 ```C++
-"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
@@ -1890,7 +1904,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "m2c": 50,                    // The ratio of safe power to maximum power.
 "backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
                               // and smoke if the ratio of damaged HP to max HP is below this value.
-"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the
                               // ratio of damaged HP to max HP is below the backfire_threshold.
 "noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
                               // determine noise.
@@ -2115,7 +2129,7 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2132,7 +2146,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
-    "covers" : ["FEET"],
+    "covers" : [ "foot_l", "foot_r" ],
     "warmth" : 10,
     "environmental_protection" : 0,
     "encumbrance" : 0,
@@ -2305,10 +2319,11 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
-"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 "parasites": 10,            // (Optional) Probability of becoming parasitised when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "purification_factor": 0,   // (Optional) If item is used to purify water, additional multiplicative factor to the time taken. 0 results in a constant time.
+"vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 ```
 
 ### Containers
@@ -2689,7 +2704,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
@@ -2720,7 +2736,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },
@@ -2761,17 +2777,12 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
-    "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
+    "npc_class_id": "true_foodperson", // npc id, see npcs/npc.json
     "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
-    "moves": 50 // how many move points the action takes.
+    "moves": 50, // how many move points the action takes.
+    "radius": 1 // maximum radius for random npc placement.
 },
-"use_action": {
-    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
-    "activate_msg": "You activate your foo.", // Message when the player activates the item.
-    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
-    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
-}
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
@@ -3413,12 +3424,12 @@ Scenarios are specified as JSON object with `type` member set to `scenario`.
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     ...
 }
 ```
 
-The ident member should be the unique id of the scenario.
+The id member should be the unique id of the scenario.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -3469,7 +3480,7 @@ Example for mods:
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     "edit-mode": "modify",
     "items": {
         "remove:both": [ "rock" ],
@@ -3530,14 +3541,14 @@ Starting locations are specified as JSON object with "type" member set to "start
 ```C++
 {
     "type": "start_location",
-    "ident": "field",
+    "id": "field",
     "name": "An empty field",
     "target": "field",
     ...
 }
 ```
 
-The ident member should be the unique id of the location.
+The id member should be the unique id of the location.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 

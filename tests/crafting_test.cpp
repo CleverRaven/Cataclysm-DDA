@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -13,8 +14,10 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -25,7 +28,7 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
-#include "string_id.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -59,7 +62,7 @@ TEST_CASE( "recipe_subset" )
                 const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
-                CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
+                CHECK( comp_recipes.find( r ) != comp_recipes.end() );
             }
             AND_WHEN( "the subset is cleared" ) {
                 subset.clear();

@@ -1,27 +1,28 @@
 #include "catch/catch.hpp"
 
+#include "monster.h"
+
 #include <cmath>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <list>
 #include <map>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "monster.h"
-#include "options_helpers.h"
 #include "options.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
+
+class item;
 
 using move_statistics = statistics<int>;
 
@@ -73,7 +74,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( auto &track_instance : vec ) {
+    for( const auto &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;

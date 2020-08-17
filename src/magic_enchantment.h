@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,8 +14,9 @@
 #include "json.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;

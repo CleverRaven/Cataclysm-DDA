@@ -4,9 +4,13 @@
 
 #include <vector>
 
+#include "cuboid_rectangle.h"
+#include "point.h"
+#include "ui.h"
+
+class Character;
 class item;
 class item_location;
-class Character;
 class map;
 struct tripoint;
 
@@ -42,6 +46,14 @@ int cost_to_move_item( const Character &who, const item &it );
  * @param m map they are on
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
-} // namespace Pickup
 
+struct pickup_rect : inclusive_rectangle<point> {
+    pickup_rect() = default;
+    pickup_rect( const point &P_MIN, const point &P_MAX ) : inclusive_rectangle( P_MIN, P_MAX ) {}
+    int cur_it;
+    static std::vector<pickup_rect> list;
+    static pickup_rect *find_by_coordinate( const point &p );
+};
+
+} // namespace Pickup
 #endif // CATA_SRC_PICKUP_H

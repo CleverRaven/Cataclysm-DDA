@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -19,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "dialogue_chatbin.h"
@@ -41,7 +43,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class JsonIn;
 class JsonObject;
@@ -147,7 +149,7 @@ class job_data
             }
         }
         bool has_job() const {
-            for( auto &elem : task_priorities ) {
+            for( const auto &elem : task_priorities ) {
                 if( elem.second > 0 ) {
                     return true;
                 }
@@ -547,9 +549,9 @@ struct healing_options {
 
 // Data relevant only for this action
 struct npc_short_term_cache {
-    float danger = 0;
-    float total_danger = 0;
-    float danger_assessment = 0;
+    float danger = 0.0f;
+    float total_danger = 0.0f;
+    float danger_assessment = 0.0f;
     // Use weak_ptr to avoid circular references between Creatures
     weak_ptr_fast<Creature> target;
     // target is hostile, ally is for aiding actions
@@ -836,6 +838,10 @@ class npc : public player
          * words: skills this NPC could teach the player.
          */
         std::vector<skill_id> skills_offered_to( const player &p ) const;
+        /**
+         * Proficiencies we know that the character doesn't
+         */
+        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */

@@ -7,6 +7,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "construction.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +21,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -122,6 +124,17 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
 {
     if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
         return cata::optional<std::string>();
+    }
+
+    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
+        type == activity_id( "ACT_AIM" ) ||
+        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
+        type == activity_id( "ACT_ATM" ) ||
+        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
+        type == activity_id( "ACT_EAT_MENU" ) ) {
+        return cata::nullopt;
     }
 
     std::string extra_info;
@@ -390,7 +403,7 @@ void player_activity::allow_distractions()
 
 void player_activity::inherit_distractions( const player_activity &other )
 {
-    for( auto &type : other.ignored_distractions ) {
+    for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
 }

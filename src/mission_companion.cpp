@@ -1,25 +1,26 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <map>
 #include <memory>
 #include <set>
+#include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -39,9 +40,8 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
-#include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -50,7 +50,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "skill.h"
@@ -62,6 +61,8 @@
 #include "value_ptr.h"
 #include "weather.h"
 #include "weighted_list.h"
+
+class character_id;
 
 static const efftype_id effect_riding( "riding" );
 
@@ -699,7 +700,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     Character &player_character = get_player_character();
     //Ensure we have someone to give equipment to before we lose it
-    for( auto i : equipment ) {
+    for( item *i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
         //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
@@ -1528,8 +1529,8 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             } );
         }
     }
-    float avg_survival = 0;
-    for( auto &guy : group ) {
+    float avg_survival = 0.0f;
+    for( const auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }
     avg_survival = avg_survival / group.size();
@@ -1537,7 +1538,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     monster mon;
 
     std::vector< monster * > monsters_fighting;
-    for( auto mons : monsters_around ) {
+    for( monster *mons : monsters_around ) {
         if( mons->get_hp() <= 0 ) {
             continue;
         }
@@ -1557,7 +1558,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     if( !monsters_fighting.empty() ) {
         bool outcome = force_on_force( group, "Patrol", monsters_fighting, "attacking monsters",
                                        rng( -1, 2 ) );
-        for( auto mons : monsters_fighting ) {
+        for( monster *mons : monsters_fighting ) {
             mons->death_drops = true;
         }
         return outcome;
@@ -1882,7 +1883,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp(
                                          player_character.global_omt_location().xy() );
 
-    for( auto &elem : g->get_follower_list() ) {
+    for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;
