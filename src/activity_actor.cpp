@@ -111,7 +111,6 @@ void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
     // Time spent on aiming is determined on the go by the player
     act.moves_total = 1;
     act.moves_left = 1;
-    act.interruptable_with_kb = false;
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -155,6 +154,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
         // to simulate avatar not loading them in the first place
         first_turn = false;
+
+        // Allow interrupting activity only during 'aim and fire'.
+        // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
+        // in case of high input lag (curses, sdl sometimes...), but allows to interrupt aiming
+        // if a bug happens / stars align to cause an endless aiming loop.
+        act.interruptable_with_kb = action != "AIM";
     }
 }
 
