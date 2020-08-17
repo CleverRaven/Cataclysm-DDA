@@ -757,11 +757,6 @@
     "type": "json_flag"
   },
   {
-    "id": "ELECTRIC_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
