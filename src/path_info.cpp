@@ -272,10 +272,6 @@ std::string PATH_INFO::legacy_fontdata()
 {
     return datadir_value + "fontdata.json";
 }
-std::string PATH_INFO::legacy_keymap()
-{
-    return "data/keymap.txt";
-}
 std::string PATH_INFO::memorialdir()
 {
     return memorialdir_value;
