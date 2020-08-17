@@ -1838,19 +1838,6 @@ class jmapgen_zone : public jmapgen_piece
         }
 };
 
-static void load_weighted_entries( const JsonObject &jsi, const std::string &json_key,
-                                   weighted_int_list<std::string> &list )
-{
-    for( const JsonValue entry : jsi.get_array( json_key ) ) {
-        if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
-            list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
-        } else {
-            list.add( entry.get_string(), 100 );
-        }
-    }
-}
-
 /**
  * Calls another mapgen call inside the current one.
  * Note: can't use regular overmap ids.
@@ -1918,8 +1905,12 @@ class jmapgen_nested : public jmapgen_piece
         neighborhood_check neighbors;
         jmapgen_nested( const JsonObject &jsi, const std::string &/*context*/ ) :
             neighbors( jsi.get_object( "neighbors" ) ) {
-            load_weighted_entries( jsi, "chunks", entries );
-            load_weighted_entries( jsi, "else_chunks", else_entries );
+            if( jsi.has_member( "chunks" ) ) {
+                load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
+            }
+            if( jsi.has_member( "else_chunks" ) ) {
+                load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
