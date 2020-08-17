@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
@@ -33,15 +34,15 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "material.h"
-#include "math_defines.h"
-#include "messages.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -50,10 +51,11 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
+#include "pimpl.h"
 #include "player.h"
-#include "player_activity.h"
 #include "point.h"
 #include "projectile.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -64,6 +66,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -445,7 +448,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
 target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
         bool no_fail, bool no_mana )
 {
-    return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
+    return mode_spell( you, you.magic->get_spell( sp ), no_fail, no_mana );
 }
 
 static double occupied_tile_fraction( creature_size target_size )
@@ -461,6 +464,9 @@ static double occupied_tile_fraction( creature_size target_size )
             return 0.75;
         case creature_size::huge:
             return 1.0;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     return 0.5;
@@ -479,6 +485,9 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
                 return occupied_tile_fraction( creature_size::large );
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );
@@ -680,9 +689,8 @@ bool player::handle_gun_damage( item &it )
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
-    Character &player_character = get_player_character();
-    if( player_character.sees( *source ) && one_in( 50 ) ) {
-        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
+    if( one_in( 50 ) ) {
+        add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
@@ -693,9 +701,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         item *weapon = &gun;
         const auto data = weapon->gun_noise( shots > 1 );
 
-        if( player_character.sees( *source ) ) {
-            add_msg( m_warning, _( "You hear %s." ), data.sound );
-        }
+        add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
         moves -= 100;
     }
@@ -1707,8 +1713,15 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bodypart_id( "arm_l" ) ) + encumb( bodypart_id( "arm_r" ) ) ) /
-                          5.0 );
+    int arm_encumb = 0;
+    // Fake turret NPC does not have arms
+    if( has_part( bodypart_id( "arm_l" ) ) ) {
+        arm_encumb += encumb( bodypart_id( "arm_l" ) );
+    }
+    if( has_part( bodypart_id( "arm_r" ) ) ) {
+        arm_encumb += encumb( bodypart_id( "arm_r" ) );
+    }
+    dispersion.add_range( arm_encumb / 5.0 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

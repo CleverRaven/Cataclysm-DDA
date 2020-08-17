@@ -10,7 +10,8 @@
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -26,7 +27,8 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -42,7 +44,8 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -58,7 +61,8 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -70,10 +74,10 @@
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
     "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
-    "initial_charges": 5,
-    "max_charges": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]
   },
   {
     "copy-from": "mring_silver",

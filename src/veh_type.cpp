@@ -10,7 +10,6 @@
 
 #include "ammo.h"
 #include "assign.h"
-#include "cata_utility.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -27,6 +26,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"

@@ -1,6 +1,3 @@
-#include "mattack_common.h" // IWYU pragma: associated
-#include "monstergenerator.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstdlib>
 #include <set>
@@ -20,11 +17,13 @@
 #include "item_group.h"
 #include "json.h"
 #include "mattack_actors.h"
+#include "mattack_common.h" // IWYU pragma: associated
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "mongroup.h"
+#include "monstergenerator.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
@@ -32,6 +31,12 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
+
+namespace behavior
+{
+class node_t;
+}  // namespace behavior
 
 namespace io
 {
@@ -215,7 +220,7 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-    : mon_templates( "monster type", "id", "alias" )
+    : mon_templates( "monster type" )
     , mon_species( "species" )
 {
     mon_templates->insert( mtype() );
@@ -661,7 +666,7 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
-                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
+                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
                             e.get_bool( "permanent", false ),
                             e.get_int( "chance", 100 ) );
 }

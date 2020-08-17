@@ -1,40 +1,41 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include <set>
 #include <memory>
 #include <ostream>
+#include <set>
+#include <tuple>
 
 #include "avatar.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "veh_type.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
-#include "string_id.h"
-#include "enums.h"
-#include "int_id.h"
-#include "monster.h"
 #include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -435,43 +436,41 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    int max_vel = traction * max_velocity();
-
-    // Get braking power
-    int brk = std::max( 1000, std::abs( max_vel ) * 3 / 10 );
-
+    const int max_vel = traction * max_velocity();
+    // maximum braking is 20 mph/s, assumes high friction tires
+    const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
-    int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
+    int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
     if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
-    //find power ratio used of engines max
+    //find ratio of used acceleration to maximum available, returned in tenths of a percent
+    //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
-            //find power ratio used of engines max
-            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
-            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        if( z != 0 ) {
-            // @TODO : actual engine strain / load for going up a z-level.
-            load = 1;
-            thrusting = true;
+        if( thrusting ) {
+            load = 1000 * std::abs( vel_inc ) / accel;
+        } else {
+            // brakes provide 20 mph/s of slowdown and the rest is engine braking
+            // TODO: braking depends on wheels, traction, driver skill
+            load = 1000 * std::max( 0, std::abs( vel_inc ) - max_brake ) / accel;
         }
     } else {
-        if( z != 0 ) {
-            load = 1;
-            thrusting = true;
-        } else {
-            load = ( thrusting ? 1000 : 0 );
-        }
+        load = ( thrusting ? 1000 : 0 );
+    }
+    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    if( is_rotorcraft() && is_flying_in_air() ) {
+        load = std::max( load, z > 0 ? 300 : 150 );
+        thrusting = true;
     }
 
     // only consume resources if engine accelerating
@@ -2111,9 +2110,10 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
-            } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+            } else {
+                add_msg_if_player_sees( part_pos, m_bad,
+                                        _( "The %s is hurled from %s's by the power of the impact!" ),
+                                        pet->disp_name(), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng( 0, 60 ) - 30,

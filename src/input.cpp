@@ -1,20 +1,20 @@
 #include "input.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <array>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <utility>
 
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -26,13 +26,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "point.h"
 #include "sdltiles.h"
 
 using std::min; // from <algorithm>
@@ -888,7 +887,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == input_event_t::keyboard_char && events_event.sequence.size() == 1 ) {
+        if( ( events_event.type == input_event_t::keyboard_char
+              || events_event.type == input_event_t::keyboard_code )
+            && is_event_type_enabled( events_event.type )
+            && events_event.sequence.size() == 1
+            && events_event.modifiers.empty() ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
                                             isprint( events_event.sequence.front() ) ) ) {
                 result.push_back( static_cast<char>( events_event.sequence.front() ) );
@@ -1560,36 +1563,24 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+cata::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_pair( point(), false );
+    return cata::nullopt;
 #else
     if( !coordinate_input_received ) {
-        return std::make_pair( point(), false );
+        return cata::nullopt;
     }
-
     const window_dimensions dim = get_window_dimensions( capture_win );
-
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
-    const point win_max = win_min + win_size;
-
-    const half_open_rectangle<point> win_bounds( win_min, win_max );
-
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
-
-    if( !win_bounds.contains( coordinate ) ) {
-        return std::make_pair( selected, false );
-    }
-
-    return std::make_pair( selected, true );
+    return selected;
 #endif
 }
 

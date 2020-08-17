@@ -1,7 +1,8 @@
 #include "panels.h"
 
-#include <array>
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iosfwd>
 #include <iterator>
@@ -13,14 +14,12 @@
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
-#include "behavior_oracle.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
-#include "character_oracle.h"
 #include "character_martial_arts.h"
+#include "character_oracle.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
@@ -30,6 +29,7 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
+#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "magic.h"
@@ -42,8 +42,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -52,9 +52,11 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -816,16 +818,16 @@ static std::pair<nc_color, std::string> mana_stat( const player &u )
 {
     nc_color c_mana = c_red;
     std::string s_mana;
-    if( u.magic.max_mana( u ) <= 0 ) {
+    if( u.magic->max_mana( u ) <= 0 ) {
         s_mana = "--";
         c_mana = c_light_gray;
     } else {
-        if( u.magic.available_mana() >= u.magic.max_mana( u ) / 2 ) {
+        if( u.magic->available_mana() >= u.magic->max_mana( u ) / 2 ) {
             c_mana = c_light_blue;
-        } else if( u.magic.available_mana() >= u.magic.max_mana( u ) / 3 ) {
+        } else if( u.magic->available_mana() >= u.magic->max_mana( u ) / 3 ) {
             c_mana = c_yellow;
         }
-        s_mana = to_string( u.magic.available_mana() );
+        s_mana = to_string( u.magic->available_mana() );
     }
     return std::make_pair( c_mana, s_mana );
 }
@@ -882,7 +884,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
 
         if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp->token );
+            const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -928,7 +930,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     werase( w );
     // print bodypart health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
@@ -1124,7 +1127,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     werase( w );
     int ny2 = 0;
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1142,7 +1146,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     // display limbs status
     ny2 = 0;
     i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1166,7 +1171,8 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
@@ -1401,7 +1407,7 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
     trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     wnoutrefresh( w );
 }
 
@@ -1486,7 +1492,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     // wielded item
     trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     // style
-    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
+    mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data->selected_style_name( u ) );
     // location
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
@@ -1553,7 +1559,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // print limb health
     int i = 0;
-    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( bp, true, true, true ), str );
@@ -1874,7 +1881,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
 
     // Print in sidebar currently used martial style.
-    const std::string style = u.martial_arts_data.selected_style_name( u );
+    const std::string style = u.martial_arts_data->selected_style_name( u );
 
     if( !style.empty() ) {
         const auto style_color = u.is_armed() ? c_red : c_blue;
@@ -1935,7 +1942,7 @@ static void print_mana( const player &u, const catacurses::window &w, const std:
                                     colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
-                                    colorize( utf8_justify( to_string( u.magic.max_mana( u ) ), j4 ), c_light_blue ) );
+                                    colorize( utf8_justify( to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
@@ -1968,7 +1975,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return get_avatar().magic.knows_spell();
+    return get_avatar().magic->knows_spell();
 }
 
 bool default_render()

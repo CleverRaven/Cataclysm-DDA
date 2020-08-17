@@ -6,12 +6,9 @@
 #include <chrono>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-#include <cwctype>
-#include <exception>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -21,7 +18,6 @@
 #include <numeric>
 #include <queue>
 #include <set>
-#include <sstream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -34,6 +30,7 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "artifact.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -43,6 +40,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
@@ -55,6 +53,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesport.h"
+#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -83,6 +82,7 @@
 #include "item_category.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -93,6 +93,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_item_stack.h"
@@ -120,6 +121,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "panels.h"
+#include "past_games_info.h"
 #include "path_info.h"
 #include "pickup.h"
 #include "player.h"
@@ -151,16 +153,18 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
-#include "fungal_effects.h"
 
 class computer;
 class inventory;
@@ -281,6 +285,29 @@ static void achievement_attained( const achievement *a, bool achievements_enable
     if( achievements_enabled ) {
         add_msg( m_good, _( "You completed the achievement \"%s\"." ),
                  a->name() );
+        std::string popup_option = get_option<std::string>( "ACHIEVEMENT_COMPLETED_POPUP" );
+        bool show_popup;
+        if( test_mode || popup_option == "never" ) {
+            show_popup = false;
+        } else if( popup_option == "always" ) {
+            show_popup = true;
+        } else if( popup_option == "first" ) {
+            const achievement_completion_info *past_info = get_past_games().achievement( a->id );
+            show_popup = !past_info || past_info->games_completed.empty();
+        } else {
+            debugmsg( "Unexpected ACHIEVEMENT_COMPLETED_POPUP option value %s", popup_option );
+            show_popup = false;
+        }
+
+        if( show_popup ) {
+            std::string message = colorize( _( "Achievement completed!" ), c_light_green );
+            message += "\n\n";
+            message += get_achievements().ui_text_for( a );
+            message += "\n";
+            message += colorize( _( "Achievement completion popups can be\nconfigured via the "
+                                    "Interface options" ), c_dark_gray );
+            popup( message );
+        }
     }
     get_event_bus().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
 }
@@ -743,10 +770,10 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
+        u.add_effect( effect_infected, 1_turns, get_player_character().random_body_part(), true );
     }
     if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
-        u.add_effect( effect_fungus, 1_turns, random_body_part(), true );
+        u.add_effect( effect_fungus, 1_turns, get_player_character().random_body_part(), true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -797,7 +824,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+            mon->add_effect( effect_pet, 1_turns, true );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -1466,6 +1493,7 @@ bool game::do_turn()
                 }
                 sounds::process_sound_markers( &u );
                 if( !u.activity && !u.has_distant_destination() && uquit != QUIT_WATCH ) {
+                    wait_popup.reset();
                     ui_manager::redraw();
                 }
 
@@ -1601,14 +1629,15 @@ bool game::do_turn()
 
             // Avoid redrawing the main UI every time due to invalidation
             ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-            static_popup popup;
-            popup.on_top( true ).wait_message( "%s", wait_message );
+            wait_popup = std::make_unique<static_popup>();
+            wait_popup->on_top( true ).wait_message( "%s", wait_message );
             ui_manager::redraw();
             refresh_display();
             first_redraw_since_waiting_started = false;
         }
     } else {
         // Nothing to wait for now
+        wait_popup.reset();
         first_redraw_since_waiting_started = true;
     }
 
@@ -1914,7 +1943,7 @@ void game::validate_mounted_npcs()
             }
             mounted_pl->mounted_creature = shared_from( m );
             mounted_pl->setpos( m.pos() );
-            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
+            mounted_pl->add_effect( effect_riding, 1_turns, true );
             m.mounted_player = mounted_pl;
         }
     }
@@ -2494,7 +2523,7 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 
 input_context get_default_mode_input_context()
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
     ctxt.register_action( "UP", to_translation( "Move North" ) );
@@ -5317,7 +5346,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, true );
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
         for( auto &ammo : critter.ammo ) {
@@ -5368,7 +5397,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         tmp->spawn_at_precise( get_map().get_abs_sub().xy(), couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
-        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
         load_npcs();
 
     } else {
@@ -6166,6 +6195,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                             break;
                         case creature_size::huge:
                             size_str = pgettext( "infrared size", "huge" );
+                            break;
+                        case creature_size::num_sizes:
+                            debugmsg( "Creature has invalid size class." );
+                            size_str = "invalid";
                             break;
                     }
                     mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
@@ -8717,19 +8750,20 @@ void game::butcher()
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
-            int time_to_disassemble = 0;
-            int time_to_disassemble_all = 0;
+            int time_to_disassemble_once = 0;
+            int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
                                      get_player_character() );
-                time_to_disassemble += time;
-                time_to_disassemble_all += time * stack.second;
+                time_to_disassemble_once += time * stack.second;
+                time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
+                                                     get_player_character() ) * stack.second;
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_once / 100 ) ) );
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_recursive / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -9025,8 +9059,8 @@ void game::wield( item_location loc )
         }
 
         if( is_unwielding ) {
-            if( !u.martial_arts_data.selected_is_none() ) {
-                u.martial_arts_data.martialart_use_message( u );
+            if( !u.martial_arts_data->selected_is_none() ) {
+                u.martial_arts_data->martialart_use_message( u );
             }
             return;
         }
@@ -9227,7 +9261,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name() );
@@ -9681,21 +9715,21 @@ point game::place_player( const tripoint &dest_loc )
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, true );
                 } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
                            ( one_in( 256 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, true );
                 }
             }
         }
     }
     if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
-        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
+        u.add_effect( effect_bouldering, 1_turns, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
     if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+        u.add_effect( effect_no_sight, 1_turns, true );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }
@@ -10306,7 +10340,7 @@ void game::on_move_effects()
     }
 
     // apply martial art move bonuses
-    u.martial_arts_data.ma_onmove_effects( u );
+    u.martial_arts_data->ma_onmove_effects( u );
 
     sfx::do_ambient();
 }
@@ -12602,6 +12636,11 @@ Character &get_player_character()
 }
 
 location &get_player_location()
+{
+    return g->u;
+}
+
+viewer &get_player_view()
 {
     return g->u;
 }

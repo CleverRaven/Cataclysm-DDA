@@ -1,0 +1,191 @@
+[
+  {
+    "entries": [
+      { "count": [ 2, 8 ], "item": "rag" },
+      { "count": [ 1, 3 ], "item": "pipe" },
+      { "count": [ 0, 2 ], "item": "spring" },
+      { "count": [ 3, 5 ], "item": "scrap" }
+    ],
+    "id": "ig_vp_seat",
+    "subtype": "collection",
+    "type": "item_group"
+  },
+  {
+    "entries": [
+      { "count": [ 1, 5 ], "item": "leather" },
+      { "count": [ 1, 3 ], "item": "rag" },
+      { "count": [ 1, 3 ], "item": "pipe" },
+      { "count": [ 0, 2 ], "item": "spring" },
+      { "count": [ 3, 5 ], "item": "scrap" }
+    ],
+    "id": "ig_vp_seat_leather",
+    "subtype": "collection",
+    "type": "item_group"
+  },
+  {
+    "abstract": "seat_abstract",
+    "breaks_into": "ig_vp_seat",
+    "broken_color": "red",
+    "broken_symbol": "*",
+    "color": "red",
+    "comfort": 2,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 2 },
+    "description": "A place to sit, or sleep if you're desperate.",
+    "durability": 300,
+    "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
+    "floor_bedding_warmth": 200,
+    "item": "seat",
+    "location": "center",
+    "looks_like": "reclining_seat",
+    "name": { "str": "seat" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 100,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "seat_leather_abstract",
+    "breaks_into": "ig_vp_seat_leather",
+    "copy-from": "seat",
+    "item": "seat_leather",
+    "looks_like": "seat",
+    "name": { "str": "leather seat" },
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reclining_seat_abstract",
+    "breaks_into": "ig_vp_seat",
+    "broken_color": "red",
+    "broken_symbol": "*",
+    "color": "red",
+    "comfort": 3,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 3 },
+    "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
+    "durability": 100,
+    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "floor_bedding_warmth": 250,
+    "item": "seat",
+    "location": "center",
+    "looks_like": "seat",
+    "name": { "str": "reclining seat" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 25,
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "reclining_seat_leather_abstract",
+    "breaks_into": "ig_vp_seat_leather",
+    "copy-from": "reclining_seat",
+    "item": "seat_leather",
+    "looks_like": "seat_leather",
+    "name": { "str": "reclining leather seat" },
+    "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "saddle_abstract",
+    "name": { "str": "saddle" },
+    "symbol": "#",
+    "looks_like": "seat",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 20,
+    "durability": 80,
+    "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
+    "folded_volume": "1250 ml",
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "item": "saddle",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "folding_seat_abstract",
+    "name": { "str": "foldable seat" },
+    "symbol": "#",
+    "looks_like": "seat",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A crude seat, too uncomfortable to sleep in.",
+    "item": "sheet",
+    "folded_volume": "2500 ml",
+    "location": "anywhere",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
+  },
+  {
+    "copy-from": "seat_abstract",
+    "id": "seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "saddle_abstract",
+    "id": "saddle",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "saddle_abstract",
+    "id": "saddle_pedal",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "saddle_abstract",
+    "id": "saddle_motor",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "folding_seat_abstract",
+    "id": "folding_seat",
+    "symbol": "#",
+    "type": "vehicle_part"
+  }
+]

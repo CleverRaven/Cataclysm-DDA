@@ -1,7 +1,9 @@
-#if defined(TILES)
-
+#include "cuboid_rectangle.h"
 #include "cursesdef.h" // IWYU pragma: associated
+#include "point.h"
 #include "sdltiles.h" // IWYU pragma: associated
+
+#if defined(TILES)
 
 #include <algorithm>
 #include <array>
@@ -51,8 +53,8 @@
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_wrappers.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -2075,7 +2077,7 @@ void remove_stale_inventory_quick_shortcuts()
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
-                in_inventory = player_character.inv.invlet_to_position( key ) != INT_MIN;
+                in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : player_character.worn ) {
@@ -2209,7 +2211,7 @@ void draw_quick_shortcuts()
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv.find_item( player_character.inv.invlet_to_position(
+                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
@@ -2784,6 +2786,18 @@ static void CheckMessages()
             if( ticks - finger_repeat_time > finger_repeat_delay ) {
                 handle_finger_input( ticks );
                 finger_repeat_time = ticks;
+                // Prevent repeating inputs on the next call to this function if there is a fingerup event
+                while( SDL_PollEvent( &ev ) ) {
+                    if( ev.type == SDL_FINGERUP ) {
+                        second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
+                        second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
+                        is_two_finger_touch = false;
+                        finger_down_time = 0;
+                        finger_repeat_time = 0;
+                        // let the next call decide if needupdate should be true
+                        break;
+                    }
+                }
                 return;
             }
         }
@@ -3225,7 +3239,7 @@ static void CheckMessages()
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
         window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ) );
+        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
         ui_manager::redraw();
     }
     if( needupdate ) {
@@ -4114,3 +4128,10 @@ HWND getWindowHandle()
 #endif
 
 #endif // TILES
+
+bool window_contains_point_relative( const catacurses::window &win, const point &p )
+{
+    const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
+    const half_open_rectangle<point> win_bounds( point_zero, bound );
+    return win_bounds.contains( p );
+}

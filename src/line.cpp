@@ -1,18 +1,17 @@
 #include "line.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
 #include <array>
+#include <cassert>
+#include <cstdlib>
 #include <memory>
 #include <tuple>
 #include <utility>
 
-#include "math_defines.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "output.h"
 #include "enums.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 bool trigdist;
 

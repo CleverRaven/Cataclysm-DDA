@@ -11,11 +11,12 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -26,6 +27,7 @@
 #include "craft_command.h"
 #include "crafting_gui.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
@@ -53,9 +55,9 @@
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -68,6 +70,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -461,8 +464,8 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
             conts.push_back( &it );
         }
     }
-    for( size_t i = 0; i < inv.size(); i++ ) {
-        for( const auto &it : inv.const_stack( i ) ) {
+    for( size_t i = 0; i < inv->size(); i++ ) {
+        for( const auto &it : inv->const_stack( i ) ) {
             if( is_container_eligible_for_crafting( it, false ) ) {
                 conts.push_back( &it );
             }
@@ -543,36 +546,36 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( cached_moves == moves
         && cached_time == calendar::turn
         && cached_position == inv_pos ) {
-        return cached_crafting_inventory;
+        return *cached_crafting_inventory;
     }
-    cached_crafting_inventory.clear();
-    cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
+    cached_crafting_inventory->clear();
+    cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
 
     for( const item_location &it : all_items_loc() ) {
         // can't craft with containers that have items in them
         if( !it->contents.empty_container() ) {
             continue;
         }
-        cached_crafting_inventory.add_item( *it );
+        cached_crafting_inventory->add_item( *it );
     }
 
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
-            cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, units::to_kilojoule( get_power_level() ) );
+            *cached_crafting_inventory += item( bio.info().fake_item,
+                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        cached_crafting_inventory += item( "pickaxe", calendar::turn );
-        cached_crafting_inventory += item( "shovel", calendar::turn );
+        *cached_crafting_inventory += item( "pickaxe", calendar::turn );
+        *cached_crafting_inventory += item( "shovel", calendar::turn );
     }
 
     cached_moves = moves;
     cached_time = calendar::turn;
     cached_position = inv_pos;
-    return cached_crafting_inventory;
+    return *cached_crafting_inventory;
 }
 
 void Character::invalidate_crafting_inventory()
@@ -648,7 +651,7 @@ static item *set_item_inventory( Character &p, item &newit )
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
-        p.inv.assign_empty_invlet( newit, p );
+        p.inv->assign_empty_invlet( newit, p );
         // We might not have space for the item
         if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
             put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
@@ -890,6 +893,50 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
                 }
             }
         }
+    }
+}
+
+void Character::craft_proficiency_gain( const item &craft, const time_duration time )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    std::vector<npc *> helpers = get_crafting_helpers();
+
+    // The proficiency, and the multiplier on the time we learn it for
+    std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
+    for( const recipe_proficiency &prof : making.proficiencies ) {
+        if( prof.id->can_learn() && _proficiencies->has_prereqs( prof.id ) ) {
+            std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
+                    prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
+            subjects.push_back( subject );
+        }
+    }
+
+    int amount = to_seconds<int>( time );
+    if( !subjects.empty() ) {
+        amount /= subjects.size();
+    }
+    time_duration learn_time = time_duration::from_seconds( amount );
+
+    int npc_helper_bonus = 1;
+    for( npc *helper : helpers ) {
+        for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+            if( helper->has_proficiency( std::get<0>( subject ) ) ) {
+                // NPCs who know the proficiency and help teach you faster
+                npc_helper_bonus = 2;
+            }
+            helper->practice_proficiency( std::get<0>( subject ), std::get<1>( subject ) * learn_time,
+                                          std::get<2>( subject ) );
+        }
+    }
+
+    for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+        practice_proficiency( std::get<0>( subject ),
+                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
 }
 
@@ -1264,7 +1311,7 @@ void Character::complete_craft( item &craft, const tripoint &loc )
         }
     }
 
-    inv.restack( *this );
+    inv->restack( *this );
 }
 
 bool Character::can_continue_craft( item &craft )

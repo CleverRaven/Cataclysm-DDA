@@ -1,5 +1,4 @@
 #include "explosion.h" // IWYU pragma: associated
-#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -11,12 +10,14 @@
 #include <queue>
 #include <random>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
@@ -24,6 +25,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flat_set.h"
+#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -35,8 +37,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -576,7 +576,7 @@ void flashbang( const tripoint &p, bool player_immune )
                        player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            player_character.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
                                              time_duration::from_turns( 10 - dist ) );
         }
     }

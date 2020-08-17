@@ -256,6 +256,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
             _starting_spells.emplace( sp, level );
         }
     }
+
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },

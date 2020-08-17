@@ -4,7 +4,7 @@
     "result": "grenade",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "50 s",
+    "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_compositionb", 200 ] ] ]
   },
@@ -13,7 +13,7 @@
     "result": "grenade_inc",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "50 s",
+    "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 150 ] ] ]
   },
@@ -22,7 +22,7 @@
     "result": "landmine",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "50 s",
+    "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_compositionb", 75 ] ] ]
   }

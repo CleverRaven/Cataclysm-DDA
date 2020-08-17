@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iterator>
+#include <memory>
 #include <numeric>
 #include <sstream>
 
@@ -9,10 +11,13 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "construction.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -20,7 +25,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -61,7 +65,7 @@ time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flag
 
 int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
-    if( flags == recipe_time_flag::none ) {
+    if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
     int ret = time;
@@ -223,9 +227,12 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
-        for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( itype_id( arr.get_string( 0 ) ),
-                              arr.size() > 1 ? arr.get_int( 1 ) : -1 );
+        if( jo.has_array( "book_learn" ) ) {
+            for( JsonArray arr : jo.get_array( "book_learn" ) ) {
+                booksets.emplace( itype_id( arr.get_string( 0 ) ), book_recipe_data{ arr.size() > 1 ? arr.get_int( 1 ) : -1 } );
+            }
+        } else {
+            mandatory( jo, false, "book_learn", booksets );
         }
     }
 
@@ -397,6 +404,7 @@ void recipe::finalize()
             debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
                       ident_.str() );
         }
+
         // Now that we've done the error checking, log that a proficiency with this id is used
         if( rpof.required ) {
             required.insert( rpof.id );
@@ -463,7 +471,7 @@ std::string recipe::get_consistency_error() const
         return "uses invalid skill";
     }
 
-    const auto is_invalid_book = []( const std::pair<itype_id, int> &elem ) {
+    const auto is_invalid_book = []( const std::pair<itype_id, book_recipe_data> &elem ) {
         return !item::find_type( elem.first )->book;
     };
 
@@ -933,4 +941,18 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
     jo.read( "fail_multiplier", fail_multiplier );
+    jo.read( "learning_time_multiplier", learning_time_mult );
+    jo.read( "max_experience", max_experience );
+}
+
+void book_recipe_data::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void book_recipe_data::load( const JsonObject &jo )
+{
+    jo.read( "skill_level", skill_req );
+    jo.read( "recipe_name", alt_name );
+    jo.read( "hidden", hidden );
 }

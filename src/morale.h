@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -68,7 +69,8 @@ class player_morale
         void on_item_takeoff( const item &it );
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   const bodypart_id &bp = bodypart_id( "bp_null" ) );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );

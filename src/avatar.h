@@ -3,33 +3,45 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "enums.h"
-#include "item.h"
+#include "game_constants.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-
-class faction;
-
-class advanced_inv_listitem;
-class advanced_inv_area;
-class advanced_inventory_pane;
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
+class faction;
+class item;
+class item_location;
 class mission;
 class monster;
+class nc_color;
 class npc;
 class talker;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+enum class character_type : int;
 
 namespace debug_menu
 {
@@ -260,6 +272,7 @@ class avatar : public player
                 activity_levels.emplace( NO_EXERCISE, 0 );
                 activity_levels.emplace( LIGHT_EXERCISE, 0 );
                 activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( BRISK_EXERCISE, 0 );
                 activity_levels.emplace( ACTIVE_EXERCISE, 0 );
                 activity_levels.emplace( EXTRA_EXERCISE, 0 );
             }

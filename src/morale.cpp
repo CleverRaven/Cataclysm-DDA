@@ -1,10 +1,8 @@
 #include "morale.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <numeric>
 #include <set>
 #include <utility>
@@ -21,9 +19,9 @@
 #include "int_id.h"
 #include "item.h"
 #include "morale_types.h"
-#include "options.h"
 #include "output.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -913,17 +911,18 @@ void player_morale::on_worn_item_washed( const item &it )
     update_squeamish_penalty();
 }
 
-void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
+        const bodypart_id &bp )
 {
-    const bodypart_id bo_id = convert_bp( bp ).id();
-    if( eid == effect_took_prozac && bp == num_bp ) {
+    const bodypart_id bp_null( "bp_null" );
+    if( eid == effect_took_prozac && bp == bp_null ) {
         set_prozac( intensity != 0 );
-    } else if( eid == effect_took_prozac_bad && bp == num_bp ) {
+    } else if( eid == effect_took_prozac_bad && bp == bp_null ) {
         set_prozac_bad( intensity != 0 );
-    } else if( eid == effect_cold && bp < num_bp ) {
-        body_parts[bo_id].cold = intensity;
-    } else if( eid == effect_hot && bp < num_bp ) {
-        body_parts[bo_id].hot = intensity;
+    } else if( eid == effect_cold && bp != bp_null ) {
+        body_parts[bp].cold = intensity;
+    } else if( eid == effect_hot && bp != bp_null ) {
+        body_parts[bp].hot = intensity;
     }
 }
 

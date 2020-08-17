@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VEHICLE_H
 #define CATA_SRC_VEHICLE_H
 
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -29,9 +30,11 @@
 #include "line.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -46,8 +49,10 @@ class vehicle;
 class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
+class zone_data;
 struct itype;
 struct uilist_entry;
+template <typename E> struct enum_traits;
 template <typename T> class visitable;
 
 enum vpart_bitflags : int;
@@ -774,7 +779,7 @@ class vehicle
          * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
+        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NONE );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;

@@ -204,7 +204,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "basketlg" }
+      { "x": 0, "y": 0, "part": "basketlg_cart" }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
@@ -219,7 +219,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "basketlg" },
+      { "x": 0, "y": 0, "part": "basketlg_cart" },
       { "x": -1, "y": 0, "part": "cart_handle" }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
@@ -293,7 +293,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
       { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_barrow" ] },
-      { "x": 0, "y": 0, "part": "box" }
+      { "x": 0, "y": 0, "part": "box_wheelbarrow" }
     ]
   },
   {
@@ -338,7 +338,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
-      { "x": 0, "y": 0, "part": "basketlg" }
+      { "x": 0, "y": 0, "part": "basketlg_cart" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 40, "item_groups": [ "shirts" ] },

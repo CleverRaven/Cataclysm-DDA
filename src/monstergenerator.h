@@ -15,13 +15,11 @@
 #include "translations.h"
 #include "type_id.h"
 
-template<typename T>
-class generic_factory;
-
 class Creature;
 class JsonObject;
 class monster;
 struct dealt_projectile_attack;
+template <typename T> class generic_factory;
 template <typename T> class string_id;
 
 using mon_action_death  = void ( * )( monster & );

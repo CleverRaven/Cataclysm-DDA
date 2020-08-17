@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <array>
-#include <cstdlib>
+#include <cmath>
 #include <list>
 #include <memory>
 #include <ostream>
@@ -19,16 +19,19 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player.h"
+#include "pimpl.h"
 #include "point.h"
+#include "ret_val.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -123,7 +126,7 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }

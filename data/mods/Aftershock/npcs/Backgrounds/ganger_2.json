@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGSS_GANGER_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I've spent my life in the hive.  When things started turning strange I snuck out of the city.",
+    "responses": [
+      { "text": "You seem like you are out of your element.", "topic": "BGSS_GANGER_2_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGER_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I've never seen so many trees outside of a video.  And there is so much wildlife.",
+    "responses": [
+      { "text": "What will you do?", "topic": "BGSS_GANGER_2_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_GANGEER_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I'm going to live my best life in a dead world.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

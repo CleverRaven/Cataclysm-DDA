@@ -11,8 +11,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "ammo.h"
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -22,11 +23,11 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -37,6 +38,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -48,9 +50,9 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -90,9 +92,12 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -950,6 +955,48 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
     g->open_gate( examp );
 }
 
+static bool try_start_hacking( player &p, const tripoint &examp )
+{
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        add_msg( _( "You cannot read!" ) );
+        return false;
+    }
+    const bool has_item = p.has_charges( itype_electrohack, 25 );
+    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
+    if( !has_item && !has_bionic ) {
+        add_msg( _( "You don't have a hacking tool with enough charges!" ) );
+        return false;
+    }
+    bool use_bionic = has_bionic;
+    if( has_item && has_bionic ) {
+        uilist menu;
+        menu.settext( _( "Use which hacking tool?" ) );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
+        menu.query();
+        switch( menu.ret ) {
+            case 0:
+                use_bionic = false;
+                break;
+            case 1:
+                use_bionic = true;
+                break;
+            default:
+                return false;
+        }
+    }
+    if( use_bionic ) {
+        p.mod_power_level( -25_kJ );
+        p.assign_activity( player_activity( hacking_activity_actor(
+                                                hacking_activity_actor::use_bionic {} ) ) );
+    } else {
+        p.use_charges( itype_electrohack, 25 );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
+    }
+    p.activity.placement = examp;
+    return true;
+}
+
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
@@ -984,8 +1031,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -1046,8 +1092,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            p.assign_activity( player_activity( hacking_activity_actor() ) );
-            p.activity.placement = examp;
+            try_start_hacking( p, examp );
         }
     }
 }
@@ -1403,8 +1448,7 @@ void iexamine::safe( player &p, const tripoint &examp )
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -4099,8 +4143,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( size_t i = 0; i < p.inv->size(); i++ ) {
+        item &it = p.inv->find_item( i );
 
         if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
@@ -4397,12 +4441,11 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 
     if( refund == choice ) {
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
+        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -4660,6 +4703,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         BONESETTING,
         TREAT_WOUNDS,
         RAD_AWAY,
+        BLOOD_ANALYSIS,
     };
 
     bool adjacent_couch = false;
@@ -4744,6 +4788,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
     amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
     amenu.addentry( RAD_AWAY, true, 'r', _( "Check radiation level" ) );
+    amenu.addentry( BLOOD_ANALYSIS, true, 'b', _( "Conduct blood analysis" ) );
 
     amenu.query();
 
@@ -4826,7 +4871,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         // TODO: refactor this whole bit. adding items to the inventory will
                         // cause major issues when inv gets removed. this is a shim for now
                         // in order to reduce lines of change for nested containers.
-                        player_character.inv.push_back( bionic_to_uninstall );
+                        player_character.inv->push_back( bionic_to_uninstall );
                     }
                 }
             }
@@ -4869,9 +4914,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
         case BONESETTING: {
             int broken_limbs_count = 0;
-            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
+            for( const bodypart_id &part :
+                 patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 const bool broken = patient.is_limb_broken( part );
-                effect &existing_effect = patient.get_effect( effect_mending, part->token );
+                effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
                                  existing_effect.get_duration() >
@@ -4895,8 +4941,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
                 }
-                patient.add_effect( effect_mending, 0_turns, part->token, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part->token );
+                patient.add_effect( effect_mending, 0_turns, part, true );
+                effect &mending_effect = patient.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
@@ -4940,17 +4986,18 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( const bodypart_id &bp_healed : patient.get_all_body_parts( true ) ) {
-                if( patient.has_effect( effect_bleed, bp_healed->token ) ) {
-                    patient.remove_effect( effect_bleed, bp_healed->token );
+            for( const bodypart_id &bp_healed :
+                 patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
                                                    _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
-                if( patient.has_effect( effect_bite, bp_healed->token ) ) {
-                    patient.remove_effect( effect_bite, bp_healed->token );
+                if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
+                    patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
@@ -4958,8 +5005,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
                     patient.set_part_damage_disinfected( bp_healed,
                                                          patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed ) );
@@ -4991,6 +5038,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( "RADIOACTIVE" ) );
             }
+            break;
+        }
+
+        case BLOOD_ANALYSIS: {
+            patient.moves -= 500;
+            patient.conduct_blood_analysis();
+            patient.add_msg_player_or_npc( m_info,
+                                           _( "The autodoc analyzed your blood." ),
+                                           _( "The autodoc analyzed <npcname>'s blood." ) );
             break;
         }
 

@@ -2,34 +2,42 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
+#include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
 #include <limits>
-#include <memory>
-#include <array>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "input.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "pimpl.h"
-#include "units.h"
-#include "item_category.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "ui.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
 class string_input_popup;
-struct tripoint;
 class ui_adaptor;
+struct point;
+struct tripoint;
+template <typename Point> struct inclusive_rectangle;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -41,17 +49,11 @@ enum class scroll_direction : int {
     BACKWARD = -1
 };
 
-struct navigation_mode_data;
 struct inventory_input;
+struct navigation_mode_data;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
-
-struct inventory_entry_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
-};
 
 class inventory_entry
 {
@@ -132,8 +134,6 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
-
-        inventory_entry_drawn_info drawn_info;
 
     private:
         const item_category *custom_category = nullptr;
@@ -308,7 +308,8 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, const point & );
+        void draw( const catacurses::window &win, const point &p,
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -593,6 +594,8 @@ class inventory_selector
             return columns;
         }
         std::vector<inventory_column *> get_visible_columns() const;
+
+        std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

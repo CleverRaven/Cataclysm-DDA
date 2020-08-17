@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FACTION_H
 #define CATA_SRC_FACTION_H
 
+#include <algorithm>
 #include <bitset>
 #include <map>
 #include <set>

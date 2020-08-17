@@ -1,10 +1,7 @@
-#include "activity_handlers.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
-#include <iterator>
 #include <list>
 #include <memory>
 #include <set>
@@ -13,8 +10,9 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h" // IWYU pragma: associated
+#include "activity_type.h"
 #include "avatar.h"
-#include "avatar_action.h"
 #include "calendar.h"
 #include "character.h"
 #include "clzones.h"
@@ -34,6 +32,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -60,6 +59,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -472,6 +472,12 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         p.mod_moves( -ait.consumed_moves );
 
+        if( ait.loc.has_parent() ) {
+            item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
+            if( parent_pocket ) {
+                parent_pocket->unseal();
+            }
+        }
         if( p.is_worn( *ait.loc ) ) {
             p.takeoff( *ait.loc, &res );
         } else if( ait.loc->count_by_charges() ) {

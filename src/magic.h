@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <memory>
@@ -13,22 +14,25 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
-class Character;
 class spell;
 class time_duration;
+struct requirement_data;
+
 namespace cata
 {
 class event;
@@ -260,7 +264,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NULL;
+        damage_type dmg_type = damage_type::DT_NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;
@@ -271,7 +275,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
@@ -372,7 +376,7 @@ class spell
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input

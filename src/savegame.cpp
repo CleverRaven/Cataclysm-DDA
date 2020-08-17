@@ -53,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 30;
+const int savegame_version = 31;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -1185,6 +1185,9 @@ void weather_manager::unserialize_all( JsonIn &jsin )
     w.read( "lightning", get_weather().lightning_active );
     w.read( "weather_id", get_weather().weather_id );
     w.read( "next_weather", get_weather().nextweather );
+    w.read( "temperature", get_weather().temperature );
+    w.read( "winddirection", get_weather().winddirection );
+    w.read( "windspeed", get_weather().windspeed );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1208,6 +1211,9 @@ void game::serialize_master( std::ostream &fout )
         json.member( "lightning", weather.lightning_active );
         json.member( "weather_id", weather.weather_id );
         json.member( "next_weather", weather.nextweather );
+        json.member( "temperature", weather.temperature );
+        json.member( "winddirection", weather.winddirection );
+        json.member( "windspeed", weather.windspeed );
         json.end_object();
 
         json.end_object();

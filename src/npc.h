@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -19,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "dialogue_chatbin.h"
@@ -41,7 +43,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class JsonIn;
 class JsonObject;
@@ -836,6 +838,10 @@ class npc : public player
          * words: skills this NPC could teach the player.
          */
         std::vector<skill_id> skills_offered_to( const player &p ) const;
+        /**
+         * Proficiencies we know that the character doesn't
+         */
+        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */

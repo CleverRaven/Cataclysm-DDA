@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_IUSE_ACTOR_H
 #define CATA_SRC_IUSE_ACTOR_H
 
+#include <algorithm>
 #include <climits>
 #include <map>
 #include <memory>
@@ -10,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "color.h"
 #include "coordinates.h"
 #include "damage.h"
@@ -23,6 +25,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
@@ -31,7 +34,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum body_part : int;
 class JsonObject;
 class item_location;
 struct furn_t;
@@ -233,10 +235,10 @@ class unfold_vehicle_iuse : public iuse_actor
 struct effect_data {
     efftype_id id;
     time_duration duration;
-    body_part bp;
+    bodypart_id bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration &dur, bodypart_id nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
@@ -377,6 +379,7 @@ class place_npc_iuse : public iuse_actor
     public:
         string_id<npc_template> npc_class_id;
         bool place_randomly = false;
+        int radius = 1;
         int moves = 100;
         std::string summon_msg;
 

@@ -13,13 +13,12 @@
 
 #include "action.h"
 #include "activity_handlers.h"
-#include "ammo.h"
+#include "activity_type.h"
 #include "assign.h"
-#include "avatar.h"
+#include "avatar.h" // IWYU pragma: keep
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
@@ -34,15 +33,16 @@
 #include "field_type.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -58,25 +58,23 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
-#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -85,6 +83,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -140,8 +139,6 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_VARSIZE( "VARSIZE" );
-
-class npc;
 
 std::unique_ptr<iuse_actor> iuse_transform::clone() const
 {
@@ -698,7 +695,7 @@ static effect_data load_effect_data( const JsonObject &e )
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
     return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+                        bodypart_id( e.get_string( "bp", "bp_null" ) ), e.get_bool( "permanent", false ) );
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -780,7 +777,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( const auto &eff : effects ) {
+    for( const effect_data &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
@@ -949,7 +946,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         newmon.friendly = -1;
         if( is_pet ) {
-            newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+            newmon.add_effect( effect_pet, 1_turns, true );
         }
     }
     return 1;
@@ -971,20 +968,16 @@ void place_npc_iuse::load( const JsonObject &obj )
 int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 {
     map &here = get_map();
-    cata::optional<tripoint> target_pos;
-    if( place_randomly ) {
-        const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
-        target_pos = random_point( target_range, [&here]( const tripoint & t ) {
-            return !here.passable( t );
-        } );
-    } else {
-        const std::string query = _( "Place npc where?" );
-        target_pos = choose_adjacent( _( "Place npc where?" ) );
-    }
-    if( !target_pos ) {
-        return 0;
-    }
-    if( !here.passable( target_pos.value() ) ) {
+    const tripoint_range<tripoint> target_range = place_randomly ?
+            points_in_radius( p.pos(), radius ) :
+            points_in_radius( choose_adjacent( _( "Place npc where?" ) ).value_or( p.pos() ), 0 );
+
+    const cata::optional<tripoint> target_pos =
+    random_point( target_range, [&here]( const tripoint & t ) {
+        return here.passable( t ) && here.has_floor_or_support( t ) && !g->critter_at( t );
+    } );
+
+    if( !target_pos.has_value() ) {
         p.add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
         return 0;
     }
@@ -1714,11 +1707,11 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        if( p.has_effect( effect_bleed, hpart->token ) ) {
+        if( p.has_effect( effect_bleed, hpart.id() ) ) {
             p.add_msg_if_player( m_bad, _( "Bleeding has not stopped completely!" ) );
         }
-        if( p.has_effect( effect_bite, hpart->token ) ) {
-            p.add_effect( effect_bite, 260_minutes, hpart->token, true );
+        if( p.has_effect( effect_bite, hpart.id() ) ) {
+            p.add_effect( effect_bite, 260_minutes, hpart, true );
         }
 
         p.moves = 0;
@@ -2039,7 +2032,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, num_bp, false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, false, speed_penalty );
     }
 
     std::string desc = "music";
@@ -2139,8 +2132,8 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         const spell_id sp_id( sp_id_str );
         sp_cb.add_spell( sp_id );
         uilist_entry entry( sp_id.obj().name.translated() );
-        if( p.magic.knows_spell( sp_id ) ) {
-            const spell sp = p.magic.get_spell( sp_id );
+        if( p.magic->knows_spell( sp_id ) ) {
+            const spell sp = p.magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
             if( sp.is_max_level() ) {
                 entry.ctxt += _( " (Max)" );
@@ -2149,7 +2142,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
                 know_it_all = false;
             }
         } else {
-            if( p.magic.can_learn_spell( p, sp_id ) ) {
+            if( p.magic->can_learn_spell( p, sp_id ) ) {
                 entry.ctxt = _( "Study to Learn" );
                 know_it_all = false;
             } else {
@@ -2176,9 +2169,9 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( action < 0 ) {
         return 0;
     }
-    const bool knows_spell = p.magic.knows_spell( spells[action] );
+    const bool knows_spell = p.magic->knows_spell( spells[action] );
     player_activity study_spell( ACT_STUDY_SPELL,
-                                 p.magic.time_to_learn_spell( p, spells[action] ) );
+                                 p.magic->time_to_learn_spell( p, spells[action] ) );
     study_spell.str_values = {
         "", // reserved for "until you gain a spell level" option [0]
         "learn"
@@ -2203,7 +2196,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( study_spell.moves_total == 10100 ) {
         study_spell.str_values[0] = "gain_level";
         study_spell.values[0] = 0; // reserved for xp
-        study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
+        study_spell.values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
     }
     study_spell.name = spells[action];
     p.assign_activity( study_spell, false );
@@ -3209,14 +3202,14 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
         }
     };
 
-    if( patient.has_effect( effect_bleed, healed->token ) ) {
+    if( patient.has_effect( effect_bleed, healed.id() ) ) {
         // small band-aids won't stop big arterial bleeding, but with tourniquet they just might
         int pwr = 3 * get_stopbleed_level( healer );
-        if( patient.worn_with_flag( "TOURNIQUET", convert_bp( healed->token ) ) ) {
+        if( patient.worn_with_flag( "TOURNIQUET",  healed ) ) {
             pwr *= 2;
         }
-        if( pwr > patient.get_effect_int( effect_bleed, healed->token ) ) {
-            effect &wound = patient.get_effect( effect_bleed, healed->token );
+        if( pwr > patient.get_effect_int( effect_bleed, healed ) ) {
+            effect &wound = patient.get_effect( effect_bleed, healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
                                 wound.get_int_dur_factor() );
             wound.set_duration( std::max( 0_turns, dur ) );
@@ -3233,9 +3226,9 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
         }
         practice_amount += bleed / 3.0f;
     }
-    if( patient.has_effect( effect_bite, healed->token ) ) {
+    if( patient.has_effect( effect_bite, healed.id() ) ) {
         if( x_in_y( bite, 1.0f ) ) {
-            patient.remove_effect( effect_bite, healed->token );
+            patient.remove_effect( effect_bite, healed );
             heal_msg( m_good, _( "You clean the wound." ), _( "The wound is cleaned." ) );
         } else {
             heal_msg( m_warning, _( "Your wound still aches." ), _( "The wound still looks bad." ) );
@@ -3243,10 +3236,10 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
 
         practice_amount += bite * 3.0f;
     }
-    if( patient.has_effect( effect_infected, healed->token ) ) {
+    if( patient.has_effect( effect_infected, healed.id() ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            const time_duration infected_dur = patient.get_effect_dur( effect_infected, healed->token );
-            patient.remove_effect( effect_infected, healed->token );
+            const time_duration infected_dur = patient.get_effect_dur( effect_infected, healed );
+            patient.remove_effect( effect_infected, healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _( "You disinfect the wound." ), _( "The wound is disinfected." ) );
         } else {
@@ -3285,8 +3278,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     // apply healing over time effects
     if( bandages_power > 0 ) {
         int bandages_intensity = get_bandaged_level( healer );
-        patient.add_effect( effect_bandaged, 1_turns, healed->token );
-        effect &e = patient.get_effect( effect_bandaged, healed->token );
+        patient.add_effect( effect_bandaged, 1_turns, healed );
+        effect &e = patient.get_effect( effect_bandaged, healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
@@ -3294,8 +3287,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     }
     if( disinfectant_power > 0 ) {
         int disinfectant_intensity = get_disinfected_level( healer );
-        patient.add_effect( effect_disinfected, 1_turns, healed->token );
-        effect &e = patient.get_effect( effect_disinfected, healed->token );
+        patient.add_effect( effect_disinfected, 1_turns, healed );
+        effect &e = patient.get_effect( effect_disinfected, healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
@@ -3331,9 +3324,9 @@ static bodypart_id pick_part_to_heal(
             return bodypart_id( "bp_null" );
         }
 
-        if( ( infect && patient.has_effect( effect_infected, healed_part->token ) ) ||
-            ( bite && patient.has_effect( effect_bite, healed_part->token ) ) ||
-            ( bleed && patient.has_effect( effect_bleed, healed_part->token ) ) ) {
+        if( ( infect && patient.has_effect( effect_infected, healed_part.id() ) ) ||
+            ( bite && patient.has_effect( effect_bite, healed_part.id() ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, healed_part.id() ) ) ) {
             return healed_part;
         }
 
@@ -3377,14 +3370,14 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
         for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
             const bodypart &part = elem.second;
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
+            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
             }
-            if( patient.get_effect_int( effect_bleed, elem.first->token ) > 5 && bleed > 0 ) {
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
+            if( patient.get_effect_int( effect_bleed, elem.first ) > 5 && bleed > 0 ) {
+                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
@@ -3919,7 +3912,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        p.add_effect( effect_downed, 1_turns, false, 0, true );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -4395,7 +4388,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, false, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );

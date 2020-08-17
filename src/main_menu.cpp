@@ -1,15 +1,12 @@
 #include "main_menu.h"
 
 #include <algorithm>
-#include <cmath>
-#include <cstdint>
 #include <cstdio>
 #include <cstring>
-#include <exception>
+#include <ctime>
 #include <functional>
 #include <istream>
 #include <memory>
-#include <ctime>
 
 #include "auto_pickup.h"
 #include "avatar.h"

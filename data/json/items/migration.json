@@ -1269,6 +1269,21 @@
     "replace": "condiment_bottle_sealed"
   },
   {
+    "id": "acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid_weak",
+    "type": "MIGRATION",
+    "replace": "chem_acetic_acid"
+  },
+  {
     "id": "four_winds_shotgun",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun"

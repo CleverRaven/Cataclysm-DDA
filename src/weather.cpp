@@ -4,10 +4,11 @@
 #include <array>
 #include <cmath>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
-#include "assign.h"
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -15,26 +16,34 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
+#include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
+#include "mtype.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "regional_settings.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
@@ -46,8 +55,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_acid( "water_acid" );
-static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -114,7 +121,7 @@ void glare( weather_type_id w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bp_eyes, 2, dur );
+        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
     }
 }
 
@@ -227,7 +234,7 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? "water_acid" : "water", calendar::turn );
+    item ret( "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -239,9 +246,7 @@ void item::add_rain_to_container( bool acid, int charges )
         put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
         static const std::set<itype_id> allowed_liquid_types{
-            itype_water,
-            itype_water_acid,
-            itype_water_acid_weak
+            itype_water
         };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
             return allowed_liquid_types.count( liquid.typeId() );
@@ -258,7 +263,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -274,7 +279,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                liq = item( "water_acid_weak", calendar::turn, liq.charges );
+                liq = item( "water", calendar::turn, liq.charges );
             } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -574,7 +579,7 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
-                                             current_effect.target_part->token );
+                                             current_effect.target_part );
             } else {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }

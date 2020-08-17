@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+#include "shadowcasting.h"
 
 #include <array>
 #include <chrono>
@@ -6,6 +7,7 @@
 #include <functional>
 #include <memory>
 #include <random>
+#include <type_traits>
 #include <vector>
 
 #include "game_constants.h"
@@ -14,7 +16,6 @@
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "shadowcasting.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;

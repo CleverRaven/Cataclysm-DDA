@@ -2,13 +2,16 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
+#include <string>
+#include <vector>
+
 #include "optional.h"
 #include "point.h"
-#include "units.h"
+#include "units_fwd.h"
 
+class Character;
 class aim_activity_actor;
 class avatar;
-class Character;
 class item;
 class item_location;
 class map;

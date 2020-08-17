@@ -9,6 +9,7 @@
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_set>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -31,16 +32,17 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
 #include "optional.h"
 #include "options.h"
-#include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -48,6 +50,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
@@ -101,32 +104,10 @@ static void assign( const JsonObject &jo, const std::string &name,
 }
 
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       body_part_set &parts, bool &sided )
+                                       body_part_set &parts )
 {
-    auto parse = [&parts, &sided]( const std::string & val ) {
-        if( val == "ARMS" || val == "ARM_EITHER" ) {
-            parts.set( bodypart_str_id( "arm_l" ) );
-            parts.set( bodypart_str_id( "arm_r" ) );
-        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
-            parts.set( bodypart_str_id( "hand_l" ) );
-            parts.set( bodypart_str_id( "hand_r" ) );
-        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
-            parts.set( bodypart_str_id( "leg_l" ) );
-            parts.set( bodypart_str_id( "leg_r" ) );
-        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
-            parts.set( bodypart_str_id( "foot_l" ) );
-            parts.set( bodypart_str_id( "foot_r" ) );
-        } else {
-            // Convert from legacy enum to new and apply coverage
-            if( !is_legacy_bodypart_id( val ) ) {
-                parts.set( bodypart_str_id( val ) );
-            } else {
-                parts.set( convert_bp( get_body_part_token( val ) ) );
-            }
-        }
-
-        sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
-                 val == "LEG_EITHER" || val == "FOOT_EITHER";
+    auto parse = [&parts]( const std::string & val ) {
+        parts.set( bodypart_str_id( val ) );
     };
 
     if( jo.has_array( key ) ) {
@@ -1119,12 +1100,12 @@ void Item_factory::check_definitions() const
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
-                    for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) ) {
-                            if( observed_bps.count( convert_bp( bp ) ) ) {
+                    for( const bodypart_str_id &bp : *portion.covers ) {
+                        if( portion.covers->test( bp ) ) {
+                            if( observed_bps.count( bp ) ) {
                                 msg += "multiple portions with same body_part defined\n";
                             }
-                            observed_bps.insert( convert_bp( bp ) );
+                            observed_bps.insert( bp );
                         }
                     }
                 }
@@ -1755,7 +1736,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20, -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20, -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -1890,7 +1871,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = tempData.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -1905,7 +1887,8 @@ void islot_armor::load( const JsonObject &jo )
             }
             armor_portion_data tempData;
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1940,7 +1923,8 @@ void islot_armor::load( const JsonObject &jo )
             optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
@@ -1966,7 +1950,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = child_data.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -2326,7 +2311,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
+    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20,
             -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );

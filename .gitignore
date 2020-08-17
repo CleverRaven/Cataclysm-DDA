@@ -123,7 +123,7 @@ nbproject/
 
 # OSX
 Cataclysm.app
-data/osx/AppIcon.icns
+build-data/osx/AppIcon.icns
 Cataclysm.dmg
 
 # Jetbrains CLion
@@ -193,7 +193,7 @@ Xcode/
 /build-dir/
 
 # precompiled headers
-/pch/pch.hpp.gch
-/pch/pch.hpp.pch
-/tests/pch/pch.hpp.gch
-/tests/pch/pch.hpp.pch
+/pch/main-pch.hpp.gch
+/pch/main-pch.hpp.pch
+/tests/pch/tests-pch.hpp.gch
+/tests/pch/tests-pch.hpp.pch

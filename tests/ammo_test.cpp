@@ -1,7 +1,9 @@
 #include "catch/catch.hpp"
 
+#include <set>
+
 #include "item.h"
-#include "itype.h"
+#include "type_id.h"
 
 // Functions:
 // - item::ammo_types

@@ -1,24 +1,30 @@
 #include "animation.h"
 
+#include <ctime>
+
 #include "avatar.h"
+#include "character.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "explosion.h"
 #include "game.h"
+#include "game_constants.h"
+#include "input.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "point.h"
 #include "popup.h"
-#include "weather.h"
-#include "creature.h"
-#include "cursesdef.h"
-#include "game_constants.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
-#include "explosion.h"
-#include "point.h"
 #include "ui_manager.h"
+#include "viewer.h"
+#include "weather.h"
 
 #if defined(TILES)
 #include <memory>
@@ -28,8 +34,10 @@
 #endif
 
 #include <algorithm>
+#include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -84,7 +92,7 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && get_player_character().sees( p );
+    return g->is_in_viewport( p, margin ) && get_player_view().sees( p );
 }
 
 bool is_radius_visible( const tripoint &center, int radius )

@@ -26,7 +26,7 @@
     "tools": [ [ [ "paint_brush", -1 ] ] ],
     "components": [
       [ [ "tainted_blood", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
-      [ [ "acid", 4 ] ],
+      [ [ "any_strong_acid", 4, "LIST" ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "time": "2 h",

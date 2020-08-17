@@ -1,13 +1,14 @@
 #include "catch/catch.hpp"
 
+#include <list>
 #include <map>
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "item.h"
+#include "item_contents.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "morale_types.h"

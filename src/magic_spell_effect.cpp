@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,13 +33,16 @@
 #include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
-#include "monstergenerator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
 #include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -405,15 +409,15 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     bool bodypart_effected = false;
 
     if( guy ) {
-        for( const body_part bp : all_body_parts ) {
-            if( sp.bp_is_affected( bp ) ) {
+        for( const bodypart_id &bp : guy->get_all_body_parts() ) {
+            if( sp.bp_is_affected( bp.id() ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
         }
     }
     if( !bodypart_effected ) {
-        critter->add_effect( spell_effect, dur_td, num_bp );
+        critter->add_effect( spell_effect, dur_td );
     }
 }
 
@@ -524,10 +528,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         return;
     }
 
-    if( get_player_character().sees( victim ) ) {
-        add_msg( _( "The %s transforms into a %s." ), victim.type->nname(),
-                 new_id->nname() );
-    }
+    add_msg_if_player_sees( victim, _( "The %s transforms into a %s." ),
+                            victim.type->nname(), new_id->nname() );
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
@@ -794,7 +796,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     }
 
     if( energy_source == "MANA" ) {
-        p->magic.mod_mana( *p, healing );
+        p->magic->mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
         p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
