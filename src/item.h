@@ -1851,6 +1851,8 @@ class item : public visitable<item>
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;

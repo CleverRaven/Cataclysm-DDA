@@ -1115,6 +1115,19 @@ std::vector<const item *> item_contents::mods() const
     return mods;
 }
 
+std::vector<const item *> item_contents::softwares() const
+{
+    std::vector<const item *> softwares;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::SOFTWARE ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                softwares.insert( softwares.end(), it );
+            }
+        }
+    }
+    return softwares;
+}
+
 void item_contents::update_modified_pockets(
     const cata::optional<const pocket_data *> &mag_or_mag_well,
     std::vector<const pocket_data *> container_pockets )

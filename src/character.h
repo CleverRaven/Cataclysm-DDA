@@ -1235,7 +1235,9 @@ class Character : public Creature, public visitable<Character>
         struct has_mission_item_filter {
             int mission_id;
             bool operator()( const item &it ) {
-                return it.mission_id == mission_id;
+                return it.mission_id == mission_id || it.contents.has_any_with( [&]( const item & it ) {
+                    return it.mission_id == mission_id;
+                }, item_pocket::pocket_type::SOFTWARE );
             }
         };
 

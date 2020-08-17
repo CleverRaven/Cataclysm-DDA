@@ -7686,6 +7686,11 @@ std::vector<const item *> item::mods() const
     return contents.mods();
 }
 
+std::vector<const item *> item::softwares() const
+{
+    return contents.softwares();
+}
+
 item *item::gunmod_find( const itype_id &mod )
 {
     std::vector<item *> mods = gunmods();
