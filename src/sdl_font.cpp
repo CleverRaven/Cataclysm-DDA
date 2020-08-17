@@ -2,6 +2,18 @@
 #include "sdl_font.h"
 #include "output.h"
 
+#if defined(_WIN32)
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#   endif
+#   include <shlwapi.h>
+#   if !defined(strcasecmp)
+#       define strcasecmp StrCmpI
+#   endif
+#else
+#   include <strings.h> // for strcasecmp
+#endif
+
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 // Check if text ends with suffix
