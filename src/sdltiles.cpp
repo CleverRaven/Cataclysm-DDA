@@ -668,7 +668,7 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -843,7 +843,7 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
     return update;
 }
 
-bool draw_window( Font_Ptr &font, const catacurses::window &w )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w )
 {
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
     // Use global font sizes here to make this independent of the
