@@ -111,6 +111,27 @@
     "vitamins": [ [ "iron", 2 ] ]
   },
   {
+    "id": "mustard_french",
+    "type": "COMESTIBLE",
+    "symbol": "~",
+    "color": "yellow",
+    "name": { "str_sp": "french mustard" },
+    "description": "Mustard made the French way!  Pardon me, would you have any moutarde?",
+    "price": 500,
+    "price_postapoc": 100,
+    "material": [ "junk" ],
+    "weight": "1 g",
+    "volume": "50 ml",
+    "comestible_type": "DRINK",
+    "container": "condiment_bottle_unsealed",
+    "fun": -1,
+    "calories": 12,
+    "spoils_in": 600,
+    "charges": 8,
+    "phase": "liquid",
+    "vitamins": [ [ "iron", 2 ] ]
+  },
+  {
     "id": "honey_bottled",
     "type": "COMESTIBLE",
     "symbol": "~",

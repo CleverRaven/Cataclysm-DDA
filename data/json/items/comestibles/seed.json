@@ -314,7 +314,6 @@
     "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
     "price": 50,
     "charges": 6,
-    "stack_size": 6,
     "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -3,

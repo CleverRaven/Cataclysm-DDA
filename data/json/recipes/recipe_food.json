@@ -4864,6 +4864,24 @@
   },
   {
     "type": "recipe",
+    "result": "mustard_french",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "8 m",
+    "book_learn": [ [ "cookbook_foodfashions", 2 ], [ "cookbook_daintydishes", 5 ] ],
+    "batch_time_factors": [ 70, 2 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "garlic_minced", 4 ] ],
+      [ [ "mustard", 8 ], [ "mustard_powder", 2 ] ],
+      [ [ "vinegar", 8 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "vinegar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
