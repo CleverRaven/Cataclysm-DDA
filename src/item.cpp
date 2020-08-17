@@ -530,9 +530,16 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
-    item_contents new_contents = item_contents( type->pockets );
-    new_contents.combine( contents );
-    contents = new_contents;
+    item temp( *this );
+    temp.contents = item_contents( type->pockets );
+    for( const item *it : contents.mods() ) {
+        if( !temp.contents.insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+            debugmsg( "failed to insert mod" );
+        }
+    }
+    temp.update_modified_pockets();
+    temp.contents.combine( contents, true );
+    contents = temp.contents;
     return *this;
 }
 

@@ -277,24 +277,42 @@ void item_contents::read_mods( const item_contents &read_input )
     }
 }
 
-void item_contents::combine( const item_contents &read_input )
+void item_contents::combine( const item_contents &read_input, const bool convert )
 {
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
-            if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
-                // this is already handled in item_contents::read_mods
-                ++pocket_index;
-                continue;
-            } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
-                       pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
-                for( const item *it : pocket.all_items_top() ) {
-                    insert_item( *it, pocket.saved_type() );
+            if( convert ) {
+                if( pocket.is_type( item_pocket::pocket_type::MIGRATION ) ||
+                    pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
+                    pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+                    pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                    ++pocket_index;
+                    for( const item *it : pocket.all_items_top() ) {
+                        insert_item( *it, pocket.get_pocket_data()->type );
+                    }
+                    continue;
+                } else if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+                    // skipping mod type pocket because using combine this way requires mods to come first
+                    // and to call update_mod_pockets
+                    ++pocket_index;
+                    continue;
                 }
-                ++pocket_index;
-                continue;
+            } else {
+                if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
+                    // this is already handled in item_contents::read_mods
+                    ++pocket_index;
+                    continue;
+                } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
+                           pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
+                    for( const item *it : pocket.all_items_top() ) {
+                        insert_item( *it, pocket.saved_type() );
+                    }
+                    ++pocket_index;
+                    continue;
+                }
             }
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
