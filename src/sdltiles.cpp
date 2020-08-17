@@ -70,11 +70,6 @@
 #       include "platform_win.h"
 #   endif
 #   include <shlwapi.h>
-#   if !defined(strcasecmp)
-#       define strcasecmp StrCmpI
-#   endif
-#else
-#   include <strings.h> // for strcasecmp
 #endif
 
 #if defined(__ANDROID__)
