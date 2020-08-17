@@ -2368,6 +2368,18 @@ static void CheckMessages()
             if( ticks - finger_repeat_time > finger_repeat_delay ) {
                 handle_finger_input( ticks );
                 finger_repeat_time = ticks;
+                // Prevent repeating inputs on the next call to this function if there is a fingerup event
+                while( SDL_PollEvent( &ev ) ) {
+                    if( ev.type == SDL_FINGERUP ) {
+                        second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
+                        second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
+                        is_two_finger_touch = false;
+                        finger_down_time = 0;
+                        finger_repeat_time = 0;
+                        // let the next call decide if needupdate should be true
+                        break;
+                    }
+                }
                 return;
             }
         }
