@@ -38,7 +38,6 @@ std::string legacy_autopickup();
 std::string legacy_autopickup2();
 std::string legacy_fontdata();
 std::string legacy_keymap();
-std::string legacy_options();
 std::string memorialdir();
 std::string jsondir();
 std::string moddir();
