@@ -1,23 +1,5 @@
 [
   {
-    "result": "acidchitin_harness_dog",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 6 ] ] ]
-  },
-  {
-    "result": "chitin_harness_dog",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 6 ] ] ]
-  },
-  {
     "result": "chainmail_harness_dog",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -27,15 +9,6 @@
     "components": [ [ [ "link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 70 ] ] ]
   },
   {
-    "result": "leather_harness_dog",
-    "type": "uncraft",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ] ]
-  },
-  {
     "result": "leatherbone_harness_dog",
     "type": "uncraft",
     "skill_used": "tailor",
@@ -43,15 +16,6 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "bone", 7 ] ] ]
-  },
-  {
-    "result": "kevlar_harness",
-    "type": "uncraft",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_kevlar_layered", 6 ] ] ]
   },
   {
     "result": "rubber_harness_dog",
