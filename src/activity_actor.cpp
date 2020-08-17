@@ -648,17 +648,17 @@ void hacking_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
-    std::unique_ptr<hacking_activity_actor> actor = std::make_unique<hacking_activity_actor>();
+    hacking_activity_actor actor;
     if( jsin.test_null() ) {
         // Old saves might contain a null instead of an object.
         // Since we do not know whether a bionic or an item was chosen we assume
         // it was an item.
-        actor->using_bionic = false;
+        actor.using_bionic = false;
     } else {
         JsonObject jsobj = jsin.get_object();
-        jsobj.read( "using_bionic", actor->using_bionic );
+        jsobj.read( "using_bionic", actor.using_bionic );
     }
-    return actor;
+    return actor.clone();
 }
 
 void hotwire_car_activity_actor::start( player_activity &act, Character & )
