@@ -35,6 +35,24 @@
     ]
   },
   {
+    "id": "condiment_sauce",
+    "type": "requirement",
+    "//": "sandwich sauces or dipping sauces",
+    "components": [
+      [
+        [ "ghee", 1 ],
+        [ "soysauce", 1 ],
+        [ "mayonnaise", 1 ],
+        [ "ketchup", 1 ],
+        [ "sauce_pesto", 1 ],
+        [ "sauce_red", 1 ],
+        [ "mustard", 1 ],
+        [ "mustard_french", 1 ],
+        [ "horseradish", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "any_peanutbutter",
     "type": "requirement",
     "//": "Peanut butter of all types and other peanut butter substitutes",
