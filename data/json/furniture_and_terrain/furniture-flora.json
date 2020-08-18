@@ -333,7 +333,12 @@
     "transforms_into": "t_tree_alder_harvested",
     "examine_action": "harvest_ter",
     "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "spring", "autumn" ], "entries": [ { "drop": "alder_bark", "base_num": [2, 5], "scale_num": [ 0, 1] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "autumn" ],
+        "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+      }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
