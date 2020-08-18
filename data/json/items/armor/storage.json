@@ -1596,7 +1596,7 @@
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 80,
     "encumbrance": 8,
     "max_encumbrance": 42,
@@ -1606,7 +1606,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "80 kg",
         "max_item_length": "150 cm",
-        "magazine_well": "12 L",
+        "magazine_well": "10 L",
         "moves": 300
       }
     ],
