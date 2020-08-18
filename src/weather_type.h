@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
+#include "damage.h"
 #include "field.h"
 #include "string_id.h"
 #include "translations.h"
@@ -136,7 +137,7 @@ struct weather_effect {
     trait_id trait_id_to_add;
     trait_id trait_id_to_remove;
     bodypart_str_id target_part;
-    int damage;
+    damage_instance damage;
     std::vector<spawn_type> spawns;
     std::vector<weather_field> fields;
 };
