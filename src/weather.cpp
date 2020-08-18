@@ -1058,9 +1058,6 @@ void weather_manager::update_weather()
         weather_id = weather_override == WEATHER_NULL ?
                      weather_gen.get_weather_conditions( w, next_instance_allowed )
                      : weather_override;
-        if( !player_character.has_artifact_with( AEP_BAD_WEATHER ) ) {
-            weather_override = WEATHER_NULL;
-        }
         sfx::do_ambient();
         temperature = w.temperature;
         lightning_active = false;

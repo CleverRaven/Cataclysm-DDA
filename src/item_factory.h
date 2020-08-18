@@ -257,11 +257,6 @@ class Item_factory
         /** Find all item templates (both static and runtime) matching UnaryPredicate function */
         static std::vector<const itype *> find( const std::function<bool( const itype & )> &func );
 
-        /**
-         * Create a new (and currently unused) item type id.
-         */
-        itype_id create_artifact_id() const;
-
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
@@ -318,7 +313,6 @@ class Item_factory
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
         void load( islot_bionic &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_artifact &slot, const JsonObject &jo, const std::string &src );
         void load( relic &slot, const JsonObject &jo, const std::string &src );
 
         //json data handlers
