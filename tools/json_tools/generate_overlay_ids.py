@@ -43,6 +43,9 @@ TILESET_OVERLAY_TYPES = {
     'GUN': {
         'prefix': 'overlay_wielded_'
     },
+    'AMMO': {
+        'prefix': 'overlay_wielded_'
+    },
     'TOOL': {
         'prefix': 'overlay_wielded_'
     },
