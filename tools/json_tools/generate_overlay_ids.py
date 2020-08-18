@@ -21,6 +21,12 @@ from itertools import product
 from util import import_data
 
 
+CPP_IDS = (
+    'footstep', 'cursor', 'highlight', 'highlight_item', 'line_target',
+    'line_trail', 'animation_line', 'animation_hit', 'zombie_revival_indicator'
+)
+ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
+
 TILESET_OVERLAY_TYPES = {
     'effect_type': {
         'prefix': 'overlay_effect_'
@@ -60,6 +66,9 @@ TILESET_OVERLAY_TYPES = {
     },
     'MONSTER': {
         'prefix': ''
+    },
+    'movement_mode': {
+        'prefix': 'overlay_'
     }
 }
 
@@ -94,7 +103,12 @@ if __name__ == '__main__':
         for p in product(
                 variable_prefix,
                 (game_id,)):
-            output = [overlay_data['prefix'],]
+            output = [overlay_data['prefix']]
             output.extend(p)
             # print(output)
             print(''.join(output))
+
+    for hardcoded_id in CPP_IDS:
+        print(hardcoded_id)
+    for attitude in ATTITUDES:
+        print(f'overlay_{attitude}_sees_player')
