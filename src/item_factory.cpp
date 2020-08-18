@@ -3295,7 +3295,6 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     }
 
     if( obj.has_member( "artifact" ) ) {
-        Item_spawn_data::relic_generator gen;
         sptr->artifact = cata::make_value<Item_spawn_data::relic_generator>();
         sptr->artifact->load( obj.get_object( "artifact" ) );
     }
