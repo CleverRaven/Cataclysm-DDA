@@ -679,7 +679,7 @@ TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 1, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 1, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = { {
             {T, T, O, T, T, T, T},
             {T, T, O, T, T, T, T},
@@ -689,7 +689,7 @@ TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
         }
     };
 
-    grid_overlay expected_results( { 1, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 1, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = { {
             {V, V, V, O, O, O, O},
             {V, V, V, O, O, O, O},
@@ -706,7 +706,7 @@ TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {
             {T, T, T, T, T},
@@ -731,7 +731,7 @@ TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
         }
     };
 
-    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {
             {O, O, O, O, O},
@@ -761,7 +761,7 @@ TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
 
 TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
 {
-    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     test_case.data = {
         {
             {T, T, T, T, T},
@@ -787,7 +787,7 @@ TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
     };
     test_case.default_floor = false;
 
-    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
     expected_results.data = {
         {
             {V, V, V, V, V},
@@ -809,6 +809,186 @@ TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
             {V, V, V, V, V},
             {V, V, V, V, V},
             {V, V, V, V, V}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
+}
+
+// From origin looking out, we should check every combination of 2x2 transparent and opaque patterns.
+// T T  O O
+// T T  O O
+//
+// T T  T T  O T  T O
+// O T  T O  T T  T T
+//
+// T T  O T  T O  O T  T O  O O
+// O O  O T  O T  T O  T O  T T
+//
+// O T  T O  O O  O O
+// O O  O O  O T  T O
+
+
+TEST_CASE( "shadowcasting_floating_wall", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 16, 3 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, O, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, X, T, T}
+        }
+    };
+    test_case.default_floor = false;
+
+    grid_overlay expected_results( { 2, 16, 3 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    expected_results.data = {
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, O, O, O, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V}
         }
     };
 
