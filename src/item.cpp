@@ -2070,6 +2070,26 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
+    if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
+        for( const std::string &effect : ammo.ammo_effects ) {
+            if( effect.compare( 0, 8, "RECOVER_" ) == 0 ) {
+                int recover_chance;
+                sscanf( effect.c_str(), "RECOVER_%i", &recover_chance );
+                if( recover_chance <= 5 ) {
+                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 10 ) {
+                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 20 ) {
+                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 30 ) {
+                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+                } else {
+                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
+                }
+                break;
+            }
+        }
+    }
     if( ammo.ammo_effects.count( "INCENDIARY" ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
