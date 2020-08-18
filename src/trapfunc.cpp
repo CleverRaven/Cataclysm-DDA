@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>
@@ -7,6 +6,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -705,7 +705,8 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         }
         return true;
     }
-    assert( false );
+    // NOLINTNEXTLINE(misc-static-assert)
+    cata_assert( false );
     return false;
 }
 

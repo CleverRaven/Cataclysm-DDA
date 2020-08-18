@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cassert>
 #include <chrono>
 #include <climits>
 #include <cmath>
@@ -38,6 +37,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -10759,7 +10759,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
     if( u.is_mounted() ) {
         if( stored_mount ) {
-            assert( !here.has_zlevels() );
+            cata_assert( !here.has_zlevels() );
             stored_mount->spawn( u.pos() );
             if( critter_tracker->add( stored_mount ) ) {
                 u.mounted_creature = stored_mount;

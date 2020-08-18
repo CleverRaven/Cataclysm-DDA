@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -19,6 +18,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
@@ -500,7 +500,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     const bool vertical = dp.z != 0;
     // Ensured by the splitting above
-    assert( vertical == ( dp.xy() == point_zero ) );
+    cata_assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
@@ -1882,7 +1882,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying, const bool via_ramp ) const
 {
     // Used to account for the fact that older versions of GCC can trip on the if statement here.
-    assert( to.z > std::numeric_limits<int>::min() );
+    cata_assert( to.z > std::numeric_limits<int>::min() );
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
     if( std::abs( from.x - to.x ) > 1 || std::abs( from.y - to.y ) > 1 ||
@@ -3092,7 +3092,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
-    assert( zlevels );
+    cata_assert( zlevels );
 
     if( p.z <= -OVERMAP_DEPTH ) {
         // Could be magma/"void" instead
@@ -7900,7 +7900,7 @@ int map::determine_wall_corner( const tripoint &p ) const
             return ter( p ).obj().symbol(); // technically just a column
 
         default:
-            // assert( false );
+            // cata_assert( false );
             // this shall not happen
             return '?';
     }

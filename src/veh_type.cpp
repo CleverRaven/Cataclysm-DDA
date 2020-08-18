@@ -1,7 +1,6 @@
 #include "veh_type.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <memory>
 #include <numeric>
@@ -10,6 +9,7 @@
 
 #include "ammo.h"
 #include "assign.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -266,7 +266,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
-    assert( eptr );
+    cata_assert( eptr );
 }
 
 void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
@@ -277,7 +277,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     }
     assign( jo, "rotor_diameter", rotor_info.rotor_diameter );
     roptr = rotor_info;
-    assert( roptr );
+    cata_assert( roptr );
 }
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
@@ -314,7 +314,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     }
 
     whptr = wh_info;
-    assert( whptr );
+    cata_assert( whptr );
 }
 
 void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
@@ -331,7 +331,7 @@ void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const 
     assign( wb_jo, "volume", wb_info.allowed_volume );
 
     wbptr = wb_info;
-    assert( wbptr );
+    cata_assert( wbptr );
 }
 
 /**

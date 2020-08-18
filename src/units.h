@@ -100,8 +100,8 @@ class quantity
          *   quantity<int, foo> a( 10, foo{} );
          *   quantity<double, foo> b( 0.5, foo{} );
          *   a += b;
-         *   assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
-         *   assert( a == quantity<int, foo>( 10, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10, foo{} ) );
          * \endcode
          */
         /**@{*/
@@ -156,9 +156,9 @@ class quantity
  * \code
  *   quantity<int, foo> a{ 10, foo{} };
  *   a *= 4.52;
- *   assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
- *   assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
- *   assert( a == quantity<int, foo>( 45, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
+ *   cata_assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 45, foo{} ) );
  * \endcode
  *
  * Division of a quantity with a quantity of the same unit yields a dimensionless
@@ -168,7 +168,7 @@ class quantity
  *   quantity<double, foo> b{ 20, foo{} };
  *   auto proportion = a / b;
  *   static_assert(std::is_same<decltype(proportion), double>::value);
- *   assert( proportion == 10 / 20.0 );
+ *   cata_assert( proportion == 10 / 20.0 );
  * \endcode
  *
  */

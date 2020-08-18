@@ -1,9 +1,9 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <memory>
 #include <set>
 
+#include "cata_assert.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
@@ -314,7 +314,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 
     item &fuel = base.contents.legacy_front();
     if( fuel.typeId() == ftype ) {
-        assert( fuel.is_fuel() );
+        cata_assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
         const double energy_p_mL = fuel.fuel_energy() * 1000;
         const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );

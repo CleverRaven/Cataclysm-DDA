@@ -1,11 +1,11 @@
 #include "achievement.h"
 
-#include <cassert>
 #include <cstdlib>
 #include <set>
 #include <tuple>
 #include <utility>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -658,7 +658,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
     if( sorted_watchers_[is_satisfied].insert( watcher ).second ) {
         // Remove from other
         sorted_watchers_[!is_satisfied].erase( watcher );
-        assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
+        cata_assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
     achievement_completion time_comp =
@@ -778,8 +778,8 @@ std::vector<const achievement *> achievements_tracker::valid_achievements() cons
 
 void achievements_tracker::report_achievement( const achievement *a, achievement_completion comp )
 {
-    assert( comp != achievement_completion::pending );
-    assert( !achievements_status_.count( a->id ) );
+    cata_assert( comp != achievement_completion::pending );
+    cata_assert( !achievements_status_.count( a->id ) );
 
     auto tracker_it = trackers_.find( a->id );
     achievements_status_.emplace(
@@ -853,7 +853,7 @@ void achievements_tracker::clear()
 void achievements_tracker::notify( const cata::event &e )
 {
     if( e.type() == event_type::game_start ) {
-        assert( initial_achievements_.empty() );
+        cata_assert( initial_achievements_.empty() );
         for( const achievement &ach : achievement::get_all() ) {
             initial_achievements_.insert( ach.id );
         }

@@ -1,10 +1,10 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cassert>
 #include <set>
 
 #include "calendar.h"
+#include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
@@ -241,7 +241,8 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_NONE:
             return {};
     }
-    assert( !"Unexpected type" );
+    // NOLINTNEXTLINE(misc-static-assert)
+    cata_assert( !"Unexpected type" );
     return {};
 }
 
@@ -510,7 +511,7 @@ void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != nullptr );
+    cata_assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }

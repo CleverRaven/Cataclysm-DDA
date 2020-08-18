@@ -1,7 +1,6 @@
 #include "ui.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cctype>
 #include <climits>
 #include <cstdlib>
@@ -9,6 +8,7 @@
 #include <memory>
 
 #include "avatar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -142,7 +142,7 @@ uilist::operator int() const
  */
 void uilist::init()
 {
-    assert( !test_mode ); // uilist should not be used in tests where there's no place for it
+    cata_assert( !test_mode ); // uilist should not be used in tests where there's no place for it
     w_x_setup = pos_scalar::auto_assign {};
     w_y_setup = pos_scalar::auto_assign {};
     w_width_setup = size_scalar::auto_assign {};

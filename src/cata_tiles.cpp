@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
-#include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
@@ -17,6 +16,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -186,7 +186,7 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
     geometry( geometry ),
     minimap( renderer, geometry )
 {
-    assert( renderer );
+    cata_assert( renderer );
 
     tile_height = 0;
     tile_width = 0;
@@ -317,9 +317,9 @@ template<typename PixelConverter>
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
         PixelConverter pixel_converter )
 {
-    assert( original );
+    cata_assert( original );
     SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
-    assert( surf );
+    cata_assert( surf );
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
@@ -350,24 +350,24 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
 void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
         std::vector<texture> &target )
 {
-    assert( surf );
+    cata_assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height,
                                             point( surf->w / sprite_width,
                                                     surf->h / sprite_height ) );
 
     const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
-    assert( texture_ptr );
+    cata_assert( texture_ptr );
 
     for( const SDL_Rect rect : input_range ) {
-        assert( offset.x % sprite_width == 0 );
-        assert( offset.y % sprite_height == 0 );
+        cata_assert( offset.x % sprite_width == 0 );
+        cata_assert( offset.y % sprite_height == 0 );
         const point pos( offset + point( rect.x, rect.y ) );
-        assert( pos.x % sprite_width == 0 );
-        assert( pos.y % sprite_height == 0 );
+        cata_assert( pos.x % sprite_width == 0 );
+        cata_assert( pos.y % sprite_height == 0 );
         const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
                              ( tile_atlas_width / sprite_width );
-        assert( index < target.size() );
-        assert( target[index].dimension() == std::make_pair( 0, 0 ) );
+        cata_assert( index < target.size() );
+        cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
     }
 }
@@ -375,7 +375,7 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
 void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
         const point &offset )
 {
-    assert( tile_atlas );
+    cata_assert( tile_atlas );
 
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
@@ -410,7 +410,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 void tileset_loader::load_tileset( const std::string &img_path )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
-    assert( tile_atlas );
+    cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
@@ -481,10 +481,10 @@ void tileset_loader::load_tileset( const std::string &img_path )
     extend_vector_by( ts.memory_tile_values, expected_tilecount );
 
     for( const SDL_Rect sub_rect : output_range ) {
-        assert( sub_rect.x % sprite_width == 0 );
-        assert( sub_rect.y % sprite_height == 0 );
-        assert( sub_rect.w % sprite_width == 0 );
-        assert( sub_rect.h % sprite_height == 0 );
+        cata_assert( sub_rect.x % sprite_width == 0 );
+        cata_assert( sub_rect.y % sprite_height == 0 );
+        cata_assert( sub_rect.w % sprite_width == 0 );
+        cata_assert( sub_rect.h % sprite_height == 0 );
         SDL_Surface_Ptr smaller_surf;
 
         if( is_contained( SDL_Rect{ 0, 0, tile_atlas->w, tile_atlas->h }, sub_rect ) ) {
@@ -495,13 +495,13 @@ void tileset_loader::load_tileset( const std::string &img_path )
             const int w = std::min( tile_atlas->w - sub_rect.x, sub_rect.w );
             const int h = std::min( tile_atlas->h - sub_rect.y, sub_rect.h );
             smaller_surf = ::create_surface_32( w, h );
-            assert( smaller_surf );
+            cata_assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
             throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(),
                                            nullptr ) != 0, "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
-        assert( surf_to_use );
+        cata_assert( surf_to_use );
 
         create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) );
     }
@@ -511,7 +511,7 @@ void tileset_loader::load_tileset( const std::string &img_path )
 
 void cata_tiles::set_draw_scale( int scale )
 {
-    assert( tileset_ptr );
+    cata_assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
@@ -3005,7 +3005,7 @@ void tileset_loader::ensure_default_item_highlight()
     int index = ts.tile_values.size();
 
     const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
-    assert( surface );
+    cata_assert( surface );
     throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ),

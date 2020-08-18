@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <complex>
 #include <cstdlib>
@@ -19,6 +18,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
@@ -197,7 +197,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
                 }
                 tripoint copy = loc;
                 m.clip_to_bounds( copy );
-                assert( m.inbounds( copy ) ); // prevent infinite recursion
+                cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
                 add_item_or_charges( copy, std::move( it ), false );
                 return;
             }
@@ -6677,7 +6677,7 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
 
 vehicle_part &vpart_reference::part() const
 {
-    assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
+    cata_assert( part_index() < static_cast<size_t>( vehicle().part_count() ) );
     return vehicle().part( part_index() );
 }
 
