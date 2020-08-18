@@ -6657,6 +6657,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
+    "name": { "str": "Debug Clairvoyance Plus" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,

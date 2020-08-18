@@ -926,8 +926,8 @@ bool mattack::boomer_glow( monster *z )
             target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                target->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = target->random_body_part();
+                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( target->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -1379,21 +1379,21 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     return true;
 }
 
-static body_part body_part_hit_by_plant()
+static bodypart_id body_part_hit_by_plant()
 {
-    body_part hit = num_bp;
+    bodypart_id hit;
     if( one_in( 2 ) ) {
-        hit = bp_leg_l;
+        hit = bodypart_id( "leg_l" );
     } else {
-        hit = bp_leg_r;
+        hit = bodypart_id( "leg_r" );
     }
     if( one_in( 4 ) ) {
-        hit = bp_torso;
+        hit = bodypart_id( "torso" );
     } else if( one_in( 2 ) ) {
         if( one_in( 2 ) ) {
-            hit = bp_foot_l;
+            hit = bodypart_id( "foot_l" );
         } else {
-            hit = bp_foot_r;
+            hit = bodypart_id( "foot_r" );
         }
     }
     return hit;
@@ -1442,14 +1442,14 @@ bool mattack::growplants( monster *z )
             continue;
         }
 
-        const body_part hit = body_part_hit_by_plant();
+        const bodypart_id &hit = body_part_hit_by_plant();
         critter->add_msg_player_or_npc( m_bad,
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces your %s!" ),
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces <npcname>'s %s!" ),
-                                        body_part_name_accusative( convert_bp( hit ).id() ) );
-        critter->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                        body_part_name_accusative( hit ) );
+        critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
     }
 
     // 1 in 5 chance of making existing vegetation grow larger
@@ -1477,14 +1477,14 @@ bool mattack::growplants( monster *z )
             // Underbrush => young tree
             here.ter_set( p, t_tree_young );
             if( critter != nullptr && !critter->uncanny_dodge() ) {
-                const body_part hit = body_part_hit_by_plant();
+                const bodypart_id &hit = body_part_hit_by_plant();
                 critter->add_msg_player_or_npc( m_bad,
                                                 //~ %s is bodypart name in accusative.
                                                 _( "The underbrush beneath your feet grows and pierces your %s!" ),
                                                 //~ %s is bodypart name in accusative.
                                                 _( "Underbrush grows into a tree, and it pierces <npcname>'s %s!" ),
-                                                body_part_name_accusative( convert_bp( hit ).id() ) );
-                critter->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                                                body_part_name_accusative( hit ) );
+                critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
             }
         }
     }
@@ -2028,11 +2028,11 @@ bool mattack::fungus_fortify( monster *z )
         // Aimed at the player, too?  Sure!
         const tripoint hit_pos = target->pos() + point( rng( -1, 1 ), rng( -1, 1 ) );
         if( hit_pos == target->pos() && !target->uncanny_dodge() ) {
-            const body_part hit = body_part_hit_by_plant();
+            const bodypart_id &hit = body_part_hit_by_plant();
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
-                     body_part_name_accusative( convert_bp( hit ).id() ) );
-            player_character.deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_CUT, rng( 5, 11 ) ) );
+                     body_part_name_accusative( hit ) );
+            player_character.deal_damage( z,  hit, damage_instance( DT_CUT, rng( 5, 11 ) ) );
             player_character.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( monster *const tendril = g->place_critter_at( mon_fungal_tendril, hit_pos ) ) {
@@ -2899,9 +2899,7 @@ bool mattack::fear_paralyze( monster *z )
     }
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.has_artifact_with( AEP_PSYSHIELD ) ||
-            ( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-              one_in( 4 ) ) ) {
+        if( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > player_character.get_int() ) {
@@ -4290,8 +4288,8 @@ bool mattack::absorb_meat( monster *z )
                 if( player_character.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
-                    add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
-                             z->get_hp_max() );
+                    add_msg_debug( "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
+                                   z->get_hp_max() );
                 }
                 return true;
             }
@@ -5399,7 +5397,7 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg( m_debug, "Missing ammo in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5419,14 +5417,14 @@ bool mattack::kamikaze( monster *z )
         const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb transform use in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb type in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb type in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
@@ -5451,15 +5449,15 @@ bool mattack::kamikaze( monster *z )
     const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb explosion use in kamikaze special for %s.",
-                 z->name() );
+        add_msg_debug( "Invalid active bomb explosion use in kamikaze special for %s.",
+                       z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Invalid active bomb type in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5580,7 +5578,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     // if the player can see it
     if( get_player_view().sees( *z ) ) {
         if( data[att].message.empty() ) {
-            add_msg( m_debug, "Invalid ammo message in grenadier special." );
+            add_msg_debug( "Invalid ammo message in grenadier special." );
         } else {
             add_msg( m_bad, data[att].message, z->name() );
         }
@@ -5591,14 +5589,14 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     const use_function *usage = bomb_type->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb item usage in grenadier special for %s.", z->name() );
         return -1;
     }
     const place_monster_iuse *actor = dynamic_cast<const place_monster_iuse *>
                                       ( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb type in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb type in grenadier special for %s.", z->name() );
         return -1;
     }
 

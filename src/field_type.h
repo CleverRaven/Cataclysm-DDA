@@ -64,7 +64,7 @@ struct field_effect {
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
-    body_part bp = num_bp;
+    bodypart_str_id bp;
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -85,7 +85,7 @@ struct field_effect {
         return message_npc.translated();
     }
     effect get_effect( const time_point &start_time = calendar::turn ) const {
-        return effect( &id.obj(), get_duration(), convert_bp( bp ), false, intensity, start_time );
+        return effect( &id.obj(), get_duration(), bp, false, intensity, start_time );
     }
 };
 
@@ -153,7 +153,7 @@ struct field_type {
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;

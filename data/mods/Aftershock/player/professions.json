@@ -14,9 +14,15 @@
       "bio_tools",
       "bio_sunglasses"
     ],
-    "skills": [ { "level": 4, "name": "electronics" } ],
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
-      "both": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "tool_belt" ],
+      "both": {
+        "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ],
+        "entries": [
+          { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
+          { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -65,9 +71,10 @@
     "points": 4,
     "items": {
       "both": {
-        "items": [ "socks", "afs_calorie_pill", "crowbar", "afs_atomic_smartphone", "undershirt", "dump_pouch" ],
+        "items": [ "socks", "afs_calorie_pill", "afs_atomic_smartphone", "undershirt", "dump_pouch" ],
         "entries": [
           { "item": "water_clean", "container-item": "camelbak" },
+          { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
           { "item": "phase_immersion_suit", "ammo-item": "heavy_atomic_battery_cell", "charges": 10000 },
           { "item": "dimensional_anchor", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 }
         ]

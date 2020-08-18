@@ -1042,7 +1042,7 @@ class Character : public Creature, public visitable<Character>
         float mabuff_attack_cost_mult() const;
 
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
+        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
@@ -1195,7 +1195,7 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**When a critical failure occurs*/
-        void roll_critical_bionics_failure( body_part bp );
+        void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1235,7 +1235,9 @@ class Character : public Creature, public visitable<Character>
         struct has_mission_item_filter {
             int mission_id;
             bool operator()( const item &it ) {
-                return it.mission_id == mission_id;
+                return it.mission_id == mission_id || it.contents.has_any_with( [&]( const item & it ) {
+                    return it.mission_id == mission_id;
+                }, item_pocket::pocket_type::SOFTWARE );
             }
         };
 
@@ -1549,6 +1551,11 @@ class Character : public Creature, public visitable<Character>
          * @param it Thing to be unwielded
          */
         ret_val<bool> can_unwield( const item &it ) const;
+        /**
+         * Check player capable of droping an item.
+         * @param it Thing to be unwielded
+         */
+        ret_val<bool> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
         /** Returns all items that must be taken off before taking off this item */
@@ -1556,8 +1563,6 @@ class Character : public Creature, public visitable<Character>
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
-
-        virtual bool has_artifact_with( art_effect_passive effect ) const;
 
         bool is_wielding( const item &target ) const;
 
@@ -2572,7 +2577,6 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
-        void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
         void suffer_from_tourniquet();

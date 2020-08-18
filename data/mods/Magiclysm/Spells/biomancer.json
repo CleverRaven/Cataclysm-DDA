@@ -210,7 +210,7 @@
     "min_damage": 1,
     "max_damage": 10,
     "damage_increment": 0.45,
-    "damage_type": "bio",
+    "damage_type": "biological",
     "min_aoe": 2,
     "max_aoe": 6,
     "aoe_increment": 0.2,

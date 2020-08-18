@@ -1125,6 +1125,54 @@
     }
   },
   {
+    "abstract": "door_abstract",
+    "breaks_into": "ig_vp_frame",
+    "broken_color": "cyan",
+    "broken_symbol": "&",
+    "color": "cyan",
+    "damage_modifier": 80,
+    "damage_reduction": { "all": 21 },
+    "description": "A door.  Has a window so you can see out of it, even when closed.",
+    "durability": 225,
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW" ],
+    "item": "frame",
+    "location": "center",
+    "looks_like": "t_door_metal_c",
+    "name": { "str": "door" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 10,
+    "symbol": "+",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_front_left",
+    "symbol": "y",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_front_right",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_rear_left",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_rear_right",
+    "symbol": "n",
+    "type": "vehicle_part"
+  },
+  {
     "type": "terrain",
     "id": "t_gas_tank",
     "name": "fuel tank",

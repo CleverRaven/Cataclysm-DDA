@@ -435,8 +435,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         bool found_glove = false;
         for( item &worn_item : worn ) {
             // Uses enum layer_level to make distinction for top layer.
-            if( ( worn_item.covers( bodypart_id( bp_hand_l ) ) &&
-                  worn_item.covers( bodypart_id( bp_hand_r ) ) ) ) {
+            if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
+                  worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
                 if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
                     cur_weapon = &worn_item;
                     found_glove = true;
@@ -604,10 +604,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 melee_train( *this, 5, 10, *cur_weapon );
             }
 
-            if( dam >= 5 && has_artifact_with( AEP_SAP_LIFE ) ) {
-                healall( rng( dam / 10, dam / 5 ) );
-            }
-
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
@@ -647,7 +643,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
-    add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
+    add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
@@ -1401,7 +1397,7 @@ bool character_martial_arts::has_technique( const Character &guy, const matec_id
 
 static damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
 {
-    static damage_unit nullunit( DT_NULL, 0, 0, 0, 0 );
+    static damage_unit nullunit( DT_NONE, 0, 0, 0, 0 );
     for( auto &du : di ) {
         if( du.type == dt && du.amount > 0 ) {
             return du;
@@ -1425,13 +1421,13 @@ static void print_damage_info( const damage_instance &di )
         ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";
     }
 
-    add_msg( m_debug, "%stotal: %d", ss, total );
+    add_msg_debug( "%stotal: %d", ss, total );
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                    int &move_cost )
 {
-    add_msg( m_debug, "dmg before tec:" );
+    add_msg_debug( "dmg before tec:" );
     print_damage_info( di );
 
     for( damage_unit &du : di.damage_units ) {
@@ -1445,7 +1441,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
-    add_msg( m_debug, "dmg after tec:" );
+    add_msg_debug( "dmg after tec:" );
     print_damage_info( di );
 
     move_cost *= technique.move_cost_multiplier( *this );
@@ -2017,7 +2013,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
             const int proc_value = get_dex() + unarmed;
-            add_msg( m_debug, "%s proc chance: %d in %d", pr.c_str(), proc_value, mut_atk.chance );
+            add_msg_debug( "%s proc chance: %d in %d", pr.c_str(), proc_value, mut_atk.chance );
             // If the mutation attack fails to proc, bail out
             if( !x_in_y( proc_value, mut_atk.chance ) ) {
                 continue;
@@ -2028,7 +2024,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & blocker ) {
             return has_trait( blocker );
             } ) ) {
-                add_msg( m_debug, "%s not procing: blocked", pr.c_str() );
+                add_msg_debug( "%s not procing: blocked", pr.c_str() );
                 continue;
             }
 
@@ -2037,7 +2033,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             [this]( const trait_id & need ) {
             return has_trait( need );
             } ) ) {
-                add_msg( m_debug, "%s not procing: unmet req", pr.c_str() );
+                add_msg_debug( "%s not procing: unmet req", pr.c_str() );
                 continue;
             }
 
@@ -2066,7 +2062,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             if( tmp.damage.total_damage() > 0.0f ) {
                 ret.emplace_back( tmp );
             } else {
-                add_msg( m_debug, "%s not procing: zero damage", pr.c_str() );
+                add_msg_debug( "%s not procing: zero damage", pr.c_str() );
             }
         }
     }
@@ -2309,7 +2305,7 @@ double player::weapon_value( const item &weap, int ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
+    add_msg_debug( "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     if( is_wielding( weap ) ) {
         cached_info.emplace( "weapon_value", my_val );
     }
@@ -2336,7 +2332,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.5;
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id().str(), my_value );
+    add_msg_debug( "%s as melee: %.1f", weap.type->get_id().str(), my_value );
 
     return std::max( 0.0, my_value );
 }

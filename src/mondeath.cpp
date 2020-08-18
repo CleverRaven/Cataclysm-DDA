@@ -280,8 +280,8 @@ void mdeath::boomer_glow( monster &z )
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = critter->random_body_part();
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }

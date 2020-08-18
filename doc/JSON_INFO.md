@@ -655,7 +655,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 | max_intensity      | The maximum intensity of the effect.
 | health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
 | symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
 ```json
@@ -1828,7 +1828,11 @@ Vehicle components when installed on a vehicle.
 ```C++
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
-"symbol": "0",                // ASCII character displayed when part is working
+"symbol": "0",                // (Optional) ASCII character displayed when part is working
+"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
+  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
+"standard_symbols: false,     // (Optional) Use the standard ASCII characters for variants
+                              // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
@@ -1887,6 +1891,28 @@ Vehicle components when installed on a vehicle.
 },
 ```
 
+#### Symbols and Variants
+Vehicle parts can have multiple identical variants that use different symbols (and potentially
+tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
+Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+
+setting `"standard_symbols"` to true gives the vehicle the following variants:
+```
+"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
+"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
+```
+
+Otherwise, variants can use any of the following suffices:
+```
+"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
+"horizontal",  "horizontal_front", "horizontal_front_edge",
+"horizontal_rear", "horizontal_rear_edge",
+"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
+"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
+"vertical_2", "vertical_2_right", "vertical_2_left", 
+"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
+```
+
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
 #### The following optional fields are specific to CARGO or FLUIDTANK parts.
 ```c++
@@ -1904,7 +1930,7 @@ Unless specified as optional, the following fields are mandatory for parts with 
 "m2c": 50,                    // The ratio of safe power to maximum power.
 "backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
                               // and smoke if the ratio of damaged HP to max HP is below this value.
-"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the
                               // ratio of damaged HP to max HP is below the backfire_threshold.
 "noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
                               // determine noise.
@@ -2018,7 +2044,8 @@ See also VEHICLE_JSON.md
     {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
     {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
 ]
-                                           /* Important! Vehicle parts must be defined in the same order you would install
+                                           /* Important! Vehicle parts must be defined in the
+                                            * same order you would install
                                             * them in the game (ie, frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
@@ -2061,7 +2088,13 @@ See also VEHICLE_JSON.md
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
+"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+  "grip": "solid",                           // the item's grip value
+  "length": "long",                          // the item's length value
+  "surface": "point",                        // the item's striking surface value
+  "balance": "neutral"                       // the item's balance value
+}
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2087,6 +2120,19 @@ See also VEHICLE_JSON.md
     }
 },
 ```
+
+#### To hit object
+For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 fields.  All the fields are mandatory:
+
+```C++
+"to_hit": {
+    "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
+    "length": "hand",      // one of "hand", "short", or "long" 
+    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
+}
+```
+See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
 ### Ammo
 
@@ -2702,7 +2748,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
     "need_charges": 1,                      // Number of charges the item needs to transform.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
+    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.
@@ -2733,7 +2780,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
     "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
     "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "TORSO", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)
     "moves": 500 // Number of moves required in the process.
 },

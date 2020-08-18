@@ -795,17 +795,7 @@
       [ [ "rag", 6 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "holster", 1 ], [ "sholster", 1 ] ],
-      [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
-      ],
+      [ [ "leather_pouch", 3 ] ],
       [ [ "duct_tape", 50 ] ]
     ]
   },
@@ -924,5 +914,17 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "leather", 37 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "long_duffelbag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "rag", 70 ] ] ]
   }
 ]

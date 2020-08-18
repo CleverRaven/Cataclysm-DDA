@@ -47,7 +47,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of occult boots", "str_pl": "pairs of occult boots" },
-    "description": "Leather boots covered with tiny finely carved bones.  With each step the bones collide with each other producing a strange song.",
+    "description": "Leather boots covered with tiny finely carved bones.  With each step the bones collide with each other producing a melodic clicking",
     "weight": "1824 g",
     "volume": "4250 ml",
     "price": 13500,
@@ -59,6 +59,7 @@
     "color": "dark_gray",
     "covers": [ "foot_l", "foot_r" ],
     "encumbrance": 16,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {

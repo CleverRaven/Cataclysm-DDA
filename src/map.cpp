@@ -1085,8 +1085,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                                  ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
 
     if( !inbounds( src ) ) {
-        add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
-                 src.x, src.y, src.z, dst.x, dst.y, dst.z );
+        add_msg_debug( "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
+                       src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return false;
     }
 
@@ -1119,7 +1119,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     }
 
     if( !found ) {
-        add_msg( m_debug, "displace_vehicle [%s] failed", veh.name );
+        add_msg_debug( "displace_vehicle [%s] failed", veh.name );
         return false;
     }
 
@@ -1168,9 +1168,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             }
 
             if( psg->pos() != part_pos ) {
-                add_msg( m_debug, "Part/passenger position mismatch: part #%d at %d,%d,%d "
-                         "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
-                         psg->posx(), psg->posy(), psg->posz() );
+                add_msg_debug( "Part/passenger position mismatch: part #%d at %d,%d,%d "
+                               "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
+                               psg->posx(), psg->posy(), psg->posz() );
             }
             const vehicle_part &veh_part = veh.part( prt );
 
@@ -1752,10 +1752,12 @@ std::string map::features( const tripoint &p )
     return result;
 }
 
-int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const vehicle *veh,
+int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
+                             const vehicle *veh,
                              const int vpart ) const
 {
-    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ) {
+    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
+        field.total_move_cost() < 0 ) {
         return 0;
     }
 
@@ -1769,12 +1771,13 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
             return 8;
         }
     }
+    int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
     if( furniture.id ) {
-        return std::max( terrain.movecost + furniture.movecost, 0 );
+        movecost += std::max( furniture.movecost, 0 );
     }
 
-    return std::max( terrain.movecost, 0 );
+    return movecost;
 }
 
 bool map::is_wall_adjacent( const tripoint &center ) const
@@ -1797,11 +1800,12 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 
     const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
+    const field &field = field_at( p );
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, veh, part );
+    return move_cost_internal( furniture, terrain, field, veh, part );
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -2291,8 +2295,8 @@ void map::process_falling()
     }
 
     if( !support_cache_dirty.empty() ) {
-        add_msg( m_debug, "Checking %d tiles for falling objects",
-                 support_cache_dirty.size() );
+        add_msg_debug( "Checking %d tiles for falling objects",
+                       support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
@@ -3924,8 +3928,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
-                  player_character.has_artifact_with( AEP_SCHIZO ) ) &&
+            if( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) &&
                 one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
                 tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
@@ -6673,7 +6676,16 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     set_abs_sub( w.raw() );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle );
+            loadn( point( gridx, gridy ), update_vehicle, false );
+        }
+    }
+    // actualize after loading all submaps to prevent errors
+    // with entities at the edges
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                actualize( tripoint( point( gridx, gridy ), gridz ) );
+            }
         }
     }
 }
@@ -6963,7 +6975,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     }
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles )
+void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
 {
     // Cache empty overmap types
     static const oter_id rock( "empty_rock" );
@@ -7058,7 +7070,10 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         }
     }
 
-    actualize( grid );
+    // don't actualize before all maps are loaded
+    if( _actualize ) {
+        actualize( grid );
+    }
 
     abs_sub.z = old_abs_z;
 }
@@ -7604,8 +7619,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                                            point( rng( 0, SEEX ), rng( 0, SEEY ) );
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
-                add_msg( m_debug, "%s targeting %d,%d,%d", tmp.disp_name(),
-                         tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
+                add_msg_debug( "%s targeting %d,%d,%d", tmp.disp_name(),
+                               tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
@@ -8730,10 +8745,11 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     const auto &terrain = tile.get_ter_t();
                     const auto &furniture = tile.get_furn_t();
+                    const auto &field = tile.get_field();
                     int part;
                     const vehicle *veh = veh_at_internal( p, part );
 
-                    const int cost = move_cost_internal( furniture, terrain, veh, part );
+                    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
                     if( cost > 2 ) {
                         cur_value |= PF_SLOW;

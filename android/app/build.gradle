@@ -181,8 +181,11 @@ task generateVersionHeader() {
         println("Overriding version number to $override_version")
     }
 
+    def define = "// NOLINT(cata-header-guard)\n#define VERSION \"$override_version\"\n"
     def versionHeader = new File("$version_header_path")
-    versionHeader.text = "// NOLINT(cata-header-guard)\n#define VERSION \"$override_version\"\n"
+    if (!versionHeader.exists() || versionHeader.text != define) {
+        versionHeader.text = define
+    }
 }
 
 task createWindowsJunctionLinks() {

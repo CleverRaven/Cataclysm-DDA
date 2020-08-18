@@ -1998,7 +1998,10 @@
     "name": "Wait for Several Minutes",
     "category": "DEFAULTMODE",
     "id": "wait",
-    "bindings": [ { "input_method": "keyboard_char", "key": "|" }, { "input_method": "keyboard_code", "key": "", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "|" },
+      { "input_method": "keyboard_code", "key": "\\", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",

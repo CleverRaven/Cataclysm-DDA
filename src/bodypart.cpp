@@ -133,11 +133,6 @@ bodypart_id string_id<body_part_type>::id() const
 template<>
 int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.id() ) {}
 
-body_part get_body_part_token( const std::string &id )
-{
-    return legacy_id_to_enum( id );
-}
-
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
@@ -163,14 +158,14 @@ const bodypart_str_id &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-static const body_part_type &get_bp( body_part bp )
-{
-    return convert_bp( bp ).obj();
-}
-
 void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
 {
     body_part_factory.load( jo, src );
+}
+
+bool body_part_type::has_flag( const std::string &flag ) const
+{
+    return flags.count( flag ) > 0;
 }
 
 void body_part_type::load( const JsonObject &jo, const std::string & )
@@ -209,6 +204,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
+    optional( jo, was_loaded, "fire_warmth_bonus", fire_warmth_bonus, 0 );
+
     mandatory( jo, was_loaded, "main_part", main_part );
     if( main_part == id ) {
         mandatory( jo, was_loaded, "connected_to", connected_to );
@@ -224,6 +221,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
+
+    optional( jo, was_loaded, "flags", flags );
 
     part_side = jo.get_enum_value<side>( "side" );
 }
@@ -256,7 +255,7 @@ void body_part_type::check_consistency()
 
 void body_part_type::check() const
 {
-    const auto &under_token = get_bp( token );
+    const body_part_type &under_token = convert_bp( token ).obj();
     if( this != &under_token ) {
         debugmsg( "Body part %s has duplicate token %d, mapped to %s", id.c_str(), token,
                   under_token.id.c_str() );
@@ -324,27 +323,6 @@ std::string encumb_text( const bodypart_id &bp )
 {
     const std::string &txt = bp->encumb_text;
     return !txt.empty() ? _( txt ) : txt;
-}
-
-body_part random_body_part( bool main_parts_only )
-{
-    const auto &part = anatomy_human_anatomy->random_body_part();
-    return main_parts_only ? part->main_part->token : part->token;
-}
-
-body_part mutate_to_main_part( body_part bp )
-{
-    return get_bp( bp ).main_part->token;
-}
-
-body_part opposite_body_part( body_part bp )
-{
-    return get_bp( bp ).opposite_part->token;
-}
-
-std::string get_body_part_id( body_part bp )
-{
-    return get_bp( bp ).legacy_id;
 }
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
