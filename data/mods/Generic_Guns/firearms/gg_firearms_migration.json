@@ -44,6 +44,7 @@
       "skorpion_61",
       "mac_11",
       "mac_10",
+      "mauser_m712",
       "hk_mp7",
       "needlepistol",
       "hk_mp5k",
@@ -94,6 +95,9 @@
       "glock_19",
       "m9",
       "usp_9mm",
+      "p08",
+      "mauser_c96",
+      "mauser_m714",
       "m17",
       "hi_power_9mm",
       "p226_357sig",
@@ -131,7 +135,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -157,7 +161,7 @@
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten", "mp40", "mp18" ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },

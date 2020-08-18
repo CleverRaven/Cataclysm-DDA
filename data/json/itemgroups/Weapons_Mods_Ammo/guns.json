@@ -162,7 +162,10 @@
       { "item": "m1911-460", "prob": 3, "charges-min": 0, "charges-max": 7 },
       { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
       { "item": "makarov", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "mauser_c96", "prob": 20, "charges-min": 0, "charges-max": 10 },
+      { "item": "mauser_m714", "prob": 20, "charges-min": 0, "charges-max": 20 },
       { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
+      { "item": "p08", "prob": 50, "charges-min": 0, "charges-max": 8 },
       { "item": "pistol_flintlock", "prob": 150 },
       { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
@@ -170,6 +173,12 @@
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_collectible",
+    "//": "Extremely rare factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
+    "items": [ { "item": "mauser_m712", "prob": 10, "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -257,11 +266,19 @@
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
+      { "item": "mp40", "prob": 40, "charges-min": 0, "charges-max": 32 },
+      { "item": "mp40semi", "prob": 40, "charges-min": 0, "charges-max": 32 },
       { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
       { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_smg_collectible",
+    "//": "Extremely rare factory-made submachine guns that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
+    "items": [ { "item": "mp18", "prob": 1, "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -706,6 +723,15 @@
       { "group": "guns_smg_obscure", "prob": 30 },
       { "group": "guns_rifle_obscure", "prob": 70 },
       { "group": "guns_shotgun_obscure", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_collectible",
+    "//": "Extremely rare factory-made guns of all types (too rare to get even weight of 1 in obscure gun groups) that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
+    "items": [
+      { "group": "guns_pistol_collectible", "prob": 100 },
+      { "group": "guns_smg_collectible", "prob": 30 }
     ]
   },
   {
