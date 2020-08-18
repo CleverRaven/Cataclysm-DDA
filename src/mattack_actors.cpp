@@ -286,8 +286,8 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    add_msg( m_debug, "%s attempting to melee_attack %s", z.name(),
-             target->disp_name() );
+    add_msg_debug( "%s attempting to melee_attack %s", z.name(),
+                   target->disp_name() );
 
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
@@ -314,7 +314,7 @@ bool melee_actor::call( monster &z ) const
     dealt_damage.bp_hit = bp_hit.id();
 
     int damage_total = dealt_damage.total_damage();
-    add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
+    add_msg_debug( "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
     } else {

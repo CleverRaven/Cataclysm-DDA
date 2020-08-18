@@ -731,7 +731,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 z->add_effect( effect_tied, 1_turns, true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
-                add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
+                add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
             }
         } else if( n && !is_immune_effect( effect_downed ) ) {
             // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
@@ -1043,7 +1043,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
 
             // Bound intensity by [1, max intensity]
             if( e.get_intensity() < 1 ) {
-                add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+                add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
                 e.set_intensity( 1 );
             } else if( e.get_intensity() > e.get_max_intensity() ) {
                 e.set_intensity( e.get_max_intensity() );
@@ -1083,7 +1083,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
         // Bound new effect intensity by [1, max intensity]
         if( e.get_intensity() < 1 ) {
-            add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+            add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
             e.set_intensity( 1 );
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
@@ -2225,10 +2225,10 @@ bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
-    add_msg( m_debug, "hit roll = %d", hit_roll );
-    add_msg( m_debug, "source size = %d", source->get_size() );
-    add_msg( m_debug, "target size = %d", get_size() );
-    add_msg( m_debug, "difference = %d", szdif );
+    add_msg_debug( "hit roll = %d", hit_roll );
+    add_msg_debug( "source size = %d", source->get_size() );
+    add_msg_debug( "target size = %d", get_size() );
+    add_msg_debug( "difference = %d", szdif );
 
     return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
 }

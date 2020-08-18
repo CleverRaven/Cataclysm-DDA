@@ -1880,9 +1880,9 @@ double player::gun_value( const item &weap, int ammo ) const
 
     double gun_value = damage_and_accuracy * capacity_factor;
 
-    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
-             capacity_factor );
+    add_msg_debug( "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
+                   weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
+                   capacity_factor );
     return std::max( 0.0, gun_value );
 }
 
