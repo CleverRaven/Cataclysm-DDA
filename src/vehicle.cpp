@@ -6359,9 +6359,16 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( vp.mount(), impact );
-        if( distance > 1 && part_info( p ).location == part_location_structure &&
-            !part_info( p ).has_flag( "PROTRUSION" ) ) {
-            damage_direct( p, rng( dmg1, dmg2 ) / ( distance * distance ), type );
+        if( distance > 1 ) {
+            int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
+            if( part_info( p ).location != part_location_structure ||
+                !part_info( p ).has_flag( "PROTRUSION" ) ) {
+                int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
+                if( shock_absorber >= 0 ) {
+                    net_dmg = std::max( 0, net_dmg - parts[ shock_absorber ].info().bonus );
+                }
+            }
+            damage_direct( p, net_dmg, type );
         }
     }
 }
