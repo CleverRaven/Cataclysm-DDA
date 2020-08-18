@@ -825,7 +825,7 @@ bool game::start_game()
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns, true );
         } else {
-            add_msg( m_debug, "cannot place starting pet, no space!" );
+            add_msg_debug( "cannot place starting pet, no space!" );
         }
     }
     if( u.starting_vehicle &&
@@ -929,8 +929,8 @@ void game::load_npcs()
             continue;
         }
 
-        add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                 abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
+        add_msg_debug( "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+                       abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -4538,8 +4538,8 @@ void game::monmove()
                            << " can't move to its location!  (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
                            << m.tername( critter.pos() );
-            add_msg( m_debug, "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
-                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
+            add_msg_debug( "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
+                           critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
                 if( critter.can_move_to( dest ) && is_empty( dest ) ) {
@@ -7162,8 +7162,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
-            add_msg( m_debug, "levx: %d, levy: %d, levz: %d",
-                     get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
+            add_msg_debug( "levx: %d, levy: %d, levz: %d",
+                           get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
             if( select_zone && has_first_point ) { // is blinking

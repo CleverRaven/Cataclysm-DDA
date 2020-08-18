@@ -1085,8 +1085,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                                  ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
 
     if( !inbounds( src ) ) {
-        add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
-                 src.x, src.y, src.z, dst.x, dst.y, dst.z );
+        add_msg_debug( "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
+                       src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return false;
     }
 
@@ -1119,7 +1119,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     }
 
     if( !found ) {
-        add_msg( m_debug, "displace_vehicle [%s] failed", veh.name );
+        add_msg_debug( "displace_vehicle [%s] failed", veh.name );
         return false;
     }
 
@@ -1168,9 +1168,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             }
 
             if( psg->pos() != part_pos ) {
-                add_msg( m_debug, "Part/passenger position mismatch: part #%d at %d,%d,%d "
-                         "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
-                         psg->posx(), psg->posy(), psg->posz() );
+                add_msg_debug( "Part/passenger position mismatch: part #%d at %d,%d,%d "
+                               "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
+                               psg->posx(), psg->posy(), psg->posz() );
             }
             const vehicle_part &veh_part = veh.part( prt );
 
@@ -2295,8 +2295,8 @@ void map::process_falling()
     }
 
     if( !support_cache_dirty.empty() ) {
-        add_msg( m_debug, "Checking %d tiles for falling objects",
-                 support_cache_dirty.size() );
+        add_msg_debug( "Checking %d tiles for falling objects",
+                       support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
@@ -7619,8 +7619,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                                            point( rng( 0, SEEX ), rng( 0, SEEY ) );
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
-                add_msg( m_debug, "%s targeting %d,%d,%d", tmp.disp_name(),
-                         tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
+                add_msg_debug( "%s targeting %d,%d,%d", tmp.disp_name(),
+                               tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );

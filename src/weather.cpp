@@ -217,7 +217,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
     if( data.rain_amount > 0 ) {
         const int rain = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ) );
         it.add_rain_to_container( false, rain );
-        // add_msg(m_debug, "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
+        // add_msg_debug( "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
     }
 
     if( data.acid_amount > 0 ) {
