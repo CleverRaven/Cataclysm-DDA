@@ -11,26 +11,21 @@ from util import import_data
 
 
 PREFIX = 'overlay_'
-GENDERS = ['male_', 'female_']
 TILESET_OVERLAY_TYPES = {
     'effect_type': {
         'prefix': 'effect_'
     },
     'mutation': {
-        'prefix': 'mutation_',
-        'gendered': True,
+        'prefix': 'mutation_'
     },
     'bionic': {
-        'prefix': 'mutation_',
-        'gendered': True,
+        'prefix': 'mutation_'
     },
     'ARMOR': {
-        'prefix': 'worn_',
-        'gendered': True,
+        'prefix': 'worn_'
     },
     'TOOL_ARMOR': {
-        'prefix': 'worn_',
-        'gendered': True,
+        'prefix': 'worn_'
     },
     'GENERIC': {
         'prefix': 'wielded_'
@@ -77,14 +72,11 @@ if __name__ == '__main__':
         variable_prefix = ('',)
         if 'BIONIC_TOGGLED' in flags:
             variable_prefix = ('active_', '')
-        genders = GENDERS if overlay_data.get('gendered') else ('',)
 
         for p in product(
-                genders,
-                (overlay_data['prefix'],),
                 variable_prefix,
                 (game_id,)):
-            output = [PREFIX]
+            output = [PREFIX, overlay_data['prefix']]
             output.extend(p)
             # print(output)
             print(''.join(output))
