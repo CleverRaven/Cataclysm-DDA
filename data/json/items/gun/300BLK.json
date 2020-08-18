@@ -144,7 +144,8 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock mount", 1 ]
     ],
     "pocket_data": [
       {
