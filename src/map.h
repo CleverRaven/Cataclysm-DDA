@@ -1501,11 +1501,11 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
-        void loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
                 }
 
                 // Note: we want it in a separate loop! It is a post-load cleanup
@@ -1514,7 +1514,7 @@ class map
                     add_roofs( tripoint( grid, gridz ) );
                 }
             } else {
-                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
             }
         }
         /**
