@@ -74,6 +74,7 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
+        std::string sel_vpart_variant;
         //Command currently being run by the player
         char sel_cmd = ' ';
 

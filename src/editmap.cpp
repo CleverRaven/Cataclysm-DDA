@@ -644,7 +644,8 @@ void editmap::draw_main_ui_overlay()
                         const vehicle &veh = vp->vehicle();
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
-                        const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
+                        const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
+                                                          part_mod ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();

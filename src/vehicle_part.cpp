@@ -40,8 +40,9 @@ static const itype_id itype_muscle( "muscle" );
 vehicle_part::vehicle_part()
     : id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
-    : mount( dp ), id( vp ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
+                            item &&obj )
+    : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );

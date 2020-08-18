@@ -310,7 +310,7 @@ bool vehicle::remote_controlled( const Character &p ) const
  * loading from a game saved before the vehicle construction rules overhaul). */
 void vehicle::add_missing_frames()
 {
-    static const vpart_id frame_id( "frame_vertical" );
+    static const vpart_id frame_id( "frame" );
     //No need to check the same spot more than once
     std::set<point> locations_checked;
     for( vehicle_part &i : parts ) {
@@ -328,7 +328,7 @@ void vehicle::add_missing_frames()
         }
         if( !found ) {
             // Install missing frame
-            parts.emplace_back( frame_id, i.mount, item( frame_id->item ) );
+            parts.emplace_back( frame_id, "vertical", i.mount, item( frame_id->item ) );
         }
     }
 }
@@ -1636,20 +1636,22 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
  * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
-int vehicle::install_part( const point &dp, const vpart_id &id, bool force )
+int vehicle::install_part( const point &dp, const vpart_id &id, const std::string &variant_id,
+                           bool force )
 {
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, dp, item( id.obj().item ) ) );
+    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().item ) ) );
 }
 
-int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj, bool force )
+int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
+                           const std::string &variant_id, bool force )
 {
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, dp, std::move( obj ) ) );
+    return install_part( dp, vehicle_part( id, variant_id, dp, std::move( obj ) ) );
 }
 
 int vehicle::install_part( const point &dp, const vehicle_part &new_part )
