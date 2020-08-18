@@ -3,6 +3,17 @@
 Attempts to generate a reasonable set of overlay IDs
 that should be defined in a tileset.
 Meant to be used along with tools/gfx_tools/list_tileset_ids.py
+
+Google Docs Spreadsheet formulas:
+
+Prune IDs from tileset for verification:
+=REGEXREPLACE(A2,"_season_(spring|summer|autumn|winter)|_male|_female","")
+
+Search for the pruned ID in overlays
+=arrayformula(iferror(VLOOKUP($C2:$C,'overlays'!$A$1:$A,1,FALSE)))
+
+Search in game IDs
+=arrayformula(iferror(VLOOKUP($C2:$C,'all game IDs'!$B$2:$B,1,FALSE)))
 """
 
 from itertools import product
