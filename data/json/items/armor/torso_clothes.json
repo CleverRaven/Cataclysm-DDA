@@ -726,7 +726,7 @@
     "type": "ARMOR",
     "name": { "str": "leather vest" },
     "description": "A vest made from thick leather.  Offers excellent protection from cuts.",
-    "weight": "1530670 mg",
+    "weight": "1530 g",
     "volume": "2500 ml",
     "price": 5500,
     "price_postapoc": 250,

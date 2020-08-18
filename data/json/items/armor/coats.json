@@ -609,7 +609,7 @@
     "type": "ARMOR",
     "name": { "str": "leather jacket" },
     "description": "A jacket made from thick leather.  Cumbersome, but offers excellent protection from cuts.",
-    "weight": "1530670 mg",
+    "weight": "1530 g",
     "volume": "4500 ml",
     "price": 17900,
     "price_postapoc": 500,
