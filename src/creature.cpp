@@ -1772,6 +1772,9 @@ void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 void Creature::set_all_parts_temp_cur( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+            continue;
+        }
         elem.second.set_temp_cur( set );
     }
 }
@@ -1779,6 +1782,9 @@ void Creature::set_all_parts_temp_cur( int set )
 void Creature::set_all_parts_temp_conv( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+            continue;
+        }
         elem.second.set_temp_conv( set );
     }
 }

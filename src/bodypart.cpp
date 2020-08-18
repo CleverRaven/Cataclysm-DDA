@@ -163,6 +163,11 @@ void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
     body_part_factory.load( jo, src );
 }
 
+bool body_part_type::has_flag( const std::string &flag ) const
+{
+    return flags.count( flag ) > 0;
+}
+
 void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
@@ -216,6 +221,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
+
+    optional( jo, was_loaded, "flags", flags );
 
     part_side = jo.get_enum_value<side>( "side" );
 }

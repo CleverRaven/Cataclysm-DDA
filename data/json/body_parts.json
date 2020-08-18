@@ -89,7 +89,8 @@
     "squeamish_penalty": 8,
     "base_hp": 60,
     "drench_capacity": 1,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "flags": [ "IGNORE_TEMP" ]
   },
   {
     "id": "mouth",
