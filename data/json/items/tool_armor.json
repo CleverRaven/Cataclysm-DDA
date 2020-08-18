@@ -1776,7 +1776,6 @@
     "volume": "750 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "stimpack_ammo": 5 } } ],
     "ammo": "stimpack_ammo",
-    "initial_charges": 5,
     "charges_per_use": 1,
     "use_action": [ "STIMPACK" ],
     "material_thickness": 3
