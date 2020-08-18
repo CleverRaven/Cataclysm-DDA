@@ -171,7 +171,8 @@
       { "item": "raging_judge", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 },
+      { "group": "guns_pistol_collectible", "prob": 1 }
     ]
   },
   {
@@ -271,7 +272,8 @@
       { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
-      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
+      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 },
+      { "group": "guns_smg_collectible", "prob": 1 }
     ]
   },
   {
@@ -723,15 +725,6 @@
       { "group": "guns_smg_obscure", "prob": 30 },
       { "group": "guns_rifle_obscure", "prob": 70 },
       { "group": "guns_shotgun_obscure", "prob": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_collectible",
-    "//": "Extremely rare factory-made guns of all types (too rare to get even weight of 1 in obscure gun groups) that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Always unloaded.",
-    "items": [
-      { "group": "guns_pistol_collectible", "prob": 100 },
-      { "group": "guns_smg_collectible", "prob": 30 }
     ]
   },
   {
