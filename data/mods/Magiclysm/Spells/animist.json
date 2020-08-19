@@ -16,6 +16,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 8,
     "max_level": 15,
+    "damage_type": "true",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
     "energy_source": "MANA"
   },

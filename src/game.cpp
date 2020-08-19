@@ -38,6 +38,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -8452,16 +8453,24 @@ static void add_disassemblables( uilist &menu,
 }
 
 // Butchery sub-menu and time calculation
-static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
+static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
     avatar &player_character = get_avatar();
     auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
-        if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[corpse], bt );
+        if( index != -1 ) {
+            const mtype &corpse = *corpses[index]->get_mtype();
+            const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                     player_character.crafting_inventory(),
+                                     corpse.size, bt ).first;
+            time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt );
+                const mtype &corpse = *it->get_mtype();
+                const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                         player_character.crafting_inventory(),
+                                         corpse.size, bt ).first;
+                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8481,8 +8490,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_skin = false;
     bool has_organs = false;
 
-    if( corpse != -1 ) {
-        const mtype *dead_mon = corpses[corpse]->get_mtype();
+    if( index != -1 ) {
+        const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
                 if( entry.type == "skin" ) {

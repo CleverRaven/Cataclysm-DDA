@@ -315,7 +315,7 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( is_obsolete || ( has_actor && !data.has_member( "actor" ) ) ) {
+    if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 

@@ -648,6 +648,12 @@
     "type": "ammunition_type"
   },
   {
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
+  },
+  {
     "type": "ammunition_type",
     "id": "300blk",
     "name": ".300 AAC Blackout",
