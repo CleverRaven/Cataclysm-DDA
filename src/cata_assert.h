@@ -18,7 +18,7 @@
             break; \
         } \
         fprintf( stderr, "%s:%d: Assertion `%s` failed.\n", __FILE__, __LINE__, #_Expression ); \
-        std::exit( -1 ); \
+        std::abort(); \
     } while( false );
 #else
 #include <cassert>
