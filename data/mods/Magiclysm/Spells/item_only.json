@@ -133,6 +133,7 @@
     "name": { "str": "Werewolf Healing" },
     "description": "With a soul chilling howl, wounds knit closed.",
     "valid_targets": [ "self" ],
+    "effect": "target_attack",
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
   }
