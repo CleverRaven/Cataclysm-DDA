@@ -3,7 +3,7 @@
     "id": "mon_were_zolf",
     "type": "MONSTER",
     "name": { "str": "rotting wolf man" },
-    "description": "The classic half man half wolf of the movies, but with a new twist: UNDEATH!  This monster lopes along alternating between two and four legged gaits.  It's jet black eyes seething with unsiatable hunger.  Now you will know why you fear the night",
+    "description": "The classic half man half wolf of the movies, but with a new twist: UNDEATH!  This monster lopes along alternating between two and four legged gaits.  It's jet black eyes seething with unsiatable hunger.  Now you will know why you fear the night.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "categories": [ "CLASSIC" ],
