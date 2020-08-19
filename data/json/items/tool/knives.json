@@ -111,7 +111,7 @@
     "qualities": [ [ "CUT", 1 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "stone_chopper",
     "symbol": "*",
     "color": "light_gray",
