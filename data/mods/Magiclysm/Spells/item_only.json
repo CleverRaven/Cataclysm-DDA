@@ -112,6 +112,8 @@
     "description": "This spell transforms you into a werewolf. There may be some cons to this.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_werewolf",
     "max_level": 1,
     "min_damage": 10,
     "max_damage": 10,
@@ -127,25 +129,7 @@
     "extra_effects": [
       { "id": "werewolf_healing" },
       { "id": "pain_split" },
-      { "id": "bless" },
-      { "id": "bio_boost" },
       { "id": "dark_sight" }
-    ],
-    "mutations": [
-      "LUPINE_FUR",
-      "CLAWS",
-      "ADRENALINE",
-      "PADDED_FEET",
-      "TAIL_FLUFFY",
-      "PRED4",
-      "LUPINE_EARS",
-      "MUZZLE",
-      "PAWS",
-      "SHOUT3",
-      "GOODCARDIO",
-      "ANIMALDISCORD2",
-      "MUTE",
-      "LARGE_OK"
     ]
   },
   {
