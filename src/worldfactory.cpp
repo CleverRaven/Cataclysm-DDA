@@ -1494,13 +1494,10 @@ bool WORLD::load_options()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
-    load_options( jsin );
-    } ) ) {
-        return true;
-    }
-    return false;
+    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
+    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+    this->load_options( jsin );
+    } );
 }
 
 void load_world_option( const JsonObject &jo )
