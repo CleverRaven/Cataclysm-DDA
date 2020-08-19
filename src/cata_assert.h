@@ -7,21 +7,21 @@
 
 // Might as well handle NDEBUG at the top level instead of just wrapping one variant.
 #ifdef NDEBUG
-#define cata_assert(_Expression) ((void)0)
+#define cata_assert(expression) ((void)0)
 #else
 #ifdef _WIN32
 #include <cstdlib>
 #include <cstdio>
-#define cata_assert(_Expression) \
+#define cata_assert(expression) \
     do { \
-        if( _Expression ) { \
+        if( expression ) { \
             break; \
         } \
-        fprintf( stderr, "%s:%d: Assertion `%s` failed.\n", __FILE__, __LINE__, #_Expression ); \
+        fprintf( stderr, "%s at %s:%d: Assertion `%s` failed.\n", __func__, __FILE__, __LINE__, #_Expression ); \
         std::abort(); \
     } while( false );
 #else
 #include <cassert>
-#define cata_assert(_Expression) assert(_Expression)
+#define cata_assert(expression) assert(expression)
 #endif // _WIN32
 #endif // NDEBUG
