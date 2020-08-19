@@ -82,16 +82,16 @@ void load_recipe_category( const JsonObject &jsobj )
 
     if( !is_hidden ) {
         craft_cat_list.push_back( category );
+    }
 
-        const std::string cat_name = get_cat_unprefixed( category );
+    const std::string cat_name = get_cat_unprefixed( category );
 
-        craft_subcat_list[category].clear();
-        for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
-            if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
-                jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
-            }
-            craft_subcat_list[category].push_back( subcat_id );
+    craft_subcat_list[category].clear();
+    for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
+        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
+            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
+        craft_subcat_list[category].push_back( subcat_id );
     }
 }
 
