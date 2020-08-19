@@ -465,7 +465,7 @@ class wish_item_callback: public uilist_callback
         bool key( const input_context &ctxt, const input_event &event, int /*entnum*/,
                   uilist * /*menu*/ ) override {
 
-            const std::string action = ctxt.input_to_action( event );
+            const std::string &action = ctxt.input_to_action( event );
             if( action == "CONTAINER" ) {
                 incontainer = !incontainer;
                 return true;
