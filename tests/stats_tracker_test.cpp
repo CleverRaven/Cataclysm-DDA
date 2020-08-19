@@ -875,6 +875,7 @@ struct test_subscriber : public event_subscriber {
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
+    get_stats.clear();
     get_achievements().clear();
     test_subscriber sub;
     get_event_bus().subscribe( &sub );
