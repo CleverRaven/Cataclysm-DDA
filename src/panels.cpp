@@ -2038,7 +2038,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, true ) );
+    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
@@ -2065,7 +2065,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, translate_marker( "Overmap" ), 14, 32,
-                                    true ) );
+                                    false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                                     default_render, true ) );
@@ -2097,7 +2097,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                                     true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, translate_marker( "Overmap" ), 14, 32,
-                                    true ) );
+                                    false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                                     default_render, true ) );
@@ -2129,7 +2129,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                                     true ) );
-    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, true ) );
+    ret.emplace_back( window_panel( draw_overmap_wide, translate_marker( "Overmap" ), 20, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
                                     default_render, true ) );
