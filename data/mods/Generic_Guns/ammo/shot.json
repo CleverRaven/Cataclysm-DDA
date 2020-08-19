@@ -39,7 +39,7 @@
     "name": { "str_sp": "shotshell, slug" },
     "description": "A shotshell with a single projectile, shaped somewhat like a shuttlecock.  Slugs are used with shotguns to give them extra range, allowing them to stand in for a rifle.  Extremely damaging but rather inaccurate.",
     "dispersion": 100,
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetratoin": 6 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "armor_penetration": 6 } },
     "proportional": { "price": 1.4, "price_postapoc": 1.4, "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   },
