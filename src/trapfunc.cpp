@@ -705,7 +705,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         }
         return true;
     }
-    // NOLINTNEXTLINE(misc-static-assert)
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
     cata_assert( false );
     return false;
 }

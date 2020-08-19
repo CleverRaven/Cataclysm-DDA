@@ -241,7 +241,7 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_NONE:
             return {};
     }
-    // NOLINTNEXTLINE(misc-static-assert)
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
     cata_assert( !"Unexpected type" );
     return {};
 }
