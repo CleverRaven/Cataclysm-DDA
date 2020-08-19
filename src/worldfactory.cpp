@@ -266,7 +266,6 @@ void worldfactory::init()
     // option files or the master save file.
     static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
         return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
-               file_exist( maybe_save_dir + "/" + PATH_INFO::legacy_worldoptions() ) ||
                file_exist( maybe_save_dir + "/" + SAVE_MASTER );
     };
 
@@ -1490,50 +1489,15 @@ void WORLD::load_options( JsonIn &jsin )
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
 
-void WORLD::load_legacy_options( std::istream &fin )
-{
-    auto &opts = get_options();
-
-    //load legacy txt
-    std::string sLine;
-    while( !fin.eof() ) {
-        getline( fin, sLine );
-        if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            size_t ipos = sLine.find( ' ' );
-            // make sure that the option being loaded is part of the world_default page in OPTIONS
-            // In 0.C some lines consisted of a space and nothing else
-            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
-                const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                          sLine.length() ) );
-                WORLD_OPTIONS[name].setValue( value );
-            }
-        }
-    }
-}
-
 bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
-    load_options( jsin );
-    } ) ) {
-        return true;
-    }
-
-    const auto legacy_path = folder_path() + "/" + PATH_INFO::legacy_worldoptions();
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
-        if( save() ) {
-            // Remove old file as the options have been saved to the new file.
-            remove_file( legacy_path );
-        }
-        return true;
-    }
-
-    return false;
+    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
+    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+        this->load_options( jsin );
+    } );
 }
 
 void load_world_option( const JsonObject &jo )

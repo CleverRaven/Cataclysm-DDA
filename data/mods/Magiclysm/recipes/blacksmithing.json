@@ -3,7 +3,7 @@
     "result": "orichalcum_ingot",
     "type": "recipe",
     "category": "CC_OTHER",
-    "subcategory": "CSC_MATERIALS",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "180 m",

@@ -1,6 +1,6 @@
 [
   {
-    "abstract": "door_abstract",
+    "id": "door",
     "breaks_into": "ig_vp_frame",
     "broken_color": "cyan",
     "broken_symbol": "&",
@@ -21,6 +21,7 @@
     },
     "size": 10,
     "symbol": "+",
+    "symbols": { "ne": "u", "nw": "y", "se": "b", "sw": "n", "vertical_left": "L", "vertical_right": "n", "front": "T", "rear": "B" },
     "type": "vehicle_part"
   },
   {
@@ -215,12 +216,6 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "door_abstract",
-    "id": "door",
-    "symbol": "+",
-    "type": "vehicle_part"
-  },
-  {
     "copy-from": "door_opaque_abstract",
     "id": "door_opaque",
     "symbol": "+",
@@ -266,54 +261,6 @@
     "copy-from": "hdhatch_opaque_abstract",
     "id": "hdhatch_opaque",
     "symbol": "+",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_front_left",
-    "symbol": "y",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_vertical_left",
-    "symbol": "L",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_front_right",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_rear_left",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_vertical_right",
-    "symbol": "R",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_rear_right",
-    "symbol": "n",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_front",
-    "symbol": "T",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "door_abstract",
-    "id": "door_rear",
-    "symbol": "B",
     "type": "vehicle_part"
   }
 ]

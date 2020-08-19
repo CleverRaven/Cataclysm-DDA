@@ -72,7 +72,7 @@
           { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 },
           { "damage_type": "bash", "amount": 9, "armor_multiplier": 0.7 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "cooldown": 10
       }
     ],

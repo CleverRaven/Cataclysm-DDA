@@ -590,36 +590,13 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
-        // Worn or wielded; diminished effects
-        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
-                          weapon.has_effect_when_carried( AEP_EVIL );
-        for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
-                lesserEvil = true;
-                break;
-            }
-        }
-        if( lesserEvil ) {
-            // Only minor effects, some even good!
-            mod_str_bonus( dur > 450_minutes ? 10.0 : dur / 45_minutes );
-            if( dur < 1_hours ) {
-                mod_dex_bonus( 1 );
-            } else {
-                int dex_mod = -( dur > 360_minutes ? 10.0 : ( dur - 1_hours ) / 30_minutes );
-                mod_dex_bonus( dex_mod );
-                add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
-            }
-            mod_int_bonus( -( dur > 300_minutes ? 10.0 : ( dur - 50_minutes ) / 25_minutes ) );
-            mod_per_bonus( -( dur > 480_minutes ? 10.0 : ( dur - 80_minutes ) / 40_minutes ) );
-        } else {
-            // Major effects, all bad.
-            mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
-            int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
-            mod_dex_bonus( dex_mod );
-            add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
-            mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
-            mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
-        }
+        // Major effects, all bad.
+        mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
+        int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
+        mod_dex_bonus( dex_mod );
+        add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
+        mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
+        mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
@@ -658,8 +635,8 @@ void player::hardcoded_effects( effect &it )
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
-                body_part itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, convert_bp( itch ).id() );
+                const bodypart_id &itch = random_body_part( true );
+                add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -1478,8 +1455,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-                  one_in( 43200 ) && is_player() ) ) {
+            if( has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && is_player() ) {
                 if( one_in( 2 ) ) {
                     sound_hallu();
                 } else {
@@ -1616,7 +1592,7 @@ void player::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_unwield( weapon ).success() ) {
+                        if( is_armed() && can_drop( weapon ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
                             } else {

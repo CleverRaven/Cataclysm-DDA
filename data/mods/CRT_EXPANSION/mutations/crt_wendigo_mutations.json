@@ -69,7 +69,7 @@
       {
         "attack_text_u": "You tear into %s with your blades",
         "attack_text_npc": "%1$s tears into %2$s with their blades",
-        "body_part": "TORSO",
+        "body_part": "torso",
         "chance": 33,
         "base_damage": { "damage_type": "cut", "amount": 10 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
@@ -93,7 +93,7 @@
       {
         "attack_text_u": "You ravage %s with your arms",
         "attack_text_npc": "%1$s ravages %2$s with their arm spurs",
-        "body_part": "ARM_R",
+        "body_part": "arm_r",
         "chance": 10,
         "base_damage": { "damage_type": "stab", "amount": 2 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }

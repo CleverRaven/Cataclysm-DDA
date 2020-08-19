@@ -22,7 +22,7 @@
     "id": "ARMOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Armor plate.  Will partially protect other components on the same frame from damage."
+    "info": "Armor plate.  Will partially protect other components on the same frame from damage from direct attacks but not from the shock damage of a distant collision."
   },
   {
     "id": "BED",
@@ -138,6 +138,12 @@
     "context": [ "vehicle_part" ],
     "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it.",
     "requires_flag": "BELTABLE"
+  },
+  {
+    "id": "SHOCK_ABSORBER",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Armor plate.  Will partially protect other components on the same frame from the shock damage of a distant collision but not from direct attacks."
   },
   {
     "id": "STABLE",

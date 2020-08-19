@@ -71,7 +71,6 @@ struct islot_armor;
 struct use_function;
 
 enum art_effect_passive : int;
-enum body_part : int;
 enum class side : int;
 class body_part_set;
 class map;
@@ -1070,7 +1069,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref DT_NULL as damage type.
+        /// same as other mod_damage, but uses @ref DT_NONE as damage type.
         bool mod_damage( int qty );
 
         /**
@@ -1079,7 +1078,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref DT_NULL as damage type.
+        /// same as other inc_damage, but uses @ref DT_NONE as damage type.
         bool inc_damage();
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1155,7 +1154,6 @@ class item : public visitable<item>
          * @param carrier The character carrying the artifact, can be null.
          * @param pos The location of the artifact (should be the player location if carried).
          */
-        void process_artifact( player *carrier, const tripoint &pos );
         void process_relic( Character *carrier, const tripoint &pos );
 
         void overwrite_relic( const relic &nrelic );
@@ -1187,7 +1185,6 @@ class item : public visitable<item>
         bool is_deployable() const;
         bool is_tool() const;
         bool is_transformable() const;
-        bool is_artifact() const;
         bool is_relic() const;
         bool is_bucket_nonempty() const;
 
@@ -1270,19 +1267,6 @@ class item : public visitable<item>
         bool is_soft() const;
 
         /**
-         * Does the item provide the artifact effect when it is wielded?
-         */
-        bool has_effect_when_wielded( art_effect_passive effect ) const;
-        /**
-         * Does the item provide the artifact effect when it is worn?
-         */
-        bool has_effect_when_worn( art_effect_passive effect ) const;
-        /**
-         * Does the item provide the artifact effect when it is carried?
-         */
-        bool has_effect_when_carried( art_effect_passive effect ) const;
-
-        /**
          * Set the snippet text (description) of this specific item, using the snippet library.
          * @see snippet_library.
          */
@@ -1360,12 +1344,13 @@ class item : public visitable<item>
         /**
          * Callback immediately **before** an item is damaged
          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or DT_NULL)
+         * @param dt type of damage (or DT_NONE)
          */
         void on_damage( int qty, damage_type dt );
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
+        std::vector<trait_id> mutations_from_wearing( const Character &guy ) const;
 
         /**
          * Name of the item type (not the item), with proper plural.
@@ -1851,6 +1836,8 @@ class item : public visitable<item>
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
@@ -2055,7 +2042,6 @@ class item : public visitable<item>
 
         time_duration age() const;
         void set_age( const time_duration &age );
-        void legacy_fast_forward_time();
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );

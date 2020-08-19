@@ -177,7 +177,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
                 optional( joe, was_loaded, "max_duration", fe.max_duration );
                 optional( joe, was_loaded, "intensity", fe.intensity );
-                optional( joe, was_loaded, "body_part", fe.bp );
+                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id( "bp_null" ) );
                 optional( joe, was_loaded, "is_environmental", fe.is_environmental );
                 optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
                 optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
@@ -221,9 +221,10 @@ void field_type::load( const JsonObject &jo, const std::string & )
         immunity_data_traits.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
+
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );

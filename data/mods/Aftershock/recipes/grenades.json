@@ -2,7 +2,7 @@
   {
     "result": "afs_electroshock_grenade_1",
     "type": "recipe",
-    "category": "CC_ELECTRONIC",
+    "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "electronics",
     "difficulty": 3,

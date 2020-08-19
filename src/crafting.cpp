@@ -841,9 +841,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
         return;
     }
 
-    assign_activity( ACT_CRAFT );
-    activity.targets.push_back( craft_in_world );
-    activity.values.push_back( command.is_long() );
+    assign_activity( player_activity( craft_activity_actor( craft_in_world, command.is_long() ) ) );
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),

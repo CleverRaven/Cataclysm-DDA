@@ -229,6 +229,8 @@ struct input_event {
     bool operator==( const input_event &other ) const {
         return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
     }
+
+    bool operator!=( const input_event &other ) const;
 };
 
 /**
@@ -772,6 +774,7 @@ class input_context
         std::string edittext;
     public:
         const std::string &input_to_action( const input_event &inp ) const;
+        bool is_event_type_enabled( input_event_t type ) const;
     private:
         bool registered_any_input;
         std::string category; // The input category this context uses.
@@ -790,8 +793,6 @@ class input_context
          * value is the user-visible name.
          */
         std::map<std::string, translation> action_name_overrides;
-
-        bool is_event_type_enabled( input_event_t type ) const;
 
         /**
          * Returns whether action uses the specified input

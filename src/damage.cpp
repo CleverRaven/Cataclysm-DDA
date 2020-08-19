@@ -17,6 +17,35 @@
 #include "translations.h"
 #include "units.h"
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<damage_type>( damage_type data )
+{
+    switch( data ) {
+            // *INDENT-OFF*
+        case damage_type::DT_NONE: return "none";
+        case damage_type::DT_TRUE: return "true";
+        case damage_type::DT_BIOLOGICAL: return "biological";
+        case damage_type::DT_BASH: return "bash";
+        case damage_type::DT_CUT: return "cut";
+        case damage_type::DT_ACID: return "acid";
+        case damage_type::DT_STAB: return "stab";
+        case damage_type::DT_HEAT: return "heat";
+        case damage_type::DT_COLD: return "cold";
+        case damage_type::DT_ELECTRIC: return "electric";
+        case damage_type::DT_BULLET: return "bullet";
+            // *INDENT-ON*
+        case damage_type::NUM_DT:
+            break;
+    }
+    debugmsg( "Invalid damage_type" );
+    abort();
+}
+
+} // namespace io
+
 bool damage_unit::operator==( const damage_unit &other ) const
 {
     return type == other.type &&
@@ -259,7 +288,7 @@ damage_type dt_by_name( const std::string &name )
 {
     const auto &iter = dt_map.find( name );
     if( iter == dt_map.end() ) {
-        return DT_NULL;
+        return DT_NONE;
     }
 
     return iter->second;
@@ -302,7 +331,7 @@ const skill_id &skill_by_dt( damage_type dt )
 static damage_unit load_damage_unit( const JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
-    if( dt == DT_NULL ) {
+    if( dt == DT_NONE ) {
         curr.throw_error( "Invalid damage type" );
     }
 

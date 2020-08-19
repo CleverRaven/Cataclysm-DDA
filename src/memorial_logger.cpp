@@ -530,22 +530,22 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::broken_bone: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broke his %s." ),
                      pgettext( "memorial_female", "Broke her %s." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }

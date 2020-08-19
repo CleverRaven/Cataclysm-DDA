@@ -583,9 +583,10 @@ def extract_monster_attack(item):
 def extract_recipes(item):
     outfile = get_outfile("recipe")
     if "book_learn" in item:
-        for arr in item["book_learn"]:
-            if len(arr) >= 3 and len(arr[2]) > 0:
-                writestr(outfile, arr[2])
+        if type(item["book_learn"]) is dict:
+            for (k, v) in item["book_learn"].items():
+                if type(v) is dict and "recipe_name" in v:
+                    writestr(outfile, v["recipe_name"])
     if "description" in item:
         writestr(outfile, item["description"])
     if "blueprint_name" in item:
