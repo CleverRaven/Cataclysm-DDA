@@ -28,7 +28,6 @@
     "vision_night": 5,
     "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
