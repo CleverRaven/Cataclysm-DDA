@@ -3214,7 +3214,13 @@ units::volume Character::get_contents_volume_with_tweaks( const item_contents *c
     units::volume ret = 0_ml;
 
     for( const item_pocket *pocket : contents->get_all_contained_pockets().value() ) {
-        if( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) {
+        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
             for( const item *i : pocket->all_items_top() ) {
                 if( i->count_by_charges() ) {
                     ret += i->volume() - get_selected_stack_volume( i, without );
@@ -3222,12 +3228,6 @@ units::volume Character::get_contents_volume_with_tweaks( const item_contents *c
                     ret += i->volume();
                     ret -= get_nested_content_volume_recursive( &i->contents, without );
                 }
-            }
-        } else {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
-                ret += pocket->volume_capacity();
             }
         }
     }
@@ -3241,7 +3241,13 @@ units::volume Character::get_nested_content_volume_recursive( const item_content
     units::volume ret = 0_ml;
 
     for( const item_pocket *pocket : contents->get_all_contained_pockets().value() ) {
-        if( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) {
+        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
             for( const item *i : pocket->all_items_top() ) {
                 if( i->count_by_charges() ) {
                     ret += get_selected_stack_volume( i, without );
@@ -3254,12 +3260,6 @@ units::volume Character::get_nested_content_volume_recursive( const item_content
 
             if( pocket->rigid() ) {
                 ret += pocket->remaining_volume();
-            }
-        } else {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
-                ret += pocket->volume_capacity();
             }
         }
     }
