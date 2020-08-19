@@ -59,6 +59,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
@@ -1317,7 +1318,7 @@ void purify_water_activity_actor::start( player_activity &act, Character & )
 void purify_water_activity_actor::finish( player_activity &act, Character & )
 {
     if( liquid ) {
-        liquid->convert( "water_clean" ).poison = 0;
+        liquid->convert( water_clean ).poison = 0;
     } else {
         debugmsg( "Lost target item of ACT_PURIFY_WATER" );
     }
