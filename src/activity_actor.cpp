@@ -1307,13 +1307,13 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
 
     return actor.clone();
 }
-  
+
 void purify_water_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves;
     act.moves_left = moves;
 }
-  
+
 void purify_water_activity_actor::finish( player_activity &act, Character & )
 {
     if( liquid ) {
@@ -1331,10 +1331,10 @@ void purify_water_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     jsout.member( "liquid", liquid );
-  
+
     jsout.end_object();
 }
-  
+
 std::unique_ptr<activity_actor> purify_water_activity_actor::deserialize( JsonIn &jsin )
 {
     purify_water_activity_actor actor( item_location(), 1 );
@@ -1343,10 +1343,10 @@ std::unique_ptr<activity_actor> purify_water_activity_actor::deserialize( JsonIn
 
     data.read( "moves", actor.moves );
     data.read( "liquid", actor.liquid );
-  
+
     return actor.clone();
 }
-  
+
 
 void unload_mag_activity_actor::start( player_activity &act, Character & )
 {
