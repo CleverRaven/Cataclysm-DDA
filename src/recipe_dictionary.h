@@ -48,6 +48,7 @@ class recipe_dictionary
         static void load_uncraft( const JsonObject &jo, const std::string &src );
 
         static void finalize();
+        static void check_consistency();
         static void reset();
 
     protected:

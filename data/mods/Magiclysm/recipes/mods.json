@@ -3,7 +3,7 @@
     "type": "recipe",
     "result": "magic_suppressor",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_ENCHANTED_MODS",
+    "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "spellcraft", 4 ], [ "gun", 4 ] ],
     "difficulty": 4,
