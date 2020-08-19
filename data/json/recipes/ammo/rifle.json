@@ -385,6 +385,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
+    "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "components": [
       [ [ "4570_casing", 1 ] ],
@@ -406,6 +407,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
+    "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "components": [
       [ [ "4570_casing", 1 ] ],
@@ -426,6 +428,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
+    "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "components": [
       [ [ "4570_casing", 1 ] ],
@@ -446,6 +449,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
+    "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "lead", 9 ] ] ]
   },
