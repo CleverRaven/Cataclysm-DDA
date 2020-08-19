@@ -17,7 +17,7 @@
         if( expression ) { \
             break; \
         } \
-        fprintf( stderr, "%s at %s:%d: Assertion `%s` failed.\n", __func__, __FILE__, __LINE__, #_Expression ); \
+        fprintf( stderr, "%s at %s:%d: Assertion `%s` failed.\n", __func__, __FILE__, __LINE__, #expression ); \
         std::abort(); \
     } while( false );
 #else
