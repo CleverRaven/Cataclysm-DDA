@@ -1496,7 +1496,7 @@ bool WORLD::load_options()
     using namespace std::placeholders;
     const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
-    this->load_options( jsin );
+        this->load_options( jsin );
     } );
 }
 
