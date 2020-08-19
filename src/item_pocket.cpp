@@ -1064,6 +1064,11 @@ bool item_pocket::can_contain_liquid( bool held_or_ground ) const
     }
 }
 
+bool item_pocket::contains_phase( phase_id phase ) const
+{
+    return !empty() && contents.front().made_of( phase );
+}
+
 cata::optional<item> item_pocket::remove_item( const item &it )
 {
     item ret( it );
