@@ -125,7 +125,7 @@
     "base_energy_cost": 2,
     "min_duration": 43200,
     "max_duration": 43200,
-    "extra_effects": [ { "id": "werewolf_healing" }, { "id": "pain_split" }, { "id": "dark_sight" } ]
+    "extra_effects": [ { "id": "pain_split" }, { "id": "werewolf_healing" } ]
   },
   {
     "id": "werewolf_healing",
