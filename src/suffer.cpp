@@ -314,12 +314,12 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_CHEMIMBALANCE ) ) {
         suffer_from_chemimbalance();
     }
-    if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+    if( has_trait( trait_SCHIZOPHRENIC ) &&
         !has_effect( effect_took_thorazine ) ) {
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+    if( has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
@@ -458,8 +458,8 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 45_minutes, convert_bp( bp ).id() );
+        const bodypart_id &bp = random_body_part( true );
+        add_effect( effect_formication, 45_minutes, bp );
         add_msg_if_player( m_bad, "%s", snip );
         return;
     }
@@ -822,11 +822,11 @@ void Character::suffer_from_albinism()
         }
     };
     //pecentage of "open skin" by body part
-    std::map<body_part, float> open_percent;
+    std::map<bodypart_id, float> open_percent;
     //initialize coverage
     for( const bodypart_id  &bp : get_all_body_parts() ) {
         if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp->token] = 1.0;
+            open_percent[bp] = 1.0;
         }
     }
     //calculate coverage for every body part
@@ -838,16 +838,16 @@ void Character::suffer_from_albinism()
             }
             //percent of "not covered skin"
             float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            open_percent[bp->token] = open_percent[bp->token] * p;
+            open_percent[bp] = open_percent[bp] * p;
         }
     }
 
     const float COVERAGE_LIMIT = 0.01f;
-    body_part max_affected_bp = num_bp;
+    bodypart_id max_affected_bp;
     float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
-    for( const std::pair<const body_part, float> &it : open_percent ) {
-        const body_part &bp = it.first;
+    for( const std::pair<const bodypart_id, float> &it : open_percent ) {
+        const bodypart_id &bp = it.first;
         const float &p = it.second;
 
         if( p <= COVERAGE_LIMIT ) {
@@ -859,18 +859,18 @@ void Character::suffer_from_albinism()
             max_affected_bp = bp;
         }
     }
-    if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+    if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
         //Check if both arms/legs are affected
         int parts_count = 1;
-        body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
-        body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+        const bodypart_id &other_bp = max_affected_bp->opposite_part;
+        const bodypart_id &other_bp_rev = other_bp->opposite_part;
         if( other_bp != other_bp_rev ) {
             const auto found = open_percent.find( other_bp );
             if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
                 ++parts_count;
             }
         }
-        std::string bp_name = body_part_name( convert_bp( max_affected_bp ).id(), parts_count );
+        std::string bp_name = body_part_name( max_affected_bp, parts_count );
         if( count_affected_bp > parts_count ) {
             bp_name = string_format( _( "%s and other body parts" ), bp_name );
         }
@@ -1267,35 +1267,14 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, convert_bp( bp ).id() );
+        const bodypart_id &bp = random_body_part( true );
+        add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         get_power_level() > 1_kJ ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
         mod_power_level( -1_kJ );
-    }
-}
-
-void Character::suffer_from_artifacts()
-{
-    // Artifact effects
-    if( has_artifact_with( AEP_ATTENTION ) ) {
-        add_effect( effect_attention, 3_turns );
-    }
-
-    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        get_weather().weather_id->precip < precip_class::heavy ) {
-        get_weather().weather_override = get_bad_weather();
-        get_weather().set_nextweather( calendar::turn );
-    }
-
-    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
-        mutate();
-    }
-    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        teleport::teleport( *this );
     }
 }
 
@@ -1471,7 +1450,7 @@ void Character::suffer()
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
+            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1507,7 +1486,6 @@ void Character::suffer()
     suffer_in_sunlight();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
-    suffer_from_artifacts();
     suffer_from_radiation();
     suffer_from_bad_bionics();
     suffer_from_stimulants( current_stim );
@@ -1663,7 +1641,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1691,7 +1669,7 @@ void Character::mend( int rate_multiplier )
         if( eff.get_duration() >= eff.get_max_duration() ) {
             set_part_hp_cur( bp, 1 );
             remove_effect( effect_mending, bp );
-            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
+            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( bp ) );
@@ -1912,18 +1890,18 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, to_turns<int>( i.sated ) );
+        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+                       i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }

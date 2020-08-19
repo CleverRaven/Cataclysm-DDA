@@ -8,7 +8,7 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "effect": "target_attack",
     "effect_str": "bless",
-    "affected_body_parts": [ "TORSO" ],
+    "affected_body_parts": [ "torso" ],
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "energy_source": "MANA",
@@ -254,7 +254,7 @@
     "min_damage": 15,
     "max_damage": 60,
     "damage_increment": 2.5,
-    "damage_type": "fire",
+    "damage_type": "heat",
     "min_range": 10,
     "max_range": 25,
     "range_increment": 1.0

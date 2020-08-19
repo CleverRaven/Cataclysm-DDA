@@ -530,9 +530,16 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
-    item_contents new_contents = item_contents( type->pockets );
-    new_contents.combine( contents );
-    contents = new_contents;
+    item temp( *this );
+    temp.contents = item_contents( type->pockets );
+    for( const item *it : contents.mods() ) {
+        if( !temp.contents.insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+            debugmsg( "failed to insert mod" );
+        }
+    }
+    temp.update_modified_pockets();
+    temp.contents.combine( contents, true );
+    contents = temp.contents;
     return *this;
 }
 
@@ -1838,8 +1845,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( player_character.has_trait( trait_CARNIVORE ) ||
-                                       player_character.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_trait( trait_CARNIVORE ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
@@ -2063,6 +2069,26 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
+    }
+    if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
+        for( const std::string &effect : ammo.ammo_effects ) {
+            if( effect.compare( 0, 8, "RECOVER_" ) == 0 ) {
+                int recover_chance;
+                sscanf( effect.c_str(), "RECOVER_%i", &recover_chance );
+                if( recover_chance <= 5 ) {
+                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 10 ) {
+                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 20 ) {
+                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 30 ) {
+                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+                } else {
+                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
+                }
+                break;
+            }
+        }
     }
     if( ammo.ammo_effects.count( "INCENDIARY" ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
@@ -2742,14 +2768,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    for( const body_part &legacy_part : all_body_parts ) {
-                        const bodypart_str_id &bp( convert_bp( legacy_part ) );
-                        bodypart_str_id opposite = bp->opposite_part;
-                        if( opposite != bp && covers( bp ) && covers( opposite )
-                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).active ) {
-                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).active = false;
+                    for( const armor_portion_data &piece : t->data ) {
+                        for( const bodypart_str_id &bp : *piece.covers ) {
+                            bodypart_str_id opposite = bp->opposite_part;
+                            if( opposite != bp && covers( bp ) && covers( opposite )
+                                && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                                && to_display_data.at( opposite ).active ) {
+                                to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                                to_display_data.at( bp ).active = false;
+                            }
                         }
                     }
                 }
@@ -4322,10 +4349,6 @@ void item::on_wear( Character &p )
         }
     }
 
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_worn );
-    }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -4374,11 +4397,6 @@ int item::on_wield_cost( const player &p ) const
 
 void item::on_wield( player &p, int mv )
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
     int wield_cost = on_wield_cost( p );
     mv += wield_cost;
     p.moves -= wield_cost;
@@ -4454,10 +4472,6 @@ void item::on_pickup( Character &p )
     // Fake characters are used to determine pickup weight and volume
     if( p.is_fake() ) {
         return;
-    }
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
@@ -5187,7 +5201,7 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NULL && dt < NUM_DT );
+    assert( dt >= DT_NONE && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
@@ -5234,7 +5248,7 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
+    for( size_t i = DT_NONE + 1; i < NUM_DT; i++ ) {
         damage_type dt = static_cast<damage_type>( i );
         int dam = damage_melee( dt );
         if( dam > 0 ) {
@@ -6240,7 +6254,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
 bool item::mod_damage( const int qty )
 {
-    return mod_damage( qty, DT_NULL );
+    return mod_damage( qty, DT_NONE );
 }
 
 bool item::inc_damage( const damage_type dt )
@@ -6250,7 +6264,7 @@ bool item::inc_damage( const damage_type dt )
 
 bool item::inc_damage()
 {
-    return inc_damage( DT_NULL );
+    return inc_damage( DT_NONE );
 }
 
 nc_color item::damage_color() const
@@ -6364,7 +6378,7 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             return 0;
         case DT_TRUE:
@@ -6703,7 +6717,7 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         if( is_melee( static_cast<damage_type>( idx ) ) ) {
             return true;
         }
@@ -6950,11 +6964,6 @@ bool item::is_tool() const
 bool item::is_transformable() const
 {
     return type->use_methods.find( "transform" ) != type->use_methods.end();
-}
-
-bool item::is_artifact() const
-{
-    return !!type->artifact;
 }
 
 bool item::is_relic() const
@@ -7215,7 +7224,7 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         const int val = damage_melee( static_cast<damage_type>( idx ) );
         const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
@@ -7676,6 +7685,11 @@ std::vector<const item *> item::gunmods() const
 std::vector<const item *> item::mods() const
 {
     return contents.mods();
+}
+
+std::vector<const item *> item::softwares() const
+{
+    return contents.softwares();
 }
 
 item *item::gunmod_find( const itype_id &mod )
@@ -8947,7 +8961,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
+            it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9334,18 +9348,31 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
+std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
 {
-    if( !is_artifact() ) {
-        return;
+    if( !is_relic() ) {
+        return std::vector<trait_id> {};
     }
-    // Artifacts are currently only useful for the player character, the messages
-    // don't consider npcs. Also they are not processed when laying on the ground.
-    // TODO: change game::process_artifact to work with npcs,
-    // TODO: consider moving game::process_artifact here.
-    if( carrier && carrier->is_avatar() ) {
-        g->process_artifact( *this, *carrier );
+    std::vector<trait_id> muts;
+
+    for( const enchantment &ench : relic_data->get_enchantments() ) {
+        for( const trait_id &mut : ench.get_mutations() ) {
+            // this may not be perfectly accurate due to conditions
+            muts.push_back( mut );
+        }
     }
+
+    for( const trait_id &char_mut : guy.get_mutations() ) {
+        for( auto iter = muts.begin(); iter != muts.end(); ) {
+            if( char_mut == *iter ) {
+                iter = muts.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+    return muts;
 }
 
 void item::overwrite_relic( const relic &nrelic )
@@ -9923,41 +9950,6 @@ void item::mod_charges( int mod )
     }
 }
 
-bool item::has_effect_when_wielded( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_wielded;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_worn( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_worn;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_carried( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ec = type->artifact->effects_carried;
-    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
-        return true;
-    }
-    for( const item *i : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->has_effect_when_carried( effect ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool item::is_seed() const
 {
     return !!type->seed;
@@ -10200,17 +10192,6 @@ time_duration item::age() const
 void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
-}
-
-void item::legacy_fast_forward_time()
-{
-    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
-    bday = calendar::turn_zero + tmp_bday;
-
-    rot *= 6;
-
-    const time_duration tmp_temp = ( last_temp_check - calendar::turn_zero ) * 6;
-    last_temp_check = calendar::turn_zero + tmp_temp;
 }
 
 time_point item::birthday() const

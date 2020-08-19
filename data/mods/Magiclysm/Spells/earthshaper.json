@@ -232,7 +232,7 @@
     "description": "This is a sub spell for the Lava Bomb spell.",
     "effect": "projectile_attack",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
-    "damage_type": "fire",
+    "damage_type": "heat",
     "max_level": 30,
     "min_damage": 10,
     "max_damage": 90,

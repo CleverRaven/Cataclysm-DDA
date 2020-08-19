@@ -22,7 +22,6 @@ class JsonIn;
 class JsonOut;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class mutagen_technique : int;
 
 namespace debug_menu
@@ -60,6 +59,7 @@ enum class cata_variant_type : int {
     spell_id,
     string,
     ter_id,
+    ter_str_id,
     trait_id,
     trap_str_id,
     tripoint,
@@ -100,14 +100,6 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
     }
     // No match
     return cata_variant_type::num_types;
-}
-
-template<typename T>
-constexpr cata_variant_type type_for()
-{
-    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
-    return type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
 }
 
 // Inherit from this struct to easily implement convert specializations for any
@@ -165,7 +157,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 29,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 30,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -184,7 +176,7 @@ template<>
 struct convert<cata_variant_type::bionic_id> : convert_string_id<bionic_id> {};
 
 template<>
-struct convert<cata_variant_type::body_part> : convert_enum<body_part> {};
+struct convert<cata_variant_type::body_part> : convert_int_id<bodypart_id> {};
 
 template<>
 struct convert<cata_variant_type::bool_> {
@@ -290,6 +282,9 @@ template<>
 struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
 
 template<>
+struct convert<cata_variant_type::ter_str_id> : convert_string_id<ter_str_id> {};
+
+template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
 
 template<>
@@ -308,6 +303,14 @@ struct convert<cata_variant_type::tripoint> {
 
 } // namespace cata_variant_detail
 
+template<typename T>
+constexpr cata_variant_type cata_variant_type_for()
+{
+    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
+    using SimpleT = std::remove_cv_t<std::remove_reference_t<T>>;
+    return cata_variant_detail::type_for_impl<SimpleT>( std::make_index_sequence<num_types> {} );
+}
+
 class cata_variant
 {
     public:
@@ -319,9 +322,9 @@ class cata_variant
         // value passed.
         template < typename Value,
                    typename = std::enable_if_t <(
-                           cata_variant_detail::type_for<Value>() < cata_variant_type::num_types )>>
+                           cata_variant_type_for<Value>() < cata_variant_type::num_types )>>
         explicit cata_variant( Value && value ) {
-            constexpr cata_variant_type Type = cata_variant_detail::type_for<Value>();
+            constexpr cata_variant_type Type = cata_variant_type_for<Value>();
             type_ = Type;
             value_ =
                 cata_variant_detail::convert<Type>::to_string( std::forward<Value>( value ) );
@@ -336,6 +339,13 @@ class cata_variant
             return cata_variant(
                 Type, cata_variant_detail::convert<Type>::to_string(
                     std::forward<Value>( value ) ) );
+        }
+
+        // Call this to construct from a type + string.  This should rarely be
+        // necessary, so think twice before using it (that's why the equivalent
+        // constructor is private).
+        static cata_variant from_string( cata_variant_type t, std::string &&v ) {
+            return cata_variant( t, std::move( v ) );
         }
 
         cata_variant_type type() const {
@@ -355,7 +365,7 @@ class cata_variant
 
         template<typename T>
         T get() const {
-            return get<cata_variant_detail::type_for<T>()>();
+            return get<cata_variant_type_for<T>()>();
         }
 
         const std::string &get_string() const {

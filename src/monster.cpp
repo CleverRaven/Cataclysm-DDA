@@ -275,7 +275,7 @@ void monster::setpos( const tripoint &p )
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
-        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+        add_msg_debug( "Ridden monster %s moved independently and dumped player", get_name() );
         mounted_player->forced_dismount();
     }
     if( wandering ) {
@@ -1299,7 +1299,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
             return true;
         case DT_TRUE:
             return false;
@@ -1343,8 +1343,8 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
-        add_msg( m_debug, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                 name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
+        add_msg_debug( "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
@@ -1492,9 +1492,9 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     // Add any on damage effects
-    for( const auto &eff : type->atk_effs ) {
+    for( const mon_effect_data &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit : convert_bp( eff.bp ).id();
+            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit :  eff.bp.id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1569,8 +1569,8 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
                 return;
             }
             break;
-        case DT_NULL:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NULL" );
+        case DT_NONE:
+            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NONE" );
             break;
         case DT_ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
@@ -1857,7 +1857,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
         case DT_COLD:
         case DT_ELECTRIC:
             return worn_armor;
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             // Let it error below
             break;
@@ -2963,8 +2963,8 @@ void monster::on_load()
         healed_speed = get_speed_base() - old_speed;
     }
 
-    add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
-             name(), to_turns<int>( dt ), healed, healed_speed );
+    add_msg_debug( "on_load() by %s, %d turns, healed %d hp, %d speed",
+                   name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
 const pathfinding_settings &monster::get_pathfinding_settings() const

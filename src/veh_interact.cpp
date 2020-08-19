@@ -210,7 +210,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact( vehicle &veh, const point &p )
-    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keychar )
+    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keycode )
 {
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {
@@ -1359,7 +1359,7 @@ void veh_interact::do_refill()
     auto act = [&]( const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
-                if( obj.is_container() && !obj.contents.empty() ) {
+                if( obj.is_watertight_container() && !obj.contents.empty() ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
                     return pt.can_reload( obj.contents.only_item() );
                 }
@@ -1387,38 +1387,45 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
-    const auto next_hotkey = [&]( const vehicle_part & pt, char &hotkey ) {
+    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
         if( overview_action && overview_enable && overview_enable( pt ) ) {
-            const char ret = hotkey;
-            // Calculate next hotkey
-            ++hotkey;
-            bool finish = false;
-            while( !finish ) {
-                switch( hotkey ) {
-                    default:
-                        finish = true;
-                        break;
-                    case '{':
-                        hotkey = 'A';
-                        break;
-                    case 'c':
-                    case 'g':
-                    case 'j':
-                    case 'k':
-                    case 'l':
-                    case 'p':
-                    case 'q':
-                    case 't':
-                    case 'v':
-                    case 'x':
-                    case 'z':
-                        ++hotkey;
-                        break;
+            switch( evt.type ) {
+                case input_event_t::keyboard_char: {
+                    const input_event next = evt;
+                    do {
+                        if( evt.sequence[0] == 'z' ) {
+                            evt.sequence[0] = 'A';
+                        } else if( evt.sequence[0] == 'Z' ) {
+                            evt = input_event();
+                        } else {
+                            ++evt.sequence[0];
+                        }
+                    } while( evt.type == input_event_t::keyboard_char &&
+                             main_context.input_to_action( evt ) != "ERROR" );
+                    return next;
                 }
+                case input_event_t::keyboard_code: {
+                    const input_event next = evt;
+                    do {
+                        if( evt.sequence[0] == 'z' ) {
+                            if( evt.modifiers.count( keymod_t::shift ) ) {
+                                evt = input_event();
+                            } else {
+                                evt.sequence[0] = 'a';
+                                evt.modifiers.emplace( keymod_t::shift );
+                            }
+                        } else {
+                            ++evt.sequence[0];
+                        }
+                    } while( evt.type == input_event_t::keyboard_code &&
+                             main_context.input_to_action( evt ) != "ERROR" );
+                    return next;
+                }
+                default:
+                    return input_event();
             }
-            return ret;
         } else {
-            return '\0';
+            return input_event();
         }
     };
 
@@ -1476,7 +1483,9 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
-    char hotkey = 'a';
+    input_event hotkey = main_context.is_event_type_enabled( input_event_t::keyboard_code )
+                         ? input_event( 'a', input_event_t::keyboard_code )
+                         : input_event( 'a', input_event_t::keyboard_char );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( vpr.part().is_engine() && vpr.part().is_available() ) {
@@ -1505,58 +1514,61 @@ void veh_interact::calc_overview()
     }
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            if( !pt.ammo_current().is_null() ) {
+                std::string specials;
+                // vehicle parts can only have one pocket, and we are showing a liquid,
+                // which can only be one.
+                const item &it = pt.base.contents.legacy_front();
+                // a space isn't actually needed in front of the tags here,
+                // but item::display_name tags use a space so this prevents
+                // needing *second* translation for the same thing with a
+                // space in front of it
+                if( it.item_tags.count( "FROZEN" ) ) {
+                    specials += _( " (frozen)" );
+                } else if( it.rotten() ) {
+                    specials += _( " (rotten)" );
+                }
+                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                int offset = 1;
+                std::string fmtstring = "%s %s  %5.1fL";
+                if( pt.is_leaking() ) {
+                    fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, pt_ammo_cur->color,
+                             string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
+                                            round_up( units::to_liter( it.volume() ), 1 ) ) );
+            } else {
+                if( pt.is_leaking() ) {
+                    std::string outputstr = leak_marker + "      " + leak_marker;
+                    right_print( w, y, 0, c_light_gray, outputstr );
+                }
+            }
+        };
+        auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            if( !pt.ammo_current().is_null() ) {
+                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                double vol_L = to_liter( pt.ammo_remaining() * units::legacy_volume_factor /
+                                         pt_ammo_cur->stack_size );
+                int offset = 1;
+                std::string fmtstring = "%s  %5.1fL";
+                if( pt.is_leaking() ) {
+                    fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, pt_ammo_cur->color,
+                             string_format( fmtstring, item::nname( pt.ammo_current() ),
+                                            round_up( vol_L, 1 ) ) );
+            }
+        };
         if( vpr.part().is_tank() && vpr.part().is_available() ) {
-            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( !pt.ammo_current().is_null() ) {
-                    std::string specials;
-                    // vehicle parts can only have one pocket, and we are showing a liquid, which can only be one.
-                    const item &it = pt.base.contents.legacy_front();
-                    // a space isn't actually needed in front of the tags here,
-                    // but item::display_name tags use a space so this prevents
-                    // needing *second* translation for the same thing with a
-                    // space in front of it
-                    if( it.item_tags.count( "FROZEN" ) ) {
-                        specials += _( " (frozen)" );
-                    } else if( it.rotten() ) {
-                        specials += _( " (rotten)" );
-                    }
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    int offset = 1;
-                    std::string fmtstring = "%s %s  %5.1fL";
-                    if( pt.is_leaking() ) {
-                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
-                        offset = 0;
-                    }
-                    right_print( w, y, offset, pt_ammo_cur->color,
-                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
-                } else {
-                    if( pt.is_leaking() ) {
-                        std::string outputstr = leak_marker + "      " + leak_marker;
-                        right_print( w, y, 0, c_light_gray, outputstr );
-                    }
-                }
-            };
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
-        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() || vpr.part().is_reactor() ) &&
-                   !vpr.part().is_broken() ) {
-            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                if( !pt.ammo_current().is_null() ) {
-                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    int offset = 1;
-                    std::string fmtstring = "%s  %5.1fL";
-                    if( pt.is_leaking() ) {
-                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
-                        offset = 0;
-                    }
-                    right_print( w, y, offset, pt_ammo_cur->color,
-                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
-                                                round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
-                }
-            };
-            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                        tank_details );
+        } else if( vpr.part().is_fuel_store() && !( vpr.part().is_battery() ||
+                   vpr.part().is_reactor() ) && !vpr.part().is_broken() ) {
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                        no_tank_details );
         }
     }
 
@@ -1649,11 +1661,27 @@ void veh_interact::display_overview()
         }
 
         // print part name
-        nc_color col = overview_opts[idx].hotkey ? c_white : c_dark_gray;
+        const input_event &hotkey = overview_opts[idx].hotkey;
+        nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
+        std::string maybe_shift_symbol;
+        switch( hotkey.type ) {
+            case input_event_t::keyboard_char:
+                maybe_shift_symbol = " ";
+                break;
+            case input_event_t::keyboard_code:
+                if( hotkey.modifiers.count( keymod_t::shift ) ) {
+                    maybe_shift_symbol = "\u21E7"; // upwards white arrow
+                } else {
+                    maybe_shift_symbol = " ";
+                }
+                break;
+            default:
+                maybe_shift_symbol = " ";
+        }
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
-                        "<color_dark_gray>%c </color>%s",
-                        overview_opts[idx].hotkey ? overview_opts[idx].hotkey : ' ', pt.name() );
+                        "<color_dark_gray>%s%c </color>%s", maybe_shift_symbol,
+                        hotkey != input_event() ? hotkey.sequence[0] : ' ', pt.name() );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
@@ -1693,12 +1721,12 @@ void veh_interact::overview( const overview_enable_t &enable,
                     overview_pos = -1;
                     break; // nothing could be selected
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         }
 
         const bool has_any_hotkey = std::any_of( overview_opts.begin(), overview_opts.end(),
         []( const part_option & e ) {
-            return e.hotkey;
+            return e.hotkey != input_event();
         } );
         if( !has_any_hotkey ) {
             return; // nothing is selectable
@@ -1719,7 +1747,7 @@ void veh_interact::overview( const overview_enable_t &enable,
 
         const std::string input = main_context.handle_input();
         msg.reset();
-        if( input == "CONFIRM" && overview_opts[overview_pos].hotkey && overview_action ) {
+        if( input == "CONFIRM" && overview_opts[overview_pos].hotkey != input_event() && overview_action ) {
             overview_action( *overview_opts[overview_pos].part );
             break;
 
@@ -1732,18 +1760,18 @@ void veh_interact::overview( const overview_enable_t &enable,
                 if( --overview_pos < 0 ) {
                     overview_pos = overview_opts.size() - 1;
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         } else if( input == "DOWN" ) {
             do {
                 move_overview_line( 1 );
                 if( ++overview_pos >= static_cast<int>( overview_opts.size() ) ) {
                     overview_pos = 0;
                 }
-            } while( !overview_opts[overview_pos].hotkey );
+            } while( overview_opts[overview_pos].hotkey == input_event() );
         } else {
             // did we try and activate a hotkey option?
-            char hotkey = main_context.get_raw_input().get_first_input();
-            if( hotkey && overview_action ) {
+            const input_event hotkey = main_context.get_raw_input();
+            if( hotkey != input_event() && overview_action ) {
                 auto iter = std::find_if( overview_opts.begin(),
                 overview_opts.end(), [&hotkey]( const part_option & e ) {
                     return e.hotkey == hotkey;
@@ -2503,7 +2531,7 @@ void veh_interact::display_stats() const
     vehicle_part *most_repairable = get_most_repariable_part();
 
     // Write the most damaged part
-    if( mostDamagedPart ) {
+    if( mostDamagedPart && mostDamagedPart->damage_percent() ) {
         const std::string damaged_header = mostDamagedPart == most_repairable ?
                                            _( "Most damaged:" ) :
                                            _( "Most damaged (can't repair):" );

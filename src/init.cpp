@@ -677,6 +677,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
             { _( "Constructions" ), &check_constructions },
+            { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },

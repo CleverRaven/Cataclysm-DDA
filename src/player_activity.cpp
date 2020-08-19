@@ -126,12 +126,19 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         return cata::optional<std::string>();
     }
 
+    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
+        type == activity_id( "ACT_AIM" ) ||
+        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
+        type == activity_id( "ACT_ATM" ) ||
+        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
+        type == activity_id( "ACT_EAT_MENU" ) ) {
+        return cata::nullopt;
+    }
+
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
-        if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
-        }
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -153,9 +160,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_DISASSEMBLE" ) ||
+            type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
@@ -174,6 +180,10 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                 extra_info = string_format( "%d%%", percentage );
             }
         }
+    }
+
+    if( actor ) {
+        extra_info = actor->get_progress_message( *this );
     }
 
     return extra_info.empty() ? string_format( _( "%s…" ),
@@ -195,6 +205,12 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    // Specifically call the do turn function for the cancellation activity early
+    // This is because the game can get stuck trying to fuel a fire when it's not...
+    if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        actor->do_turn( *this, p );
+        return;
+    }
     // first to ensure sync with actor
     sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves

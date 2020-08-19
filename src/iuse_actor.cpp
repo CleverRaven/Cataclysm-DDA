@@ -695,7 +695,7 @@ static effect_data load_effect_data( const JsonObject &e )
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
     return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+                        bodypart_id( e.get_string( "bp", "bp_null" ) ), e.get_bool( "permanent", false ) );
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -777,14 +777,14 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( const auto &eff : effects ) {
+    for( const effect_data &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
         } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p.add_effect( eff.id, dur, convert_bp( eff.bp ).id(), eff.permanent );
+        p.add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
     //Apply the various damage_over_time
     for( const damage_over_time_data &Dot : damage_over_time ) {
@@ -3062,7 +3062,7 @@ static player &get_patient( player &healer, const tripoint &pos )
     player *const person = g->critter_at<player>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
-        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        add_msg_debug( "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
@@ -3254,7 +3254,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     }
 
     for( const auto &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, convert_bp( eff.bp ).id(), eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
     if( !used_up_item_id.is_empty() ) {
@@ -4395,7 +4395,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 
     // Apply the various effects.
     for( const auto &eff : effects ) {
-        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ).id(), eff.permanent );
+        p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
     return charges_to_use;
 }
