@@ -1506,7 +1506,7 @@ void input_manager::wait_for_any_key()
     input_context ctxt( "WAIT_FOR_ANY_KEY", keyboard_mode::keycode );
 #endif
     while( true ) {
-        const input_event evt = inp_mngr.get_input_event( keyboard_mode::keycode );
+        const input_event evt = inp_mngr.get_input_event();
         switch( evt.type ) {
             case input_event_t::keyboard_char:
                 if( !evt.sequence.empty() ) {

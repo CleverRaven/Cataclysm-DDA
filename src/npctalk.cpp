@@ -1479,7 +1479,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         do {
             ui_manager::redraw();
             if( !text_only ) {
-                ch = inp_mngr.get_input_event().get_first_input();
+                ch = inp_mngr.get_input_event( keyboard_mode::keychar ).get_first_input();
             }
             d_win.handle_scrolling( ch );
             auto st = special_talk( ch );

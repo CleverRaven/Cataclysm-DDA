@@ -345,7 +345,7 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
+        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode );
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
