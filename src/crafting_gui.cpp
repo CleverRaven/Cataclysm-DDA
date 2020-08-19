@@ -48,6 +48,7 @@ enum TAB_MODE {
     BATCH
 };
 
+// TODO: Convert these globals to handling categories via generic_factory?
 std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
@@ -1178,4 +1179,13 @@ bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::
         }
     }
     return false;
+}
+
+const std::vector<std::string> *subcategories_for_category( const std::string &category )
+{
+    auto it = craft_subcat_list.find( category );
+    if( it != craft_subcat_list.end() ) {
+        return &it->second;
+    }
+    return nullptr;
 }
