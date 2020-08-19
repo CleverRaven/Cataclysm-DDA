@@ -93,7 +93,7 @@
     "type": "GUN",
     "name": "survivor subgun",
     "ammo": [ "ammo_pistol" ],
-    "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies... right?  Accepts standard pistol ammunition.",
+    "description": "A crudely constructed fully automatic submachinegun, accepting standard pistol and submachine gun magazines.  The heavy bolt makes accurate fire difficult, and its questionable construction makes for poor reliability and longevity.  Similar designs of desperation from the Second World War served their nations well enough, so this should be good for zombies… right?  Accepts standard pistol ammunition.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
