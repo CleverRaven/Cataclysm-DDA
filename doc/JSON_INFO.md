@@ -2348,7 +2348,7 @@ CBMs can be defined like this:
                             // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
-"use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
+"use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
 "radiation": 8,             // How much radiation you get from this comestible.
