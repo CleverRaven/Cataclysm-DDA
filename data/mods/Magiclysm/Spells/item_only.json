@@ -121,7 +121,6 @@
     "damage_type": "bio",
     "difficulty": 0,
     "spell_class": "NONE",
-    "effect": "target_attack",
     "base_casting_time": 300,
     "base_energy_cost": 2,
     "min_duration": 43200,
