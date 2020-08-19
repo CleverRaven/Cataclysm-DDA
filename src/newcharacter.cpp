@@ -142,7 +142,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
         return styles.front();
     }
 
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist menu;
