@@ -98,7 +98,7 @@
     "cutting": 35,
     "relic_data": {
       "passive_effects": [
-        { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "BONUS_DAMAGE", "damage_type": "heat", "add": 35 } ] }
+        { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] }
       ]
     },
     "price": 200000

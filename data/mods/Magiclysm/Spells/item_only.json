@@ -136,5 +136,16 @@
     "effect": "target_attack",
     "flags": [ "NO_HANDS", "NO_LEGS" ],
     "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+  },
+  {
+    "id": "wolfsbane",
+    "type": "SPELL",
+    "name": { "str": "Wolfsbane" },
+    "description": "The spear's tip turns white hot as you go to strike.",
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "damage_type": "fire",
+    "min_damage": 35
   }
 ]
