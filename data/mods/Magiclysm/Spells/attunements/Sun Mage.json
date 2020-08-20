@@ -8,7 +8,7 @@
     "flags": [ "SOMATIC" ],
     "effect": "line_attack",
     "effect_str": "blind",
-    "damage_type": "fire",
+    "damage_type": "heat",
     "min_damage": 20,
     "damage_increment": 7.5,
     "max_damage": 280,

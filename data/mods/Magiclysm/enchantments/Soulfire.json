@@ -11,7 +11,7 @@
     "max_damage": 3,
     "min_aoe": 3,
     "max_aoe": 3,
-    "damage_type": "fire",
+    "damage_type": "heat",
     "sound_description": "a grunt and a sizzle",
     "sound_id": "fire_spell",
     "sound_variant": "weak"
