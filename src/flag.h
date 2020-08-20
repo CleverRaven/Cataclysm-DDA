@@ -25,6 +25,11 @@ class json_flag
             return info_;
         }
 
+        /** Get "restriction" phrase, saying what items with this flag must be able to do */
+        const std::string &restriction() const {
+            return restriction_;
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -53,6 +58,7 @@ class json_flag
     private:
         const std::string id_;
         std::string info_;
+        std::string restriction_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;
