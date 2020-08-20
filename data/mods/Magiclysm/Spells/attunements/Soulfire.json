@@ -7,7 +7,7 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC" ],
     "effect": "target_attack",
-    "damage_type": "fire",
+    "damage_type": "heat",
     "min_damage": 30,
     "damage_increment": 10.0,
     "max_damage": 380,
