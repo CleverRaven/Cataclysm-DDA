@@ -46,6 +46,7 @@
     "id": "BELT_CLIP",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
+    "restriction": "Item must have a belt clip",
     "info": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
   },
   {
@@ -413,12 +414,14 @@
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
+    "restriction": "Item must fit in a sheath",
     "//": "This item can be stored in a sheath of the appropriate size."
   },
   {
     "id": "SHEATH_SWORD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
+    "restriction": "Item must fit in a scabbard",
     "//": "This item can be stored in a scabbard of the appropriate size."
   },
   {
