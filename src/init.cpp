@@ -1,6 +1,5 @@
 #include "init.h"
 
-#include <cassert>
 #include <cstddef>
 #include <fstream>
 #include <iterator>
@@ -19,6 +18,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "cata_assert.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -417,7 +417,8 @@ void DynamicDataLoader::initialize()
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -564,7 +565,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
-    assert( !finalized && "Can't finalize the data twice." );
+    cata_assert( !finalized && "Can't finalize the data twice." );
     ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;

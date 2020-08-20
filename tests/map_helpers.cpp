@@ -1,11 +1,11 @@
 #include "map_helpers.h"
 
-#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
@@ -114,7 +114,7 @@ void clear_map_and_put_player_underground()
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    assert( added );
+    cata_assert( added );
     return *added;
 }
 

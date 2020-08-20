@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
@@ -22,6 +21,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -4988,7 +4988,7 @@ units::mass item::weight( bool, bool integral ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        assert( corpse ); // To appease static analysis
+        cata_assert( corpse ); // To appease static analysis
         ret = corpse->weight;
         if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
             ret *= 0.75;
@@ -5201,7 +5201,7 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NONE && dt < NUM_DT );
+    cata_assert( dt >= DT_NONE && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
@@ -10256,31 +10256,31 @@ const recipe &item::get_making() const
         static const recipe dummy{};
         return dummy;
     }
-    assert( craft_data_->making );
+    cata_assert( craft_data_->making );
     return *craft_data_->making;
 }
 
 void item::set_tools_to_continue( bool value )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->tools_to_continue = value;
 }
 
 bool item::has_tools_to_continue() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->tools_to_continue;
 }
 
 void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->cached_tool_selections = selections;
 }
 
 const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->cached_tool_selections;
 }
 

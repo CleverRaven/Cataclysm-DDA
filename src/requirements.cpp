@@ -1,7 +1,6 @@
 #include "requirements.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -13,6 +12,7 @@
 #include <stack>
 #include <unordered_set>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -1303,8 +1303,8 @@ static void expand_item_in_reqs(
     const requirement_data::alter_item_comp_vector &to_expand, size_t orig_index, size_t index,
     std::vector<requirement_data::alter_item_comp_vector> &result )
 {
-    assert( req_prefix.size() >= orig_index );
-    assert( orig_index < index );
+    cata_assert( req_prefix.size() >= orig_index );
+    cata_assert( orig_index < index );
 
     if( index == to_expand.size() ) {
         // We reached the end without using the leftovers.  So need to add them

@@ -1,5 +1,6 @@
 #include "inventory_ui.h"
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -40,7 +41,6 @@
 #endif
 
 #include <algorithm>
-#include <cassert>
 #include <iterator>
 #include <limits>
 #include <map>
@@ -105,7 +105,7 @@ class selection_column_preset : public inventory_selector_preset
                 res += string_format( "%d ", available_count );
             }
             if( item->is_money() ) {
-                assert( available_count == entry.get_stack_size() );
+                cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                     res += item->display_money( available_count, item->ammo_remaining(),
                                                 entry.get_selected_charges() );
@@ -144,7 +144,7 @@ int inventory_entry::get_total_charges() const
 
 int inventory_entry::get_selected_charges() const
 {
-    assert( chosen_count <= locations.size() );
+    cata_assert( chosen_count <= locations.size() );
     int result = 0;
     for( size_t i = 0; i < chosen_count; ++i ) {
         const item_location &location = locations[i];
@@ -457,7 +457,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 const inventory_column::entry_cell_cache_t &inventory_column::get_entry_cell_cache(
     size_t index ) const
 {
-    assert( index < entries.size() );
+    cata_assert( index < entries.size() );
 
     if( entries_cell_cache.size() < entries.size() ) {
         entries_cell_cache.resize( entries.size() );
@@ -562,7 +562,7 @@ void inventory_column::reset_width( const std::vector<inventory_column *> & )
 
 size_t inventory_column::page_of( size_t index ) const
 {
-    assert( entries_per_page ); // To appease static analysis
+    cata_assert( entries_per_page ); // To appease static analysis
     // NOLINTNEXTLINE(clang-analyzer-core.DivideZero)
     return index / entries_per_page;
 }
@@ -1682,7 +1682,7 @@ void inventory_selector::resize_window( int width, int height )
 
 void inventory_selector::refresh_window()
 {
-    assert( w_inv );
+    cata_assert( w_inv );
 
     werase( w_inv );
 

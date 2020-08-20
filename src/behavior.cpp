@@ -1,6 +1,5 @@
 #include "behavior.h"
 
-#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -8,6 +7,7 @@
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "cata_assert.h"
 #include "generic_factory.h"
 #include "debug.h"
 #include "json.h"
@@ -44,7 +44,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
         }
         return { result, this };
     } else {
-        assert( strategy != nullptr );
+        cata_assert( strategy != nullptr );
         status_t result = status_t::running;
         for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
             result = predicate_pair.first( subject, predicate_pair.second );

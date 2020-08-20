@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
@@ -16,6 +15,7 @@
 #include "assign.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1404,7 +1404,7 @@ void Item_factory::check_definitions() const
         for( const auto &elem : type->use_methods ) {
             const iuse_actor *actor = elem.second.get_actor_ptr();
 
-            assert( actor );
+            cata_assert( actor );
             if( !actor->is_valid() ) {
                 msg += string_format( "item action \"%s\" was not described.\n", actor->type.c_str() );
             }
@@ -1437,7 +1437,7 @@ void Item_factory::check_definitions() const
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
-    assert( frozen );
+    cata_assert( frozen );
 
     auto found = m_templates.find( id );
     if( found != m_templates.end() ) {
@@ -1526,7 +1526,7 @@ void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
 
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
 {
-    assert( !frozen );
+    cata_assert( !frozen );
 
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
@@ -3623,7 +3623,7 @@ bool Item_factory::has_template( const itype_id &id ) const
 
 std::vector<const itype *> Item_factory::all() const
 {
-    assert( frozen );
+    cata_assert( frozen );
 
     std::vector<const itype *> res;
     res.reserve( m_templates.size() + m_runtimes.size() );

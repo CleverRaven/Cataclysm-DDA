@@ -1327,7 +1327,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
                 const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
-    assert( it != tab_texts.end() );
+    cata_assert( it != tab_texts.end() );
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
 }
 
