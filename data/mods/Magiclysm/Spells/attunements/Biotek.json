@@ -1,0 +1,26 @@
+[
+    {
+      "type": "SPELL",
+      "id": "nitro_boost",
+      "name": "Nitro Boost",
+      "description": "You overclock your flesh and bionics, charging so fast the friction can ignite the air, to wind up for a skull-cracking punch.",
+      "valid_targets": [ "hostile", "ground" ],
+      "effect": "dash",
+      "effect_str": "downed",
+      "min_damage": 0,
+      "max_damage": 350,
+      "damage_increment": 10,
+      "damage_type": "bash",
+      "min_range": 8,
+      "max_range": 8,
+      "field_id": "fd_fire",
+      "min_field_intensity": 2,
+      "max_field_intensity": 2,
+      "spell_class": "BIOTEK",
+      "base_casting_time": 300,
+      "base_energy_cost": 350,
+      "max_level": 35,
+      "energy_type": "BIONIC"
+    }
+  ]
+  

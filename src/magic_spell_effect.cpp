@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -189,12 +190,10 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     return targets;
 }
 
-std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
-        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_cone_range_override( const spell &sp, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls, const int range )
 {
     std::set<tripoint> targets;
-    // cones go all the way to end (if they don't hit an obstacle)
-    const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
@@ -216,6 +215,14 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     // we don't want to hit ourselves in the blast!
     targets.erase( source );
     return targets;
+}
+
+std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range() + 1;
+    return spell_effect_cone_range_override( sp, source, target, aoe_radius, ignore_walls, range );
 }
 
 static bool test_always_true( const tripoint & )
@@ -1101,6 +1108,50 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
         // the bash already makes noise, so no need for spell::make_sound()
         here.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
+}
+
+void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const tripoint &source = caster.pos();
+    const std::vector<tripoint> trajectory_local = line_to( source, target );
+    ::map &here = get_map();
+    // uses abs() coordinates
+    std::vector<tripoint> trajectory;
+    for( const tripoint &local_point : trajectory_local ) {
+        trajectory.push_back( here.getabs( local_point ) );
+    }
+    avatar *caster_you = caster.as_avatar();
+    auto walk_point = trajectory.begin();
+    if( *walk_point == source ) {
+        ++walk_point;
+    }
+    // save the amount of moves the caster has so we can restore them after the dash
+    const int cur_moves = caster.moves;
+    while( walk_point != trajectory.end() ) {
+        if( caster_you != nullptr ) {
+            if( g->critter_at( here.getlocal( *walk_point ) ) ||
+                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+                --walk_point;
+                break;
+            } else {
+                sp.create_field( here.getlocal( *( walk_point - 1 ) ) );
+                g->draw_ter();
+            }
+        }
+        ++walk_point;
+    }
+    if( walk_point == trajectory.end() ) {
+        // we want the last tripoint in the actually reached trajectory
+        --walk_point;
+    }
+    caster.moves = cur_moves;
+
+    tripoint far_target;
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
+                  far_target );
+    const std::set<tripoint> hit_area = spell_effect_cone_range_override(
+                                            sp, source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
+    damage_targets( sp, caster, hit_area );
 }
 
 void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint &target )
