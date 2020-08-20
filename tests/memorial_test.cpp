@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#inclyde "achievements.h"
+#include "achievements.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "character_id.h"
