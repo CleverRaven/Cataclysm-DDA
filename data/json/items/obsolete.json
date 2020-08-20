@@ -2762,7 +2762,6 @@
     "volume": "250 ml"
   },
   {
-    "type": "GENERIC",
     "id": "hybridbow",
     "looks_like": "longbow",
     "type": "GUN",
