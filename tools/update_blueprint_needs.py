@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import getopt
+import glob
 import json
 import os
 import re
@@ -121,7 +122,9 @@ def main(argv):
                 if changed:
                     with open(json_path, 'w', encoding='utf-8') as fs:
                         json.dump(content, fs, indent=2)
-                    subprocess.run(["tools/format/json_formatter", json_path], stdout=subprocess.DEVNULL)
+                    json_formatter_name = glob.glob('tools/format/json_formatter.[ec]*')
+                    assert len(json_formatter_name) == 1
+                    subprocess.run([json_formatter_name[0], json_path], stdout=subprocess.DEVNULL)
 
 
 if __name__ == "__main__":
