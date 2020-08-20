@@ -654,12 +654,6 @@
     "default": "water"
   },
   {
-    "id": "oxygen",
-    "name": "oxygen",
-    "default": "oxygen",
-    "type": "ammunition_type"
-  },
-  {
     "type": "ammunition_type",
     "id": "300blk",
     "name": ".300 AAC Blackout",

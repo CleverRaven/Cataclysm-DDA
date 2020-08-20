@@ -123,14 +123,14 @@
     "responses": [
       {
         "text": "Yes, I'm a marshal.",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_JACK",
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_JACK",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -251,7 +251,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
+    "id": "TALK_LEAVE_NOW_MARSHAL_JACK",
     "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
