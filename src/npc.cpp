@@ -975,8 +975,7 @@ void npc::finish_read( item &book )
         }
 
         if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-            ( ( has_trait( trait_SCHIZOPHRENIC ) ||
-                has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+            ( has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
             if( display_messages ) {
                 add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
             }
@@ -1145,6 +1144,7 @@ bool npc::wield( item &it )
         return true;
     }
 
+    invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
@@ -1311,7 +1311,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+    add_msg_debug( "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
 }
 
 void npc::mutiny()
@@ -2150,8 +2150,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 void npc::npc_dismount()
 {
     if( !mounted_creature || !has_effect( effect_riding ) ) {
-        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount, or they are not riding",
-                 disp_name() );
+        add_msg_debug( "NPC %s tried to dismount, but they have no mount, or they are not riding",
+                       disp_name() );
         return;
     }
     cata::optional<tripoint> pnt;
@@ -2162,7 +2162,7 @@ void npc::npc_dismount()
         }
     }
     if( !pnt ) {
-        add_msg( m_debug, "NPC %s could not find a place to dismount.", disp_name() );
+        add_msg_debug( "NPC %s could not find a place to dismount.", disp_name() );
         return;
     }
     remove_effect( effect_riding );
@@ -2715,7 +2715,7 @@ void npc::on_load()
     // TODO: Sleeping, healing etc.
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
-    add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
+    add_msg_debug( "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
@@ -2757,8 +2757,8 @@ void npc::on_load()
         if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
-            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
-                     disp_name() );
+            add_msg_debug( "NPC is meant to be riding, though the mount is not found when %s is loaded",
+                           disp_name() );
         }
     }
     if( has_trait( trait_HALLUCINATION ) ) {
@@ -3144,8 +3144,8 @@ void npc::set_attitude( npc_attitude new_attitude )
         add_effect( effect_npc_flee_player, 24_hours );
     }
 
-    add_msg( m_debug, "%s changes attitude from %s to %s",
-             name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
+    add_msg_debug( "%s changes attitude from %s to %s",
+                   name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() && get_player_view().sees( *this ) ) {

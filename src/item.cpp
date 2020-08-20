@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
@@ -22,6 +21,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -1845,8 +1845,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( player_character.has_trait( trait_CARNIVORE ) ||
-                                       player_character.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_trait( trait_CARNIVORE ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
@@ -2070,6 +2069,26 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
+    }
+    if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
+        for( const std::string &effect : ammo.ammo_effects ) {
+            if( effect.compare( 0, 8, "RECOVER_" ) == 0 ) {
+                int recover_chance;
+                sscanf( effect.c_str(), "RECOVER_%i", &recover_chance );
+                if( recover_chance <= 5 ) {
+                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 10 ) {
+                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 20 ) {
+                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 30 ) {
+                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+                } else {
+                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
+                }
+                break;
+            }
+        }
     }
     if( ammo.ammo_effects.count( "INCENDIARY" ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
@@ -4330,10 +4349,6 @@ void item::on_wear( Character &p )
         }
     }
 
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_worn );
-    }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -4382,11 +4397,6 @@ int item::on_wield_cost( const player &p ) const
 
 void item::on_wield( player &p, int mv )
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
     int wield_cost = on_wield_cost( p );
     mv += wield_cost;
     p.moves -= wield_cost;
@@ -4462,10 +4472,6 @@ void item::on_pickup( Character &p )
     // Fake characters are used to determine pickup weight and volume
     if( p.is_fake() ) {
         return;
-    }
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
@@ -4982,7 +4988,7 @@ units::mass item::weight( bool, bool integral ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        assert( corpse ); // To appease static analysis
+        cata_assert( corpse ); // To appease static analysis
         ret = corpse->weight;
         if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
             ret *= 0.75;
@@ -5195,7 +5201,7 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NONE && dt < NUM_DT );
+    cata_assert( dt >= DT_NONE && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
@@ -6958,11 +6964,6 @@ bool item::is_tool() const
 bool item::is_transformable() const
 {
     return type->use_methods.find( "transform" ) != type->use_methods.end();
-}
-
-bool item::is_artifact() const
-{
-    return !!type->artifact;
 }
 
 bool item::is_relic() const
@@ -8960,7 +8961,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
+            it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9345,20 +9346,6 @@ void item::cold_up()
 void item::reset_temp_check()
 {
     last_temp_check = calendar::turn;
-}
-
-void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
-{
-    if( !is_artifact() ) {
-        return;
-    }
-    // Artifacts are currently only useful for the player character, the messages
-    // don't consider npcs. Also they are not processed when laying on the ground.
-    // TODO: change game::process_artifact to work with npcs,
-    // TODO: consider moving game::process_artifact here.
-    if( carrier && carrier->is_avatar() ) {
-        g->process_artifact( *this, *carrier );
-    }
 }
 
 std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
@@ -9963,41 +9950,6 @@ void item::mod_charges( int mod )
     }
 }
 
-bool item::has_effect_when_wielded( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_wielded;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_worn( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_worn;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_carried( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ec = type->artifact->effects_carried;
-    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
-        return true;
-    }
-    for( const item *i : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->has_effect_when_carried( effect ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool item::is_seed() const
 {
     return !!type->seed;
@@ -10242,17 +10194,6 @@ void item::set_age( const time_duration &age )
     set_birthday( time_point( calendar::turn ) - age );
 }
 
-void item::legacy_fast_forward_time()
-{
-    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
-    bday = calendar::turn_zero + tmp_bday;
-
-    rot *= 6;
-
-    const time_duration tmp_temp = ( last_temp_check - calendar::turn_zero ) * 6;
-    last_temp_check = calendar::turn_zero + tmp_temp;
-}
-
 time_point item::birthday() const
 {
     return bday;
@@ -10315,31 +10256,31 @@ const recipe &item::get_making() const
         static const recipe dummy{};
         return dummy;
     }
-    assert( craft_data_->making );
+    cata_assert( craft_data_->making );
     return *craft_data_->making;
 }
 
 void item::set_tools_to_continue( bool value )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->tools_to_continue = value;
 }
 
 bool item::has_tools_to_continue() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->tools_to_continue;
 }
 
 void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->cached_tool_selections = selections;
 }
 
 const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->cached_tool_selections;
 }
 

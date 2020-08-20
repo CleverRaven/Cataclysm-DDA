@@ -1828,7 +1828,11 @@ Vehicle components when installed on a vehicle.
 ```C++
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
-"symbol": "0",                // ASCII character displayed when part is working
+"symbol": "0",                // (Optional) ASCII character displayed when part is working
+"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
+  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
+"standard_symbols: false,     // (Optional) Use the standard ASCII characters for variants
+                              // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
@@ -1885,6 +1889,28 @@ Vehicle components when installed on a vehicle.
   "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
   "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
 },
+```
+
+#### Symbols and Variants
+Vehicle parts can have multiple identical variants that use different symbols (and potentially
+tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
+Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+
+setting `"standard_symbols"` to true gives the vehicle the following variants:
+```
+"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
+"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
+```
+
+Otherwise, variants can use any of the following suffices:
+```
+"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
+"horizontal",  "horizontal_front", "horizontal_front_edge",
+"horizontal_rear", "horizontal_rear_edge",
+"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
+"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
+"vertical_2", "vertical_2_right", "vertical_2_left", 
+"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
 ```
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
@@ -2018,7 +2044,8 @@ See also VEHICLE_JSON.md
     {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
     {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
 ]
-                                           /* Important! Vehicle parts must be defined in the same order you would install
+                                           /* Important! Vehicle parts must be defined in the
+                                            * same order you would install
                                             * them in the game (ie, frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
@@ -2061,7 +2088,13 @@ See also VEHICLE_JSON.md
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
+"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+  "grip": "solid",                           // the item's grip value
+  "length": "long",                          // the item's length value
+  "surface": "point",                        // the item's striking surface value
+  "balance": "neutral"                       // the item's balance value
+}
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2087,6 +2120,19 @@ See also VEHICLE_JSON.md
     }
 },
 ```
+
+#### To hit object
+For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 fields.  All the fields are mandatory:
+
+```C++
+"to_hit": {
+    "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
+    "length": "hand",      // one of "hand", "short", or "long" 
+    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
+}
+```
+See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
 ### Ammo
 
@@ -2302,7 +2348,7 @@ CBMs can be defined like this:
                             // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
-"use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
+"use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
 "radiation": 8,             // How much radiation you get from this comestible.

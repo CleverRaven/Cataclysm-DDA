@@ -301,7 +301,7 @@ void player::process_turn()
     }
 
     visit_items( [this]( item * e ) {
-        e->process_artifact( this, pos() );
+        e->process_relic( this, pos() );
         return VisitResponse::NEXT;
     } );
 
@@ -504,13 +504,6 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if( has_artifact_with( AEP_SPEED_UP ) ) {
-        mod_speed_bonus( 20 );
-    }
-    if( has_artifact_with( AEP_SPEED_DOWN ) ) {
-        mod_speed_bonus( -20 );
-    }
-
     float speed_modifier = Character::mutation_value( "speed_modifier" );
     set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
 
@@ -681,29 +674,6 @@ std::list<item *> player::get_radio_items()
         }
     }
     return rc_items;
-}
-
-std::list<item *> player::get_artifact_items()
-{
-    std::list<item *> art_items;
-    const invslice &stacks = inv->slice();
-    for( const auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.is_artifact() ) {
-            art_items.push_back( &stack_iter );
-        }
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_artifact() ) {
-            art_items.push_back( &elem );
-        }
-    }
-    if( is_armed() ) {
-        if( weapon.is_artifact() ) {
-            art_items.push_back( &weapon );
-        }
-    }
-    return art_items;
 }
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
@@ -2217,7 +2187,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
                 bio_cqb ) ? bio_cqb_styles :
             ma_styles;
 
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;

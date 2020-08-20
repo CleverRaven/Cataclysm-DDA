@@ -1,7 +1,6 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <memory>
 #include <ostream>
@@ -9,6 +8,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "color.h"
 #include "construction.h"
@@ -306,7 +306,7 @@ void defense_game::init_map()
     g->update_map( player_character );
     monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ),
                                player_character.pos(), 2 );
-    assert( generator );
+    cata_assert( generator );
     generator->friendly = -1;
 }
 

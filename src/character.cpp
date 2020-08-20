@@ -1037,9 +1037,9 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
             }
             activity = player_activity();
         }
-        add_msg( m_debug,
-                 "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
-                 disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+        add_msg_debug(
+            "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
+            disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
         return true;
     }
     return false;
@@ -1065,7 +1065,7 @@ void Character::mount_creature( monster &z )
     tripoint pnt = z.pos();
     shared_ptr_fast<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
-        add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
+        add_msg_debug( "mount_creature(): monster not found in critter_tracker" );
         return;
     }
     add_effect( effect_riding, 1_turns, true );
@@ -1256,7 +1256,7 @@ void Character::forced_dismount()
         }
         add_effect( effect_downed, 5_turns, true );
     } else {
-        add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
+        add_msg_debug( "Forced_dismount could not find a square to deposit player" );
     }
     if( is_avatar() ) {
         avatar &player_character = get_avatar();
@@ -1280,7 +1280,7 @@ void Character::forced_dismount()
 void Character::dismount()
 {
     if( !is_mounted() ) {
-        add_msg( m_debug, "dismount called when not riding" );
+        add_msg_debug( "dismount called when not riding" );
         return;
     }
     if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
@@ -2480,6 +2480,7 @@ int Character::get_standard_stamina_cost( item *thrown_item )
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
         bool interactive )
 {
+    invalidate_inventory_validity_cache();
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
         if( interactive ) {
@@ -2606,6 +2607,7 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
 
 item *Character::try_add( item it, const item *avoid, const bool allow_wield )
 {
+    invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
 
@@ -2663,6 +2665,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
 item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop,
                         const bool allow_wield )
 {
+    invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, /*allow_wield=*/allow_wield );
     if( added == nullptr ) {
         if( !allow_wield || !wield( it ) ) {
@@ -2681,6 +2684,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
+    invalidate_inventory_validity_cache();
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
@@ -2861,6 +2865,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it )
 void Character::drop( item_location loc, const tripoint &where )
 {
     drop( { std::make_pair( loc, loc->count() ) }, where );
+    invalidate_inventory_validity_cache();
 }
 
 void Character::drop( const drop_locations &what, const tripoint &target,
@@ -3282,10 +3287,6 @@ units::mass Character::weight_capacity() const
 
     ret += bio_weight_bonus + worn_weight_bonus;
 
-    if( has_artifact_with( AEP_CARRY_MORE ) ) {
-        ret += 22500_gram;
-    }
-
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
     if( ret < 0_gram ) {
@@ -3555,8 +3556,16 @@ ret_val<bool> Character::can_drop( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
+void Character::invalidate_inventory_validity_cache()
+{
+    cache_inventory_is_valid = false;
+}
+
 void Character::drop_invalid_inventory()
 {
+    if( cache_inventory_is_valid ) {
+        return;
+    }
     bool dropped_liquid = false;
     for( const std::list<item> *stack : inv->const_slice() ) {
         const item &it = stack->front();
@@ -3575,21 +3584,8 @@ void Character::drop_invalid_inventory()
     for( item &w : worn ) {
         w.contents.overflow( pos() );
     }
-}
 
-bool Character::has_artifact_with( const art_effect_passive effect ) const
-{
-    if( weapon.has_effect_when_wielded( effect ) ) {
-        return true;
-    }
-    for( const item &i : worn ) {
-        if( i.has_effect_when_worn( effect ) ) {
-            return true;
-        }
-    }
-    return has_item_with( [effect]( const item & it ) {
-        return it.has_effect_when_carried( effect );
-    } );
+    cache_inventory_is_valid = true;
 }
 
 bool Character::is_wielding( const item &target ) const
@@ -5001,10 +4997,6 @@ void Character::enforce_minimum_healing()
 
 void Character::update_health( int external_modifiers )
 {
-    if( has_artifact_with( AEP_SICK ) ) {
-        // Carrying a sickness artifact makes your health 50 points worse on average
-        external_modifiers -= 50;
-    }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > get_max_healthy() ) {
@@ -5031,7 +5023,7 @@ void Character::update_health( int external_modifiers )
     // Slowly near 0, but it's hard to overpower it near +/-100
     set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
 
-    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
+    add_msg_debug( "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
@@ -5727,7 +5719,7 @@ void Character::get_sick()
     float health_factor = std::pow( 2.0f, get_healthy() / 50.0f );
 
     int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
-    add_msg( m_debug, "disease_rarity = %d", disease_rarity );
+    add_msg_debug( "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
             // The flu typically lasts 3-10 days.
@@ -5862,8 +5854,8 @@ void Character::update_bodytemp()
     const int h_radiation = get_heat_radiation( pos(), false );
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        // Skip eyes
-        if( bp == bodypart_id( "eyes" ) ) {
+
+        if( bp->has_flag( "IGNORE_TEMP" ) ) {
             continue;
         }
 
@@ -6869,7 +6861,6 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-                   has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
                    has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
@@ -6969,8 +6960,7 @@ bool Character::is_invisible() const
     return (
                has_effect_with_flag( flag_EFFECT_INVISIBLE ) ||
                is_wearing_active_optcloak() ||
-               has_trait( trait_DEBUG_CLOAK ) ||
-               has_artifact_with( AEP_INVISIBLE )
+               has_trait( trait_DEBUG_CLOAK )
            );
 }
 
@@ -7028,8 +7018,6 @@ float Character::active_light() const
 
     if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
         lumination = 60;
-    } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
-        lumination = 25;
     } else if( lumination < 5 && ( has_effect( effect_glowing ) ||
                                    ( has_active_bionic( bio_tattoo_led ) ||
                                      has_effect( effect_glowy_led ) ) ) ) {
@@ -7443,7 +7431,7 @@ float Character::healing_rate( float at_rest_quality ) const
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
-    add_msg( m_debug, "%s healing: %.6f", name, final_rate );
+    add_msg_debug( "%s healing: %.6f", name, final_rate );
     if( std::abs( final_rate ) < eps ) {
         return 0.0f;
     }
@@ -7948,7 +7936,7 @@ void Character::burn_move_stamina( int moves )
     burn_ratio += overburden_percentage;
     burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
-    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
+    add_msg_debug( "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
     if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
@@ -8017,7 +8005,7 @@ void Character::update_stamina( int turns )
     }
 
     mod_stamina( roll_remainder( stamina_recovery * turns ) );
-    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
+    add_msg_debug( "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
@@ -9238,23 +9226,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    // handle snake artifacts
-    if( has_artifact_with( AEP_SNAKES ) && dam >= 6 ) {
-        const int snakes = dam / 6;
-        int spawned = 0;
-        for( int i = 0; i < snakes; i++ ) {
-            if( monster *const snake = g->place_critter_around( mon_shadow_snake, pos(), 1 ) ) {
-                snake->friendly = -1;
-                spawned++;
-            }
-        }
-        if( spawned == 1 ) {
-            add_msg( m_warning, _( "A snake sprouts from your body!" ) );
-        } else if( spawned >= 2 ) {
-            add_msg( m_warning, _( "Some snakes sprout from your body!" ) );
-        }
-    }
-
     // And slimespawners too
     if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
@@ -9974,7 +9945,7 @@ void Character::check_and_recover_morale()
 
     if( !morale->consistent_with( test_morale ) ) {
         *morale = player_morale( test_morale ); // Recover consistency
-        add_msg( m_debug, "%s morale was recovered.", disp_name( true ) );
+        add_msg_debug( "%s morale was recovered.", disp_name( true ) );
     }
 }
 
@@ -10719,6 +10690,7 @@ void Character::on_worn_item_washed( const item &it )
 
 void Character::on_item_wear( const item &it )
 {
+    invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_effect( mut, true );
         recalc_sight_limits();
@@ -10734,6 +10706,7 @@ void Character::on_item_wear( const item &it )
 
 void Character::on_item_takeoff( const item &it )
 {
+    invalidate_inventory_validity_cache();
     for( const trait_id &mut : it.mutations_from_wearing( *this ) ) {
         mutation_loss_effect( mut );
         recalc_sight_limits();

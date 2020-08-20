@@ -1501,11 +1501,11 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
-        void loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
                 }
 
                 // Note: we want it in a separate loop! It is a post-load cleanup
@@ -1514,7 +1514,7 @@ class map
                     add_roofs( tripoint( grid, gridz ) );
                 }
             } else {
-                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
             }
         }
         /**
@@ -1566,16 +1566,16 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( mapgendata &dat );
+        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
-        void draw_temple( mapgendata &dat );
+        void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
-        void draw_anthill( mapgendata &dat );
-        void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
-        void draw_triffid( mapgendata &dat );
-        void draw_connections( mapgendata &dat );
+        void draw_spiral( const mapgendata &dat );
+        void draw_anthill( const mapgendata &dat );
+        void draw_slimepit( const mapgendata &dat );
+        void draw_spider_pit( const mapgendata &dat );
+        void draw_triffid( const mapgendata &dat );
+        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.

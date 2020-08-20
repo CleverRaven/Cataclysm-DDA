@@ -1,9 +1,9 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <memory>
 #include <set>
 
+#include "cata_assert.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
@@ -40,8 +40,9 @@ static const itype_id itype_muscle( "muscle" );
 vehicle_part::vehicle_part()
     : id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
-    : mount( dp ), id( vp ), base( std::move( obj ) )
+vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
+                            item &&obj )
+    : mount( dp ), id( vp ), variant( variant_id ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
     base.item_tags.insert( "VEHICLE" );
@@ -313,7 +314,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 
     item &fuel = base.contents.legacy_front();
     if( fuel.typeId() == ftype ) {
-        assert( fuel.is_fuel() );
+        cata_assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
         const double energy_p_mL = fuel.fuel_energy() * 1000;
         const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );

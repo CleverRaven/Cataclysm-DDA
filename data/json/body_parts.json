@@ -1,24 +1,5 @@
 [
   {
-    "id": "bp_null",
-    "type": "body_part",
-    "name": "appendix",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "appendix" },
-    "heading": "appendix",
-    "heading_multiple": "Appendices",
-    "encumbrance_text": "It's inflamed.",
-    "main_part": "bp_null",
-    "connected_to": "bp_null",
-    "opposite_part": "bp_null",
-    "hit_size": 0,
-    "hit_size_relative": [ 0, 0, 0 ],
-    "hit_difficulty": 0,
-    "side": "both",
-    "base_hp": 60,
-    "drench_capacity": 1,
-    "legacy_id": "NUM_BP"
-  },
-  {
     "id": "torso",
     "type": "body_part",
     "name": "torso",
@@ -89,7 +70,8 @@
     "squeamish_penalty": 8,
     "base_hp": 60,
     "drench_capacity": 1,
-    "bionic_slots": 4
+    "bionic_slots": 4,
+    "flags": [ "IGNORE_TEMP" ]
   },
   {
     "id": "mouth",

@@ -1796,7 +1796,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -3059,16 +3059,9 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-    if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
-    deserialize( jsin );
-    } ) ) {
-        if( load_legacy() ) {
-            if( save() ) {
-                remove_file( PATH_INFO::legacy_options() );
-                remove_file( PATH_INFO::legacy_options2() );
-            }
-        }
-    }
+    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+        deserialize( jsin );
+    } );
 
     update_global_locale();
 
@@ -3077,31 +3070,6 @@ void options_manager::load()
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
-}
-
-bool options_manager::load_legacy()
-{
-    const auto reader = [&]( std::istream & fin ) {
-        std::string sLine;
-        while( !fin.eof() ) {
-            getline( fin, sLine );
-
-            if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-                int iPos = sLine.find( ' ' );
-                const std::string loadedvar = migrateOptionName( sLine.substr( 0, iPos ) );
-                const std::string loadedval = migrateOptionValue( sLine.substr( 0, iPos ), sLine.substr( iPos + 1,
-                                              sLine.length() ) );
-                // option with values from post init() might get clobbered
-
-                add_retry( loadedvar, loadedval ); // stash it until update();
-
-                options[ loadedvar ].setValue( loadedval );
-            }
-        }
-    };
-
-    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
-           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const

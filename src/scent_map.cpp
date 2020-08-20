@@ -1,12 +1,12 @@
 #include "scent_map.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstdlib>
 #include <cmath>
 
 #include "assign.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -70,7 +70,7 @@ void scent_map::decay()
 
 void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
-    assert( div != 0 );
+    cata_assert( div != 0 );
     const point max( getmaxx( win ), getmaxy( win ) );
     for( int x = 0; x < max.x; ++x ) {
         for( int y = 0; y < max.y; ++y ) {

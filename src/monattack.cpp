@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -18,6 +17,7 @@
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -1045,7 +1045,7 @@ bool mattack::resurrect( monster *z )
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
     // To appease static analysis
-    assert( raised.second );
+    cata_assert( raised.second );
     // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
@@ -2899,9 +2899,7 @@ bool mattack::fear_paralyze( monster *z )
     }
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.has_artifact_with( AEP_PSYSHIELD ) ||
-            ( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) &&
-              one_in( 4 ) ) ) {
+        if( player_character.worn_with_flag( "PSYSHIELD_PARTIAL" ) && one_in( 4 ) ) {
             add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
             ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if( rng( 0, 20 ) > player_character.get_int() ) {
@@ -4290,8 +4288,8 @@ bool mattack::absorb_meat( monster *z )
                 if( player_character.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
-                    add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
-                             z->get_hp_max() );
+                    add_msg_debug( "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
+                                   z->get_hp_max() );
                 }
                 return true;
             }
@@ -5399,7 +5397,7 @@ bool mattack::kamikaze( monster *z )
 {
     if( z->ammo.empty() ) {
         // We somehow lost our ammo! Toggle this special off so we stop processing
-        add_msg( m_debug, "Missing ammo in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Missing ammo in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5419,14 +5417,14 @@ bool mattack::kamikaze( monster *z )
         const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb transform use in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
         const iuse_transform *actor = dynamic_cast<const iuse_transform *>( usage->get_actor_ptr() );
         if( actor == nullptr ) {
             // Invalid bomb item, Toggle this special off so we stop processing
-            add_msg( m_debug, "Invalid bomb type in kamikaze special for %s.", z->name() );
+            add_msg_debug( "Invalid bomb type in kamikaze special for %s.", z->name() );
             z->disable_special( "KAMIKAZE" );
             return true;
         }
@@ -5451,15 +5449,15 @@ bool mattack::kamikaze( monster *z )
     const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb explosion use in kamikaze special for %s.",
-                 z->name() );
+        add_msg_debug( "Invalid active bomb explosion use in kamikaze special for %s.",
+                       z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
     const explosion_iuse *exp_actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
     if( exp_actor == nullptr ) {
         // Invalid active bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid active bomb type in kamikaze special for %s.", z->name() );
+        add_msg_debug( "Invalid active bomb type in kamikaze special for %s.", z->name() );
         z->disable_special( "KAMIKAZE" );
         return true;
     }
@@ -5580,7 +5578,7 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     // if the player can see it
     if( get_player_view().sees( *z ) ) {
         if( data[att].message.empty() ) {
-            add_msg( m_debug, "Invalid ammo message in grenadier special." );
+            add_msg_debug( "Invalid ammo message in grenadier special." );
         } else {
             add_msg( m_bad, data[att].message, z->name() );
         }
@@ -5591,14 +5589,14 @@ static int grenade_helper( monster *const z, Creature *const target, const int d
     const use_function *usage = bomb_type->get_use( "place_monster" );
     if( usage == nullptr ) {
         // Invalid bomb item usage, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb item usage in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb item usage in grenadier special for %s.", z->name() );
         return -1;
     }
     const place_monster_iuse *actor = dynamic_cast<const place_monster_iuse *>
                                       ( usage->get_actor_ptr() );
     if( actor == nullptr ) {
         // Invalid bomb item, Toggle this special off so we stop processing
-        add_msg( m_debug, "Invalid bomb type in grenadier special for %s.", z->name() );
+        add_msg_debug( "Invalid bomb type in grenadier special for %s.", z->name() );
         return -1;
     }
 

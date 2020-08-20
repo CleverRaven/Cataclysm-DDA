@@ -400,7 +400,7 @@
   {
     "type": "recipe",
     "result": "towel",
-    "category": "CC_OTHER",
+    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "survival",
     "time": "4 m",

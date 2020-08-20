@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cassert>
 #include <chrono>
 #include <climits>
 #include <cmath>
@@ -31,7 +30,6 @@
 #include "activity_actor.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
-#include "artifact.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -39,6 +37,8 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -826,7 +826,7 @@ bool game::start_game()
             mon->friendly = -1;
             mon->add_effect( effect_pet, 1_turns, true );
         } else {
-            add_msg( m_debug, "cannot place starting pet, no space!" );
+            add_msg_debug( "cannot place starting pet, no space!" );
         }
     }
     if( u.starting_vehicle &&
@@ -930,8 +930,8 @@ void game::load_npcs()
             continue;
         }
 
-        add_msg( m_debug, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                 abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
+        add_msg_debug( "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
+                       abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -1610,9 +1610,6 @@ bool game::do_turn()
         wait_redraw = true;
         wait_message = _( "Wait till you wake up…" );
         wait_refresh_rate = 30_minutes;
-        if( calendar::once_every( 1_hours ) ) {
-            add_artifact_dreams();
-        }
     } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
@@ -3026,7 +3023,6 @@ void game::load_world_modfiles( loading_ui &ui )
         mods.insert( mods.begin(), mod_id( "dda" ) );
     }
 
-    load_artifacts( PATH_INFO::world_base_save_path() + "/" + SAVE_ARTIFACTS );
     // this code does not care about mod dependencies,
     // it assumes that those dependencies are static and
     // are resolved during the creation of the world.
@@ -4543,8 +4539,8 @@ void game::monmove()
                            << " can't move to its location!  (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
                            << m.tername( critter.pos() );
-            add_msg( m_debug, "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
-                     critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
+            add_msg_debug( "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
+                           critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
                 if( critter.can_move_to( dest ) && is_empty( dest ) ) {
@@ -7167,8 +7163,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             lz = clamp( lz + dz, min_levz, max_levz );
             center.z = clamp( center.z + dz, min_levz, max_levz );
 
-            add_msg( m_debug, "levx: %d, levy: %d, levz: %d",
-                     get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
+            add_msg_debug( "levx: %d, levy: %d, levz: %d",
+                           get_map().get_abs_sub().x, get_map().get_abs_sub().y, center.z );
             u.view_offset.z = center.z - u.posz();
             m.invalidate_map_cache( center.z );
             if( select_zone && has_first_point ) { // is blinking
@@ -8457,16 +8453,24 @@ static void add_disassemblables( uilist &menu,
 }
 
 // Butchery sub-menu and time calculation
-static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
+static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
     avatar &player_character = get_avatar();
     auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
-        if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[corpse], bt );
+        if( index != -1 ) {
+            const mtype &corpse = *corpses[index]->get_mtype();
+            const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                     player_character.crafting_inventory(),
+                                     corpse.size, bt ).first;
+            time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt );
+                const mtype &corpse = *it->get_mtype();
+                const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                         player_character.crafting_inventory(),
+                                         corpse.size, bt ).first;
+                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8486,8 +8490,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_skin = false;
     bool has_organs = false;
 
-    if( corpse != -1 ) {
-        const mtype *dead_mon = corpses[corpse]->get_mtype();
+    if( index != -1 ) {
+        const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
                 if( entry.type == "skin" ) {
@@ -9576,54 +9580,6 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         if( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
-        }
-    }
-    if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        int volume = u.is_stealthy() ? 3 : 6;
-        volume *= u.mutation_value( "noise_modifier" );
-        if( volume > 0 ) {
-            if( u.is_wearing( itype_rm13_armor_on ) ) {
-                volume = 2;
-            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
-                volume = 12;
-            }
-
-            volume *= u.current_movement_mode()->sound_mult();
-            if( u.is_mounted() ) {
-                monster *mons = u.mounted_creature.get();
-                switch( mons->get_size() ) {
-                    case creature_size::tiny:
-                        volume = 0; // No sound for the tinies
-                        break;
-                    case creature_size::small:
-                        volume /= 3;
-                        break;
-                    case creature_size::medium:
-                        break;
-                    case creature_size::large:
-                        volume *= 1.5;
-                        break;
-                    case creature_size::huge:
-                        volume *= 2;
-                        break;
-                    default:
-                        break;
-                }
-                if( mons->has_flag( MF_LOUDMOVES ) ) {
-                    volume += 6;
-                }
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), false,
-                               "none", "none" );
-            } else {
-                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
-                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
-            }
-            sfx::do_footstep();
-        }
-
-        if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ), true,
-                           "misc", "rattling" );
         }
     }
 
@@ -10812,7 +10768,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
     if( u.is_mounted() ) {
         if( stored_mount ) {
-            assert( !here.has_zlevels() );
+            cata_assert( !here.has_zlevels() );
             stored_mount->spawn( u.pos() );
             if( critter_tracker->add( stored_mount ) ) {
                 u.mounted_creature = stored_mount;
@@ -11854,269 +11810,6 @@ void game::autosave()
     quicksave();    //Driving checks are handled by quicksave()
 }
 
-void game::process_artifact( item &it, player &p )
-{
-    const bool worn = p.is_worn( it );
-    const bool wielded = ( &it == &p.weapon );
-    std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
-    if( worn ) {
-        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_worn;
-        effects.insert( effects.end(), ew.begin(), ew.end() );
-    }
-    if( wielded ) {
-        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_wielded;
-        effects.insert( effects.end(), ew.begin(), ew.end() );
-    }
-
-    if( it.is_tool() ) {
-        // Recharge it if necessary
-        if( it.remaining_ammo_capacity() > 0 && calendar::once_every( 1_minutes ) ) {
-            //Before incrementing charge, check that any extra requirements are met
-            if( check_art_charge_req( it ) ) {
-                switch( it.type->artifact->charge_type ) {
-                    case ARTC_NULL:
-                    case NUM_ARTCS:
-                        break; // dummy entries
-                    case ARTC_TIME:
-                        // Once per hour
-                        if( calendar::once_every( 1_hours ) ) {
-                            it.charges++;
-                        }
-                        break;
-                    case ARTC_SOLAR:
-                        if( calendar::once_every( 10_minutes ) &&
-                            is_in_sunlight( p.pos() ) ) {
-                            it.charges++;
-                        }
-                        break;
-                    // Artifacts can inflict pain even on Deadened folks.
-                    // Some weird Lovecraftian thing.  ;P
-                    // (So DON'T route them through mod_pain!)
-                    case ARTC_PAIN:
-                        if( calendar::once_every( 1_minutes ) ) {
-                            add_msg( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
-                            p.mod_pain_noresist( 3 * rng( 1, 3 ) );
-                            it.charges++;
-                        }
-                        break;
-                    case ARTC_HP:
-                        if( calendar::once_every( 1_minutes ) ) {
-                            add_msg( m_bad, _( "You feel your body decaying." ) );
-                            p.hurtall( 1, nullptr );
-                            it.charges++;
-                        }
-                        break;
-                    case ARTC_FATIGUE:
-                        if( calendar::once_every( 1_minutes ) ) {
-                            add_msg( m_bad, _( "You feel fatigue seeping into your body." ) );
-                            u.mod_fatigue( 3 * rng( 1, 3 ) );
-                            u.mod_stamina( -90 * rng( 1, 3 ) * rng( 1, 3 ) * rng( 2, 3 ) );
-                            it.charges++;
-                        }
-                        break;
-                    // Portals are energetic enough to charge the item.
-                    // Tears in reality are consumed too, but can't charge it.
-                    case ARTC_PORTAL:
-                        for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                            m.remove_field( dest, fd_fatigue );
-                            if( m.tr_at( dest ) == tr_portal ) {
-                                add_msg( m_good, _( "The portal collapses!" ) );
-                                m.remove_trap( dest );
-                                it.charges++;
-                                break;
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    for( const art_effect_passive &i : effects ) {
-        switch( i ) {
-            case AEP_STR_UP:
-                p.mod_str_bonus( +4 );
-                break;
-            case AEP_DEX_UP:
-                p.mod_dex_bonus( +4 );
-                break;
-            case AEP_PER_UP:
-                p.mod_per_bonus( +4 );
-                break;
-            case AEP_INT_UP:
-                p.mod_int_bonus( +4 );
-                break;
-            case AEP_ALL_UP:
-                p.mod_str_bonus( +2 );
-                p.mod_dex_bonus( +2 );
-                p.mod_per_bonus( +2 );
-                p.mod_int_bonus( +2 );
-                break;
-            case AEP_SPEED_UP:
-                // Handled in player::current_speed()
-                break;
-
-            case AEP_PBLUE:
-                if( p.get_rad() > 0 ) {
-                    p.mod_rad( -1 );
-                }
-                break;
-
-            case AEP_SMOKE:
-                if( one_in( 10 ) ) {
-                    tripoint pt( p.posx() + rng( -1, 1 ),
-                                 p.posy() + rng( -1, 1 ),
-                                 p.posz() );
-                    m.add_field( pt, fd_smoke, rng( 1, 3 ) );
-                }
-                break;
-
-            case AEP_SNAKES:
-                break; // Handled in player::hit()
-
-            case AEP_EXTINGUISH:
-                for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
-                    m.mod_field_age( dest, fd_fire, -1_turns );
-                }
-                break;
-
-            case AEP_FUN:
-                //Bonus fluctuates, wavering between 0 and 30-ish - usually around 12
-                p.add_morale( MORALE_FEELING_GOOD, rng( 1, 2 ) * rng( 2, 3 ), 0, 3_turns, 0_turns, false );
-                break;
-
-            case AEP_HUNGER:
-                if( one_in( 100 ) ) {
-                    p.mod_hunger( 1 );
-                }
-                break;
-
-            case AEP_THIRST:
-                if( one_in( 120 ) ) {
-                    p.mod_thirst( 1 );
-                }
-                break;
-
-            case AEP_EVIL:
-                if( one_in( 150 ) ) { // Once every 15 minutes, on average
-                    p.add_effect( effect_evil, 30_minutes );
-                    if( it.is_armor() ) {
-                        if( !worn ) {
-                            add_msg( _( "You have an urge to wear the %s." ),
-                                     it.tname() );
-                        }
-                    } else if( !wielded ) {
-                        add_msg( _( "You have an urge to wield the %s." ),
-                                 it.tname() );
-                    }
-                }
-                break;
-
-            case AEP_SCHIZO:
-                break; // Handled in player::suffer()
-
-            case AEP_RADIOACTIVE:
-                if( one_in( 4 ) ) {
-                    p.irradiate( 1.0f );
-                }
-                break;
-
-            case AEP_STR_DOWN:
-                p.mod_str_bonus( -3 );
-                break;
-
-            case AEP_DEX_DOWN:
-                p.mod_dex_bonus( -3 );
-                break;
-
-            case AEP_PER_DOWN:
-                p.mod_per_bonus( -3 );
-                break;
-
-            case AEP_INT_DOWN:
-                p.mod_int_bonus( -3 );
-                break;
-
-            case AEP_ALL_DOWN:
-                p.mod_str_bonus( -2 );
-                p.mod_dex_bonus( -2 );
-                p.mod_per_bonus( -2 );
-                p.mod_int_bonus( -2 );
-                break;
-
-            case AEP_SPEED_DOWN:
-                break; // Handled in player::current_speed()
-
-            default:
-                //Suppress warnings
-                break;
-        }
-    }
-    // Recalculate, as it might have changed (by mod_*_bonus above)
-    p.str_cur = p.get_str();
-    p.int_cur = p.get_int();
-    p.dex_cur = p.get_dex();
-    p.per_cur = p.get_per();
-}
-//Check if an artifact's extra charge requirements are currently met
-bool check_art_charge_req( item &it )
-{
-    avatar &p = get_avatar();
-    bool reqsmet = true;
-    const bool worn = p.is_worn( it );
-    const bool wielded = ( &it == &p.weapon );
-    const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
-    map &here = get_map();
-    switch( it.type->artifact->charge_req ) {
-        case( ACR_NULL ):
-        case( NUM_ACRS ):
-            break;
-        case( ACR_EQUIP ):
-            //Generated artifacts won't both be wearable and have charges, but nice for mods
-            reqsmet = ( worn || heldweapon );
-            break;
-        case( ACR_SKIN ):
-            //As ACR_EQUIP, but also requires nothing worn on bodypart wielding or wearing item
-            if( !worn && !heldweapon ) {
-                reqsmet = false;
-                break;
-            }
-            for( const bodypart_id bp : p.get_all_body_parts() ) {
-                if( it.covers( bp ) || ( heldweapon && ( bp == bodypart_id( "hand_r" ) ||
-                                         bp == bodypart_id( "hand_l" ) ) ) ) {
-                    reqsmet = true;
-                    for( const item &i : p.worn ) {
-                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage( bp ) > 50 ) {
-                            reqsmet = false;
-                            break; //This one's no good, check the next body part
-                        }
-                    }
-                    if( reqsmet ) {
-                        break;    //Only need skin contact on one bodypart
-                    }
-                }
-            }
-            break;
-        case( ACR_SLEEP ):
-            reqsmet = p.has_effect( effect_sleep );
-            break;
-        case( ACR_RAD ):
-            reqsmet = ( ( here.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
-            break;
-        case( ACR_WET ):
-            reqsmet = p.has_atleast_one_wet_part();
-            if( !reqsmet && sum_conditions( calendar::turn - 1_turns, calendar::turn, p.pos() ).rain_amount > 0
-                && !( p.in_vehicle && here.veh_at( p.pos() )->is_inside() ) ) {
-                reqsmet = true;
-            }
-            break;
-        case( ACR_SKY ):
-            reqsmet = ( p.posz() > 0 );
-            break;
-    }
-    return reqsmet;
-}
-
 void game::start_calendar()
 {
     const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
@@ -12172,229 +11865,6 @@ void game::start_calendar()
     }
 
     calendar::turn = calendar::start_of_game;
-}
-
-void game::add_artifact_messages( const std::vector<art_effect_passive> &effects )
-{
-    int net_str = 0;
-    int net_dex = 0;
-    int net_per = 0;
-    int net_int = 0;
-    int net_speed = 0;
-
-    for( const art_effect_passive &i : effects ) {
-        switch( i ) {
-            case AEP_STR_UP:
-                net_str += 4;
-                break;
-            case AEP_DEX_UP:
-                net_dex += 4;
-                break;
-            case AEP_PER_UP:
-                net_per += 4;
-                break;
-            case AEP_INT_UP:
-                net_int += 4;
-                break;
-            case AEP_ALL_UP:
-                net_str += 2;
-                net_dex += 2;
-                net_per += 2;
-                net_int += 2;
-                break;
-            case AEP_STR_DOWN:
-                net_str -= 3;
-                break;
-            case AEP_DEX_DOWN:
-                net_dex -= 3;
-                break;
-            case AEP_PER_DOWN:
-                net_per -= 3;
-                break;
-            case AEP_INT_DOWN:
-                net_int -= 3;
-                break;
-            case AEP_ALL_DOWN:
-                net_str -= 2;
-                net_dex -= 2;
-                net_per -= 2;
-                net_int -= 2;
-                break;
-
-            case AEP_SPEED_UP:
-                net_speed += 20;
-                break;
-            case AEP_SPEED_DOWN:
-                net_speed -= 20;
-                break;
-
-            case AEP_PBLUE:
-                break; // No message
-
-            case AEP_SNAKES:
-                add_msg( m_warning, _( "Your skin feels slithery." ) );
-                break;
-
-            case AEP_INVISIBLE:
-                add_msg( m_good, _( "You fade into invisibility!" ) );
-                break;
-
-            case AEP_CLAIRVOYANCE:
-            case AEP_CLAIRVOYANCE_PLUS:
-                add_msg( m_good, _( "You can see through walls!" ) );
-                break;
-
-            case AEP_SUPER_CLAIRVOYANCE:
-                add_msg( m_good, _( "You can see through everything!" ) );
-                break;
-
-            case AEP_STEALTH:
-                add_msg( m_good, _( "Your steps stop making noise." ) );
-                break;
-
-            case AEP_GLOW:
-                add_msg( _( "A glow of light forms around you." ) );
-                break;
-
-            case AEP_PSYSHIELD:
-                add_msg( m_good, _( "Your mental state feels protected." ) );
-                break;
-
-            case AEP_RESIST_ELECTRICITY:
-                add_msg( m_good, _( "You feel insulated." ) );
-                break;
-
-            case AEP_CARRY_MORE:
-                add_msg( m_good, _( "Your back feels strengthened." ) );
-                break;
-
-            case AEP_FUN:
-                add_msg( m_good, _( "You feel a pleasant tingle." ) );
-                break;
-
-            case AEP_HUNGER:
-                add_msg( m_warning, _( "You feel hungry." ) );
-                break;
-
-            case AEP_THIRST:
-                add_msg( m_warning, _( "You feel thirsty." ) );
-                break;
-
-            case AEP_EVIL:
-                add_msg( m_warning, _( "You feel an evil presence…" ) );
-                break;
-
-            case AEP_SCHIZO:
-                add_msg( m_bad, _( "You feel a tickle of insanity." ) );
-                break;
-
-            case AEP_RADIOACTIVE:
-                add_msg( m_warning, _( "Your skin prickles with radiation." ) );
-                break;
-
-            case AEP_MUTAGENIC:
-                add_msg( m_bad, _( "You feel your genetic makeup degrading." ) );
-                break;
-
-            case AEP_ATTENTION:
-                add_msg( m_warning, _( "You feel an otherworldly attention upon you…" ) );
-                break;
-
-            case AEP_FORCE_TELEPORT:
-                add_msg( m_bad, _( "You feel a force pulling you inwards." ) );
-                break;
-
-            case AEP_MOVEMENT_NOISE:
-                add_msg( m_warning, _( "You hear a rattling noise coming from inside yourself." ) );
-                break;
-
-            case AEP_BAD_WEATHER:
-                add_msg( m_warning, _( "You feel storms coming." ) );
-                break;
-
-            case AEP_SICK:
-                add_msg( m_bad, _( "You feel unwell." ) );
-                break;
-
-            case AEP_SMOKE:
-                add_msg( m_warning, _( "A cloud of smoke appears." ) );
-                break;
-            default:
-                //Suppress warnings
-                break;
-        }
-    }
-
-    std::string stat_info;
-    if( net_str != 0 ) {
-        stat_info += string_format( _( "Str %s%d! " ),
-                                    ( net_str > 0 ? "+" : "" ), net_str );
-    }
-    if( net_dex != 0 ) {
-        stat_info += string_format( _( "Dex %s%d! " ),
-                                    ( net_dex > 0 ? "+" : "" ), net_dex );
-    }
-    if( net_int != 0 ) {
-        stat_info += string_format( _( "Int %s%d! " ),
-                                    ( net_int > 0 ? "+" : "" ), net_int );
-    }
-    if( net_per != 0 ) {
-        stat_info += string_format( _( "Per %s%d! " ),
-                                    ( net_per > 0 ? "+" : "" ), net_per );
-    }
-
-    if( !stat_info.empty() ) {
-        add_msg( m_neutral, stat_info );
-    }
-
-    if( net_speed != 0 ) {
-        add_msg( m_info, _( "Speed %s%d!" ), ( net_speed > 0 ? "+" : "" ), net_speed );
-    }
-}
-
-void game::add_artifact_dreams( )
-{
-    //If player is sleeping, get a dream from a carried artifact
-    //Don't need to check that player is sleeping here, that's done before calling
-    std::list<item *> art_items = get_avatar().get_artifact_items();
-    std::vector<item *>      valid_arts;
-    std::vector<std::vector<std::string>>
-                                       valid_dreams; // Tracking separately so we only need to check its req once
-    //Pull the list of dreams
-    add_msg( m_debug, "Checking %s carried artifacts", art_items.size() );
-    for( auto &it : art_items ) {
-        //Pick only the ones with an applicable dream
-        const cata::value_ptr<islot_artifact> &art = it->type->artifact;
-        if( art && art->charge_req != ACR_NULL &&
-            it->remaining_ammo_capacity() > 0 ) { //or max 0 in case of wacky mod shenanigans
-            add_msg( m_debug, "Checking artifact %s", it->tname() );
-            if( check_art_charge_req( *it ) ) {
-                add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );
-                if( art->dream_freq_met   > 0 && x_in_y( art->dream_freq_met,   100 ) ) {
-                    add_msg( m_debug, "Adding met dream from %s", it->tname() );
-                    valid_arts.push_back( it );
-                    valid_dreams.push_back( art->dream_msg_met );
-                }
-            } else {
-                add_msg( m_debug, "   Has freq %s,%s", art->dream_freq_met, art->dream_freq_unmet );
-                if( art->dream_freq_unmet > 0 && x_in_y( art->dream_freq_unmet, 100 ) ) {
-                    add_msg( m_debug, "Adding unmet dream from %s", it->tname() );
-                    valid_arts.push_back( it );
-                    valid_dreams.push_back( art->dream_msg_unmet );
-                }
-            }
-        }
-    }
-    if( !valid_dreams.empty() ) {
-        add_msg( m_debug, "Found %s valid artifact dreams", valid_dreams.size() );
-        const int selected = rng( 0, valid_arts.size() - 1 );
-        item *it = valid_arts[selected];
-        const std::string msg = random_entry( valid_dreams[selected] );
-        const std::string &dream = string_format( _( msg ), it->tname() );
-        add_msg( dream );
-    } else {
-        add_msg( m_debug, "Didn't have any dreams, sorry" );
-    }
 }
 
 overmap &game::get_cur_om() const

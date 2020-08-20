@@ -664,7 +664,7 @@ float npc::character_danger( const Character &uc ) const
 
     ret *= std::max( 0.5, u.get_speed() / 100.0 );
 
-    add_msg( m_debug, "%s danger: %1f", u.disp_name(), ret );
+    add_msg_debug( "%s danger: %1f", u.disp_name(), ret );
     return ret;
 }
 
@@ -751,9 +751,9 @@ void npc::move()
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
-    add_msg( m_debug, "NPC %s: target = %s, danger = %.1f, range = %d",
-             name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
-                     recoil_total() ) : weapon.reach_range( *this ) );
+    add_msg_debug( "NPC %s: target = %s, danger = %.1f, range = %d",
+                   name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
+                           recoil_total() ) : weapon.reach_range( *this ) );
 
     Character &player_character = get_player_character();
     //faction opinion determines if it should consider you hostile
@@ -761,7 +761,7 @@ void npc::move()
         if( is_player_ally() ) {
             mutiny();
         }
-        add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name );
+        add_msg_debug( "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
@@ -836,13 +836,13 @@ void npc::move()
             }
         }
         if( action == npc_investigate_sound ) {
-            add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name,
-                     ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
+            add_msg_debug( "NPC %s: investigating sound at x(%d) y(%d)", name,
+                           ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
-                 return_guard_pos.x, return_guard_pos.y );
+        add_msg_debug( "NPC %s: returning to guard spot at x(%d) y(%d)", name,
+                       return_guard_pos.x, return_guard_pos.y );
         action = npc_return_to_guard_pos;
     } else {
         // No present danger
@@ -972,7 +972,7 @@ void npc::move()
         action = method_of_attack();
     }
 
-    add_msg( m_debug, "%s chose action %s.", name, npc_action_name( action ) );
+    add_msg_debug( "%s chose action %s.", name, npc_action_name( action ) );
     execute_action( action );
 }
 
@@ -1314,7 +1314,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_noop:
-            add_msg( m_debug, "%s skips turn (noop)", disp_name() );
+            add_msg_debug( "%s skips turn (noop)", disp_name() );
             return;
 
         default:
@@ -1322,8 +1322,8 @@ void npc::execute_action( npc_action action )
     }
 
     if( oldmoves == moves ) {
-        add_msg( m_debug, "NPC didn't use its moves.  Action %s (%d).",
-                 npc_action_name( action ), action );
+        add_msg_debug( "NPC didn't use its moves.  Action %s (%d).",
+                       npc_action_name( action ), action );
     }
 }
 
@@ -1412,7 +1412,7 @@ npc_action npc::method_of_attack()
     } );
 
     if( emergency() && alt_attack() ) {
-        add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
+        add_msg_debug( "%s is trying an alternate attack", disp_name() );
         return npc_noop;
     }
 
@@ -1420,13 +1420,13 @@ npc_action npc::method_of_attack()
     int reach_range = weapon.reach_range( *this );
     if( !trigdist ) {
         if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
-            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            add_msg_debug( "%s is trying a reach attack", disp_name() );
             return npc_reach_attack;
         }
     } else {
         if( reach_range > 1 && reach_range >= std::round( trig_dist( pos(), tar ) ) &&
             clear_shot_reach( pos(), tar ) ) {
-            add_msg( m_debug, "%s is trying a reach attack", disp_name() );
+            add_msg_debug( "%s is trying a reach attack", disp_name() );
             return npc_reach_attack;
         }
     }
@@ -1435,25 +1435,25 @@ npc_action npc::method_of_attack()
     if( !modes.empty() && sees( *critter ) && has_los &&
         confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
         if( cbm_weapon_index > 0 && !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg( m_debug, "%s is reloading", disp_name() );
+            add_msg_debug( "%s is reloading", disp_name() );
             return npc_reload;
         }
 
         if( wont_hit_friend( tar, weapon, false ) ) {
             weapon.gun_set_mode( modes[ 0 ].first );
-            add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
+            add_msg_debug( "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
 
         } else {
             if( !dont_move_ff ) {
-                add_msg( m_debug, "%s is trying to avoid friendly fire", disp_name() );
+                add_msg_debug( "%s is trying to avoid friendly fire", disp_name() );
                 return npc_avoid_friendly_fire;
             }
         }
     }
 
     if( dist == 1 && same_z ) {
-        add_msg( m_debug, "%s is trying a melee attack", disp_name() );
+        add_msg_debug( "%s is trying a melee attack", disp_name() );
         return npc_melee;
     }
 
@@ -1461,12 +1461,12 @@ npc_action npc::method_of_attack()
     if( cbm_weapon_index < 0 ) {
         // TODO: Add a time check now that wielding takes a lot of time
         if( wield_better_weapon() ) {
-            add_msg( m_debug, "%s is changing weapons", disp_name() );
+            add_msg_debug( "%s is changing weapons", disp_name() );
             return npc_noop;
         }
 
         if( !weapon.ammo_sufficient() && can_reload_current() ) {
-            add_msg( m_debug, "%s is reloading", disp_name() );
+            add_msg_debug( "%s is reloading", disp_name() );
             return npc_reload;
         }
     }
@@ -1474,10 +1474,10 @@ npc_action npc::method_of_attack()
     // TODO: Needs a check for transparent but non-passable tiles on the way
     if( !modes.empty() && sees( *critter ) && aim_per_move( weapon, recoil ) > 0 &&
         confident_shoot_range( weapon, get_most_accurate_sight( weapon ) ) >= dist ) {
-        add_msg( m_debug, "%s is aiming" );
+        add_msg_debug( "%s is aiming" );
         return npc_aim;
     }
-    add_msg( m_debug, "%s can't figure out what to do", disp_name() );
+    add_msg_debug( "%s can't figure out what to do", disp_name() );
     return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
 }
 
@@ -2021,7 +2021,7 @@ npc_action npc::address_player()
 
 npc_action npc::long_term_goal_action()
 {
-    add_msg( m_debug, "long_term_goal_action()" );
+    add_msg_debug( "long_term_goal_action()" );
 
     if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || ( is_player_ally() &&
             mission != NPC_MISSION_TRAVELLING ) ) {
@@ -2089,8 +2089,8 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
-    add_msg( m_debug, "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
-             max_dispersion );
+    add_msg_debug( "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
+                   max_dispersion );
     return std::max<int>( confident_range, 1 );
 }
 
@@ -2100,7 +2100,7 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
                                average_dispersion;
     double confident_range = even_chance_range * confidence_mult();
-    add_msg( m_debug, "confident_throw_range == %d", static_cast<int>( confident_range ) );
+    add_msg_debug( "confident_throw_range == %d", static_cast<int>( confident_range ) );
     return static_cast<int>( confident_range );
 }
 
@@ -2217,11 +2217,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
             ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
-            add_msg( m_debug, "failed to path to sound alert %d,%d,%d->%d,%d,%d",
-                     posx(), posy(), posz(), p.x, p.y, p.z );
+            add_msg_debug( "failed to path to sound alert %d,%d,%d->%d,%d,%d",
+                           posx(), posy(), posz(), p.x, p.y, p.z );
         }
-        add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
-                 posx(), posy(), posz(), p.x, p.y, p.z );
+        add_msg_debug( "Failed to path %d,%d,%d->%d,%d,%d",
+                       posx(), posy(), posz(), p.x, p.y, p.z );
     }
 
     while( !new_path.empty() && new_path[0] == pos() ) {
@@ -2486,8 +2486,8 @@ void npc::move_to_next()
     }
 
     if( path.empty() ) {
-        add_msg( m_debug, "npc::move_to_next() called with an empty path or path "
-                 "containing only current position" );
+        add_msg_debug( "npc::move_to_next() called with an empty path or path "
+                       "containing only current position" );
         move_pause();
         return;
     }
@@ -2986,7 +2986,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg( m_debug, "%s::pick_up_item(); Canceling on player's request", name );
+        add_msg_debug( "%s::pick_up_item(); Canceling on player's request", name );
         fetching_item = false;
         moves -= 1;
         return;
@@ -3004,25 +3004,25 @@ void npc::pick_up_item()
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
         move_pause();
-        add_msg( m_debug, "Canceling pickup - no items or new zone" );
+        add_msg_debug( "Canceling pickup - no items or new zone" );
         return;
     }
 
-    add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
-             posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
+    add_msg_debug( "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
+                   posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
     }
 
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
     if( dist_to_pickup > 1 && !path.empty() ) {
-        add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
-                 posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
+        add_msg_debug( "Moving; [%d, %d, %d] => [%d, %d, %d]",
+                       posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
 
         move_to_next();
         return;
     } else if( dist_to_pickup > 1 && path.empty() ) {
-        add_msg( m_debug, "Can't find path" );
+        add_msg_debug( "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
         move_pause();
@@ -3119,11 +3119,11 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     /* Remove this when someone debugs it back to functionality */
     return;
 
-    add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
-             "vol %3.2f/%3.2f L)",
-             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
-             units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
-             units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
+    add_msg_debug( "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
+                   "vol %3.2f/%3.2f L)",
+                   name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
+                   units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
+                   units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
 
     units::mass weight_dropped = units::from_gram( 0 );
     units::volume volume_dropped = units::from_liter( 0 );
@@ -3432,12 +3432,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
-                 best_value );
+        add_msg_debug( "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
+                       best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
+    add_msg_debug( "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
 
     wield( *best );
     return true;
@@ -3445,7 +3445,7 @@ bool npc::wield_better_weapon()
 
 bool npc::scan_new_items()
 {
-    add_msg( m_debug, "%s scanning new items", name );
+    add_msg_debug( "%s scanning new items", name );
     if( wield_better_weapon() ) {
         return true;
     } else {
@@ -4189,7 +4189,7 @@ void npc::go_to_omt_destination()
         }
     }
     if( goal == no_goal_point || omt_path.empty() ) {
-        add_msg( m_debug, "npc::go_to_destination with no goal" );
+        add_msg_debug( "npc::go_to_destination with no goal" );
         move_pause();
         reach_omt_destination();
         return;
@@ -4237,7 +4237,7 @@ void npc::go_to_omt_destination()
         }
     }
     path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
-    add_msg( m_debug, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
+    add_msg_debug( "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
 
     if( !path.empty() ) {
         move_to_next();
@@ -4315,7 +4315,7 @@ std::string npc_action_name( npc_action action )
 void print_action( const char *prepend, npc_action action )
 {
     if( action != npc_undecided ) {
-        add_msg( m_debug, prepend, npc_action_name( action ) );
+        add_msg_debug( prepend, npc_action_name( action ) );
     }
 }
 

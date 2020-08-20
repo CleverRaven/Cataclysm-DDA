@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <list>
@@ -14,6 +13,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
@@ -467,8 +467,8 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
-        assert( ait.loc );
-        assert( ait.loc.get_item() );
+        cata_assert( ait.loc );
+        cata_assert( ait.loc.get_item() );
 
         p.mod_moves( -ait.consumed_moves );
 
@@ -1716,8 +1716,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
-                 std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
+        add_msg_debug( "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+                       std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }

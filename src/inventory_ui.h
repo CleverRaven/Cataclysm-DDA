@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -16,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"

@@ -648,10 +648,10 @@
     "type": "ammunition_type"
   },
   {
-    "id": "oxygen",
-    "name": "oxygen",
-    "default": "oxygen",
-    "type": "ammunition_type"
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
   },
   {
     "type": "ammunition_type",

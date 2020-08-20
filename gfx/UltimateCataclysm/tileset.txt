@@ -1,7 +1,6 @@
-#Ultimate Cataclysm Update 12 Aug 2020
-#Special "Barely Even a Demo" edition!
+#Ultimate Cataclysm Update 19 Aug 2020
 
-NAME: UltimateCataclysmDemo
+NAME: UltimateCataclysm
 VIEW: UltiCa
 JSON: tile_config.json
 TILESET: tiles.png

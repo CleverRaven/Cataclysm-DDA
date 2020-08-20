@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -19,6 +18,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
@@ -500,7 +500,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     const bool vertical = dp.z != 0;
     // Ensured by the splitting above
-    assert( vertical == ( dp.xy() == point_zero ) );
+    cata_assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
     if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
@@ -1085,8 +1085,8 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                                  ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
 
     if( !inbounds( src ) ) {
-        add_msg( m_debug, "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
-                 src.x, src.y, src.z, dst.x, dst.y, dst.z );
+        add_msg_debug( "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
+                       src.x, src.y, src.z, dst.x, dst.y, dst.z );
         return false;
     }
 
@@ -1119,7 +1119,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     }
 
     if( !found ) {
-        add_msg( m_debug, "displace_vehicle [%s] failed", veh.name );
+        add_msg_debug( "displace_vehicle [%s] failed", veh.name );
         return false;
     }
 
@@ -1168,9 +1168,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             }
 
             if( psg->pos() != part_pos ) {
-                add_msg( m_debug, "Part/passenger position mismatch: part #%d at %d,%d,%d "
-                         "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
-                         psg->posx(), psg->posy(), psg->posz() );
+                add_msg_debug( "Part/passenger position mismatch: part #%d at %d,%d,%d "
+                               "passenger at %d,%d,%d", prt, part_pos.x, part_pos.y, part_pos.z,
+                               psg->posx(), psg->posy(), psg->posz() );
             }
             const vehicle_part &veh_part = veh.part( prt );
 
@@ -1882,7 +1882,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying, const bool via_ramp ) const
 {
     // Used to account for the fact that older versions of GCC can trip on the if statement here.
-    assert( to.z > std::numeric_limits<int>::min() );
+    cata_assert( to.z > std::numeric_limits<int>::min() );
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
     if( std::abs( from.x - to.x ) > 1 || std::abs( from.y - to.y ) > 1 ||
@@ -2295,8 +2295,8 @@ void map::process_falling()
     }
 
     if( !support_cache_dirty.empty() ) {
-        add_msg( m_debug, "Checking %d tiles for falling objects",
-                 support_cache_dirty.size() );
+        add_msg_debug( "Checking %d tiles for falling objects",
+                       support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
         std::set<tripoint> last_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
@@ -3092,7 +3092,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
-    assert( zlevels );
+    cata_assert( zlevels );
 
     if( p.z <= -OVERMAP_DEPTH ) {
         // Could be magma/"void" instead
@@ -3928,8 +3928,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
-                  player_character.has_artifact_with( AEP_SCHIZO ) ) &&
+            if( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) &&
                 one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
                 tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
@@ -6677,7 +6676,16 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     set_abs_sub( w.raw() );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle );
+            loadn( point( gridx, gridy ), update_vehicle, false );
+        }
+    }
+    // actualize after loading all submaps to prevent errors
+    // with entities at the edges
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                actualize( tripoint( point( gridx, gridy ), gridz ) );
+            }
         }
     }
 }
@@ -6967,7 +6975,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     }
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles )
+void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
 {
     // Cache empty overmap types
     static const oter_id rock( "empty_rock" );
@@ -7062,7 +7070,10 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         }
     }
 
-    actualize( grid );
+    // don't actualize before all maps are loaded
+    if( _actualize ) {
+        actualize( grid );
+    }
 
     abs_sub.z = old_abs_z;
 }
@@ -7608,8 +7619,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                                            point( rng( 0, SEEX ), rng( 0, SEEY ) );
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
-                add_msg( m_debug, "%s targeting %d,%d,%d", tmp.disp_name(),
-                         tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
+                add_msg_debug( "%s targeting %d,%d,%d", tmp.disp_name(),
+                               tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
             monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
@@ -7889,7 +7900,7 @@ int map::determine_wall_corner( const tripoint &p ) const
             return ter( p ).obj().symbol(); // technically just a column
 
         default:
-            // assert( false );
+            // cata_assert( false );
             // this shall not happen
             return '?';
     }

@@ -4482,7 +4482,7 @@
     "type": "recipe",
     "result": "wooden_bead",
     "category": "CC_OTHER",
-    "subcategory": "CSC_AMMO_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "20 m",
     "autolearn": true,

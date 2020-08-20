@@ -33,7 +33,8 @@
         "-----------GG-----------"
       ],
       "palettes": [ "cabin_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
+      "place_nested": [ { "chunks": [ [ "KINDRED_Darren_Cooper_spawn", 20 ], [ "null", 80 ] ], "x": 12, "y": 14 } ]
     }
   },
   {

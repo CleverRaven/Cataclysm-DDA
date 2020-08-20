@@ -1,11 +1,5 @@
 [
   {
-    "id": "fd_null",
-    "type": "field_type",
-    "legacy_enum_id": 0,
-    "intensity_levels": [ { "name": "nothing" } ]
-  },
-  {
     "id": "fd_blood",
     "type": "field_type",
     "legacy_enum_id": 1,
