@@ -96,8 +96,12 @@ def main(argv):
                 content = None
                 changed = False
                 if json_filename.match(file):
-                    with open(json_path, 'r', encoding='utf-8') as fs:
-                        content = json.load(fs)
+                    try:
+                        with open(json_path, 'r', encoding='utf-8') as fs:
+                            content = json.load(fs)
+                    except:
+                        sys.stderr.write('Error parsing %r\n' % json_path)
+                        raise
                 if type(content) is list:
                     for obj in content:
                         if not (type(obj) is dict
