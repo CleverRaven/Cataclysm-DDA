@@ -97,7 +97,7 @@
     "copy-from": "ruby_silver_cufflinks",
     "type": "ARMOR",
     "weight": "20 g",
-    "price_postapoc": "120000",
+    "price_postapoc": "1200 USD",
     "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
     "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
     "relic_data": {
