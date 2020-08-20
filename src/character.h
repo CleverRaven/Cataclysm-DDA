@@ -469,6 +469,8 @@ class Character : public Creature, public visitable<Character>
 
         /** Get size class of character **/
         creature_size get_size() const override;
+        /** Recalculate size class of character **/
+        void recalculate_size();
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -2652,9 +2654,6 @@ class Character : public Creature, public visitable<Character>
 };
 
 Character &get_player_character();
-
-/// Little size helper, exposed for use in deserialization code.
-creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<character_stat> {

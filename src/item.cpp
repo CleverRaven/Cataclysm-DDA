@@ -151,13 +151,9 @@ static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -1309,11 +1305,9 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        const bool small = p.has_trait( trait_SMALL2 ) ||
-                           p.has_trait( trait_SMALL_OK );
+        const bool small = p.get_size() == creature_size::tiny;
 
-        const bool big = p.has_trait( trait_HUGE ) ||
-                         p.has_trait( trait_HUGE_OK );
+        const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
