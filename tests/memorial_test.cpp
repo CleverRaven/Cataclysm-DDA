@@ -22,6 +22,7 @@
 #include "player_helpers.h"
 #include "pldata.h"
 #include "profession.h"
+#include "stats_tracker.h"
 #include "type_id.h"
 
 template<event_type Type, typename... Args>
@@ -63,6 +64,7 @@ TEST_CASE( "memorials", "[memorial]" )
     memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
+    get_stats().clear();
 
     event_bus &b = get_event_bus();
 

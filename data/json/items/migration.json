@@ -1124,11 +1124,6 @@
     "replace": "44_speedloader6"
   },
   {
-    "id": "l_enforcer_45",
-    "type": "MIGRATION",
-    "replace": "sw629"
-  },
-  {
     "id": [ "mosin91_30_ebr", "mn_ebr_kit", "mn_classic_kit" ],
     "type": "MIGRATION",
     "replace": "mosin91_30"

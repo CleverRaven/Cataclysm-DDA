@@ -1882,7 +1882,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
             break;
         }
         auto conn_it = unaccounted_parts.find( conn );
-        assert( conn_it != unaccounted_parts.end() );
+        cata_assert( conn_it != unaccounted_parts.end() );
         conn_it->second.erase( bp );
         if( conn_it->second.empty() ) {
             parts_with_no_connections.insert( conn );
@@ -1942,7 +1942,7 @@ static void sort_body_parts( std::vector<bodypart_id> &bps )
         }
     }
 
-    assert( bps.size() == result.size() );
+    cata_assert( bps.size() == result.size() );
     bps = result;
 }
 

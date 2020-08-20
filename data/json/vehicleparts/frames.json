@@ -74,10 +74,11 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 52 }
   },
   {
-    "abstract": "frame_wood_light",
+    "id": "frame_wood_light",
     "type": "vehicle_part",
     "name": { "str": "light wooden frame" },
     "item": "frame_wood_light",
@@ -92,6 +93,7 @@
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 46 }
   },
   {
@@ -129,7 +131,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 28 }
   }
 ]

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <functional>
@@ -15,6 +14,7 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "clzones.h"
@@ -233,7 +233,7 @@ class mapgen_basic_container
 
     public:
         int add( const std::shared_ptr<mapgen_function> &ptr ) {
-            assert( ptr );
+            cata_assert( ptr );
             mapgens_.push_back( ptr );
             return mapgens_.size() - 1;
         }
@@ -255,7 +255,7 @@ class mapgen_basic_container
             if( !ptr ) {
                 return false;
             }
-            assert( *ptr );
+            cata_assert( *ptr );
             ( *ptr )->generate( dat );
             return true;
         }
@@ -2376,8 +2376,8 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         // matching key in "terrain", unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
         point expected_dim = mapgensize + m_offset;
-        assert( expected_dim.x >= 0 );
-        assert( expected_dim.y >= 0 );
+        cata_assert( expected_dim.x >= 0 );
+        cata_assert( expected_dim.y >= 0 );
 
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
@@ -5993,7 +5993,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             std::unique_ptr<vehicle> old_veh = detach_vehicle( other_veh );
             // Failure has happened here when caches are corrupted due to bugs.
             // Add an assertion to avoid null-pointer dereference later.
-            assert( old_veh );
+            cata_assert( old_veh );
 
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );

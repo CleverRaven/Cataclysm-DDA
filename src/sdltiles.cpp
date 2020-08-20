@@ -7,7 +7,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdint>
@@ -32,6 +31,7 @@
 #endif
 
 #include "avatar.h"
+#include "cata_assert.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"

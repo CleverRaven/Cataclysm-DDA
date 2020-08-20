@@ -461,7 +461,7 @@ BitmapFont::BitmapFont(
 {
     dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
-    assert( asciiload );
+    cata_assert( asciiload );
     if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }

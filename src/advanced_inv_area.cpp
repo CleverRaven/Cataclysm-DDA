@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <cstring>
 #include <iterator>
 #include <list>
@@ -12,6 +11,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "avatar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "enums.h"
 #include "field.h"
@@ -193,7 +193,7 @@ void advanced_inv_area::init()
 units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
 {
     // should be a specific location instead
-    assert( id != AIM_ALL );
+    cata_assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return get_player_character().free_space();
     }

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
@@ -9,6 +8,7 @@
 #include <tuple>
 
 #include "avatar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
@@ -1011,7 +1011,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.
-            assert( critter );
+            cata_assert( critter );
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
