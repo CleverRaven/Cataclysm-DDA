@@ -2471,7 +2471,10 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
            "Maximum item length: <color_c_yellow>60</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
-           "Base moves to remove item: <color_c_yellow>50</color>\n" );
+           "Base moves to remove item: <color_c_yellow>50</color>\n"
+           "Restrictions:\n"
+           "* Item must have a belt clip\n"
+           "* OR Item must fit in a sheath\n" );
 }
 
 TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
