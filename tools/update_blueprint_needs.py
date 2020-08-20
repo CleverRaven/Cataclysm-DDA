@@ -56,7 +56,7 @@ def main(argv):
 
     auto_update_blueprint = re.compile("~~~ auto-update-blueprint: (.+)")
     auto_update_blueprint_end = re.compile("~~~ end-auto-update")
-    json_filename = re.compile(".+\\.json")
+    json_filename = re.compile("[^.].*\\.json")
 
     update_blueprints = dict()
 
