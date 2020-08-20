@@ -484,7 +484,12 @@
     "construction_blueprint": "faction_base_farm_0",
     "blueprint_name": "Farm survey",
     "time": "180 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_needs": {
+      "time": "5 h",
+      "skills": [ [ "survival", 1 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+    }
   },
   {
     "type": "recipe",
@@ -570,7 +575,12 @@
     "blueprint_name": "Garage survey",
     "never_learn": true,
     "time": "180 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_needs": {
+      "time": "15 h",
+      "skills": [ [ "survival", 1 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+    }
   },
   {
     "type": "recipe",
@@ -718,7 +728,12 @@
     "construction_blueprint": "faction_base_kitchen_0",
     "blueprint_name": "Kitchen survey",
     "time": "180 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_needs": {
+      "time": "12 h 30 m",
+      "skills": [ [ "survival", 1 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+    }
   },
   {
     "type": "recipe",
@@ -961,7 +976,12 @@
     "construction_blueprint": "faction_base_blacksmith_0",
     "blueprint_name": "Blacksmithy survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "time": "180 m"
+    "time": "180 m",
+    "blueprint_needs": {
+      "time": "15 h",
+      "skills": [ [ "survival", 1 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+    }
   },
   {
     "type": "recipe",
