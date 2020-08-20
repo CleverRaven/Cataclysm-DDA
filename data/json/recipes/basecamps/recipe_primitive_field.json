@@ -481,7 +481,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "faction_base_field_camp_farm_0",
+    "construction_blueprint": "faction_base_farm_0",
     "blueprint_name": "Farm survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
@@ -566,7 +566,7 @@
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
     "autolearn": false,
-    "construction_blueprint": "faction_base_field_camp_garage_0",
+    "construction_blueprint": "faction_base_garage_0",
     "blueprint_name": "Garage survey",
     "never_learn": true,
     "time": "180 m",
@@ -715,7 +715,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "faction_base_field_camp_kitchen_0",
+    "construction_blueprint": "faction_base_kitchen_0",
     "blueprint_name": "Kitchen survey",
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ]
@@ -958,7 +958,7 @@
     "skill_used": "fabrication",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "faction_base_field_camp_blacksmith_0",
+    "construction_blueprint": "faction_base_blacksmith_0",
     "blueprint_name": "Blacksmithy survey",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "time": "180 m"
