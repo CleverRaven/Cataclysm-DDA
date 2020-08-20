@@ -1560,6 +1560,8 @@ class Character : public Creature, public visitable<Character>
         void drop_invalid_inventory();
         // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
         void invalidate_inventory_validity_cache();
+
+        void invalidate_weight_carried_cache();
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
@@ -2524,6 +2526,11 @@ class Character : public Creature, public visitable<Character>
          * Pointers to mutation branches in @ref my_mutations.
          */
         std::vector<const mutation_branch *> cached_mutations;
+        /**
+         * The amount of weight the Character is carrying.
+         * If it is nullopt, needs to be recalculated
+         */
+        mutable cata::optional<units::mass> cached_weight_carried = cata::nullopt;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );

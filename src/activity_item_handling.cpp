@@ -517,7 +517,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
             break;
         }
     }
-
+    p->invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
                               pos, force_ground );
 }
