@@ -457,6 +457,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, cata::nullopt );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
@@ -552,6 +553,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    for( JsonMember member : jo.get_object( "bionic_slot_bonuses" ) ) {
+        bionic_slot_bonuses[bodypart_str_id( member.name() )] = member.get_int();
+    }
+
     if( jo.has_array( "attacks" ) ) {
         for( JsonObject ao : jo.get_array( "attacks" ) ) {
             attacks_granted.emplace_back( load_mutation_attack( ao ) );
@@ -559,6 +564,16 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     } else if( jo.has_object( "attacks" ) ) {
         JsonObject attack = jo.get_object( "attacks" );
         attacks_granted.emplace_back( load_mutation_attack( attack ) );
+    }
+}
+
+int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
+{
+    const auto iter = bionic_slot_bonuses.find( part );
+    if( iter == bionic_slot_bonuses.end() ) {
+        return 0;
+    } else {
+        return iter->second;
     }
 }
 
