@@ -7150,3 +7150,8 @@ bool has_mapgen_for( const std::string &key )
 {
     return oter_mapgen.has( key );
 }
+
+bool has_update_mapgen_for( const std::string &key )
+{
+    return update_mapgen.count( key );
+}

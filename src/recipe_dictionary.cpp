@@ -15,6 +15,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "mapgen.h"
 #include "optional.h"
 #include "output.h"
 #include "requirements.h"
@@ -495,6 +496,15 @@ void recipe_dictionary::check_consistency()
                     "recipe %s has subcategory %s which is invalid or doesn't match category %s",
                     r.ident().str(), r.subcategory, r.category );
             }
+        }
+    }
+
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
+
+        if( !r.blueprint.empty() && !has_update_mapgen_for( r.blueprint ) ) {
+            debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint );
         }
     }
 }
