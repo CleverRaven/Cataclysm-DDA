@@ -109,7 +109,7 @@
     "type": "SPELL",
     "name": "Lupercalian Release",
     "//": "Used for wolfshead cufflinks not castable",
-    "description": "This spell transforms you into a werewolf. There may be some cons to this.",
+    "description": "This spell transforms you into a werewolf.  There may be some cons to this.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "effect": "spawn_item",
