@@ -4389,6 +4389,7 @@ void game::mon_info_update( )
             }
         }
 
+        bool need_processing = false;
         rule_state safemode_state = rule_state::NONE;
         const bool safemode_empty = get_safemode().empty();
 
@@ -4399,11 +4400,18 @@ void game::mon_info_update( )
             const monster_attitude matt = critter.attitude( &u );
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
             if( !safemode_empty ) {
-                safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
-                if( safemode_state == rule_state::BLACKLISTED ) {
-                    if( index < 8 && critter.sees( get_player_character() ) ) {
-                        dangerous[index] = true;
-                    }
+                need_processing = get_safemode().check_monster(
+                                      critter.name(),
+                                      critter.attitude_to( u ),
+                                      mon_dist ) == rule_state::BLACKLISTED;
+            } else {
+                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+            }
+            if( need_processing ) {
+                if( index < 8 && critter.sees( get_player_character() ) ) {
+                    dangerous[index] = true;
+                }
+                if( !safemode_empty || mon_dist <= iProxyDist ) {
                     bool passmon = false;
                     if( critter.ignoring > 0 ) {
                         if( safe_mode != SAFE_MODE_ON ) {
@@ -4421,30 +4429,6 @@ void game::mon_info_update( )
                         new_seen_mon.push_back( shared_from( critter ) );
                     }
                 }
-            } else {
-                if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                    if( index < 8 && critter.sees( get_player_character() ) ) {
-                        dangerous[index] = true;
-                    }
-                    if( mon_dist <= iProxyDist ) {
-                        bool passmon = false;
-                        if( critter.ignoring > 0 ) {
-                            if( safe_mode != SAFE_MODE_ON ) {
-                                critter.ignoring = 0;
-                            } else if( ( sm_ignored_turns == 0 || ( critter.lastseen_turn &&
-                                                                    to_turn<int>( *critter.lastseen_turn ) > current_turn - sm_ignored_turns ) ) &&
-                                       ( mon_dist > critter.ignoring / 2 || mon_dist < 6 ) ) {
-                                passmon = true;
-                            }
-                            critter.lastseen_turn = current_turn;
-                        }
-
-                        if( !passmon ) {
-                            newseen++;
-                            new_seen_mon.push_back( shared_from( critter ) );
-                        }
-                    }
-                }
             }
 
             std::vector<const mtype *> &vec = unique_mons[index];
@@ -4455,15 +4439,16 @@ void game::mon_info_update( )
             //Safe mode NPC check
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             if( !safemode_empty ) {
-                safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
-                                 npc_dist );
-                if( safemode_state == rule_state::BLACKLISTED ) {
-                    newseen++;
-                }
+                need_processing = get_safemode().check_monster(
+                                      get_safemode().npc_type_name(),
+                                      p->attitude_to( u ),
+                                      npc_dist ) == rule_state::BLACKLISTED ;
             } else {
-                if( npc_dist <= iProxyDist && p->get_attitude() == NPCATT_KILL ) {
-                    newseen++;
-                }
+                need_processing = npc_dist <= iProxyDist &&
+                                  p->get_attitude() == NPCATT_KILL;
+            }
+            if( need_processing ) {
+                newseen++;
             }
             unique_types[index].push_back( p );
         }
@@ -5107,7 +5092,8 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const trip
     return place_critter_around( mon, p, 0 );
 }
 
-monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
+monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
+                                     const int radius )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -6372,7 +6358,8 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
+                            const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6415,7 +6402,8 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
+                             const int column,
                              int &line,
                              const int last_line )
 {
@@ -7476,7 +7464,8 @@ bool game::take_screenshot( const std::string &/*path*/ ) const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height,
+                                  bool bRadiusSort )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
