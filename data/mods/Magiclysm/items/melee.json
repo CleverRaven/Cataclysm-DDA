@@ -96,11 +96,7 @@
     "volume": "3250 ml",
     "bashing": 10,
     "cutting": 35,
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ] },
     "price": 200000
   }
 ]
