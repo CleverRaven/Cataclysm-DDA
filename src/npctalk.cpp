@@ -96,7 +96,7 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 int topic_category( const talk_topic &the_topic );
 
-const talk_topic &special_talk( char ch );
+const talk_topic &special_talk( const std::string &action );
 
 std::string give_item_to( npc &p, bool allow_use );
 
@@ -1337,19 +1337,17 @@ void dialogue::add_topic( const talk_topic &topic )
     topic_stack.push_back( topic );
 }
 
-talk_data talk_response::create_option_line( const dialogue &d, const char letter )
+talk_data talk_response::create_option_line( const dialogue &d, const input_event &hotkey )
 {
     std::string ftext;
     text = ( truefalse_condition( d ) ? truetext : falsetext ).translated();
-    // dialogue w/ a % chance to work
     if( trial.type == TALK_TRIAL_NONE || trial.type == TALK_TRIAL_CONDITION ) {
         // regular dialogue
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: %2$s" ), letter, text );
+        ftext = text;
     } else {
         // dialogue w/ a % chance to work
-        //~ %1$c is an option letter and shouldn't be translated, %2$s is translated trial type, %3$d is a number, and %4$s is the translated response text
-        ftext = string_format( pgettext( "talk option", "%1$c: [%2$s %3$d%%] %4$s" ), letter,
+        //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
+        ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ),
                                trial.name(), trial.calc_chance( d ), text );
     }
     parse_tags( ftext, *d.alpha->get_character(), *d.beta->get_npc(),
@@ -1367,8 +1365,9 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
         color = c_white;
     }
     talk_data results;
-    results.first = color;
-    results.second = ftext;
+    results.color = color;
+    results.hotkey_desc = right_justify( hotkey.short_description(), 2 );
+    results.text = ftext;
     return results;
 }
 
@@ -1392,17 +1391,17 @@ dialogue_consequence talk_effect_t::get_consequence( const dialogue &d ) const
     return guaranteed_consequence;
 }
 
-const talk_topic &special_talk( char ch )
+const talk_topic &special_talk( const std::string &action )
 {
-    static const std::map<char, talk_topic> key_map = {{
-            { 'L', talk_topic( "TALK_LOOK_AT" ) },
-            { 'S', talk_topic( "TALK_SIZE_UP" ) },
-            { 'O', talk_topic( "TALK_OPINION" ) },
-            { 'Y', talk_topic( "TALK_SHOUT" ) },
+    static const std::map<std::string, talk_topic> key_map = {{
+            { "LOOK_AT", talk_topic( "TALK_LOOK_AT" ) },
+            { "SIZE_UP_STATS", talk_topic( "TALK_SIZE_UP" ) },
+            { "CHECK_OPINION", talk_topic( "TALK_OPINION" ) },
+            { "YELL", talk_topic( "TALK_SHOUT" ) },
         }
     };
 
-    const auto iter = key_map.find( ch );
+    const auto iter = key_map.find( action );
     if( iter != key_map.end() ) {
         return iter->second;
     }
@@ -1445,21 +1444,41 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     apply_speaker_effects( topic );
 
-    std::vector<talk_data> response_lines;
-    for( size_t i = 0; i < responses.size(); i++ ) {
-        response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
+    if( responses.empty() ) {
+        debugmsg( "No dialogue responses" );
+        return talk_topic( "TALK_NONE" );
     }
 
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    ctxt.register_action( "LOOK_AT" );
+    ctxt.register_action( "SIZE_UP_STATS" );
+    ctxt.register_action( "YELL" );
+    ctxt.register_action( "CHECK_OPINION" );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "ANY_INPUT" );
+    std::vector<talk_data> response_lines;
+    std::vector<input_event> response_hotkeys;
+    const auto generate_response_lines = [&]() {
 #if defined(__ANDROID__)
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE", keyboard_mode::keychar );
-    for( size_t i = 0; i < responses.size(); i++ ) {
-        ctxt.register_manual_key( 'a' + i );
-    }
-    ctxt.register_manual_key( 'L', "Look at" );
-    ctxt.register_manual_key( 'S', "Size up stats" );
-    ctxt.register_manual_key( 'Y', "Yell" );
-    ctxt.register_manual_key( 'O', "Check opinion" );
+        ctxt.get_registered_manual_keys().clear();
 #endif
+        const hotkey_queue &queue = hotkey_queue::alphabets();
+        response_lines.clear();
+        response_hotkeys.clear();
+        input_event evt = ctxt.first_unassigned_hotkey( queue );
+        for( talk_response &response : responses ) {
+            response_lines.emplace_back( response.create_option_line( *this, evt ) );
+            response_hotkeys.emplace_back( evt );
+#if defined(__ANDROID__)
+            ctxt.register_manual_key( evt.get_first_input() );
+#endif
+            evt = ctxt.next_unassigned_hotkey( queue, evt );
+        }
+    };
+    generate_response_lines();
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
@@ -1472,34 +1491,37 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         d_win.display_responses( hilight_lines, response_lines );
     } );
 
-    int ch = text_only ? 'a' + responses.size() - 1 : ' ';
+    size_t response_ind = response_hotkeys.size();
     bool okay;
     do {
         d_win.refresh_response_display();
+        std::string action;
         do {
             ui_manager::redraw();
+            input_event evt;
             if( !text_only ) {
-                ch = inp_mngr.get_input_event( keyboard_mode::keychar ).get_first_input();
+                action = ctxt.handle_input();
+                evt = ctxt.get_raw_input();
+            } else {
+                action = "ANY_INPUT";
+                evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
             }
-            d_win.handle_scrolling( ch );
-            auto st = special_talk( ch );
+            d_win.handle_scrolling( action );
+            auto st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
-            switch( ch ) {
-                case KEY_DOWN:
-                case KEY_NPAGE:
-                case KEY_UP:
-                case KEY_PPAGE:
-                    ch = -1;
-                    break;
-                default:
-                    ch -= 'a';
-                    break;
+            if( action == "HELP_KEYBINDINGS" ) {
+                // Reallocate hotkeys as keybindings may have changed
+                generate_response_lines();
+            } else if( action == "ANY_INPUT" ) {
+                const auto hotkey_it = std::find( response_hotkeys.begin(),
+                                                  response_hotkeys.end(), evt );
+                response_ind = std::distance( response_hotkeys.begin(), hotkey_it );
             }
-        } while( ( ch < 0 || ch >= static_cast<int>( responses.size() ) ) );
+        } while( action != "ANY_INPUT" || response_ind >= response_hotkeys.size() );
         okay = true;
-        std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
+        std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
             okay = query_yn( _( "You may be attacked!  Proceed?" ) );
         } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
@@ -1508,9 +1530,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     } while( !okay );
     d_win.add_history_separator();
 
-    talk_response chosen = responses[ch];
+    talk_response chosen = responses[response_ind];
     std::string response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[ch].second.substr( 3 ) );
+                                   response_lines[response_ind].text );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
