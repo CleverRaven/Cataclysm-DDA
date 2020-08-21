@@ -46,7 +46,8 @@
     "id": "BELT_CLIP",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+    "restriction": "Item must clip onto a belt loop",
+    "info": "This item can be <info>clipped onto a belt loop</info> of the appropriate size."
   },
   {
     "id": "BELTED",
@@ -369,7 +370,7 @@
     "id": "REQUIRES_BALANCE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
+    "info": "This gear requires careful balance to use.  Being hit while wearing it could make you <bad>fall down</bad>."
   },
   {
     "id": "TWO_WAY_RADIO",
@@ -407,25 +408,29 @@
     "id": "SHEATH_AXE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sheath of the appropriate size."
+    "restriction": "Item must fit in an axe sheath",
+    "info": "This item can <info>fit in an axe sheath</info> of the appropriate size."
   },
   {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sheath of the appropriate size."
+    "restriction": "Item must fit in a sheath",
+    "info": "This item can <info>fit in a sheath</info> of the appropriate size."
   },
   {
     "id": "SHEATH_SWORD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a scabbard of the appropriate size."
+    "restriction": "Item must fit in a scabbard",
+    "info": "This item can <info>fit in a scabbard</info> of the appropriate size."
   },
   {
     "id": "SHEATH_SPEAR",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sling of the appropriate size."
+    "restriction": "Item must attach to a spear strap",
+    "info": "This item can <info>attach to a spear strap</info> of the appropriate size."
   },
   {
     "id": "SHEATH_GOLF",
@@ -521,7 +526,7 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
-    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
+    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
   },
   {
     "id": "POWERARMOR_COMPATIBLE",
@@ -783,7 +788,7 @@
     "id": "RAW",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "//": "Decreases calories as they appear in JSON def by 25%. This penalty is removed if the item is used in a recipe that requires heating.",
+    "//": "Decreases calories as they appear in JSON def by 25%.  This penalty is removed if the item is used in a recipe that requires heating.",
     "info": "This food is <info>raw</info>, and will be <good>more nutritious</good> if cooked."
   },
   {
