@@ -3214,7 +3214,7 @@ units::volume Character::get_contents_volume_with_tweaks( const item_contents *c
     units::volume ret = 0_ml;
 
     for( const item_pocket *pocket : contents->get_all_contained_pockets().value() ) {
-        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
             const item *it = &pocket->front();
             auto stack = without.find( it );
             if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
