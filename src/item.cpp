@@ -4480,6 +4480,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p );
 
     p.flag_encumbrance();
+    p.invalidate_weight_carried_cache();
 }
 
 void item::on_contents_changed()
@@ -10181,6 +10182,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
+    player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( player_character, *this, false, pos );
 }
 
