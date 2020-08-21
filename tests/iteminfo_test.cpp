@@ -2268,7 +2268,7 @@ TEST_CASE( "item description flags", "[iteminfo][flags]" )
     REQUIRE( halligan.has_flag( "DURABLE_MELEE" ) );
     CHECK( item_info_str( halligan, flags ) ==
            "--\n"
-           "* This item can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
+           "* This item can be <color_c_cyan>clipped onto a belt loop</color> of the appropriate size.\n"
            "* As a weapon, this item is <color_c_green>well-made</color> and will"
            " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
@@ -2472,9 +2472,9 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "Maximum item length: <color_c_yellow>60</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"
-           "Restrictions:\n"
-           "* Item must have a belt clip\n"
-           "* OR Item must fit in a sheath\n" );
+           "<color_c_white>Restrictions</color>:\n"
+           "* Item must clip onto a belt loop\n"
+           "* <color_c_white>or</color> Item must fit in a sheath\n" );
 }
 
 TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )

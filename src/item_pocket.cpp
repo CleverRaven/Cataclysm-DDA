@@ -849,7 +849,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     // Display flags items need to be stored in this pocket
     if( !data->flag_restriction.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "Restrictions:" ) );
+        info.emplace_back( "DESCRIPTION", _( "<bold>Restrictions</bold>:" ) );
         bool first = true;
         for( const std::string &e : data->flag_restriction ) {
             const json_flag &f = json_flag::get( e );
@@ -858,7 +858,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                     info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.restriction() ) ) );
                     first = false;
                 } else {
-                    info.emplace_back( "DESCRIPTION", string_format( "* OR %s", _( f.restriction() ) ) );
+                    info.emplace_back( "DESCRIPTION", string_format( "* <bold>or</bold> %s", _( f.restriction() ) ) );
                 }
             }
         }
