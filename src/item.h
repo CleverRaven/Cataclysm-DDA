@@ -740,8 +740,8 @@ class item : public visitable<item>
          */
         units::volume get_total_capacity() const;
 
-        // recusive function that checks pockets for remaining free space
-        units::volume check_for_free_space( const item *it ) const;
+        // recursive function that checks pockets for remaining free space
+        units::volume check_for_free_space() const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious

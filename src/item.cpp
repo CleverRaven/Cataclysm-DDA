@@ -10325,18 +10325,18 @@ void item::update_clothing_mod_val()
     }
 }
 
-units::volume item::check_for_free_space( const item *it ) const
+units::volume item::check_for_free_space() const
 {
     units::volume volume;
 
-    for( const item *container : it->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *container : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         ret_val<std::vector<const item_pocket *>> containedPockets =
                 container->contents.get_all_contained_pockets();
         if( containedPockets.success() ) {
-            volume += check_for_free_space( container );
+            volume += container->check_for_free_space();
 
             for( const item_pocket *pocket : containedPockets.value() ) {
-                if( pocket->rigid() ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
                     volume += pocket->remaining_volume();
                 }
             }
