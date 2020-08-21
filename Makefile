@@ -351,7 +351,7 @@ ifeq ($(RELEASE), 1)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
-  
+
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -420,7 +420,7 @@ ifeq ($(PCH), 1)
         CXXFLAGS += -Xclang -fno-pch-timestamp
       endif
     endif
-    
+
   endif
 endif
 
@@ -934,7 +934,9 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.{gch,pch,d}
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
