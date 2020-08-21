@@ -3081,7 +3081,16 @@ std::vector<item_location> Character::find_reloadables()
 
 units::mass Character::weight_carried() const
 {
-    return weight_carried_with_tweaks( item_tweaks() );
+    if( cached_weight_carried ) {
+        return *cached_weight_carried;
+    }
+    cached_weight_carried = weight_carried_with_tweaks( item_tweaks() );
+    return *cached_weight_carried;
+}
+
+void Character::invalidate_weight_carried_cache()
+{
+    cached_weight_carried = cata::nullopt;
 }
 
 units::mass Character::best_nearby_lifting_assist() const
