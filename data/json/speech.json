@@ -2498,6 +2498,12 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_dog_pup", "mon_dog_bull_pup", "mon_dog_pitbullmix_pup", "mon_dog_beagle_pup", "mon_dog_bcollie_pup", "mon_dog_boxer_pup", "mon_dog_chihuahua_pup", "mon_dog_dachshund_pup", "mon_dog_gshepherd_pup", "mon_dog_gpyrenees_pup", "mon_dog_rottweiler_pup", "mon_dog_auscattle_pup" ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
     "speaker": "mon_dog_gshepherd",
     "sound": "BARK!",
     "volume": 40
@@ -2518,6 +2524,30 @@
     "type": "speech",
     "speaker": "mon_dog_auscattle",
     "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_cat_kitten", "mon_cat_kitten", "mon_cat_longhair", "mon_cat_longhair_kitten", "mon_cat_maine_coon", "mon_cat_maine_coon_kitten", "mon_cat_siamese", "mon_cat_siamese_kitten", "mon_cat_persian", "mon_cat_persian_kitten", "mon_cat_bengal", "mon_cat_bengal_kitten", "mon_cat_devon_rex", "mon_cat_devon_rex_kitten", "mon_cat_sphynx", "mon_cat_sphynx_kitten", "mon_cat_tabby", "mon_cat_tabby_kitten", "mon_cat_calico", "mon_cat_calico_kitten", "mon_cat_chonker", "mon_cat_chonker_kitten" ],
+    "sound": "MEOW!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_cat_kitten", "mon_cat_kitten", "mon_cat_longhair", "mon_cat_longhair_kitten", "mon_cat_maine_coon", "mon_cat_maine_coon_kitten", "mon_cat_siamese", "mon_cat_siamese_kitten", "mon_cat_persian", "mon_cat_persian_kitten", "mon_cat_bengal", "mon_cat_bengal_kitten", "mon_cat_devon_rex", "mon_cat_devon_rex_kitten", "mon_cat_sphynx", "mon_cat_sphynx_kitten", "mon_cat_tabby", "mon_cat_tabby_kitten", "mon_cat_calico", "mon_cat_calico_kitten", "mon_cat_chonker", "mon_cat_chonker_kitten" ],
+    "sound": "HISS!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_dog", "mon_dog_zombie_cop", "mon_dog_zombie_rot", "mon_dog_skeleton", "mon_dog_zombie_brute", "mon_dog_zombie_hulk", "mon_dog_skeleton_brute" ],
+    "sound": "GRRRRR!WOOF!GRRRRR!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_horse", "mon_zombie_horse" ],
+    "sound": "NEIGH!",
     "volume": 40
   }
 ]

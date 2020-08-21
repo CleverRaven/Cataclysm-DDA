@@ -27,7 +27,7 @@
     "armor_acid": 3,
     "vision_night": 3,
     "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "PARROT", 12 ] ],
     "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
@@ -51,7 +51,7 @@
       "vision_night": 1
     },
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 }, [ "PARROT", 12 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
   {
@@ -70,7 +70,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 }, [ "PARROT", 12 ] ],
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {
@@ -88,7 +88,8 @@
     "armor_bash": 12,
     "armor_acid": 1,
     "special_attacks": [
-      [ "SMASH", 45 ],
+      [ "SMASH", 45 ], 
+	  [ "PARROT", 12 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ],
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" }
