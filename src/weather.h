@@ -68,7 +68,10 @@ struct weather_printable {
     //!< Color to draw glyph this animation frame.
     nc_color colGlyph;
     //!< Glyph to draw this animation frame.
-    char cGlyph;
+    uint32_t cGlyph;
+    std::string get_symbol() const {
+        return utf32_to_utf8( cGlyph );
+    }
 };
 
 struct weather_sum {

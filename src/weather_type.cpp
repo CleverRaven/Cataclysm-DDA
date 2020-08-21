@@ -162,13 +162,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     assign( jo, "color", color );
     assign( jo, "map_color", map_color );
 
-    std::string glyph;
-    mandatory( jo, was_loaded, "glyph", glyph );
-    if( glyph.size() != 1 ) {
-        jo.throw_error( "glyph must be only one character" );
-    } else {
-        glyph = glyph[0];
-    }
+    mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
@@ -249,12 +244,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         if( !assign( weather_animation_jo, "color", animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
         }
-        mandatory( weather_animation_jo, was_loaded, "glyph", glyph );
-        if( glyph.size() != 1 ) {
-            weather_animation_jo.throw_error( "glyph must be only one character" );
-        } else {
-            animation.glyph = glyph[0];
-        }
+        mandatory( weather_animation_jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
         weather_animation = animation;
     }
 

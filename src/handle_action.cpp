@@ -240,12 +240,12 @@ input_context game::get_player_input( std::string &action )
 #endif //TILES
 
         // TODO: Move the weather calculations out of here.
-        const bool bWeatherEffect = ( weather_info.glyph != '?' );
+        const bool bWeatherEffect = weather_info.symbol != NULL_UNICODE;
         const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
-        wPrint.cGlyph = weather_info.glyph;
+        wPrint.cGlyph = weather_info.symbol;
         wPrint.wtype = weather.weather_id;
         wPrint.vdrops.clear();
 
