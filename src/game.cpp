@@ -4390,7 +4390,6 @@ void game::mon_info_update( )
         }
 
         bool need_processing = false;
-        rule_state safemode_state = rule_state::NONE;
         const bool safemode_empty = get_safemode().empty();
 
         if( m != nullptr ) {
