@@ -154,6 +154,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     SECTION( "Freezing" ) {
         get_weather().temperature = 0;
         test_npc.update_bodytemp();
+        REQUIRE( oracle.needs_warmth_badly( "" ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.push_back( item( "backpack" ) );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
@@ -168,6 +169,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     SECTION( "Hungry" ) {
         test_npc.set_hunger( 500 );
         test_npc.set_stored_kcal( 1000 );
+        REQUIRE( oracle.needs_food_badly( "" ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
         item_location loc = item_location( test_npc, &food );
@@ -177,6 +179,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
+        REQUIRE( oracle.needs_water_badly( "" ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
         item_location loc = item_location( test_npc, &water );
