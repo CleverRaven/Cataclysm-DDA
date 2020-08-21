@@ -4389,7 +4389,7 @@ void game::mon_info_update( )
             }
         }
 
-        rule_state safemode_state = rule_state::NONE;
+        bool need_processing = false;
         const bool safemode_empty = get_safemode().empty();
 
         if( m != nullptr ) {
@@ -4398,10 +4398,15 @@ void game::mon_info_update( )
 
             const monster_attitude matt = critter.attitude( &u );
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
-            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
-
-            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
-                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
+            if( !safemode_empty ) {
+                need_processing = get_safemode().check_monster(
+                                      critter.name(),
+                                      critter.attitude_to( u ),
+                                      mon_dist ) == rule_state::BLACKLISTED;
+            } else {
+                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+            }
+            if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
                     dangerous[index] = true;
                 }
@@ -4434,14 +4439,17 @@ void game::mon_info_update( )
             //Safe mode NPC check
 
             const int npc_dist = rl_dist( u.pos(), p->pos() );
-            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
-                             npc_dist );
-
-            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
-                    p->get_attitude() == NPCATT_KILL ) ) {
-                if( !safemode_empty || npc_dist <= iProxyDist ) {
-                    newseen++;
-                }
+            if( !safemode_empty ) {
+                need_processing = get_safemode().check_monster(
+                                      get_safemode().npc_type_name(),
+                                      p->attitude_to( u ),
+                                      npc_dist ) == rule_state::BLACKLISTED ;
+            } else {
+                need_processing = npc_dist <= iProxyDist &&
+                                  p->get_attitude() == NPCATT_KILL;
+            }
+            if( need_processing ) {
+                newseen++;
             }
             unique_types[index].push_back( p );
         }
