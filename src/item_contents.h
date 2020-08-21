@@ -122,6 +122,9 @@ class item_contents
 
         units::volume remaining_container_capacity() const;
         units::volume total_contained_volume() const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
 
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;

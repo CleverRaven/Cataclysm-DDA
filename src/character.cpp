@@ -3196,89 +3196,16 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += get_contents_volume_with_tweaks( &i.contents, without );
+            ret += i.contents.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += get_contents_volume_with_tweaks( &weapon.contents, without );
+        ret += weapon.contents.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
-}
-
-units::volume Character::get_contents_volume_with_tweaks( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : contents->get_all_contained_pockets().value() ) {
-        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += i->volume() - get_selected_stack_volume( i, without );
-                } else if( !without.count( i ) ) {
-                    ret += i->volume();
-                    ret -= get_nested_content_volume_recursive( &i->contents, without );
-                }
-            }
-        }
-    }
-
-    return ret;
-}
-
-units::volume Character::get_nested_content_volume_recursive( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item_pocket *pocket : contents->get_all_contained_pockets().value() ) {
-        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
-            const item *it = &pocket->front();
-            auto stack = without.find( it );
-            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
-                ret += pocket->volume_capacity();
-            }
-        } else {
-            for( const item *i : pocket->all_items_top() ) {
-                if( i->count_by_charges() ) {
-                    ret += get_selected_stack_volume( i, without );
-                } else if( without.count( i ) ) {
-                    ret += i->volume();
-                } else {
-                    ret += get_nested_content_volume_recursive( &i->contents, without );
-                }
-            }
-
-            if( pocket->rigid() ) {
-                ret += pocket->remaining_volume();
-            }
-        }
-    }
-
-    return ret;
-}
-
-units::volume Character::get_selected_stack_volume( const item *i,
-        const std::map<const item *, int> &without ) const
-{
-    auto stack = without.find( i );
-    if( stack != without.end() ) {
-        int selected = stack->second;
-        item copy = *i;
-        copy.charges = selected;
-        return copy.volume();
-    }
-
-    return 0_ml;
 }
 
 units::mass Character::weight_capacity() const
