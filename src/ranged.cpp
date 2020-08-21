@@ -2141,11 +2141,8 @@ void target_ui::init_window_and_input()
 
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
-    ctxt = input_context( "TARGET", keyboard_mode::keychar );
+    ctxt = input_context( "TARGET" );
     ctxt.set_iso( true );
-    // "ANY_INPUT" should be added before any real help strings
-    // Or strings will be written on window border.
-    ctxt.register_action( "ANY_INPUT" );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );
     ctxt.register_action( "SELECT" );
@@ -2867,7 +2864,9 @@ void target_ui::draw_help_notice()
 {
     int text_y = getmaxy( w_target ) - 1;
     int width = getmaxx( w_target );
-    const std::string label_help = narrow ? _( "[?] show help" ) : _( "[?] show all controls" );
+    const std::string label_help = string_format(
+                                       narrow ? _( "[%s] show help" ) : _( "[%s] show all controls" ),
+                                       ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) );
     int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
     int text_x = width - label_width - 6;
     mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
@@ -2950,10 +2949,10 @@ void target_ui::draw_controls_list( int text_y )
                                       bound_key( "SWITCH_AMMO" ) ) )} );
     }
     if( mode == TargetMode::Turrets ) {
-        const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",
-                                  "[%c] %s lines of fire" ).translated();
-        const std::string showhide = draw_turret_lines ? "Hide" : "Show";
-        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ), showhide ) )} );
+        const std::string label = draw_turret_lines
+                                  ? _( "[%c] Hide lines of fire" )
+                                  : _( "[%c] Show lines of fire" );
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ) ) )} );
     }
 
     // Shrink the list until it fits
