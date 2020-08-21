@@ -19,6 +19,7 @@
 #include "translations.h"
 
 enum action_id : int;
+class hotkey_queue;
 
 namespace cata
 {
@@ -231,6 +232,9 @@ struct input_event {
     }
 
     bool operator!=( const input_event &other ) const;
+
+    std::string long_description() const;
+    std::string short_description() const;
 };
 
 /**
@@ -768,6 +772,9 @@ class input_context
          */
         void set_timeout( int val );
         void reset_timeout();
+
+        input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
+        input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
 
         std::vector<std::string> registered_actions;
@@ -835,5 +842,28 @@ bool gamepad_available();
 
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
+
+class hotkey_queue
+{
+    public:
+        // ctxt is only used for determining hotkey input type
+        // use input_context::first_unassigned_hotkey() instead to skip assigned actions
+        input_event first( const input_context &ctxt ) const;
+        // use input_context::next_unassigned_hotkey() instead to skip assigned actions
+        input_event next( const input_event &prev ) const;
+
+        /**
+         * In keychar mode:
+         *   a-z, A-Z
+         * In keycode mode:
+         *   a-z, shift a-z
+         */
+        static const hotkey_queue &alphabets();
+
+    private:
+        std::vector<int> codes_keychar;
+        std::vector<int> codes_keycode;
+        std::vector<std::set<keymod_t>> modifiers_keycode;
+};
 
 #endif // CATA_SRC_INPUT_H

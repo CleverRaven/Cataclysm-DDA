@@ -130,6 +130,49 @@ bool input_event::operator!=( const input_event &other ) const
     return !operator==( other );
 }
 
+static const std::vector<std::pair<keymod_t, translation>> keymod_long_desc = {
+    { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
+    { keymod_t::alt,   to_translation( "key modifier", "ALT-" ) },
+    { keymod_t::shift, to_translation( "key modifier", "SHIFT-" ) },
+};
+
+std::string input_event::long_description() const
+{
+    std::string rval;
+    // test in fixed order to generate consistent description
+    for( const auto &v : keymod_long_desc ) {
+        if( modifiers.count( v.first ) ) {
+            rval += v.second.translated();
+        }
+    }
+    for( const int code : sequence ) {
+        rval += inp_mngr.get_keyname( code, type );
+    }
+    return rval;
+}
+
+static const std::vector<std::pair<keymod_t, std::string>> keymod_short_desc = {
+    { keymod_t::ctrl,  "^" },
+    { keymod_t::alt,   "\u2325" }, // option key
+    { keymod_t::shift, "\u21E7" }, // upwards white arrow
+};
+
+std::string input_event::short_description() const
+{
+    std::string rval;
+    // test in fixed order to generate consistent description
+    for( const auto &v : keymod_short_desc ) {
+        if( modifiers.count( v.first ) ) {
+            rval += v.second;
+        }
+    }
+    // TODO: add short description for control keys such as return, tab, etc
+    for( const int code : sequence ) {
+        rval += inp_mngr.get_keyname( code, type );
+    }
+    return rval;
+}
+
 input_manager inp_mngr;
 
 void input_manager::init()
@@ -939,12 +982,6 @@ bool input_context::allow_all_keys( const input_event & )
     return true;
 }
 
-static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
-    { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
-    { keymod_t::alt,   to_translation( "key modifier", "ALT-" ) },
-    { keymod_t::shift, to_translation( "key modifier", "SHIFT-" ) },
-};
-
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
                                      const input_context::input_event_filter &evt_filter ) const
@@ -980,15 +1017,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
-        // test in fixed order to generate consistent description
-        for( const auto &v : keymod_desc ) {
-            if( inputs_to_show[i].modifiers.count( v.first ) ) {
-                rval += v.second.translated();
-            }
-        }
-        for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
-            rval += inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
-        }
+        rval += inputs_to_show[i].long_description();
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
@@ -1634,15 +1663,8 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     }
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
-        // test in fixed order to generate consistent description
-        for( const auto &v : keymod_desc ) {
-            if( events[j].modifiers.count( v.first ) ) {
-                keyed += v.second.translated();
-            }
-        }
-        for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
-            keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
-        }
+        keyed += events[j].long_description();
+
         if( j + 1 < events.size() ) {
             keyed += _( " or " );
         }
@@ -1707,4 +1729,103 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
             return true;
     }
     return true;
+}
+
+input_event input_context::first_unassigned_hotkey( const hotkey_queue &queue ) const
+{
+    input_event ret = queue.first( *this );
+    while( ret.type != input_event_t::error
+           && &input_to_action( ret ) != &CATA_ERROR ) {
+        ret = queue.next( ret );
+    }
+    return ret;
+}
+
+input_event input_context::next_unassigned_hotkey( const hotkey_queue &queue,
+        const input_event &prev ) const
+{
+    input_event ret = prev;
+    do {
+        ret = queue.next( ret );
+    } while( ret.type != input_event_t::error
+             && &input_to_action( ret ) != &CATA_ERROR );
+    return ret;
+}
+
+input_event hotkey_queue::first( const input_context &ctxt ) const
+{
+    if( ctxt.is_event_type_enabled( input_event_t::keyboard_code ) ) {
+        if( !codes_keycode.empty() && !modifiers_keycode.empty() ) {
+            return input_event( modifiers_keycode[0], codes_keycode[0], input_event_t::keyboard_code );
+        } else {
+            return input_event();
+        }
+    } else {
+        if( !codes_keychar.empty() ) {
+            return input_event( codes_keychar[0], input_event_t::keyboard_char );
+        } else {
+            return input_event();
+        }
+    }
+}
+
+input_event hotkey_queue::next( const input_event &prev ) const
+{
+    switch( prev.type ) {
+        default:
+            return input_event();
+        case input_event_t::keyboard_code: {
+            if( prev.sequence.size() != 1 ) {
+                return input_event();
+            }
+            const auto code_it = std::find( codes_keycode.begin(), codes_keycode.end(),
+                                            prev.get_first_input() );
+            const auto mod_it = std::find( modifiers_keycode.begin(), modifiers_keycode.end(), prev.modifiers );
+            if( code_it == codes_keycode.end() || mod_it == modifiers_keycode.end() ) {
+                return input_event();
+            }
+            if( std::next( code_it ) != codes_keycode.end() ) {
+                return input_event( prev.modifiers, *std::next( code_it ), prev.type );
+            } else if( std::next( mod_it ) != modifiers_keycode.end() ) {
+                return input_event( *std::next( mod_it ), codes_keycode[0], prev.type );
+            } else {
+                return input_event();
+            }
+            break;
+        }
+        case input_event_t::keyboard_char: {
+            if( prev.sequence.size() != 1 ) {
+                return input_event();
+            }
+            const auto code_it = std::find( codes_keychar.begin(), codes_keychar.end(),
+                                            prev.get_first_input() );
+            if( code_it == codes_keychar.end() ) {
+                return input_event();
+            }
+            if( std::next( code_it ) != codes_keychar.end() ) {
+                return input_event( *std::next( code_it ), prev.type );
+            } else {
+                return input_event();
+            }
+            break;
+        }
+    }
+}
+
+const hotkey_queue &hotkey_queue::alphabets()
+{
+    static std::unique_ptr<hotkey_queue> queue;
+    if( !queue ) {
+        queue = std::make_unique<hotkey_queue>();
+        for( int ch = 'a'; ch <= 'z'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->modifiers_keycode.emplace_back();
+        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
+    }
+    return *queue;
 }

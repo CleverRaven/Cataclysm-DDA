@@ -18,6 +18,7 @@
 #include "translations.h"
 #include "type_id.h"
 
+struct input_event;
 class martialart;
 class mission;
 class talker;
@@ -215,7 +216,7 @@ struct talk_response {
     talk_effect_t success;
     talk_effect_t failure;
 
-    talk_data create_option_line( const dialogue &d, char letter );
+    talk_data create_option_line( const dialogue &d, const input_event &hotkey );
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
     talk_response();
