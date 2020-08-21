@@ -1698,6 +1698,9 @@ void Character::process_bionic( int b )
         // Aftershock
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
     }
+    for( const enchantment_id &ench : bio.id->enchantments ) {
+        ench->activate_passive( *this );
+    }
 }
 
 void Character::roll_critical_bionics_failure( const bodypart_id &bp )
