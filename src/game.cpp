@@ -4411,6 +4411,7 @@ void game::mon_info_update( )
                 if( index < 8 && critter.sees( get_player_character() ) ) {
                     dangerous[index] = true;
                 }
+
                 if( !safemode_empty || mon_dist <= iProxyDist ) {
                     bool passmon = false;
                     if( critter.ignoring > 0 ) {
@@ -4437,6 +4438,7 @@ void game::mon_info_update( )
             }
         } else if( p != nullptr ) {
             //Safe mode NPC check
+
             const int npc_dist = rl_dist( u.pos(), p->pos() );
             if( !safemode_empty ) {
                 need_processing = get_safemode().check_monster(
@@ -5092,8 +5094,7 @@ monster *game::place_critter_at( const shared_ptr_fast<monster> &mon, const trip
     return place_critter_around( mon, p, 0 );
 }
 
-monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
-                                     const int radius )
+monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -6358,8 +6359,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     }
 }
 
-void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look,
-                            const int column,
+void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                             int &line )
 {
     const trap &tr = m.tr_at( lp );
@@ -6402,8 +6402,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
     }
 }
 
-void game::print_items_info( const tripoint &lp, const catacurses::window &w_look,
-                             const int column,
+void game::print_items_info( const tripoint &lp, const catacurses::window &w_look, const int column,
                              int &line,
                              const int last_line )
 {
@@ -7464,8 +7463,7 @@ bool game::take_screenshot( const std::string &/*path*/ ) const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height,
-                                  bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
