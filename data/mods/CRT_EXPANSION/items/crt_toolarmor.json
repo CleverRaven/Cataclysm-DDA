@@ -251,7 +251,7 @@
   },
   {
     "id": "bandana_wet",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": "wet bandana",
     "description": "A dampened cotton bandana, worn over the mouth for a extra protection from dust and other contaminants.",
     "weight": "42 g",
