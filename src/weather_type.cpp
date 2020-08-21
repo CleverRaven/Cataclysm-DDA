@@ -213,7 +213,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "trait_id_to_add", effect.trait_id_to_add );
         optional( weather_effect_jo, was_loaded, "trait_id_to_remove", effect.trait_id_to_remove );
         optional( weather_effect_jo, was_loaded, "target_part", effect.target_part );
-        optional( weather_effect_jo, was_loaded, "damage", effect.damage, 0 );
+        assign( weather_effect_jo, "damage", effect.damage );
+
         for( const JsonObject field_jo : weather_effect_jo.get_array( "fields" ) ) {
             weather_field new_field;
             mandatory( field_jo, was_loaded, "type", new_field.type );

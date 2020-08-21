@@ -590,13 +590,12 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.trait_id_to_remove.is_valid() ) {
             player_character.unset_mutation( current_effect.trait_id_to_remove );
         }
-        if( current_effect.damage != 0 ) {
+        if( !current_effect.damage.empty() ) {
             if( current_effect.target_part.is_valid() ) {
-                player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
-                                              current_effect.damage ) );
+                player_character.deal_damage( nullptr, current_effect.target_part, current_effect.damage );
             } else {
                 for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-                    player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+                    player_character.deal_damage( nullptr, bp, current_effect.damage );
                 }
             }
         }
