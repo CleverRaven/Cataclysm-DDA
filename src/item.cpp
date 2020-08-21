@@ -123,8 +123,6 @@ static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -1126,11 +1124,8 @@ static std::string get_freshness_description( const item &food_item )
 item::sizing item::get_sizing( const Character &p, bool wearable ) const
 {
     if( wearable ) {
-        const bool small = p.has_trait( trait_SMALL2 ) ||
-                           p.has_trait( trait_SMALL_OK );
-
-        const bool big = p.has_trait( trait_HUGE ) ||
-                         p.has_trait( trait_HUGE_OK );
+        const bool small = p.get_size() == MS_TINY;
+        const bool big = p.get_size() == MS_HUGE;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
