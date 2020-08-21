@@ -152,7 +152,10 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
-        get_weather().temperature = 0;
+        weather_manager &weather = get_weather();
+        weather.temperature = 0;
+        weather.clear_temp_cache();
+        REQUIRE( weather.get_temperature() == 0 );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
