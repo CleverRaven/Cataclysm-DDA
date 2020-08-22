@@ -100,6 +100,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
+	"environmental_protection": 4,
     "flags": [ "STURDY" ]
   },
   {
@@ -112,7 +113,7 @@
     "material": [ "acidchitin" ],
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 2 }
+    "relative": { "bashing": 1 }
   },
   {
     "id": "armor_farmor",
