@@ -14,6 +14,12 @@
 #include "string_id.h"
 #include "ui.h"
 
+#include "QtCore\qsize.h"
+#include "QtCore\qstring.h"
+#include "QtWidgets\qapplication.h"
+#include "QtWidgets\qmainwindow.h"
+#include "QtWidgets\qpushbutton.h"
+
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
 
@@ -59,7 +65,7 @@ int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
 extern "C" int SDL_main( int argc, char **argv )
 {
 #else
-int main( int argc, const char *argv[] )
+int main( int argc, char *argv[] )
 {
 #endif
     init_crash_handlers();
@@ -102,20 +108,6 @@ int main( int argc, const char *argv[] )
 
     cli_opts cli;
 
-    try {
-        // set minimum FULL_SCREEN sizes
-        FULL_SCREEN_WIDTH = 80;
-        FULL_SCREEN_HEIGHT = 24;
-        catacurses::init_interface();
-    } catch( const std::exception & err ) {
-        // can't use any curses function as it has not been initialized
-        std::cerr << "Error while initializing the interface: " << err.what() << std::endl;
-        DebugLog( D_ERROR, DC_ALL ) << "Error while initializing the interface: " << err.what() << "\n";
-        return 1;
-    }
-
-    set_language();
-
     rng_set_engine_seed( cli.seed );
 
     g = std::make_unique<game>();
@@ -130,25 +122,16 @@ int main( int argc, const char *argv[] )
             init_colors();
             exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
-        if( cli.check_mods ) {
-            init_colors();
-            loading_ui ui( false );
-            const std::vector<mod_id> mods( cli.opts.begin(), cli.opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
-        }
     }
     catch( const std::exception & err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
 
-    // Now we do the actual game.
-
-    g->init_ui( true );
-
-    catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
-
-    uilist( "name", { "first" } );
-
-    return 0;
+    QApplication app( argc, argv );
+    QMainWindow w;
+    w.show();
+    QPushButton b( QString( "button" ), &w );
+    b.show();
+    return app.exec();
 }
