@@ -252,23 +252,23 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-#define JOY_0        0
-#define JOY_1        1
-#define JOY_2        2
-#define JOY_3        3
-#define JOY_4        4
-#define JOY_5        5
-#define JOY_6        6
-#define JOY_7        7
+constexpr int JOY_0 = 0;
+constexpr int JOY_1 = 1;
+constexpr int JOY_2 = 2;
+constexpr int JOY_3 = 3;
+constexpr int JOY_4 = 4;
+constexpr int JOY_5 = 5;
+constexpr int JOY_6 = 6;
+constexpr int JOY_7 = 7;
 
-#define JOY_LEFT        (256 + 1)
-#define JOY_RIGHT       (256 + 2)
-#define JOY_UP          (256 + 3)
-#define JOY_DOWN        (256 + 4)
-#define JOY_RIGHTUP     (256 + 5)
-#define JOY_RIGHTDOWN   (256 + 6)
-#define JOY_LEFTUP      (256 + 7)
-#define JOY_LEFTDOWN    (256 + 8)
+constexpr int JOY_LEFT      = 256 + 1;
+constexpr int JOY_RIGHT     = 256 + 2;
+constexpr int JOY_UP        = 256 + 3;
+constexpr int JOY_DOWN      = 256 + 4;
+constexpr int JOY_RIGHTUP   = 256 + 5;
+constexpr int JOY_RIGHTDOWN = 256 + 6;
+constexpr int JOY_LEFTUP    = 256 + 7;
+constexpr int JOY_LEFTDOWN  = 256 + 8;
 
 enum class keyboard_mode {
     // Accept character input and text input. Input in this mode
