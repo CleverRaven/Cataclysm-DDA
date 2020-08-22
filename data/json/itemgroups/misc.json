@@ -28,7 +28,14 @@
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories",
-    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ], [ "weed_soda", 8 ], ["weed_candy", 8 ], ["weed_chocolate", 8 ] ]
+    "items": [
+      [ "joint", 100 ],
+      [ "joint_roach", 20 ],
+      [ "pipe_glass", 10 ],
+      [ "weed_soda", 8 ],
+      [ "weed_candy", 8 ],
+      [ "weed_chocolate", 8 ]
+    ]
   },
   {
     "id": "silverware",

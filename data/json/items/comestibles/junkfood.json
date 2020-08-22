@@ -220,8 +220,8 @@
     "description": "Chocolate isn't very healthy, and THC isn't either, but together they make quite a treat.",
     "price": 1500,
     "price_postapoc": 4000,
-    "fun": 20
-	"use_action": [ "WEED_EDIBLE" ]
+    "fun": 20,
+    "use_action": [ "WEED_EDIBLE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -333,8 +333,8 @@
     "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
     "price": 2000,
     "price_postapoc": 4000,
-    "fun": 9
-	"use_action": [ "WEED_EDIBLE" ]
+    "fun": 9,
+    "use_action": [ "WEED_EDIBLE" ]
   },
   {
     "type": "COMESTIBLE",
