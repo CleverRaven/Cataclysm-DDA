@@ -806,6 +806,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return string_format(
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
+    } else if( topic == "TALK_MUTE" ) {
+        return _( "&You are mute and can't talk." );
+
+    } else if( topic == "TALK_MUTE_ANGRY" ) {
+        return string_format(
+                  _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
+                  beta->disp_name() );
     }
     avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
@@ -874,6 +881,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         alpha->shout();
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
+        if( alpha->is_mute() ) {
+            return _( "&You yell, but can't hear form words." );
         } else {
             return _( "&You yell." );
         }

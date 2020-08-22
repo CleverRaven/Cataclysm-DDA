@@ -6808,9 +6808,7 @@
     "name": { "str": "mute" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
-    "player_display": false,
-    "threshold": true
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",

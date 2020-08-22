@@ -71,6 +71,7 @@ class talker_character: public talker
         // effects and values
         bool has_effect( const efftype_id &effect_id ) const override;
         bool is_deaf() const override;
+        bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          bool permanent ) override;
         void remove_effect( const efftype_id &old_effect ) override;

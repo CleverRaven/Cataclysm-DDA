@@ -1563,6 +1563,9 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     if( player_character.is_deaf() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
+    if( player_character.is_mute() ) {
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ), name );
+    }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
         add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
