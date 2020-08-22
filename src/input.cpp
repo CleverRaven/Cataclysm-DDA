@@ -304,28 +304,23 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             events.insert( events.end(), new_events.begin(), new_events.end() );
         }
 
-
-        if( !is_user_preferences ||
-            context == default_context_id ||
-            actions.count( action_id ) > 0 ) {
-            // In case this is the second file containing user preferences,
-            // this replaces the default bindings with the user's preferences.
-            action_attributes &attributes = actions[action_id];
-            if( is_user_preferences && version == 0 ) {
-                // version 0 means the keybinding was written prior to the division
-                // of `input_event_t::keyboard_char` and `input_event_t::keyboard_code`,
-                // so we copy any `input_event_t::keyboard_code` event from the default
-                // keybindings to be compatible with old user keybinding files.
-                for( const input_event &evt : attributes.input_events ) {
-                    if( evt.type == input_event_t::keyboard_code ) {
-                        events.emplace_back( evt );
-                    }
+        // In case this is the second file containing user preferences,
+        // this replaces the default bindings with the user's preferences.
+        action_attributes &attributes = actions[action_id];
+        if( is_user_preferences && version == 0 ) {
+            // version 0 means the keybinding was written prior to the division
+            // of `input_event_t::keyboard_char` and `input_event_t::keyboard_code`,
+            // so we copy any `input_event_t::keyboard_code` event from the default
+            // keybindings to be compatible with old user keybinding files.
+            for( const input_event &evt : attributes.input_events ) {
+                if( evt.type == input_event_t::keyboard_code ) {
+                    events.emplace_back( evt );
                 }
             }
-            attributes.input_events = events;
-            if( action.has_member( "is_user_created" ) ) {
-                attributes.is_user_created = action.get_bool( "is_user_created" );
-            }
+        }
+        attributes.input_events = events;
+        if( action.has_member( "is_user_created" ) ) {
+            attributes.is_user_created = action.get_bool( "is_user_created" );
         }
     }
 }
