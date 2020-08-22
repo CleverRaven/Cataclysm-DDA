@@ -177,7 +177,7 @@ This document describes the contents of the json files used in Cataclysm: Dark d
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
 core game data is in `data/json`, with mod data in `data/mods`.  There is also
-some in other subdirectories of `data`, but you less unlikely to be interested
+some in other subdirectories of `data`, but you are less likely to be interested
 in those.
 
 Each JSON file is a list of JSON objects
@@ -306,8 +306,10 @@ This section describes some common features of formatting values in CDDA JSON fi
 ## Units
 
 Most values which represent physical quantities (length, volume, time, etc.)
-are given as a string with a numerical value and an abbreviation of the unit.
-For example, a volume of 3 litres would be defined as `"3 L"`.
+are given as a string with a numerical value and an abbreviation of the unit,
+separated with a space.  Generally we use SI units and try to stick to the
+conventional SI abbreviations.  For example, a volume of 3 litres would be
+defined as `"3 L"`.
 
 ### Time duration
 
@@ -386,7 +388,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `conducts.json`               | conducts
 | `construction.json`           | definition of construction menu tasks
 | `default_blacklist.json`      | a standard blacklist of joke monsters
-| `doll_speech.json`            | talk doll speech messages
+| `doll_speech.json`            | talking doll speech messages
 | `dreams.json`                 | dream text and linked mutation categories
 | `disease.json`                | disease definitions
 | `effects.json`                | common effects and their effects
@@ -464,9 +466,9 @@ See below for specifics on the various items
 | `fuel.json`          | liquid fuels
 | `grenades.json`      | grenades and throwable explosives
 | `handloaded_bullets.json` | random ammo
-| `melee.json`         | anything that doesn't go in the other item jsons, melee weapons
-| `migration.json`     | conversions of non-existent items from save games to current items
-| `newspaper.json`     | flyers, newspapers, and survivor notes. snippets.json for messages
+| `melee.json`         | melee weapons
+| `migration.json`     | conversions of obsolete items from older save games to current items
+| `newspaper.json`     | flyers, newspapers, and survivor notes. `snippets.json` for messages
 | `obsolete.json`      | items being removed from the game
 | `ranged.json`        | guns
 | `software.json`      | software for SD-cards and USB sticks
