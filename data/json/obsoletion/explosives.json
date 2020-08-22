@@ -1,0 +1,32 @@
+[
+  {
+    "replace": "tool_improvised_barrel_bomb",
+    "type": "MIGRATION",
+    "id": [ "tool_bootleg_barrel_bomb", "tool_bootleg_barrel_bomb_act" ]
+  },
+  {
+    "replace": "tool_small_improvised_fragmentation_device",
+    "type": "MIGRATION",
+    "id": [
+      "tool_small_primitive_fragmentation_device",
+      "tool_small_primitive_fragmentation_device_act",
+      "tool_small_bootleg_fragmentation_device",
+      "tool_small_bootleg_fragmentation_device_act"
+    ]
+  },
+  {
+    "replace": "improvised_grenade",
+    "type": "MIGRATION",
+    "id": [ "bootleg_grenade", "bootleg_grenade_act", "primitive_grenade", "primitive_grenade_act" ]
+  },
+  {
+    "replace": "improvised_pipebomb",
+    "type": "MIGRATION",
+    "id": [ "bootleg_pipebomb", "bootleg_pipebomb_act", "primitive_pipebomb", "primitive_pipebomb_act" ]
+  },
+  {
+    "replace": "improvised_demolition_charge",
+    "type": "MIGRATION",
+    "id": [ "primitive_demolition_charge", "primitive_demolition_charge_act" ]
+  }
+]

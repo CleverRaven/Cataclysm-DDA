@@ -2873,42 +2873,49 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         }
 
         const float material_factor = i->chip_resistance( true );
-        if( power < material_factor ) {
+        // Intact non-corpses get a boost
+        const float intact_mult = 2.0f -
+                                  ( static_cast<float>( i->damage_level( i->max_damage() ) ) / i->max_damage() );
+        const float final_factor =  i->is_corpse() ?
+                                    material_factor / 2.0f : ( material_factor * intact_mult );
+        // Avoid damaging non-corpses with low powered attacks
+        if( power < material_factor && !i->is_corpse() ) {
             i++;
             continue;
         }
 
-        // The volume check here pretty much only influences corpses and very large items
-        const float volume_factor = std::max<float>( 40, i->volume() / units::legacy_volume_factor );
-        float damage_chance = 10.0f * power / volume_factor;
+        float damage_chance = power / 4;
         // Example:
-        // Power 40 (just below C4 epicenter) vs two-by-four
-        // damage_chance = 10 * 40 / 40 = 10, material_factor = 8
-        // Will deal 1 damage, then 20% chance for another point
-        // Power 20 (grenade minus shrapnel) vs glass bottle
-        // 10 * 20 / 40 = 5 vs 1
-        // 5 damage (destruction)
+        // Power 133 (just below C4 epicenter) vs two-by-four
+        // damage_chance = 133 / 10 = 13, final_factor = 16 (2*8)
+        // 13/16 - rounds down to 0
+        // Power 16 (grenade minus shrapnel) vs glass bottle
+        // 16 / 8 = 2 vs 0
+        // inf damage, clamped to 5 (destruction)
+        // Power 20 (primitive pipebomp) vs zombie corpse
+        // 20 / 10 = 2 vs 2
+        // 1 damage
 
         const bool by_charges = i->count_by_charges();
         // See if they were damaged
         if( by_charges ) {
             damage_chance *= i->charges_per_volume( 250_ml );
-            while( ( damage_chance > material_factor ||
-                     x_in_y( damage_chance, material_factor ) ) &&
+            while( ( damage_chance > final_factor ||
+                     x_in_y( damage_chance, final_factor ) ) &&
                    i->charges > 0 ) {
                 i->charges--;
-                damage_chance -= material_factor;
+                damage_chance -= final_factor;
                 // We can't increment items_damaged directly because a single item can be damaged more than once
                 item_was_damaged = true;
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor ||
-                     x_in_y( damage_chance, material_factor ) ) &&
+            while( ( damage_chance > final_factor ||
+                     x_in_y( damage_chance, final_factor ) ) &&
                    i->damage() < i->max_damage() ) {
                 i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
-                damage_chance -= material_factor;
+                damage_chance -= final_factor;
                 item_was_damaged = true;
             }
         }
@@ -7669,7 +7676,7 @@ void map::build_outside_cache( const int zlev )
 }
 
 void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+                                float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{
@@ -7692,15 +7699,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
                     if( ter_move == 0 || furn_move < 0 || ter_move + furn_move == 0 ) {
-                        obstacle_cache[x][y].velocity = 1000.0f;
-                        obstacle_cache[x][y].density = 0.0f;
+                        obstacle_cache[x][y] = 1000.0f;
                     } else {
-                        // Magic number warning, this is the density of air at sea level at
-                        // some nominal temp and humidity.
-                        // TODO: figure out if our temp/altitude/humidity variation is
-                        // sufficient to bother setting this differently.
-                        obstacle_cache[x][y].velocity = 1.2f;
-                        obstacle_cache[x][y].density = 1.0f;
+                        obstacle_cache[x][y] = 0.0f;
                     }
                 }
             }
@@ -7720,22 +7721,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
             }
 
             if( vp.obstacle_at_part() ) {
-                obstacle_cache[p.x][p.y].velocity = 1000.0f;
-                obstacle_cache[p.x][p.y].density = 0.0f;
+                obstacle_cache[p.x][p.y] = 1000.0f;
             }
         }
-    }
-    // Iterate over creatures and set them to block their squares relative to their size.
-    for( Creature &critter : g->all_creatures() ) {
-        const tripoint &loc = critter.pos();
-        if( loc.z != start.z ) {
-            continue;
-        }
-        // TODO: scale this with expected creature "thickness".
-        obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
-        // ranged_target_size is "proportion of square that is blocked", and density needs to be
-        // "transmissivity of square", so we need the reciprocal.
-        obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
     }
 }
 

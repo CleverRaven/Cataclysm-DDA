@@ -92,6 +92,20 @@ void projectile::unset_custom_explosion()
     custom_explosion.reset();
 }
 
+void projectile::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
+}
+
+void projectile::load( JsonObject &jo )
+{
+    jo.read( "impact", impact );
+    range = jo.get_int( "range" );
+    speed = jo.get_int( "speed", 1000 );
+    jo.read( "proj_effects", proj_effects );
+}
+
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
@@ -105,7 +119,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
                     }
                 }
             }
-            if( ae.aoe_explosion_data.power > 0 ) {
+            if( ae.aoe_explosion_data ) {
                 explosion_handler::explosion( p, ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {

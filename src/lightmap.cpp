@@ -965,11 +965,11 @@ template void cast_zlight<float, sight_calc, sight_check, accumulate_transparenc
     const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, int offset_distance, float numerator );
 
-template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-    const array_of_grids_of<fragment_cloud> &output_caches,
-    const array_of_grids_of<const fragment_cloud> &input_arrays,
+template void cast_zlight<float, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
+    const array_of_grids_of<float> &output_caches,
+    const array_of_grids_of<const float> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, fragment_cloud numerator );
+    const tripoint &origin, int offset_distance, float numerator );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -1111,12 +1111,12 @@ template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                                const point &offset, int offsetDistance, float numerator );
 
 template void
-castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
+castLightAll<float, float, shrapnel_calc, shrapnel_check,
              update_fragment_cloud, accumulate_fragment_cloud>
 (
-    fragment_cloud( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-    const fragment_cloud( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-    const point &offset, int offsetDistance, fragment_cloud numerator );
+    float( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
+    const float( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+    const point &offset, int offsetDistance, float numerator );
 
 /**
  * Calculates the Field Of View for the provided map from the given x, y

@@ -60,7 +60,6 @@ class submap;
 class tripoint_range;
 class vehicle;
 class zone_data;
-struct fragment_cloud;
 struct maptile;
 struct partial_con;
 struct trap;
@@ -1346,7 +1345,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                   fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
+                                   float( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, int dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,

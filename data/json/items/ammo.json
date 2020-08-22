@@ -450,7 +450,7 @@
     "range": 80,
     "dispersion": 5,
     "recoil": 30,
-    "effects": [ "EXPLOSIVE_120mmHEAT", "TRAIL" ]
+    "effects": [ "EXPLOSIVE_HUGE", "TRAIL" ]
   },
   {
     "type": "AMMO",

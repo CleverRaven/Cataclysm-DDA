@@ -17,6 +17,7 @@ struct projectile {
         damage_instance impact;
         // how hard is it to dodge? essentially rolls to-hit,
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
+        // TODO: Get rid of this, replace with something sane (or just get rid)
         int speed;
         int range;
 
@@ -41,6 +42,9 @@ struct projectile {
         projectile( projectile && );
         projectile &operator=( const projectile & );
         ~projectile();
+
+        void deserialize( JsonIn &jsin );
+        void load( JsonObject &jo );
 
     private:
         // Actual item used (to drop contents etc.).

@@ -151,9 +151,9 @@ void damage_instance::deserialize( JsonIn &jsin )
     // TODO: Clean up
     if( jsin.test_object() ) {
         JsonObject jo = jsin.get_object();
-        damage_units = load_damage_instance( jo ).damage_units;
+        *this = load_damage_instance( jo );
     } else if( jsin.test_array() ) {
-        damage_units = load_damage_instance( jsin.get_array() ).damage_units;
+        *this = load_damage_instance( jsin.get_array() );
     } else {
         jsin.error( "Expected object or array for damage_instance" );
     }

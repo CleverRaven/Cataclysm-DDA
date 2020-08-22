@@ -424,8 +424,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     apply_ammo_effects( tp, proj.proj_effects );
     const auto &expl = proj.get_custom_explosion();
-    if( expl.power > 0.0f ) {
-        explosion_handler::explosion( tp, proj.get_custom_explosion() );
+    if( expl ) {
+        explosion_handler::explosion( tp, expl );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

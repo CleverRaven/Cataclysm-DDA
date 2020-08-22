@@ -15,10 +15,10 @@
       "check_sees_radius": 0
     },
     "explosion": {
-      "power": 0,
-      "distance_factor": 0.8,
+      "damage": 0,
+      "radius": 0,
       "fire": false,
-      "shrapnel": { "casing_mass": 0, "fragment_mass": 0.005, "recovery": 0, "drop": "null" }
+      "fragment": { "impact": { "damage_type": "cut", "amount": 0, "armor_multiplier": 3 }, "range": 0 }
     },
     "do_flashbang": false,
     "do_emp_blast": false
@@ -32,24 +32,19 @@
     "id": "NAPALM",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "size": 3 },
-    "explosion": { "power": 60, "distance_factor": 0.7, "fire": true }
+    "explosion": { "damage": 5, "radius": 2, "fire": true }
   },
   {
     "id": "NAPALM_BIG",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
-    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
-  },
-  {
-    "id": "NAPALM_TBG7V",
-    "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 }
+    "explosion": { "damage": 20, "radius": 5, "fire": true }
   },
   {
     "id": "PYROPHORIC",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "radius": 3 },
-    "explosion": { "power": 360, "distance_factor": 0.8, "fire": true }
+    "explosion": { "damage": 20, "radius": 7, "fire": true }
   },
   {
     "id": "ACIDBOMB",
@@ -100,107 +95,42 @@
   {
     "id": "EXPLOSIVE_HUGE",
     "type": "ammo_effect",
-    "explosion": { "power": 1200 }
+    "explosion": { "damage": 100, "radius": 8 }
   },
   {
     "id": "EXPLOSIVE_BIG",
     "type": "ammo_effect",
-    "explosion": { "power": 600 }
+    "explosion": { "damage": 70, "radius": 5 }
   },
   {
     "id": "EXPLOSIVE",
     "type": "ammo_effect",
-    "explosion": { "power": 360 }
+    "explosion": { "damage": 50, "radius": 3 }
   },
   {
     "id": "EXPLOSIVE_SMALL",
     "type": "ammo_effect",
-    "explosion": { "power": 360, "distance_factor": 0.4 }
+    "explosion": { "damage": 40, "radius": 2 }
   },
   {
-    "id": "EXPLOSIVE_RAUFOSS",
+    "id": "EXPLOSIVE_TINY",
     "type": "ammo_effect",
-    "explosion": { "power": 2.4, "shrapnel": { "casing_mass": 28, "fragment_mass": 14 } }
+    "explosion": { "damage": 20, "radius": 2 }
+  },
+  {
+    "id": "FRAG_BIG",
+    "type": "ammo_effect",
+    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 7 } }
   },
   {
     "id": "FRAG",
     "type": "ammo_effect",
-    "explosion": { "power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.05 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
   },
   {
-    "id": "FRAG_20x66",
+    "id": "FRAG_SMALL",
     "type": "ammo_effect",
-    "explosion": { "power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_20x66",
-    "type": "ammo_effect",
-    "explosion": { "power": 60 }
-  },
-  {
-    "id": "EXPLOSIVE_HESHOT",
-    "type": "ammo_effect",
-    "explosion": { "power": 60 }
-  },
-  {
-    "id": "EXPLOSIVE_m430a1",
-    "type": "ammo_effect",
-    "explosion": { "power": 72, "shrapnel": { "casing_mass": 250, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_m433",
-    "type": "ammo_effect",
-    "explosion": { "power": 42, "shrapnel": { "casing_mass": 198, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_HOMEMADE",
-    "type": "ammo_effect",
-    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_66mmHEAT",
-    "type": "ammo_effect",
-    "explosion": { "power": 400, "shrapnel": { "casing_mass": 680, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_OG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 266, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VL",
-    "type": "ammo_effect",
-    "explosion": { "power": 598, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_PG7VR",
-    "type": "ammo_effect",
-    "explosion": { "power": 1995, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_TBG7V",
-    "type": "ammo_effect",
-    "explosion": { "power": 66, "shrapnel": { "casing_mass": 2500, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_84x246HE",
-    "type": "ammo_effect",
-    "explosion": { "power": 665, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.15 } }
-  },
-  {
-    "id": "EXPLOSIVE_84x246HEDP",
-    "type": "ammo_effect",
-    "explosion": { "power": 798, "shrapnel": { "casing_mass": 1500, "fragment_mass": 0.3 } }
-  },
-  {
-    "id": "EXPLOSIVE_ATGMHEAT",
-    "type": "ammo_effect",
-    "explosion": { "power": 5985, "shrapnel": { "casing_mass": 18000, "fragment_mass": 1.0 } }
-  },
-  {
-    "id": "EXPLOSIVE_120mmHEAT",
-    "type": "ammo_effect",
-    "explosion": { "power": 7980, "shrapnel": { "casing_mass": 8725, "fragment_mass": 1.0 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 30, "armor_multiplier": 3 }, "range": 3 } }
   },
   {
     "id": "MININUKE_MOD",
@@ -215,7 +145,7 @@
       "check_sees": true,
       "check_sees_radius": 3
     },
-    "explosion": { "power": 72000000 }
+    "explosion": { "damage": 300, "radius": 20 }
   },
   {
     "id": "FLASHBANG",

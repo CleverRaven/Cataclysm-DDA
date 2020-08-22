@@ -35,10 +35,10 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "weight": "2131 g",
     "ammo_type": "66mm",
-    "damage": { "damage_type": "stab", "amount": 2500, "armor_penetration": 400 },
+    "damage": { "damage_type": "stab", "amount": 30, "armor_multiplier": 0.1 },
     "range": 80,
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "EXPLOSIVE_66mmHEAT", "TRAIL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "TRAIL" ]
   }
 ]

@@ -540,7 +540,7 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         return 0;
     }
 
-    if( explosion.power >= 0.0f ) {
+    if( explosion ) {
         explosion_handler::explosion( pos, explosion );
     }
 
@@ -572,18 +572,19 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
 void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    if( explosion.power <= 0 ) {
-        // TODO: List other effects, like EMP and clouds
-        return;
+    if( explosion.damage > 0 ) {
+        dump.emplace_back( "TOOL", _( "Blast damage at epicenter: " ),
+                           explosion.damage );
+        dump.emplace_back( "TOOL", _( "Blast radius: " ), static_cast<int>( explosion.radius ) );
+    }
+    const auto &sd = explosion.fragment;
+    if( sd ) {
+        dump.emplace_back( "TOOL", _( "Shrapnel damage: " ),
+                           static_cast<int>( sd->impact.total_damage() ) );
+        dump.emplace_back( "TOOL", _( "Shrapnel range: " ), sd->range );
     }
 
-    dump.emplace_back( "TOOL", _( "Power at epicenter: " ), explosion.power );
-    const auto &sd = explosion.shrapnel;
-    if( sd.casing_mass > 0 ) {
-        dump.emplace_back( "TOOL", _( "Casing mass: " ), sd.casing_mass );
-        dump.emplace_back( "TOOL", _( "Fragment mass: " ), string_format( "%.2f",
-                           sd.fragment_mass ) );
-    }
+    // TODO: List other effects, like EMP and clouds
 }
 
 std::unique_ptr<iuse_actor> unfold_vehicle_iuse::clone() const

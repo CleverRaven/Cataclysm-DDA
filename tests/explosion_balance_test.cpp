@@ -11,6 +11,7 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -144,4 +145,91 @@ TEST_CASE( "grenade_lethality", "[.],[grenade],[explosion],[balance],[slow]" )
 TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
 {
     check_vehicle_damage( "grenade_act", "car", 5 );
+}
+
+TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
+{
+    clear_map_and_put_player_underground();
+    tripoint origin( 30, 30, 0 );
+
+    item grenade( "can_bomb_act" );
+    grenade.charges = 0;
+    REQUIRE( grenade.get_use( "explosion" ) != nullptr );
+    const auto *actor = dynamic_cast<const explosion_iuse *>
+                        ( grenade.get_use( "explosion" )->get_actor_ptr() );
+    REQUIRE( actor != nullptr );
+    REQUIRE( static_cast<bool>( actor->explosion.fragment ) );
+    REQUIRE( actor->explosion.radius <= 0 );
+    REQUIRE( actor->explosion.fragment->range > 2 );
+
+    for( const tripoint &pt : closest_tripoints_first( origin, 2 ) ) {
+        if( square_dist( origin, pt ) > 1 ) {
+            g->m.ter_set( pt, t_wall_metal );
+        }
+    }
+
+    // Not on the bomb because shrapnel always hits that square
+    const monster &m_in_range = spawn_test_monster( "mon_zombie", origin + point( 1, 0 ) );
+    const monster &m_behind_wall = spawn_test_monster( "mon_zombie", origin + point( 3, 0 ) );
+
+    grenade.type->invoke( g->u, grenade, origin );
+
+    CHECK( m_in_range.hp_percentage() < 100 );
+    CHECK( m_behind_wall.hp_percentage() == 100 );
+}
+
+TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
+{
+    clear_map_and_put_player_underground();
+    tripoint origin( 0, 0, 0 );
+
+    item grenade( "debug_shrapnel_blast" );
+    REQUIRE( grenade.get_use( "explosion" ) != nullptr );
+    const auto *actor = dynamic_cast<const explosion_iuse *>
+                        ( grenade.get_use( "explosion" )->get_actor_ptr() );
+    REQUIRE( actor != nullptr );
+    REQUIRE( static_cast<bool>( actor->explosion.fragment ) );
+    REQUIRE( actor->explosion.radius <= 0 );
+    REQUIRE( actor->explosion.fragment->range > MAPSIZE_X + MAPSIZE_Y );
+
+    const monster &m = spawn_test_monster( "mon_zombie", tripoint( MAPSIZE_X - 1, MAPSIZE_Y - 1, 0 ) );
+
+    grenade.type->invoke( g->u, grenade, origin );
+
+    CHECK( m.is_dead_state() );
+}
+
+TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
+{
+    clear_map_and_put_player_underground();
+    tripoint origin( 60, 60, 0 );
+
+    item grenade( "can_bomb_act" );
+    REQUIRE( grenade.get_use( "explosion" ) != nullptr );
+    const auto *actor = dynamic_cast<const explosion_iuse *>
+                        ( grenade.get_use( "explosion" )->get_actor_ptr() );
+    REQUIRE( actor != nullptr );
+    REQUIRE( static_cast<bool>( actor->explosion.fragment ) );
+    REQUIRE( actor->explosion.radius <= 0 );
+    REQUIRE( actor->explosion.fragment->range > 1 );
+
+    const int range = actor->explosion.fragment->range;
+    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
+        spawn_test_monster( "mon_zombie", pt );
+    }
+
+    grenade.charges = 0;
+    grenade.type->invoke( g->u, grenade, origin );
+
+    for( const tripoint &pt : closest_tripoints_first( origin, range + 1 ) ) {
+        const monster *m = g->critter_at<monster>( pt );
+        REQUIRE( m != nullptr );
+        CAPTURE( m->pos() );
+        CAPTURE( rl_dist( origin, m->pos() ) );
+        if( rl_dist( origin, m->pos() ) <= range ) {
+            CHECK( m->hp_percentage() < 100 );
+        } else {
+            CHECK( m->hp_percentage() == 100 );
+        }
+    }
 }

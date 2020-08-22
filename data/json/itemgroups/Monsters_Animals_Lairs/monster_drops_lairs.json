@@ -72,8 +72,7 @@
       { "item": "bio_metabolics", "prob": 10 },
       { "item": "survivormap", "prob": 1 },
       { "item": "miner_hat", "prob": 10 },
-      { "item": "honey_ant", "prob": 30 },
-      { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
+      { "item": "honey_ant", "prob": 30 }
     ]
   },
   {
