@@ -452,7 +452,6 @@ struct vehicle_part {
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
-
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 

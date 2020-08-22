@@ -16,7 +16,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-
 static catacurses::window init_window()
 {
     const int width = smart_controller_ui::WIDTH;

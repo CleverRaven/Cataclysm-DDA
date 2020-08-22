@@ -1642,7 +1642,6 @@ class Character : public Creature, public visitable<Character>
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
 
-
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */

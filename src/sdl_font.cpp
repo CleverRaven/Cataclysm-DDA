@@ -218,7 +218,6 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
     return nullptr;
 }
 
-
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
@@ -363,7 +362,6 @@ CachedTTFFont::CachedTTFFont(
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
-
 SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const std::string &ch,
         const int color )
 {
@@ -450,7 +448,6 @@ void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr
         SDL_SetTextureAlphaMod( value.texture.get(), 255 );
     }
 }
-
 
 BitmapFont::BitmapFont(
     SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,

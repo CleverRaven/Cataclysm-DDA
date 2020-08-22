@@ -337,7 +337,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
 }
 
-
 /// @brief Use "gas pump."
 /// @details Will pump any liquids on tile.
 void iexamine::gaspump( player &p, const tripoint &examp )

@@ -557,7 +557,6 @@ void Character::load( const JsonObject &data )
         }
     }
 
-
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
@@ -2567,7 +2566,6 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
         { "hydrogen_tank", { "tank", "none" } }
     };
-
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
