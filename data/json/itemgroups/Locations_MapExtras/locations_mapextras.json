@@ -181,6 +181,8 @@
       [ "weed", 10 ],
       [ "joint", 10 ],
       [ "weed_soda", 8 ],
+	  [ "weed_candy", 8 ],
+	  [ "weed_chocolate", 8 ],
       [ "smart_phone", 20 ],
       [ "camera", 20 ],
       [ "chem_hexamine", 5 ]
@@ -224,6 +226,8 @@
       [ "weed", 10 ],
       [ "joint", 10 ],
       [ "weed_soda", 8 ],
+	  [ "weed_chocolate", 8 ],
+	  [ "weed_candy", 8 ],
       [ "smart_phone", 50 ]
     ]
   },
@@ -261,6 +265,8 @@
       [ "weed", 10 ],
       [ "joint", 10 ],
       [ "weed_soda", 8 ],
+	  [ "weed_candy", 8 ],
+	  [ "weed_chocolate", 8 ],
       [ "smart_phone", 50 ]
     ]
   }

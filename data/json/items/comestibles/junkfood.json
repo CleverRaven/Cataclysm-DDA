@@ -214,6 +214,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "weed_chocolate",
+    "name": "infused chocolate bar",
+    "copy-from": "chocolate",
+    "description": "Chocolate isn't very healthy, and THC isn't either, but together they make quite a treat.",
+    "price": 1500,
+    "price_postapoc": 4000,
+    "fun": 20
+	"use_action": [ "WEED_EDIBLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "marshmallow",
     "name": { "str_sp": "marshmallows" },
     "weight": "53 g",
@@ -315,6 +326,15 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 3
+  },
+  {
+    "id": "weed_candy",
+    "name": { "str_sp": "chewy candy" },
+    "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
+    "price": 2000,
+    "price_postapoc": 4000,
+    "fun": 9
+	"use_action": [ "WEED_EDIBLE" ]
   },
   {
     "type": "COMESTIBLE",

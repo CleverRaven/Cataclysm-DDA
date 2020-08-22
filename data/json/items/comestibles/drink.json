@@ -793,10 +793,9 @@
   },
   {
     "id": "weed_soda",
-    "type": "COMESTIBLE",
     "name": "marijuana pop",
     "copy-from": "orangesoda",
-    "price_postapoc": 75,
+    "price_postapoc": 4000,
     "description": "Spiked soda that'll get you high alongside the sugar high.",
     "fun": 11,
     "use_action": [ "WEED_EDIBLE" ]
