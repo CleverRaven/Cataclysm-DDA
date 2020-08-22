@@ -792,6 +792,7 @@
     "fun": 5
   },
   {
+    "type": "COMESTIBLE",
     "id": "weed_soda",
     "name": "marijuana pop",
     "copy-from": "orangesoda",

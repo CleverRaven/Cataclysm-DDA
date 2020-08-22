@@ -328,6 +328,7 @@
     "fun": 3
   },
   {
+    "type": "COMESTIBLE",
     "id": "weed_candy",
     "name": { "str_sp": "crazy candy" },
     "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
