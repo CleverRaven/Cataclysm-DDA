@@ -1,0 +1,18 @@
+[
+  {
+    "type": "enchantment",
+    "id": "TEST_ENCH",
+    "condition": "ALWAYS",
+    "emitter": "emit_shadow_field",
+    "values": [ { "value": "STRENGTH", "multiply": 2, "add": 25 } ],
+    "hit_me_effect": [
+      {
+        "id": "generic_blinding_spray_1",
+        "hit_self": false,
+        "message": "Your ink glands spray some ink into %2$s's eyes.",
+        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
+      }
+    ],
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  }
+]
