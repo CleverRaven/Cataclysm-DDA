@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-lib-vcpkg-static", "JsonFormatter-lib-vcpkg-static.vcxproj", "{534A4E38-96A1-40E4-BDA7-8D17607F0270}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjectCreator", "ObjectCreator.vcxproj", "{EC6E05EB-8EE1-4D16-914E-F8DA029E5F50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
