@@ -284,7 +284,7 @@
     "end": {
       "effect": [
         { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_effect": "Alonso_pants_restored" }
+        { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
