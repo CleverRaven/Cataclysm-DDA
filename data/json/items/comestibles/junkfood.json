@@ -329,7 +329,7 @@
   },
   {
     "id": "weed_candy",
-    "name": { "str_sp": "chewy candy" },
+    "name": { "str_sp": "crazy candy" },
     "description": "A handful of colorful, fruit-flavored, THC infused chewy candy",
     "price": 2000,
     "price_postapoc": 4000,
