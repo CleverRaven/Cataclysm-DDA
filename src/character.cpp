@@ -4890,7 +4890,7 @@ bool Character::is_mute() const
 {
     return get_effect_int( effect_mute ) > 2 || worn_with_flag( flag_MUTE ) ||
            has_trait( trait_MUTE ) );
-
+}
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
 {
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
