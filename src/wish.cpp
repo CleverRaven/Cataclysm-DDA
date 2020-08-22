@@ -343,7 +343,6 @@ class wish_monster_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-            const std::string padding = std::string( getmaxx( w_info ), ' ' );
 
             const int entnum = menu->selected;
             const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
