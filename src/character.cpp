@@ -394,7 +394,6 @@ static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
-static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 static const vitamin_id vitamin_blood( "blood" );
 static const morale_type morale_nightmare( "morale_nightmare" );
