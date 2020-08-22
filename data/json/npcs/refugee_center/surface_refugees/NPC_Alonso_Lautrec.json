@@ -58,8 +58,8 @@
   },
   {
     "type": "effect_type",
-    "id": "Alonso_condoms_restored",
-    "//": "Applied as a timer to make Alonso's condoms run out over time."
+    "id": "Alonso_pants_restored",
+    "//": "Gates Alonso's fine services behind a mission."
   },
   {
     "type": "talk_topic",
@@ -82,7 +82,7 @@
       {
         "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_condoms_restored" } ] }
+        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
       },
       {
         "text": "So about those condoms.  I thought of a good use for them…",
@@ -91,24 +91,15 @@
           "and": [
             { "not": { "u_has_trait": "PRETTY" } },
             { "not": { "u_has_trait": "UGLY" } },
-            { "npc_has_effect": "Alonso_condoms_restored" }
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "u_has_item": "condom" }
           ]
         }
       },
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" } ] }
-      },
-      {
-        "text": "Are you okay Alonso, you don't seem like yourself?",
-        "topic": "MISSION_REFUGEE_Alonso_condoms2",
-        "condition": {
-          "and": [
-            { "u_has_var": "Alonso_condoms", "type": "mission", "context": "flag", "value": "yes" },
-            { "not": { "npc_has_effect": "Alonso_condoms_restored" } }
-          ]
-        }
+        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" }, { "u_has_item": "condom" } ] }
       }
     ]
   },
@@ -256,7 +247,7 @@
       "yes": "Yeah, I fucked up and got drunk at a kiddy party I crashed, broke into a van with the party clown I was bangin' (hey don't judge me, it took me a long time to make that happen, clowns are very givin' lovers) and I lost my pants, includin' all my money and all my triple magnum condoms I stole off a dead priest at a bar.  I'd be mad, but at least I'm safe, I made it here.  But I got no game here y'know?  I look like the clown when I should be knee deep in hotness here.  Look around, it's straight hotties!"
     },
     "responses": [
-      { "text": "Can I help you out?", "topic": "MISSION_REFUGEE_Alonso_condoms" },
+      { "text": "Can I help you out?", "topic": "MISSION_REFUGEE_Alonso_pants" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -269,7 +260,7 @@
       "type": "general",
       "context": "none",
       "value": "asked",
-      "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travelers like yourself, though, and seeing them brightens Alonso's day.",
+      "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travelers like yourself, though, and seeing them brightens Alonso's day.  Normally I am more popular, but something seems to be troubling the spirits of these people during these terrible times.",
       "yes": "Could be better.  I don't really got any friends here in the center, but seeing travelers like you always brightens my day."
     },
     "responses": [
@@ -287,24 +278,24 @@
     "item": "condom",
     "start": {
       "assign_mission_target": { "om_terrain": "sewer", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
-      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "condom", "x": 5, "y": 16 } ] },
-      "effect": { "u_add_var": "Alonso_condoms", "type": "mission", "context": "flag", "value": "in_progress" }
+      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "pants_leather", "x": 5, "y": 16 } ] },
+      "effect": { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
       "effect": [
-        { "u_add_var": "Alonso_condoms", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_effect": "Alonso_condoms_restored", "duration": 100000 }
+        { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
+        { "npc_add_effect": "Alonso_pants_restored" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "I think I might know where those special condoms might be though…",
+      "describe": "I think I might know where those special pants might be though…",
       "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a sewer not so so far.",
       "accepted": "You make me so happy I could give you little kisses, and some big kisses, and then something else maybe.",
       "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
       "advice": "It can be wet there.  Aha.  Gushy too you see.  Maybe some of the galoshes to bring?",
       "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
-      "success": "This is the best news since those lonely teachers asked me to be a nude model at the college for the blind.  Surely we will find some use for them.  It has been a while, I am, how to say, very prepared.",
+      "success": "This is the best news since those lonely teachers asked me to be a nude model at the college for the blind.  Alas, the special condoms have all been used.  This is not a surprise, few could resist this seductive clown.  You find a condom, I find a use for it.  Safety, she was never more important than now, you do not want the zombie genitals to strike at you.  That would leave a mark such as you could believe.",
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
       "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
     }
@@ -320,7 +311,10 @@
       "no": "My jewel of the New England, I give to you my biggest prize.",
       "yes": "Yo, you're crazy hot!  I'm not stupid!"
     },
-    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "speaker_effect": {
+      "sentinel": "service_provided",
+      "effect": [ { "u_add_effect": "VIBE", "duration": 400 }, { "u_consume_item": "condom" } ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -337,7 +331,10 @@
       "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
       "yes": "Yeeeeah it's on!"
     },
-    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "speaker_effect": {
+      "sentinel": "service_provided",
+      "effect": [ { "u_add_effect": "VIBE", "duration": 360 }, { "u_consume_item": "condom" } ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -354,38 +351,13 @@
       "no": "Oh, I mean Alonso is flattered but yes that is for certainly going to happen.",
       "yes": "Woo!  I got no standards at all!  Sorry, I shouldn't have said that out loud, I will make it up to you."
     },
-    "speaker_effect": { "sentinel": "service_provided", "effect": { "u_add_effect": "VIBE", "duration": 360 } },
+    "speaker_effect": {
+      "sentinel": "service_provided",
+      "effect": [ { "u_add_effect": "VIBE", "duration": 300 }, { "u_consume_item": "condom" } ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
-  },
-  {
-    "id": "MISSION_REFUGEE_Alonso_condoms2",
-    "type": "mission_definition",
-    "name": { "str": "Alonso needs more condoms" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 1,
-    "value": 1000,
-    "item": "condom",
-    "start": { "effect": { "u_add_var": "Alonso_condoms2", "type": "mission", "context": "flag", "value": "in_progress" } },
-    "end": {
-      "effect": [
-        { "u_add_var": "Alonso_condoms2", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_effect": "Alonso_condoms_restored", "duration": 100000 }
-      ]
-    },
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "I tried to save them as long as I could but they're all gone…",
-      "offer": "I swear to you I did not waste one, each produced the maximum possible benefit to the community.  Yes, I am as of a saint for this service I provide to the people.  But tragedy has stroke and Alonso is left with nothing to console the public.  Will you help me again?  I can make do with any condoms, the life she finds a way.",
-      "accepted": "You make me so happy I could give you little kisses, and some big kisses, and then something else maybe.",
-      "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
-      "advice": "I think the places of shopping and the homes will have something?",
-      "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
-      "success": "I haven't been this happy since I went to the club and it was crazy.  You cannot believe.  I never see bingo played like that.",
-      "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
-      "failure": "Disaster, but I thank you for to try.  You want a backrub some time, it will happen for sure.  And maybe you give me a rub too?"
-    }
   }
 ]
