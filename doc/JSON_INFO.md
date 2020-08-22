@@ -171,8 +171,124 @@ Use the `Home` key to return to the top.
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
+## Overall structure
+The game data is distributed amongst many JSON files in `data`.  Most of the
+core game data is in `data/json`, with mod data in `data/mods`.  There is also
+some in other subdirectories of `data`, but you less unlikely to be interested
+in those.
+
+Each JSON file is a list of JSON objects
+```json
+[
+  {
+    "…": "…"
+  },
+  {
+    "…": "…"
+  }
+]
+```
+
+Each object must have a `"type"` member that tells the game how to interpret
+that object.  For example, crafting recipes have `"type": "recipe"`, vehicle
+parts have `"type": "vehicle_part"`, and so on.  Note that items are a little
+unusual; there are multiple types which can be used to define an item.  See
+[the item documentation](#datajsonitems-jsons) for more details.
+
+Each of these types is documented separately, either below or in other
+documentation which should be linked from below (doubtless a few have been
+missed; feel free to file bugs for missing documentation).
+
+The documentation is organised by file, because objects of the same type tend
+to be defined together in one file or a collection of co-located files.
+However, the game does not enforce this convention and in practice you could
+define a JSON object of any type in any file.  If you were writing a small mod
+it might be reasonable to simply put all your JSON in a single file and that
+would be fine.
+
+There are a few cases where certain objects must be loaded before other objects
+and the names of the files defining those objects will affect the [loading
+order](JSON_LOADING_ORDER.md); sticking to established convention should avoid
+that issue.
+
+There are a few features that most types of JSON object have in common.  Those
+common features are documented in the next section.
+
+## Common properties
+
+For most types, every object of that type must have a unique id.  That id is
+typically defined by the `"id"` field.  For example:
+
+```json
+  {
+    "type": "skill",
+    "id": "barter",
+    "name": { "str": "bartering" },
+    "description": "…",
+    "display_category": "display_social"
+  }
+```
+
+This defines a skill with id `barter`.
+
+### `"copy-from"` and `"abstract"`
+
+Sometimes you want to define an object which is similar to another object,  or
+a collection of similar objects.  In most cases you can achieve this with
+`"copy-from"`, specifying the id of the object you wish to copy.  For example,
+the definition of a harvested pine tree copies `t_tree_pine` (the unharvested
+pine tree) and then specifies only a few properties.  Other properties (such as
+the fact that it's impassable, flammable, etc.) are inherited from
+`t_tree_pine`.
+
+```json
+  {
+    "type": "terrain",
+    "id": "t_tree_pine_harvested",
+    "copy-from": "t_tree_pine",
+    "name": "pine tree",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "symbol": "4",
+    "color": "brown",
+    "looks_like": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine",
+    "examine_action": "harvested_plant"
+  },
+```
+
+Sometimes you might want define a collection of objects which are similar, but
+there is no obvious single object that the others should copy.  In this case,
+you can create a special, *abstract* object and have all the others copy it.
+
+An abstract object specifies its id via the `"abstract"` field rather than
+`"id"`.  For example, here is the abstract vehicle alternator:
+
+```json
+  {
+    "abstract": "vehicle_alternator",
+    "type": "vehicle_part",
+    "fuel_type": "battery",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_color": "red",
+    "flags": [ "ALTERNATOR" ]
+  },
+```
+
+All vehicle alternator definitions use `"copy-from": "vehicle_alternator"` to
+inherit these common properties, but because `vehicle_alternator` is an
+abstract object, it does not appear in the game as a real vehicle part you can
+install.
+
+When using `"copy-from"`, you can define fields that were also defined in the
+object you are copying, and the new value will override the old.  However,
+sometimes you want to change the value in the copied object without overriding
+it entirely; there is support for that.  See the [JSON
+inheritance](JSON_INHERITANCE.md) documentation for details.
+
+
 # Navigating the JSON
-A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
+A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.  This enables you to jump to the definition of an object given its id.
 
 To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
 
@@ -180,6 +296,76 @@ To use this feature your editor will need [ctags support](http://ctags.sourcefor
 
 * In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
 * In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
+
+# Common field types
+This section describes some common features of formatting values in CDDA JSON files.
+
+## Units
+
+Most values which represent physical quantities (length, volume, time, etc.)
+are given as a string with a numerical value and an abbreviation of the unit.
+For example, a volume of 3 litres would be defined as `"3 L"`.
+
+### Time duration
+
+A string containing one or more pairs of number and time duration unit. Number and unit, as well as each pair, can be separated by an arbitrary amount of spaces.
+Available units:
+- "hours", "hour", "h" - one hour
+- "days", "day", "d" - one day
+- "minutes", "minute", "m" - one minute
+- "turns", "turn", "t" - one turn,
+
+Examples:
+- " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
+- "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
+
+## Translatable strings
+
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
+
+```JSON
+"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+```
+
+or, if the plural form is the same as the singular form:
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
+You can also add comments for translators by adding a "//~" entry like below. The
+order of the entries does not matter.
+
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Currently, only some JSON values support this syntax (see [here](doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+
+## Comments
+
+JSON has no intrinsic support for comments.  However, by convention in CDDA
+JSON, any field starting with `//` is a comment.
+
+```json
+{
+  "//" : "comment"
+}
+```
+
+If you want multiple comments in a single object then append a number to `//`.
+For example:
+
+```json
+{
+  "//" : "comment",
+  "//1" : "another comment",
+  "//2" : "yet another comment"
+}
+```
 
 # File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
@@ -322,68 +508,6 @@ Groups of vehicle definitions with self-explanatory names of files:
 | `utility.json`
 | `vans_busses.json`
 | `vehicles.json`
-
-# Generic properties and formatting
-This section describes properties and formatting applied to all of the JSON files.
-
-## Generic properties
-A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
-
-| Identifier               | Description
-|---                       |---
-| type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
-| [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
-| [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
-
-
-
-## Formatting
-When editing JSON files make sure you apply the correct formatting as shown below.
-
-### Time duration
-
-A string containing one or more pairs of number and time duration unit. Number and unit, as well as each pair, can be separated by an arbitrary amount of spaces.
-Available units:
-- "hours", "hour", "h" - one hour
-- "days", "day", "d" - one day
-- "minutes", "minute", "m" - one minute
-- "turns", "turn", "t" - one turn,
-
-Examples:
-- " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
-- "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
-
-### Other formatting
-
-```C++
-"//" : "comment", // Preferred method of leaving comments inside json files.
-```
-
-Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
-
-```JSON
-"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
-```
-
-or, if the plural form is the same as the singular form:
-
-```JSON
-"name": { "ctxt": "foo", "str_sp": "foo" }
-```
-
-You can also add comments for translators by adding a "//~" entry like below. The
-order of the entries does not matter.
-
-```JSON
-"name": {
-    "//~": "as in 'foobar'",
-    "str": "bar"
-}
-```
-
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
