@@ -90,7 +90,7 @@ weather_type_id get_bad_weather()
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
  * @param intensity Level of sun brighthess
  */
-void glare( weather_type_id w )
+void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
     //General prepequisites for glare
@@ -127,12 +127,12 @@ void glare( weather_type_id w )
 
 ////// food vs weather
 
-int incident_sunlight( weather_type_id wtype, const time_point &t )
+int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
 }
 
-inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
+inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
@@ -430,7 +430,7 @@ void wet( Character &target, int amount )
     target.drench( amount, drenched_parts, false );
 }
 
-void weather_sound( translation sound_message, std::string sound_effect )
+void weather_sound( const translation &sound_message, const std::string &sound_effect )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -462,7 +462,7 @@ double precip_mm_per_hour( precip_class const p )
         0;
 }
 
-void handle_weather_effects( weather_type_id const w )
+void handle_weather_effects( const weather_type_id &w )
 {
     //Possible TODO, make npc/monsters affected
     map &here = get_map();
@@ -913,7 +913,7 @@ std::string get_wind_arrow( int dirangle )
     return wind_arrow;
 }
 
-int get_local_humidity( double humidity, weather_type_id weather, bool sheltered )
+int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered )
 {
     int tmphumidity = humidity;
     if( sheltered ) {

@@ -11497,8 +11497,8 @@ std::vector<display_proficiency> Character::display_proficiencies() const
     return _proficiencies->display();
 }
 
-void Character::practice_proficiency( const proficiency_id &prof, const time_duration amount,
-                                      const cata::optional<time_duration> max )
+void Character::practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+                                      const cata::optional<time_duration> &max )
 {
     int amt = to_seconds<int>( amount );
     const float pct_before = _proficiencies->pct_practiced( prof );

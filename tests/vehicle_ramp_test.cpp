@@ -177,7 +177,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
     }
 }
 
-static void test_ramp( std::string type, const int transition_x )
+static void test_ramp( const std::string &type, const int transition_x )
 {
     SECTION( type + " no ramp" ) {
         ramp_transition_angled( vproto_id( type ), 180, transition_x, false, false );
@@ -287,7 +287,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     CHECK( veh.global_pos3().z == 0 );
 }
 
-static void test_leveling( std::string type )
+static void test_leveling( const std::string &type )
 {
     SECTION( type + " body drop" ) {
         level_out( vproto_id( type ), true );
