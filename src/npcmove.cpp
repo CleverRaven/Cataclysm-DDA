@@ -3851,7 +3851,7 @@ bool npc::consume_food_from_camp()
         yours->food_supply -= camp_kcals;
         return true;
     }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty", false );
+    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
     return false;
 }
 
