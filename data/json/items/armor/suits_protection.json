@@ -100,7 +100,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
-	"environmental_protection": 4,
+    "environmental_protection": 4,
     "flags": [ "STURDY" ]
   },
   {
