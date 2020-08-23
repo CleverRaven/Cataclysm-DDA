@@ -173,6 +173,12 @@ std::string input_event::short_description() const
     return rval;
 }
 
+bool input_event::compare_type_mod_code( const input_event &lhs, const input_event &rhs )
+{
+    return std::tie( lhs.type, lhs.modifiers, lhs.sequence )
+           < std::tie( rhs.type, rhs.modifiers, rhs.sequence );
+}
+
 input_manager inp_mngr;
 
 void input_manager::init()
@@ -930,13 +936,6 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     return result;
 }
 
-std::string input_context::key_bound_to( const std::string &action_descriptor, const size_t index,
-        const bool restrict_to_printable ) const
-{
-    const auto bound_keys = keys_bound_to( action_descriptor, restrict_to_printable );
-    return bound_keys.size() > index ? std::string( 1, bound_keys[index] ) : "";
-}
-
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
     for( const auto &registered_action : registered_actions ) {
@@ -1548,6 +1547,17 @@ void input_manager::wait_for_any_key()
     }
 }
 
+keyboard_mode input_manager::actual_keyboard_mode( const keyboard_mode preferred_keyboard_mode )
+{
+    switch( preferred_keyboard_mode ) {
+        case keyboard_mode::keycode:
+            return is_keycode_mode_supported() ? keyboard_mode::keycode : keyboard_mode::keychar;
+        case keyboard_mode::keychar:
+            return keyboard_mode::keychar;
+    }
+    return keyboard_mode::keychar;
+}
+
 #if !(defined(TILES) || defined(_WIN32))
 // Also specify that we don't have a gamepad plugged in.
 bool gamepad_available()
@@ -1715,9 +1725,9 @@ bool input_context::is_event_type_enabled( const input_event_t type ) const
         case input_event_t::timeout:
             return true;
         case input_event_t::keyboard_char:
-            return preferred_keyboard_mode == keyboard_mode::keychar || !is_keycode_mode_supported();
+            return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar;
         case input_event_t::keyboard_code:
-            return preferred_keyboard_mode == keyboard_mode::keycode && is_keycode_mode_supported();
+            return input_manager::actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keycode;
         case input_event_t::gamepad:
             return gamepad_available();
         case input_event_t::mouse:
@@ -1812,6 +1822,30 @@ const hotkey_queue &hotkey_queue::alphabets()
     static std::unique_ptr<hotkey_queue> queue;
     if( !queue ) {
         queue = std::make_unique<hotkey_queue>();
+        for( int ch = 'a'; ch <= 'z'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        for( int ch = 'A'; ch <= 'Z'; ++ch ) {
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->modifiers_keycode.emplace_back();
+        queue->modifiers_keycode.emplace_back( std::set<keymod_t>( { keymod_t::shift } ) );
+    }
+    return *queue;
+}
+
+const hotkey_queue &hotkey_queue::alpha_digits()
+{
+    static std::unique_ptr<hotkey_queue> queue;
+    if( !queue ) {
+        queue = std::make_unique<hotkey_queue>();
+        for( int ch = '1'; ch <= '9'; ++ch ) {
+            queue->codes_keycode.emplace_back( ch );
+            queue->codes_keychar.emplace_back( ch );
+        }
+        queue->codes_keycode.emplace_back( '0' );
+        queue->codes_keychar.emplace_back( '0' );
         for( int ch = 'a'; ch <= 'z'; ++ch ) {
             queue->codes_keycode.emplace_back( ch );
             queue->codes_keychar.emplace_back( ch );

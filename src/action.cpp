@@ -817,7 +817,8 @@ action_id handle_action_menu()
                 // register with global key
                 REGISTER_CATEGORY( _( "Debug" ) );
                 if( ( entry = &entries.back() ) ) {
-                    entry->hotkey = hotkey_for_action( ACTION_DEBUG );
+                    entry->hotkey = input_event( hotkey_for_action( ACTION_DEBUG ),
+                                                 input_event_t::keyboard_char );
                 }
             }
         } else if( category == _( "Look" ) ) {

@@ -1101,7 +1101,7 @@ void editmap::edit_feature()
         uilist_entry ent( name );
         ent.retval = i;
         ent.enabled = true;
-        ent.hotkey = 0;
+        ent.hotkey = input_event();
         ent.extratxt.sym = symbol( type );
         ent.extratxt.color = color( type );
         ent.desc = describe( type );
