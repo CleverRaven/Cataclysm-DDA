@@ -638,6 +638,30 @@
     "properties": [ [ "burst_when_filled", "75" ] ]
   },
   {
+    "id": "test_can_drink",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test aluminum can" },
+    "description": "A factory-sealed aluminum can for testing.",
+    "weight": "13 g",
+    "volume": "253 ml",
+    "material": [ "aluminum" ],
+    "symbol": ")",
+    "color": "light_blue",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "10 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
     "id": "test_backpack",
     "type": "ARMOR",
     "name": "TEST backpack",
