@@ -836,26 +836,17 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
 
 requirement_data vpart_info::install_requirements() const
 {
-    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data() );
 }
 
 requirement_data vpart_info::removal_requirements() const
 {
-    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data() );
 }
 
 requirement_data vpart_info::repair_requirements() const
 {
-    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data() );
 }
 
 bool vpart_info::is_repairable() const

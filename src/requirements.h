@@ -245,6 +245,10 @@ struct requirement_data {
 
         /** Combines two sets of requirements */
         requirement_data operator+( const requirement_data &rhs ) const;
+        /** Incorporate data from an id and integer.
+         * This is helpful when building requirement_data objects from maps
+         * loaded from JSON */
+        requirement_data operator+( const std::pair<requirement_id, int> &rhs ) const;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from

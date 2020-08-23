@@ -423,10 +423,7 @@ void recipe::finalize()
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
 {
-    requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_,
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_ );
 }
 
 std::string recipe::get_consistency_error() const
@@ -848,15 +845,9 @@ void recipe::check_blueprint_requirements()
     build_reqs total_reqs;
     get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
     requirement_data req_data_blueprint = std::accumulate(
-            reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+            reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data() );
     requirement_data req_data_calc = std::accumulate(
-                                         total_reqs.reqs.begin(), total_reqs.reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+                                         total_reqs.reqs.begin(), total_reqs.reqs.end(), requirement_data() );
     // do not consolidate req_data_blueprint: it actually changes the meaning of the requirement.
     // instead we enforce specifying the exact consolidated requirement.
     req_data_calc.consolidate();
