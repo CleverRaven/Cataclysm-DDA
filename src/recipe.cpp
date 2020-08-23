@@ -259,9 +259,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // These cannot be inherited
     check_blueprint_needs = false;
     has_blueprint_needs = false;
-    time_blueprint = 0;
-    skills_blueprint.clear();
-    reqs_blueprint.clear();
+    blueprint_reqs.clear();
 
     if( type == "recipe" ) {
         if( jo.has_string( "id_suffix" ) ) {
@@ -315,30 +313,27 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 if( jneeds.has_member( "time" ) ) {
                     if( jneeds.has_int( "time" ) ) {
                         // so we can specify moves that is not a multiple of 100
-                        time_blueprint = jneeds.get_int( "time" );
+                        blueprint_reqs.time = jneeds.get_int( "time" );
                     } else {
-                        time_blueprint = to_moves<int>( read_from_json_string<time_duration>( *jneeds.get_raw( "time" ),
-                                                        time_duration::units ) );
+                        blueprint_reqs.time = to_moves<int>(
+                                                  read_from_json_string<time_duration>(
+                                                      *jneeds.get_raw( "time" ), time_duration::units ) );
                     }
-                    time += time_blueprint;
+                    time += blueprint_reqs.time;
                 }
                 if( jneeds.has_member( "skills" ) ) {
-                    for( JsonArray cur : jneeds.get_array( "skills" ) ) {
-                        skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
-                    }
-                    for( const std::pair<const skill_id, int> &p : skills_blueprint ) {
-                        const auto it = required_skills.find( p.first );
-                        if( it == required_skills.end() ) {
-                            required_skills.emplace( p );
-                        } else {
-                            it->second = std::max( it->second, p.second );
-                        }
+                    std::vector<std::pair<skill_id, int>> blueprint_skills;
+                    jneeds.read( "skills", blueprint_skills );
+                    blueprint_reqs.skills = { blueprint_skills.begin(), blueprint_skills.end() };
+                    for( const std::pair<const skill_id, int> &p : blueprint_reqs.skills ) {
+                        int &val = required_skills[p.first];
+                        val = std::max( val, p.second );
                     }
                 }
                 if( jneeds.has_member( "inline" ) ) {
                     const requirement_id req_id( "inline_blueprint_" + type + "_" + ident_.str() );
                     requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
-                    reqs_blueprint.emplace_back( req_id, 1 );
+                    blueprint_reqs.reqs.emplace( req_id, 1 );
                     reqs_internal.emplace_back( req_id, 1 );
                 }
             }
@@ -369,9 +364,7 @@ void recipe::finalize()
     reqs_internal.clear();
 
     if( has_blueprint_needs ) {
-        time_blueprint = 0;
-        skills_blueprint.clear();
-        reqs_blueprint.clear();
+        blueprint_reqs.clear();
     }
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
@@ -844,12 +837,12 @@ void recipe::check_blueprint_requirements()
 {
     build_reqs total_reqs;
     get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
-    requirement_data req_data_blueprint( reqs_blueprint );
+    requirement_data req_data_blueprint( blueprint_reqs.reqs );
     requirement_data req_data_calc( total_reqs.reqs );
     // do not consolidate req_data_blueprint: it actually changes the meaning of the requirement.
     // instead we enforce specifying the exact consolidated requirement.
     req_data_calc.consolidate();
-    if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
+    if( blueprint_reqs.time != total_reqs.time || blueprint_reqs.skills != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
         std::ostringstream os;
         JsonOut jsout( os, /*pretty_print=*/true );
