@@ -289,6 +289,9 @@ sometimes you want to change the value in the copied object without overriding
 it entirely; there is support for that.  See the [JSON
 inheritance](JSON_INHERITANCE.md) documentation for details.
 
+`"copy-from"` also implies `"looks_like"` connection, so you don't have
+to specify the id multiple times.
+
 
 # Navigating the JSON
 A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.  This enables you to jump to the definition of an object given its id.
