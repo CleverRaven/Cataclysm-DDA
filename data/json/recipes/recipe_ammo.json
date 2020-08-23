@@ -834,7 +834,8 @@
         [ "withered", 2 ],
         [ "cattail_stalk", 1 ],
         [ "birchbark", 1 ],
-        [ "willowbark", 1 ]
+        [ "willowbark", 1 ],
+        [ "straw_pile", 1 ]
       ]
     ]
   },
