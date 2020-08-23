@@ -1168,6 +1168,12 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
+    // Consuming an item may cause various effects, including cancelling our activity.
+    // Back up these values since this activity actor might be destroyed.
+    std::vector<int> temp_selections = consume_menu_selections;
+    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
+    const std::string temp_filter = consume_menu_filter;
+
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_location ) {
@@ -1181,10 +1187,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
-    //setting act to null clears these so back them up
-    std::vector<int> temp_selections = consume_menu_selections;
-    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
-    const std::string temp_filter = consume_menu_filter;
+
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
