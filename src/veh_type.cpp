@@ -836,17 +836,17 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
 
 requirement_data vpart_info::install_requirements() const
 {
-    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data() );
+    return requirement_data( install_reqs );
 }
 
 requirement_data vpart_info::removal_requirements() const
 {
-    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data() );
+    return requirement_data( removal_reqs );
 }
 
 requirement_data vpart_info::repair_requirements() const
 {
-    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data() );
+    return requirement_data( repair_reqs );
 }
 
 bool vpart_info::is_repairable() const
