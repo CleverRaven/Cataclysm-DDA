@@ -106,7 +106,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     CHECK( found_optional == true );
 }
 
-TEST_CASE( "Exactly one endgame lab finale is generated in (0,0) overmap", "[overmap][slow]" )
+static void do_lab_finale_test()
 {
     const oter_id labt_endgame( "central_lab_endgame" );
     const point origin = point_zero;
@@ -125,6 +125,18 @@ TEST_CASE( "Exactly one endgame lab finale is generated in (0,0) overmap", "[ove
         }
     }
     CHECK( endgame_count == 1 );
+}
+
+TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap", "[overmap][slow]" )
+{
+    do_lab_finale_test();
+}
+
+TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][overmap][slow]" )
+{
+    for( size_t i = 0; i < 100; i++ ) {
+        do_lab_finale_test();
+    }
 }
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )

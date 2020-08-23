@@ -1498,7 +1498,12 @@ static void fixup_labs( overmap &om )
             return l.z < r.z;
         } );
         if( lowest == l.finales.end() ) {
-            debugmsg( _( "Endgame lab was generated with no finales." ) );
+            auto lowest_regular = std::min_element( l.tiles.begin(), l.tiles.end(), []( const tripoint & l,
+            const tripoint & r ) {
+                return l.z < r.z;
+            } );
+            debugmsg( _( "Endgame lab was generated with no finales. Lowest tile: (%d,%d,%d)." ),
+                      lowest_regular->x, lowest_regular->y, lowest_regular->z );
             continue;
         }
 
@@ -1566,7 +1571,8 @@ void overmap::generate( const overmap *north, const overmap *east,
 
 bool overmap::generate_sub( const int z )
 {
-    bool requires_sub = false;
+    // We need to generate at least 3 z-levels for labs
+    bool requires_sub = z > -4;
     std::vector<point> subway_points;
     std::vector<point> sewer_points;
 
@@ -1710,14 +1716,14 @@ bool overmap::generate_sub( const int z )
 
     const auto handle_lab_type = [&]( std::string prefix, const std::vector<point> &pts ) {
         for( auto &i : pts ) {
-            int size = prefix == "central_" ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1, 5 + z ) ;
             const tripoint p( i, z );
             lab *l = find_lab_for( p );
             if( l == nullptr ) {
-                debugmsg( _( "Couldn't find lab for point (%d,%d,%d) on overmap (%d,%d)" ), p.x, p.y, p.z, pos().x,
-                          pos().y );
+                debugmsg( _( "Couldn't find lab for point (%d,%d,%d) on overmap (%d,%d)" ), p.x, p.y, p.z,
+                          pos().x, pos().y );
                 continue;
             }
+            int size = l->type == lab_type::central ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1, 5 + z );
             bool goes_lower = build_lab( p, *l, size, lab_train_points, prefix, lab_train_odds );
             requires_sub |= goes_lower;
             if( !goes_lower && ter( p ) == oter_id( prefix + "lab_core" ) ) {
@@ -3102,10 +3108,18 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
     const oter_id labt_ants( "ants_lab" );
     const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
-    bool is_true_center = pos() == point_zero && labt.id().str() == "central_lab";
+    bool is_true_center = pos() == point_zero && l.type == lab_type::central;
 
     ter_set( p, labt );
     generated_lab.push_back( p );
+
+    const auto is_same_lab = [&]( const tripoint & p ) {
+        const std::set<oter_id> types = {{
+                labt, labt_stairs, labt_core, labt_finale, labt_ants, labt_ants_stairs
+            }
+        };
+        return types.count( ter( p ) ) > 0;
+    };
 
     // maintain a list of potential new lab tiles
     // grows outwards from previously placed lab tiles
@@ -3116,7 +3130,7 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
         const tripoint cand = *candidates.begin();
         candidates.erase( candidates.begin() );
         closed_candidates.insert( cand );
-        if( !inbounds( cand ) ) {
+        if( !inbounds( cand ) || is_same_lab( cand ) ) {
             continue;
         }
         const int dist = manhattan_dist( p.xy(), cand.xy() );
@@ -3136,7 +3150,7 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
                 for( const point &offset : four_adjacent_offsets ) {
                     const tripoint new_cand = cand + offset;
                     const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
-                    if( closed_candidates.count( new_cand ) == 0 && ter( new_cand ) != labt && new_dist > dist ) {
+                    if( closed_candidates.count( new_cand ) == 0 && new_dist > dist ) {
                         candidates.insert( new_cand );
                     }
                 }
@@ -3188,7 +3202,7 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
 
     bool endgame_finale = is_true_center && numstairs == 0;
     // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
-    if( numstairs == 0 || ( prefix == "central_" && one_in( -p.z - 1 ) ) ) {
+    if( numstairs == 0 || ( l.type == lab_type::central && one_in( -p.z - 1 ) ) ) {
         std::set<tripoint> finale_candidates;
         // This is for when we can't find any proper candidates
         std::set<tripoint> secondary_candidates;
@@ -3196,24 +3210,28 @@ bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &l
             if( ter( c ) == labt || ( !endgame_finale && ter( c ) == labt_core ) ) {
                 finale_candidates.insert( c );
             }
+        }
 
-
-            if( endgame_finale && is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
-                for( const point &offset : four_adjacent_offsets ) {
-                    if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {
-                        secondary_candidates.insert( c + offset );
+        if( endgame_finale ) {
+            for( const tripoint &c : closest_tripoints_first( p, 2 * s + 1 ) ) {
+                if( is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
+                    for( const point &offset : four_adjacent_offsets ) {
+                        if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {
+                            secondary_candidates.insert( c + offset );
+                        }
                     }
                 }
             }
         }
 
-        tripoint finale_pos;
+        tripoint finale_pos = p;
         if( !finale_candidates.empty() ) {
             finale_pos = random_entry( finale_candidates );
-        } else if( endgame_finale && !secondary_candidates.empty() ) {
+        } else if( !secondary_candidates.empty() ) {
             finale_pos = random_entry( secondary_candidates );
         } else if( endgame_finale ) {
-            debugmsg( _( "Endgame finale could not be generated." ) );
+            debugmsg( _( "Endgame finale could not be generated for lab at (%d,%d,%d)." ),
+                      p.x, p.y, p.z );
         }
 
         ter_set( finale_pos, labt_finale );
