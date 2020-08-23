@@ -206,6 +206,7 @@
     "type": "dream",
     "messages": [
       "You dream of grazing in an open field.",
+      "You dream of a golden calf.",
       "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
     ],
     "category": "CATTLE",
@@ -376,6 +377,7 @@
   {
     "type": "dream",
     "messages": [
+      "You have a nightmare of twisting, endless corridors⋯  They couldn't kill you so they built a labyrinth to cage you.",
       "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
       "You find it hard to wake from a vivid dream of grazing on a farm."
     ],
@@ -554,6 +556,9 @@
     "type": "dream",
     "messages": [
       "You dream of jumping the gate and leading your herd to freedom.",
+      "You belllow  on a knoll against the sky, having feasted on the apple time cider.",
+      "Yes, let them worship the golden calf.  Let them worship their bovine masters.",
+      "Trapped in the twisting corridors⋯  A tiny one,Theseus, thinks he hunts you here. You split his head and follow the thread out of the labyrinth.",
       "The herd moves along and you with them, finding greener pastures."
     ],
     "category": "CATTLE",
