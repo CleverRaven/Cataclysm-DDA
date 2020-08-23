@@ -78,9 +78,23 @@ uilist_entry::uilist_entry( const std::string &T, const int K )
 {
 }
 
+uilist_entry::uilist_entry( const std::string &T, const cata::optional<input_event> &K )
+    : retval( -1 ), enabled( true ), hotkey( K ), txt( T ),
+      text_color( c_red_red )
+{
+}
+
 uilist_entry::uilist_entry( const int R, const bool E, const int K,
                             const std::string &T )
     : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
+      text_color( c_red_red )
+{
+}
+
+uilist_entry::uilist_entry( const int R, const bool E,
+                            const cata::optional<input_event> &K,
+                            const std::string &T )
+    : retval( R ), enabled( E ), hotkey( K ), txt( T ),
       text_color( c_red_red )
 {
 }
@@ -96,6 +110,15 @@ uilist_entry::uilist_entry( const int R, const bool E, const int K,
                             const std::string &T, const std::string &D,
                             const std::string &C )
     : retval( R ), enabled( E ), hotkey( hotkey_from_char( K ) ), txt( T ),
+      desc( D ), ctxt( C ), text_color( c_red_red )
+{
+}
+
+uilist_entry::uilist_entry( const int R, const bool E,
+                            const cata::optional<input_event> &K,
+                            const std::string &T, const std::string &D,
+                            const std::string &C )
+    : retval( R ), enabled( E ), hotkey( K ), txt( T ),
       desc( D ), ctxt( C ), text_color( c_red_red )
 {
 }
@@ -968,6 +991,13 @@ void uilist::addentry( int r, bool e, int k, const std::string &str )
     entries.emplace_back( r, e, k, str );
 }
 
+void uilist::addentry( const int r, const bool e,
+                       const cata::optional<input_event> &k,
+                       const std::string &str )
+{
+    entries.emplace_back( r, e, k, str );
+}
+
 void uilist::addentry_desc( const std::string &str, const std::string &desc )
 {
     entries.emplace_back( str, desc );
@@ -979,6 +1009,14 @@ void uilist::addentry_desc( int r, bool e, int k, const std::string &str, const 
 }
 
 void uilist::addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+                           const std::string &desc )
+{
+    entries.emplace_back( r, e, k, str, desc, column );
+}
+
+void uilist::addentry_col( const int r, const bool e,
+                           const cata::optional<input_event> &k,
+                           const std::string &str, const std::string &column,
                            const std::string &desc )
 {
     entries.emplace_back( r, e, k, str, desc, column );

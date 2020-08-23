@@ -94,14 +94,18 @@ enum change_types : int {
     CANCEL
 };
 
-char keybind( const std::string &opt, const std::string &context )
+static input_event keybind( const std::string &opt,
+                            const std::string &context = "VEHICLE" )
 {
-    const auto keys = input_context( context, keyboard_mode::keycode ).keys_bound_to( opt );
-    return keys.empty() ? ' ' : keys.front();
+    const std::vector<input_event> keys = input_context( context, keyboard_mode::keycode )
+                                          .keys_bound_to( opt, /*maximum_modifier_count=*/1 );
+    return keys.empty() ? input_event() : keys.front();
 }
 
 void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                  std::vector<std::function<void()>> &actions,
+                                  const std::string &name,
+                                  const input_event &key,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
@@ -240,7 +244,8 @@ void vehicle::control_doors()
 void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         std::vector<std::function<void()>> &actions )
 {
-    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+    auto add_toggle = [&]( const std::string & name, const input_event & key,
+    const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
@@ -2040,8 +2045,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
     if( has_workbench ) {
-        selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
-                             parts[workbench_part].name() ) );
+        selectmenu.addentry( WORKBENCH, true,
+                             hotkey_for_action( ACTION_CRAFT, /*maximum_modifier_count=*/1 ),
+                             string_format( _( "Craft at the %s" ),
+                                            parts[workbench_part].name() ) );
     }
 
     int choice;

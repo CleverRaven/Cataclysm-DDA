@@ -76,9 +76,15 @@ struct uilist_entry {
     uilist_entry( const std::string &T );
     uilist_entry( const std::string &T, const std::string &D );
     uilist_entry( const std::string &T, int K );
+    uilist_entry( const std::string &T, const cata::optional<input_event> &K );
     uilist_entry( int R, bool E, int K, const std::string &T );
+    uilist_entry( int R, bool E, const cata::optional<input_event> &K,
+                  const std::string &T );
     uilist_entry( int R, bool E, int K, const std::string &T, const std::string &D );
     uilist_entry( int R, bool E, int K, const std::string &T, const std::string &D,
+                  const std::string &C );
+    uilist_entry( int R, bool E, const cata::optional<input_event> &K,
+                  const std::string &T, const std::string &D,
                   const std::string &C );
     uilist_entry( int R, bool E, int K, const std::string &T,
                   const nc_color &H, const nc_color &C );
@@ -207,17 +213,20 @@ class uilist // NOLINT(cata-xy)
         // hotkey). Other values may not work under keycode mode.
         void addentry( const std::string &str );
         void addentry( int r, bool e, int k, const std::string &str );
-        // K is templated so it matches a `char` literal and a `int` value.
-        // Using a fixed type (either `char` or `int`) will lead to ambiguity with the
-        // other overload when called with the wrong type.
+        void addentry( int r, bool e, const cata::optional<input_event> &k,
+                       const std::string &str );
         template<typename K, typename ...Args>
-        void addentry( const int r, const bool e, K k, const char *const format, Args &&... args ) {
-            return addentry( r, e, k, string_format( format, std::forward<Args>( args )... ) );
+        void addentry( const int r, const bool e, K &&k, const char *const format, Args &&... args ) {
+            return addentry( r, e, std::forward<K>( k ),
+                             string_format( format, std::forward<Args>( args )... ) );
         }
         void addentry_desc( const std::string &str, const std::string &desc );
         void addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc );
         void addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
                            const std::string &desc = "" );
+        void addentry_col( int r, bool e, const cata::optional<input_event> &k,
+                           const std::string &str, const std::string &column,
+                           const std::string &desc = std::string() );
         void settext( const std::string &str );
 
         void reset();

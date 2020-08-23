@@ -8365,9 +8365,11 @@ void game::drop_in_direction()
 }
 
 // Used to set up the first Hotkey in the display set
-static int get_initial_hotkey( const size_t menu_index )
+static cata::optional<input_event> get_initial_hotkey( const size_t menu_index )
 {
-    return ( menu_index == 0 ) ? hotkey_for_action( ACTION_BUTCHER ) : -1;
+    return menu_index == 0
+           ? hotkey_for_action( ACTION_BUTCHER, /*maximum_modifier_count=*/1 )
+           : cata::nullopt;
 }
 
 // Returns a vector of pairs.
@@ -8413,11 +8415,11 @@ static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_d
 static void add_corpses( uilist &menu, const std::vector<map_stack::iterator> &its,
                          size_t &menu_index )
 {
-    int hotkey = get_initial_hotkey( menu_index );
+    cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
     for( const map_stack::iterator &it : its ) {
         menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
-        hotkey = -1;
+        hotkey = cata::nullopt;
     }
 }
 
@@ -8427,7 +8429,7 @@ static void add_salvagables( uilist &menu,
                              size_t &menu_index, const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
-        int hotkey = get_initial_hotkey( menu_index );
+        cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
             const item &it = *stack.first;
@@ -8437,7 +8439,7 @@ static void add_salvagables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
-            hotkey = -1;
+            hotkey = cata::nullopt;
         }
     }
 }
@@ -8447,7 +8449,7 @@ static void add_disassemblables( uilist &menu,
                                  const std::vector<std::pair<map_stack::iterator, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
-        int hotkey = get_initial_hotkey( menu_index );
+        cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
             const item &it = *stack.first;
@@ -8458,7 +8460,7 @@ static void add_disassemblables( uilist &menu,
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
                                        it.typeId() ).time_to_craft( get_player_character() ) ) );
-            hotkey = -1;
+            hotkey = cata::nullopt;
         }
     }
 }

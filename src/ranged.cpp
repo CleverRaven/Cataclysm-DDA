@@ -1269,8 +1269,8 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
         }
     }
 
-    const auto front_or = [&]( const std::string & s, const char fallback ) {
-        const auto keys = ctxt.keys_bound_to( s );
+    const auto front_or = [&]( const std::string & s, const input_event & fallback ) {
+        const std::vector<input_event> keys = ctxt.keys_bound_to( s, /*maximum_modifier_count=*/1 );
         return keys.empty() ? fallback : keys.front();
     };
 
@@ -1295,7 +1295,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
                             *ranged_weapon.type );
         }
 
-        auto hotkey = front_or( type.action.empty() ? "FIRE" : type.action, ' ' );
+        const input_event hotkey = front_or( type.action.empty() ? "FIRE" : type.action, input_event() );
         if( ( panel_type == "compact" || panel_type == "labels-narrow" ) ) {
             if( display_type == "numbers" ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
@@ -1310,7 +1310,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
             print_colored_text( w, point( 1, line_number++ ), col, col,
                                 string_format( _( "<color_white>[%s]</color> %s %s: Moves to fire: "
                                                   "<color_light_blue>%d</color>" ),
-                                               hotkey, label, aim_l, moves_to_fire ) );
+                                               hotkey.short_description(), label, aim_l, moves_to_fire ) );
         }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
@@ -2883,8 +2883,8 @@ void target_ui::draw_controls_list( int text_y )
 
     // Get first key bound to given action OR ' ' if there are none.
     const auto bound_key = [this]( const std::string & s ) {
-        const std::vector<char> keys = this->ctxt.keys_bound_to( s );
-        return keys.empty() ? ' ' : keys.front();
+        const std::vector<input_event> keys = this->ctxt.keys_bound_to( s, /*maximum_modifier_count=*/1 );
+        return keys.empty() ? input_event() : keys.front();
     };
     const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
         if( color == col_enabled ) {
@@ -2914,43 +2914,45 @@ void target_ui::draw_controls_list( int text_y )
     }
     {
         std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-        std::string fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
+        std::string fire = string_format( _( "[%s] %s." ), bound_key( "FIRE" ).short_description(),
+                                          uitext_fire() );
         lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
     }
     {
-        std::string text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
-                                          bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+        std::string text = string_format( _( "[%s] target self; [%s] toggle snap-to-target" ),
+                                          bound_key( "CENTER" ).short_description(),
+                                          bound_key( "TOGGLE_SNAP_TO_TARGET" ).short_description() );
         lines.push_back( {3, colored( col_enabled, text )} );
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
         for( const auto &e : aim_types ) {
             if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%c] ", bound_key( e.action ) );
+                aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
             }
         }
         aim_and_fire += _( "to aim and fire." );
 
-        std::string aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
-                                         bound_key( "AIM" ) );
-        std::string sw_aim = string_format( _( "[%c] to switch aiming modes." ),
-                                            bound_key( "SWITCH_AIM" ) );
+        std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
+                                         bound_key( "AIM" ).short_description() );
+        std::string sw_aim = string_format( _( "[%s] to switch aiming modes." ),
+                                            bound_key( "SWITCH_AIM" ).short_description() );
 
         lines.push_back( {2, colored( col_fire, aim )} );
         lines.push_back( {1, colored( col_fire, sw_aim )} );
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
-        lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ) ) )} );
-        lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ) ) )} );
+        lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
+                                      bound_key( "SWITCH_MODE" ).short_description() ) )} );
+        lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
+                                      bound_key( "SWITCH_AMMO" ).short_description() ) )} );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
-                                  ? _( "[%c] Hide lines of fire" )
-                                  : _( "[%c] Show lines of fire" );
-        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ) ) )} );
+                                  ? _( "[%s] Hide lines of fire" )
+                                  : _( "[%s] Show lines of fire" );
+        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ).short_description() ) )} );
     }
 
     // Shrink the list until it fits

@@ -913,23 +913,25 @@ void input_context::register_action( const std::string &action_descriptor, const
     }
 }
 
-std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor,
+std::vector<input_event> input_context::keys_bound_to( const std::string &action_descriptor,
+        const int maximum_modifier_count,
         const bool restrict_to_printable ) const
 {
-    std::vector<char> result;
+    std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
     for( const auto &events_event : events ) {
-        // Ignore multi-key input and non-keyboard input
-        // TODO: fix for Unicode.
+        // Ignore non-keyboard input
         if( ( events_event.type == input_event_t::keyboard_char
               || events_event.type == input_event_t::keyboard_code )
             && is_event_type_enabled( events_event.type )
             && events_event.sequence.size() == 1
-            && events_event.modifiers.empty() ) {
+            && ( maximum_modifier_count < 0
+                 || events_event.modifiers.size() <= static_cast<size_t>( maximum_modifier_count ) ) ) {
             if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
+                                            events_event.sequence.front() != ' ' &&
                                             isprint( events_event.sequence.front() ) ) ) {
-                result.push_back( static_cast<char>( events_event.sequence.front() ) );
+                result.emplace_back( events_event );
             }
         }
     }

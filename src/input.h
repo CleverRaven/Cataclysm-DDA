@@ -755,11 +755,17 @@ class input_context
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
          * @param action_descriptor The action descriptor for which to get the bound keys.
-         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @param maximum_modifier_count Maximum number of modifiers allowed for
+         *        the returned action. <0 means any number is allowed.
+         * @param restrict_to_printable If `true` the function returns the bound
+         *        keys only if they are printable (space counts as non-printable
+         *        here). If `false`, all keys (whether they are printable or not)
+         *        are returned.
          * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_descriptor,
-                                         bool restrict_to_printable = true ) const;
+        std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
+                                                int maximum_modifier_count = -1,
+                                                bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -833,10 +839,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 const std::string &phrase ) const;
-    public:
-        std::vector<std::string> get_registered_actions_copy() const {
-            return registered_actions;
-        }
 };
 
 /**
