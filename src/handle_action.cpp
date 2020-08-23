@@ -685,7 +685,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.weapon.damage_melee( DT_BASH );
+        smashskill = player_character.str_cur + player_character.weapon.damage_melee( damage_type::BASH );
     }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -778,12 +778,14 @@ static void smash()
                 player_character.weapon.spill_contents( player_character.pos() );
                 sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                "glass" );
-                player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0,
-                                              vol ) ) );
+                player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT,
+                                              rng( 0,
+                                                   vol ) ) );
                 if( vol > 20 ) {
                     // Hurt left arm too, if it was big
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
-                                                  static_cast<int>( vol * .5 ) ) ) );
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT,
+                                                  rng( 0,
+                                                       static_cast<int>( vol * .5 ) ) ) );
                 }
                 player_character.remove_weapon();
                 player_character.check_dead_state();
@@ -805,9 +807,11 @@ static void smash()
                 int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
                 if( player_character.get_part_hp_cur( bodypart_id( "arm_r" ) ) > player_character.get_part_hp_cur(
                         bodypart_id( "arm_l" ) ) ) {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_BASH, dam ) );
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::BASH,
+                                                  dam ) );
                 } else {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_BASH, dam ) );
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::BASH,
+                                                  dam ) );
                 }
                 if( dam > 0 ) {
                     add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), here.furnname( smashp ) );

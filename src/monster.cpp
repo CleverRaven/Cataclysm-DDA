@@ -1266,13 +1266,13 @@ bool monster::in_species( const species_id &spec ) const
 
 bool monster::is_elec_immune() const
 {
-    return is_immune_damage( DT_ELECTRIC );
+    return is_immune_damage( damage_type::ELECTRIC );
 }
 
 bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == effect_onfire ) {
-        return is_immune_damage( DT_HEAT ) ||
+        return is_immune_damage( damage_type::HEAT ) ||
                made_of( phase_id::LIQUID ) ||
                has_flag( MF_FIREY );
     }
@@ -1299,31 +1299,31 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NONE:
+        case damage_type::NONE:
             return true;
-        case DT_TRUE:
+        case damage_type::TRUE:
             return false;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             // NOTE: Unused
             return false;
-        case DT_BASH:
+        case damage_type::BASH:
             return false;
-        case DT_CUT:
+        case damage_type::CUT:
             return false;
-        case DT_ACID:
+        case damage_type::ACID:
             return has_flag( MF_ACIDPROOF );
-        case DT_STAB:
+        case damage_type::STAB:
             return false;
-        case DT_HEAT:
+        case damage_type::HEAT:
             // Ugly hardcode - remove later
             return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
-        case DT_COLD:
+        case damage_type::COLD:
             return false;
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return false;
         default:
             return true;
@@ -1384,7 +1384,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( damage_type::BASH, dice( type->melee_dice, type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;
@@ -1499,7 +1499,8 @@ void monster::melee_attack( Creature &target, float accuracy )
         }
     }
 
-    const int stab_cut = dealt_dam.type_damage( DT_CUT ) + dealt_dam.type_damage( DT_STAB );
+    const int stab_cut = dealt_dam.type_damage( damage_type::CUT ) + dealt_dam.type_damage(
+                             damage_type::STAB );
 
     if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
         target.add_msg_if_player( m_bad, _( "You're envenomed!" ) );
@@ -1552,39 +1553,39 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
                                        int &pain )
 {
     switch( du.type ) {
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             if( has_flag( MF_ELECTRIC ) ) {
                 return; // immunity
             }
             break;
-        case DT_COLD:
+        case damage_type::COLD:
             if( has_flag( MF_COLDPROOF ) ) {
                 return; // immunity
             }
             break;
-        case DT_BASH:
+        case damage_type::BASH:
             if( has_flag( MF_PLASTIC ) ) {
                 damage += du.amount / rng( 2, 4 ); // lessened effect
                 pain += du.amount / 4;
                 return;
             }
             break;
-        case DT_NONE:
-            debugmsg( "monster::deal_damage_handle_type: illegal damage type DT_NONE" );
+        case damage_type::NONE:
+            debugmsg( "monster::deal_damage_handle_type: illegal damage type damage_type::NONE" );
             break;
-        case DT_ACID:
+        case damage_type::ACID:
             if( has_flag( MF_ACIDPROOF ) ) {
                 // immunity
                 return;
             }
-        case DT_TRUE:
+        case damage_type::TRUE:
         // typeless damage, should always go through
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
         // internal damage, like from smoke or poison
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
-        case DT_HEAT:
+        case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
+        case damage_type::HEAT:
         default:
             break;
     }
@@ -1818,20 +1819,22 @@ int monster::get_armor_cut( bodypart_id bp ) const
 {
     ( void ) bp;
     // TODO: Add support for worn armor?
-    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val( DT_CUT );
+    return static_cast<int>( type->armor_cut ) + armor_cut_bonus + get_worn_armor_val(
+               damage_type::CUT );
 }
 
 int monster::get_armor_bash( bodypart_id bp ) const
 {
     ( void ) bp;
-    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val( DT_BASH );
+    return static_cast<int>( type->armor_bash ) + armor_bash_bonus + get_worn_armor_val(
+               damage_type::BASH );
 }
 
 int monster::get_armor_bullet( bodypart_id bp ) const
 {
     ( void ) bp;
     return static_cast<int>( type->armor_bullet ) + armor_bullet_bonus + get_worn_armor_val(
-               DT_BULLET );
+               damage_type::BULLET );
 }
 
 int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
@@ -1839,26 +1842,26 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
     int worn_armor = get_worn_armor_val( dt );
 
     switch( dt ) {
-        case DT_TRUE:
-        case DT_BIOLOGICAL:
+        case damage_type::TRUE:
+        case damage_type::BIOLOGICAL:
             return 0;
-        case DT_BASH:
+        case damage_type::BASH:
             return get_armor_bash( bp );
-        case DT_CUT:
+        case damage_type::CUT:
             return get_armor_cut( bp );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return get_armor_bullet( bp );
-        case DT_ACID:
+        case damage_type::ACID:
             return worn_armor + static_cast<int>( type->armor_acid );
-        case DT_STAB:
+        case damage_type::STAB:
             return worn_armor + static_cast<int>( type->armor_stab ) + armor_cut_bonus * 0.8f;
-        case DT_HEAT:
+        case damage_type::HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
-        case DT_COLD:
-        case DT_ELECTRIC:
+        case damage_type::COLD:
+        case damage_type::ELECTRIC:
             return worn_armor;
-        case DT_NONE:
-        case NUM_DT:
+        case damage_type::NONE:
+        case damage_type::NUM:
             // Let it error below
             break;
     }
@@ -2420,7 +2423,7 @@ void monster::process_one_effect( effect &it, bool is_new )
             dam = rng( 5, 10 );
         }
 
-        dam -= get_armor_type( DT_HEAT, bodypart_id( "torso" ) );
+        dam -= get_armor_type( damage_type::HEAT, bodypart_id( "torso" ) );
         if( dam > 0 ) {
             apply_damage( nullptr, bodypart_id( "torso" ), dam );
         } else {

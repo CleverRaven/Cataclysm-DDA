@@ -907,7 +907,7 @@ void inventory::rust_iron_items()
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
                 here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
-                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                elem_stack_iter.inc_damage( damage_type::ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }

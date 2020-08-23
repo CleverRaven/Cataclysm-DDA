@@ -1500,7 +1500,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             int total_pain = 0;
             temp_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
             if( cur_damage > 0 ) {
-                dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+                dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
             }
         }
         double damage_per_hit = dealt_dams.total_damage();
@@ -1522,7 +1522,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
                 int total_pain = 0;
                 temp_rs_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
                 if( cur_damage > 0 ) {
-                    rs_dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+                    rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
                 }
             }
             double rs_damage_per_hit = rs_dealt_dams.total_damage();
@@ -3531,9 +3531,9 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( DT_BASH );
-    int dmg_cut  = damage_melee( DT_CUT );
-    int dmg_stab = damage_melee( DT_STAB );
+    int dmg_bash = damage_melee( damage_type::BASH );
+    int dmg_cut  = damage_melee( damage_type::CUT );
+    int dmg_stab = damage_melee( damage_type::STAB );
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
         insert_separation_line( info );
         std::string sep;
@@ -3646,27 +3646,29 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
             // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
             info.push_back( iteminfo( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_BASH ) ) );
+                                      non_crit.type_damage( damage_type::BASH ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_BASH ) ) );
+                                      crit.type_damage( damage_type::BASH ) ) );
         }
         // Cut damage
-        if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
+        if( ( non_crit.type_damage( damage_type::CUT ) > 0.0f ||
+              crit.type_damage( damage_type::CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_CUT ) ) );
+                                      non_crit.type_damage( damage_type::CUT ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_CUT ) ) );
+                                      crit.type_damage( damage_type::CUT ) ) );
         }
         // Pierce/stab damage
-        if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
+        if( ( non_crit.type_damage( damage_type::STAB ) > 0.0f ||
+              crit.type_damage( damage_type::STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_STAB ) ) );
+                                      non_crit.type_damage( damage_type::STAB ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_STAB ) ) );
+                                      crit.type_damage( damage_type::STAB ) ) );
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
@@ -5205,25 +5207,25 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    cata_assert( dt >= DT_NONE && dt < NUM_DT );
+    cata_assert( dt >= damage_type::NONE && dt < damage_type::NUM );
     if( is_null() ) {
         return 0;
     }
 
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee[ dt ];
+    int res = type->melee[ static_cast<int>( dt )];
     res -= res * damage_level( 4 ) * 0.1;
 
     // apply type specific flags
     switch( dt ) {
-        case DT_BASH:
+        case damage_type::BASH:
             if( has_flag( flag_REDUCED_BASHING ) ) {
                 res *= 0.5;
             }
             break;
 
-        case DT_CUT:
-        case DT_STAB:
+        case damage_type::CUT:
+        case damage_type::STAB:
             if( has_flag( flag_DIAMOND ) ) {
                 res *= 1.3;
             }
@@ -5252,7 +5254,8 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = DT_NONE + 1; i < NUM_DT; i++ ) {
+    for( size_t i = static_cast<size_t>( damage_type::NONE ) + 1;
+         i < static_cast<size_t>( damage_type::NUM ); i++ ) {
         damage_type dt = static_cast<damage_type>( i );
         int dam = damage_melee( dt );
         if( dam > 0 ) {
@@ -6258,7 +6261,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
 bool item::mod_damage( const int qty )
 {
-    return mod_damage( qty, DT_NONE );
+    return mod_damage( qty, damage_type::NONE );
 }
 
 bool item::inc_damage( const damage_type dt )
@@ -6268,7 +6271,7 @@ bool item::inc_damage( const damage_type dt )
 
 bool item::inc_damage()
 {
-    return inc_damage( DT_NONE );
+    return inc_damage( damage_type::NONE );
 }
 
 nc_color item::damage_color() const
@@ -6382,28 +6385,28 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-        case DT_NONE:
-        case NUM_DT:
+        case damage_type::NONE:
+        case damage_type::NUM:
             return 0;
-        case DT_TRUE:
-        case DT_BIOLOGICAL:
-        case DT_ELECTRIC:
-        case DT_COLD:
+        case damage_type::TRUE:
+        case damage_type::BIOLOGICAL:
+        case damage_type::ELECTRIC:
+        case damage_type::COLD:
             // Currently hardcoded:
             // Items can never be damaged by those types
             // But they provide 0 protection from them
             return to_self ? INT_MAX : 0;
-        case DT_BASH:
+        case damage_type::BASH:
             return bash_resist( to_self );
-        case DT_CUT:
+        case damage_type::CUT:
             return cut_resist( to_self );
-        case DT_ACID:
+        case damage_type::ACID:
             return acid_resist( to_self );
-        case DT_STAB:
+        case damage_type::STAB:
             return stab_resist( to_self );
-        case DT_HEAT:
+        case damage_type::HEAT:
             return fire_resist( to_self );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return bullet_resist( to_self );
         default:
             debugmsg( "Invalid damage type: %d", dt );
@@ -6721,7 +6724,8 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
+         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
         if( is_melee( static_cast<damage_type>( idx ) ) ) {
             return true;
         }
@@ -7228,7 +7232,8 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
+         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
         const int val = damage_melee( static_cast<damage_type>( idx ) );
         const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
@@ -9823,7 +9828,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process_blackpowder_fouling( player *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( DT_ACID );
+        inc_damage( damage_type::ACID );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }

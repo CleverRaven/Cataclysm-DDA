@@ -291,7 +291,7 @@ class vpart_info
         std::string breaks_into_group = "EMPTY_GROUP";
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction = {};
+        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
 
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;

@@ -144,7 +144,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
-        std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
+        std::swap( obj.melee[static_cast<int>( damage_type::CUT )],
+                   obj.melee[static_cast<int>( damage_type::STAB )] );
     }
 
     // add usage methods (with default values) based upon qualities
@@ -1716,7 +1717,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20, -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20, -20,
+            -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -2291,7 +2293,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NONE, -20, -20, -20,
+    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20,
+            -20,
             -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
@@ -2743,8 +2746,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
-    assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
-    assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
+    assign( jo, "bashing", def.melee[static_cast<int>( damage_type::BASH )], strict, 0 );
+    assign( jo, "cutting", def.melee[static_cast<int>( damage_type::CUT )], strict, 0 );
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
     } else if( jo.has_object( "to_hit" ) ) {
@@ -2770,7 +2773,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
+        def.thrown_damage.add_damage( damage_type::BASH,
+                                      def.melee[static_cast<int>( damage_type::BASH )] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "repairs_like" ) ) {

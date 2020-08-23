@@ -287,7 +287,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", dmg_type, DT_NONE );
+    optional( jo, was_loaded, "damage_type", dmg_type, damage_type::NONE );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
 
@@ -1018,25 +1018,25 @@ std::string spell::description() const
 nc_color spell::damage_type_color() const
 {
     switch( dmg_type() ) {
-        case DT_HEAT:
+        case damage_type::HEAT:
             return c_red;
-        case DT_ACID:
+        case damage_type::ACID:
             return c_light_green;
-        case DT_BASH:
+        case damage_type::BASH:
             return c_magenta;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             return c_green;
-        case DT_COLD:
+        case damage_type::COLD:
             return c_white;
-        case DT_CUT:
+        case damage_type::CUT:
             return c_light_gray;
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             return c_light_blue;
-        case DT_BULLET:
+        case damage_type::BULLET:
         /* fallthrough */
-        case DT_STAB:
+        case damage_type::STAB:
             return c_light_red;
-        case DT_TRUE:
+        case damage_type::TRUE:
             return c_dark_gray;
         default:
             return c_black;
