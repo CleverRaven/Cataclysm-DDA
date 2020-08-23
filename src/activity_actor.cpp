@@ -53,8 +53,6 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
-
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -63,8 +61,6 @@ static const itype_id itype_electrohack( "electrohack" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
-
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );

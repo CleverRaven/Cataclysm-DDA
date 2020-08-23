@@ -59,7 +59,6 @@ void butchery_requirements::load( const JsonObject &jo, const std::string & )
                           id.c_str(), creature_size::num_sizes - 1 );
                 break;
             }
-            std::map<butcher_type, requirement_id> temp;
             requirements[modifier].emplace( static_cast<creature_size>( critter_size ),
                                             std::map<butcher_type, requirement_id> {} );
 

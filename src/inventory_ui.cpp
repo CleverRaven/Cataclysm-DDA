@@ -1428,7 +1428,7 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_selector::find_entry_by_coordinate( const point coordinate ) const
+inventory_entry *inventory_selector::find_entry_by_coordinate( const point &coordinate ) const
 {
     for( auto pair : rect_entry_map ) {
         if( pair.first.contains( coordinate ) ) {

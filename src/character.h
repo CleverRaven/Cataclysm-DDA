@@ -100,7 +100,7 @@ static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz"
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
@@ -1635,13 +1635,12 @@ class Character : public Creature, public visitable<Character>
         bool has_proficiency( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof );
         void lose_proficiency( const proficiency_id &prof );
-        void practice_proficiency( const proficiency_id &prof, time_duration amount,
-                                   cata::optional<time_duration> max = cata::nullopt );
+        void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+                                   const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
-
 
         // --------------- Other Stuff ---------------
 
@@ -2353,7 +2352,7 @@ class Character : public Creature, public visitable<Character>
          * @param craft - the in progress craft
          * @param time - the amount of time since the last practice tick
          */
-        void craft_proficiency_gain( const item &craft, time_duration time );
+        void craft_proficiency_gain( const item &craft, const time_duration &time );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -2385,7 +2384,7 @@ class Character : public Creature, public visitable<Character>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
                                const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
-        std::function<int( int )> charges_required_modifier = []( int i ) {
+        const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */

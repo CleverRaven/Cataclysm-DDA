@@ -203,7 +203,7 @@ struct convert<cata_variant_type::character_id> {
 template<>
 struct convert<cata_variant_type::chrono_seconds> {
     using type = std::chrono::seconds;
-    static std::string to_string( const std::chrono::seconds v ) {
+    static std::string to_string( const std::chrono::seconds &v ) {
         return std::to_string( v.count() );
     }
     static std::chrono::seconds from_string( const std::string &v ) {

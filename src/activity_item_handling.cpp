@@ -2955,8 +2955,6 @@ int get_auto_consume_moves( player &p, const bool food )
         return 0;
     }
 
-    static const std::string flag_MELTS( "MELTS" );
-    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );

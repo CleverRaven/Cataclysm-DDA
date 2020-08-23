@@ -78,7 +78,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
@@ -894,7 +893,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-void Character::craft_proficiency_gain( const item &craft, const time_duration time )
+void Character::craft_proficiency_gain( const item &craft, const time_duration &time )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
@@ -1728,7 +1727,7 @@ comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
                                   inventory &map_inv,
                                   const std::string &hotkeys, bool can_cancel, bool player_inv,
-                                  const std::function<int( int )> charges_required_modifier )
+                                  const std::function<int( int )> &charges_required_modifier )
 {
 
     comp_selection<tool_comp> selected;

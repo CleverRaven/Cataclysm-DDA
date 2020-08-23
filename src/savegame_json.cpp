@@ -124,7 +124,6 @@ struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -136,8 +135,6 @@ static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
-
-static const trap_str_id tr_brazier( "tr_brazier" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -556,7 +553,6 @@ void Character::load( const JsonObject &data )
             data.read( "proficiencies", _proficiencies );
         }
     }
-
 
     //energy
     data.read( "stim", stim );
@@ -2567,7 +2563,6 @@ void vehicle_part::deserialize( JsonIn &jsin )
 
         { "hydrogen_tank", { "tank", "none" } }
     };
-
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
