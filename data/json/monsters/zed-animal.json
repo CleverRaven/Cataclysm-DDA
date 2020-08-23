@@ -365,7 +365,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie_leather",
-	"special_attacks": [ [ "PARROT", 12 ] ],
+	"special_attacks": [ [ "PARROT_AT_DANGER", 7 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES", "BONES", "FAT" ]
