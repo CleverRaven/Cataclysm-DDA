@@ -145,7 +145,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "sealed_data", sealed_data );
 }
 
-void resealable_data::load( const JsonObject &jo )
+void sealable_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
 }
@@ -312,7 +312,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     if( !data->watertight ) {
         return false;
     }
-    if( !resealable() && _sealed ) {
+    if( sealable() && _sealed ) {
         return false;
     }
     for( const item &liquid : allowed_liquids ) {
@@ -639,16 +639,9 @@ bool item_pocket::will_spill() const
     }
 }
 
-bool item_pocket::resealable() const
-{
-    // if it has sealed data it is understood that the
-    // data is different when sealed than when not
-    return !data->sealed_data;
-}
-
 bool item_pocket::seal()
 {
-    if( resealable() || empty() ) {
+    if( !sealable() || empty() ) {
         return false;
     }
     _sealed = true;
@@ -662,11 +655,18 @@ void item_pocket::unseal()
 
 bool item_pocket::sealed() const
 {
-    if( resealable() ) {
+    if( !sealable() ) {
         return false;
     } else {
         return _sealed;
     }
+}
+bool item_pocket::sealable() const
+{
+    // if it has sealed data it is understood that the
+    // data is different when sealed than when not
+    // In other words, a pocket is sealable IFF it has sealed_data.
+    return !!data->sealed_data;
 }
 
 std::string item_pocket::translated_sealed_prefix() const
@@ -872,7 +872,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     insert_separation_line( info );
     if( disp_pocket_number ) {
-        if( !resealable() ) {
+        if( sealable() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s pocket %d</bold>" ),
                                translated_sealed_prefix(),
                                pocket_number ) );
