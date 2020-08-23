@@ -464,7 +464,12 @@
   },
   {
     "type": "dream",
-    "messages": [ "You are many animals, and yet one.", "Hoof.  Talon.  Tooth.  Fight.  Feed.  Forward." ],
+    "messages": [
+      "You dream of the hunt to end all hunts.",
+      "You are many animals, and yet one.",
+      "You swim with fish.  You fly with birds.  You run with the beasts of the land.  You change with the changing of seasons.  You are everything.",
+      "Hoof.  Talon.  Tooth.  Fight.  Feed.  Forward."
+    ],
     "category": "CHIMERA",
     "strength": 3
   },
@@ -547,6 +552,7 @@
     "type": "dream",
     "messages": [
       "You dream of the hunt, the feed, and your pack.",
+      "You ride a black horse.  It is the end of days.  You are a salesman; one of a pack of four.  You sell only hunger, and you go to every door.",
       "Oh, you should really patrol your territory again, maybe expand."
     ],
     "category": "LUPINE",
@@ -651,7 +657,14 @@
   },
   {
     "type": "dream",
-    "messages": [ "Your body flows slightly faster than you expected… oh, just a dream.", "FIGHT.  FEED.  FORWARD." ],
+    "messages": [
+      "Your body flows slightly faster than you expected… oh, just a dream.",
+      "In your dream you look into the abyss between dimensions. It looks back… and is very confused.",
+      "You gaze long into the abyss.  The abyss whispers \"Now I am become monsterous.\"  You are talking to yourself again.",
+      "Your predator parts dream about chasing down your less-predator parts.",
+      "Three headed and snarling, you guard hell from the horrors of the living world.",
+      "FIGHT.  FEED.  FORWARD."
+    ],
     "category": "CHIMERA",
     "strength": 4
   },
@@ -665,6 +678,25 @@
     "type": "dream",
     "messages": [
       "You curl up some more in your nest.  Geez, shredded paper really *is* comfy.",
+      "If you're going to feather a nest, you've got to learn about how to treat a lady.",
+      "You're stuck in a maze.  But you know there is cheese at the end - you can smell it!",
+      "Wolf, hawk, fox, and snake can't stand in my way.  My body is weak and it may break, but not today.",
+      "Oh boy! This hidey hole sure is swell.",
+      "Run, run, run, run, run, run, stop!  Smell⋯  Listen⋯  Run, run, run, run, stop!  Smell that?  Food!  Run, run, run, run.",
+      "Chew, gnaw, bite and chew.  We'll make quick work of these ropes and let loose the lion!",
+      "The heist of the century!  Once we break into that grain bunker we'll be on easy street.",
+      "Hot dog!  You find ANOTHER grain of rice.",
+      "Once we finish the burrow we'll settle down and start a little family.  Maybe just a dozen boys and a dozen girls.  Nice and cosy.",
+      "Swiss cheese ice cream.  Cabbage and feed pellets and kernels of corn.  Carrots with moldy bread.  Oh boy, what a feast!",
+      "You blindly run through the pipes of the city, navigating the familiar byways via smell alone.",
+      "Once upon a time, there were three little sisters who lived at the bottom of a treacle well.  The dormouse sisters loved to draw.  And what did they draw?  Treacle!",
+      "The world will beat a path to your door?  You wicked inventors and scientists, you won't be bettering your traps now!",
+      "Beware the wisdom of the owl and beware the vision of the hawk.",
+      "You are engaged to a frog.  Frog fights an owl, and then a bat, then a bumbley bee, but they all attend the wedding. King Kong Kitchie Kitchie Ki-Me-O!",
+      "Trapped in a prison!  They keep you alive only to feed you an enormous serpent!",
+      "Push the button: get a cheese!  Push the button: no cheese⋯  This game is rigged!  Push the button!  Push the button!",
+      "You lick your paws and wash your face.  Gotta keep your nose clean.  And your whiskers.",
+      "Sneaky sneak under the floorboards.  We will sneak all their crumbs for us.",
       "You hear the sirens again, but this time you stay in your hole in the wall.  Nobody will think to look there!"
     ],
     "category": "MOUSE",
