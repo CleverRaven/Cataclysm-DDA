@@ -27,7 +27,7 @@
   {
     "id": "finger_firelighter",
     "type": "TOOL",
-    "name": "finger firelighter",
+    "name": { "str": "finger firelighter" },
     "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -65,7 +65,7 @@
     "id": "magic_lamp",
     "type": "ARMOR",
     "category": "tools",
-    "name": "magic lamp",
+    "name": { "str": "magic lamp" },
     "description": "a magical light source that will light up a small area.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -81,7 +81,7 @@
     "id": "magic_light",
     "type": "ARMOR",
     "category": "tools",
-    "name": "magic light",
+    "name": { "str": "magic light" },
     "description": "A small magical light that you can read by.",
     "weight": "0 kg",
     "volume": "0 L",
@@ -165,7 +165,7 @@
   {
     "id": "stormfist",
     "type": "SPELL",
-    "name": "Stormfist",
+    "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
     "valid_targets": [ "self" ],
     "min_damage": 0,
@@ -209,7 +209,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "brown",
-    "name": "vicious tentacle whip",
+    "name": { "str": "vicious tentacle whip" },
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
     "volume": "1500 ml",
@@ -330,7 +330,7 @@
   {
     "id": "druid_dust",
     "type": "TOOL",
-    "name": "faintly glowing dust",
+    "name": { "str": "faintly glowing dust" },
     "description": "This fine dust glows with a growing intensity",
     "weight": "1 g",
     "volume": "30 ml",
@@ -344,7 +344,7 @@
   {
     "id": "obfuscating_aura",
     "type": "ARMOR",
-    "name": "obfuscating aura",
+    "name": { "str": "obfuscating aura" },
     "description": "An all-encompassing, invisible layer of magic distorts light around your body.  Allows you to dodge two extra attacks in a given turn.",
     "weight": "1g",
     "volume": "1ml",
@@ -374,7 +374,7 @@
   {
     "id": "acid_res_aura_greater",
     "type": "ARMOR",
-    "name": "greater acid resistance aura",
+    "name": { "str": "greater acid resistance aura" },
     "description": "An all-encompassing, invisible layer of protection against acid.",
     "weight": "1g",
     "volume": "1ml",
@@ -468,7 +468,7 @@
   {
     "id": "thorns_electric",
     "type": "ARMOR",
-    "name": "aura of repelling arc",
+    "name": { "str": "aura of repelling arc" },
     "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -480,7 +480,7 @@
   {
     "id": "aura_feral",
     "type": "ARMOR",
-    "name": "feral aura",
+    "name": { "str": "feral aura" },
     "description": "The manifestion of your rage.  It won't disappear until you calm down.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -600,7 +600,7 @@
   {
     "id": "aura_caustic",
     "type": "ARMOR",
-    "name": "acid aura",
+    "name": { "str": "acid aura" },
     "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
     "weight": "1 g",
     "volume": "1 ml",

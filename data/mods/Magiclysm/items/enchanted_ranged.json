@@ -62,7 +62,7 @@
   {
     "id": "gunblade",
     "type": "GUN",
-    "name": "gunblade",
+    "name": { "str": "gunblade" },
     "description": "Constructed similarly to a falcata, this forward-sloping blade has a short-barrel pump shotgun attached to the blade's spine for finishing blows or a first strike.",
     "weight": "1539 g",
     "volume": "1750 ml",

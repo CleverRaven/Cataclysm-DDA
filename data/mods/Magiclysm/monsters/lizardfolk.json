@@ -2,7 +2,7 @@
   {
     "id": "mon_lizardfolk_warrior",
     "type": "MONSTER",
-    "name": "lizardfolk warrior",
+    "name": { "str": "lizardfolk warrior" },
     "description": "A tall, powerful, reptilian humanoid with a muscular tail whose skin is covered in dark gray-green scales.  They are tribal and tend to be found in caves and near water, especially in areas inhabited by dragons and wyrms.  They aren't particularly hostile, though they don't care for outsiders and are highly dangerous when provoked.  While they usually prefer to fight with their greatclubs, they are equally ferocious with their sharp teeth and claws.",
     "default_faction": "lizardfolk",
     "bodytype": "human",
@@ -56,7 +56,7 @@
   {
     "id": "mon_lizardfolk_hunter",
     "type": "MONSTER",
-    "name": "lizardfolk hunter",
+    "name": { "str": "lizardfolk hunter" },
     "description": "The hunter is a smaller lizardfolk than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
@@ -85,7 +85,7 @@
   {
     "id": "mon_lizardfolk_shaman",
     "type": "MONSTER",
-    "name": "lizardfolk shaman",
+    "name": { "str": "lizardfolk shaman" },
     "description": "Lizardfolk are very intelligent and cunning, but magical ability is a rare quality.  Shamans are chosen from the tribe during childhood, when magical abilities mark the fate of the young tribesman.  Not much is known about the initiation ritual they must undergo, but few survive the experience.  Shamans are druidic spellcasters that can use the forces of nature to battle enemies, as well as summoning assistance when needed.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
@@ -108,7 +108,7 @@
   {
     "id": "mon_lizardfolk_chieftan",
     "type": "MONSTER",
-    "name": "lizardfolk chieftan",
+    "name": { "str": "lizardfolk chieftan" },
     "description": "Among the lizardfolk, ambition is a rare quality.  Chieftans earn their place by exhibiting unusually high levels of ambition, often mistaken by outsiders as excessive, brutal violence.  This chief is the largest and strongest member of its tribe and carries a fierce trident to compliment its teeth and claws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
@@ -127,7 +127,7 @@
   {
     "id": "mon_crocodile",
     "type": "MONSTER",
-    "name": "crocodile",
+    "name": { "str": "crocodile" },
     "copy-from": "mon_gator",
     "//": "A copy of the standard mon_gator (from reptile_amphibian.json) with a different description to match the lizardfolk lore.  Lizardfolk Shamans are able to shapeshift into crocodile form.",
     "description": "A once-and-future lizardfolk shaman, this large crocodile no longer has any hint of any humanoid characteristics and looks very, very dangerous.",
