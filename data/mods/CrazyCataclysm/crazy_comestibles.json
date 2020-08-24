@@ -5,7 +5,7 @@
     "id": "sporeos",
     "name": { "str_sp": "SpOreos" },
     "color": "dark_gray",
-    "spoils_in": 0,
+    "spoils_in": "0 hours",
     "symbol": "%",
     "quench": 25,
     "calories": 217,
