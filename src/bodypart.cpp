@@ -166,6 +166,11 @@ bool body_part_type::has_flag( const std::string &flag ) const
     return flags.count( flag ) > 0;
 }
 
+const std::vector<body_part_type> &body_part_type::get_all()
+{
+    return body_part_factory.get_all();
+}
+
 void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
