@@ -118,7 +118,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "damage_increment": 0,
-    "damage_type": "bio",
+    "damage_type": "biological",
     "difficulty": 0,
     "spell_class": "NONE",
     "base_casting_time": 300,
