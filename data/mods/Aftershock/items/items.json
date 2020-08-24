@@ -17,7 +17,8 @@
   {
     "id": "afs_basin",
     "type": "GENERIC",
-    "name": { "ctxt": "container", "str": "basin" },
+    "name": { "str": "basin" },
+    "category": "container",
     "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
     "weight": "5 kg",
     "looks_like": "ceramic_bowl",

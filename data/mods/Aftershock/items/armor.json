@@ -353,7 +353,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 2,
     "max_encumbrance": 15,
