@@ -250,7 +250,7 @@ void pocket_data::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void resealable_data::deserialize( JsonIn &jsin )
+void sealable_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     load( data );

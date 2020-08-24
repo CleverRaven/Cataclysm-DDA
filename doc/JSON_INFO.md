@@ -2492,7 +2492,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
-    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
+    "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
