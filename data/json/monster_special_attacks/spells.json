@@ -113,5 +113,37 @@
     "base_casting_time": 3,
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_impaler"
+  },
+  {
+    "type": "SPELL",
+    "id": "frog_mother_summon",
+    "name": { "str": "Summon Tadpole Constrictors" },
+    "description": "Summons several temporary tadpoles.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "min_damage": 2,
+    "max_damage": 5,
+    "min_range": 7,
+    "max_range": 7,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_casting_time": 80,
+    "min_duration": 1000,
+    "max_duration": 2500,
+    "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ],
+    "effect": "summon",
+    "effect_str": "mon_tadpole_grabber"
+  },
+  {
+    "type": "SPELL",
+    "id": "frog_mother_hurt_self",
+    "name": { "str": "Frog Mother Hurt Self" },
+    "description": "Hurts yourself",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "min_damage": 10,
+    "max_damage": 20,
+    "damage_type": "cut",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "effect": "target_attack"
   }
 ]
