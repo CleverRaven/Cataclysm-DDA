@@ -2,7 +2,7 @@
   {
     "id": "crt_laser_pistol",
     "type": "GUN",
-    "name": "CRIT .5 LP",
+    "name": { "str": "CRIT .5 LP" },
     "description": "Experimental low power sidearm under development in C.R.I.T R&D, the .5 LP is a relatively weak but accurate laser pistol.  The double-barrel design compensates for the lack of raw power and yet the gun manages to be relatively easy to aim and lightweight due to the superalloy construction.",
     "weight": "650 g",
     "volume": "750 ml",
@@ -37,7 +37,7 @@
   {
     "id": "crt_laser_gatling",
     "type": "GUN",
-    "name": "CRIT Chain Laser",
+    "name": { "str": "CRIT Chain Laser" },
     "description": "A tried and true favorite from the bowels of R&D hell.  Based off of a researcher's video on three taped-together .5 LPs on a hand held power drill, this gun is a relatively light weapon for the amount of UPS it eats and destruction it can cause.",
     "weight": "2650 g",
     "volume": "2500 ml",
@@ -63,7 +63,7 @@
   {
     "id": "crt_laser_carbine",
     "type": "GUN",
-    "name": "CRIT Laser Carbine",
+    "name": { "str": "CRIT Laser Carbine" },
     "description": "A short-barrel lightweight laser gun developed by C.R.I.T R&D.  Mainly developed to test out a new breakthrough in laser weapons.",
     "weight": "2150 g",
     "volume": "2 L",
@@ -98,7 +98,7 @@
   {
     "id": "crt_energy_rifle",
     "type": "GUN",
-    "name": "CRIT Energy Rifle",
+    "name": { "str": "CRIT Energy Rifle" },
     "description": "A heavy energy gun developed by C.R.I.T R&D.  Mainly developed to test out a new breakthrough in hybrid weaponry.",
     "weight": "5150 g",
     "volume": "2500 ml",
@@ -133,7 +133,7 @@
   {
     "id": "crt_cqb_si",
     "type": "GUN",
-    "name": "CRIT CQB Standard Issue",
+    "name": { "str": "CRIT CQB Standard Issue" },
     "description": "A simple combination gun.  This military-grade semi-auto carbine couples the mid-range versatility of the 9mm with the power of the 12 gauge shotgun.  To further compliment the CQB aspect, the stock is built to amplify the user's force and the rugged construction with tonfa-like grip can handle bashing in enemy heads.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -160,7 +160,7 @@
   {
     "id": "crt_fire_glove",
     "type": "GUN",
-    "name": "CRIT Fire Glove",
+    "name": { "str": "CRIT Fire Glove" },
     "description": "Experimental CQB weapon system under development in C.R.I.T R&D.",
     "weight": "650 g",
     "volume": "750 ml",
@@ -197,7 +197,7 @@
     "reload_noise_volume": 7,
     "symbol": "(",
     "color": "light_gray",
-    "name": "pellet gun",
+    "name": { "str": "pellet gun" },
     "description": "A surprisingly powerful airgun that can reliably hunt small game.  The small lead or alloy pellets that can be chambered provide it decent power in every shot.  It's fairly accurate and can be somewhat as damaging as a .22 short, but the break action charging system requires some arm strength to load a pellet.",
     "price": 9900,
     "//": "You can get a decent Ruger .177 at walmart for $99",
@@ -223,7 +223,7 @@
   {
     "id": "ds_plasma_cutter",
     "type": "GUN",
-    "name": "Plasma Cutter",
+    "name": { "str": "Plasma Cutter" },
     "description": "Experimental cutting tool under development in C.R.I.T R&D.  It fires an extremely hot wave of plasma that slices into materials.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -251,7 +251,7 @@
   {
     "id": "ds_rivet_gun",
     "type": "GUN",
-    "name": "Rivet Driver",
+    "name": { "str": "Rivet Driver" },
     "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
     "weight": "1650 g",
     "volume": "750 ml",
@@ -277,7 +277,7 @@
   {
     "id": "ds_line_gun",
     "type": "GUN",
-    "name": "Line Gun",
+    "name": { "str": "Line Gun" },
     "description": "Experimental high power cutting tool under development in C.R.I.T R&D.  It fires plasma in a wide line for slicing into dense materials.",
     "weight": "2650 g",
     "volume": "1500 ml",
@@ -306,7 +306,7 @@
   {
     "id": "ds_pulse_rifle",
     "type": "GUN",
-    "name": "Pulse Rifle",
+    "name": { "str": "Pulse Rifle" },
     "description": "Experimental tri-barrel sub-sonic rifle under development in C.R.I.T R&D.  Great for enclosed spaces and mobs of enemies.  Shoots alloy rounds which instantly mushroom out upon impact.",
     "weight": "2250 g",
     "volume": "1 L",
@@ -334,7 +334,7 @@
   {
     "id": "ds_ripper",
     "type": "GUN",
-    "name": "Ripper",
+    "name": { "str": "Ripper" },
     "description": "Experimental EM saw under development in C.R.I.T R&D.  Great for distance cutting of material.",
     "weight": "2250 g",
     "volume": "1 L",

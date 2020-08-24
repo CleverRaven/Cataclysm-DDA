@@ -2,7 +2,7 @@
   {
     "id": "mon_animate_arm",
     "type": "MONSTER",
-    "name": "Animate Arm",
+    "name": { "str": "Animate Arm" },
     "description": "A dismembered arm that slowly crawls forward.  Occasionally, tentacles sprout out from the wound and lash about wildly.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
@@ -32,7 +32,7 @@
   {
     "id": "mon_dullahan",
     "type": "MONSTER",
-    "name": "Dullahan",
+    "name": { "str": "Dullahan" },
     "description": "A headless humanoid that slowly sways.  Ornate and functional armor adorn this dreadful corpse which carries itself with an unerringly terrible steadiness.  A long tentacle has sprouted out of its right arm which occasionally flails about wildly.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],

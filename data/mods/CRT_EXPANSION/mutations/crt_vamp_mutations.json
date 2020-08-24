@@ -115,7 +115,7 @@
   {
     "type": "mutation",
     "id": "NIGHTVISION3",
-    "name": "Full Night Vision",
+    "name": { "str": "Full Night Vision" },
     "points": 6,
     "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "NIGHTVISION2" ],
@@ -128,7 +128,7 @@
   {
     "type": "mutation",
     "id": "FANGS",
-    "name": "Fangs",
+    "name": { "str": "Fangs" },
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
@@ -174,7 +174,7 @@
   {
     "type": "mutation",
     "id": "NAILS",
-    "name": "Long Fingernails",
+    "name": { "str": "Long Fingernails" },
     "points": 1,
     "visibility": 1,
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",

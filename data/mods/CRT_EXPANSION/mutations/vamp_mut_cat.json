@@ -19,7 +19,7 @@
     "id": "mutagen_vamp",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "vampire mutagen",
+    "name": { "str": "vampire mutagen" },
     "description": "Mutagen cocktail simply labeled 'C.R.I.T R&D.'",
     "use_action": { "type": "mutagen", "mutation_category": "VAMP" }
   },
@@ -27,7 +27,7 @@
     "id": "iv_mutagen_vamp",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "vampire serum",
+    "name": { "str": "vampire serum" },
     "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
     "healthy": -2,

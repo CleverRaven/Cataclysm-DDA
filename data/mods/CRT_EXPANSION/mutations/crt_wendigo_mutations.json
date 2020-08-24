@@ -55,7 +55,7 @@
   {
     "type": "mutation",
     "id": "SLASHERS",
-    "name": "Slashers",
+    "name": { "str": "Slashers" },
     "points": 5,
     "visibility": 8,
     "ugliness": 10,
@@ -79,7 +79,7 @@
   {
     "type": "mutation",
     "id": "SPURS",
-    "name": "Spurs",
+    "name": { "str": "Spurs" },
     "points": 5,
     "visibility": 5,
     "ugliness": 6,
@@ -103,7 +103,7 @@
   {
     "type": "mutation",
     "id": "MONSTROUSCARDIO",
-    "name": "Persistent Body",
+    "name": { "str": "Persistent Body" },
     "points": 2,
     "description": "As you move, the world seems to breath life and energy into your limbs.  You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
     "valid": false,
