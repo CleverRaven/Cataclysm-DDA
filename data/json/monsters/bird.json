@@ -272,5 +272,33 @@
     "type": "MONSTER",
     "copy-from": "mon_duck_chick",
     "upgrades": { "age_grow": 16, "into": "mon_goose_canadian" }
+  },
+  {
+    "id": "mon_crow_mutant",
+    "type": "MONSTER",
+    "name": { "str": "bloated corvid" },
+    "description": "This may have once been a crow or a raven, but now it's a deformed monstrosity nearly the size of a man. It heaves its sable bulk awkwardly along the ground, too overfed on carrion to fly.",
+    "bodytype": "bird",
+    "default_faction": "mutant",
+    "species": [ "MUTANT" ],
+    "diff": 2,
+    "volume": "35000 ml",
+    "weight": "40000 g",
+    "hp": 35,
+    "speed": 60,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "dark_gray",
+    "aggression": 90,
+    "morale": 105,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 3,
+    "vision_night": 4,
+    "harvest": "bird_large",
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 3 } ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM" ]
   }
 ]
