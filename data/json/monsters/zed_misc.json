@@ -106,21 +106,6 @@
     ]
   },
   {
-    "id": "mon_zombie_crawler_pupa",
-    "type": "MONSTER",
-    "name": { "str": "pulsing zombie crawler" },
-    "description": "This human corpse is wrapped in sticky black fibers that cover everything neck down.  Beneath the wrapping there is strange rhythmic movement grotesque to behold.",
-    "copy-from": "mon_zombie_crawler",
-    "categories": [  ],
-    "proportional": { "hp": 0.8, "weight": 0.8 },
-    "armor_bash": 6,
-    "armor_cut": 3,
-    "armor_bullet": 3,
-    "upgrades": { "half_life": 8, "into": "mon_zombie_winged" },
-    "special_attacks": [ { "type": "bite", "cooldown": 3 } ],
-    "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
-  },
-  {
     "id": "mon_zombie_brute",
     "type": "MONSTER",
     "name": { "str": "zombie brute" },
@@ -266,15 +251,6 @@
       "NIGHT_INVISIBILITY",
       "FILTHY"
     ]
-  },
-  {
-    "id": "mon_zombie_brute_winged",
-    "type": "MONSTER",
-    "name": { "str": "batwing zombie brute" },
-    "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.  The rest has also stretched and grown hideously, swollen muscles ripping through taut flesh like random vines bursting out of a tomato.",
-    "copy-from": "mon_zombie_brute",
-    "proportional": { "hp": 0.8, "weight": 0.8 },
-    "extend": { "flags": [ "FLIES" ] }
   },
   {
     "id": "mon_zombie_ears",
@@ -625,51 +601,6 @@
       "PUSH_MON",
       "SWIMS",
       "FILTHY"
-    ]
-  },
-  {
-    "id": "mon_zombie_winged",
-    "type": "MONSTER",
-    "name": { "str": "batwing zombie" },
-    "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "categories": [ "CLASSIC" ],
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "62500 ml",
-    "weight": "65200 g",
-    "hp": 64,
-    "speed": 70,
-    "material": [ "flesh" ],
-    "symbol": "Z",
-    "color": "light_green",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 3,
-    "melee_cut": 0,
-    "vision_night": 3,
-    "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
-    "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
-    "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_brute_winged" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY",
-      "FLIES"
     ]
   },
   {
