@@ -184,7 +184,14 @@
     "color": "brown",
     "covers": [ "torso" ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "max_item_length": "70 cm", "moves": 2, "holster": true }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "70 cm",
+        "moves": 2,
+        "holster": true
+      }
     ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
