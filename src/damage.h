@@ -22,7 +22,7 @@ template<typename T> struct enum_traits;
 
 enum class damage_type : int {
     NONE = 0, // null damage, doesn't exist
-    TRUE, // typeless damage, should always go through
+    PURE, // typeless damage, should always go through
     BIOLOGICAL, // internal damage, like from smoke or poison
     BASH, // bash damage
     CUT, // cut damage

@@ -6835,7 +6835,7 @@ bool Character::is_immune_damage( const damage_type dt ) const
     switch( dt ) {
         case damage_type::NONE:
             return true;
-        case damage_type::TRUE:
+        case damage_type::PURE:
             return false;
         case damage_type::BIOLOGICAL:
             return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
@@ -7735,7 +7735,7 @@ int Character::get_armor_bullet( bodypart_id bp ) const
 int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
-        case damage_type::TRUE:
+        case damage_type::PURE:
         case damage_type::BIOLOGICAL:
             return 0;
         case damage_type::BASH:

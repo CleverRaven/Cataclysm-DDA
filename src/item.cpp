@@ -6388,7 +6388,7 @@ int item::damage_resist( damage_type dt, bool to_self ) const
         case damage_type::NONE:
         case damage_type::NUM:
             return 0;
-        case damage_type::TRUE:
+        case damage_type::PURE:
         case damage_type::BIOLOGICAL:
         case damage_type::ELECTRIC:
         case damage_type::COLD:

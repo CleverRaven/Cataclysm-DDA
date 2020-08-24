@@ -686,7 +686,7 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( int p, int dmg, damage_type type = damage_type::TRUE );
+        int damage_direct( int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( int p, int dmg );
         // Returns if it did actually explode

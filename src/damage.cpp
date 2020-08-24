@@ -26,7 +26,7 @@ std::string enum_to_string<damage_type>( damage_type data )
     switch( data ) {
             // *INDENT-OFF*
         case damage_type::NONE: return "none";
-        case damage_type::TRUE: return "true";
+        case damage_type::PURE: return "pure";
         case damage_type::BIOLOGICAL: return "biological";
         case damage_type::BASH: return "bash";
         case damage_type::CUT: return "cut";
@@ -267,7 +267,7 @@ resistances &resistances::operator+=( const resistances &other )
 }
 
 static const std::map<std::string, damage_type> dt_map = {
-    { translate_marker_context( "damage type", "true" ), damage_type::TRUE },
+    { translate_marker_context( "damage type", "pure" ), damage_type::PURE },
     { translate_marker_context( "damage type", "biological" ), damage_type::BIOLOGICAL },
     { translate_marker_context( "damage type", "bash" ), damage_type::BASH },
     { translate_marker_context( "damage type", "cut" ), damage_type::CUT },
@@ -447,8 +447,8 @@ std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const
     ret[ static_cast<int>( damage_type::COLD ) ] = jo.get_float( "cold", non_phys );
     ret[ static_cast<int>( damage_type::ELECTRIC ) ] = jo.get_float( "electric", non_phys );
 
-    // damage_type::TRUE should never be resisted
-    ret[ static_cast<int>( damage_type::TRUE ) ] = 0.0f;
+    // damage_type::PURE should never be resisted
+    ret[ static_cast<int>( damage_type::PURE ) ] = 0.0f;
     return ret;
 }
 
@@ -463,6 +463,10 @@ void damage_over_time_data::load( const JsonObject &obj )
 {
     std::string tmp_string;
     mandatory( obj, was_loaded, "damage_type", tmp_string );
+    // Remove after 0.F, migrating DT_TRUE to DT_PURE
+    if( tmp_string == "true" ) {
+        tmp_string = "pure";
+    }
     type = dt_by_name( tmp_string );
     mandatory( obj, was_loaded, "amount", amount );
     mandatory( obj, was_loaded, "bodyparts", bps );

@@ -1301,7 +1301,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
     switch( dt ) {
         case damage_type::NONE:
             return true;
-        case damage_type::TRUE:
+        case damage_type::PURE:
             return false;
         case damage_type::BIOLOGICAL:
             // NOTE: Unused
@@ -1578,7 +1578,7 @@ void monster::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, in
                 // immunity
                 return;
             }
-        case damage_type::TRUE:
+        case damage_type::PURE:
         // typeless damage, should always go through
         case damage_type::BIOLOGICAL:
         // internal damage, like from smoke or poison
@@ -1842,7 +1842,7 @@ int monster::get_armor_type( damage_type dt, bodypart_id bp ) const
     int worn_armor = get_worn_armor_val( dt );
 
     switch( dt ) {
-        case damage_type::TRUE:
+        case damage_type::PURE:
         case damage_type::BIOLOGICAL:
             return 0;
         case damage_type::BASH:

@@ -6549,7 +6549,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     }
 
     int tsh = std::min( 20, part_info( p ).durability / 10 );
-    if( dmg < tsh && type != damage_type::TRUE ) {
+    if( dmg < tsh && type != damage_type::PURE ) {
         if( type == damage_type::HEAT && parts[p].is_fuel_store() ) {
             explode_fuel( p, type );
         }

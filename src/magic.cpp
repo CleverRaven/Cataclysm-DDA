@@ -1036,7 +1036,7 @@ nc_color spell::damage_type_color() const
         /* fallthrough */
         case damage_type::STAB:
             return c_light_red;
-        case damage_type::TRUE:
+        case damage_type::PURE:
             return c_dark_gray;
         default:
             return c_black;

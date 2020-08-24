@@ -326,7 +326,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
             z->stumble();
         }
         if( rng( 0, 10 ) > z->get_dodge() ) {
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::TRUE, rng( 1,
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::PURE, rng( 1,
                             4 ) ) );
         }
     } else if( n != nullptr ) {
@@ -1445,7 +1445,7 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
         if( n != nullptr ) {
             n->hurtall( 1, nullptr );
         } else if( z != nullptr ) {
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::TRUE, 1 ) );
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::PURE, 1 ) );
         }
         c->check_dead_state();
         return true;
