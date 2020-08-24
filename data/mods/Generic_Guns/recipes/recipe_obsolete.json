@@ -201,37 +201,37 @@
   },
   {
     "type": "recipe",
-    "result": "mosin91_30_ebr",
+    "result": "mosin91_30",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "mosin44_ebr",
+    "result": "mosin44",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "l_HFPack",
+    "result": "colt_lightning",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "l_car_223",
+    "result": "h&k416a5",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "l_mbr_223",
+    "result": "h&k416a5",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "l_dsr_223",
+    "result": "m16a4",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "l_lmg_223",
+    "result": "m249",
     "obsolete": true
   },
   {

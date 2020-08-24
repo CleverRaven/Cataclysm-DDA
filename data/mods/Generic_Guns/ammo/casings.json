@@ -3,7 +3,7 @@
     "id": "pistol_tiny_casing",
     "copy-from": "32_casing",
     "type": "GENERIC",
-    "name": "tiny pistol casing",
+    "name": { "str": "tiny pistol casing" },
     "description": "An empty casing from a tiny pistol round."
   },
   {
