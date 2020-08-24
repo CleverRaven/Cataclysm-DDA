@@ -7,8 +7,12 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ../src/messages.h \
+HEADERS += ../object_creator/creator_main_window.h \
+    ../object_creator/spell_window.h \
+    ../src/messages.h \
     ./stdafx.h
 SOURCES += ../object_creator/creator_main.cpp \
+    ../object_creator/creator_main_window .cpp \
+    ../object_creator/spell_window.cpp \
     ../src/messages.cpp \
     ./stdafx.cpp

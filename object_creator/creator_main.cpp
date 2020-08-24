@@ -1,6 +1,7 @@
 #include <vector>
 
 #include "crash.h"
+#include "creator_main_window.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -14,11 +15,7 @@
 #include "string_id.h"
 #include "ui.h"
 
-#include "QtCore\qsize.h"
-#include "QtCore\qstring.h"
 #include "QtWidgets\qapplication.h"
-#include "QtWidgets\qmainwindow.h"
-#include "QtWidgets\qpushbutton.h"
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;
@@ -26,26 +23,25 @@ using mod_id = string_id<MOD_INFORMATION>;
 namespace
 {
 
-    void exit_handler( int s )
-    {
-        const int old_timeout = inp_mngr.get_timeout();
-        inp_mngr.reset_timeout();
-        if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-            deinitDebug();
+void exit_handler( int s )
+{
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
+    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+        deinitDebug();
 
-            int exit_status = 0;
-            g.reset();
+        int exit_status = 0;
+        g.reset();
 
-            catacurses::endwin();
+        catacurses::endwin();
 
-            exit( exit_status );
-        }
-        inp_mngr.set_timeout( old_timeout );
+        exit( exit_status );
     }
+    inp_mngr.set_timeout( old_timeout );
+}
 }
 
-struct cli_opts
-{
+struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
@@ -57,13 +53,12 @@ struct cli_opts
 
 #if defined(USE_WINMAIN)
 int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
-    LPSTR /* lpCmdLine */, int /* nCmdShow */ )
+                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
 #elif defined(__ANDROID__)
-extern "C" int SDL_main( int argc, char **argv )
-{
+extern "C" int SDL_main( int argc, char **argv ) {
 #else
 int main( int argc, char *argv[] )
 {
@@ -122,16 +117,12 @@ int main( int argc, char *argv[] )
             init_colors();
             exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
-    }
-    catch( const std::exception & err ) {
+    } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
 
     QApplication app( argc, argv );
-    QMainWindow w;
-    w.show();
-    QPushButton b( QString( "button" ), &w );
-    b.show();
-    return app.exec();
+
+    return creator::main_window().execute( app );
 }

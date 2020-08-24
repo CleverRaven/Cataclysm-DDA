@@ -98,8 +98,9 @@
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;SDL_SOUND;TILES;SDL_MAIN_HANDLED;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>H:\Programs\Qt\5.15.0\msvc2019\include;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>H:\Programs\Qt\5.15.0\msvc2019\include;..\src;..\tools\format;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>26812;26444;4244;4305</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,16 +165,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\object_creator\creator_main.cpp" />
+    <ClCompile Include="..\object_creator\creator_main_window .cpp" />
+    <ClCompile Include="..\object_creator\spell_window.cpp" />
     <ClCompile Include="..\src\messages.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\object_creator\creator_main_window.h" />
+    <ClInclude Include="..\object_creator\spell_window.h" />
     <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Cataclysm-lib-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="JsonFormatter.vcxproj">
+      <Project>{35d74c75-fc4a-442f-af44-43bc9d845baf}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
