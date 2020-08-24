@@ -7,7 +7,6 @@
     "maintainers": [ "Xhuis" ],
     "description": "Allows CBMs to be installed by hand.  Pairs well with Safe Autodoc.",
     "category": "rebalance",
-    "dependencies": [ "dda" ],
-    "obsolete": true
+    "dependencies": [ "dda" ]
   }
 ]

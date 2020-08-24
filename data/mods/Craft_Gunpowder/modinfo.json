@@ -5,9 +5,8 @@
     "name": "Craftable Gun Pack",
     "authors": [ "Zaweri" ],
     "maintainers": [ "Noctifer-de-Mortem" ],
-    "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
+    "description": "Adds more craftable firearms, and gunpowder.",
     "category": "items",
-    "dependencies": [ "dda" ],
-    "obsolete": true
+    "dependencies": [ "dda" ]
   }
 ]

@@ -6,7 +6,8 @@
     "authors": [ "Kevin" ],
     "description": "Want a little crazy in your Cataclysm?  Try this one.",
     "category": "misc_additions",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   },
   {
     "type": "MONSTER_WHITELIST",
