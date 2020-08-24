@@ -76,6 +76,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "afs_augmentation_clinic_n1",
+      "afs_augmentation_clinic_n2",
+      "afs_augmentation_clinic_n3",
+      "afs_augmentation_clinic_n4"
+    ],
+    "name": "augmentation clinic",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "A",
+    "color": "yellow",
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
     "id": "mortuary_2story",
     "name": "county mortuary",
     "sym": "M",
