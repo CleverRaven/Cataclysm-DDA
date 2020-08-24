@@ -725,7 +725,7 @@ void creator::spell_window::write_json()
     std::istringstream in_stream( stream.str() );
     JsonIn jsin( in_stream );
 
-    //formatter::format( jsin, jo );
+    formatter::format( jsin, jo );
 
     QString output_json{ stream.str().c_str() };
 
