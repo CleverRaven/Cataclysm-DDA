@@ -103,6 +103,6 @@ std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements
         }
     }
     // we didn't find anything we could "craft", so return the requirement that's the fastest
-    const auto first = requirements.end();
+    const auto first = requirements.rbegin();
     return std::make_pair( first->first, first->second.at( size ).at( butcher ) );
 }
