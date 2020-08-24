@@ -110,8 +110,6 @@
       "You have a strange dream.",
       "You have a puckish dream.",
       "You have a playful dream.",
-      "You have a strange dream about orcs.",
-      "You dream of your fairy godmother.  Is that a smile on her lips?",
       "You dream of the changeling.  Again.",
       "You feel a yearning..."
     ],
@@ -214,7 +212,6 @@
     "type": "dream",
     "messages": [
       "You dream of grazing in an open field.",
-      "You dream of a golden calf.",
       "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
     ],
     "category": "CATTLE",
@@ -233,7 +230,6 @@
     "type": "dream",
     "messages": [
       "You have a confusing dream of growing in a garden.",
-      "You remember a strange song lyric you once heard.  \"The ardor of arboreality is an adventure we have spurned\" - it is clearly time to overturn a new leaf.",
       "You are confused by a plantlike image of yourself in a dream."
     ],
     "category": "PLANT",
@@ -249,7 +245,7 @@
     "type": "dream",
     "messages": [
       "You dream of living deep inside a dark cave.",
-      "The Tommyknockers are our friends.  They warn us of danger.  We'll leave a little cake for them on this rock.",
+      "The Knockers are our friends.  They warn us of danger.  We'll leave a little cake for them on this rock.",
       "You dream of being a primitive cave dweller."
     ],
     "category": "TROGLOBITE",
@@ -292,9 +288,7 @@
     "type": "dream",
     "messages": [
       "You dream of a home in the forests.",
-      "You dream of drinking goblin wine.",
-      "You dream of a garden painted pink and orange.  Part playful, part spiteful, Delight rules the Spring Court with capricious profligacy.",
-      "You dream of your fairy godmother.  Is that blood on her lips?",
+      "You dream of drinking flowered wine.",
       "You dream you are a mirror.  You cannot see your reflection; you are the reflection.",
       "You feel beautiful, and yet riven with worry..."
     ],
@@ -397,7 +391,7 @@
   {
     "type": "dream",
     "messages": [
-      "You have a nightmare of twisting, endless corridors⋯  They couldn't kill you so they built a labyrinth to cage you.",
+      "You have a nightmare of twisting, endless corridors⋯",
       "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
       "You find it hard to wake from a vivid dream of grazing on a farm."
     ],
@@ -580,7 +574,6 @@
     "messages": [
       "You dream of the hunt, the feed, and your pack.",
       "You lead the pack on a glorious hunt, knowing that they will all have your back as you have theirs!",
-      "You ride a black horse.  It is the end of days.  You are a salesman; one of a pack of four.  You sell only hunger, and you go to every door.",
       "Oh, you should really patrol your territory again, maybe expand."
     ],
     "category": "LUPINE",
@@ -590,9 +583,7 @@
     "type": "dream",
     "messages": [
       "You dream of jumping the gate and leading your herd to freedom.",
-      "You belllow  on a knoll against the sky, having feasted on the apple time cider.",
-      "Yes, let them worship the golden calf.  Let them worship their bovine masters.",
-      "Trapped in the twisting corridors⋯  A tiny one,Theseus, thinks he hunts you here. You split his head and follow the thread out of the labyrinth.",
+      "You belllow on a knoll against the sky, having feasted on the apple time cider.",
       "The herd moves along and you with them, finding greener pastures."
     ],
     "category": "CATTLE",
