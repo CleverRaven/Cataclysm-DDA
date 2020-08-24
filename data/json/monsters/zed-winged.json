@@ -26,7 +26,7 @@
       { "type": "bite", "cooldown": 5 },
       [ "GRAB", 12 ],
       [ "scratch", 20 ],
-      { "type": "leap", "cooldown": 10, "max_range": 2 }
+      { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -88,7 +88,7 @@
     "vision_night": 4,
     "harvest": "zombie",
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 4 },
+      { "type": "leap", "cooldown": 2, "max_range": 8 },
       {
         "type": "bite",
         "cooldown": 10,
