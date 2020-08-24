@@ -27,6 +27,7 @@ static void test_generic_ench( avatar &p, int str_before )
 
     // place a zombie next to the avatar
     const tripoint spot( 61, 60, 0 );
+    clear_map();
     monster &zombie = spawn_test_monster( "mon_zombie", spot );
 
     p.on_hit( &zombie, bodypart_id( "torso" ), 0.0, nullptr );
@@ -42,8 +43,8 @@ TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
     int str_before = p.get_str();
 
     // put on the ring
-    item ring_strplus_one( "test_ring_strength_1" );
-    p.wear( ring_strplus_one );
+    item &equiped_ring_strplus_one = p.i_add( item( "test_ring_strength_1" ) );
+    p.wear( equiped_ring_strplus_one, false );
 
     // wait a turn for the effect to kick in
     p.recalculate_enchantment_cache();
