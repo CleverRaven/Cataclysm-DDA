@@ -28,7 +28,7 @@
     "type": "AMMO",
     "name": { "str": "steel rail" },
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
-	"weight": "221 g",
+	"weight": "212 g",
     "volume": "27ml",
     "price": 1500,
     "price_postapoc": 500,
@@ -40,4 +40,5 @@
     "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
     "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
   }
+]
 ]
