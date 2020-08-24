@@ -794,6 +794,41 @@ void Character::suffer_in_sunlight()
     }
 }
 
+std::map<bodypart_id, float> Character::bodypart_exposure()
+{
+    std::map<bodypart_id, float> bp_exposure;
+
+    // Set of all body parts affected by clothing coverage
+    // FIXME: Factor this out (same list is used in player.cpp)
+    body_part_set affected_bp { {
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+        }
+    };
+
+    // Initially, all parts are assumed to be fully exposed
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( affected_bp.test( bp.id() ) ) {
+            bp_exposure[bp] = 1.0;
+        }
+    }
+    // For every item worn, for every body part, adjust coverage
+    for( const item &it : worn ) {
+        // What body parts does this item cover?
+        body_part_set covered = it.get_covered_body_parts();
+        for( const bodypart_id &bp : get_all_body_parts() )  {
+            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
+                continue;
+            }
+            // How much exposure does this item leave on this part? (1.0 == naked)
+            float part_exposure = 1.0 - it.get_coverage( bp ) / 100.0f;
+            // Coverage multiplies, so two layers with 50% coverage will together give 75%
+            bp_exposure[bp] = bp_exposure[bp] * part_exposure;
+        }
+    }
+    return bp_exposure;
+}
+
 void Character::suffer_from_albinism()
 {
     if( !one_turn_in( 1_minutes ) ) {
@@ -814,44 +849,18 @@ void Character::suffer_from_albinism()
     if( weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
-    //calculate total coverage of skin
-    body_part_set affected_bp { {
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
-        }
-    };
-    //pecentage of "open skin" by body part
-    // FIXME: This is not a percent, but a proportion from 0-1, where 1.0 is no coverage
-    // Rename variable and perhaps start with 0.0 == no coverage?
-    std::map<bodypart_id, float> open_percent;
-    //initialize coverage
-    for( const bodypart_id  &bp : get_all_body_parts() ) {
-        if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp] = 1.0;
-        }
-    }
-    //calculate coverage for every body part
-    // For every item worn, for every body part, adjust coverage
-    for( const item &i : worn ) {
-        body_part_set covered = i.get_covered_body_parts();
-        for( const bodypart_id  &bp : get_all_body_parts() )  {
-            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
-                continue;
-            }
-            //percent of "not covered skin"
-            // p == "proportion naked" (1.0 = naked; 0.0 = full cover)
-            float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            open_percent[bp] = open_percent[bp] * p;
-        }
-    }
 
+    std::map<bodypart_id, float> bp_exposure = bodypart_exposure();
+
+    // FIXME: This section just gets the most exposed body part, and how exposed it is; all other
+    // exposure info is ignored after this block, except to check if both limbs (arms/legs) are
+    // equally affected.
     const float COVERAGE_LIMIT = 0.01f;
     bodypart_id max_affected_bp;
     float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
     // Check each bodypart and its coverage proportion
-    for( const std::pair<const bodypart_id, float> &it : open_percent ) {
+    for( const std::pair<const bodypart_id, float> &it : bp_exposure ) {
         const bodypart_id &bp = it.first;
         const float &p = it.second;
 
@@ -866,6 +875,7 @@ void Character::suffer_from_albinism()
             max_affected_bp = bp;
         }
     }
+
     // Suffer effects if at least one non-null body part is exposed
     if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
         //Check if both arms/legs are affected
@@ -874,10 +884,11 @@ void Character::suffer_from_albinism()
         const bodypart_id &other_bp_rev = other_bp->opposite_part;
         // If these are different, we have a left/right part like a leg or arm.
         // If same, it's a central body part with no opposite, like head or torso.
+        // Only used to generate a simpler message when both arms or both legs are affected.
         if( other_bp != other_bp_rev ) {
-            const auto found = open_percent.find( other_bp );
+            const auto found = bp_exposure.find( other_bp );
             // Is opposite part exposed?
-            if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
+            if( found != bp_exposure.end() && found->second > COVERAGE_LIMIT ) {
                 ++parts_count;
             }
         }
