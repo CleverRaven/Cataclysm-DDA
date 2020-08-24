@@ -3,7 +3,7 @@
     "id": "dks_mon_flamesword",
     "copy-from": "v29",
     "type": "GUN",
-    "name": "fake flamesword",
+    "name": { "str": "fake flamesword" },
     "description": "a fake gun used by the consecrator.  it's a bug if you find this in the wild",
     "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 30 },
     "range": 9,

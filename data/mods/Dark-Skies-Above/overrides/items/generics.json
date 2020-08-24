@@ -10,7 +10,7 @@
     "type": "GENERIC",
     "id": "basketball",
     "copy-from": "basketball",
-    "name": "basketball",
+    "name": { "str": "basketball" },
     "description": "A high-quality indoor basketball.  You could throw it at your enemies."
   }
 ]

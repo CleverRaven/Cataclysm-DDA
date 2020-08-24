@@ -43,14 +43,14 @@
     "id": "mon_rattlesnake_giant",
     "copy-from": "mon_rattlesnake_giant",
     "type": "MONSTER",
-    "name": "giant rattlesnake",
+    "name": { "str": "giant rattlesnake" },
     "delete": { "categories": [ "WILDLIFE" ] }
   },
   {
     "id": "mon_nakedmolerat_giant",
     "copy-from": "mon_nakedmolerat_giant",
     "type": "MONSTER",
-    "name": "gigantic naked mole-rat",
+    "name": { "str": "gigantic naked mole-rat" },
     "delete": { "categories": [ "WILDLIFE" ] }
   }
 ]

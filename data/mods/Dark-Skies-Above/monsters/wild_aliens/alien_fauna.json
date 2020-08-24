@@ -84,7 +84,7 @@
     "//": "not really a 'lizard' as we would understand them, rather an invasive alien mutant. 'lizard' a survivor colloquialism for their shape and general behavior",
     "id": "dks_mon_mossliz",
     "type": "MONSTER",
-    "name": "moss lizard",
+    "name": { "str": "moss lizard" },
     "description": "A cow-sized reptoid, covered in what appears to be a thick layer of mossy vegetation and rocks.  It trudges about the landscape on sturdy legs, foraging whatever flora it can reach with sharp little teeth.  It doesn't seem to mind you too much.",
     "default_faction": "alien_herbivore",
     "bodytype": "gator",
@@ -130,7 +130,7 @@
   {
     "id": "dks_mon_packliz",
     "type": "MONSTER",
-    "name": "pack lizard",
+    "name": { "str": "pack lizard" },
     "description": "A slim reptoid about the size of a big dog, with a thick mane of what looks like rather pretty orange-blue 'feathers' around its head.  Frond-like protrustions grow from the top of its head down to the base of its tail, glowing faintly when in the presence of other members of its pack.",
     "default_faction": "packliz",
     "bodytype": "gator",

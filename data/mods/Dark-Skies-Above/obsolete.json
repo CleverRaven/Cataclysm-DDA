@@ -45,7 +45,7 @@
     "id": "dks_neworder_armor_salvaged",
     "type": "ARMOR",
     "category": "armor",
-    "name": "salvaged new order armor",
+    "name": { "str": "salvaged new order armor" },
     "description": "A suit of armor belonging to a human-sized soldier of the New Order.  Its terribly damaged from some combination of the combat its seen, the process needed to pry it off its wearer, and some sort of dead man's switch on the elements that actually power the thing and make it easy to wear.",
     "weight": "12214 g",
     "volume": "25 L",
@@ -73,7 +73,7 @@
   {
     "id": "dks_riotshield",
     "type": "ARMOR",
-    "name": "new order shield",
+    "name": { "str": "new order shield" },
     "category": "armor",
     "description": "A simple shield made of some sort of polycarbonates, used extensively by the Vigilants, the gendarmerie of the New Order.  Alongside their infamous shock batons, this is an essential tool in 'keeping the peace'.",
     "weight": "3400 g",
@@ -94,7 +94,7 @@
   {
     "id": "dks_battleshield",
     "type": "ARMOR",
-    "name": "new order battle shield",
+    "name": { "str": "new order battle shield" },
     "category": "armor",
     "description": "A well forged shield made of steel, emblazed with what appears to be a highly stylized depiction of a sword piercing a star.",
     "weight": "3300 g",
