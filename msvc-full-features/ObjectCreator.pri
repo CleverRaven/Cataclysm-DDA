@@ -12,7 +12,7 @@ HEADERS += ../object_creator/creator_main_window.h \
     ../src/messages.h \
     ./stdafx.h
 SOURCES += ../object_creator/creator_main.cpp \
-    ../object_creator/creator_main_window .cpp \
+    ../object_creator/creator_main_window.cpp \
     ../object_creator/spell_window.cpp \
     ../src/messages.cpp \
     ./stdafx.cpp

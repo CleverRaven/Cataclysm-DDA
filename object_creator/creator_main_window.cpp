@@ -4,9 +4,9 @@
 #include "enum_conversions.h"
 #include "translations.h"
 
-#include "QtWidgets\qapplication.h"
-#include "QtWidgets\qmainwindow.h"
-#include "QtWidgets\qpushbutton.h"
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qmainwindow.h>
+#include <QtWidgets/qpushbutton.h>
 
 namespace io
 {

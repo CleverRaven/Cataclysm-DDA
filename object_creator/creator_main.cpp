@@ -15,7 +15,7 @@
 #include "string_id.h"
 #include "ui.h"
 
-#include "QtWidgets\qapplication.h"
+#include <QtWidgets/qapplication.h>
 
 struct MOD_INFORMATION;
 using mod_id = string_id<MOD_INFORMATION>;

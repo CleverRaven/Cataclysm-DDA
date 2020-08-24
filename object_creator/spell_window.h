@@ -3,12 +3,12 @@
 
 #include "magic.h"
 
-#include "QtWidgets\qcombobox.h"
-#include "QtWidgets\qlineedit.h"
-#include "QtWidgets\qlistwidget.h"
-#include "QtWidgets\qmainwindow.h"
-#include "QtWidgets\qplaintextedit.h"
-#include "QtWidgets\qspinbox.h"
+#include <QtWidgets/qcombobox.h>
+#include <QtWidgets/qlineedit.h>
+#include <QtWidgets/qlistwidget.h>
+#include <QtWidgets/qmainwindow.h>
+#include <QtWidgets/qplaintextedit.h>
+#include <QtWidgets/qspinbox.h>
 
 namespace creator
 {
