@@ -235,6 +235,12 @@ struct input_event {
 
     std::string long_description() const;
     std::string short_description() const;
+
+    /**
+     * Lexicographical order considering input event type,
+     * modifiers, and key code sequence.
+     */
+    static bool compare_type_mod_code( const input_event &lhs, const input_event &rhs );
 };
 
 /**
@@ -369,6 +375,8 @@ class input_manager
         int get_timeout() const {
             return input_timeout;
         }
+
+        static keyboard_mode actual_keyboard_mode( keyboard_mode preferred_keyboard_mode );
 
     private:
         friend class input_context;
@@ -747,13 +755,17 @@ class input_context
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
          * @param action_descriptor The action descriptor for which to get the bound keys.
-         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @param maximum_modifier_count Maximum number of modifiers allowed for
+         *        the returned action. <0 means any number is allowed.
+         * @param restrict_to_printable If `true` the function returns the bound
+         *        keys only if they are printable (space counts as non-printable
+         *        here). If `false`, all keys (whether they are printable or not)
+         *        are returned.
          * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_descriptor,
-                                         bool restrict_to_printable = true ) const;
-        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
-                                  bool restrict_to_printable = true ) const;
+        std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
+                                                int maximum_modifier_count = -1,
+                                                bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -827,10 +839,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 const std::string &phrase ) const;
-    public:
-        std::vector<std::string> get_registered_actions_copy() const {
-            return registered_actions;
-        }
 };
 
 /**
@@ -859,6 +867,14 @@ class hotkey_queue
          *   a-z, shift a-z
          */
         static const hotkey_queue &alphabets();
+
+        /**
+         * In keychar mode:
+         *   1-0, a-z, A-Z
+         * In keycode mode:
+         *   1-0, a-z, shift 1-0, shift a-z
+         */
+        static const hotkey_queue &alpha_digits();
 
     private:
         std::vector<int> codes_keychar;

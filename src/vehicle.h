@@ -40,6 +40,7 @@ class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
+struct input_event;
 class map;
 class monster;
 class nc_color;
@@ -189,8 +190,6 @@ struct bounding_box {
     point p1;
     point p2;
 };
-
-char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
 int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
@@ -1659,7 +1658,9 @@ class vehicle
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                 std::vector<std::function<void()>> &actions,
+                                 const std::string &name,
+                                 const input_event &key,
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );

@@ -95,8 +95,6 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
-static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
-
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -2382,7 +2380,6 @@ class Character : public Creature, public visitable<Character>
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
         const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
@@ -2393,8 +2390,7 @@ class Character : public Creature, public visitable<Character>
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
-        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();

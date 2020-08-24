@@ -654,6 +654,10 @@ void debug_menu::wishskill( player *p )
     uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
+    skmenu.additional_actions = {
+        { "LEFT", to_translation( "Decrease skill" ) },
+        { "RIGHT", to_translation( "Increase skill" ) }
+    };
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
@@ -677,12 +681,12 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         const int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
-                                              skmenu.keypress == KEY_RIGHT ) ) {
+        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.ret_act == "LEFT" ||
+                                              skmenu.ret_act == "RIGHT" ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
-                        ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+                        ( skmenu.ret_act == "LEFT" ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
                    sksel < static_cast<int>( sorted_skills.size() ) ) {
