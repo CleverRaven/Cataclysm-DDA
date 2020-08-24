@@ -106,7 +106,15 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a strange dream.", "You feel a yearning..." ],
+    "messages": [
+      "You have a strange dream.",
+      "You have a puckish dream.",
+      "You have a playful dream.",
+      "You have a strange dream about orcs.",
+      "You dream of your fairy godmother.  Is that a smile on her lips?",
+      "You dream of the changeling.  Again."
+      "You feel a yearning..."
+   ],
     "category": "ELFA",
     "strength": 1
   },
@@ -225,6 +233,7 @@
     "type": "dream",
     "messages": [
       "You have a confusing dream of growing in a garden.",
+      "You remember a strange song lyric you once heard.  \"The ardor of arboreality is an adventure we have spurned\" - it is clearly time to overturn a new leaf.",
       "You are confused by a plantlike image of yourself in a dream."
     ],
     "category": "PLANT",
@@ -238,7 +247,11 @@
   },
   {
     "type": "dream",
-    "messages": [ "You dream of living deep inside a dark cave.", "You dream of being a primitive cave dweller." ],
+    "messages": [
+      "You dream of living deep inside a dark cave.",
+      "The Tommyknockers are our friends.  They warn us of danger.  We'll leave a little cake for them on this rock.",
+      "You dream of being a primitive cave dweller."
+    ],
     "category": "TROGLOBITE",
     "strength": 2
   },
@@ -277,7 +290,14 @@
   },
   {
     "type": "dream",
-    "messages": [ "You dream of a home in the forests.", "You feel beautiful, and yet riven with worry..." ],
+    "messages": [
+      "You dream of a home in the forests.",
+      "You dream of drinking goblin wine.",
+      "You dream of a garden painted pink and orange.  Part playful, part spiteful, Delight rules the Spring Court with capricious profligacy.",
+      "You dream of your fairy godmother.  Is that blood on her lips?",
+      "You dream you are a mirror.  You cannot see your reflection; you are the reflection.",
+      "You feel beautiful, and yet riven with worry..."
+    ],
     "category": "ELFA",
     "strength": 2
   },
@@ -451,6 +471,7 @@
     "type": "dream",
     "messages": [
       "You see yourself, five years from now, as the leader of a successful city.",
+      "Obeying orders, you revel in the satisfaction of a job well done.",
       "Your success in restoring civilization was only a dream.  For now."
     ],
     "category": "ALPHA",
@@ -458,7 +479,11 @@
   },
   {
     "type": "dream",
-    "messages": [ "NO!  You will not allow this corruption to prevail!", "You see yourself reflected in the beauty of the forest." ],
+    "messages": [
+      "NO!  You will not allow this corruption to prevail!",
+      "You see yourself reflected in the beauty of the forest.",
+      "While fearful, you dare not turn down an invitation to visit the Unseelie Court."
+    ],
     "category": "ELFA",
     "strength": 3
   },
@@ -510,6 +535,7 @@
     "type": "dream",
     "messages": [
       "You wonder if your nest will be good enough.",
+      "You swoop down from the skies, and somehow manage to lift off carrying an entire sheep!",
       "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
     ],
     "category": "BIRD",
@@ -543,6 +569,7 @@
     "type": "dream",
     "messages": [
       "Boing!  and you've pounced another yummy critter.",
+      "You purr as your slave scratches you between the ears.",
       "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
     ],
     "category": "FELINE",
@@ -552,6 +579,7 @@
     "type": "dream",
     "messages": [
       "You dream of the hunt, the feed, and your pack.",
+      "You lead the pack on a glorious hunt, knowing that they will all have your back as you have theirs!",
       "You ride a black horse.  It is the end of days.  You are a salesman; one of a pack of four.  You sell only hunger, and you go to every door.",
       "Oh, you should really patrol your territory again, maybe expand."
     ],
@@ -574,6 +602,8 @@
     "type": "dream",
     "messages": [
       "You feel smug, knowing that the Queen is dependent on you.",
+      "You relax and enjoy the humming adulation of all your followers.",
+      "Something dangerous has entered your area!  You send a couple of hundred followers to deal with it.",
       "You dream of a weirdly shaped plant, whose nectar surpassed your every wish..."
     ],
     "category": "INSECT",
@@ -623,6 +653,8 @@
     "type": "dream",
     "messages": [
       "You excitedly web up an interloper and prepare to feast… nope, dream.",
+      "You have a nightmare about being washed out of a drainpipe.",
+      "You relax in your web; it's not vibrating, so dinner hasn't arrived yet.",
       "Your dreams of having to live without a web frighten you."
     ],
     "category": "SPIDER",
@@ -641,6 +673,7 @@
     "type": "dream",
     "messages": [
       "You dream of the peaceful world you'll give humankind.  Because no one else can.",
+      "You crush those who would disagree with the leadership.  Humanity must be united; independence will get you all killed!",
       "There are underground Faults in the world.  Faults you should remedy."
     ],
     "category": "ALPHA",
@@ -650,6 +683,9 @@
     "type": "dream",
     "messages": [
       "You pant, terrified at the thought of that FUNGUS destroying your home!",
+      "Your first arrow hits the bullseye.  Your second arrow splits the first arrow in half.",
+      "You dance easily across a tightrope, never in any danger of falling.",
+      "You encourage your followers to be independent.  The more new ideas you try, the more chances that you'll find the best ideas!",
       "You wish others could understand, and join your struggle..."
     ],
     "category": "ELFA",
