@@ -30,6 +30,8 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RELEASE ..
         cmake --build . -- -j3
         echo "::add-path::$PWD"
+    - name: Add problem matcher
+      run: echo "::add-matcher::build-scripts/problem-matchers/clang.json"
     - name: make
       run: |
         ClangBuildAnalyzer --start .
