@@ -489,6 +489,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    relic_data = type->relic_data;
     return *this;
 }
 
