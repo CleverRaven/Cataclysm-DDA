@@ -137,7 +137,7 @@ struct weather_effect {
     trait_id trait_id_to_add;
     trait_id trait_id_to_remove;
     bodypart_str_id target_part;
-    damage_instance damage;
+    cata::optional<damage_instance> damage;
     std::vector<spawn_type> spawns;
     std::vector<weather_field> fields;
 };
