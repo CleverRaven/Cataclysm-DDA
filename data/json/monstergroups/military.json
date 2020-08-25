@@ -81,7 +81,6 @@
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
-      { "monster": "mon_crow_mutant", "freq": 1, "cost_multiplier": 2 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 }
     ]
   },
