@@ -144,7 +144,7 @@
     "description": "The tip of the spear glows white hot as you strike.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
-    "damage_type": "fire",
+    "damage_type": "heat",
     "min_damage": 35,
     "min_range": 2,
     "effect": "projectile_attack"
