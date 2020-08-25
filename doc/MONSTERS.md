@@ -270,7 +270,7 @@ List of damage instances added to die roll on monster melee attack.
 
 | field               | description
 | ---                 | ---
-| `damage_type`       | one of "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold", "electric"
+| `damage_type`       | one of "pure", "biological", "bash", "cut", "acid", "stab", "heat", "cold", "electric"
 | `amount`            | amount of damage
 | `armor_penetration` | how much of the armor the damage instance ignores
 | `armor_multiplier`  | multiplier on `armor_penetration`

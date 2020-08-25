@@ -2278,18 +2278,22 @@ int game::inventory_item_menu( item_location locThisItem,
             draw_item_info( w_info, data );
         } );
 
+        action_menu.additional_actions = {
+            { "RIGHT", translation() }
+        };
+
         bool exit = false;
         do {
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
             if( action_menu.ret >= 0 ) {
                 cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
-            } else if( action_menu.ret == UILIST_UNBOUND && action_menu.keypress == KEY_RIGHT ) {
+            } else if( action_menu.ret == UILIST_UNBOUND && action_menu.ret_act == "RIGHT" ) {
                 // Simulate KEY_RIGHT == '\n' (confirm currently selected entry) for compatibility with old version.
                 // TODO: ideally this should be done in the uilist, maybe via a callback.
                 cMenu = action_menu.ret = action_menu.entries[action_menu.selected].retval;
-            } else if( action_menu.keypress == KEY_PPAGE || action_menu.keypress == KEY_NPAGE ) {
-                cMenu = action_menu.keypress;
+            } else if( action_menu.ret_act == "PAGE_UP" || action_menu.ret_act == "PAGE_DOWN" ) {
+                cMenu = action_menu.ret_act == "PAGE_UP" ? KEY_PPAGE : KEY_NPAGE;
                 // Prevent the menu from scrolling with this key. TODO: Ideally the menu
                 // could be instructed to ignore these two keys instead of scrolling.
                 action_menu.selected = prev_selected;
@@ -4810,7 +4814,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            targ->deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
                         }
                     }
                     targ->check_dead_state();
@@ -4884,7 +4888,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     };
                     for( const bodypart_id &bp : bps ) {
                         if( one_in( 2 ) ) {
-                            u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
+                            u.deal_damage( nullptr, bp, damage_instance( damage_type::BASH, force_remaining * dam_mult ) );
                         }
                     }
                     u.check_dead_state();
@@ -8361,9 +8365,11 @@ void game::drop_in_direction()
 }
 
 // Used to set up the first Hotkey in the display set
-static int get_initial_hotkey( const size_t menu_index )
+static cata::optional<input_event> get_initial_hotkey( const size_t menu_index )
 {
-    return ( menu_index == 0 ) ? hotkey_for_action( ACTION_BUTCHER ) : -1;
+    return menu_index == 0
+           ? hotkey_for_action( ACTION_BUTCHER, /*maximum_modifier_count=*/1 )
+           : cata::nullopt;
 }
 
 // Returns a vector of pairs.
@@ -8409,11 +8415,11 @@ static std::vector<std::pair<map_stack::iterator, int>> generate_butcher_stack_d
 static void add_corpses( uilist &menu, const std::vector<map_stack::iterator> &its,
                          size_t &menu_index )
 {
-    int hotkey = get_initial_hotkey( menu_index );
+    cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
     for( const map_stack::iterator &it : its ) {
         menu.addentry( menu_index++, true, hotkey, it->get_mtype()->nname() );
-        hotkey = -1;
+        hotkey = cata::nullopt;
     }
 }
 
@@ -8423,7 +8429,7 @@ static void add_salvagables( uilist &menu,
                              size_t &menu_index, const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
-        int hotkey = get_initial_hotkey( menu_index );
+        cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
             const item &it = *stack.first;
@@ -8433,7 +8439,7 @@ static void add_salvagables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
-            hotkey = -1;
+            hotkey = cata::nullopt;
         }
     }
 }
@@ -8443,7 +8449,7 @@ static void add_disassemblables( uilist &menu,
                                  const std::vector<std::pair<map_stack::iterator, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
-        int hotkey = get_initial_hotkey( menu_index );
+        cata::optional<input_event> hotkey = get_initial_hotkey( menu_index );
 
         for( const auto &stack : stacks ) {
             const item &it = *stack.first;
@@ -8454,7 +8460,7 @@ static void add_disassemblables( uilist &menu,
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
                                        it.typeId() ).time_to_craft( get_player_character() ) ) );
-            hotkey = -1;
+            hotkey = cata::nullopt;
         }
     }
 }
@@ -9339,7 +9345,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         };
 
         const auto sharp_bp_check = [this]( bodypart_id bp ) {
-            return u.immune_to( bp, { DT_CUT, 10 } );
+            return u.immune_to( bp, { damage_type::CUT, 10 } );
         };
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
@@ -9698,13 +9704,13 @@ point game::place_player( const tripoint &dest_loc )
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
         }
         if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
-            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 1 ) );
+            u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
@@ -9716,7 +9722,8 @@ point game::place_player( const tripoint &dest_loc )
             u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 10 ) );
         } else {
             const bodypart_id bp = u.get_random_body_part();
-            if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
+            if( u.deal_damage( nullptr, bp, damage_instance( damage_type::CUT, rng( 1,
+                               10 ) ) ).total_damage() > 0 ) {
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
                          body_part_name_accusative( bp ),

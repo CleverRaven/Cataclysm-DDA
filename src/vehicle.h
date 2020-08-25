@@ -40,6 +40,7 @@ class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
+struct input_event;
 class map;
 class monster;
 class nc_color;
@@ -189,8 +190,6 @@ struct bounding_box {
     point p1;
     point p2;
 };
-
-char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
 
 int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
@@ -687,7 +686,7 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+        int damage_direct( int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( int p, int dmg );
         // Returns if it did actually explode
@@ -782,7 +781,7 @@ class vehicle
          * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NONE );
+        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;
@@ -1528,7 +1527,7 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( int p, int dmg, damage_type type = DT_BASH, bool aimed = true );
+        int damage( int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
@@ -1659,7 +1658,9 @@ class vehicle
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                 std::vector<std::function<void()>> &actions,
+                                 const std::string &name,
+                                 const input_event &key,
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );

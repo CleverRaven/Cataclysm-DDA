@@ -1420,7 +1420,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             // Draw header.
             draw_points( w, points, netPointCost );
-            char *prof_msg_temp;
+            const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
                 prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",

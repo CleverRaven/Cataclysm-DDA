@@ -1032,7 +1032,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         if( structures_found > 1 ) {
             //Destroy everything in the square
             for( int idx : parts_in_square ) {
-                mod_hp( parts[ idx ], 0 - parts[ idx ].hp(), DT_BASH );
+                mod_hp( parts[ idx ], 0 - parts[ idx ].hp(), damage_type::BASH );
                 parts[ idx ].ammo_unset();
             }
             continue;
@@ -1047,7 +1047,7 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) *
-                                    part.info().durability ), DT_BASH ) ) {
+                                    part.info().durability ), damage_type::BASH ) ) {
                 part.ammo_unset();
             }
         }
@@ -6325,7 +6325,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         damage_dealt = damage_direct( target_part, dmg, type );
     } else {
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( armor_part ).damage_reduction[ type ];
+        int protection = part_info( armor_part ).damage_reduction[ static_cast<int>( type )];
         // Parts on roof aren't protected
         bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
@@ -6516,7 +6516,8 @@ bool vehicle::explode_fuel( int p, damage_type type )
         leak_fuel( parts[ p ] );
     }
 
-    int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
+    int explosion_chance = type == damage_type::HEAT ? data.explosion_chance_hot :
+                           data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
         get_event_bus().send<event_type::fuel_tank_explodes>( name );
         const int pow = 120 * ( 1 - std::exp( data.explosion_factor / -5000 *
@@ -6524,7 +6525,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
 
         explosion_handler::explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
-        mod_hp( parts[p], 0 - parts[ p ].hp(), DT_HEAT );
+        mod_hp( parts[p], 0 - parts[ p ].hp(), damage_type::HEAT );
         parts[p].ammo_unset();
     }
 
@@ -6548,15 +6549,15 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     }
 
     int tsh = std::min( 20, part_info( p ).durability / 10 );
-    if( dmg < tsh && type != DT_TRUE ) {
-        if( type == DT_HEAT && parts[p].is_fuel_store() ) {
+    if( dmg < tsh && type != damage_type::PURE ) {
+        if( type == damage_type::HEAT && parts[p].is_fuel_store() ) {
             explode_fuel( p, type );
         }
 
         return dmg;
     }
 
-    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
+    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
         if( is_flyable() && has_part( "ROTOR" ) && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {

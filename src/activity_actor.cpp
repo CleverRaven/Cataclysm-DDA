@@ -57,6 +57,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
@@ -888,6 +889,32 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     data.read( "starting_pos", actor.starting_pos );
 
     return actor.clone();
+}
+
+lockpick_activity_actor lockpick_activity_actor::use_item(
+    int moves_total,
+    const item_location &lockpick,
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        moves_total,
+        lockpick,
+        cata::nullopt,
+        target
+    };
+}
+
+lockpick_activity_actor lockpick_activity_actor::use_bionic(
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        to_moves<int>( 4_seconds ),
+        cata::nullopt,
+        item( itype_pseudo_bio_picklock ),
+        target
+    };
 }
 
 void lockpick_activity_actor::start( player_activity &act, Character & )

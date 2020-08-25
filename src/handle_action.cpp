@@ -685,7 +685,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.weapon.damage_melee( DT_BASH );
+        smashskill = player_character.str_cur + player_character.weapon.damage_melee( damage_type::BASH );
     }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
@@ -814,12 +814,14 @@ static void smash()
                 player_character.weapon.spill_contents( player_character.pos() );
                 sounds::sound( player_character.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash",
                                "glass" );
-                player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0,
-                                              vol ) ) );
+                player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT,
+                                              rng( 0,
+                                                   vol ) ) );
                 if( vol > 20 ) {
                     // Hurt left arm too, if it was big
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
-                                                  static_cast<int>( vol * .5 ) ) ) );
+                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT,
+                                                  rng( 0,
+                                                       static_cast<int>( vol * .5 ) ) ) );
                 }
                 player_character.remove_weapon();
                 player_character.check_dead_state();
@@ -1410,7 +1412,8 @@ static void open_movement_mode_menu()
                                    curr->name() );
     }
     as_m.entries.emplace_back( cycle,
-                               player_character.can_switch_to( player_character.current_movement_mode()->cycle() ), '"',
+                               player_character.can_switch_to( player_character.current_movement_mode()->cycle() ),
+                               hotkey_for_action( ACTION_OPEN_MOVEMENT, /*maximum_modifier_count=*/1 ),
                                _( "Cycle move mode" ) );
     // This should select the middle move mode
     as_m.selected = std::floor( modes.size() / 2 );
@@ -1693,9 +1696,8 @@ bool game::handle_action()
         const input_event &&evt = ctxt.get_raw_input();
         if( !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
-            const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
-                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
+                add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( const cata::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "

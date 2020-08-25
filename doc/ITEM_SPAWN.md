@@ -85,6 +85,7 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "ammo-group": "<group-id>",
 "container-item": "<container-item-id>",
 "container-group": "<group-id>",
+"sealed": <boolean>
 "artifact": <object>
 ```
 
@@ -93,6 +94,8 @@ Each entry can have more values (shown above as `...`). They allow further prope
 `count` makes the item spawn repeat to create more items, each time creating a new item.
 
 `charges`: Setting only min, not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting min will set it to 0 when max is set.
+
+`sealed`: If true, container will be sealed when the item spawns. Default is `true`.
 
 `artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
 ```json

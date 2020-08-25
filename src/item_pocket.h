@@ -38,7 +38,7 @@ template <typename E> struct enum_traits;
 class item_pocket
 {
     public:
-        enum pocket_type {
+        enum class pocket_type : int {
             CONTAINER,
             MAGAZINE,
             MAGAZINE_WELL, //holds magazines

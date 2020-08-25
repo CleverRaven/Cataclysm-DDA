@@ -924,7 +924,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         int shock = rng( 1, 4 );
         mod_power_level( units::from_kilojoule( -shock ) );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
@@ -943,7 +943,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         damage_instance spine_damage;
-        spine_damage.add_damage( DT_STAB, spine );
+        spine_damage.add_damage( damage_type::STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
@@ -958,7 +958,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         }
         int thorn = rng( 1, 4 );
         damage_instance thorn_damage;
-        thorn_damage.add_damage( DT_CUT, thorn );
+        thorn_damage.add_damage( damage_type::CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
         source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
@@ -1220,9 +1220,9 @@ int player::impact( const int force, const tripoint &p )
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
-            di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+            di.add_damage( damage_type::BASH, bash, 0, armor_eff, mod );
             // No good way to land on sharp stuff, so here modifier == 1.0f
-            di.add_damage( DT_CUT, cut, 0, armor_eff, 1.0f );
+            di.add_damage( damage_type::CUT, cut, 0, armor_eff, 1.0f );
             total_dealt += deal_damage( nullptr, bp, di ).total_damage();
         }
     }
@@ -1263,7 +1263,7 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
                      static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
@@ -1284,9 +1284,9 @@ void player::knock_back_to( const tripoint &to )
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
         deal_damage( np, bodypart_id( "torso" ),
-                     damage_instance( DT_BASH, static_cast<float>( np->get_size() ) ) );
+                     damage_instance( damage_type::BASH, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();
