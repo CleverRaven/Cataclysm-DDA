@@ -137,7 +137,7 @@ void string_input_popup::show_history( utf8_wrapper &ret )
                 }
                 _position = ret.size();
                 finished = true;
-            } else if( hmenu.ret == UILIST_UNBOUND && hmenu.keypress == 'd' ) {
+            } else if( hmenu.ret == UILIST_UNBOUND && hmenu.ret_evt.get_first_input() == 'd' ) {
                 hist.clear();
                 finished = true;
             } else if( hmenu.ret != UILIST_UNBOUND ) {

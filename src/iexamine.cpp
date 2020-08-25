@@ -337,7 +337,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
 }
 
-
 /// @brief Use "gas pump."
 /// @details Will pump any liquids on tile.
 void iexamine::gaspump( player &p, const tripoint &examp )
@@ -4533,14 +4532,14 @@ void iexamine::ledge( player &p, const tripoint &examp )
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = ngettext( "Looks like %d story.  Jump down?",
+            const char *query_str = ngettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
 
-            if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
+            if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                std::string query;
+                const char *query;
                 p.increase_activity_level( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
@@ -4557,7 +4556,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                     query = _( "Use your grappling hook to climb down?" );
                 }
 
-                if( !query_yn( query.c_str() ) ) {
+                if( !query_yn( query ) ) {
                     return;
                 }
             }

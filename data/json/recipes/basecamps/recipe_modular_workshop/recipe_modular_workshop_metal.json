@@ -82,9 +82,9 @@
       "time": "2 d 1 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "oxy_torch", 80 ], [ "welder", 400 ], [ "welder_crude", 600 ], [ "toolset", 600 ] ] ],
+        "tools": [ [ [ "oxy_torch", 80 ], [ "toolset", 600 ], [ "welder", 400 ], [ "welder_crude", 600 ] ] ],
         "qualities": [
-          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "DIG" } ],
           [ { "id": "GLARE", "level": 2 } ],
           [ { "id": "HAMMER", "level": 2 } ],
           [ { "id": "SAW_W", "level": 2 } ],
@@ -92,14 +92,14 @@
         ],
         "components": [
           [ [ "2x4", 269 ] ],
-          [ [ "nail", 666 ] ],
-          [ [ "wood_panel", 31 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "pipe", 24 ] ],
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "rock", 40 ] ],
           [ [ "glass_sheet", 1 ] ],
-          [ [ "steel_plate", 16 ] ]
+          [ [ "hinge", 2 ] ],
+          [ [ "nail", 666 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "steel_plate", 16 ] ],
+          [ [ "wood_panel", 31 ] ]
         ]
       }
     }

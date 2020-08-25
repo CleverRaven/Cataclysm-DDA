@@ -230,6 +230,11 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
+        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
+            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        } else {
+            deadline = 0;
+        }
         type->start( this );
         status = mission_status::in_progress;
     }

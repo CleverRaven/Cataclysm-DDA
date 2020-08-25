@@ -235,6 +235,12 @@ struct input_event {
 
     std::string long_description() const;
     std::string short_description() const;
+
+    /**
+     * Lexicographical order considering input event type,
+     * modifiers, and key code sequence.
+     */
+    static bool compare_type_mod_code( const input_event &lhs, const input_event &rhs );
 };
 
 /**
@@ -252,23 +258,23 @@ struct action_attributes {
 // On the joystick there's a maximum of 256 key states.
 // So for joy axis events, we simply use a number larger
 // than that.
-#define JOY_0        0
-#define JOY_1        1
-#define JOY_2        2
-#define JOY_3        3
-#define JOY_4        4
-#define JOY_5        5
-#define JOY_6        6
-#define JOY_7        7
+constexpr int JOY_0 = 0;
+constexpr int JOY_1 = 1;
+constexpr int JOY_2 = 2;
+constexpr int JOY_3 = 3;
+constexpr int JOY_4 = 4;
+constexpr int JOY_5 = 5;
+constexpr int JOY_6 = 6;
+constexpr int JOY_7 = 7;
 
-#define JOY_LEFT        (256 + 1)
-#define JOY_RIGHT       (256 + 2)
-#define JOY_UP          (256 + 3)
-#define JOY_DOWN        (256 + 4)
-#define JOY_RIGHTUP     (256 + 5)
-#define JOY_RIGHTDOWN   (256 + 6)
-#define JOY_LEFTUP      (256 + 7)
-#define JOY_LEFTDOWN    (256 + 8)
+constexpr int JOY_LEFT      = 256 + 1;
+constexpr int JOY_RIGHT     = 256 + 2;
+constexpr int JOY_UP        = 256 + 3;
+constexpr int JOY_DOWN      = 256 + 4;
+constexpr int JOY_RIGHTUP   = 256 + 5;
+constexpr int JOY_RIGHTDOWN = 256 + 6;
+constexpr int JOY_LEFTUP    = 256 + 7;
+constexpr int JOY_LEFTDOWN  = 256 + 8;
 
 enum class keyboard_mode {
     // Accept character input and text input. Input in this mode
@@ -369,6 +375,8 @@ class input_manager
         int get_timeout() const {
             return input_timeout;
         }
+
+        static keyboard_mode actual_keyboard_mode( keyboard_mode preferred_keyboard_mode );
 
     private:
         friend class input_context;
@@ -747,13 +755,17 @@ class input_context
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
          * @param action_descriptor The action descriptor for which to get the bound keys.
-         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @param maximum_modifier_count Maximum number of modifiers allowed for
+         *        the returned action. <0 means any number is allowed.
+         * @param restrict_to_printable If `true` the function returns the bound
+         *        keys only if they are printable (space counts as non-printable
+         *        here). If `false`, all keys (whether they are printable or not)
+         *        are returned.
          * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_descriptor,
-                                         bool restrict_to_printable = true ) const;
-        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
-                                  bool restrict_to_printable = true ) const;
+        std::vector<input_event> keys_bound_to( const std::string &action_descriptor,
+                                                int maximum_modifier_count = -1,
+                                                bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
@@ -827,10 +839,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 const std::string &phrase ) const;
-    public:
-        std::vector<std::string> get_registered_actions_copy() const {
-            return registered_actions;
-        }
 };
 
 /**
@@ -859,6 +867,14 @@ class hotkey_queue
          *   a-z, shift a-z
          */
         static const hotkey_queue &alphabets();
+
+        /**
+         * In keychar mode:
+         *   1-0, a-z, A-Z
+         * In keycode mode:
+         *   1-0, a-z, shift 1-0, shift a-z
+         */
+        static const hotkey_queue &alpha_digits();
 
     private:
         std::vector<int> codes_keychar;
