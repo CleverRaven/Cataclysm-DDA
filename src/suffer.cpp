@@ -866,35 +866,32 @@ void Character::suffer_from_albinism()
 
     std::map<bodypart_id, float> bp_exposure = bodypart_exposure();
 
-    // FIXME: This section just gets the most exposed body part, and how exposed it is; all other
-    // exposure info is ignored after this block, except to check if both limbs (arms/legs) are
-    // equally affected.
-    const float COVERAGE_LIMIT = 0.01f;
-    bodypart_id max_affected_bp;
-    float max_affected_bp_percent = 0.0f;
+    // Minimum exposure threshold for pain
+    const float MIN_EXPOSURE = 0.01f;
+    // Count how many body parts are above the threshold
     int count_affected_bp = 0;
-    // Check each bodypart and its coverage proportion
+    // Get the most exposed body part, and how exposed it is.  This is to tell the player what body
+    // part is most irritated by sun, so they know what needs to be covered up better.
+    bodypart_id most_exposed_bp;
+    float max_exposure = 0.0f;
+    // Check each bodypart with exposure above the minimum
     for( const std::pair<const bodypart_id, float> &it : bp_exposure ) {
-        const bodypart_id &bp = it.first;
-        const float &p = it.second;
-
-        // If coverage is 99%+, skip
-        if( p <= COVERAGE_LIMIT ) {
+        const float &exposure = it.second;
+        if( exposure <= MIN_EXPOSURE ) {
             continue;
         }
         ++count_affected_bp;
-        // Track which body part is most exposed, and how much
-        if( max_affected_bp_percent < p ) {
-            max_affected_bp_percent = p;
-            max_affected_bp = bp;
+        if( exposure > max_exposure ) {
+            max_exposure = exposure;
+            most_exposed_bp = it.first;
         }
     }
 
     // Suffer effects if at least one non-null body part is exposed
-    if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
-        //Check if both arms/legs are affected
-        int parts_count = 1;
-        const bodypart_id &other_bp = max_affected_bp->opposite_part;
+    if( count_affected_bp > 0 && most_exposed_bp != bodypart_str_id( "bp_null" ) ) {
+        // Check if both arms/legs are affected
+        int count_limbs = 1;
+        const bodypart_id &other_bp = most_exposed_bp->opposite_part;
         const bodypart_id &other_bp_rev = other_bp->opposite_part;
         // If these are different, we have a left/right part like a leg or arm.
         // If same, it's a central body part with no opposite, like head or torso.
@@ -902,17 +899,18 @@ void Character::suffer_from_albinism()
         if( other_bp != other_bp_rev ) {
             const auto found = bp_exposure.find( other_bp );
             // Is opposite part exposed?
-            if( found != bp_exposure.end() && found->second > COVERAGE_LIMIT ) {
-                ++parts_count;
+            if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
+                ++count_limbs;
             }
         }
-        // Get singular or plural body part name
-        std::string bp_name = body_part_name( max_affected_bp, parts_count );
-        // If more parts are affected, append to message
-        if( count_affected_bp > parts_count ) {
-            bp_name = string_format( _( "%s and other body parts" ), bp_name );
+        // Get singular or plural body part name; append "and other body parts" if appropriate
+        std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
+        if( count_affected_bp == count_limbs ) {
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
+        } else {
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s and other body parts." ),
+                               bp_name );
         }
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
 
         //apply effects
         if( has_effect( effect_sleep ) ) {
