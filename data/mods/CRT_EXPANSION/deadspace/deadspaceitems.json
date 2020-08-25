@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "CRIT S-I G.E.A.R" },
-    "description": "C.R.I.T standard issue General Engineering Assistance Rig. Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
+    "description": "C.R.I.T standard issue General Engineering Assistance Rig.  Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
     "weight": "500 g",
     "volume": "1 L",
     "price": 25000000,
