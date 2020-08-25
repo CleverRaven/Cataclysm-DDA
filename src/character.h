@@ -875,6 +875,7 @@ class Character : public Creature, public visitable<Character>
         void forced_dismount();
 
         bool is_deaf() const;
+        bool is_mute() const;
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
         /** Returns the number of functioning arms */
