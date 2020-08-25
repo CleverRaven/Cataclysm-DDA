@@ -9,8 +9,14 @@
 // Tests for Character suffering
 //
 // Covers functions:
-// - Character::suffer_from_albinism
 // - Character::suffer_from_sunburn
+
+// Main body parts that can have HP loss
+const std::vector<bodypart_str_id> body_parts_with_hp{
+    bodypart_str_id( "head" ), bodypart_str_id( "torso" ),
+    bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
+    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ),
+};
 
 // Make character suffer for num_turns and return the amount of focus lost just from suffering
 static int test_suffer_turns_focus_lost( Character &dummy, const int num_turns )
@@ -26,16 +32,27 @@ static int test_suffer_turns_focus_lost( Character &dummy, const int num_turns )
     return focus_lost;
 }
 
-// Make character suffer for num_turns and return the amount of HP lost on a given bodypart
-static int test_suffer_turns_hp_lost( Character &dummy, const int num_turns, const bodypart_id &bp )
+// Return total hit points lost for each body part over a given time duration (may exceed max HP)
+static std::map<bodypart_str_id, int> test_suffer_bodypart_hp_lost( Character &dummy,
+        const time_duration &dur )
 {
-    int hp_before = dummy.get_part_hp_cur( bp );
+    // Total hit points lost for each body part
+    std::map<bodypart_str_id, int> bp_hp_lost;
+    for( const bodypart_str_id &bp : body_parts_with_hp ) {
+        bp_hp_lost[bp] = 0;
+    }
+    // Every turn, heal completely, then suffer and accumulate HP loss for each body part
+    const int num_turns = to_turns<int>( dur );
     for( int turn = 1; turn <= num_turns; turn++ ) {
+        dummy.healall( 100 );
         dummy.suffer();
         dummy.set_moves( 100 );
         dummy.process_turn();
+        for( const bodypart_str_id &bp : body_parts_with_hp ) {
+            bp_hp_lost[bp] += dummy.get_part_hp_max( bp.id() ) - dummy.get_part_hp_cur( bp.id() );
+        }
     }
-    return hp_before - dummy.get_part_hp_cur( bp );
+    return bp_hp_lost;
 }
 
 // When suffering from albinism:
@@ -148,13 +165,6 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             }
         }
     }
-}
-
-TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
-{
-    Character &dummy = get_player_character();
-    clear_avatar();
-    clear_map();
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
         calendar::turn = calendar::turn_zero + 12_hours;
@@ -163,14 +173,41 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         dummy.toggle_trait( trait_id( "SUNBURN" ) );
         REQUIRE( dummy.has_trait( trait_id( "SUNBURN" ) ) );
 
+        std::map<bodypart_str_id, int> bp_hp_lost;
         WHEN( "totally naked and exposed" ) {
             dummy.worn.clear();
 
-            int hp_lost = 0;
-
             THEN( "they suffer injury on every body part several times a minute" ) {
-                hp_lost = test_suffer_turns_hp_lost( dummy, 60, bodypart_id( "torso" ) );
-                CHECK( hp_lost > 0 );
+                // Over 10 minutes, should lose an average of 6 HP per minute
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+                for( const bodypart_str_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.str() );
+                    CHECK( bp_hp_lost[bp] > 20 );
+                }
+            }
+        }
+
+        WHEN( "entire body is covered with clothing" ) {
+            dummy.worn.clear();
+            dummy.wear_item( zentai, false );
+
+            WHEN( "not wearing sunglasses" ) {
+                REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                THEN( "they suffer pain and loss of focus" ) {
+                    focus_lost = test_suffer_turns_focus_lost( dummy, MAX_TURNS );
+                    CHECK( dummy.get_pain() > 0 );
+                    CHECK( focus_lost > 1 );
+                }
+            }
+
+            AND_WHEN( "wearing sunglasses" ) {
+                dummy.wear_item( shades, false );
+                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+
+                THEN( "they suffer no pain or injury" ) {
+                    // TODO
+                    CHECK( dummy.get_pain() == 0 );
+                }
             }
         }
     }

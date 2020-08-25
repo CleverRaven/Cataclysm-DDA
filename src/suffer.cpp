@@ -790,8 +790,12 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     // Set of all body parts affected by clothing coverage
     // FIXME: Factor this out (same list is used in player.cpp)
     body_part_set affected_bp { {
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
+            bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+            bodypart_str_id( "head" ), bodypart_str_id( "torso" ),
+            bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
+            bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ),
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ),
+            bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" )
         }
     };
 
@@ -914,15 +918,30 @@ void Character::suffer_from_sunburn()
 
     // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
     if( has_trait( trait_SUNBURN ) ) {
+        // Check exposure of all body parts
         for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+            const bodypart_id &this_part = bp_exp.first;
             const float &exposure = bp_exp.second;
             // Skip parts with adequate protection
             if( exposure <= MIN_EXPOSURE ) {
                 continue;
             }
+            // Don't damage eyes directly, since it takes from head HP (in other words, your head
+            // won't be destroyed if only your eyes are exposed).
+            if( this_part == bodypart_id( "eyes" ) ) {
+                continue;
+            }
             // Exposure percentage determines likelihood of injury
+            // 10% exposure is 10% chance of injury, naked = 100% chance
             if( x_in_y( exposure, 1.0 ) ) {
-                apply_damage( nullptr, bp_exp.first, 1 );
+                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
+                // an HP pool with the head, those parts take an unfair share of damage in relation
+                // to the torso, which only has one part.  Increase torso damage to balance this.
+                if( this_part == bodypart_id( "torso" ) ) {
+                    apply_damage( nullptr, this_part, 2 );
+                } else {
+                    apply_damage( nullptr, this_part, 1 );
+                }
             }
         }
     } else {
