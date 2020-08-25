@@ -20,7 +20,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hey there.",
-      "no": "Hey! Who goes there?"
+      "no": "Hey!  Who goes there?"
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [

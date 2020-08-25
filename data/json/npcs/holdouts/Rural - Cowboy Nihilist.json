@@ -121,7 +121,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYN_MOTIVATES",
     "dynamic_line": "I… I mean… huh.  I guess.",
-    "speaker_effect": { "and": [ { "effect": { "u_add_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" } } ] },
+    "speaker_effect": { "effect": { "u_add_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" } },
     "responses": [ { "text": "Good.  Take care.", "topic": "TALK_DONE" }, { "text": "That's a start.", "topic": "TALK_COWBOYN_MAIN" } ]
   },
   {
@@ -185,7 +185,7 @@
         "condition": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" }
       },
       {
-        "text": "Alright. Goodbye.",
+        "text": "Alright.  Goodbye.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" } }
       }
