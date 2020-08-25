@@ -328,7 +328,7 @@
     "melee_cut": 3,
     "vision_night": 4,
     "harvest": "bird_large",
-    "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 3 } ],
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 8 ], { "type": "leap", "cooldown": 10, "max_range": 3 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   }
