@@ -19,7 +19,6 @@
     "copy-from": "cattail_rhizome",
     "weight": "160 g",
     "volume": "220 ml",
-    "milling": { "into": "flour", "conversion_rate": 7.5 },
     "color": "black",
     "calories": 280,
     "spoils_in": "5 days",
