@@ -301,7 +301,7 @@
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "death_function": [ "NORMAL" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "upgrades": { "age_grow": 10, "into": "mon_crow_mutant" },
+    "upgrades": { "half_life": 10, "into_group": "GROUP_CROW_MUTANT" },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
