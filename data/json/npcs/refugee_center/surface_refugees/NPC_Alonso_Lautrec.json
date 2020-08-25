@@ -288,7 +288,7 @@
     "item": "pants_leather",
     "start": {
       "assign_mission_target": { "om_terrain": "sewer", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
-      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "pants_leather", "x": 5, "y": 16 } ] },
+      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "pants_leather", "x": 5, "y": 6 } ] },
       "effect": { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
