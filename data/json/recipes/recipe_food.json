@@ -1375,7 +1375,7 @@
     "time": "10 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
-	"qualities": [ { "id": "BOIL", "level": 1 } ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -1388,8 +1388,8 @@
     "time": "10 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
-	"qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],	
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
