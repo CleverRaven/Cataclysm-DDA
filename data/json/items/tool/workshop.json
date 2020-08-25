@@ -889,7 +889,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "red",
-    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg" } ]
+    "pocket_data": [ { "max_contains_volume": "2400 ml", "max_contains_weight": "10 kg", "rigid": true } ]
   },
   {
     "id": "toolbox_workshop",

@@ -569,10 +569,6 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
-
         void peek();
         void peek( const tripoint &p );
         cata::optional<tripoint> look_debug();

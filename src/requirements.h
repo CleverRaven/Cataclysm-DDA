@@ -6,6 +6,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <numeric>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -222,6 +223,21 @@ struct requirement_data {
                           const alter_item_comp_vector &components ) : tools( tools ), qualities( qualities ),
             components( components ) {}
 
+        template <
+            typename Container,
+            typename = std::enable_if_t <
+                std::is_same <
+                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
+                std::is_same <
+                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                >
+            >
+        requirement_data( const Container &cont ) :
+            requirement_data(
+                std::accumulate(
+                    cont.begin(), cont.end(), requirement_data() ) )
+        {}
+
         const requirement_id &id() const {
             return id_;
         }
@@ -245,6 +261,11 @@ struct requirement_data {
 
         /** Combines two sets of requirements */
         requirement_data operator+( const requirement_data &rhs ) const;
+        /** Incorporate data from an id and integer.
+         * This is helpful when building requirement_data objects from maps
+         * loaded from JSON */
+        requirement_data operator+( const std::pair<const requirement_id, int> &rhs ) const;
+        requirement_data operator+( const std::pair<requirement_id, int> &rhs ) const;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from

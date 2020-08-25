@@ -408,7 +408,6 @@ activity_handlers::finish_functions = {
     { ACT_STUDY_SPELL, study_spell_finish }
 };
 
-
 namespace io
 {
 // *INDENT-OFF*

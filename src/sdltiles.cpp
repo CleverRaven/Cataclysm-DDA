@@ -3087,7 +3087,7 @@ void input_manager::set_timeout( const int t )
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
 #if !defined( __ANDROID__ )
-    if( preferred_keyboard_mode == keyboard_mode::keychar || !is_keycode_mode_supported() ) {
+    if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         SDL_StartTextInput();
     } else {
         SDL_StopTextInput();

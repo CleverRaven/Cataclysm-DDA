@@ -3669,7 +3669,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
             default:   // just in case
                 rotation = 0;
                 break;
-        };
+        }
 
         //
         if( use_furniture ) {

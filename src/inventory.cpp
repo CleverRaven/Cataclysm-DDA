@@ -1059,7 +1059,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( selector.action_bound_to_key( inv_char ) != "ERROR" ) {
                 // don't auto-assign bound keys
                 continue;
             }

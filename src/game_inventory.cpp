@@ -1276,7 +1276,8 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
     insert_menu.add_vehicle_items( p.pos() );
     insert_menu.set_display_stats( false );
 
-    insert_menu.set_title( string_format( _( "Insert items into %s" ), holster->tname() ) );
+    insert_menu.set_title( title );
+    insert_menu.set_hint( hint );
 
     return insert_menu.execute();
 }

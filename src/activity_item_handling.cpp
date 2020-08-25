@@ -457,6 +457,7 @@ static void debug_drop_list( const std::list<act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
+// Return a list of items to be dropped by the given item-dropping activity in the current turn.
 static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
@@ -464,6 +465,7 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     std::list<act_item> items = convert_to_act_item( act, p );
     debug_drop_list( items );
 
+    // As long as the player has enough moves in this turn, drop items from the activity item list
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
@@ -472,12 +474,16 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         p.mod_moves( -ait.consumed_moves );
 
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
         if( ait.loc.has_parent() ) {
             item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
             if( parent_pocket ) {
                 parent_pocket->unseal();
             }
+            // Update encumbrance on the parent item
+            ait.loc.parent_item()->on_contents_changed();
         }
+        // Take off the item or remove it from the player's inventory
         if( p.is_worn( *ait.loc ) ) {
             p.takeoff( *ait.loc, &res );
         } else if( ait.loc->count_by_charges() ) {
@@ -2955,8 +2961,6 @@ int get_auto_consume_moves( player &p, const bool food )
         return 0;
     }
 
-    static const std::string flag_MELTS( "MELTS" );
-    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );

@@ -211,7 +211,6 @@ class item_contents
         const item &only_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
-        bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
