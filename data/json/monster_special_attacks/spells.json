@@ -116,7 +116,7 @@
   },
   {
     "type": "SPELL",
-    "id": "small_raptor_summon",
+    "id": "small_raptor_spawn",
     "name": { "str": "Spawn Raptors" },
     "description": "Summons several zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
@@ -134,7 +134,7 @@
   },
   {
     "type": "SPELL",
-    "id": "big_raptor_summon",
+    "id": "big_raptor_spawn",
     "name": { "str": "Spawn Raptors" },
     "description": "Summons many zombiespawn raptors.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
