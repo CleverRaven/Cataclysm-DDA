@@ -22,7 +22,7 @@
     "id": "black_dragons_historical",
     "type": "BOOK",
     "name": { "str": "A Comprehensive Analysis on Black Dragons", "str_pl": "copies of A Comprehensive Analysis on Black Dragons" },
-    "description": "This book painstakingly delves in to the history of black dragons, greusomly detailing their acts, the cults that worship them, and those that oppose them. In its pages are some alchemical formulae that can be concocted using the remains of dead black dragons.",
+    "description": "This book painstakingly delves into the history of black dragons, gruesomely detailing their acts, the cults that worship them, and those that oppose them.  In its pages are some alchemical formulae that can be concocted using the remains of dead black dragons.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
