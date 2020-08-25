@@ -4888,10 +4888,10 @@ bool Character::is_deaf() const
 
 bool Character::is_mute() const
 {
-    return get_effect_int( effect_mute ) > 2 || worn_with_flag( flag_MUTE ) ||
-           ( has_trait( trait_PROF_FOODP )( && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) ||
-             has_trait( trait_MUTE ) );
+    return get_effect_int( effect_mute ) || worn_with_flag( flag_MUTE ) ||
+           ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) ||
+           has_trait( trait_MUTE ) );
 }
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
 {
