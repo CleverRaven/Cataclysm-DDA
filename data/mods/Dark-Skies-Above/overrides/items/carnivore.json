@@ -18,7 +18,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_meat_tainted",
-    "name": { "str": "dehydrated alien meat" },
+    "name": { "str_sp": "dehydrated alien meat" },
     "copy-from": "dry_meat_tainted",
     "description": "Pieces of alien meat that have been dried to prevent them from rotting away.  It will still poison you if you eat this."
   },
