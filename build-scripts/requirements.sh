@@ -16,6 +16,9 @@ function just_json
     return 0
 }
 
+# Enable GitHub actions problem matcher
+echo "::add-matcher::build-scripts/problem-matchers/clang.json"
+
 if which travis_retry &>/dev/null
 then
     travis_retry=travis_retry
