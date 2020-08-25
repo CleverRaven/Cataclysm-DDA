@@ -7,7 +7,7 @@ The driving goal of balance in DDA is to support versimilitude in the scenario. 
 Some examples:  
 Modern vehicles are quite easy to operate and effective at their core competencies of moving people and items around on reasonably well-prepared surfaces, as such they are incredibly valuable and powerful tools in the game as well.
 Guns deal FAR more damage than elastic projectile launchers like bows and crossbows.
-Melee weapons consume considerable effort to operate and are generally significantly more dangerous than ranged weapons.
+Melee weapons consume considerable effort to operate and are generally significantly more dangerous to use than ranged weapons.
 Some foods are healthy and plentiful, when those foods are in season survival becomes easy.
 
 This concept is backstopped by the concept that reality has a reasonable and interesting set of balance tradeoffs, and approaching this set of tradeoffs makes for a fun game.
@@ -24,3 +24,13 @@ At no point is melee intended to be sufficient to deal with the entire range of 
 
 ## Guns
 Entry into guns is gated by access to guns themselves, magazines and ammunition.
+Civilian style hunting and self defense weapons are far more numerous than higher performing military weapons.
+Only a handful of poorly-performing guns and magazines are craftable by the player, and conventional gunpowder and casings are also not player craftable, though the player can reload existing cases with craftable bullets and gunpowder and primers scavenged from less desirable calibres of ammunition.
+Guns provide massive firepower in a highly portable package, but can cause trouble by alerting enemies in a wide area to the player's presence.
+Guns present a multi-tiered set of resource limitations.
+A gun can fire more or less continuously until it's current magazine is depleted of rounds.
+Spare magazines allow a player to swap in more ammunition to continue firing, and additional magazines provide longer and longer continuous combat capability.
+Magazines are reloadable, but not in a timeframe reasonable for combat, so the number of loaded magazines a player has on their person places a cap on their sustained damage output.
+Once a player is able to cease combat, they can relatively rapidly refill magazines, ammunition stores permitting.
+The total weight of one or more guns, loaded magazines, and potentially spare ammunition for magazine reloads can be significant.
+Ability to replinish ammunition supplies may vary wildly depending on the area.
