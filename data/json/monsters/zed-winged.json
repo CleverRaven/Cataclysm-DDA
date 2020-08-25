@@ -169,6 +169,20 @@
     "harvest": "zombie",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "FILTHY", "HIT_AND_RUN", "SWARMS", "FLIES" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "POISON",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "FILTHY",
+      "HIT_AND_RUN",
+      "SWARMS",
+      "FLIES"
+    ]
   }
 ]
