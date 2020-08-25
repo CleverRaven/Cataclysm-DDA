@@ -388,7 +388,6 @@
           "socks",
           "crt_boots",
           "two_way_radio",
-          "crt_laser_gatling",
           "crt_nstick",
           "badge_marshal",
           "lighter"
@@ -398,6 +397,7 @@
           { "item": "knife_swissarmy", "container-item": "crt_belt" },
           { "item": "crt_mask", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
+          { "item": "crt_laser_gatling", "contents-item": "shoulder_strap" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
         ]
