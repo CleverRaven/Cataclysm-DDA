@@ -315,7 +315,7 @@
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
-    "container": "can_food",
+    "container": "can_medium",
     "fun": -2,
     "delete": { "flags": [ "RAW" ] }
   },
