@@ -287,7 +287,7 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "1250 g",
         "moves": 400
       }
     ],
@@ -415,14 +415,14 @@
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
-    "volume": "90 ml",
+    "volume": "95 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "85 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "box_small",
@@ -431,8 +431,8 @@
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
-    "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "volume": "1010 L",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1 L", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
@@ -851,7 +851,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1250 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ]
