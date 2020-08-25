@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "pellet",
     "price": 1000,
-    "name": { "str": "lead pellets" },
+    "name": { "str_sp": "lead pellets" },
     "symbol": "=",
     "color": "light_gray",
     "description": "A round tin of small light grain .177 lead pellets.  These are common, tipped field pellets that can deal some light damage but are generally used for plinking.",
