@@ -2294,7 +2294,8 @@
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 8,
-        "cut": 8
+        "cut": 8,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
