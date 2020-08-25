@@ -759,15 +759,8 @@ void Character::suffer_in_sunlight()
         suffer_from_albinism();
     }
 
-    if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) ) {
-                wake_up();
-            }
-            mod_pain( 1 );
-            hurtall( 1, nullptr );
-        }
+    if( has_trait( trait_SUNBURN ) ) {
+        suffer_from_sunburn();
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
@@ -827,6 +820,27 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         }
     }
     return bp_exposure;
+}
+
+void Character::suffer_from_sunburn()
+{
+    // FIXME: Rebalance this clause after rewriting coverage calculation
+    if( !one_in( 10 ) ) {
+        return;
+    }
+
+    // Legacy behavior: Umbrellas give full protection when wielded
+    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+        return;
+    }
+
+    // TODO: Rewrite to include bodypart coverage
+    add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
+    if( has_effect( effect_sleep ) ) {
+        wake_up();
+    }
+    mod_pain( 1 );
+    hurtall( 1, nullptr );
 }
 
 void Character::suffer_from_albinism()
