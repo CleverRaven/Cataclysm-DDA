@@ -463,10 +463,6 @@ void damage_over_time_data::load( const JsonObject &obj )
 {
     std::string tmp_string;
     mandatory( obj, was_loaded, "damage_type", tmp_string );
-    // Remove after 0.F, migrating DT_TRUE to DT_PURE
-    if( tmp_string == "true" ) {
-        tmp_string = "pure";
-    }
     type = dt_by_name( tmp_string );
     mandatory( obj, was_loaded, "amount", amount );
     mandatory( obj, was_loaded, "bodyparts", bps );
@@ -491,7 +487,12 @@ void damage_over_time_data::serialize( JsonOut &jsout ) const
 void damage_over_time_data::deserialize( JsonIn &jsin )
 {
     const JsonObject &jo = jsin.get_object();
-    type = dt_by_name( jo.get_string( "damage_type" ) );
+    std::string tmp_string = jo.get_string( "damage_type" );
+    // Remove after 0.F, migrating DT_TRUE to DT_PURE
+    if( tmp_string == "true" ) {
+        tmp_string = "pure";
+    }
+    type = dt_by_name( tmp_string );
     jo.read( "amount", amount );
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );
