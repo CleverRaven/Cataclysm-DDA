@@ -5950,7 +5950,7 @@
     "points": -5,
     "visibility": 8,
     "ugliness": 3,
-    "description": "You have grown a thick shell over your torso, providing excellent armor.  You find you can use the empty space as 16 storage space, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
+    "description": "You have grown a thick shell over your torso, providing excellent armor, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
     "prereqs": [ "CHITIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
@@ -5958,7 +5958,7 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
+    "armor": [ { "parts": "torso", "bash": 6, "cut": 14, "bullet": 6 } ]
   },
   {
     "type": "mutation",
@@ -5979,7 +5979,7 @@
     "active": true,
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
+    "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 9 } ]
   },
   {
     "type": "mutation",
