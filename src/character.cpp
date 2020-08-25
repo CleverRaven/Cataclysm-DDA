@@ -248,6 +248,7 @@ static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -4888,7 +4889,7 @@ bool Character::is_deaf() const
 bool Character::is_mute() const
 {
     return get_effect_int( effect_mute ) > 2 || worn_with_flag( flag_MUTE ) ||
-           ( has_trait( trait_PROF_FOODP )( && ) !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+           ( has_trait( trait_PROF_FOODP )( && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                    is_wearing( itype_id( "foodperson_mask_on" ) ) ) ||
              has_trait( trait_MUTE ) );
 }
