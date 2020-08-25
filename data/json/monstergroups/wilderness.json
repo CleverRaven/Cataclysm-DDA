@@ -3977,7 +3977,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_crow_mutant_small", "freq": 25, "cost_multiplier": 0},
+      { "monster": "mon_crow_mutant_small", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_cat", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_chipmunk", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "freq": 50, "cost_multiplier": 0 },
