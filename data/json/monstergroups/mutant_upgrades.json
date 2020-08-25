@@ -1,0 +1,10 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CROW_MUTANT",
+    "default": "mon_crow_mutant_small",
+    //This is all to make it so that small mutant crows only mutate into a larger version 10% of the time when they reach their growth timer.
+    "monsters": [
+      { "monster": "mon_crow_mutant", "freq": 100, "cost_multiplier": 2 }
+    ]
+  }
