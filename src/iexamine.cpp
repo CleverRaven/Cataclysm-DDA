@@ -249,7 +249,8 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
+        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
+               e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -2860,7 +2861,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                                         p.enough_power_for( bio_lighter );
 
     auto firequenchers = p.items_with( []( const item & it ) {
-        return it.damage_melee( DT_BASH );
+        return it.damage_melee( damage_type::BASH );
     } );
 
     uilist selection_menu;

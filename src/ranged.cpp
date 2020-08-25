@@ -1009,7 +1009,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     stats_mod *= ( std::min( MAX_SKILL,
                              get_skill_level( skill_throw ) ) /
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
-    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
+    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -1050,7 +1050,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
+        impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
     }
 

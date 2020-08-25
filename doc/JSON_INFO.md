@@ -2890,7 +2890,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "effects" : { "high": 15 }, // Effects and their duration.
     "damage_over_time": [
         {
-          "damage_type": "true", // Type of damage
+          "damage_type": "pure", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
           "amount": -10, // Amount of damage applied every turn, negative damage heals
           "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage

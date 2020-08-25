@@ -1241,7 +1241,7 @@ void Character::forced_dismount()
         }
         if( damage > 0 ) {
             add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-            deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
+            deal_damage( nullptr, hit, damage_instance( damage_type::BASH, damage ) );
             if( is_avatar() ) {
                 get_memorial().add(
                     pgettext( "memorial_male", "Fell off a mount." ),
@@ -4885,7 +4885,7 @@ bool Character::is_deaf() const
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
 {
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
-    if( type == DT_ELECTRIC ) {
+    if( type == damage_type::ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
         for( bionic &i : *my_bionics ) {
             if( !i.powered ) {
@@ -6796,10 +6796,10 @@ bool Character::is_immune_field( const field_type_id &fid ) const
                get_env_resist( bodypart_id( "foot_r" ) ) >= 15 &&
                get_env_resist( bodypart_id( "leg_l" ) ) >= 15 &&
                get_env_resist( bodypart_id( "leg_r" ) ) >= 15 &&
-               get_armor_type( DT_ACID, bodypart_id( "foot_l" ) ) >= 5 &&
-               get_armor_type( DT_ACID, bodypart_id( "foot_r" ) ) >= 5 &&
-               get_armor_type( DT_ACID, bodypart_id( "leg_l" ) ) >= 5 &&
-               get_armor_type( DT_ACID, bodypart_id( "leg_r" ) ) >= 5;
+               get_armor_type( damage_type::ACID, bodypart_id( "foot_l" ) ) >= 5 &&
+               get_armor_type( damage_type::ACID, bodypart_id( "foot_r" ) ) >= 5 &&
+               get_armor_type( damage_type::ACID, bodypart_id( "leg_l" ) ) >= 5 &&
+               get_armor_type( damage_type::ACID, bodypart_id( "leg_r" ) ) >= 5;
     }
     // If we haven't found immunity yet fall up to the next level
     return Creature::is_immune_field( fid );
@@ -6807,7 +6807,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
 
 bool Character::is_elec_immune() const
 {
-    return is_immune_damage( DT_ELECTRIC );
+    return is_immune_damage( damage_type::ELECTRIC );
 }
 
 bool Character::is_immune_effect( const efftype_id &eff ) const
@@ -6815,13 +6815,14 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
     } else if( eff == effect_onfire ) {
-        return is_immune_damage( DT_HEAT );
+        return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
                is_wearing( itype_rm13_armor_on );
     } else if( eff == effect_corroding ) {
-        return is_immune_damage( DT_ACID ) || has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS );
+        return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
+               has_trait( trait_VISCOUS );
     } else if( eff == effect_nausea ) {
         return has_trait( trait_STRONGSTOMACH );
     }
@@ -6832,37 +6833,37 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 bool Character::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NONE:
+        case damage_type::NONE:
             return true;
-        case DT_TRUE:
+        case damage_type::PURE:
             return false;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
                    worn_with_flag( "BIO_IMMUNE" );
-        case DT_BASH:
+        case damage_type::BASH:
             return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
                    worn_with_flag( "BASH_IMMUNE" );
-        case DT_CUT:
+        case damage_type::CUT:
             return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
                    worn_with_flag( "CUT_IMMUNE" );
-        case DT_ACID:
+        case damage_type::ACID:
             return has_trait( trait_ACIDPROOF ) ||
                    has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
                    worn_with_flag( "ACID_IMMUNE" );
-        case DT_STAB:
+        case damage_type::STAB:
             return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
                    worn_with_flag( "STAB_IMMUNE" );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return has_effect_with_flag( "EFFECT_BULLET_IMMUNE" ) || worn_with_flag( "BULLET_IMMUNE" );
-        case DT_HEAT:
+        case damage_type::HEAT:
             return has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
                    has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
                    worn_with_flag( "HEAT_IMMUNE" );
-        case DT_COLD:
+        case damage_type::COLD:
             return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
                    worn_with_flag( "COLD_IMMUNE" );
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
                    has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
@@ -7734,21 +7735,21 @@ int Character::get_armor_bullet( bodypart_id bp ) const
 int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 {
     switch( dt ) {
-        case DT_TRUE:
-        case DT_BIOLOGICAL:
+        case damage_type::PURE:
+        case damage_type::BIOLOGICAL:
             return 0;
-        case DT_BASH:
+        case damage_type::BASH:
             return get_armor_bash( bp );
-        case DT_CUT:
+        case damage_type::CUT:
             return get_armor_cut( bp );
-        case DT_STAB:
+        case damage_type::STAB:
             return get_armor_cut( bp ) * 0.8f;
-        case DT_BULLET:
+        case damage_type::BULLET:
             return get_armor_bullet( bp );
-        case DT_ACID:
-        case DT_HEAT:
-        case DT_COLD:
-        case DT_ELECTRIC: {
+        case damage_type::ACID:
+        case damage_type::HEAT:
+        case damage_type::COLD:
+        case damage_type::ELECTRIC: {
             int ret = 0;
             for( const item &i : worn ) {
                 if( i.covers( bp ) ) {
@@ -7759,8 +7760,8 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             ret += mutation_armor( bp, dt );
             return ret;
         }
-        case DT_NONE:
-        case NUM_DT:
+        case damage_type::NONE:
+        case damage_type::NUM:
             // Let it error below
             break;
     }
@@ -7784,7 +7785,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp, DT_BASH );
+    ret += mutation_armor( bp, damage_type::BASH );
     return ret;
 }
 
@@ -7803,7 +7804,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp, DT_CUT );
+    ret += mutation_armor( bp, damage_type::CUT );
     return ret;
 }
 
@@ -7823,7 +7824,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
         }
     }
 
-    ret += mutation_armor( bp, DT_BULLET );
+    ret += mutation_armor( bp, damage_type::BULLET );
     return ret;
 }
 
@@ -7852,7 +7853,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 
 int Character::get_armor_acid( bodypart_id bp ) const
 {
-    return get_armor_type( DT_ACID, bp );
+    return get_armor_type( damage_type::ACID, bp );
 }
 
 int Character::get_stim() const
@@ -8741,9 +8742,9 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
     // Thin skin check goes before subdermal armor plates because SUBdermal
     if( du.amount > 0.0f ) {
         // HACK: Get rid of this as soon as CUT and STAB are split
-        if( du.type == DT_STAB ) {
+        if( du.type == damage_type::STAB ) {
             damage_unit du_copy = du;
-            du_copy.type = DT_CUT;
+            du_copy.type = damage_type::CUT;
             du.amount -= mutation_armor( bp, du_copy );
         } else {
             du.amount -= mutation_armor( bp, du );
@@ -8771,31 +8772,31 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
 static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
 {
     switch( du.type ) {
-        case DT_ACID:
+        case damage_type::ACID:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
             break;
-        case DT_BASH:
+        case damage_type::BASH:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
             break;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
             break;
-        case DT_COLD:
+        case damage_type::COLD:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
-        case DT_CUT:
+        case damage_type::CUT:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
             break;
-        case DT_HEAT:
+        case damage_type::HEAT:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
             break;
-        case DT_STAB:
+        case damage_type::STAB:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
             break;
-        case DT_BULLET:
+        case damage_type::BULLET:
             du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BULLET );
             break;
         default:
@@ -8809,31 +8810,31 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
     switch( du.type ) {
-        case DT_ACID:
+        case damage_type::ACID:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
             break;
-        case DT_BASH:
+        case damage_type::BASH:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
             break;
-        case DT_BIOLOGICAL:
+        case damage_type::BIOLOGICAL:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
             break;
-        case DT_COLD:
+        case damage_type::COLD:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
             break;
-        case DT_CUT:
+        case damage_type::CUT:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
             break;
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
             break;
-        case DT_HEAT:
+        case damage_type::HEAT:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
             break;
-        case DT_STAB:
+        case damage_type::STAB:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
             break;
-        case DT_BULLET:
+        case damage_type::BULLET:
             du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
             break;
         default:
@@ -8857,11 +8858,11 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
-                if( elem.type == DT_BASH ) {
+                if( elem.type == damage_type::BASH ) {
                     elem.amount -= rng( 1, 8 );
-                } else if( elem.type == DT_CUT ) {
+                } else if( elem.type == damage_type::CUT ) {
                     elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB || elem.type == DT_BULLET ) {
+                } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
                     elem.amount -= rng( 1, 2 );
                 }
                 mod_power_level( -25_kJ );
@@ -8891,7 +8892,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             item_armor_enchantment_adjust( *this, elem, armor );
             // Heat damage can set armor on fire
             // Even though it doesn't cause direct physical damage to it
-            if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
+            if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
                 // TODO: Different fire intensity values based on damage
                 fire_data frd{ 2 };
                 destroy = armor.burn( frd );
@@ -8929,7 +8930,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
 
         passive_absorb_hit( bp, elem );
 
-        if( elem.type == DT_BASH ) {
+        if( elem.type == damage_type::BASH ) {
             if( has_trait( trait_LIGHT_BONES ) ) {
                 elem.amount *= 1.4;
             }
@@ -8991,7 +8992,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     }
 
     const material_type &material = armor.get_random_material();
-    std::string damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
+    std::string damage_verb = ( du.type == damage_type::BASH ) ? material.bash_dmg_verb() :
                               material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
@@ -9015,21 +9016,21 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
 {
     float result = 0.0f;
-    if( dt == DT_CUT || dt == DT_STAB ) {
+    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto cut_prot = bid->cut_protec.find( bp.id() );
             if( cut_prot != bid->cut_protec.end() ) {
                 result += cut_prot->second;
             }
         }
-    } else if( dt == DT_BASH ) {
+    } else if( dt == damage_type::BASH ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto bash_prot = bid->bash_protec.find( bp.id() );
             if( bash_prot != bid->bash_protec.end() ) {
                 result += bash_prot->second;
             }
         }
-    } else if( dt == DT_BULLET ) {
+    } else if( dt == damage_type::BULLET ) {
         for( const bionic_id &bid : get_bionics() ) {
             const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
@@ -9043,7 +9044,7 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
 
 int Character::get_armor_fire( const bodypart_id &bp ) const
 {
-    return get_armor_type( DT_HEAT, bp );
+    return get_armor_type( damage_type::HEAT, bp );
 }
 
 void Character::did_hit( Creature &target )
@@ -9241,7 +9242,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     Character &player_character = get_player_character();
     //Acid blood effects.
     bool u_see = player_character.sees( *this );
-    int cut_dam = dealt_dams.type_damage( DT_CUT );
+    int cut_dam = dealt_dams.type_damage( damage_type::CUT );
     if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
         ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_player() ) {
@@ -9252,7 +9253,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                      disp_name(), source->disp_name() );
         }
         damage_instance acidblood_damage;
-        acidblood_damage.add_damage( DT_ACID, rng( 4, 16 ) );
+        acidblood_damage.add_damage( damage_type::ACID, rng( 4, 16 ) );
         if( !one_in( 4 ) ) {
             source->deal_damage( this, bodypart_id( "arm_l" ), acidblood_damage );
             source->deal_damage( this, bodypart_id( "arm_r" ), acidblood_damage );
@@ -9320,8 +9321,9 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     // i.e. if the body part has a sum of 100 coverage from filthy clothing,
     // each point of damage has a 1% change of causing infection.
     if( sum_cover > 0 ) {
-        const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-        const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
+        const int cut_type_dam = dealt_dams.type_damage( damage_type::CUT ) + dealt_dams.type_damage(
+                                     damage_type::STAB );
+        const int combined_dam = dealt_dams.type_damage( damage_type::BASH ) + ( cut_type_dam * 4 );
         const int infection_chance = ( combined_dam * sum_cover ) / 100;
         if( x_in_y( infection_chance, 100 ) ) {
             if( has_effect( effect_bite, bp.id() ) ) {
@@ -10822,7 +10824,7 @@ bool Character::crush_frozen_liquid( item_location loc )
             if( one_in( 1 + dex_cur / 4 ) ) {
                 add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                    hammering_item.tname() );
-                int smashskill = str_cur + hammering_item.damage_melee( DT_BASH );
+                int smashskill = str_cur + hammering_item.damage_melee( damage_type::BASH );
                 get_map().bash( loc.position(), smashskill );
             }
             add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
@@ -10836,9 +10838,9 @@ bool Character::crush_frozen_liquid( item_location loc )
 
 float Character::power_rating() const
 {
-    int dmg = std::max( { weapon.damage_melee( DT_BASH ),
-                          weapon.damage_melee( DT_CUT ),
-                          weapon.damage_melee( DT_STAB )
+    int dmg = std::max( { weapon.damage_melee( damage_type::BASH ),
+                          weapon.damage_melee( damage_type::CUT ),
+                          weapon.damage_melee( damage_type::STAB )
                         } );
 
     int ret = 2;
@@ -11461,9 +11463,9 @@ int Character::intimidation() const
     if( weapon.is_gun() ) {
         ret += 10;
     }
-    if( weapon.damage_melee( DT_BASH ) >= 12 ||
-        weapon.damage_melee( DT_CUT ) >= 12 ||
-        weapon.damage_melee( DT_STAB ) >= 12 ) {
+    if( weapon.damage_melee( damage_type::BASH ) >= 12 ||
+        weapon.damage_melee( damage_type::CUT ) >= 12 ||
+        weapon.damage_melee( damage_type::STAB ) >= 12 ) {
         ret += 5;
     }
 
