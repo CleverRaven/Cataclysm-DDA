@@ -28,7 +28,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "color": "black",
-    "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base. Ancient and Academic texts talk of profound changes from consuming this.",
+    "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
     "name": { "str": "black dragon mutagen" },
     "use_action": { "type": "mutagen", "mutation_category": "DRAGON_BLACK" }
   },
