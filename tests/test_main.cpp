@@ -37,6 +37,7 @@
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "messages.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -238,6 +239,24 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
+        // Clear the message log so on test failures we see only messages from
+        // during that test
+        Messages::clear_messages();
+    }
+
+    void sectionEnded( Catch::SectionStats const &sectionStats ) override {
+        TestEventListenerBase::sectionEnded( sectionStats );
+        if( !sectionStats.assertions.allPassed() ) {
+            std::vector<std::pair<std::string, std::string>> messages =
+                        Messages::recent_messages( 0 );
+            if( !messages.empty() ) {
+                stream << "Log messages during failed test:\n";
+            }
+            for( const std::pair<std::string, std::string> &message : messages ) {
+                stream << message.first << ": " << message.second << '\n';
+            }
+            Messages::clear_messages();
+        }
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
