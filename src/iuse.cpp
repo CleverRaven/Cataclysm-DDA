@@ -3439,7 +3439,7 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_lockpick ) ) * 2300 );
     }
 
-    you.assign_activity( lockpick_activity_actor( duration, item_location( you, it ), cata::nullopt,
+    you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
                          get_map().getabs( *target ) ) );
     return it->type->charges_to_use();
 }
