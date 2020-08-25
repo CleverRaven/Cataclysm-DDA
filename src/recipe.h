@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "build_reqs.h"
 #include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
@@ -283,9 +284,7 @@ class recipe
         /** Blueprint requirements to be checked in unit test */
         bool has_blueprint_needs = false;
         bool check_blueprint_needs = false;
-        int time_blueprint = 0;
-        std::map<skill_id, int> skills_blueprint;
-        std::vector<std::pair<requirement_id, int>> reqs_blueprint;
+        build_reqs blueprint_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H
