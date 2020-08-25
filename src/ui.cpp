@@ -264,6 +264,7 @@ void uilist::inputfilter()
     ctxt.register_action( "ANY_INPUT" );
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
+    .ignore_custom_actions( false )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
     do {
@@ -271,7 +272,7 @@ void uilist::inputfilter()
         filter = filter_popup->query_string( false );
         if( !filter_popup->canceled() ) {
             const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
-            if( !scrollby( scroll_amount_from_action( action ) ) ) {
+            if( filter_popup->handled() || !scrollby( scroll_amount_from_action( action ) ) ) {
                 filterlist();
             }
         }
