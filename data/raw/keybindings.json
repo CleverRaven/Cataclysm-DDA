@@ -860,6 +860,20 @@
   },
   {
     "type": "keybinding",
+    "id": "ZOOM_OUT",
+    "category": "OVERMAP",
+    "name": "Zoom Out",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ZOOM_IN",
+    "category": "OVERMAP",
+    "name": "Zoom In",
+    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP_NOTES",
     "name": "Delete Note",
@@ -941,6 +955,13 @@
     "category": "OVERMAP",
     "name": "Toggle Hordes",
     "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_OVERMAP_WEATHER",
+    "category": "OVERMAP",
+    "name": "Toggle Visible Weather",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",

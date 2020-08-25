@@ -114,6 +114,10 @@ class uistatedata
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
+        bool overmap_visible_weather = false;
+        bool overmap_debug_weather = false;
+        // draw monster groups on the overmap.
+        bool overmap_debug_mongroup = false;
 
         // V Menu Stuff
         int list_item_sort = 0;
@@ -200,6 +204,8 @@ class uistatedata
             json.member( "favorite_recipes", favorite_recipes );
             json.member( "recent_recipes", recent_recipes );
             json.member( "bionic_ui_sort_mode", bionic_sort_mode );
+            json.member( "overmap_debug_weather", overmap_debug_weather );
+            json.member( "overmap_visible_weather", overmap_visible_weather );
 
             json.member( "input_history" );
             json.start_object();
@@ -246,6 +252,8 @@ class uistatedata
             jo.read( "favorite_recipes", favorite_recipes );
             jo.read( "recent_recipes", recent_recipes );
             jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
+            jo.read( "overmap_debug_weather", overmap_debug_weather );
+            jo.read( "overmap_visible_weather", overmap_visible_weather );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,
