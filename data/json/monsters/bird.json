@@ -316,7 +316,7 @@
     "volume": "35000 ml",
     "weight": "40000 g",
     "hp": 35,
-    "speed": 80,
+    "speed": 70,
     "material": [ "flesh" ],
     "symbol": "v",
     "color": "dark_gray",
