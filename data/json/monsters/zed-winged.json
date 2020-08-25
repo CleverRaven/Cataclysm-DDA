@@ -66,6 +66,7 @@
         "monster_message": "The pulsing zombie crawler bursts, and gore-smeared winged beasts climb out of the corpse!"
       }
     ],
+    "regenerates": 10,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
@@ -86,6 +87,7 @@
         "monster_message": "The pupating zombie bursts, and gore-smeared winged beasts climb out of the corpse!"
       }
     ],
+    "regenerates": 20,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
