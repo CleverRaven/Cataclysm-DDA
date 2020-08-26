@@ -742,7 +742,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW",
+      "THIN_OBSTACLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -774,7 +783,7 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
-    "open": "t_metal_grate_window",
+    "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -896,7 +905,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "THIN_OBSTACLE",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
