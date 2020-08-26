@@ -2732,9 +2732,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
                 struct armor_portion_type {
-                    int encumber;
-                    int max_encumber;
-                    int coverage;
+                    int encumber = 0;
+                    int max_encumber = 0;
+                    int coverage = 0;
 
                     bool operator==( const armor_portion_type &other ) {
                         return encumber == other.encumber
@@ -2745,7 +2745,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 struct body_part_display_info {
                     translation to_display;
                     armor_portion_type portion;
-                    bool active;
+                    bool active = false;
                 };
 
                 std::map<bodypart_str_id, body_part_display_info> to_display_data;

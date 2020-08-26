@@ -1964,7 +1964,7 @@ class vehicle
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis;
+        bool all_wheels_on_one_axis = false;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;

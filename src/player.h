@@ -449,7 +449,7 @@ class player : public Character
         tripoint view_offset;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        int volume;
+        int volume = 0;
         const profession *prof;
 
         bool random_start_location = true;
@@ -459,9 +459,9 @@ class player : public Character
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
-        int scent;
-        int cash;
-        int movecounter;
+        int scent = 0;
+        int cash = 0;
+        int movecounter = 0;
 
         bool manual_examine = false;
         vproto_id starting_vehicle;
