@@ -1068,7 +1068,7 @@
     "type": "MONSTER",
     "name": { "str": "flying skull" },
     "//": " The idea is making some zombies growing wings and the needed articulations/muscles/ect. on the sides of their heads before severing their necks to free the flying skull then grow another head to repeat the process.",
-    "description": "An human skull with two leathery wings on the sides of its head.  Devoid of skin, it flies aimlessly, searching something to bite.",
+    "description": "A human skull with two leathery wings on the sides of its head.  Devoid of skin, it flies aimlessly, searching for something to bite.",
     "//": "No skin so the zombie can produce the flying skulls sightly faster.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
