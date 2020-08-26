@@ -417,7 +417,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "beehive",
-    "entries": [ { "item": "honey", "count": [ 2, 4 ] } ]
+    "entries": [ { "item": "honeycomb", "count": [ 2, 4 ] } ]
   },
   {
     "type": "item_group",
@@ -453,11 +453,5 @@
       [ "seed_lemon", 20 ],
       [ "seed_coconut", 20 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "beehive",
-    "entries": [ { "item": "honey", "count": [ 2, 4 ] } ]
   }
 ]
