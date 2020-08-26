@@ -105,8 +105,6 @@ static constexpr int NEWCHAR_TAB_MAX = 6 ;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
-extern bool test_mode;
-
 enum struct tab_direction {
     NONE,
     FORWARD,
@@ -376,9 +374,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
 void avatar::add_profession_items()
 {
-    if( test_mode ) {
-        DebugLog( D_INFO, DC_ALL ) << "add_profession_items for profession: " << prof->ident().str();
-    }
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
