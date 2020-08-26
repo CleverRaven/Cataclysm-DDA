@@ -575,6 +575,7 @@
     "material": [ "plastic" ],
     "weight": "18 g",
     "volume": "1 ml",
+    "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
     "to_hit": -3
   },
   {
@@ -967,21 +968,6 @@
     "material": [ "steel", "plastic" ],
     "weight": "11339 g",
     "volume": "9 L"
-  },
-  {
-    "type": "GENERIC",
-    "id": "laptop",
-    "symbol": ",",
-    "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "other",
-    "description": "A broken laptop, basically a paperweight now.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "750 ml",
-    "bashing": 6
   },
   {
     "type": "GENERIC",

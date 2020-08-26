@@ -1,6 +1,7 @@
 [
   {
     "id": "trunks",
+    "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str": "pair of swimming trunks", "str_pl": "pairs of swimming trunks" },
     "description": "A pair of swimming trunks, with netting.",
@@ -199,6 +200,7 @@
   },
   {
     "id": "shark_suit",
+    "repairs_like": "shark_suit_faraday",
     "type": "ARMOR",
     "name": { "str": "shark suit" },
     "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It comes with attached plastic helmet and booties.",

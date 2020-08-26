@@ -28,6 +28,7 @@
   },
   {
     "id": "apron_cut_resistant",
+    "repairs_like": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "cut-resistant apron" },
     "description": "An apron made of kevlar fabric which provides excellent protection from cuts.",
@@ -110,6 +111,7 @@
   },
   {
     "id": "dress_wedding",
+    "repairs_like": "haori",
     "type": "ARMOR",
     "name": { "str": "wedding dress", "str_pl": "wedding dresses" },
     "description": "A beautiful white wedding dress.  What good will it be now?",
@@ -151,6 +153,7 @@
   },
   {
     "id": "flotation_vest",
+    "repairs_like": "flotation_vest_ms",
     "type": "ARMOR",
     "name": { "str": "flotation vest" },
     "description": "A brightly-colored vest designed to keep you upright and floating in water.",
@@ -450,6 +453,7 @@
   },
   {
     "id": "polo_shirt",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "polo shirt" },
     "description": "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",

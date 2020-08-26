@@ -1,7 +1,6 @@
 #include "veh_type.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <memory>
 #include <numeric>
@@ -10,6 +9,7 @@
 
 #include "ammo.h"
 #include "assign.h"
+#include "cata_assert.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -136,6 +136,34 @@ static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
 
+std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid )
+{
+    for( const auto &vp_variant_pair : vpart_variants ) {
+        const std::string &vp_variant = vp_variant_pair.first;
+        const size_t loc = vpid.rfind( "_" + vp_variant );
+        if( loc != std::string::npos && ( ( loc + vp_variant.size() + 1 ) == vpid.size() ) ) {
+            return std::make_pair( vpid.substr( 0, loc ), vp_variant );
+        }
+    }
+    return std::make_pair( vpid, "" );
+}
+
+std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid )
+{
+    std::string final_vpid;
+    std::string variant_id;
+    std::tie( final_vpid, variant_id ) = get_vpart_str_variant( vpid.str() );
+    return std::make_pair( vpart_id( final_vpid ), variant_id );
+}
+
+std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid )
+{
+    std::string final_vpid;
+    std::string variant_id;
+    std::tie( final_vpid, variant_id ) = get_vpart_str_variant( vpid );
+    return std::make_pair( vpart_id( final_vpid ), variant_id );
+}
+
 /** @relates string_id */
 template<>
 bool string_id<vpart_info>::is_valid() const
@@ -149,9 +177,16 @@ const vpart_info &string_id<vpart_info>::obj() const
 {
     const auto found = vpart_info_all.find( *this );
     if( found == vpart_info_all.end() ) {
-        debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
-        static const vpart_info null_part{};
-        return null_part;
+        vpart_id base_id;
+        std::string variant;
+        std::tie( base_id, variant ) = get_vpart_id_variant( *this );
+        const auto var_found = vpart_info_all.find( base_id );
+        if( var_found == vpart_info_all.end() ) {
+            debugmsg( "Tried to get invalid vehicle part: %s", c_str() );
+            static const vpart_info null_part{};
+            return null_part;
+        }
+        return var_found->second;
     }
     return found->second;
 }
@@ -231,7 +266,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
         e_info.fuel_opts.push_back( fuel_type );
     }
     eptr = e_info;
-    assert( eptr );
+    cata_assert( eptr );
 }
 
 void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
@@ -242,7 +277,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     }
     assign( jo, "rotor_diameter", rotor_info.rotor_diameter );
     roptr = rotor_info;
-    assert( roptr );
+    cata_assert( roptr );
 }
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
@@ -279,7 +314,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     }
 
     whptr = wh_info;
-    assert( whptr );
+    cata_assert( whptr );
 }
 
 void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
@@ -296,7 +331,7 @@ void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const 
     assign( wb_jo, "volume", wb_info.allowed_volume );
 
     wbptr = wb_info;
-    assert( wbptr );
+    cata_assert( wbptr );
 }
 
 /**
@@ -323,10 +358,19 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    std::string temp_id;
+    std::string variant_id;
     if( jo.has_string( "abstract" ) ) {
         def.id = vpart_id( jo.get_string( "abstract" ) );
     } else {
-        def.id = vpart_id( jo.get_string( "id" ) );
+        temp_id = jo.get_string( "id" );
+        std::tie( def.id, variant_id ) = get_vpart_id_variant( temp_id );
+        if( !variant_id.empty() ) {
+            const auto base = vpart_info_all.find( def.id );
+            if( base != vpart_info_all.end() ) {
+                def = base->second;
+            }
+        }
     }
 
     assign( jo, "name", def.name_ );
@@ -384,10 +428,30 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                        def.repair_moves );
     }
 
-    if( jo.has_member( "symbol" ) ) {
+    if( jo.has_string( "symbol" ) ) {
+        int symbol = jo.get_string( "symbol" )[ 0 ];
+        if( variant_id.empty() ) {
+            def.sym = symbol;
+        } else {
+            def.symbols[ variant_id ] = symbol;
+        }
         def.sym = jo.get_string( "symbol" )[ 0 ];
     }
-    if( jo.has_member( "broken_symbol" ) ) {
+    if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
+        for( const auto &variant : vpart_variants_standard ) {
+            def.symbols[ variant.first ] = variant.second;
+        }
+    }
+    if( jo.has_object( "symbols" ) ) {
+        JsonObject jo_variants = jo.get_object( "symbols" );
+        for( const auto &vp_variant_pair : vpart_variants ) {
+            const std::string &vp_variant = vp_variant_pair.first;
+            if( jo_variants.has_string( vp_variant ) ) {
+                def.symbols[ vp_variant ] = jo_variants.get_string( vp_variant )[ 0 ];
+            }
+        }
+    }
+    if( jo.has_string( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
     jo.read( "looks_like", def.looks_like );
@@ -584,7 +648,7 @@ void vpart_info::check()
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
-        if( part.sym == 0 ) {
+        if( part.sym == 0 && part.symbols.empty() ) {
             debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
         }
         if( part.sym_broken == 0 ) {
@@ -772,26 +836,17 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
 
 requirement_data vpart_info::install_requirements() const
 {
-    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( install_reqs );
 }
 
 requirement_data vpart_info::removal_requirements() const
 {
-    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( removal_reqs );
 }
 
 requirement_data vpart_info::repair_requirements() const
 {
-    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( repair_reqs );
 }
 
 bool vpart_info::is_repairable() const
@@ -962,7 +1017,8 @@ vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = defaul
  */
 void vehicle_prototype::load( const JsonObject &jo )
 {
-    vehicle_prototype &vproto = vtypes[ vproto_id( jo.get_string( "id" ) ) ];
+    vproto_id vid = vproto_id( jo.get_string( "id" ) );
+    vehicle_prototype &vproto = vtypes[ vid ];
     // If there are already parts defined, this vehicle prototype overrides an existing one.
     // If the json contains a name, it means a completely new prototype (replacing the
     // original one), therefore the old data has to be cleared.
@@ -975,12 +1031,13 @@ void vehicle_prototype::load( const JsonObject &jo )
         vproto.name = jo.get_string( "name" );
     }
 
-    vgroups[vgroup_id( jo.get_string( "id" ) )].add_vehicle( vproto_id( jo.get_string( "id" ) ), 100 );
+    vgroups[ vgroup_id( vid.str() ) ].add_vehicle( vid, 100 );
 
     const auto add_part_obj = [&]( const JsonObject & part, point pos ) {
         part_def pt;
         pt.pos = pos;
-        pt.part = vpart_id( part.get_string( "part" ) );
+        std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part.get_string( "part" ) );
+        const std::string parts = part.get_string( "part" );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
@@ -993,7 +1050,8 @@ void vehicle_prototype::load( const JsonObject &jo )
     const auto add_part_string = [&]( const std::string & part, point pos ) {
         part_def pt;
         pt.pos = pos;
-        pt.part = vpart_id( part );
+        std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part );
+
         vproto.parts.push_back( pt );
     };
 
@@ -1029,8 +1087,8 @@ void vehicle_prototype::load( const JsonObject &jo )
         // constrain both with_magazine and with_ammo to [0-100]
         next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
                                              next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo", next_spawn.with_ammo ),
-                                         100 ), 0 );
+        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo",
+                                         next_spawn.with_ammo ), 100 ), 0 );
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)
@@ -1075,7 +1133,7 @@ void vehicle_prototype::finalize()
         blueprint.name = _( proto.name );
 
         blueprint.suspend_refresh();
-        for( auto &pt : proto.parts ) {
+        for( part_def &pt : proto.parts ) {
             const itype *base = item::find_type( pt.part->item );
 
             if( !pt.part.is_valid() ) {
@@ -1083,7 +1141,7 @@ void vehicle_prototype::finalize()
                 continue;
             }
 
-            if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
+            if( blueprint.install_part( pt.pos, pt.part, pt.variant ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
                           blueprint.name, pt.part.c_str(),
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
@@ -1091,13 +1149,16 @@ void vehicle_prototype::finalize()
 
             if( !base->gun ) {
                 if( pt.with_ammo ) {
-                    debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
+                              id.c_str() );
                 }
                 if( !pt.ammo_types.empty() ) {
-                    debugmsg( "init_vehicles: non-turret %s with ammo_types in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-turret %s with ammo_types in %s",
+                              pt.part.c_str(), id.c_str() );
                 }
                 if( pt.ammo_qty.first > 0 || pt.ammo_qty.second > 0 ) {
-                    debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-turret %s with ammo_qty in %s",
+                              pt.part.c_str(), id.c_str() );
                 }
 
             } else {
@@ -1117,11 +1178,13 @@ void vehicle_prototype::finalize()
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {
                 if( !item::type_is_defined( pt.fuel ) ) {
-                    debugmsg( "init_vehicles: tank %s specified invalid fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: tank %s specified invalid fuel in %s",
+                              pt.part.c_str(), id.c_str() );
                 }
             } else {
                 if( !pt.fuel.is_null() ) {
-                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s", pt.part.c_str(), id.c_str() );
+                    debugmsg( "init_vehicles: non-fuel store part %s with fuel in %s",
+                              pt.part.c_str(), id.c_str() );
                 }
             }
 

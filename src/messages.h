@@ -56,6 +56,12 @@ inline void add_msg( const translation &msg, Args &&... args )
     return add_msg( string_format( msg, std::forward<Args>( args )... ) );
 }
 
+// Prevent potentially expensive evaluation of arguments which won't be printed.
+#define add_msg_debug( ... )\
+    if( debug_mode ) {\
+        add_msg( m_debug, __VA_ARGS__ );\
+    };
+
 void add_msg( const game_message_params &params, std::string msg );
 template<typename ...Args>
 inline void add_msg( const game_message_params &params, const std::string &msg, Args &&... args )

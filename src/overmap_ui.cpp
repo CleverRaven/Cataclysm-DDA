@@ -434,14 +434,14 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keycode );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
-                         colorize( "RETURN", c_yellow ),
-                         colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
-                         colorize( ctxt.key_bound_to( "MARK_DANGER" ), c_red ),
-                         colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
-                         colorize( "ESCAPE", c_yellow )
+                         colorize( ctxt.get_desc( "CONFIRM", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "EDIT_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "MARK_DANGER", 1 ), c_red ),
+                         colorize( ctxt.get_desc( "DELETE_NOTE", 1 ), c_yellow ),
+                         colorize( ctxt.get_desc( "QUIT", 1 ), c_yellow )
                      );
         int row = 0;
         overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z() );

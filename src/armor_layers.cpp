@@ -152,7 +152,7 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
     for( size_t i = 0; i < parts.size(); ++i ) {
         const bodypart_id &part = parts[i];
         if( i + 1 < parts.size() &&
-            parts[i + 1] == convert_bp( static_cast<body_part>( bp_aiOther[part->token] ) ).id() ) {
+            parts[i + 1] == part->opposite_part ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;
@@ -457,8 +457,8 @@ void player::sort_armor()
         armor_cat.insert( it );
     }
     armor_cat.insert( bodypart_id( "bp_null" ) );
-
-    int req_right_h = 3 + 1 + 2 + body_part::num_bp + 1;
+    const int num_of_parts = get_all_body_parts().size();
+    int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
         for( const item &elem : worn ) {
             if( elem.covers( cover ) ) {
@@ -472,9 +472,9 @@ void player::sort_armor()
     * + 1 - caption line;
     * + 8 - general properties
     * + 13 - ASSUMPTION: max possible number of flags @ item
-    * + num_bp+1 - warmth & enc block
+    * + num_of_parts+1 - warmth & enc block
     */
-    const int req_mid_h = 3 + 1 + 8 + 13 + body_part::num_bp + 1;
+    const int req_mid_h = 3 + 1 + 8 + 13 + num_of_parts + 1;
 
     int win_h = 0;
     int win_w = 0;
@@ -485,8 +485,8 @@ void player::sort_armor()
     int right_w  = 0;
     int middle_w = 0;
 
-    int tabindex = 0; //body_part::num_bp;
-    const int tabcount = body_part::num_bp + 1;
+    int tabindex = 0;
+    const int tabcount = num_of_parts + 1;
 
     int leftListIndex  = 0;
     int leftListOffset = 0;
@@ -522,12 +522,12 @@ void player::sort_armor()
         w_sort_armor = catacurses::newwin( win_h, win_w, win );
         w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
         w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
-        w_sort_middle = catacurses::newwin( cont_h - body_part::num_bp - 1, middle_w,
+        w_sort_middle = catacurses::newwin( cont_h - num_of_parts - 1, middle_w,
                                             win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
                                            win + point( 3 + left_w + middle_w, 3 ) );
-        w_encumb = catacurses::newwin( body_part::num_bp + 1, middle_w,
-                                       win + point( 2 + left_w, -1 + 3 + cont_h - body_part::num_bp ) );
+        w_encumb = catacurses::newwin( num_of_parts + 1, middle_w,
+                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_of_parts ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();

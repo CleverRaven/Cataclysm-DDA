@@ -1,7 +1,57 @@
 TODO: document the "npc" structure, used to load NPC template
+# Creating new NPCs
+Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
+
+There are two parts to creating a new NPC, apart from any dialogue you may want to add.  
+First there is the `npc_class` which follows the following template.
+Format:
+```json
+{
+  "type": "npc_class",
+  "id": "NC_EXAMPLE",
+  "name": { "str": "Example NPC" },
+  "job_description": "I'm helping you learn the game.",
+  "common": false,
+  "bonus_str": { "rng": [ -4, 0 ] },
+  "bonus_dex": { "rng": [ -2, 0 ] },
+  "bonus_int": { "rng": [ 1, 5 ] },
+  "skills": [
+    {
+      "skill": "ALL",
+      "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+    }
+  ],
+  "worn_override": "NC_EXAMPLE_worn",
+  "carry_override": "NC_EXAMPLE_carried",
+  "weapon_override": "NC_EXAMPLE_weapon",
+  "shopkeeper_item_group": "example_shopkeeper_itemgroup",
+  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+}
+```
+There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+There is a second template required for a new NPC. It looks like this:
+Format:
+```json
+{
+  "type": "npc",
+  "id": "examplicious",
+  "//": "The luckiest NPC to never experience the Cataclysm.",
+  "name_suffix": "examplar",
+  "class": "NC_EXAMPLE",
+  "attitude": 0,
+  "mission": 7,
+  "chat": "TALK_EXAMPLE",
+  "faction": "no_faction"
+}
+```
+This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
+Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
+Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
+Chat is covered in the dialogue examples below.
+Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
 
 # Writing dialogues
-Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
+Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
 Note that it is perfectly fine to have a response that switches the topic back to itself.
 

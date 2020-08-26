@@ -47,7 +47,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum damage_type : int;
+enum class damage_type : int;
 enum m_flag : int;
 struct damage_instance;
 struct damage_unit;
@@ -204,6 +204,17 @@ enum class FacingDirection : int {
     NONE = 0,
     LEFT = 1,
     RIGHT = 2
+};
+
+enum class get_body_part_flags : int {
+    none = 0,
+    only_main = 1 << 0,
+    sorted = 1 << 1,
+};
+
+template<>
+struct enum_traits<get_body_part_flags> {
+    static constexpr bool is_flag_enum = true;
 };
 
 class Creature : public location, public viewer
@@ -615,7 +626,8 @@ class Creature : public location, public viewer
          * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
-        std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+        std::vector<bodypart_id> get_all_body_parts(
+            get_body_part_flags = get_body_part_flags::none ) const;
 
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
@@ -1019,7 +1031,8 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import getopt
+import glob
 import json
 import os
 import re
@@ -55,7 +56,7 @@ def main(argv):
 
     auto_update_blueprint = re.compile("~~~ auto-update-blueprint: (.+)")
     auto_update_blueprint_end = re.compile("~~~ end-auto-update")
-    json_filename = re.compile(".+\\.json")
+    json_filename = re.compile("[^.].*\\.json")
 
     update_blueprints = dict()
 
@@ -95,8 +96,12 @@ def main(argv):
                 content = None
                 changed = False
                 if json_filename.match(file):
-                    with open(json_path, 'r', encoding='utf-8') as fs:
-                        content = json.load(fs)
+                    try:
+                        with open(json_path, 'r', encoding='utf-8') as fs:
+                            content = json.load(fs)
+                    except:
+                        sys.stderr.write('Error parsing %r\n' % json_path)
+                        raise
                 if type(content) is list:
                     for obj in content:
                         if not (type(obj) is dict
@@ -121,7 +126,9 @@ def main(argv):
                 if changed:
                     with open(json_path, 'w', encoding='utf-8') as fs:
                         json.dump(content, fs, indent=2)
-                    subprocess.run(["tools/format/json_formatter", json_path], stdout=subprocess.DEVNULL)
+                    json_formatter_name = glob.glob('tools/format/json_formatter.[ec]*')
+                    assert len(json_formatter_name) == 1
+                    subprocess.run([json_formatter_name[0], json_path], stdout=subprocess.DEVNULL)
 
 
 if __name__ == "__main__":

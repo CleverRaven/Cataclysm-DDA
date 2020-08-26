@@ -462,11 +462,7 @@ class mission
         static mission_status status_from_string( const std::string &s );
         static std::string status_to_string( mission_status st );
 
-        /** Used to handle saves from before player_id was a member of mission */
-        void set_player_id_legacy_0c( character_id id );
-
     private:
-        bool legacy_no_player_id = false;
 
         void set_target_to_mission_giver();
 

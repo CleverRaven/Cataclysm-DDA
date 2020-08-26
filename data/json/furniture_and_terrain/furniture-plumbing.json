@@ -9,7 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "LIQUIDCONT" ],
     "max_volume": "200 L",
     "examine_action": "keg",
     "keg_capacity": 600,

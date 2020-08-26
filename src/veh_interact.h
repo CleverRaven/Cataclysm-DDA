@@ -74,6 +74,7 @@ class veh_interact
         int overview_limit = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
+        std::string sel_vpart_variant;
         //Command currently being run by the player
         char sel_cmd = ' ';
 
@@ -169,11 +170,11 @@ class veh_interact
         size_t display_esc( const catacurses::window &win );
 
         struct part_option {
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, input_event hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
                 key( key ), part( part ), hotkey( hotkey ), details( details ) {}
 
-            part_option( const std::string &key, vehicle_part *part, char hotkey,
+            part_option( const std::string &key, vehicle_part *part, input_event hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
                 key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
@@ -182,7 +183,7 @@ class veh_interact
             vehicle_part *part;
 
             /** Can @param action be run for this entry? */
-            char hotkey;
+            input_event hotkey;
 
             /** Writes any extra details for this entry */
             std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details;

@@ -1,0 +1,38 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_teleportitis",
+    "intermittent_activation": { "effects": [ { "frequency": "4 seconds", "spell_effects": [ { "id": "AEA_TELEPORT" } ] } ] }
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_slow_aura",
+    "values": [ { "value": "ATTACK_SPEED", "multiply": 1.5 }, { "value": "SPEED", "multiply": 0.5 } ]
+  },
+  {
+    "id": "artifact_teleportitis_aura",
+    "type": "ARMOR",
+    "name": "strange pressure",
+    "description": "You feel a strange force pressing you inwards and inside-out.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_teleportitis" } ] }
+  },
+  {
+    "id": "artifact_slow_aura",
+    "type": "ARMOR",
+    "name": "temporal distortion",
+    "description": "A slight temporal distortion appears to be centered around you.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_slow_aura" } ] }
+  }
+]

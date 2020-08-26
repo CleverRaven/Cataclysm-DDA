@@ -65,7 +65,7 @@ void color_manager::finalize()
         if( !entry.name_invert_custom.empty() ) {
             const auto id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
-            entry.custom = other.color;
+            entry.invert_custom = other.color;
         }
 
         inverted_map[entry.color] = entry.col_id;

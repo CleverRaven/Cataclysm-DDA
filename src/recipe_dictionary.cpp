@@ -8,12 +8,14 @@
 
 #include "cata_algo.h"
 #include "cata_utility.h"
+#include "crafting_gui.h"
 #include "debug.h"
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "mapgen.h"
 #include "optional.h"
 #include "output.h"
 #include "requirements.h"
@@ -466,6 +468,45 @@ void recipe_dictionary::finalize()
     }
 
     recipe_dict.find_items_on_loops();
+}
+
+void recipe_dictionary::check_consistency()
+{
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
+
+        if( r.category.empty() ) {
+            if( !r.subcategory.empty() ) {
+                debugmsg( "recipe %s has subcategory but no category", r.ident().str() );
+            }
+
+            continue;
+        }
+
+        const std::vector<std::string> *subcategories = subcategories_for_category( r.category );
+        if( !subcategories ) {
+            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category );
+            continue;
+        }
+
+        if( !r.subcategory.empty() ) {
+            auto it = std::find( subcategories->begin(), subcategories->end(), r.subcategory );
+            if( it == subcategories->end() ) {
+                debugmsg(
+                    "recipe %s has subcategory %s which is invalid or doesn't match category %s",
+                    r.ident().str(), r.subcategory, r.category );
+            }
+        }
+    }
+
+    for( auto &e : recipe_dict.recipes ) {
+        recipe &r = e.second;
+
+        if( !r.blueprint.empty() && !has_update_mapgen_for( r.blueprint ) ) {
+            debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
+                      "defined update_mapgen_id but is not", r.ident().str(), r.blueprint );
+        }
+    }
 }
 
 void recipe_dictionary::reset()

@@ -81,11 +81,8 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
 {
     // bool represents whether the part has been combined with its other half
     std::vector<std::pair<bodypart_id, bool>> bps;
-    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+    for( const bodypart_id &bp : p.get_all_body_parts( get_body_part_flags::sorted ) ) {
         // assuming that a body part has at most one other half
-        if( bp->opposite_part->opposite_part != bp.id() ) {
-            debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
-        }
         if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
             if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
                            true ) ) == bps.end() ) {
@@ -213,7 +210,7 @@ static int get_encumbrance( const player &p, const bodypart_id &bp, bool combine
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, const bodypart_id bp,
+static std::string get_encumbrance_description( const player &p, const bodypart_id &bp,
         bool combine )
 {
     std::string s;
@@ -410,7 +407,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
 
     // Stats
     const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line_n,
-    const nc_color col ) {
+    const nc_color & col ) {
         nc_color cstatus;
         if( cur <= 0 ) {
             cstatus = c_dark_gray;

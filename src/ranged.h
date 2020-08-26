@@ -9,6 +9,7 @@
 class aim_activity_actor;
 class avatar;
 class item;
+class map;
 class spell;
 class turret_data;
 class vehicle;
@@ -44,5 +45,21 @@ trajectory mode_spell( avatar &you, const spell_id &sp, bool no_fail, bool no_ma
 } // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
+
+/**
+ * Common checks for gunmode (when firing a weapon / manually firing turret)
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode );
+
+/**
+ * Various checks for gunmode when firing a weapon
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode );
 
 #endif // CATA_SRC_RANGED_H

@@ -303,7 +303,8 @@ static void do_blast( const tripoint &p, const float power,
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
+                                  false );
         }
 
         Creature *critter = g->critter_at( pt, true );
@@ -311,7 +312,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg( m_debug, "Blast hits %s with force %.1f", critter->disp_name(), force );
+        add_msg_debug( "Blast hits %s with force %.1f", critter->disp_name(), force );
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
@@ -320,7 +321,7 @@ static void do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
-            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
+            add_msg_debug( "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
         }
 
@@ -349,11 +350,11 @@ static void do_blast( const tripoint &p, const float power,
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
+            const auto dmg_instance = damage_instance( damage_type::BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg( m_debug, "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
+            add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
             if( res_dmg > 0 ) {
                 pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
@@ -434,10 +435,10 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 } else {
                     non_damaging_hits++;
                 }
-                add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                         critter->disp_name(),
-                         frag.proj.speed, rl_dist( src, target ) );
-                add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                add_msg_debug( "Shrapnel hit %s at %d m/s at a distance of %d",
+                               critter->disp_name(),
+                               frag.proj.speed, rl_dist( src, target ) );
+                add_msg_debug( "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                 if( critter->is_dead_state() ) {
                     break;
                 }

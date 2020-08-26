@@ -975,8 +975,7 @@ void npc::finish_read( item &book )
         }
 
         if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-            ( ( has_trait( trait_SCHIZOPHRENIC ) ||
-                has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+            ( has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
             if( display_messages ) {
                 add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
             }
@@ -1061,7 +1060,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
     if( it.has_flag( "SPLINT" ) ) {
-        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             if( is_limb_broken( bp ) && !has_effect( effect_mending, bp.id() ) &&
                 it.covers( bp ) ) {
                 reason = _( "Thanks, I'll wear that now." );
@@ -1114,46 +1113,38 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 void npc::stow_item( item &it )
 {
     bool avatar_sees = get_player_view().sees( pos() );
-    if( wear_item( weapon, false ) ) {
+    if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
-        remove_weapon();
+        remove_item( it );
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
-        return;
-    }
-    for( auto &e : worn ) {
-        if( e.can_holster( it ) ) {
-            if( avatar_sees ) {
-                //~ %1$s: weapon name, %2$s: holster name
-                add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
-                                weapon.tname(), e.tname() );
-            }
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            ptr->store( *this, e, it );
-            return;
-        }
-    }
-    if( volume_carried() + weapon.volume() <= volume_capacity() ) {
+    } else if( can_stash( it ) ) {
+        item &ret = i_add( remove_item( it ), true, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
         }
-        i_add( remove_weapon() );
         moves -= 15;
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        get_map().add_item_or_charges( pos(), remove_weapon() );
+        get_map().add_item_or_charges( pos(), remove_item( it ) );
     }
 }
 
 bool npc::wield( item &it )
 {
+    // sanity check: exit early if we're trying to wield the current weapon
+    // needed for ranged_balance_test
+    if( is_wielding( it ) ) {
+        return true;
+    }
+
+    invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
     if( is_armed() ) {
         stow_item( weapon );
@@ -1320,7 +1311,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+    add_msg_debug( "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
 }
 
 void npc::mutiny()
@@ -2159,8 +2150,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 void npc::npc_dismount()
 {
     if( !mounted_creature || !has_effect( effect_riding ) ) {
-        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount, or they are not riding",
-                 disp_name() );
+        add_msg_debug( "NPC %s tried to dismount, but they have no mount, or they are not riding",
+                       disp_name() );
         return;
     }
     cata::optional<tripoint> pnt;
@@ -2171,7 +2162,7 @@ void npc::npc_dismount()
         }
     }
     if( !pnt ) {
-        add_msg( m_debug, "NPC %s could not find a place to dismount.", disp_name() );
+        add_msg_debug( "NPC %s could not find a place to dismount.", disp_name() );
         return;
     }
     remove_effect( effect_riding );
@@ -2190,7 +2181,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.damage_melee( DT_BASH );
+        return str_cur + weapon.damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash
@@ -2724,7 +2715,7 @@ void npc::on_load()
     // TODO: Sleeping, healing etc.
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
-    add_msg( m_debug, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
+    add_msg_debug( "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
@@ -2766,8 +2757,8 @@ void npc::on_load()
         if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
-            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
-                     disp_name() );
+            add_msg_debug( "NPC is meant to be riding, though the mount is not found when %s is loaded",
+                           disp_name() );
         }
     }
     if( has_trait( trait_HALLUCINATION ) ) {
@@ -2793,49 +2784,7 @@ float npc::speed_rating() const
 
 bool npc::dispose_item( item_location &&obj, const std::string & )
 {
-    using dispose_option = struct {
-        int moves;
-        std::function<void()> action;
-    };
-
-    std::vector<dispose_option> opts;
-
-    for( auto &e : worn ) {
-        if( e.can_holster( *obj ) ) {
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            opts.emplace_back( dispose_option {
-                item_store_cost( *obj, e, false, obj.obtain_cost( *this ) ),
-                [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }
-            } );
-        }
-    }
-
-    if( volume_carried() + obj->volume() <= volume_capacity() ) {
-        opts.emplace_back( dispose_option {
-            item_handling_cost( *obj ),
-            [this, &obj] {
-                moves -= item_handling_cost( *obj );
-                inv->add_item_keep_invlet( *obj );
-                obj.remove_item();
-                inv->unsort();
-            }
-        } );
-    }
-
-    if( opts.empty() ) {
-        // Drop it
-        get_map().add_item_or_charges( pos(), *obj );
-        obj.remove_item();
-        return true;
-    }
-
-    const auto mn = std::min_element( opts.begin(), opts.end(),
-    []( const dispose_option & lop, const dispose_option & rop ) {
-        return lop.moves < rop.moves;
-    } );
-
-    mn->action();
+    stow_item( *obj.get_item() );
     return true;
 }
 
@@ -3195,8 +3144,8 @@ void npc::set_attitude( npc_attitude new_attitude )
         add_effect( effect_npc_flee_player, 24_hours );
     }
 
-    add_msg( m_debug, "%s changes attitude from %s to %s",
-             name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
+    add_msg_debug( "%s changes attitude from %s to %s",
+                   name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() && get_player_view().sees( *this ) ) {

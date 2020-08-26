@@ -1279,9 +1279,9 @@
   {
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
-    "name": { "str": "Schizophrenic" },
+    "name": { "str": "Kaluptic Psychosis" },
     "points": -3,
-    "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ]
@@ -6653,6 +6653,16 @@
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
     "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
+    "name": { "str": "Debug Clairvoyance Plus" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
     "debug": true
   },
   {

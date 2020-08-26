@@ -15,7 +15,7 @@
     "type": "GUN",
     "name": { "str": "antique revolver" },
     "ammo": [ "ammo_black_powder" ],
-    "description": "This is an old revolver designed during the period of westward expansion.  Black powder paper cartridges must be loaded for each shot, which is a fairly lengthy process.   Despite its age, this type of weapon would perform adequately against most two-legged threats.",
+    "description": "This is an old revolver designed during the period of westward expansion.  Black powder paper cartridges must be loaded for each shot, which is a fairly lengthy process.  Despite its age, this type of weapon would perform adequately against most two-legged threats.",
     "clip_size": 6,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_black_powder": 6 } } ]
   },

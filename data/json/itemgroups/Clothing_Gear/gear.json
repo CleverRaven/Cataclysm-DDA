@@ -74,6 +74,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
+      [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ]
     ]
   },
@@ -81,8 +82,8 @@
     "type": "item_group",
     "id": "fireman_gear",
     "items": [
-      [ "extinguisher", 10 ],
-      [ "sm_extinguisher", 20 ],
+      { "item": "extinguisher", "prob": 10, "charges": 100 },
+      { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
       [ "1st_aid", 10 ],

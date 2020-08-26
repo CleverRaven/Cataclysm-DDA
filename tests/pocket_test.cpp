@@ -897,3 +897,92 @@ TEST_CASE( "corpse can contain anything", "[pocket][corpse]" )
         }
     }
 }
+
+// Sealed pockets
+// --------------
+//
+// Functions:
+// item_pocket::seal
+// item_pocket::unseal
+// item_pocket::sealed
+// item_pocket::sealable
+//
+TEST_CASE( "sealed containers", "[pocket][seal]" )
+{
+    item water( "water" );
+
+    GIVEN( "sealable can" ) {
+        item can( "test_can_drink" );
+
+        // Ensure it has exactly one contained pocket, and get that pocket for testing
+        ret_val<std::vector<item_pocket>> can_pockets = can.contents.get_all_contained_pockets();
+        REQUIRE( can_pockets.success() );
+        REQUIRE( can_pockets.value().size() == 1 );
+        item_pocket pocket = can_pockets.value().front();
+        // Must be sealable, but not sealed initially
+        REQUIRE( pocket.sealable() );
+        REQUIRE_FALSE( pocket.sealed() );
+
+        // Sealing does not work when empty
+        WHEN( "pocket is empty" ) {
+            REQUIRE( pocket.empty() );
+            THEN( "it cannot be sealed" ) {
+                CHECK_FALSE( pocket.seal() );
+                CHECK_FALSE( pocket.sealed() );
+                // Remains sealable
+                CHECK( pocket.sealable() );
+            }
+        }
+
+        // But after inserting something, sealing can succeed
+        WHEN( "pocket contains something" ) {
+            REQUIRE( pocket.insert_item( water ).success() );
+            THEN( "it can be sealed" ) {
+                CHECK( pocket.seal() );
+                CHECK( pocket.sealed() );
+                // Remains sealable
+                CHECK( pocket.sealable() );
+            }
+        }
+
+        GIVEN( "pocket is already sealed" ) {
+            REQUIRE( pocket.insert_item( water ).success() );
+            REQUIRE( pocket.seal() );
+            REQUIRE( pocket.sealed() );
+
+            WHEN( "it becomes unsealed" ) {
+                pocket.unseal();
+                THEN( "it is no longer sealed" ) {
+                    CHECK_FALSE( pocket.sealed() );
+                    // Remains sealable
+                    CHECK( pocket.sealable() );
+                }
+            }
+        }
+    }
+
+    GIVEN( "non-sealable jug" ) {
+        item jug( "test_jug_plastic" );
+
+        // Ensure it has exactly one contained pocket, and get that pocket for testing
+        ret_val<std::vector<item_pocket>> jug_pockets = jug.contents.get_all_contained_pockets();
+        REQUIRE( jug_pockets.success() );
+        REQUIRE( jug_pockets.value().size() == 1 );
+        item_pocket pocket = jug_pockets.value().front();
+        // Must NOT be sealable
+        REQUIRE_FALSE( pocket.sealable() );
+        REQUIRE_FALSE( pocket.sealed() );
+
+        THEN( "it cannot be sealed" ) {
+            // Sealing fails when empty
+            REQUIRE( pocket.empty() );
+            CHECK_FALSE( pocket.seal() );
+            CHECK_FALSE( pocket.sealed() );
+            // Sealing also fails after inserting item
+            REQUIRE( pocket.insert_item( water ).success() );
+            CHECK_FALSE( pocket.seal() );
+            CHECK_FALSE( pocket.sealed() );
+        }
+    }
+}
+

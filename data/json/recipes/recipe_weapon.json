@@ -487,7 +487,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ "archery", 3 ],
-    "difficulty": 3,
+    "difficulty": 5,
     "time": "15 m",
     "reversible": true,
     "decomp_learn": 1,
