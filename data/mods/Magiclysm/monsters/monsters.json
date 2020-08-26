@@ -363,7 +363,7 @@
   {
     "id": "mon_loup_garou",
     "type": "MONSTER",
-    "name": { "str": "loup garou", "str_pl": "loup garous" },
+    "name": { "str": "loup garou" },
     "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in it's territory.",
     "default_faction": "wolf",
     "bodytype": "dog",
