@@ -412,7 +412,11 @@ class pickup_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( phase_id::LIQUID ) ) {
-                    return _( "Can't pick up spilt liquids" );
+                    if( loc.has_parent() ) {
+                        return _( "Can't pick up liquids" );
+                    } else {
+                        return _( "Can't pick up spilt liquids" );
+                    }
                 } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -1174,15 +1178,15 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, pgettext( "Shot as damage", "SHOT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_BASH ) );
+                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_CUT ) );
+                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_STAB ) );
+                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
             }, _( "STAB" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -1218,7 +1222,8 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
+                   it.damage_melee( damage_type::STAB );
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
@@ -1272,7 +1277,8 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
     insert_menu.add_vehicle_items( p.pos() );
     insert_menu.set_display_stats( false );
 
-    insert_menu.set_title( string_format( _( "Insert items into %s" ), holster->tname() ) );
+    insert_menu.set_title( title );
+    insert_menu.set_hint( hint );
 
     return insert_menu.execute();
 }
@@ -1416,7 +1422,7 @@ drop_locations game_menus::inv::multidrop( player &p )
     p.inv->restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location ).success();
+        return p.can_drop( *location ).success();
     } );
 
     inventory_drop_selector inv_s( p, preset );

@@ -1,7 +1,6 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <list>
@@ -16,6 +15,7 @@
 #include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -721,7 +721,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     g->reload_npcs();
     g->validate_npc_followers();
-    assert( !comp->is_active() );
+    cata_assert( !comp->is_active() );
     return comp;
 }
 
@@ -1737,7 +1737,7 @@ void talk_function::companion_skill_trainer( npc &comp, const skill_id &skill_te
 
 void talk_function::companion_return( npc &comp )
 {
-    assert( !comp.is_active() );
+    cata_assert( !comp.is_active() );
     comp.reset_companion_mission();
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;

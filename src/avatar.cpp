@@ -418,7 +418,7 @@ bool avatar::read( item &it, const bool continuous )
 
     const int time_taken = time_to_read( it, *reader );
 
-    add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
+    add_msg_debug( "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
@@ -850,8 +850,7 @@ void avatar::do_read( item &book )
             }
 
             if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_SCHIZOPHRENIC ) ||
-                    learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+                ( learner->has_trait( trait_SCHIZOPHRENIC ) && one_in( 25 ) ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
                 } else {
@@ -896,7 +895,7 @@ void avatar::do_read( item &book )
         skill_id skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
-        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
+        add_msg_debug( _( "Chance to learn one in: %d" ), difficulty );
 
         if( one_in( difficulty ) ) {
             m->second.call( *this, book, false, pos() );
@@ -1000,7 +999,7 @@ nc_color avatar::basic_symbol_color() const
     if( underwater ) {
         return c_blue;
     }
-    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
+    if( has_active_bionic( bio_cloak ) ||
         is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
@@ -1514,6 +1513,7 @@ bool avatar::wield( item_location target )
 
 bool avatar::wield( item &target )
 {
+    invalidate_inventory_validity_cache();
     return wield( target,
                   item_handling_cost( target, true,
                                       is_worn( target ) ? INVENTORY_HANDLING_PENALTY / 2 :
@@ -1559,7 +1559,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         target.on_takeoff( *this );
     }
 
-    add_msg( m_debug, "wielding took %d moves", mv );
+    add_msg_debug( "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {

@@ -124,7 +124,6 @@ struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -136,8 +135,6 @@ static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
-
-static const trap_str_id tr_brazier( "tr_brazier" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -253,7 +250,7 @@ void pocket_data::deserialize( JsonIn &jsin )
     load( data );
 }
 
-void resealable_data::deserialize( JsonIn &jsin )
+void sealable_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     load( data );
@@ -315,7 +312,7 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( is_obsolete || ( has_actor && !data.has_member( "actor" ) ) ) {
+    if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
     }
 
@@ -530,14 +527,9 @@ void Character::load( const JsonObject &data )
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
-    // Changed from a single element to a list, handle either.
-    // Can deprecate once we stop handling pre-0.B saves.
+
     if( data.has_array( "backlog" ) ) {
         data.read( "backlog", backlog );
-    } else {
-        player_activity temp;
-        data.read( "backlog", temp );
-        backlog.push_front( temp );
     }
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
             activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
@@ -562,7 +554,6 @@ void Character::load( const JsonObject &data )
         }
     }
 
-
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
@@ -586,25 +577,8 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    if( savegame_loading_version <= 23 ) {
-        std::unordered_set<trait_id> old_my_mutations;
-        data.read( "mutations", old_my_mutations );
-        for( const trait_id &mut : old_my_mutations ) {
-            my_mutations[mut]; // Creates a new entry with default values
-        }
-        std::map<trait_id, char> trait_keys;
-        data.read( "mutation_keys", trait_keys );
-        for( const std::pair<const trait_id, char> &k : trait_keys ) {
-            my_mutations[k.first].key = k.second;
-        }
-        std::set<trait_id> active_muts;
-        data.read( "active_mutations_hacky", active_muts );
-        for( const auto &mut : active_muts ) {
-            my_mutations[mut].powered = true;
-        }
-    } else {
-        data.read( "mutations", my_mutations );
-    }
+    data.read( "mutations", my_mutations );
+
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const trait_id &mid = it->first;
         if( mid.is_valid() ) {
@@ -620,7 +594,7 @@ void Character::load( const JsonObject &data )
             it = my_mutations.erase( it );
         }
     }
-    size_class = calculate_size( *this );
+    recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
 
@@ -820,12 +794,6 @@ void Character::load( const JsonObject &data )
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
-
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
 
     // Bionic power should not be negative!
     if( power_level < 0_mJ ) {
@@ -1283,11 +1251,9 @@ void avatar::load( const JsonObject &data )
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
-        // Only display error message if from a game file after scenarios existed.
-        if( savegame_loading_version > 20 ) {
-            debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
-                      scen_ident.c_str(), generic_scenario->ident().c_str() );
-        }
+
+        debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
+                  scen_ident.c_str(), generic_scenario->ident().c_str() );
         set_scenario( generic_scenario );
     }
 
@@ -1312,17 +1278,7 @@ void avatar::load( const JsonObject &data )
 
     int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
-        if( savegame_loading_version <= 23 ) {
-            // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
-            // And it would as often as not be out of bounds (e.g. when a questgiver died).
-            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatibility.
-            // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
-            if( tmpactive_mission >= 0 && tmpactive_mission < static_cast<int>( active_missions.size() ) ) {
-                active_mission = active_missions[tmpactive_mission];
-            } else if( !active_missions.empty() ) {
-                active_mission = active_missions.back();
-            }
-        } else if( tmpactive_mission != -1 ) {
+        if( tmpactive_mission != -1 ) {
             active_mission = mission::find( tmpactive_mission );
         }
     }
@@ -1342,16 +1298,6 @@ void avatar::load( const JsonObject &data )
             active_mission = nullptr;
         } else {
             active_mission = active_missions.front();
-        }
-    }
-
-    if( savegame_loading_version <= 23 && is_player() ) {
-        // In 0.C there was no player_id member of mission, so it'll be the default -1.
-        // When the member was introduced, no steps were taken to ensure compatibility with 0.C, so
-        // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
-        // see dialogue_chatbin::check_missions and npc::talk_to_u
-        for( mission *miss : active_missions ) {
-            miss->set_player_id_legacy_0c( getID() );
         }
     }
 
@@ -1516,15 +1462,7 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        if( savegame_loading_version <= 23 ) {
-            // In 0.C, it was an index into the missions_assigned vector
-            if( tmpmission_selected >= 0 &&
-                tmpmission_selected < static_cast<int>( missions_assigned.size() ) ) {
-                mission_selected = missions_assigned[tmpmission_selected];
-            }
-        } else {
-            mission_selected = mission::find( tmpmission_selected );
-        }
+        mission_selected = mission::find( tmpmission_selected );
     }
 }
 
@@ -2508,10 +2446,6 @@ void item::deserialize( JsonIn &jsin )
     const JsonObject data = jsin.get_object();
     io::JsonObjectInputArchive archive( data );
     io( archive );
-    // made for fast forwarding time from 0.D to 0.E
-    if( savegame_loading_version < 27 ) {
-        legacy_fast_forward_time();
-    }
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2630,14 +2564,12 @@ void vehicle_part::deserialize( JsonIn &jsin )
         { "hydrogen_tank", { "tank", "none" } }
     };
 
-    // required for compatibility with 0.C saves
-    itype_id legacy_fuel;
-
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
         pid = vpart_id( dep->second.first );
-        legacy_fuel = itype_id( dep->second.second );
     }
+
+    std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
@@ -2648,6 +2580,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
         }
     }
     id = pid;
+    if( variant.empty() ) {
+        data.read( "variant", variant );
+    }
 
     if( data.has_object( "base" ) ) {
         data.read( "base", base );
@@ -2687,24 +2622,6 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "target_second_z", target.second.z );
     data.read( "ammo_pref", ammo_pref );
 
-    if( legacy_fuel.is_empty() ) {
-        legacy_fuel = id.obj().fuel_type;
-    }
-
-    // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
-        if( data.has_int( "amount" ) && !base.ammo_types().empty() && legacy_fuel != itype_battery ) {
-            ammo_set( legacy_fuel, data.get_int( "amount" ) );
-        }
-
-        // without VEHICLE flag always migrate both batteries and fuel tanks
-    } else {
-        if( !base.ammo_types().empty() ) {
-            ammo_set( legacy_fuel, data.get_int( "amount" ) );
-        }
-        base.item_tags.insert( "VEHICLE" );
-    }
-
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {
         // migrate legacy savegames exploiting that all base items at that time had max_damage() of 4
         base.set_damage( 4 * itype::damage_scale - 4 * itype::damage_scale * data.get_int( "hp" ) /
@@ -2725,6 +2642,9 @@ void vehicle_part::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id.str() );
+    if( !variant.empty() ) {
+        json.member( "variant", variant );
+    }
     json.member( "base", base );
     json.member( "mount_dx", mount.x );
     json.member( "mount_dy", mount.y );
@@ -2884,9 +2804,10 @@ void vehicle::deserialize( JsonIn &jsin )
     }
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
-        install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+        install_part( vp.mount(), vpart_id( "turret_mount" ) );
 
-        //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
+        //Forcibly set turrets' targeting mode to manual if no turret control unit is
+        //present on turret's tile on loading save
         if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
@@ -2899,35 +2820,24 @@ void vehicle::deserialize( JsonIn &jsin )
     // Add vehicle mounts to cars that are missing them.
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_LIGHT" ) ) {
         if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_light_steerable" ) );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_light" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_light" ) );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_MEDIUM" ) ) {
         if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium_steerable" ) );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_medium" ) );
         }
     }
     for( const vpart_reference &vp : get_any_parts( "NEEDS_WHEEL_MOUNT_HEAVY" ) ) {
         if( vp.info().has_flag( "STEERABLE" ) ) {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy_steerable" ) );
         } else {
-            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ), false );
+            install_part( vp.mount(), vpart_id( "wheel_mount_heavy" ) );
         }
-    }
-
-    /* After loading, check if the vehicle is from the old rules and is missing
-     * frames. */
-    if( savegame_loading_version < 11 ) {
-        add_missing_frames();
-    }
-
-    // Handle steering changes
-    if( savegame_loading_version < 25 ) {
-        add_steerable_wheels();
     }
 
     refresh();
@@ -3114,14 +3024,6 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "good_fac_id", good_fac_id );
     jo.read( "bad_fac_id", bad_fac_id );
 
-    // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
-    // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
-    // When loading player 2, there will be a player_id member in SAVE_MASTER (i.e. master.gsav),
-    // but the bool member legacy_no_player_id will have been saved as true
-    // (unless the mission belongs to a player that's been loaded into 0.D)
-    // See player::deserialize and mission::set_player_id_legacy_0c
-    legacy_no_player_id = !jo.read( "player_id", player_id ) ||
-                          jo.get_bool( "legacy_no_player_id", false );
 }
 
 void mission::serialize( JsonOut &json ) const
@@ -3157,7 +3059,6 @@ void mission::serialize( JsonOut &json ) const
     json.member( "step", step );
     json.member( "follow_up", follow_up );
     json.member( "player_id", player_id );
-    json.member( "legacy_no_player_id", legacy_no_player_id );
 
     json.end_object();
 }
@@ -4115,10 +4016,6 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                     update_lum_add( p, tmp );
                 }
 
-                if( savegame_loading_version >= 27 && version < 27 ) {
-                    tmp.legacy_fast_forward_time();
-                }
-
                 const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
                 if( tmp.needs_processing() ) {
                     active_items.add( *it, p );
@@ -4134,12 +4031,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( jsin.get_string() );
-            if( trid == tr_brazier ) {
-                frn[p.x][p.y] = furn_id( "f_brazier" );
-            } else {
-                trp[p.x][p.y] = trid.id();
-            }
-            // TODO: remove brazier trap-to-furniture conversion after 0.D
+            trp[p.x][p.y] = trid.id();
             jsin.end_array();
         }
     } else if( member_name == "fields" ) {

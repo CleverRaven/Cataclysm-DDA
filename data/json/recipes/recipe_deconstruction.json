@@ -2,35 +2,35 @@
   {
     "result": "bead_bracelet",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wooden_bead", 10 ] ] ]
   },
   {
     "result": "bead_ear",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
   {
     "result": "bead_necklace",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wooden_bead", 30 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "bottle_opener",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "bracelet_friendship",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -79,21 +79,21 @@
   {
     "result": "copper_hairpin",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 3 ] ] ]
   },
   {
     "result": "copper_locket",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 4 ] ] ]
   },
   {
     "result": "copper_necklace",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 4 ] ] ]
   },
@@ -102,35 +102,35 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap_copper", 10 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "copper_ring",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 3 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "corkscrew",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "cufflinks",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "cufflinks_intricate",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
   },
@@ -145,21 +145,21 @@
   {
     "result": "ear_spool",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "gold_hairpin",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
     "result": "gold_locket",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ] ]
   },
@@ -173,7 +173,7 @@
   {
     "result": "gold_necklace",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
@@ -187,14 +187,14 @@
   {
     "result": "holy_symbol_wood",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
   {
     "result": "ring_engagement",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ], [ [ "diamond", 1 ] ] ]
   },
@@ -215,266 +215,266 @@
   {
     "result": "ring_wedding",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 2 ] ] ]
   },
   {
     "result": "silver_hairpin",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "silver_medal",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "silver_ring",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
   },
   {
     "result": "garnet_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "garnet", 1 ] ] ]
   },
   {
     "result": "amethyst_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
   },
   {
     "result": "aquamarine_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
   },
   {
     "result": "emerald_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "emerald", 1 ] ] ]
   },
   {
     "result": "alexandrite_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
   },
   {
     "result": "ruby_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "ruby", 1 ] ] ]
   },
   {
     "result": "peridot_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "peridot", 1 ] ] ]
   },
   {
     "result": "sapphire_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
   },
   {
     "result": "tourmaline_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
   },
   {
     "result": "citrine_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "citrine", 1 ] ] ]
   },
   {
     "result": "blue_topaz_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
   },
   {
     "result": "opal_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "opal", 1 ] ] ]
   },
   {
     "result": "pearl_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
   {
     "result": "diamond_silver_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "ladle",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "leather_collar",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "rad_badge",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "badge_doctor",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "badge_foodkid",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "fur_cat_ears",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_ears",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_cat_tail",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_tail",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_collar",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ] ]
   },
   {
     "result": "faux_fur_collar",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "leather_belt",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_ears",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_tail",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "alarmclock",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "clockworks", 2 ] ] ]
   },
   {
     "result": "badge_cybercop",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_deputy",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_detective",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 20 ] ] ]
   },
   {
     "result": "badge_marshal",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
   {
     "result": "badge_swat",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
@@ -495,7 +495,7 @@
   {
     "result": "binoculars",
     "type": "uncraft",
-    "time": "1 m 12 s",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -587,7 +587,7 @@
     "result": "boots_steel",
     "type": "uncraft",
     "skill_used": "tailor",
-    "time": "1 m",
+    "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 8 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -603,7 +603,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -621,7 +621,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -640,6 +640,7 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
+    "//": "These robot corpses should really be moved into the butcher mechanic",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -719,7 +720,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -737,7 +738,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -755,7 +756,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -773,7 +774,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "2 m",
+    "time": "10 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -792,7 +793,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "4 m",
+    "time": "25 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -1236,6 +1237,7 @@
     "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
     "difficulty": 9,
     "time": "8 h",
+    "//": "These should be in the butcher section",
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1436,7 +1438,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1445,7 +1447,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1463,7 +1465,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1472,7 +1474,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "RAM", 10 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1481,7 +1483,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 4 ] ],
@@ -1497,7 +1499,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 4 ] ],
@@ -1512,7 +1514,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 10 ] ],
@@ -1528,7 +1530,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 5 ] ],
@@ -1544,7 +1546,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "2 h 30 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 15 ] ],
@@ -1560,7 +1562,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "5 h",
+    "time": "45 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1688,7 +1690,8 @@
   {
     "result": "cable",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "2 m",
+    "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "copper", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -1696,21 +1699,21 @@
   {
     "result": "camera",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 2 ] ], [ [ "lens", 1 ] ] ]
   },
   {
     "result": "camera_pro",
     "type": "uncraft",
-    "time": "1 m 12 s",
+    "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
   },
   {
     "result": "candlestick",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
@@ -1732,93 +1735,93 @@
   {
     "result": "cell_phone",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "smart_phone",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
     "result": "splatter_guard",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_cup",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_mug",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_plate",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "char_purifier",
     "type": "uncraft",
-    "time": "10 m",
+    "time": "5 m",
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
     "result": "clock",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "clockworks", 2 ] ] ]
   },
   {
     "result": "collarpin",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ] ]
   },
   {
     "result": "copper_bracelet",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 43 ] ] ]
   },
   {
     "result": "copper_ear",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 25 ] ] ]
   },
   {
     "result": "creepy_doll",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
   },
   {
     "result": "crown_golden",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 200 ] ] ]
   },
@@ -1838,98 +1841,98 @@
   {
     "result": "diamond_dental_grill",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
     "result": "garnet_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 1 ] ] ]
   },
   {
     "result": "amethyst_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 1 ] ] ]
   },
   {
     "result": "aquamarine_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 1 ] ] ]
   },
   {
     "result": "emerald_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 1 ] ] ]
   },
   {
     "result": "alexandrite_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 1 ] ] ]
   },
   {
     "result": "ruby_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 1 ] ] ]
   },
   {
     "result": "peridot_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 1 ] ] ]
   },
   {
     "result": "sapphire_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 1 ] ] ]
   },
   {
     "result": "tourmaline_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 1 ] ] ]
   },
   {
     "result": "citrine_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 1 ] ] ]
   },
   {
     "result": "blue_topaz_dental_grill",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 1 ] ] ]
   },
   {
     "result": "diamond_ring",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
     "result": "diving_watch",
     "type": "uncraft",
-    "time": "10 m",
+    "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
@@ -1957,14 +1960,14 @@
   {
     "result": "tanned_hide",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 6 ] ] ]
   },
   {
     "result": "eink_tablet_pc",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "e_scrap", 2 ] ] ]
   },
@@ -1973,14 +1976,14 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "hose", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   },
   {
     "result": "fan",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
   },
@@ -1994,7 +1997,7 @@
   {
     "result": "felt_patch",
     "type": "uncraft",
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 50 ] ] ]
   },
@@ -2043,7 +2046,7 @@
   {
     "result": "fork",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -2122,112 +2125,112 @@
   {
     "result": "game_watch",
     "type": "uncraft",
-    "time": "10 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
   {
     "result": "gold_bracelet",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "garnet_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "garnet", 4 ] ] ]
   },
   {
     "result": "amethyst_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
   },
   {
     "result": "aquamarine_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
   },
   {
     "result": "emerald_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "emerald", 4 ] ] ]
   },
   {
     "result": "alexandrite_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
   },
   {
     "result": "ruby_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "ruby", 4 ] ] ]
   },
   {
     "result": "peridot_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "peridot", 4 ] ] ]
   },
   {
     "result": "sapphire_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
   },
   {
     "result": "tourmaline_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
   },
   {
     "result": "citrine_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "citrine", 4 ] ] ]
   },
   {
     "result": "blue_topaz_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
   },
   {
     "result": "opal_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "opal", 4 ] ] ]
   },
   {
     "result": "pearl_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
     "result": "diamond_gold_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "diamond", 4 ] ] ]
   },
@@ -2241,112 +2244,112 @@
   {
     "result": "gold_ear",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "garnet_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 2 ] ] ]
   },
   {
     "result": "amethyst_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
   },
   {
     "result": "aquamarine_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
   },
   {
     "result": "emerald_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 2 ] ] ]
   },
   {
     "result": "alexandrite_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
   },
   {
     "result": "ruby_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 2 ] ] ]
   },
   {
     "result": "peridot_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 2 ] ] ]
   },
   {
     "result": "sapphire_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
   },
   {
     "result": "tourmaline_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
   },
   {
     "result": "citrine_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 2 ] ] ]
   },
   {
     "result": "blue_topaz_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
   },
   {
     "result": "opal_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "opal", 2 ] ] ]
   },
   {
     "result": "pearl_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "pearl", 2 ] ] ]
   },
   {
     "result": "diamond_gold_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "diamond", 2 ] ] ]
   },
   {
     "result": "gold_watch",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
   },
@@ -2355,7 +2358,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "12 h 30 m",
+    "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
     "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
@@ -2365,7 +2368,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "10 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
   },
@@ -2381,7 +2384,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "10 m",
+    "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "e_scrap", 4 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap", 4 ] ] ]
   },
@@ -2390,7 +2393,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "e_scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -2399,7 +2402,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 m 30 s",
+    "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
@@ -2408,13 +2411,13 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 m",
+    "time": "3 m",
     "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_bread",
-    "time": "1 m 30 s",
+    "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
@@ -2422,6 +2425,7 @@
     "type": "uncraft",
     "result": "knife_butter",
     "time": "2 m",
+    "//": "I have no clue how this makes sense, but im not removing it -Esoop1 2020",
     "components": [ [ [ "spike", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2435,49 +2439,50 @@
   {
     "type": "uncraft",
     "result": "knife_carving",
-    "time": "1 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_chef",
-    "time": "1 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_folding",
-    "time": "1 m 30 s",
+    "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_meat_cleaver",
-    "time": "1 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_paring",
-    "time": "1 m 30 s",
+    "time": "3 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "knife_steak",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "3 m",
+    "//": "Another odd one",
     "components": [ [ [ "spike", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "uncraft",
     "result": "knife_vegetable_cleaver",
-    "time": "1 m 30 s",
+    "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
@@ -2485,7 +2490,7 @@
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -2524,14 +2529,14 @@
   {
     "result": "teleumbrella",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
   },
   {
     "result": "lawnmower",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "15 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 8 ] ],
@@ -2545,7 +2550,7 @@
   {
     "result": "lighter",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "30 s",
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -2559,7 +2564,7 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "skill_used": "mechanics",
-    "time": "1 m 30 s",
+    "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
   },
@@ -2597,7 +2602,7 @@
   {
     "result": "mess_tray",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
@@ -2605,7 +2610,7 @@
     "result": "microwave",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h 20 m",
+    "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -2635,7 +2640,7 @@
   {
     "result": "mininuke",
     "type": "uncraft",
-    "time": "6 h",
+    "time": "3 h",
     "skill_used": "electronics",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 4 ], [ "mechanics", 6 ] ],
@@ -2661,14 +2666,14 @@
   {
     "result": "money_bundle",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "months_old_newspaper",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -2696,14 +2701,14 @@
       [ [ "cable", 30 ] ],
       [ [ "bearing", 40 ] ],
       [ [ "steel_lump", 15 ] ],
-      [ [ "e_scrap", 5 ] ]
+      [ [ "e_scrap", 8 ] ]
     ]
   },
   {
     "result": "multi_cooker",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h 30 m",
+    "time": "1 h 15 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -2743,7 +2748,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "cu_pipe", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "rag", 5 ] ], [ [ "metal_tank_little", 2 ] ] ]
   },
@@ -2752,27 +2757,27 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "5 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
-    "type": "uncraft",
     "result": "peeler",
+    "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
-    "type": "uncraft",
     "result": "pot_makeshift_copper",
+    "type": "uncraft",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
   },
   {
-    "type": "uncraft",
     "result": "potato_masher",
+    "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -2804,7 +2809,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "6 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "motor_small", 1 ] ], [ [ "scrap", 4 ] ] ]
@@ -2814,7 +2819,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "3 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -2824,7 +2829,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
-    "time": "1 h 20 m",
+    "time": "2 h",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -2842,7 +2847,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
-    "time": "1 h 20 m",
+    "time": "45 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -2860,7 +2865,6 @@
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "10 m",
-    "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "e_scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -2868,7 +2872,7 @@
     "result": "radio_car",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "7 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ] ],
@@ -2883,7 +2887,7 @@
   {
     "result": "radio_car_box",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "2 m",
     "components": [
       [ [ "radio_car", 1 ] ],
       [ [ "radiocontrol", 1 ] ],
@@ -2909,14 +2913,14 @@
   {
     "result": "stick_fiber",
     "type": "uncraft",
-    "time": "1 h",
+    "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
   {
     "result": "ref_lighter",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m",
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -2950,91 +2954,91 @@
   {
     "result": "garnet_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "garnet", 1 ] ] ]
   },
   {
     "result": "amethyst_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
   },
   {
     "result": "aquamarine_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
   },
   {
     "result": "emerald_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "emerald", 1 ] ] ]
   },
   {
     "result": "alexandrite_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
   },
   {
     "result": "ruby_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "ruby", 1 ] ] ]
   },
   {
     "result": "peridot_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "peridot", 1 ] ] ]
   },
   {
     "result": "sapphire_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
   },
   {
     "result": "tourmaline_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
   },
   {
     "result": "citrine_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "citrine", 1 ] ] ]
   },
   {
     "result": "blue_topaz_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
   },
   {
     "result": "opal_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "opal", 1 ] ] ]
   },
   {
     "result": "pearl_gold_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
@@ -3050,7 +3054,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 3,
-    "time": "10 m",
+    "time": "15 m",
     "decomp_learn": 3,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "wire", 2 ] ], [ [ "cable", 8 ] ] ]
@@ -3060,7 +3064,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "1 h",
+    "time": "45 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_tiny", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
@@ -3076,126 +3080,126 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 15 ] ] ]
   },
   {
     "result": "scythe",
     "type": "uncraft",
-    "time": "10 m",
+    "time": "6 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade_scythe", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
     "result": "sf_watch",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
   },
   {
     "result": "silver_bracelet",
     "type": "uncraft",
-    "time": "36 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 10 ] ] ]
   },
   {
     "result": "garnet_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "garnet", 4 ] ] ]
   },
   {
     "result": "amethyst_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
   },
   {
     "result": "aquamarine_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
   },
   {
     "result": "emerald_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "emerald", 4 ] ] ]
   },
   {
     "result": "alexandrite_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
   },
   {
     "result": "ruby_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "ruby", 4 ] ] ]
   },
   {
     "result": "peridot_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "peridot", 4 ] ] ]
   },
   {
     "result": "sapphire_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
   },
   {
     "result": "tourmaline_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
   },
   {
     "result": "citrine_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "citrine", 4 ] ] ]
   },
   {
     "result": "blue_topaz_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
   },
   {
     "result": "opal_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "opal", 4 ] ] ]
   },
   {
     "result": "pearl_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
     "result": "diamond_silver_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "diamond", 4 ] ] ]
   },
@@ -3209,98 +3213,98 @@
   {
     "result": "garnet_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "garnet", 2 ] ] ]
   },
   {
     "result": "amethyst_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
   },
   {
     "result": "aquamarine_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
   },
   {
     "result": "emerald_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "emerald", 2 ] ] ]
   },
   {
     "result": "alexandrite_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
   },
   {
     "result": "ruby_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "ruby", 2 ] ] ]
   },
   {
     "result": "peridot_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "peridot", 2 ] ] ]
   },
   {
     "result": "sapphire_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
   },
   {
     "result": "tourmaline_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
   },
   {
     "result": "citrine_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "citrine", 2 ] ] ]
   },
   {
     "result": "blue_topaz_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
   },
   {
     "result": "opal_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "opal", 2 ] ] ]
   },
   {
     "result": "pearl_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "pearl", 2 ] ] ]
   },
   {
     "result": "diamond_silver_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "diamond", 2 ] ] ]
   },
@@ -3309,14 +3313,14 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
     "result": "small_relic",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
   },
@@ -3325,21 +3329,21 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "1 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "canister_empty", 1 ] ] ]
   },
   {
     "result": "spoon",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spork",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -3348,7 +3352,7 @@
     "type": "uncraft",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 54 ] ] ]
+    "components": [ [ [ "scrap", 30 ] ] ]
   },
   {
     "result": "stick_long",
@@ -3362,42 +3366,42 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "3 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 8 ], [ "steel_chunk", 1 ] ] ]
   },
   {
     "result": "straw_basket",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "6 m",
     "components": [ [ [ "straw_pile", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "straw_doll",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "3 m",
     "components": [ [ [ "straw_pile", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "straw_fedora",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
   },
   {
     "result": "straw_hat",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "6 m",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "straw_sandals",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "5 m",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -3433,7 +3437,7 @@
     "result": "tank_top",
     "type": "uncraft",
     "skill_used": "tailor",
-    "time": "30 s",
+    "time": "1 m",
     "components": [ [ [ "rag", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -3465,7 +3469,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "hickory_nut_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3475,7 +3479,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "hazelnut_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3485,7 +3489,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "chestnut_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3495,7 +3499,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "almond_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3505,7 +3509,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "pistachio_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3515,7 +3519,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "pecan_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3525,14 +3529,14 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "walnut_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "type": "uncraft",
     "result": "whisk",
+    "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -3548,7 +3552,7 @@
     "type": "uncraft",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "peanut_unshelled", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3564,7 +3568,7 @@
     "result": "toaster",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "10 m",
+    "time": "12 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ], [ [ "element", 4 ] ] ]
   },
@@ -3579,7 +3583,7 @@
     "result": "tshirt",
     "type": "uncraft",
     "skill_used": "tailor",
-    "time": "30 s",
+    "time": "1 m",
     "components": [ [ [ "rag", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -3587,21 +3591,21 @@
     "result": "tshirt_tour",
     "type": "uncraft",
     "skill_used": "tailor",
-    "time": "30 s",
+    "time": "1 m",
     "components": [ [ [ "rag", 5 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
     "result": "usb_drive",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "RAM", 1 ] ] ]
   },
   {
     "result": "vac_sealer",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
   },
@@ -3620,7 +3624,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 2 ],
-    "time": "5 m 24 s",
+    "time": "4 m 20 s",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -3655,7 +3659,7 @@
   {
     "result": "wristwatch",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
   },
@@ -3671,7 +3675,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "9 m",
+    "time": "15 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
@@ -3679,14 +3683,14 @@
   {
     "result": "box_small",
     "type": "uncraft",
-    "time": "2 m 3 s",
+    "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 15 ] ] ]
   },
   {
     "result": "box_medium",
     "type": "uncraft",
-    "time": "4 m",
+    "time": "3 m 30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 85 ] ] ]
   },
@@ -3701,7 +3705,7 @@
     "result": "washing_machine",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "cable", 8 ] ],
@@ -3719,7 +3723,7 @@
     "result": "dishwasher",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "cable", 8 ] ],
@@ -3804,7 +3808,7 @@
   {
     "result": "1st_aid",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "12 s",
     "components": [
       [ [ "medical_tape", 20 ] ],
       [ [ "aspirin", 10 ] ],
@@ -3820,7 +3824,7 @@
   {
     "result": "ifak",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "12 s",
     "components": [
       [ [ "medical_tape", 20 ] ],
       [ [ "tourniquet_upper", 1 ] ],
@@ -3838,7 +3842,7 @@
   {
     "result": "survival_kit",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "15 s",
     "components": [
       [ [ "knife_folding", 1 ] ],
       [ [ "flint_steel", 1 ] ],
@@ -3855,7 +3859,7 @@
   {
     "result": "garlic",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "15 s",
     "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -3871,7 +3875,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "3 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "sheet_metal_small", 9 ] ], [ [ "scrap", 3 ] ] ]
   },
@@ -3880,7 +3884,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "4 m",
+    "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 20 ] ] ]
   },
@@ -3889,14 +3893,14 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "4 m",
+    "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 20 ], [ "steel_chunk", 2 ] ] ]
   },
   {
     "result": "fluid_preserved_brain",
     "type": "uncraft",
-    "time": "6 s",
+    "time": "30 s",
     "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass_sealed", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -3913,9 +3917,8 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "chemistry", 1 ],
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "cable", 1 ] ],
@@ -3931,9 +3934,8 @@
     "result": "melting_point",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "soldering_standard", 5 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "steel_lump", 1 ] ],
@@ -3947,9 +3949,8 @@
     "result": "vortex",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "soldering_standard", 5 ] ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "steel_lump", 1 ] ],
@@ -3971,7 +3972,7 @@
     "result": "voltmeter",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
   },
@@ -3979,7 +3980,7 @@
     "result": "microscope",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "45 m",
+    "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "steel_lump", 2 ] ],
@@ -4013,7 +4014,7 @@
     "result": "microcentrifuge",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "1 h",
+    "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 15 ] ],
     "components": [
@@ -4056,9 +4057,8 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "2 h",
+    "time": "1 h 30 m",
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
-    "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "small_storage_battery", 79 ] ], [ [ "e_scrap", 15 ] ], [ [ "scrap", 31 ] ], [ [ "cable", 19 ] ] ]
   },
@@ -4083,7 +4083,7 @@
     "result": "miner_hat",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "30 s",
+    "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
@@ -4105,7 +4105,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "shoulder_strap", 1 ] ],
@@ -4121,7 +4121,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 1,
-    "time": "1 h 20 m",
+    "time": "1 h 15 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "circuit", 1 ] ],
@@ -4139,7 +4139,7 @@
   {
     "result": "platinum_hairpin",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 3 ] ] ]
   },
@@ -4167,98 +4167,98 @@
   {
     "result": "garnet_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "garnet", 4 ] ] ]
   },
   {
     "result": "amethyst_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
   },
   {
     "result": "aquamarine_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
   },
   {
     "result": "emerald_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "emerald", 4 ] ] ]
   },
   {
     "result": "alexandrite_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
   },
   {
     "result": "ruby_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "ruby", 4 ] ] ]
   },
   {
     "result": "peridot_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "peridot", 4 ] ] ]
   },
   {
     "result": "sapphire_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
   },
   {
     "result": "tourmaline_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
   },
   {
     "result": "citrine_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "citrine", 4 ] ] ]
   },
   {
     "result": "blue_topaz_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
   },
   {
     "result": "opal_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "opal", 4 ] ] ]
   },
   {
     "result": "pearl_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "pearl", 4 ] ] ]
   },
   {
     "result": "diamond_platinum_bracelet",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "diamond", 4 ] ] ]
   },
@@ -4272,105 +4272,105 @@
   {
     "result": "platinum_ear",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
   },
   {
     "result": "garnet_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "garnet", 2 ] ] ]
   },
   {
     "result": "amethyst_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
   },
   {
     "result": "aquamarine_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
   },
   {
     "result": "emerald_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "emerald", 2 ] ] ]
   },
   {
     "result": "alexandrite_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
   },
   {
     "result": "ruby_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "ruby", 2 ] ] ]
   },
   {
     "result": "peridot_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "peridot", 2 ] ] ]
   },
   {
     "result": "sapphire_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
   },
   {
     "result": "tourmaline_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
   },
   {
     "result": "citrine_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "citrine", 2 ] ] ]
   },
   {
     "result": "blue_topaz_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
   },
   {
     "result": "opal_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "opal", 2 ] ] ]
   },
   {
     "result": "pearl_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "pearl", 2 ] ] ]
   },
   {
     "result": "diamond_platinum_earring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "diamond", 2 ] ] ]
   },
@@ -4391,98 +4391,98 @@
   {
     "result": "garnet_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "garnet", 1 ] ] ]
   },
   {
     "result": "amethyst_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
   },
   {
     "result": "aquamarine_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
   },
   {
     "result": "emerald_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "emerald", 1 ] ] ]
   },
   {
     "result": "alexandrite_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
   },
   {
     "result": "ruby_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "ruby", 1 ] ] ]
   },
   {
     "result": "peridot_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "peridot", 1 ] ] ]
   },
   {
     "result": "sapphire_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
   },
   {
     "result": "tourmaline_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
   },
   {
     "result": "citrine_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "citrine", 1 ] ] ]
   },
   {
     "result": "blue_topaz_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
   },
   {
     "result": "opal_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "opal", 1 ] ] ]
   },
   {
     "result": "pearl_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "pearl", 1 ] ] ]
   },
   {
     "result": "diamond_platinum_ring",
     "type": "uncraft",
-    "time": "60 s",
+    "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
@@ -4507,7 +4507,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 1,
-    "time": "5 m",
+    "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ], [ [ "wire", 2 ] ] ]
   },
@@ -4523,7 +4523,7 @@
     "result": "plunger_toilet",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "6 s",
+    "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
   }

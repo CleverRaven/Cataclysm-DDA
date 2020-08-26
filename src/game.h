@@ -91,7 +91,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
 
 class achievements_tracker;
@@ -118,6 +117,7 @@ class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
 class ui_adaptor;
 struct visibility_variables;
@@ -568,10 +568,6 @@ class game
         point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
-
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
@@ -1084,6 +1080,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.
@@ -1106,6 +1104,9 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
+
+        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
+        static void handle_contents_changed( const item_location &acted_item );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

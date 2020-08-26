@@ -866,6 +866,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
+/** Eat a comestible.
+*   @return true if item consumed.
+*/
 static bool eat( item &food, player &you, bool force, item_pocket *const parent_pocket )
 {
     if( !food.is_food() ) {
@@ -964,7 +967,7 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
@@ -974,7 +977,7 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
                                        food.tname() );
         }
     } else if( chew ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
@@ -1280,7 +1283,7 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
@@ -1389,10 +1392,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg( m_debug,
-             "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-             units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-             food_nutrients.kcal, units::to_gram( food_weight ) );
+    add_msg_debug(
+        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+        food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
@@ -1787,7 +1790,9 @@ static bool query_consume_ownership( item &target, player &p )
     return true;
 }
 
-// TODO: Properly split medications and food instead of hacking around
+/** Consume medication.
+*   @return true if item consumed.
+*/
 static bool consume_med( item &target, player &you, item_pocket *const parent_pocket )
 {
     if( !target.is_medication() ) {
@@ -1837,55 +1842,50 @@ static bool consume_med( item &target, player &you, item_pocket *const parent_po
     if( parent_pocket ) {
         parent_pocket->unseal();
     }
-    target.charges -= amount_used;
-    return target.charges <= 0;
+
+    target.mod_charges( -amount_used );
+    return true;
 }
 
-bool player::consume( item &target, bool force, item_pocket *const parent_pocket )
+trinary player::consume( item &target, bool force, item_pocket *const parent_pocket )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
+        return trinary::NONE;
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return trinary::NONE;
     }
 
-    // to try to reduce unecessary churn, this was left for now
-    item &comest = target;
-
-    if( comest.is_null() || target.is_craft() ) {
+    if( target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
         if( is_npc() ) {
             debugmsg( "%s tried to eat a %s", name, target.tname() );
         }
-        return false;
+        return trinary::NONE;
     }
     if( is_player() && !query_consume_ownership( target, *this ) ) {
-        return false;
+        return trinary::NONE;
     }
-    if( consume_med( comest, *this, parent_pocket ) ||
-        eat( comest, *this, force, parent_pocket ) ||
-        feed_reactor_with( comest, parent_pocket ) ||
-        feed_furnace_with( comest, parent_pocket ) ||
-        fuel_bionic_with( comest, parent_pocket ) ) {
+    if( consume_med( target, *this, parent_pocket ) ||
+        eat( target, *this, force, parent_pocket ) ||
+        feed_reactor_with( target, parent_pocket ) ||
+        feed_furnace_with( target, parent_pocket ) ||
+        fuel_bionic_with( target, parent_pocket ) ) {
 
-        if( &target != &comest ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
+        target.on_contents_changed();
+        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
-    return false;
+    return trinary::NONE;
 }
 
-bool player::consume( item_location loc, bool force )
+trinary player::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
-        return false;
+        return trinary::NONE;
     }
     item &target = *loc;
     item_pocket *parent_pocket = nullptr;
@@ -1895,7 +1895,8 @@ bool player::consume( item_location loc, bool force )
     bool wielding = is_wielding( target );
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
-    if( consume( target, force, parent_pocket ) ) {
+    trinary result = consume( target, force, parent_pocket );
+    if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {
@@ -1910,5 +1911,5 @@ bool player::consume( item_location loc, bool force )
         inv->unsort();
     }
 
-    return true;
+    return result;
 }

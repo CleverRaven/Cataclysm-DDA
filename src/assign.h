@@ -785,12 +785,12 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
     for( const damage_unit &out_dmg : out.damage_units ) {
         auto lo_iter = std::find_if( lo_inst.damage_units.begin(),
         lo_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == damage_type::NONE;
         } );
 
         auto hi_iter = std::find_if( hi_inst.damage_units.begin(),
         hi_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == damage_type::NONE;
         } );
 
         if( lo_iter == lo_inst.damage_units.end() ) {
@@ -821,8 +821,8 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
 
 inline bool assign( const JsonObject &jo, const std::string &name, damage_instance &val,
                     bool strict = false,
-                    const damage_instance &lo = damage_instance( DT_NULL, 0.0f, 0.0f, 0.0f, 0.0f ),
-                    const damage_instance &hi = damage_instance( DT_NULL, float_max, float_max, float_max,
+                    const damage_instance &lo = damage_instance( damage_type::NONE, 0.0f, 0.0f, 0.0f, 0.0f ),
+                    const damage_instance &hi = damage_instance( damage_type::NONE, float_max, float_max, float_max,
                             float_max ) )
 {
     // What we'll eventually be returning for the damage instance
@@ -861,7 +861,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
         }
 
-        out.add_damage( DT_STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
+        out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -908,7 +908,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // is a gun, and as such is using the wrong damage type
         debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
 
-        assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
+        assign_dmg_relative( out, val, damage_instance( damage_type::STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
                              unc_dmg_mul ), strict );
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
                proportional.has_member( "prop_damage" ) ) {
@@ -933,7 +933,8 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // is a gun, and as such is using the wrong damage type
         debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
 
-        assign_dmg_proportional( proportional, name, out, val, damage_instance( DT_STAB, amt, arpen, 1.0f,
+        assign_dmg_proportional( proportional, name, out, val, damage_instance( damage_type::STAB, amt,
+                                 arpen, 1.0f,
                                  1.0f, 1.0f, unc_dmg_mul ), strict );
     } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
         // Straight copy-from, not modified by proportional or relative
@@ -948,7 +949,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     }
 
     if( out.damage_units.empty() ) {
-        out = damage_instance( DT_BULLET, 0.0f );
+        out = damage_instance( damage_type::BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it

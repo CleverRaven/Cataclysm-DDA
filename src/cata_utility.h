@@ -72,7 +72,6 @@ T divide_round_up( T num, T den )
     return ( num + den - 1 ) / den;
 }
 
-
 int divide_round_down( int a, int b );
 
 /**

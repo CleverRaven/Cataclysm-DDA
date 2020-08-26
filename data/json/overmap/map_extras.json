@@ -1,12 +1,5 @@
 [
   {
-    "id": "mx_null",
-    "type": "map_extra",
-    "name": { "str": "Nothing" },
-    "description": "Nothing of interest is here.",
-    "generator": { "generator_method": "null", "generator_id": "mx_null" }
-  },
-  {
     "id": "mx_crater",
     "type": "map_extra",
     "name": { "str": "Crater" },

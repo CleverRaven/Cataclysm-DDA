@@ -88,6 +88,8 @@ class item_contents
 
         std::vector<const item *> mods() const;
 
+        std::vector<const item *> softwares() const;
+
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
@@ -209,7 +211,6 @@ class item_contents
         const item &only_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
-        bool has_any_with( const std::function<bool( const item & )> &filter ) const;
 
         // whether the contents has a pocket with the associated type
         bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
@@ -241,7 +242,7 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input );
+        void combine( const item_contents &read_input, bool convert = false );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

@@ -304,7 +304,7 @@
     "flags": [ "SOMATIC" ],
     "effect": "projectile_attack",
     "effect_str": "tornskin_pain",
-    "affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ],
+    "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ],
     "min_dot": 1,
     "max_dot": 4,
     "dot_increment": 0.3,

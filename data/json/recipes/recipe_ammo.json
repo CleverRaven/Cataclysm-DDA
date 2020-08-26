@@ -663,11 +663,11 @@
     "difficulty": 6,
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 8, "" ],
-      [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 8, "recipe_name": "" },
+      "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "recipe_labchem": { "skill_level": 6 }
+    },
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
@@ -687,7 +687,10 @@
     "time": "20 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -700,11 +703,11 @@
     "time": "3 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
-      [ "manual_launcher", 2 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "manual_launcher": { "skill_level": 2 }
+    },
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ], [ "biodiesel", 125 ] ] ]
   },
   {
@@ -831,7 +834,8 @@
         [ "withered", 2 ],
         [ "cattail_stalk", 1 ],
         [ "birchbark", 1 ],
-        [ "willowbark", 1 ]
+        [ "willowbark", 1 ],
+        [ "straw_pile", 1 ]
       ]
     ]
   },

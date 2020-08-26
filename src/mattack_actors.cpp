@@ -163,7 +163,6 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    std::string sp_id;
     fake_spell intermediate;
     mandatory( obj, was_loaded, "spell_data", intermediate );
     self = intermediate.self;
@@ -250,7 +249,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
-            const body_part bp = get_body_part_token( sub.get_string( 0 ) );
+            const bodypart_str_id bp( sub.get_string( 0 ) );
             const float prob = sub.get_float( 1 );
             body_parts.add_or_replace( bp, prob );
         }
@@ -286,8 +285,8 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    add_msg( m_debug, "%s attempting to melee_attack %s", z.name(),
-             target->disp_name() );
+    add_msg_debug( "%s attempting to melee_attack %s", z.name(),
+                   target->disp_name() );
 
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
@@ -305,23 +304,23 @@ bool melee_actor::call( monster &z ) const
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
-    body_part bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
-                       *body_parts.pick();
+    bodypart_str_id bp_hit = body_parts.empty() ?
+                             target->select_body_part( &z, hitspread ).id() :
+                             *body_parts.pick();
 
-    target->on_hit( &z, convert_bp( bp_hit ).id() );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
-    dealt_damage.bp_hit = convert_bp( bp_hit ).id();
+    target->on_hit( &z, bp_hit.id() );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
+    dealt_damage.bp_hit = bp_hit.id();
 
     int damage_total = dealt_damage.total_damage();
-    add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
+    add_msg_debug( "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
         on_damage( z, *target, dealt_damage );
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( convert_bp( bp_hit ).id() ) );
+                                       body_part_name_accusative( bp_hit.id() ) );
     }
 
     return true;
@@ -340,9 +339,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
 
-    for( const auto &eff : effects ) {
+    for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : convert_bp( eff.bp ).id();
+            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }

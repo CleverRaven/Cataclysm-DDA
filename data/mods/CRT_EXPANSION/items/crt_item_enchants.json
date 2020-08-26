@@ -11,6 +11,6 @@
     "damage_increment": -1.0,
     "effect": "target_attack",
     "message": "You feel a rush of vitality from your target into your body.",
-    "damage_type": "bio"
+    "damage_type": "biological"
   }
 ]

@@ -1935,7 +1935,7 @@ JsonValue JsonObject::get_member( const std::string &name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "requested non-existing member \"" + name + "\"" );
+        throw_error( "requested non-existing member \"" + name + "\" in " + str() );
     }
     mark_visited( name );
     return JsonValue( *jsin, iter->second );

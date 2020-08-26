@@ -53,6 +53,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -536,19 +537,19 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    bodypart_id bp_hit =  select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( DT_BASH ) * hit_spread > get_hp_max() ) {
+        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
             add_effect( effect_stunned, 1_turns ); // 1 turn is enough
         }
     }
 
     // Stabbing effects
-    int stab_moves = rng( d.type_damage( DT_STAB ) / 2,
-                          d.type_damage( DT_STAB ) * 1.5 );
+    int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
+                          d.type_damage( damage_type::STAB ) * 1.5 );
     if( critical_hit ) {
         stab_moves *= 1.5;
     }
@@ -730,7 +731,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 z->add_effect( effect_tied, 1_turns, true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
-                add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
+                add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
             }
         } else if( n && !is_immune_effect( effect_downed ) ) {
             // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
@@ -775,6 +776,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
+    }
+
+    if( proj_effects.count( "FOAMCRETE" ) &&  effect_foamcrete_slow.is_valid() ) {
+        add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
+        add_effect( effect_foamcrete_slow, 5_minutes );
     }
 
     int stun_strength = 0;
@@ -874,7 +880,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         int cur_damage = 0;
         deal_damage_handle_type( it, bp, cur_damage, total_pain );
         if( cur_damage > 0 ) {
-            dealt_dams.dealt_dams[ it.type ] += cur_damage;
+            dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
@@ -901,31 +907,31 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     float div = 4.0f;
 
     switch( du.type ) {
-        case DT_BASH:
+        case damage_type::BASH:
             // Bashing damage is less painful
             div = 5.0f;
             break;
 
-        case DT_HEAT:
+        case damage_type::HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
                 add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
             add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             break;
 
-        case DT_ACID:
+        case damage_type::ACID:
             // Acid damage and acid burns are more painful
             div = 3.0f;
             break;
 
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
+        case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
             // these are bleed inducing damage types
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
@@ -1037,7 +1043,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
 
             // Bound intensity by [1, max intensity]
             if( e.get_intensity() < 1 ) {
-                add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+                add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
                 e.set_intensity( 1 );
             } else if( e.get_intensity() > e.get_max_intensity() ) {
                 e.set_intensity( e.get_max_intensity() );
@@ -1077,7 +1083,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
         // Bound new effect intensity by [1, max intensity]
         if( e.get_intensity() < 1 ) {
-            add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+            add_msg_debug( "Bad intensity, ID: %s", e.get_id().c_str() );
             e.set_intensity( 1 );
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
@@ -1766,6 +1772,9 @@ void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
 void Creature::set_all_parts_temp_cur( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+            continue;
+        }
         elem.second.set_temp_cur( set );
     }
 }
@@ -1773,6 +1782,9 @@ void Creature::set_all_parts_temp_cur( int set )
 void Creature::set_all_parts_temp_conv( int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.first->has_flag( "IGNORE_TEMP" ) ) {
+            continue;
+        }
         elem.second.set_temp_conv( set );
     }
 }
@@ -1820,14 +1832,134 @@ bodypart_id Creature::get_random_body_part( bool main ) const
     return main ? part->main_part.id() : part;
 }
 
-std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
+static void sort_body_parts( std::vector<bodypart_id> &bps )
 {
+    // We want to dynamically sort the parts based on their connections as
+    // defined in json.
+    // The goal is to performa a pre-order depth-first traversal starting
+    // with the root part (the head) and prioritising children with fewest
+    // descendants.
+
+    // First build a map with the reverse connections
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> parts_connected_to;
+    bodypart_id root_part;
+    for( const bodypart_id &bp : bps ) {
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            root_part = bp;
+        } else {
+            parts_connected_to[conn].insert( bp );
+        }
+    }
+
+    if( root_part == bodypart_id() ) {
+        debugmsg( "No root part in body" );
+        return;
+    }
+
+    // Topo-sort the parts from the extremities towards the head
+    std::unordered_map<bodypart_id, cata::flat_set<bodypart_id>> unaccounted_parts =
+                parts_connected_to;
+    cata::flat_set<bodypart_id> parts_with_no_connections;
+
+    for( const bodypart_id &bp : bps ) {
+        if( unaccounted_parts[bp].empty() ) {
+            parts_with_no_connections.insert( bp );
+        }
+    }
+
+    std::vector<bodypart_id> topo_sorted_parts;
+    while( !parts_with_no_connections.empty() ) {
+        auto last = parts_with_no_connections.end();
+        --last;
+
+        bodypart_id bp = *last;
+        parts_with_no_connections.erase( last );
+        unaccounted_parts.erase( bp );
+        topo_sorted_parts.push_back( bp );
+        bodypart_id conn = bp->connected_to;
+        if( conn == bp ) {
+            break;
+        }
+        auto conn_it = unaccounted_parts.find( conn );
+        cata_assert( conn_it != unaccounted_parts.end() );
+        conn_it->second.erase( bp );
+        if( conn_it->second.empty() ) {
+            parts_with_no_connections.insert( conn );
+        }
+    }
+
+    if( !unaccounted_parts.empty() || !parts_with_no_connections.empty() ) {
+        debugmsg( "Error in topo-sorting bodyparts: unaccounted_parts.size() == %d; "
+                  "parts_with_no_connections.size() == %d", unaccounted_parts.size(),
+                  parts_with_no_connections.size() );
+        return;
+    }
+
+    // Using the topo-sorted parts, we can count the descendants of each
+    // part
+    std::unordered_map<bodypart_id, int> num_descendants;
+    for( const bodypart_id &bp : topo_sorted_parts ) {
+        int this_num_descendants = 1;
+        for( const bodypart_id &child : parts_connected_to[bp] ) {
+            this_num_descendants += num_descendants[child];
+        }
+        num_descendants[bp] = this_num_descendants;
+    }
+
+    // Finally, we can do the depth-first traversal:
+    std::vector<bodypart_id> result;
+    std::stack<bodypart_id> pending;
+    pending.push( root_part );
+
+    const auto compare_children = [&]( const bodypart_id & l, const bodypart_id & r ) {
+        std::string l_name = l->name.translated();
+        std::string r_name = r->name.translated();
+        bodypart_id l_opp = l->opposite_part;
+        bodypart_id r_opp = r->opposite_part;
+        // Sorting first on the min of the name and opposite's name ensures
+        // that we put pairs together in the list.
+        std::string l_min_name = std::min( l_name, l_opp->name.translated(), localized_compare );
+        std::string r_min_name = std::min( r_name, r_opp->name.translated(), localized_compare );
+        // We delibarately reverse the comparison because the elements get
+        // reversed below when they are transferred from the vector to the
+        // stack.
+        return localized_compare(
+                   std::make_tuple( num_descendants[r], r_min_name, r_name ),
+                   std::make_tuple( num_descendants[l], l_min_name, l_name ) );
+    };
+
+    while( !pending.empty() ) {
+        bodypart_id next = pending.top();
+        pending.pop();
+        result.push_back( next );
+
+        const cata::flat_set<bodypart_id> children_set = parts_connected_to.at( next );
+        std::vector<bodypart_id> children( children_set.begin(), children_set.end() );
+        std::sort( children.begin(), children.end(), compare_children );
+        for( const bodypart_id &child : children ) {
+            pending.push( child );
+        }
+    }
+
+    cata_assert( bps.size() == result.size() );
+    bps = result;
+}
+
+std::vector<bodypart_id> Creature::get_all_body_parts( get_body_part_flags flags ) const
+{
+    bool only_main( flags & get_body_part_flags::only_main );
+
     std::vector<bodypart_id> all_bps;
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;
         }
         all_bps.push_back( elem.first );
+    }
+
+    if( flags & get_body_part_flags::sorted ) {
+        sort_body_parts( all_bps );
     }
 
     return  all_bps;
@@ -2089,16 +2221,22 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
-body_part Creature::select_body_part( Creature *source, int hit_roll ) const
+bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
-    add_msg( m_debug, "hit roll = %d", hit_roll );
-    add_msg( m_debug, "source size = %d", source->get_size() );
-    add_msg( m_debug, "target size = %d", get_size() );
-    add_msg( m_debug, "difference = %d", szdif );
+    add_msg_debug( "hit roll = %d", hit_roll );
+    add_msg_debug( "source size = %d", source->get_size() );
+    add_msg_debug( "target size = %d", get_size() );
+    add_msg_debug( "difference = %d", szdif );
 
-    return anatomy_human_anatomy->select_body_part( szdif, hit_roll )->token;
+    return anatomy_human_anatomy->select_body_part( szdif, hit_roll );
+}
+
+bodypart_id Creature::random_body_part( bool main_parts_only ) const
+{
+    const bodypart_id &bp = get_anatomy()->random_body_part();
+    return  main_parts_only ? bp->main_part : bp ;
 }
 
 void Creature::add_damage_over_time( const damage_over_time_data &DoT )

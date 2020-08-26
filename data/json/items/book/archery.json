@@ -23,7 +23,7 @@
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
     "max_level": 2,
     "copy-from": "book_nonf_hard_arch_tpl",
-    "relative": { "price": 100, "price_post": 2500 }
+    "relative": { "price": 100, "price_postapoc": 2500 }
   },
   {
     "id": "manual_archery",

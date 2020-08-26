@@ -40,6 +40,7 @@ class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
+struct input_event;
 class map;
 class monster;
 class nc_color;
@@ -190,8 +191,6 @@ struct bounding_box {
     point p2;
 };
 
-char keybind( const std::string &opt, const std::string &context = "VEHICLE" );
-
 int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
@@ -217,7 +216,8 @@ struct vehicle_part {
 
         vehicle_part(); /** DefaultConstructible */
 
-        vehicle_part( const vpart_id &vp, const point &dp, item &&obj );
+        vehicle_part( const vpart_id &vp, const std::string &variant_id, const point &dp,
+                      item &&obj );
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -448,6 +448,8 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+        /** If it's a part with variants, which variant it is */
+        std::string variant;
 
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
@@ -684,7 +686,7 @@ class vehicle
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
-        int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+        int damage_direct( int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
         int break_off( int p, int dmg );
         // Returns if it did actually explode
@@ -779,7 +781,7 @@ class vehicle
          * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
+        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;
@@ -886,13 +888,15 @@ class vehicle
         bool can_unmount( int p, std::string &reason ) const;
 
         // install a new part to vehicle
-        int install_part( const point &dp, const vpart_id &id, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, const std::string &variant = "",
+                          bool force = false );
 
         // Install a copy of the given part, skips possibility check
         int install_part( const point &dp, const vehicle_part &part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( const point &dp, const vpart_id &id, item &&obj, bool force = false );
+        int install_part( const point &dp, const vpart_id &id, item &&obj,
+                          const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -1087,7 +1091,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false ) const;
-        vpart_id part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, char &part_mod ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false ) const;
@@ -1523,7 +1527,7 @@ class vehicle
         // must exceed certain threshold to be subtracted from hp
         // (a lot light collisions will not destroy parts)
         // Returns damage bypassed
-        int damage( int p, int dmg, damage_type type = DT_BASH, bool aimed = true );
+        int damage( int p, int dmg, damage_type type = damage_type::BASH, bool aimed = true );
 
         // damage all parts (like shake from strong collision), range from dmg1 to dmg2
         void damage_all( int dmg1, int dmg2, damage_type type, const point &impact );
@@ -1654,7 +1658,9 @@ class vehicle
         void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                 std::vector<std::function<void()>> &actions,
+                                 const std::string &name,
+                                 const input_event &key,
                                  const std::string &flag );
         void set_electronics_menu_options( std::vector<uilist_entry> &options,
                                            std::vector<std::function<void()>> &actions );

@@ -61,8 +61,8 @@ class proficiency_set
     public:
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
-        bool practice( const proficiency_id &practicing, time_duration amount,
-                       cata::optional<time_duration> max );
+        bool practice( const proficiency_id &practicing, const time_duration &amount,
+                       const cata::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
 
@@ -88,7 +88,7 @@ struct learning_proficiency {
     time_duration practiced;
 
     learning_proficiency() = default;
-    learning_proficiency( const proficiency_id &id, const time_duration practiced ) : id( id ),
+    learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),
         practiced( practiced ) {}
 
     void serialize( JsonOut &jsout ) const;

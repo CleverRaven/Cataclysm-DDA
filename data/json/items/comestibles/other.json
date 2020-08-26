@@ -79,7 +79,7 @@
     "calories": 240,
     "description": "A translucent hexagonal chunk of wax, filled with dense, milky, bitter and acidic-tasting jelly.  Though some hold it as a panacea, it doesn't have any medical benefit.  Still it is rich with the most beneficial substances the hive can produce.",
     "price": 20000,
-    "price_postapoc": 4000,
+    "price_postapoc": 400,
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "fun": -5

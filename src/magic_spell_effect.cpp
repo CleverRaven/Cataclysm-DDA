@@ -410,7 +410,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
 
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
-            if( sp.bp_is_affected( bp->token ) ) {
+            if( sp.bp_is_affected( bp.id() ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }

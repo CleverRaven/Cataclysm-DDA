@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
@@ -13,10 +12,10 @@
 
 #include "addiction.h"
 #include "ammo.h"
-#include "artifact.h"
 #include "assign.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -145,7 +144,8 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.item_tags.count( "STAB" ) || obj.item_tags.count( "SPEAR" ) ) {
-        std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
+        std::swap( obj.melee[static_cast<int>( damage_type::CUT )],
+                   obj.melee[static_cast<int>( damage_type::STAB )] );
     }
 
     // add usage methods (with default values) based upon qualities
@@ -818,7 +818,6 @@ void Item_factory::init()
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
-    add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -1100,12 +1099,12 @@ void Item_factory::check_definitions() const
             cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
-                    for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) ) {
-                            if( observed_bps.count( convert_bp( bp ) ) ) {
+                    for( const bodypart_str_id &bp : *portion.covers ) {
+                        if( portion.covers->test( bp ) ) {
+                            if( observed_bps.count( bp ) ) {
                                 msg += "multiple portions with same body_part defined\n";
                             }
-                            observed_bps.insert( convert_bp( bp ) );
+                            observed_bps.insert( bp );
                         }
                     }
                 }
@@ -1406,7 +1405,7 @@ void Item_factory::check_definitions() const
         for( const auto &elem : type->use_methods ) {
             const iuse_actor *actor = elem.second.get_actor_ptr();
 
-            assert( actor );
+            cata_assert( actor );
             if( !actor->is_valid() ) {
                 msg += string_format( "item action \"%s\" was not described.\n", actor->type.c_str() );
             }
@@ -1439,7 +1438,7 @@ void Item_factory::check_definitions() const
 //Returns the template with the given identification tag
 const itype *Item_factory::find_template( const itype_id &id ) const
 {
-    assert( frozen );
+    cata_assert( frozen );
 
     auto found = m_templates.find( id );
     if( found != m_templates.end() ) {
@@ -1528,7 +1527,7 @@ void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
 
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
 {
-    assert( !frozen );
+    cata_assert( !frozen );
 
     if( !jo.has_string( "copy-from" ) ) {
         // if this is a new definition ensure we start with a clean itype
@@ -1558,24 +1557,6 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
 
     deferred.emplace_back( jo.str(), src );
     return false;
-}
-
-void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::string & )
-{
-    slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
-    slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
-    // No dreams unless specified for artifacts embedded in items.
-    // If specifying dreams, message should be set too,
-    // since the array with the defaults isn't accessible from here.
-    slot.dream_freq_unmet = jo.get_int( "dream_freq_unmet", 0 );
-    slot.dream_freq_met   = jo.get_int( "dream_freq_met",   0 );
-    // TODO: Make sure it doesn't cause problems if this is empty
-    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" );
-    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
-    load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
-    load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
-    load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
-    load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
 void islot_milling::load( const JsonObject &jo )
@@ -1736,7 +1717,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "ammo", slot.ammo, strict );
     assign( jo, "range", slot.range, strict );
     // Damage instance assign reader handles pierce
-    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20, -20 ) );
+    assign( jo, "ranged_damage", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20, -20,
+            -20 ) );
     assign( jo, "dispersion", slot.dispersion, strict );
     assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
@@ -2311,7 +2293,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
 {
     bool strict = src == "dda";
 
-    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
+    assign( jo, "damage_modifier", slot.damage, strict, damage_instance( damage_type::NONE, -20, -20,
+            -20,
             -20 ) );
     assign( jo, "loudness_modifier", slot.loudness );
     assign( jo, "location", slot.location );
@@ -2608,6 +2591,148 @@ void Item_factory::add_special_pockets( itype &def )
     }
 }
 
+enum class grip_val : int {
+    BAD = 0,
+    NONE = 1,
+    SOLID = 2,
+    WEAPON = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<grip_val> {
+    static constexpr auto last = grip_val::LAST;
+};
+enum class length_val : int {
+    HAND = 0,
+    SHORT = 1,
+    LONG = 2,
+    LAST = 3
+};
+template<>
+struct enum_traits<length_val> {
+    static constexpr auto last = length_val::LAST;
+};
+enum class surface_val : int {
+    POINT = 0,
+    LINE = 1,
+    ANY = 2,
+    EVERY = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<surface_val> {
+    static constexpr auto last = surface_val::LAST;
+};
+enum class balance_val : int {
+    CLUMSY = 0,
+    UNEVEN = 1,
+    NEUTRAL = 2,
+    GOOD = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<balance_val> {
+    static constexpr auto last = balance_val::LAST;
+};
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<grip_val>( grip_val val )
+{
+    switch( val ) {
+        case grip_val::BAD: return "bad";
+        case grip_val::NONE: return "none";
+        case grip_val::SOLID: return "solid";
+        case grip_val::WEAPON: return "weapon";
+        default: break;
+    }
+    debugmsg( "Invalid grip val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<length_val>( length_val val )
+{
+    switch( val ) {
+        case length_val::HAND: return "hand";
+        case length_val::SHORT: return "short";
+        case length_val::LONG: return "long";
+        default: break;
+    }
+    debugmsg( "Invalid length val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<surface_val>( surface_val val )
+{
+    switch( val ) {
+        case surface_val::POINT: return "point";
+        case surface_val::LINE: return "line";
+        case surface_val::ANY: return "any";
+        case surface_val::EVERY: return "every";
+        default: break;
+    }
+    debugmsg( "Invalid surface val" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<balance_val>( balance_val val )
+{
+    switch( val ) {
+        case balance_val::CLUMSY: return "clumsy";
+        case balance_val::UNEVEN: return "uneven";
+        case balance_val::NEUTRAL: return "neutral";
+        case balance_val::GOOD: return "good";
+        default: break;
+    }
+    debugmsg( "Invalid balance val" );
+    abort();
+}
+
+struct acc_data {
+    grip_val grip = grip_val::WEAPON;
+    length_val length = length_val::HAND;
+    surface_val surface = surface_val::ANY;
+    balance_val balance = balance_val::NEUTRAL;
+
+    // all items have a basic accuracy of -2, per GAME_BALANCE.md
+    static constexpr int base_acc = -2;
+    // grip val should go from -1 to 2 but enum_to_string wants to start at 0
+    static constexpr int grip_offset = -1;
+    // surface val should from from -2 to 1 but enum_to_string wants to start at 0
+    static constexpr int surface_offset = -2;
+    // balance val should from from -2 to 1 but enum_to_string wants to start at 0
+    static constexpr int balance_offset = -2;
+    // all the constant offsets and the base accuracy together
+    static constexpr int acc_offset = base_acc + grip_offset + surface_offset + balance_offset;
+    int sum_values() {
+        return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
+               static_cast<int>( surface ) + static_cast<int>( balance );
+    }
+    void deserialize( const JsonObject &jo );
+    void load( const JsonObject &jo );
+};
+
+void acc_data::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void acc_data::load( const JsonObject &jo )
+{
+    bool was_loaded = false;
+    optional( jo, was_loaded, "grip", grip, grip_val::WEAPON );
+    optional( jo, was_loaded, "length", length, length_val::HAND );
+    optional( jo, was_loaded, "surface", surface, surface_val::ANY );
+    optional( jo, was_loaded, "balance", balance, balance_val::NEUTRAL );
+}
+// *INDENT-ON*
+} // namespace io
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2621,9 +2746,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
-    assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
-    assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
-    assign( jo, "to_hit", def.m_to_hit, strict );
+    assign( jo, "bashing", def.melee[static_cast<int>( damage_type::BASH )], strict, 0 );
+    assign( jo, "cutting", def.melee[static_cast<int>( damage_type::CUT )], strict, 0 );
+    if( jo.has_int( "to_hit" ) ) {
+        assign( jo, "to_hit", def.m_to_hit, strict );
+    } else if( jo.has_object( "to_hit" ) ) {
+        io::acc_data temp;
+        bool was_loaded = false;
+        mandatory( jo, was_loaded, "to_hit", temp );
+        def.m_to_hit = temp.sum_values();
+    }
     assign( jo, "container", def.default_container );
     assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
@@ -2641,7 +2773,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         // TODO: Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
+        def.thrown_damage.add_damage( damage_type::BASH,
+                                      def.melee[static_cast<int>( damage_type::BASH )] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "repairs_like" ) ) {
@@ -2818,7 +2951,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
-    load_slot_optional( def.artifact, jo, "artifact_data", src );
     assign( jo, "brewable", def.brewable, src == "dda" );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
@@ -3167,7 +3299,6 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     }
 
     if( obj.has_member( "artifact" ) ) {
-        Item_spawn_data::relic_generator gen;
         sptr->artifact = cata::make_value<Item_spawn_data::relic_generator>();
         sptr->artifact->load( obj.get_object( "artifact" ) );
     }
@@ -3387,9 +3518,6 @@ std::string enum_to_string<phase_id>( phase_id data )
 
 item_category_id calc_category( const itype &obj )
 {
-    if( obj.artifact ) {
-        return item_category_id( "artifacts" );
-    }
     if( obj.gun && !obj.gunmod ) {
         return item_category_id( "guns" );
     }
@@ -3499,7 +3627,7 @@ bool Item_factory::has_template( const itype_id &id ) const
 
 std::vector<const itype *> Item_factory::all() const
 {
-    assert( frozen );
+    cata_assert( frozen );
 
     std::vector<const itype *> res;
     res.reserve( m_templates.size() + m_runtimes.size() );
@@ -3538,17 +3666,6 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
     } );
 
     return res;
-}
-
-itype_id Item_factory::create_artifact_id() const
-{
-    itype_id id;
-    int i = m_runtimes.size();
-    do {
-        id = itype_id( string_format( "artifact_%d", i ) );
-        ++i;
-    } while( has_template( id ) );
-    return id;
 }
 
 std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const

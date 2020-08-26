@@ -203,7 +203,14 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "fish", 2 ], [ "can_sardine", 1 ], [ "can_tuna", 1 ], [ "can_salmon", 1 ], [ "can_herring", 1 ] ],
+      [
+        [ "fish", 2 ],
+        [ "can_sardine", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_herring", 1 ],
+        [ "fish_pickled", 1 ]
+      ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]

@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <cstring>
 #include <memory>
@@ -10,6 +9,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -610,8 +610,8 @@ void oter_type_t::finalize()
 
 void oter_type_t::register_terrain( const oter_t &peer, size_t n, size_t max_n )
 {
-    assert( n < max_n );
-    assert( peer.type_is( *this ) );
+    cata_assert( n < max_n );
+    cata_assert( peer.type_is( *this ) );
 
     directional_peers.resize( max_n );
 
@@ -625,7 +625,7 @@ void oter_type_t::register_terrain( const oter_t &peer, size_t n, size_t max_n )
 
 oter_id oter_type_t::get_first() const
 {
-    assert( !directional_peers.empty() );
+    cata_assert( !directional_peers.empty() );
     return directional_peers.front();
 }
 
@@ -637,7 +637,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
     } else if( dir == om_direction::type::none || !is_rotatable() ) {
         return directional_peers.front();
     }
-    assert( directional_peers.size() == om_direction::size );
+    cata_assert( directional_peers.size() == om_direction::size );
     return directional_peers[static_cast<size_t>( dir )];
 }
 
@@ -651,7 +651,7 @@ oter_id oter_type_t::get_linear( size_t n ) const
         debugmsg( "Invalid overmap line (%d) was asked from overmap terrain \"%s\".", n, id.c_str() );
         return ot_null;
     }
-    assert( directional_peers.size() == om_lines::size );
+    cata_assert( directional_peers.size() == om_lines::size );
     return directional_peers[n];
 }
 
@@ -2124,11 +2124,11 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 const int min_inc_inter = 3; // Min interest increase to already targeted source
                 const int inc_roll = rng( min_inc_inter, calculated_inter );
                 mg.inc_interest( inc_roll );
-                add_msg( m_debug, "horde inc interest %d dist %d", inc_roll, dist );
+                add_msg_debug( "horde inc interest %d dist %d", inc_roll, dist );
             } else { // New signal source
                 mg.set_target( p.xy() );
                 mg.set_interest( min_capped_inter );
-                add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
+                add_msg_debug( "horde set interest %d dist %d", min_capped_inter, dist );
             }
         }
     }
@@ -3945,7 +3945,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 bool overmap::can_place_special( const overmap_special &special, const tripoint_om_omt &p,
                                  om_direction::type dir, const bool must_be_unexplored ) const
 {
-    assert( dir != om_direction::type::invalid );
+    cata_assert( dir != om_direction::type::invalid );
 
     if( !special.id ) {
         return false;
@@ -3985,9 +3985,9 @@ void overmap::place_special(
     const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
     const city &cit, const bool must_be_unexplored, const bool force )
 {
-    assert( dir != om_direction::type::invalid );
+    cata_assert( dir != om_direction::type::invalid );
     if( !force ) {
-        assert( can_place_special( special, p, dir, must_be_unexplored ) );
+        cata_assert( can_place_special( special, p, dir, must_be_unexplored ) );
     }
 
     const bool blob = special.flags.count( "BLOB" ) > 0;

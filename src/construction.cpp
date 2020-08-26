@@ -1777,11 +1777,8 @@ void finalize_constructions()
             debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
                       con.description );
         }
-        requirement_data requirements_ = std::accumulate( con.reqs_using.begin(), con.reqs_using.end(),
-                                         *con.requirements,
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
+        requirement_data requirements_ = std::accumulate(
+                                             con.reqs_using.begin(), con.reqs_using.end(), *con.requirements );
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();

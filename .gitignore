@@ -197,3 +197,5 @@ Xcode/
 /pch/main-pch.hpp.pch
 /tests/pch/tests-pch.hpp.gch
 /tests/pch/tests-pch.hpp.pch
+/tests/catch/catch.hpp.gch
+/tests/catch/catch.hpp.pch

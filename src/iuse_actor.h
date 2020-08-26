@@ -34,7 +34,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum body_part : int;
 class JsonObject;
 class item_location;
 struct furn_t;
@@ -236,10 +235,10 @@ class unfold_vehicle_iuse : public iuse_actor
 struct effect_data {
     efftype_id id;
     time_duration duration;
-    body_part bp;
+    bodypart_id bp;
     bool permanent;
 
-    effect_data( const efftype_id &nid, const time_duration &dur, body_part nbp, bool perm ) :
+    effect_data( const efftype_id &nid, const time_duration &dur, bodypart_id nbp, bool perm ) :
         id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {}
 };
 
