@@ -57,6 +57,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const skill_id skill_computer( "computer" );
