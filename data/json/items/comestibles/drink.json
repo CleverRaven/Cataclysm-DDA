@@ -983,7 +983,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "bark_tea",
+    "id": "tea_bark",
     "name": { "str": "bark tea" },
     "weight": "251 g",
     "color": "brown",
@@ -1066,7 +1066,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "green_tea",
+    "id": "tea_green",
     "name": "green tea",
     "copy-from": "tea",
     "color": "green",
@@ -1077,7 +1077,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "fruit_tea",
+    "id": "tea_fruit",
     "name": "fruit tea",
     "copy-from": "tea",
     "color": "red",

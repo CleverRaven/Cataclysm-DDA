@@ -96,7 +96,7 @@
       { "item": "dandelion_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "herbal_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pine_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "bark_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "tea_bark", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "hb_beer", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fruit_wine", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "honey_bottled", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" }

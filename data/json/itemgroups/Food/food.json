@@ -801,10 +801,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
-      { "item": "tea_bag_fruit", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
-      { "item": "tea_bag_green", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_bag_chamomile", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
-      { "item": "tea_bag_herbal", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_bag_dandelion", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
