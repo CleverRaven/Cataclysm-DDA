@@ -161,8 +161,8 @@
         "prob": 200
       },
       { "item": "ar15", "prob": 5, "charges": [ 0, 30 ] },
-      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 8 ] },
-      { "item": "remington_870", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "mossberg_500", "prob": 5, "charges": [ 0, 6 ] },
+      { "item": "remington_870", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "ruger_1022", "prob": 15, "charges": [ 0, 10 ] },
       { "item": "shotgun_410", "prob": 10, "charges": [ 0, 1 ] },
       { "item": "shotgun_s", "prob": 10, "charges": [ 0, 1 ] },

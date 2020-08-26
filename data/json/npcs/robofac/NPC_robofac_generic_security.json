@@ -55,7 +55,7 @@
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
-      { "item": "glock_17", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "glock17_22", "charges": 21, "ammo-item": "9mmP", "container-item": "glock_17" },
       { "item": "glock17_22", "charges": 21, "ammo-item": "9mmP" },
       { "item": "9mmP", "count": 6 }
     ]
