@@ -1368,17 +1368,60 @@
   },
   {
     "type": "recipe",
+    "result": "green_tea",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_green_raw", 1 ], [ "tea_bag_green", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "fruit_tea",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_fruit", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "herbal_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_herbal", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelion_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chamomile_tea",
+    "id_suffix": "from_tea_bag",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "herbal_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
+    "difficulty": 1,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ], [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "wild_herbs", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5307,7 +5350,7 @@
   },
   {
     "type": "recipe",
-    "result": "tea_bark",
+    "result": "bark_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6592,18 +6635,6 @@
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "water_clean", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "tea_green",
-    "copy-from": "tea",
-    "components": [ [ [ "tea_green_raw", 1 ], [ "tea_green_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "tea_fruit",
-    "copy-from": "tea",
-    "components": [ [ [ "tea_fruit_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
