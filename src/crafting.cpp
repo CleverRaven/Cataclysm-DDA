@@ -451,24 +451,31 @@ static bool is_container_eligible_for_crafting( const item &cont, bool allow_buc
     return false;
 }
 
+static std::vector<const item *> get_eligible_containers_recursive( const item &cont,
+        bool allow_bucket )
+{
+    std::vector<const item *> ret;
+
+    if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
+        ret.push_back( &cont );
+    }
+    for( const item *it : cont.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        //buckets are never allowed when inside another container
+        std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
+        ret.insert( ret.end(), inside.begin(), inside.end() );
+    }
+    return ret;
+}
+
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
-    if( is_container_eligible_for_crafting( weapon, true ) ) {
-        conts.push_back( &weapon );
-    }
+    conts = get_eligible_containers_recursive( weapon, true );
+
     for( const auto &it : worn ) {
-        if( is_container_eligible_for_crafting( it, false ) ) {
-            conts.push_back( &it );
-        }
-    }
-    for( size_t i = 0; i < inv->size(); i++ ) {
-        for( const auto &it : inv->const_stack( i ) ) {
-            if( is_container_eligible_for_crafting( it, false ) ) {
-                conts.push_back( &it );
-            }
-        }
+        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
+        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
     }
 
     map &here = get_map();
@@ -480,18 +487,16 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
         }
         if( here.accessible_items( loc ) ) {
             for( const item &it : here.i_at( loc ) ) {
-                if( is_container_eligible_for_crafting( it, true ) ) {
-                    conts.emplace_back( &it );
-                }
+                std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
+                conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
         }
 
         if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
-                if( is_container_eligible_for_crafting( it, false ) ) {
-                    conts.emplace_back( &it );
-                }
+                std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
+                conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
         }
     }

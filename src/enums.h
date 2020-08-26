@@ -62,6 +62,13 @@ struct enum_traits<bionic_ui_sort_mode> {
     static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
+// When bool is not enough. NONE, SOME or ALL
+enum class trinary : int {
+    NONE = 0,
+    SOME = 1,
+    ALL  = 2
+};
+
 enum class holiday : int {
     none = 0,
     new_year,

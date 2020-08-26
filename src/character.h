@@ -2139,7 +2139,9 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful. */
         bool feed_furnace_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it, item_pocket *parent_pocket );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
