@@ -82,11 +82,6 @@
     "responses": [
       { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
-        "text": "About those jobs…",
-        "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": "has_many_assigned_mission"
-      },
-      {
         "text": "Who are you?",
         "condition": { "not": { "u_has_var": "robofac_merc_1_stay", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
         "topic": "TALK_ROBOFAC_MERC_1_WHO"
@@ -110,7 +105,9 @@
             { "u_has_var": "helped_with_missions", "type": "general", "context": "robofac_merc_1", "value": "yes" },
             {
               "not": { "npc_has_var": "temporal_follower", "type": "general", "context": "robofac_merc_1", "value": "yes" }
-            }
+            },
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
           ]
         },
         "topic": "TALK_MISSION_LIST"
@@ -165,7 +162,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" } },
-            { "not": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_GOLD" } }
+            { "not": "has_many_assigned_mission" },
+            { "not": "has_assigned_mission" }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_COINS"
@@ -175,7 +173,11 @@
         "condition": { "u_has_var": "gold_mission_complete", "type": "general", "context": "robofac_merc_1", "value": "yes" },
         "topic": "TALK_ROBOFAC_MERC_1_RANDOM_THOUGHTS"
       },
-      { "text": "Want help with something?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Want help with something?",
+        "condition": { "and": [ { "not": "has_many_assigned_mission" }, { "not": "has_assigned_mission" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "What do you know about our employers?", "topic": "TALK_ROBOFAC_MERC_1_ASK_HUB" },
       { "text": "Well, I should get going.", "topic": "TALK_DONE" }
     ]
