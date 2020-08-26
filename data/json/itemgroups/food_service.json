@@ -113,10 +113,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "tanbark", "prob": 3, "count": [1, 2] },
-      { "item": "spurge", "prob": 20, "count": [1, 2] },
-      { "item": "lotus", "prob": 20, "count": [1, 2] },
-      { "item": "chamomile", "prob": 30, "count": [1, 2] }
+      { "item": "tanbark", "prob": 3, "count": [ 1, 2 ] },
+      { "item": "spurge", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "lotus", "prob": 20, "count": [ 1, 2 ] },
+      { "item": "chamomile", "prob": 30, "count": [ 1, 2 ] }
     ]
   },
   {
