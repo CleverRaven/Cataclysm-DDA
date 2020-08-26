@@ -1,7 +1,6 @@
 #include "advanced_inv.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <initializer_list>
 #include <list>
@@ -17,6 +16,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
@@ -208,7 +208,7 @@ void advanced_inventory::init()
     src = ( save_state->active_left ) ? left : right;
     dest = ( save_state->active_left ) ? right : left;
 
-    //sanity check, badly initialized values may cause problem in move_all_items( see assert() )
+    //sanity check, badly initialized values may cause problem in move_all_items( see cata_assert() )
     if( panes[src].get_area() == AIM_ALL && panes[dest].get_area() == AIM_ALL ) {
         panes[dest].set_area( AIM_INVENTORY );
     }
@@ -1299,7 +1299,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         popup( _( "Source area is the same as destination (%s)." ), squares[destarea].name );
         return false;
     }
-    assert( !sitem->items.empty() );
+    cata_assert( !sitem->items.empty() );
     int amount_to_move = 0;
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
@@ -1310,7 +1310,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     // taken from inventory, but unable to put into the cargo trunk go back into the inventory,
     // but are potentially at a different place).
     recalc = true;
-    assert( amount_to_move > 0 );
+    cata_assert( amount_to_move > 0 );
     if( destarea == AIM_CONTAINER ) {
         if( !move_content( *sitem->items.front(),
                            *squares[destarea].get_container( to_vehicle ) ) ) {
@@ -1419,7 +1419,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // If examining the item did not create a new activity, we have to remove
         // "return to AIM".
         do_return_entry();
-        assert( player_character.has_activity( ACT_ADV_INVENTORY ) );
+        cata_assert( player_character.has_activity( ACT_ADV_INVENTORY ) );
         // `inventory_item_menu` may call functions that move items, so we should
         // always recalculate during this period to ensure all item references are valid
         always_recalc = true;
@@ -1691,7 +1691,7 @@ class query_destination_callback : public uilist_callback
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
-    assert( menu->entries.size() >= 9 );
+    cata_assert( menu->entries.size() >= 9 );
     int ofs = -25 - 4;
     int sel = 0;
     if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
@@ -1757,7 +1757,7 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.selected = save_state->last_popup_dest - AIM_SOUTHWEST;
     menu.query();
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
-        assert( squares[menu.ret].canputitems() );
+        cata_assert( squares[menu.ret].canputitems() );
         def = static_cast<aim_location>( menu.ret );
         // we have to set the destination pane so that move actions will target it
         // we can use restore_area later to undo this
@@ -1807,9 +1807,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
                                         const std::string &action, int &amount )
 {
     // should be a specific location instead
-    assert( destarea != AIM_ALL );
+    cata_assert( destarea != AIM_ALL );
     // valid item is obviously required
-    assert( !sitem.items.empty() );
+    cata_assert( !sitem.items.empty() );
     const item &it = *sitem.items.front();
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
@@ -1817,7 +1817,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // default to move all, unless if being equipped
     const int input_amount = by_charges ? it.charges : action == "MOVE_SINGLE_ITEM" ? 1 : sitem.stacks;
     // there has to be something to begin with
-    assert( input_amount > 0 );
+    cata_assert( input_amount > 0 );
     amount = input_amount;
 
     // Includes moving from/to inventory and around on the map.

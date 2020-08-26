@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <functional>
@@ -14,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -187,8 +187,8 @@ struct pixel_minimap::submap_cache {
     submap_cache( submap_cache && ) = default;
 
     SDL_Color &color_at( const point &p ) {
-        assert( p.x < SEEX );
-        assert( p.y < SEEY );
+        cata_assert( p.x < SEEX );
+        cata_assert( p.y < SEEY );
 
         return minimap_colors[p.y * SEEX + p.x];
     }
@@ -559,14 +559,12 @@ const
 {
     switch( type ) {
         case pixel_minimap_type::ortho:
-            return std::unique_ptr<pixel_minimap_projector> {
-                new pixel_minimap_ortho_projector( total_tiles_count, max_screen_rect, settings.square_pixels )
-            };
+            return std::make_unique<pixel_minimap_ortho_projector> ( total_tiles_count, max_screen_rect,
+                    settings.square_pixels );
 
         case pixel_minimap_type::iso:
-            return std::unique_ptr<pixel_minimap_projector> {
-                new pixel_minimap_iso_projector( total_tiles_count, max_screen_rect, settings.square_pixels )
-            };
+            return std::make_unique<pixel_minimap_iso_projector>( total_tiles_count, max_screen_rect,
+                    settings.square_pixels );
     }
 
     return nullptr;

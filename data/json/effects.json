@@ -1414,6 +1414,7 @@
       "int_mod": [ 0.5 ],
       "per_mod": [ 1 ],
       "fatigue_min": [ 1 ],
+      "fatigue_tick": [ 9 ],
       "stamina_min": [ 8 ]
     },
     "blood_analysis_description": "Methamphetamines"

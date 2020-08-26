@@ -79,7 +79,6 @@ static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_cig( "cig" );
@@ -314,12 +313,12 @@ void Character::suffer_while_awake( const int current_stim )
     if( has_trait( trait_CHEMIMBALANCE ) ) {
         suffer_from_chemimbalance();
     }
-    if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+    if( has_trait( trait_SCHIZOPHRENIC ) &&
         !has_effect( effect_took_thorazine ) ) {
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+    if( has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
@@ -1278,27 +1277,6 @@ void Character::suffer_from_bad_bionics()
     }
 }
 
-void Character::suffer_from_artifacts()
-{
-    // Artifact effects
-    if( has_artifact_with( AEP_ATTENTION ) ) {
-        add_effect( effect_attention, 3_turns );
-    }
-
-    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        get_weather().weather_id->precip < precip_class::heavy ) {
-        get_weather().weather_override = get_bad_weather();
-        get_weather().set_nextweather( calendar::turn );
-    }
-
-    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
-        mutate();
-    }
-    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        teleport::teleport( *this );
-    }
-}
-
 void Character::suffer_from_stimulants( const int current_stim )
 {
     // Stim +250 kills
@@ -1507,7 +1485,6 @@ void Character::suffer()
     suffer_in_sunlight();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
-    suffer_from_artifacts();
     suffer_from_radiation();
     suffer_from_bad_bionics();
     suffer_from_stimulants( current_stim );
@@ -1524,6 +1501,8 @@ void Character::suffer()
     suffer_without_sleep( sleep_deprivation );
     suffer_from_tourniquet();
     suffer_from_pain();
+    //Suffer from enchantments
+    enchantment_cache->activate_passive( *this );
 }
 
 bool Character::irradiate( float rads, bool bypass )
@@ -1663,7 +1642,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1912,18 +1891,18 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, to_turns<int>( i.sated ) );
+        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+                       i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }

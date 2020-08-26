@@ -134,8 +134,8 @@ std::vector<display_proficiency> proficiency_set::display() const
     return ret;
 }
 
-bool proficiency_set::practice( const proficiency_id &practicing, const time_duration amount,
-                                const cata::optional<time_duration> max )
+bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
+                                const cata::optional<time_duration> &max )
 {
     if( has_learned( practicing ) || !practicing->can_learn() || !has_prereqs( practicing ) ) {
         return false;

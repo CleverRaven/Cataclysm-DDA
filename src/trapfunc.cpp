@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <memory>
 #include <unordered_map>
 #include <utility>
@@ -7,6 +6,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -120,8 +120,8 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
             z->moves -= 80;
         }
         if( dmg > 0 ) {
-            c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, dmg ) );
-            c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, dmg ) );
+            c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, dmg ) );
+            c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, dmg ) );
             c->check_dead_state();
         }
     }
@@ -164,8 +164,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         // Actual effects
         c->add_effect( effect_beartrap, 1_turns, hit, true );
         damage_instance d;
-        d.add_damage( DT_BASH, 12 );
-        d.add_damage( DT_CUT, 18 );
+        d.add_damage( damage_type::BASH, 12 );
+        d.add_damage( damage_type::CUT, 18 );
         c->deal_damage( nullptr, hit, d );
 
         player *n = dynamic_cast<player *>( c );
@@ -204,11 +204,15 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         } else {
             z->moves -= 80;
         }
-        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 3, 5 ) ) );
-        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 3, 5 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 3,
+                        5 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 3,
+                        5 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 6,
+                        10 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 6,
+                        10 ) ) );
         if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
             n->add_effect( effect_tetanus, 1_turns, true );
         } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
@@ -239,11 +243,15 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         } else {
             z->moves -= 80;
         }
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 9, 15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 9, 15 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+                        15 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+                        15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 9, 30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 9, 30 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+                        30 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+                        30 ) ) );
     }
     c->check_dead_state();
     return true;
@@ -263,11 +271,15 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         z->moves -= 80;
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 9, 15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 9, 15 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+                        15 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+                        15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 9, 30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 9, 30 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+                        30 ) ) );
+        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+                        30 ) ) );
     }
     c->check_dead_state();
     if( get_player_view().sees( p ) ) {
@@ -314,7 +326,8 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
             z->stumble();
         }
         if( rng( 0, 10 ) > z->get_dodge() ) {
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_TRUE, rng( 1, 4 ) ) );
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::PURE, rng( 1,
+                            4 ) ) );
         }
     } else if( n != nullptr ) {
         std::vector<tripoint> valid;
@@ -386,7 +399,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
-                c->deal_damage( nullptr, hit, damage_instance( DT_CUT, rng( 20, 30 ) ) );
+                c->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, rng( 20, 30 ) ) );
                 add_bolt = !one_in( 10 );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
@@ -420,7 +433,8 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 if( seen ) {
                     add_msg( m_bad, _( "A bolt shoots out and hits the %s!" ), z->name() );
                 }
-                z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, rng( 20, 30 ) ) );
+                z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT, rng( 20,
+                                30 ) ) );
                 add_bolt = !one_in( 10 );
             } else if( seen ) {
                 add_msg( m_neutral, _( "A bolt shoots out, but misses the %s." ), z->name() );
@@ -491,7 +505,8 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                 }
                 //~ %s is bodypart
                 n->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
-                c->deal_damage( nullptr, hit, damage_instance( DT_BULLET, rng( 40 * shots, 60 * shots ) ) );
+                c->deal_damage( nullptr, hit, damage_instance( damage_type::BULLET, rng( 40 * shots,
+                                60 * shots ) ) );
             } else {
                 n->add_msg_player_or_npc( m_neutral, _( "You dodge the shot!" ),
                                           _( "<npcname> dodges the shot!" ) );
@@ -526,8 +541,9 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             if( seen ) {
                 add_msg( m_bad, _( "A shotgun fires and hits the %s!" ), z->name() );
             }
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BULLET, rng( 40 * shots,
-                            60 * shots ) ) );
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BULLET,
+                            rng( 40 * shots,
+                                 60 * shots ) ) );
         }
         c->check_dead_state();
     }
@@ -549,8 +565,8 @@ bool trapfunc::blade( const tripoint &, Creature *c, item * )
     c->add_msg_player_or_npc( m_bad, _( "A blade swings out and hacks your torso!" ),
                               _( "A blade swings out and hacks <npcname>'s torso!" ) );
     damage_instance d;
-    d.add_damage( DT_BASH, 12 );
-    d.add_damage( DT_CUT, 30 );
+    d.add_damage( damage_type::BASH, 12 );
+    d.add_damage( damage_type::CUT, 30 );
     c->deal_damage( nullptr, bodypart_id( "torso" ), d );
     c->check_dead_state();
     return true;
@@ -576,7 +592,7 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
     c->add_effect( effect_lightsnare, 1_turns, hit, true );
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr && z->type->size == creature_size::tiny ) {
-        z->deal_damage( nullptr, hit, damage_instance( DT_BASH, 10 ) );
+        z->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, 10 ) );
     }
     c->check_dead_state();
     return true;
@@ -604,7 +620,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
         damage_instance d;
-        d.add_damage( DT_BASH, 10 );
+        d.add_damage( damage_type::BASH, 10 );
         n->deal_damage( nullptr, hit, d );
     } else if( z != nullptr ) {
         int damage;
@@ -619,7 +635,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
             default:
                 damage = 0;
         }
-        z->deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
+        z->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, damage ) );
     }
     c->check_dead_state();
     return true;
@@ -682,8 +698,8 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         n->add_env_effect( effect_slimed, bodypart_id( "foot_r" ), 6, 2_minutes );
         if( one_in( 3 ) ) {
             n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
-            n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 5 ) );
-            n->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, 5 ) );
+            n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 5 ) );
+            n->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, 5 ) );
             n->check_dead_state();
         }
         return true;
@@ -705,7 +721,8 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
         }
         return true;
     }
-    assert( false );
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+    cata_assert( false );
     return false;
 }
 
@@ -729,16 +746,16 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         // distribute damage amongst player and horse
         if( z->has_effect( effect_ridden ) && z->mounted_player ) {
             Character *ch = z->mounted_player;
-            ch->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( DT_CUT, 15 ) );
-            ch->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, 20 ) );
-            ch->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_CUT, 12 ) );
-            ch->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_CUT, 12 ) );
-            ch->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, 10 ) );
-            ch->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, 10 ) );
-            ch->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_CUT, 12 ) );
-            ch->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_CUT, 12 ) );
-            ch->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 10 ) );
-            ch->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, 10 ) );
+            ch->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::CUT, 15 ) );
+            ch->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT, 20 ) );
+            ch->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::CUT, 12 ) );
+            ch->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::CUT, 12 ) );
+            ch->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, 10 ) );
+            ch->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT, 10 ) );
+            ch->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::CUT, 12 ) );
+            ch->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::CUT, 12 ) );
+            ch->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 10 ) );
+            ch->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, 10 ) );
             if( player_sees ) {
                 ch->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                                            _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
@@ -752,16 +769,16 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     if( player_sees ) {
         add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
     }
-    c->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( DT_CUT, 15 ) );
-    c->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, 20 ) );
-    c->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_CUT, 12 ) );
-    c->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_CUT, 12 ) );
-    c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, 10 ) );
-    c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, 10 ) );
-    c->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_CUT, 12 ) );
-    c->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_CUT, 12 ) );
-    c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 10 ) );
-    c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::CUT, 15 ) );
+    c->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT, 20 ) );
+    c->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::CUT, 12 ) );
+    c->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::CUT, 12 ) );
+    c->deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, 10 ) );
+    c->deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::CUT, 10 ) );
+    c->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::CUT, 12 ) );
+    c->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::CUT, 12 ) );
+    c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 10 ) );
+    c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, 10 ) );
 
     c->check_dead_state();
     return true;
@@ -796,8 +813,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
                 // like the message says \-:
                 n->hurtall( rng( static_cast<int>( damage / 2 ), damage ), n );
-                n->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH, damage ) );
-                n->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH, damage ) );
+                n->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH, damage ) );
+                n->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH, damage ) );
             } else {
                 n->add_msg_if_player( _( "You land nimbly." ) );
             }
@@ -807,8 +824,10 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
             get_player_character().forced_dismount();
         }
-        z->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH, eff * rng( 10, 20 ) ) );
-        z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH, eff * rng( 10, 20 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH, eff * rng( 10,
+                        20 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH, eff * rng( 10,
+                        20 ) ) );
     }
     c->check_dead_state();
     return true;
@@ -867,7 +886,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             }
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit ) );
-            n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
+            n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
@@ -880,7 +899,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
             player_character.forced_dismount();
         }
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, rng( 20, 50 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT, rng( 20,
+                        50 ) ) );
     }
     c->check_dead_state();
     if( one_in( 4 ) ) {
@@ -954,7 +974,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             }
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit ) );
-            n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
+            n->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
@@ -967,7 +987,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             add_msg( m_bad, _( "Your %s falls into a pit!" ), z->get_name() );
             player_character.forced_dismount();
         }
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_CUT, rng( 20, 50 ) ) );
+        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::CUT, rng( 20,
+                        50 ) ) );
     }
     c->check_dead_state();
     if( one_in( 5 ) ) {
@@ -994,10 +1015,10 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_HEAT, 20 ) );
-        n->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_HEAT, 20 ) );
-        n->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_HEAT, 20 ) );
-        n->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_HEAT, 20 ) );
+        n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::HEAT, 20 ) );
+        n->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::HEAT, 20 ) );
+        n->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::HEAT, 20 ) );
+        n->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::HEAT, 20 ) );
     } else if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_bad, _( "Your %s is burned by the lava!" ), z->get_name() );
@@ -1019,7 +1040,7 @@ bool trapfunc::lava( const tripoint &p, Creature *c, item * )
         if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
             dam = 5;
         }
-        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_HEAT, dam ) );
+        z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::HEAT, dam ) );
     }
     c->check_dead_state();
     return true;
@@ -1313,7 +1334,8 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
     player *n = dynamic_cast<player *>( c );
     if( z != nullptr ) {
         if( one_in( 3 ) ) {
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_ACID, rng( 5, 10 ) ) );
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::ACID, rng( 5,
+                            10 ) ) );
             z->set_speed_base( z->get_speed_base() * 0.9 );
         }
         if( z->has_effect( effect_ridden ) ) {
@@ -1423,7 +1445,7 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
         if( n != nullptr ) {
             n->hurtall( 1, nullptr );
         } else if( z != nullptr ) {
-            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_TRUE, 1 ) );
+            z->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::PURE, 1 ) );
         }
         c->check_dead_state();
         return true;

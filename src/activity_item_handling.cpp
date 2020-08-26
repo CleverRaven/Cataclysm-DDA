@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <list>
@@ -14,6 +13,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
@@ -457,6 +457,7 @@ static void debug_drop_list( const std::list<act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
+// Return a list of items to be dropped by the given item-dropping activity in the current turn.
 static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
@@ -464,20 +465,25 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
     std::list<act_item> items = convert_to_act_item( act, p );
     debug_drop_list( items );
 
+    // As long as the player has enough moves in this turn, drop items from the activity item list
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         act_item &ait = items.front();
 
-        assert( ait.loc );
-        assert( ait.loc.get_item() );
+        cata_assert( ait.loc );
+        cata_assert( ait.loc.get_item() );
 
         p.mod_moves( -ait.consumed_moves );
 
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
         if( ait.loc.has_parent() ) {
             item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
             if( parent_pocket ) {
                 parent_pocket->unseal();
             }
+            // Update encumbrance on the parent item
+            ait.loc.parent_item()->on_contents_changed();
         }
+        // Take off the item or remove it from the player's inventory
         if( p.is_worn( *ait.loc ) ) {
             p.takeoff( *ait.loc, &res );
         } else if( ait.loc->count_by_charges() ) {
@@ -517,7 +523,7 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
             break;
         }
     }
-
+    p->invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
                               pos, force_ground );
 }
@@ -1716,8 +1722,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
         }
     }
     for( const std::tuple<tripoint, itype_id, int> &elem : final_map ) {
-        add_msg( m_debug, "%s is fetching %s from x: %d y: %d ", p.disp_name(),
-                 std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
+        add_msg_debug( "%s is fetching %s from x: %d y: %d ", p.disp_name(),
+                       std::get<1>( elem ).str(), std::get<0>( elem ).x, std::get<0>( elem ).y );
     }
     return final_map;
 }
@@ -2955,8 +2961,6 @@ int get_auto_consume_moves( player &p, const bool food )
         return 0;
     }
 
-    static const std::string flag_MELTS( "MELTS" );
-    static const std::string flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
     const tripoint pos = p.pos();
     zone_manager &mgr = zone_manager::get_manager();
     zone_type_id consume_type_zone( "" );

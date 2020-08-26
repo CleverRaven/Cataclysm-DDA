@@ -1226,7 +1226,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
     reset_camp_resources();
-    std::string gather_bldg = "null";
 
     // Handling for the central tile
     // return legacy workers
@@ -1239,7 +1238,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                 base_camps::base_dir, entry, avail );
     }
     for( const basecamp_upgrade &upgrade : available_upgrades( base_camps::base_dir ) ) {
-        gather_bldg = upgrade.bldg;
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
         comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
         if( npc_list.empty() && !upgrade.in_progress ) {

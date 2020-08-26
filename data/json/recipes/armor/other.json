@@ -273,7 +273,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "flags": [ "UNCRAFT_BY_QUANTITY" ],
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_m",
@@ -288,7 +288,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "flags": [ "UNCRAFT_BY_QUANTITY" ],
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_l",
@@ -400,7 +400,7 @@
   {
     "type": "recipe",
     "result": "towel",
-    "category": "CC_OTHER",
+    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "survival",
     "time": "4 m",

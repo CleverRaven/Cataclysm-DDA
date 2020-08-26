@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_ID_H
 #define CATA_SRC_CHARACTER_ID_H
 
-#include <cassert>
 #include <iosfwd>
 
 class JsonIn;

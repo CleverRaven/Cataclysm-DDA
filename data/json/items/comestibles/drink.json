@@ -1026,6 +1026,25 @@
     "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
   },
   {
+    "id": "water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
+    "name": { "str_sp": "water" },
+    "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 50,
+    "symbol": "~",
+    "color": "light_blue",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "quench": 50,
+    "ammo_data": { "ammo_type": "water" },
+    "flags": [ "EATEN_COLD" ],
+    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
+  },
+  {
     "id": "water_clean",
     "copy-from": "water",
     "type": "COMESTIBLE",

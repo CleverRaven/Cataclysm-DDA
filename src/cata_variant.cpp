@@ -34,6 +34,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::spell_id: return "spell_id";
         case cata_variant_type::string: return "string";
         case cata_variant_type::ter_id: return "ter_id";
+        case cata_variant_type::ter_str_id: return "ter_str_id";
         case cata_variant_type::trait_id: return "trait_id";
         case cata_variant_type::trap_str_id: return "trap_str_id";
         case cata_variant_type::tripoint: return "tripoint";

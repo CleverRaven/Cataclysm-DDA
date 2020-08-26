@@ -1582,5 +1582,36 @@
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
+  },
+  {
+    "id": "long_duffelbag",
+    "type": "ARMOR",
+    "name": { "str": "longarm bag" },
+    "description": "A long duffel bag.  Provides storage for long arms and rifles.  Quite cumbersome.",
+    "weight": "1133 g",
+    "volume": "12 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 80,
+    "encumbrance": 8,
+    "max_encumbrance": 42,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "150 cm",
+        "magazine_well": "10 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]

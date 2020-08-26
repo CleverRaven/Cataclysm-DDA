@@ -331,3 +331,18 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
     trigdist = true;
     monster_check();
 }
+
+TEST_CASE( "monster_extend_flags", "[monster]" )
+{
+    // mon_dog_zombie_brute is copy-from mon_dog_zombie_rot
+    // mon_dog_zombie_rot contains
+    // "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    // mon_dog_zombie_brute contains
+    // "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
+
+    // This test verifies that "extend" works on monster flags by checking both
+    // those take effect
+    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    CHECK( m.has_flag( MF_SEES ) );
+    CHECK( m.has_flag( MF_PUSH_VEH ) );
+}

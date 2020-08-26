@@ -139,6 +139,9 @@ struct body_part_type {
 
         int drench_max;
 
+        cata::flat_set<std::string> flags;
+        bool has_flag( const std::string &flag ) const;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

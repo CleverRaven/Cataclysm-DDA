@@ -22,6 +22,17 @@
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "drill_rock_primitive",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
     "result": "g_shovel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -386,6 +397,21 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 1 ] ], [ [ "weights", 40, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hoboreel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "survival", 4 ],
+    "time": "35 m",
+    "autolearn": false,
+    "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
+    "using": [ [ "cordage", 6 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 2 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
   {
     "result": "churn",
@@ -791,7 +817,7 @@
   {
     "result": "sieve_primitive",
     "type": "recipe",
-    "category": "CC_ARMOR",
+    "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ], [ "tailor", 2 ] ],

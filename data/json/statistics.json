@@ -475,13 +475,6 @@
     "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_l" ] } }
   },
   {
-    "id": "num_broken_bone",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_broken_bone",
-    "description": { "str": "bone broken", "str_pl": "bones broken" }
-  },
-  {
     "id": "num_broken_right_leg",
     "type": "event_statistic",
     "stat_type": "count",

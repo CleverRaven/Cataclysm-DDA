@@ -53,7 +53,7 @@ struct rl_vec2d;
 struct trap;
 
 double precip_mm_per_hour( precip_class p );
-void handle_weather_effects( weather_type_id w );
+void handle_weather_effects( const weather_type_id &w );
 
 /**
  * Weather drawing tracking.
@@ -98,7 +98,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 // Return windchill offset in degrees F, starting from given temperature, humidity and wind
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
-int get_local_humidity( double humidity, weather_type_id weather, bool sheltered = false );
+int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
@@ -143,15 +143,15 @@ bool is_wind_blocker( const tripoint &location );
 weather_type_id current_weather( const tripoint &location,
                                  const time_point &t = calendar::turn );
 
-void glare( weather_type_id w );
+void glare( const weather_type_id &w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( weather_type_id wtype,
+int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
-void weather_sound( translation sound_message, std::string sound_effect );
+void weather_sound( const translation &sound_message, const std::string &sound_effect );
 void wet( Character &target, int amount );
 
 class weather_manager

@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cctype>
 #include <cmath>
 #include <cstdlib>
@@ -22,6 +21,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -151,13 +151,9 @@ static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -1309,11 +1305,9 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        const bool small = p.has_trait( trait_SMALL2 ) ||
-                           p.has_trait( trait_SMALL_OK );
+        const bool small = p.get_size() == creature_size::tiny;
 
-        const bool big = p.has_trait( trait_HUGE ) ||
-                         p.has_trait( trait_HUGE_OK );
+        const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -1506,7 +1500,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
             int total_pain = 0;
             temp_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
             if( cur_damage > 0 ) {
-                dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+                dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
             }
         }
         double damage_per_hit = dealt_dams.total_damage();
@@ -1528,7 +1522,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
                 int total_pain = 0;
                 temp_rs_mon.deal_damage_handle_type( dmg_unit, bodypart_id( "torso" ), cur_damage, total_pain );
                 if( cur_damage > 0 ) {
-                    rs_dealt_dams.dealt_dams[ dmg_unit.type ] += cur_damage;
+                    rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
                 }
             }
             double rs_damage_per_hit = rs_dealt_dams.total_damage();
@@ -1845,8 +1839,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-        ( debug || ( g != nullptr && ( player_character.has_trait( trait_CARNIVORE ) ||
-                                       player_character.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
+        ( debug || ( g != nullptr && player_character.has_trait( trait_CARNIVORE ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
@@ -2070,6 +2063,26 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) &&
         parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
+    }
+    if( parts->test( iteminfo_parts::AMMO_FX_RECOVER ) ) {
+        for( const std::string &effect : ammo.ammo_effects ) {
+            if( effect.compare( 0, 8, "RECOVER_" ) == 0 ) {
+                int recover_chance;
+                sscanf( effect.c_str(), "RECOVER_%i", &recover_chance );
+                if( recover_chance <= 5 ) {
+                    fx.emplace_back( _( "Stands a <bad>very low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 10 ) {
+                    fx.emplace_back( _( "Stands a <bad>low</bad> chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 20 ) {
+                    fx.emplace_back( _( "Stands a somewhat low chance of remaining intact once fired." ) );
+                } else if( recover_chance <= 30 ) {
+                    fx.emplace_back( _( "Stands a <good>decent</good> chance of remaining intact once fired." ) );
+                } else {
+                    fx.emplace_back( _( "Stands a <good>good</good> chance of remaining intact once fired." ) );
+                }
+                break;
+            }
+        }
     }
     if( ammo.ammo_effects.count( "INCENDIARY" ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
@@ -3518,9 +3531,9 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( DT_BASH );
-    int dmg_cut  = damage_melee( DT_CUT );
-    int dmg_stab = damage_melee( DT_STAB );
+    int dmg_bash = damage_melee( damage_type::BASH );
+    int dmg_cut  = damage_melee( damage_type::CUT );
+    int dmg_stab = damage_melee( damage_type::STAB );
     if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
         insert_separation_line( info );
         std::string sep;
@@ -3633,27 +3646,29 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
             // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
             info.push_back( iteminfo( "BASE", _( "Bashing: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_BASH ) ) );
+                                      non_crit.type_damage( damage_type::BASH ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical bash: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_BASH ) ) );
+                                      crit.type_damage( damage_type::BASH ) ) );
         }
         // Cut damage
-        if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
+        if( ( non_crit.type_damage( damage_type::CUT ) > 0.0f ||
+              crit.type_damage( damage_type::CUT ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_CUT ) ) );
+                                      non_crit.type_damage( damage_type::CUT ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical cut: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_CUT ) ) );
+                                      crit.type_damage( damage_type::CUT ) ) );
         }
         // Pierce/stab damage
-        if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
+        if( ( non_crit.type_damage( damage_type::STAB ) > 0.0f ||
+              crit.type_damage( damage_type::STAB ) > 0.0f )
             && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
-                                      non_crit.type_damage( DT_STAB ) ) );
+                                      non_crit.type_damage( damage_type::STAB ) ) );
             info.push_back( iteminfo( "BASE", space + _( "Critical pierce: " ), "<num>", iteminfo::no_flags,
-                                      crit.type_damage( DT_STAB ) ) );
+                                      crit.type_damage( damage_type::STAB ) ) );
         }
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
@@ -3981,21 +3996,30 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "You could use it to craft various other things." ) ) );
             } else {
-                const std::string recipes = enumerate_as_string( item_recipes.begin(), item_recipes.end(),
-                [ &crafting_inv ]( const recipe * r ) {
-                    if( r->deduped_requirements().can_make_with_inventory(
-                            crafting_inv, r->get_component_filter() ) ) {
-                        return r->result_name();
+                // Extract item names from recipes and sort them
+                std::vector<std::pair<std::string, bool>> result_names;
+                std::transform(
+                    item_recipes.begin(), item_recipes.end(),
+                    std::back_inserter( result_names ),
+                [&crafting_inv]( const recipe * r ) {
+                    bool can_make = r->deduped_requirements().can_make_with_inventory(
+                                        crafting_inv, r->get_component_filter() );
+                    return std::make_pair( r->result_name(), can_make );
+                } );
+                std::sort( result_names.begin(), result_names.end(), localized_compare );
+                const std::string recipes =
+                    enumerate_as_string( result_names.begin(), result_names.end(),
+                []( const std::pair<std::string, bool> &p ) {
+                    if( p.second ) {
+                        return p.first;
                     } else {
-                        return string_format( "<dark>%s</dark>", r->result_name() );
+                        return string_format( "<dark>%s</dark>", p.first );
                     }
                 } );
-                if( !recipes.empty() ) {
-                    insert_separation_line( info );
-                    info.push_back( iteminfo( "DESCRIPTION",
-                                              string_format( _( "You could use it to craft: %s" ),
-                                                      recipes ) ) );
-                }
+                insert_separation_line( info );
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "You could use it to craft: %s" ),
+                                                  recipes ) ) );
             }
         }
     }
@@ -4330,10 +4354,6 @@ void item::on_wear( Character &p )
         }
     }
 
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_worn );
-    }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -4382,11 +4402,6 @@ int item::on_wield_cost( const player &p ) const
 
 void item::on_wield( player &p, int mv )
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
     int wield_cost = on_wield_cost( p );
     mv += wield_cost;
     p.moves -= wield_cost;
@@ -4463,10 +4478,6 @@ void item::on_pickup( Character &p )
     if( p.is_fake() ) {
         return;
     }
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_carried );
-    }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -4474,6 +4485,7 @@ void item::on_pickup( Character &p )
     contents.on_pickup( p );
 
     p.flag_encumbrance();
+    p.invalidate_weight_carried_cache();
 }
 
 void item::on_contents_changed()
@@ -4982,7 +4994,7 @@ units::mass item::weight( bool, bool integral ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
-        assert( corpse ); // To appease static analysis
+        cata_assert( corpse ); // To appease static analysis
         ret = corpse->weight;
         if( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ) {
             ret *= 0.75;
@@ -5195,25 +5207,25 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NONE && dt < NUM_DT );
+    cata_assert( dt >= damage_type::NONE && dt < damage_type::NUM );
     if( is_null() ) {
         return 0;
     }
 
     // effectiveness is reduced by 10% per damage level
-    int res = type->melee[ dt ];
+    int res = type->melee[ static_cast<int>( dt )];
     res -= res * damage_level( 4 ) * 0.1;
 
     // apply type specific flags
     switch( dt ) {
-        case DT_BASH:
+        case damage_type::BASH:
             if( has_flag( flag_REDUCED_BASHING ) ) {
                 res *= 0.5;
             }
             break;
 
-        case DT_CUT:
-        case DT_STAB:
+        case damage_type::CUT:
+        case damage_type::STAB:
             if( has_flag( flag_DIAMOND ) ) {
                 res *= 1.3;
             }
@@ -5242,7 +5254,8 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = DT_NONE + 1; i < NUM_DT; i++ ) {
+    for( size_t i = static_cast<size_t>( damage_type::NONE ) + 1;
+         i < static_cast<size_t>( damage_type::NUM ); i++ ) {
         damage_type dt = static_cast<damage_type>( i );
         int dam = damage_melee( dt );
         if( dam > 0 ) {
@@ -6248,7 +6261,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
 bool item::mod_damage( const int qty )
 {
-    return mod_damage( qty, DT_NONE );
+    return mod_damage( qty, damage_type::NONE );
 }
 
 bool item::inc_damage( const damage_type dt )
@@ -6258,7 +6271,7 @@ bool item::inc_damage( const damage_type dt )
 
 bool item::inc_damage()
 {
-    return inc_damage( DT_NONE );
+    return inc_damage( damage_type::NONE );
 }
 
 nc_color item::damage_color() const
@@ -6372,28 +6385,28 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-        case DT_NONE:
-        case NUM_DT:
+        case damage_type::NONE:
+        case damage_type::NUM:
             return 0;
-        case DT_TRUE:
-        case DT_BIOLOGICAL:
-        case DT_ELECTRIC:
-        case DT_COLD:
+        case damage_type::PURE:
+        case damage_type::BIOLOGICAL:
+        case damage_type::ELECTRIC:
+        case damage_type::COLD:
             // Currently hardcoded:
             // Items can never be damaged by those types
             // But they provide 0 protection from them
             return to_self ? INT_MAX : 0;
-        case DT_BASH:
+        case damage_type::BASH:
             return bash_resist( to_self );
-        case DT_CUT:
+        case damage_type::CUT:
             return cut_resist( to_self );
-        case DT_ACID:
+        case damage_type::ACID:
             return acid_resist( to_self );
-        case DT_STAB:
+        case damage_type::STAB:
             return stab_resist( to_self );
-        case DT_HEAT:
+        case damage_type::HEAT:
             return fire_resist( to_self );
-        case DT_BULLET:
+        case damage_type::BULLET:
             return bullet_resist( to_self );
         default:
             debugmsg( "Invalid damage type: %d", dt );
@@ -6711,7 +6724,8 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
+         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
         if( is_melee( static_cast<damage_type>( idx ) ) ) {
             return true;
         }
@@ -6958,11 +6972,6 @@ bool item::is_tool() const
 bool item::is_transformable() const
 {
     return type->use_methods.find( "transform" ) != type->use_methods.end();
-}
-
-bool item::is_artifact() const
-{
-    return !!type->artifact;
 }
 
 bool item::is_relic() const
@@ -7223,7 +7232,8 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = static_cast<int>( damage_type::NONE ) + 1;
+         idx != static_cast<int>( damage_type::NUM ); ++idx ) {
         const int val = damage_melee( static_cast<damage_type>( idx ) );
         const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {
@@ -8960,7 +8970,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() || it->has_relic_recharge() ) {
+            it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9347,20 +9357,6 @@ void item::reset_temp_check()
     last_temp_check = calendar::turn;
 }
 
-void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
-{
-    if( !is_artifact() ) {
-        return;
-    }
-    // Artifacts are currently only useful for the player character, the messages
-    // don't consider npcs. Also they are not processed when laying on the ground.
-    // TODO: change game::process_artifact to work with npcs,
-    // TODO: consider moving game::process_artifact here.
-    if( carrier && carrier->is_avatar() ) {
-        g->process_artifact( *this, *carrier );
-    }
-}
-
 std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
 {
     if( !is_relic() ) {
@@ -9418,16 +9414,6 @@ void item::process_relic( Character *carrier, const tripoint &pos )
             active_enchantments.emplace_back( ench );
         }
     }
-
-    for( const enchantment &ench : active_enchantments ) {
-        ench.activate_passive( *carrier );
-    }
-
-    // Recalculate, as it might have changed (by mod_*_bonus above)
-    carrier->str_cur = carrier->get_str();
-    carrier->int_cur = carrier->get_int();
-    carrier->dex_cur = carrier->get_dex();
-    carrier->per_cur = carrier->get_per();
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )
@@ -9832,7 +9818,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 bool item::process_blackpowder_fouling( player *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( DT_ACID );
+        inc_damage( damage_type::ACID );
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
@@ -9961,41 +9947,6 @@ void item::mod_charges( int mod )
     } else {
         charges += mod;
     }
-}
-
-bool item::has_effect_when_wielded( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_wielded;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_worn( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_worn;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_carried( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ec = type->artifact->effects_carried;
-    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
-        return true;
-    }
-    for( const item *i : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->has_effect_when_carried( effect ) ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool item::is_seed() const
@@ -10229,6 +10180,7 @@ bool item::on_drop( const tripoint &pos, map &m )
 
     avatar &player_character = get_avatar();
     player_character.flag_encumbrance();
+    player_character.invalidate_weight_carried_cache();
     return type->drop_action && type->drop_action.call( player_character, *this, false, pos );
 }
 
@@ -10240,17 +10192,6 @@ time_duration item::age() const
 void item::set_age( const time_duration &age )
 {
     set_birthday( time_point( calendar::turn ) - age );
-}
-
-void item::legacy_fast_forward_time()
-{
-    const time_duration tmp_bday = ( bday - calendar::turn_zero ) * 6;
-    bday = calendar::turn_zero + tmp_bday;
-
-    rot *= 6;
-
-    const time_duration tmp_temp = ( last_temp_check - calendar::turn_zero ) * 6;
-    last_temp_check = calendar::turn_zero + tmp_temp;
 }
 
 time_point item::birthday() const
@@ -10315,31 +10256,31 @@ const recipe &item::get_making() const
         static const recipe dummy{};
         return dummy;
     }
-    assert( craft_data_->making );
+    cata_assert( craft_data_->making );
     return *craft_data_->making;
 }
 
 void item::set_tools_to_continue( bool value )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->tools_to_continue = value;
 }
 
 bool item::has_tools_to_continue() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->tools_to_continue;
 }
 
 void item::set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections )
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     craft_data_->cached_tool_selections = selections;
 }
 
 const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections() const
 {
-    assert( craft_data_ );
+    cata_assert( craft_data_ );
     return craft_data_->cached_tool_selections;
 }
 

@@ -157,7 +157,7 @@
     "name": { "str": "hm12 dazzle rifle" },
     "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors in a clean shot.",
     "price_postapoc": 15000,
-    "ranged_damage": { "damage_type": "true", "amount": 1 },
+    "ranged_damage": { "damage_type": "pure", "amount": 1 },
     "ups_charges": 1,
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]

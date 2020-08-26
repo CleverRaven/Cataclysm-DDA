@@ -3,8 +3,7 @@
     "id": "manual_crt_blade",
     "copy-from": "book_martial",
     "type": "GENERIC",
-    "name": "CRIT Blade-work manual",
-    "name_plural": "CRIT Blade-work manuals",
+    "name": { "str": "CRIT Blade-work manual" },
     "description": "An advanced military manual on CRIT Blade-work.",
     "book_data": { "martial_art": "style_crt_blade" }
   },

@@ -644,7 +644,8 @@ void editmap::draw_main_ui_overlay()
                         const vehicle &veh = vp->vehicle();
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
-                        const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
+                        const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
+                                                          part_mod ) );
                         const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         int veh_dir = veh.face.dir();
@@ -1100,7 +1101,7 @@ void editmap::edit_feature()
         uilist_entry ent( name );
         ent.retval = i;
         ent.enabled = true;
-        ent.hotkey = 0;
+        ent.hotkey = input_event();
         ent.extratxt.sym = symbol( type );
         ent.extratxt.color = color( type );
         ent.desc = describe( type );
@@ -1130,7 +1131,7 @@ void editmap::edit_feature()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( emenu.input_category, keyboard_mode::keychar );
+        input_context ctxt( emenu.input_category, keyboard_mode::keycode );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
@@ -1247,7 +1248,7 @@ void editmap::edit_fld()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( fmenu.input_category, keyboard_mode::keychar );
+        input_context ctxt( fmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
@@ -1842,7 +1843,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else {
             tmpmap_ptr = nullptr;
         }
-        input_context ctxt( gpmenu.input_category, keyboard_mode::keychar );
+        input_context ctxt( gpmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
@@ -2128,7 +2129,7 @@ void editmap::edit_mapgen()
 
         blink = true;
 
-        input_context ctxt( gmenu.input_category, keyboard_mode::keychar );
+        input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),

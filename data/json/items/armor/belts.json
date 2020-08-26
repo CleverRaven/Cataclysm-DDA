@@ -161,6 +161,7 @@
     "looks_like": "fireman_belt",
     "color": "brown",
     "covers": [ "torso" ],
+    "coverage": 5,
     "encumbrance": 6,
     "pocket_data": [
       {

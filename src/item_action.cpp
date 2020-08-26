@@ -24,6 +24,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "optional.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
@@ -47,10 +48,15 @@ struct tripoint;
 
 static item_action nullaction;
 
-static char key_bound_to( const input_context &ctxt, const item_action_id &act )
+static cata::optional<input_event> key_bound_to( const input_context &ctxt,
+        const item_action_id &act )
 {
-    auto keys = ctxt.keys_bound_to( act );
-    return keys.empty() ? '\0' : keys[0];
+    const std::vector<input_event> keys = ctxt.keys_bound_to( act, /*maximum_modifier_count=*/1 );
+    if( keys.empty() ) {
+        return cata::nullopt;
+    } else {
+        return keys.front();
+    }
 }
 
 class actmenu_cb : public uilist_callback
@@ -265,7 +271,7 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keychar );
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keycode );
     for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
@@ -306,7 +312,7 @@ void game::item_action_menu()
     sort_menu( menu_items.begin(), menu_items.end() );
     // Add unmapped but binded actions to the menu vector.
     for( const auto &elem : item_actions ) {
-        if( key_bound_to( ctxt, elem.first ) != '\0' && !assigned_action( elem.first ) ) {
+        if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
             menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
         }
     }
@@ -330,7 +336,7 @@ void game::item_action_menu()
         ss += std::get<2>( elem );
         ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
-        const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
+        const cata::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
 
         kmenu.addentry( num, enabled, bind, ss );

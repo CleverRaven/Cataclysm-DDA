@@ -2964,7 +2964,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "rock", 40 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",

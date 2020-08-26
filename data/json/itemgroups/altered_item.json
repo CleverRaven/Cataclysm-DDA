@@ -1,0 +1,14 @@
+[
+  {
+    "type": "item_group",
+    "id": "altered_item",
+    "subtype": "distribution",
+    "items": [
+      [ "altered_comb", 10 ],
+      [ "altered_phone", 10 ],
+      [ "altered_keyring", 10 ],
+      [ "altered_rubicks_cube", 10 ],
+      [ "altered_teapot", 10 ]
+    ]
+  }
+]

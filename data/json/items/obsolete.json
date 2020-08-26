@@ -382,13 +382,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 }, "watertight": true } ]
   },
   {
-    "type": "effect_type",
-    "id": "magnesium",
-    "name": [ "Magnesium Supplements" ],
-    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
-    "rating": "good"
-  },
-  {
     "id": "bio_furnace",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -2755,5 +2748,35 @@
     "bashing": 8,
     "to_hit": -4,
     "category": "veh_parts"
+  },
+  {
+    "id": "hybridbow",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "hybrid longbow" },
+    "description": "A modernized, six-foot longbow that curves away from the archer at the tips for increased power.  It can be used effectively by those of somewhat above-average strength.  Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior power of a modern recurve.",
+    "price": 38000,
+    "material": [ "steel", "plastic", "wood" ],
+    "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "skill": "archery",
+    "min_strength": 11,
+    "ammo": [ "arrow" ],
+    "weight": "600 g",
+    "volume": "3500 ml",
+    "price_postapoc": 5000,
+    "bashing": 12,
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "reload_noise_volume": 3,
+    "loudness": 8,
+    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "range": 14,
+    "dispersion": 850,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

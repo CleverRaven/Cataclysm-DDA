@@ -34,7 +34,7 @@
     "category": "container",
     "name": { "str": "30 gallon barrel" },
     "looks_like": "55gal_drum",
-    "description": "A huge plastic barrel with a resealable lid.",
+    "description": "A huge plastic barrel with a watertight lid.",
     "weight": "6800 g",
     "volume": "118125 ml",
     "price": 5000,
@@ -61,7 +61,7 @@
     "category": "container",
     "looks_like": "30gal_barrel",
     "name": { "str": "steel drum (100L)", "str_pl": "steel drums (100L)" },
-    "description": "A huge steel barrel with a resealable lid.",
+    "description": "A huge steel barrel with a watertight lid.",
     "weight": "12000 g",
     "volume": "105 L",
     "price": 8000,
@@ -88,7 +88,7 @@
     "category": "container",
     "looks_like": "30gal_drum",
     "name": { "str": "steel drum (200L)", "str_pl": "steel drums (200L)" },
-    "description": "A massive steel barrel with a resealable lid.",
+    "description": "A massive steel barrel with a watertight lid.",
     "weight": "20000 g",
     "volume": "210 L",
     "price": 10000,
@@ -246,7 +246,7 @@
     "category": "container",
     "name": { "str": "glass bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A resealable glass bottle, holds 750 ml of liquid.",
+    "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "weight": "450 g",
     "volume": "1318 ml",
     "longest_side": "276 mm",
@@ -276,17 +276,18 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic bottle" },
-    "description": "A resealable plastic bottle, holds 500 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid.",
     "weight": "13 g",
     "volume": "502 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "airtight": true,
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "1250 g",
         "moves": 400
       }
     ],
@@ -333,7 +334,7 @@
     "category": "container",
     "name": { "str": "small plastic bottle" },
     "looks_like": "bottle_plastic",
-    "description": "A resealable plastic bottle, holds 250 ml of liquid.",
+    "description": "A watertight plastic bottle, holds 250 ml of liquid.",
     "weight": "7 g",
     "volume": "251 ml",
     "pocket_data": [
@@ -414,14 +415,14 @@
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
-    "volume": "90 ml",
+    "volume": "95 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "85 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "90 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "box_small",
@@ -430,8 +431,8 @@
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
     "description": "A small cardboard box.  No bigger than a foot in dimension.",
     "weight": "151 g",
-    "volume": "1 L",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "990 ml", "max_contains_weight": "4 kg" } ],
+    "volume": "1010 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1 L", "max_contains_weight": "4 kg" } ],
     "price": 0,
     "price_postapoc": 0,
     "material": [ "cardboard" ],
@@ -577,7 +578,7 @@
     "category": "container",
     "name": { "str": "paper carton" },
     "looks_like": "box_small",
-    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap for easy resealing.",
+    "description": "A half gallon carton constructed of a paper, aluminum, and plastic laminate.  It has a threaded cap to keep liquid from leaking out.",
     "weight": "28 g",
     "volume": "2003 ml",
     "price": 0,
@@ -850,7 +851,7 @@
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1250 g"
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ]

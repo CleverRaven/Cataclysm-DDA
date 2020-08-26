@@ -3,18 +3,21 @@
 Use the `Home` key to return to the top.
 
 - [Introduction](#introduction)
+  * [Overall structure](#overall-structure)
+  * [Common properties](#common-properties)
+    + ["copy-from" and "abstract"](#copy-from-and-abstract)
 - [Navigating the JSON](#navigating-the-json)
+- [Common field types](#navigating-the-json)
+  * [Units](#units)
+    + [Time duration](#time-duration)
+  * [Translatable strings](#translatable-strings)
+  * [Comments](#comments)
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#datajson)
   * [`data/json/items/`](#datajsonitems)
     + [`data/json/items/comestibles`](#datajsonitemscomestibles)
   * [`data/json/requirements/`](#datajsonrequirements)
   * [`data/json/vehicles/`](#datajsonvehicles)
-- [Generic properties and formatting](#generic-properties-and-formatting)
-  * [Generic properties](#generic-properties)
-  * [Formatting](#formatting)
-    + [Time duration](#time-duration)
-    + [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   * [`data/json/` JSONs](#datajson-jsons)
     + [Ascii_arts](#ascii_arts)
@@ -171,8 +174,127 @@ Use the `Home` key to return to the top.
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
+## Overall structure
+The game data is distributed amongst many JSON files in `data`.  Most of the
+core game data is in `data/json`, with mod data in `data/mods`.  There is also
+some in other subdirectories of `data`, but you are less likely to be interested
+in those.
+
+Each JSON file is a list of JSON objects
+```json
+[
+  {
+    "…": "…"
+  },
+  {
+    "…": "…"
+  }
+]
+```
+
+Each object must have a `"type"` member that tells the game how to interpret
+that object.  For example, crafting recipes have `"type": "recipe"`, vehicle
+parts have `"type": "vehicle_part"`, and so on.  Note that items are a little
+unusual; there are multiple types which can be used to define an item.  See
+[the item documentation](#datajsonitems-jsons) for more details.
+
+Each of these types is documented separately, either below or in other
+documentation which should be linked from below (doubtless a few have been
+missed; feel free to file bugs for missing documentation).
+
+The documentation is organised by file, because objects of the same type tend
+to be defined together in one file or a collection of co-located files.
+However, the game does not enforce this convention and in practice you could
+define a JSON object of any type in any file.  If you were writing a small mod
+it might be reasonable to simply put all your JSON in a single file and that
+would be fine.
+
+There are a few cases where certain objects must be loaded before other objects
+and the names of the files defining those objects will affect the [loading
+order](JSON_LOADING_ORDER.md); sticking to established convention should avoid
+that issue.
+
+There are a few features that most types of JSON object have in common.  Those
+common features are documented in the next section.
+
+## Common properties
+
+For most types, every object of that type must have a unique id.  That id is
+typically defined by the `"id"` field.  For example:
+
+```json
+  {
+    "type": "skill",
+    "id": "barter",
+    "name": { "str": "bartering" },
+    "description": "…",
+    "display_category": "display_social"
+  }
+```
+
+This defines a skill with id `barter`.
+
+### `"copy-from"` and `"abstract"`
+
+Sometimes you want to define an object which is similar to another object,  or
+a collection of similar objects.  In most cases you can achieve this with
+`"copy-from"`, specifying the id of the object you wish to copy.  For example,
+the definition of a harvested pine tree copies `t_tree_pine` (the unharvested
+pine tree) and then specifies only a few properties.  Other properties (such as
+the fact that it's impassable, flammable, etc.) are inherited from
+`t_tree_pine`.
+
+```json
+  {
+    "type": "terrain",
+    "id": "t_tree_pine_harvested",
+    "copy-from": "t_tree_pine",
+    "name": "pine tree",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "symbol": "4",
+    "color": "brown",
+    "looks_like": "t_tree_deadpine",
+    "transforms_into": "t_tree_pine",
+    "examine_action": "harvested_plant"
+  },
+```
+
+Sometimes you might want define a collection of objects which are similar, but
+there is no obvious single object that the others should copy.  In this case,
+you can create a special, *abstract* object and have all the others copy it.
+
+An abstract object specifies its id via the `"abstract"` field rather than
+`"id"`.  For example, here is the abstract vehicle alternator:
+
+```json
+  {
+    "abstract": "vehicle_alternator",
+    "type": "vehicle_part",
+    "fuel_type": "battery",
+    "symbol": "*",
+    "color": "yellow",
+    "broken_color": "red",
+    "flags": [ "ALTERNATOR" ]
+  },
+```
+
+All vehicle alternator definitions use `"copy-from": "vehicle_alternator"` to
+inherit these common properties, but because `vehicle_alternator` is an
+abstract object, it does not appear in the game as a real vehicle part you can
+install.
+
+When using `"copy-from"`, you can define fields that were also defined in the
+object you are copying, and the new value will override the old.  However,
+sometimes you want to change the value in the copied object without overriding
+it entirely; there is support for that.  See the [JSON
+inheritance](JSON_INHERITANCE.md) documentation for details.
+
+`"copy-from"` also implies `"looks_like"` connection, so you don't have
+to specify the id multiple times.
+
+
 # Navigating the JSON
-A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
+A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.  This enables you to jump to the definition of an object given its id.
 
 To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
 
@@ -181,241 +303,16 @@ To use this feature your editor will need [ctags support](http://ctags.sourcefor
 * In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
 * In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
 
-# File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
+# Common field types
+This section describes some common features of formatting values in CDDA JSON files.
 
-## `data/json/`
+## Units
 
-| Filename                    | Description
-|---                          |---
-| achievements.json           | achievements
-| anatomy.json                | a listing of player body parts - do not edit
-| ascii_arts.json             | ascii arts for item descriptions
-| bionics.json                | bionics, does NOT include bionic effects
-| body_parts.json             | an expansion of anatomy.json - do not edit
-| clothing_mods.json          | definition of clothing mods
-| conducts.json               | conducts
-| construction.json           | definition of construction menu tasks
-| default_blacklist.json      | a standard blacklist of joke monsters
-| doll_speech.json            | talk doll speech messages
-| dreams.json                 | dream text and linked mutation categories
-| disease.json                | disease definitions
-| effects.json                | common effects and their effects
-| emit.json                   | smoke and gas emissions
-| flags.json                  | common flags and their descriptions
-| furniture.json              | furniture, and features treated like furniture
-| game_balance.json           | various options to tweak game balance
-| gates.json                  | gate terrain definitions
-| harvest.json                | item drops for butchering corpses
-| health_msgs.json            | messages displayed when the player wakes
-| item_actions.json           | descriptions of standard item actions
-| item_category.json          | item categories and their default sort
-| item_groups.json            | item spawn groups
-| lab_notes.json              | lab computer messages
-| martialarts.json            | martial arts styles and buffs
-| materials.json              | material types
-| monster_attacks.json        | monster attacks
-| monster_drops.json          | monster item drops on death
-| monster_factions.json       | monster factions
-| monstergroups.json          | monster spawn groups
-| monstergroups_egg.json      | monster spawn groups from eggs
-| monsters.json               | monster descriptions, mostly zombies
-| morale_types.json           | morale modifier messages
-| mutation_category.json      | messages for mutation categories
-| mutation_ordering.json      | draw order for mutation and CBM overlays in tiles mode
-| mutations.json              | traits/mutations
-| names.json                  | names used for NPC/player name generation
-| overmap_connections.json    | connections for roads and tunnels in the overmap
-| overmap_terrain.json        | overmap terrain
-| player_activities.json      | player activities
-| professions.json            | profession definitions
-| recipes.json                | crafting/disassembly recipes
-| regional_map_settings.json  | settings for the entire map generation
-| road_vehicles.json          | vehicle spawn information for roads
-| rotatable_symbols.json      | rotatable symbols - do not edit
-| scent_types.json            | type of scent available
-| scores.json                 | scores
-| skills.json                 | skill descriptions and ID's
-| snippets.json               | flier/poster descriptions
-| species.json                | monster species
-| speech.json                 | monster vocalizations
-| statistics.json             | statistics and transformations used to define scores and achievements
-| start_locations.json        | starting locations for scenarios
-| techniques.json             | generic for items and martial arts
-| terrain.json                | terrain types and definitions
-| test_regions.json           | test regions
-| tips.json                   | tips of the day
-| tool_qualities.json         | standard tool qualities and their actions
-| traps.json                  | standard traps
-| tutorial.json               | messages for the tutorial (that is out of date)
-| vehicle_groups.json         | vehicle spawn groups
-| vehicle_parts.json          | vehicle parts, does NOT affect flag effects
-| vitamin.json                | vitamins and their deficiencies
-
-selected subfolders
-
-## `data/json/items/`
-
-See below for specifics on the various items
-
-| Filename           | Description
-|---                 |---
-| ammo.json          | common base components like batteries and marbles
-| ammo_types.json    | standard ammo types by gun
-| archery.json       | bows and arrows
-| armor.json         | armor and clothing
-| bionics.json       | Compact Bionic Modules (CBMs)
-| biosignatures.json | animal waste
-| books.json         | books
-| chemicals_and_resources.json   | chemical precursors
-| comestibles.json   | food/drinks
-| containers.json    | containers
-| crossbows.json     | crossbows and bolts
-| fake.json          | fake items for bionics or mutations
-| fuel.json          | liquid fuels
-| grenades.json      | grenades and throwable explosives
-| handloaded_bullets.json | random ammo
-| melee.json         | anything that doesn't go in the other item jsons, melee weapons
-| migration.json     | conversions of non-existent items from save games to current items
-| newspaper.json     | flyers, newspapers, and survivor notes. snippets.json for messages
-| obsolete.json      | items being removed from the game
-| ranged.json        | guns
-| software.json      | software for SD-cards and USB sticks
-| tool_armor.json    | clothes and armor that can be (a)ctivated
-| toolmod.json       | modifications of tools
-| tools.json         | tools and items that can be (a)ctivated
-| vehicle_parts.json | components of vehicles when they aren't on the vehicle
-
-### `data/json/items/comestibles`
-
-## `data/json/requirements/`
-
-
-Standard components and tools for crafting
-
-| Filename                     | Description
-|---                           |---
-| ammo.json                    | ammo components
-| cooking_components.json      | common ingredient sets
-| cooking_requirements.json    | cooking tools and heat sources
-| materials.json               | thread, fabric, and other basic materials
-| toolsets.json                | sets of tools commonly used together
-| uncraft.json                 | common results of taking stuff apart
-| vehicle.json                 | tools to work on vehicles
-
-Requirements are JSON objects with `"type": "requirement"`.  They allow re-using common tools,
-qualities, and components in all kinds of recipes, including regular crafting and uncrafting recipes
-as well as constructions and vehicle parts.
-
-For example, the `bread_sandwich` requirement includes several alternative breads you could make a
-sandwich with:
-
-```json
-{
-  "id": "bread_sandwich",
-  "type": "requirement",
-  "//": "Bread appropriate for sandwiches.",
-  "components": [
-    [
-      [ "flatbread", 1 ],
-      [ "bread", 1 ],
-      [ "cornbread", 1 ],
-      [ "wastebread", 1 ],
-      [ "sourdough_bread", 1 ],
-      [ "biscuit", 1 ],
-      [ "brioche", 1 ]
-    ]
-  ]
-}
-```
-
-This lets you simplify the "components" of sandwich recipes that could work with any of those breads, ex.
-
-```json
-{
-  "type": "recipe",
-  "result": "sandwich_honey",
-  "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ],
-  "//": "..."
-}
-```
-
-Requirements may include "tools" or "qualities" in addition to "components". Here we have a standard
-soldering requirement needing either a "soldering_iron" or "toolset", plus 1 unit of the
-"solder_wire" component:
-
-
-```json
-{
-  "id": "soldering_standard",
-  "type": "requirement",
-  "//": "Tools and materials needed for soldering metal items or electronics",
-  "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
-  "components": [ [ [ "solder_wire", 1 ] ] ]
-}
-```
-
-This simplifies recipes needing soldering, via the "using" field.  For instance, a simple "tazer"
-recipe could require 10 units of the soldering requirement, along with some other components:
-
-```json
-{
-  "type": "recipe",
-  "result": "tazer",
-  "using": [ [ "soldering_standard", 10 ] ],
-  "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ],
-  "//": "..."
-}
-
-```
-
-The "using" field is supported by "recipe", "construction", "vehicle_part", and "fault" types, so
-you could re-use the "soldering_standard" requirement for any of those things that needed the same
-tools, qualities, and/or materials.
-
-See the [Recipe requirements](#recipe-requirements) section for how to use requirement definitions in
-crafting recipes with the "using" and "components" fields.
-
-
-## `data/json/vehicles/`
-
-Groups of vehicle definitions with self-explanatory names of files:
-
-| Filename
-|---
-| bikes.json
-| boats.json
-| cars.json
-| carts.json
-| custom_vehicles.json
-| emergency.json
-| farm.json
-| helicopters.json
-| military.json
-| trains.json
-| trucks.json
-| utility.json
-| vans_busses.json
-| vehicles.json
-
-# Generic properties and formatting
-This section describes properties and formatting applied to all of the JSON files.
-
-## Generic properties
-A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
-
-| Identifier               | Description
-|---                       |---
-| type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
-| [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
-| [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
-
-
-
-## Formatting
-When editing JSON files make sure you apply the correct formatting as shown below.
+Most values which represent physical quantities (length, volume, time, etc.)
+are given as a string with a numerical value and an abbreviation of the unit,
+separated with a space.  Generally we use SI units and try to stick to the
+conventional SI abbreviations.  For example, a volume of 3 litres would be
+defined as `"3 L"`.
 
 ### Time duration
 
@@ -430,11 +327,7 @@ Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
 - "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
-### Other formatting
-
-```C++
-"//" : "comment", // Preferred method of leaving comments inside json files.
-```
+## Translatable strings
 
 Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
 
@@ -458,7 +351,171 @@ order of the entries does not matter.
 }
 ```
 
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+Currently, only some JSON values support this syntax (see [here](doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+
+## Comments
+
+JSON has no intrinsic support for comments.  However, by convention in CDDA
+JSON, any field starting with `//` is a comment.
+
+```json
+{
+  "//" : "comment"
+}
+```
+
+If you want multiple comments in a single object then append a number to `//`.
+For example:
+
+```json
+{
+  "//" : "comment",
+  "//1" : "another comment",
+  "//2" : "yet another comment"
+}
+```
+
+# File descriptions
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
+
+## `data/json/`
+
+| Filename                      | Description
+|---                            |---
+| `achievements.json`           | achievements
+| `anatomy.json`                | a listing of player body parts - do not edit
+| `ascii_arts.json`             | ascii arts for item descriptions
+| `bionics.json`                | bionics, does NOT include bionic effects
+| `body_parts.json`             | an expansion of anatomy.json - do not edit
+| `clothing_mods.json`          | definition of clothing mods
+| `conducts.json`               | conducts
+| `construction.json`           | definition of construction menu tasks
+| `default_blacklist.json`      | a standard blacklist of joke monsters
+| `doll_speech.json`            | talking doll speech messages
+| `dreams.json`                 | dream text and linked mutation categories
+| `disease.json`                | disease definitions
+| `effects.json`                | common effects and their effects
+| `emit.json`                   | smoke and gas emissions
+| `flags.json`                  | common flags and their descriptions
+| `furniture.json`              | furniture, and features treated like furniture
+| `game_balance.json`           | various options to tweak game balance
+| `gates.json`                  | gate terrain definitions
+| `harvest.json`                | item drops for butchering corpses
+| `health_msgs.json`            | messages displayed when the player wakes
+| `item_actions.json`           | descriptions of standard item actions
+| `item_category.json`          | item categories and their default sort
+| `item_groups.json`            | item spawn groups
+| `lab_notes.json`              | lab computer messages
+| `martialarts.json`            | martial arts styles and buffs
+| `materials.json`              | material types
+| `monster_attacks.json`        | monster attacks
+| `monster_drops.json`          | monster item drops on death
+| `monster_factions.json`       | monster factions
+| `monstergroups.json`          | monster spawn groups
+| `monstergroups_egg.json`      | monster spawn groups from eggs
+| `monsters.json`               | monster descriptions, mostly zombies
+| `morale_types.json`           | morale modifier messages
+| `mutation_category.json`      | messages for mutation categories
+| `mutation_ordering.json`      | draw order for mutation and CBM overlays in tiles mode
+| `mutations.json`              | traits/mutations
+| `names.json`                  | names used for NPC/player name generation
+| `overmap_connections.json`    | connections for roads and tunnels in the overmap
+| `overmap_terrain.json`        | overmap terrain
+| `player_activities.json`      | player activities
+| `professions.json`            | profession definitions
+| `recipes.json`                | crafting/disassembly recipes
+| `regional_map_settings.json`  | settings for the entire map generation
+| `road_vehicles.json`          | vehicle spawn information for roads
+| `rotatable_symbols.json`      | rotatable symbols - do not edit
+| `scent_types.json`            | type of scent available
+| `scores.json`                 | scores
+| `skills.json`                 | skill descriptions and ID's
+| `snippets.json`               | flier/poster descriptions
+| `species.json`                | monster species
+| `speech.json`                 | monster vocalizations
+| `statistics.json`             | statistics and transformations used to define scores and achievements
+| `start_locations.json`        | starting locations for scenarios
+| `techniques.json`             | generic for items and martial arts
+| `terrain.json`                | terrain types and definitions
+| `test_regions.json`           | test regions
+| `tips.json`                   | tips of the day
+| `tool_qualities.json`         | standard tool qualities and their actions
+| `traps.json`                  | standard traps
+| `tutorial.json`               | messages for the tutorial (that is out of date)
+| `vehicle_groups.json`         | vehicle spawn groups
+| `vehicle_parts.json`          | vehicle parts, does NOT affect flag effects
+| `vitamin.json`                | vitamins and their deficiencies
+
+selected subfolders
+
+## `data/json/items/`
+
+See below for specifics on the various items
+
+| Filename             | Description
+|---                   |---
+| `ammo.json`          | common base components like batteries and marbles
+| `ammo_types.json`    | standard ammo types by gun
+| `archery.json`       | bows and arrows
+| `armor.json`         | armor and clothing
+| `bionics.json`       | Compact Bionic Modules (CBMs)
+| `biosignatures.json` | animal waste
+| `books.json`         | books
+| `chemicals_and_resources.json` | chemical precursors
+| `comestibles.json`   | food/drinks
+| `containers.json`    | containers
+| `crossbows.json`     | crossbows and bolts
+| `fake.json`          | fake items for bionics or mutations
+| `fuel.json`          | liquid fuels
+| `grenades.json`      | grenades and throwable explosives
+| `handloaded_bullets.json` | random ammo
+| `melee.json`         | melee weapons
+| `migration.json`     | conversions of obsolete items from older save games to current items
+| `newspaper.json`     | flyers, newspapers, and survivor notes. `snippets.json` for messages
+| `obsolete.json`      | items being removed from the game
+| `ranged.json`        | guns
+| `software.json`      | software for SD-cards and USB sticks
+| `tool_armor.json`    | clothes and armor that can be (a)ctivated
+| `toolmod.json`       | modifications of tools
+| `tools.json`         | tools and items that can be (a)ctivated
+| `vehicle_parts.json` | components of vehicles when they aren't on the vehicle
+
+### `data/json/items/comestibles/`
+
+## `data/json/requirements/`
+
+Standard components and tools for crafting (See [Recipe requirements](#recipe-requirements))
+
+| Filename                     | Description
+|---                           |---
+| `ammo.json`                  | ammo components
+| `cooking_components.json`    | common ingredient sets
+| `cooking_requirements.json`  | cooking tools and heat sources
+| `materials.json`             | thread, fabric, and other basic materials
+| `toolsets.json`              | sets of tools commonly used together
+| `uncraft.json`               | common results of taking stuff apart
+| `vehicle.json`               | tools to work on vehicles
+
+## `data/json/vehicles/`
+
+Groups of vehicle definitions with self-explanatory names of files:
+
+| Filename
+|---
+| `bikes.json`
+| `boats.json`
+| `cars.json`
+| `carts.json`
+| `custom_vehicles.json`
+| `emergency.json`
+| `farm.json`
+| `helicopters.json`
+| `military.json`
+| `trains.json`
+| `trucks.json`
+| `utility.json`
+| `vans_busses.json`
+| `vehicles.json`
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
@@ -1231,11 +1288,14 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 "UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
 See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
 
-To avoid repeating commonly used sets of components, instead of an individual item id, provide
-the id of a "requirement" type, along with a quantity, and the "LIST" keyword.  Typically these are
-defined within [`data/json/requirements`](#datajsonrequirements).
+#### Defining common requirements
 
-For example if these "grip_patch" and "grip_wrap" requirements were defined:
+To avoid repeating commonly used sets of components, instead of an individual item id, provide
+the id of a `requirement` type, along with a quantity, and the `"LIST"`
+keyword.  Typically these are defined within
+[`data/json/requirements`](#datajsonrequirements).
+
+For example if these `grip_patch` and `grip_wrap` requirements were defined:
 
 ```json
 [
@@ -1274,13 +1334,14 @@ And other recipes needing two such grips could simply require 2 of each:
 ]
 ```
 
-The "using" field in a recipe works similarly, but "using" may only refer to requirement ids, not
-specific items or tools.  A requirement included with "using" must also give a multiplier, telling
-how many units of that requirement are needed.  As with "components", the "using" list is formatted
+The `"using"` field in a recipe works similarly, but `"using"` may only refer
+to requirement ids, not specific items or tools.  A requirement included with
+`"using"` must also give a multiplier, telling how many units of that
+requirement are needed.  As with `"components"`, the "using" list is formatted
 as a collection of alternatives, even if there is only one alternative.
 
-For instance, this "uncraft" recipe for a motorbike alternator uses either 20 units of the
-"soldering_standard" requirement, or 5 units of the "welding_standard" requirement:
+For instance, this `"uncraft"` recipe for a motorbike alternator uses either 20 units of the
+`"soldering_standard"` requirement, or 5 units of the `"welding_standard"` requirement:
 
 ```json
 {
@@ -1291,6 +1352,39 @@ For instance, this "uncraft" recipe for a motorbike alternator uses either 20 un
   "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
 }
 ```
+
+Requirements may include `"tools"` or `"qualities"` in addition to
+`"components"`.  Here we have a standard soldering requirement needing either a
+`"soldering_iron"` or `"toolset"`, plus 1 unit of the `"solder_wire"` component:
+
+
+```json
+{
+  "id": "soldering_standard",
+  "type": "requirement",
+  "//": "Tools and materials needed for soldering metal items or electronics",
+  "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+  "components": [ [ [ "solder_wire", 1 ] ] ]
+}
+```
+
+This simplifies recipes needing soldering, via the `"using"` field.  For
+instance, a simple `"tazer"` recipe could require 10 units of the soldering
+requirement, along with some other components:
+
+```json
+{
+  "type": "recipe",
+  "result": "tazer",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ],
+  "//": "..."
+}
+
+```
+
+Requirements can be used not just for regular crafting and uncrafting recipes,
+but also for constructions and vehicle part installation and mending.
 
 
 #### Overlapping recipe component requirements
@@ -1828,7 +1922,11 @@ Vehicle components when installed on a vehicle.
 ```C++
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
-"symbol": "0",                // ASCII character displayed when part is working
+"symbol": "0",                // (Optional) ASCII character displayed when part is working
+"symbols": {                  // (Optional) ASCII characters displayed when the part is working,
+  "left": "0", "right": "0"   // listed by variant suffix.  See below for more on variants
+"standard_symbols: false,     // (Optional) Use the standard ASCII characters for variants
+                              // must have one of symbol, symbols, or standard_symbols
 "looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
                               // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
@@ -1885,6 +1983,28 @@ Vehicle components when installed on a vehicle.
   "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
   "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
 },
+```
+
+#### Symbols and Variants
+Vehicle parts can have multiple identical variants that use different symbols (and potentially
+tileset sprites).  They are declared by the `"standard_symbols"` boolean or the "symbols" object.
+Variants are used in the vehicle prototype as a suffix following the part id (ie `id_variant`), such as `"frame_nw"` or `"halfboard_cover"`.
+
+setting `"standard_symbols"` to true gives the vehicle the following variants:
+```
+"cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=", "vertical": "j",
+"vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
+```
+
+Otherwise, variants can use any of the following suffices:
+```
+"cover", "cross", "cross_unconnected", "front", "rear", "left," "right",
+"horizontal",  "horizontal_front", "horizontal_front_edge",
+"horizontal_rear", "horizontal_rear_edge",
+"horizontal_2", "horizontal_2_front", "horizontal_2_rear",
+"vertical", "vertical_right", "vertical_left", "vertical_T_right", "vertical_T_left",
+"vertical_2", "vertical_2_right", "vertical_2_left", 
+"ne", "nw", "se", "sw", "ne_edge", "nw_edge", "se_edge", "sw_edge"
 ```
 
 Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
@@ -2018,7 +2138,8 @@ See also VEHICLE_JSON.md
     {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
     {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
 ]
-                                           /* Important! Vehicle parts must be defined in the same order you would install
+                                           /* Important! Vehicle parts must be defined in the
+                                            * same order you would install
                                             * them in the game (ie, frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
@@ -2057,11 +2178,17 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
-"to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
+"to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
+  "grip": "solid",                           // the item's grip value
+  "length": "long",                          // the item's length value
+  "surface": "point",                        // the item's striking surface value
+  "balance": "neutral"                       // the item's balance value
+}
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -2087,6 +2214,19 @@ See also VEHICLE_JSON.md
     }
 },
 ```
+
+#### To hit object
+For additional clarity, an item's `to_hit` bonus can be encoded as string of 4 fields.  All the fields are mandatory:
+
+```C++
+"to_hit": {
+    "grip": "weapon",      // one of "bad", "none", "solid", or "weapon"
+    "length": "hand",      // one of "hand", "short", or "long" 
+    "surface": "any",      // one of "point", "line", "any", or "every" 
+    "balance": "neutral"   // one of "clumsy", "uneven", "neutral", or "good"
+}
+```
+See `GAME_BALANCE.md`'s `MELEE_WEAPONS` section for the criteria for selecting each value.
 
 ### Ammo
 
@@ -2302,7 +2442,7 @@ CBMs can be defined like this:
                             // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
-"use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
+"use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
 "radiation": 8,             // How much radiation you get from this comestible.
@@ -2353,7 +2493,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
-    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
+    "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
@@ -2752,7 +2892,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "effects" : { "high": 15 }, // Effects and their duration.
     "damage_over_time": [
         {
-          "damage_type": "true", // Type of damage
+          "damage_type": "pure", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
           "amount": -10, // Amount of damage applied every turn, negative damage heals
           "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
