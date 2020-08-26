@@ -206,5 +206,25 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
+    "id": "hood_gut",
+    "type": "ARMOR",
+    "name": { "str": "gutskin hood" },
+    "description": "A hood sewn of treated and split intestines, perfect companion for gutskin parka.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 2600,
+    "price_postapoc": 150,
+    "material": [ "gutskin" ],
+    "symbol": "[",
+    "looks_like": "hood_rain",
+    "color": "light_gray",
+    "covers": [ "head" ],
+    "coverage": 95,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ]
   }
 ]
