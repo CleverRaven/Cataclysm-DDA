@@ -25,19 +25,16 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    clear_creatures();
-    clear_npcs();
+    clear_map();
     clear_vehicles();
 
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     //player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     map &here = get_map();
-    wipe_map_terrain();
     build_test_map( ter_id( "t_pavement" ) );
     if( use_ramp ) {
         const int upper_zlevel = up ? 1 : 0;
