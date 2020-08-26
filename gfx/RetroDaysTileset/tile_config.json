@@ -8356,8 +8356,8 @@
         { "id": "helipad_ne", "fg": [ 3265, 3266, 3267, 3264 ], "bg": 1, "rotates": true },
         { "id": "helipad_se", "fg": [ 3266, 3267, 3264, 3265 ], "bg": 1, "rotates": true },
         { "id": "helipad_sw", "fg": [ 3267, 3264, 3265, 3266 ], "bg": 1, "rotates": true },
-        { "id": 
-          [
+        {
+          "id": [
             "airliner_1a",
             "airliner_2a",
             "airliner_3a",
@@ -8382,8 +8382,8 @@
             "airliner_1j",
             "airliner_3j"
           ],
-          "fg": 67, 
-          "rotates": false 
+          "fg": 67,
+          "rotates": false
         },
         { "id": "airliner_2b", "fg": 3268, "bg": 67, "rotates": true },
         { "id": "airliner_3c", "fg": 3269, "bg": 67, "rotates": true },
@@ -8398,22 +8398,19 @@
         { "id": "fungal_tower", "fg": 105, "rotates": false },
         { "id": "fungal_bloom", "fg": 754, "rotates": false },
         { "id": "park", "fg": [ 3111, 3111, 3111, 3111 ], "bg": [ 3163, 3164, 3165, 3166 ], "rotates": true },
-        { "id": [ "office_cubical", "office_cubical_1" ], "fg": [ 3277, 3277, 3277, 3277 ], "bg": [ 3163, 3164, 3165, 3166 ], "rotates": true },
-        { "id": 
-          [
-            "pool",
-            "pool_1",
-            "pool_2",
-            "pool_3",
-            "pool_4",
-            "pool_5",
-            "pool_6"
-          ],
+        {
+          "id": [ "office_cubical", "office_cubical_1" ],
+          "fg": [ 3277, 3277, 3277, 3277 ],
+          "bg": [ 3163, 3164, 3165, 3166 ],
+          "rotates": true
+        },
+        {
+          "id": [ "pool", "pool_1", "pool_2", "pool_3", "pool_4", "pool_5", "pool_6" ],
           "fg": 3278,
           "bg": [ 3163, 3164, 3165, 3166 ],
           "rotates": true
         },
-        { 
+        {
           "id": [ "s_garage", "s_garage_1" ],
           "fg": [ 3279, 3279, 3279, 3279 ],
           "bg": [ 3163, 3164, 3165, 3166 ],
@@ -8431,7 +8428,27 @@
         { "id": "subway_nsw", "fg": 3210, "bg": 3292, "rotates": false },
         { "id": "subway_new", "fg": 3211, "bg": 3293, "rotates": false },
         { "id": "subway_nes", "fg": 3212, "bg": 3294, "rotates": false },
-        { "id": "subway_nesw", "fg": 3213, "bg": 3295, "rotates": false }
+        { "id": "subway_nesw", "fg": 3213, "bg": 3295, "rotates": false },
+        { "id": "mission_arrow_n", "fg": 3296, "rotates": false },
+        { "id": "mission_arrow_e", "fg": 3297, "rotates": false },
+        { "id": "mission_arrow_s", "fg": 3298, "rotates": false },
+        { "id": "mission_arrow_w", "fg": 3299, "rotates": false },
+        { "id": "mission_arrow_nw", "fg": 3300, "rotates": false },
+        { "id": "mission_arrow_ne", "fg": 3301, "rotates": false },
+        { "id": "mission_arrow_se", "fg": 3302, "rotates": false },
+        { "id": "mission_arrow_sw", "fg": 3303, "rotates": false },
+        { "id": "mission_arrow_up", "fg": 3304, "rotates": false },
+        { "id": "mission_arrow_down", "fg": 3305, "rotates": false },
+        { "id": "mission_cursor", "fg": 3306, "rotates": false },
+        { "id": "temple_stairs", "fg": 3307, "rotates": false },
+        {
+          "id": [ "shelter", "shelter_1", "shelter_2", "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ],
+          "fg": [ 3308, 3308, 3308, 3308 ],
+          "bg": [ 3096, 3097, 3094, 3095 ],
+          "rotates": true
+        },
+        { "id": "bridge", "fg": [ 3309, 3310, 3309, 3310 ], "bg": [ 3100, 3104, 3100, 3104 ], "rotates": true },
+        { "id": "cave", "fg": 3311, "rotates": false }
       ]
     },
     {
