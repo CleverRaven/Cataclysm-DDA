@@ -31,7 +31,7 @@
     "symbol": "?",
     "color": "black_white",
     "skill": "spellcraft",
-    "required_level": 5,
+    "required_level": 8,
     "max_level": 8,
     "intelligence": 11,
     "time": "37 m",
