@@ -87,6 +87,11 @@ bool talker_character::is_deaf() const
     return me_chr->is_deaf();
 }
 
+bool talker_character::is_mute() const
+{
+    return me_chr->is_mute();
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
