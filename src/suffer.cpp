@@ -755,11 +755,7 @@ void Character::suffer_in_sunlight()
         return;
     }
 
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
-        suffer_from_albinism();
-    }
-
-    if( has_trait( trait_SUNBURN ) ) {
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) || has_trait( trait_SUNBURN ) ) {
         suffer_from_sunburn();
     }
 
@@ -822,37 +818,33 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     return bp_exposure;
 }
 
+
 void Character::suffer_from_sunburn()
 {
-    // FIXME: Rebalance this clause after rewriting coverage calculation
-    if( !one_in( 10 ) ) {
+    if( !has_trait( trait_ALBINO ) && !has_effect( effect_datura ) && !has_trait( trait_SUNBURN ) ) {
         return;
     }
 
-    // Legacy behavior: Umbrellas give full protection when wielded
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
-        return;
+    std::string sunlight_effect;
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        // Albinism and datura have the same effects, once per minute on average
+        if( !one_turn_in( 1_minutes ) ) {
+            return;
+        }
+        sunlight_effect = "The sunlight is really irritating";
+    } else if( has_trait( trait_SUNBURN ) ) {
+        // Sunburn effects occur about every 10 turns
+        if( !one_in( 10 ) ) {
+            return;
+        }
+        sunlight_effect = "The sunlight burns";
     }
 
-    // TODO: Rewrite to include bodypart coverage
-    add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-    if( has_effect( effect_sleep ) ) {
-        wake_up();
-    }
-    mod_pain( 1 );
-    hurtall( 1, nullptr );
-}
-
-void Character::suffer_from_albinism()
-{
-    if( !one_turn_in( 1_minutes ) ) {
-        return;
-    }
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
+        add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -875,47 +867,66 @@ void Character::suffer_from_albinism()
     bodypart_id most_exposed_bp;
     float max_exposure = 0.0f;
     // Check each bodypart with exposure above the minimum
-    for( const std::pair<const bodypart_id, float> &it : bp_exposure ) {
-        const float &exposure = it.second;
+    for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+        const float &exposure = bp_exp.second;
         if( exposure <= MIN_EXPOSURE ) {
             continue;
         }
         ++count_affected_bp;
         if( exposure > max_exposure ) {
             max_exposure = exposure;
-            most_exposed_bp = it.first;
+            most_exposed_bp = bp_exp.first;
         }
     }
 
-    // Suffer effects if at least one non-null body part is exposed
-    if( count_affected_bp > 0 && most_exposed_bp != bodypart_str_id( "bp_null" ) ) {
-        // Check if both arms/legs are affected
-        int count_limbs = 1;
-        const bodypart_id &other_bp = most_exposed_bp->opposite_part;
-        const bodypart_id &other_bp_rev = other_bp->opposite_part;
-        // If these are different, we have a left/right part like a leg or arm.
-        // If same, it's a central body part with no opposite, like head or torso.
-        // Only used to generate a simpler message when both arms or both legs are affected.
-        if( other_bp != other_bp_rev ) {
-            const auto found = bp_exposure.find( other_bp );
-            // Is opposite part exposed?
-            if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
-                ++count_limbs;
+    // If all body parts are protected, there is no suffering
+    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id( "bp_null" ) ) {
+        return;
+    }
+
+    // Check if both arms/legs are affected
+    int count_limbs = 1;
+    const bodypart_id &other_bp = most_exposed_bp->opposite_part;
+    const bodypart_id &other_bp_rev = other_bp->opposite_part;
+    // If these are different, we have a left/right part like a leg or arm.
+    // If same, it's a central body part with no opposite, like head or torso.
+    // Only used to generate a simpler message when both arms or both legs are affected.
+    if( other_bp != other_bp_rev ) {
+        const auto found = bp_exposure.find( other_bp );
+        // Is opposite part exposed?
+        if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
+            ++count_limbs;
+        }
+    }
+    // Get singular or plural body part name; append "and other body parts" if appropriate
+    std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
+    if( count_affected_bp == count_limbs ) {
+        add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, bp_name );
+    } else {
+        add_msg_if_player( m_bad, _( "%s your %s and other body parts." ), sunlight_effect,
+                           bp_name );
+    }
+
+    // Wake up from skin irritation/burning
+    if( has_effect( effect_sleep ) ) {
+        wake_up();
+    }
+
+    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
+    if( has_trait( trait_SUNBURN ) ) {
+        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+            const float &exposure = bp_exp.second;
+            // Skip parts with adequate protection
+            if( exposure <= MIN_EXPOSURE ) {
+                continue;
+            }
+            // Exposure percentage determines likelihood of injury
+            if( x_in_y( exposure, 1.0 ) ) {
+                apply_damage( nullptr, bp_exp.first, 1 );
             }
         }
-        // Get singular or plural body part name; append "and other body parts" if appropriate
-        std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
-        if( count_affected_bp == count_limbs ) {
-            add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
-        } else {
-            add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s and other body parts." ),
-                               bp_name );
-        }
-
-        //apply effects
-        if( has_effect( effect_sleep ) ) {
-            wake_up();
-        }
+    } else {
+        // Albinism/datura causes pain (1/60) or focus loss (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
