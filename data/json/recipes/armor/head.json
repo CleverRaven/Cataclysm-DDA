@@ -1384,6 +1384,6 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "trappers_companion", 6 ], [ "survival_book", 4 ] ],
-    "components": [ [ [ "stomach_sealed", 3 ], [ "large_stomach_sealed", 2 ] ], [ [ "sinew", 12 ] ] ]
+    "components": [ [ [ "stomach_sealed", 3 ], [ "large_stomach_sealed", 2 ] ], [ [ "filament", 12, "LIST" ] ] ]
   }
 ]
