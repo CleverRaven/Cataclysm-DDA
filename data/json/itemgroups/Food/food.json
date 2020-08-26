@@ -802,8 +802,10 @@
     "entries": [
       { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_chamomile_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }	
       { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
-      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
+      { "item": "tea_herbal_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_dandelion_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
     ]
   }
 ]
