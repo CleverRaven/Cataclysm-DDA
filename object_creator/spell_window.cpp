@@ -425,11 +425,11 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     dmg_type_box.setToolTip( QString( _( "The casting time of the spell at level 0" ) ) );
     dmg_type_box.show();
     QStringList damage_types;
-    for( int i = 0; i < static_cast<int>( damage_type::NUM_DT ); i++ ) {
+    for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
         damage_types.append( QString( io::enum_to_string( static_cast<damage_type>( i ) ).c_str() ) );
     }
     dmg_type_box.addItems( damage_types );
-    dmg_type_box.setCurrentIndex( static_cast<int>( damage_type::DT_NONE ) );
+    dmg_type_box.setCurrentIndex( static_cast<int>( damage_type::NONE ) );
     QObject::connect( &dmg_type_box, &QComboBox::currentTextChanged,
     [&]() {
         const damage_type tp = static_cast<damage_type>( dmg_type_box.currentIndex() );
