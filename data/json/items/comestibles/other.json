@@ -832,7 +832,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "dandelion tea bag" },
     "copy-from": "tea_bag",
-    "description": "Paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
+    "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
   },
   {
     "id": "tea_bag_chamomile",
