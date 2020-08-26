@@ -548,6 +548,30 @@ ter_id t_null,
        t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
        t_window_stained_green, t_window_stained_red, t_window_stained_blue,
        t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
+       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
+       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass, t_metal_grate_window_with_curtain_open_noglass,
+       t_single_pane_glass, t_single_pane_glass_open, 
+       t_single_pane_glass_with_curtain, t_single_pane_glass_with_curtain_open_window_closed, t_single_pane_glass_with_curtain_open,
+       t_reinforced_single_pane_glass, t_reinforced_single_pane_glass_open,
+       t_reinforced_single_pane_glass_with_curtain, t_reinforced_single_pane_glass_with_curtain_open_window_closed, t_reinforced_single_pane_glass_with_curtain_open,
+       t_double_pane_glass, t_double_pane_glass_open,
+       t_double_pane_glass_with_curtain, t_double_pane_glass_with_curtain_open_window_closed, t_double_pane_glass_with_curtain_open,
+       t_reinforced_double_pane_glass, t_reinforced_double_pane_glass_open,
+       t_reinforced_double_pane_glass_with_curtain, t_reinforced_double_pane_glass_with_curtain_open_window_closed, t_reinforced_double_pane_glass_with_curtain_open,
+       t_triple_pane_glass, t_triple_pane_glass_open,
+       t_triple_pane_glass_with_curtain, t_triple_pane_glass_with_curtain_open_window_closed, t_triple_pane_glass_with_curtain_open,
+       t_reinforced_triple_pane_glass, t_reinforced_triple_pane_glass_open, 
+       t_reinforced_triple_pane_glass_with_curtain, t_reinforced_triple_pane_glass_with_curtain_open_window_closed, t_reinforced_triple_pane_glass_with_curtain_open,
+       t_quadruple_pane_glass, t_quadruple_pane_glass_open,
+       t_quadruple_pane_glass_with_curtain, t_quadruple_pane_glass_with_curtain_open_window_closed, t_quadruple_pane_glass_with_curtain_open,
+       t_reinforced_quadruple_pane_glass, t_reinforced_quadruple_pane_glass_open,
+       t_reinforced_quadruple_pane_glass_with_curtain, t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed, t_reinforced_quadruple_pane_glass_with_curtain_open,
+       t_plastic_window, t_plastic_window_open,
+       t_plastic_window_with_curtain, t_plastic_window_with_curtain_open_window_closed, t_plastic_window_with_curtain_open,
+       t_reinforced_plastic_window, t_reinforced_plastic_window_open,
+       t_reinforced_plastic_window_with_curtain, t_reinforced_plastic_window_with_curtain_open_window_closed, t_reinforced_plastic_window_with_curtain_open,
+       t_tempered_glass_window, t_tempered_glass_open,
+       t_tempered_glass_with_curtain, t_tempered_glass_with_curtain_open_window_closed, t_tempered_glass_with_curtain_open,
        t_rock, t_fault,
        t_paper,
        t_rock_wall, t_rock_wall_half,
@@ -756,6 +780,67 @@ void set_ter_ids()
     t_window_no_curtains = ter_id( "t_window_no_curtains" );
     t_window_no_curtains_open = ter_id( "t_window_no_curtains_open" );
     t_window_no_curtains_taped = ter_id( "t_window_no_curtains_taped" );
+    t_metal_grate_window = ter_id( "t_metal_grate_window" );
+    t_metal_grate_window_with_curtain = ter_id( "t_metal_grate_window_with_curtain" );
+    t_metal_grate_window_with_curtain_open = ter_id( "t_metal_grate_window_with_curtain_open" );
+    t_metal_grate_window_noglass = ter_id( "t_metal_grate_window_noglass" );
+    t_metal_grate_window_with_curtain_noglass = ter_id( "t_metal_grate_window_with_curtain_noglass" );
+    t_metal_grate_window_with_curtain_open_noglass = ter_id( "t_metal_grate_window_with_curtain_open_noglass" );
+    t_single_pane_glass = ter_id( "t_single_pane_glass" );
+    t_single_pane_glass_open = ter_id( "t_single_pane_glass_open" );
+    t_single_pane_glass_with_curtain = ter_id( "t_single_pane_glass_with_curtain" );
+    t_single_pane_glass_with_curtain_open_window_closed = ter_id( "t_single_pane_glass_with_curtain_open_window_closed" );
+    t_single_pane_glass_with_curtain_open = ter_id( "t_single_pane_glass_with_curtain_open" );
+    t_reinforced_single_pane_glass = ter_id( "t_reinforced_single_pane_glass" );
+    t_reinforced_single_pane_glass_open = ter_id( "t_reinforced_single_pane_glass_open" );
+    t_reinforced_single_pane_glass_with_curtain = ter_id( "t_reinforced_single_pane_glass_with_curtain" );
+    t_reinforced_single_pane_glass_with_curtain_open_window_closed = ter_id( "t_reinforced_single_pane_glass_with_curtain_open_window_closed" );
+    t_reinforced_single_pane_glass_with_curtain_open = ter_id( "t_reinforced_single_pane_glass_with_curtain_open" );
+    t_double_pane_glass = ter_id( "t_double_pane_glass" );
+    t_double_pane_glass_open = ter_id( "t_double_pane_glass_open" );
+    t_double_pane_glass_with_curtain = ter_id( "t_double_pane_glass_with_curtain" );
+    t_double_pane_glass_with_curtain_open_window_closed = ter_id( "t_double_pane_glass_with_curtain_open_window_closed" );
+    t_double_pane_glass_with_curtain_open = ter_id( "t_double_pane_glass_with_curtain_open" );
+    t_reinforced_double_pane_glass = ter_id( "t_reinforced_double_pane_glass" );
+    t_reinforced_double_pane_glass_open = ter_id( "t_reinforced_double_pane_glass_open" );
+    t_reinforced_double_pane_glass_with_curtain = ter_id( "t_reinforced_double_pane_glass_with_curtain" );
+    t_reinforced_double_pane_glass_with_curtain_open_window_closed = ter_id( "t_reinforced_double_pane_glass_with_curtain_open_window_closed" );
+    t_reinforced_double_pane_glass_with_curtain_open = ter_id( "t_reinforced_double_pane_glass_with_curtain_open" );
+    t_triple_pane_glass = ter_id( "t_triple_pane_glass" );
+    t_triple_pane_glass_open = ter_id( "t_triple_pane_glass_open" );
+    t_triple_pane_glass_with_curtain = ter_id( "t_triple_pane_glass_with_curtain" );
+    t_triple_pane_glass_with_curtain_open_window_closed = ter_id( "t_triple_pane_glass_with_curtain_open_window_closed" );
+    t_triple_pane_glass_with_curtain_open = ter_id( "t_triple_pane_glass_with_curtain_open" );
+    t_reinforced_triple_pane_glass = ter_id( "t_reinforced_triple_pane_glass" );
+    t_reinforced_triple_pane_glass_open = ter_id( "t_reinforced_triple_pane_glass_open" );
+    t_reinforced_triple_pane_glass_with_curtain = ter_id( "t_reinforced_triple_pane_glass_with_curtain" );
+    t_reinforced_triple_pane_glass_with_curtain_open_window_closed = ter_id( "t_reinforced_triple_pane_glass_with_curtain_open_window_closed" );
+    t_reinforced_triple_pane_glass_with_curtain_open = ter_id( "t_reinforced_triple_pane_glass_with_curtain_open" );
+    t_quadruple_pane_glass = ter_id( "t_quadruple_pane_glass" );
+    t_quadruple_pane_glass_open = ter_id( "t_quadruple_pane_glass_open" );
+    t_quadruple_pane_glass_with_curtain = ter_id( "t_quadruple_pane_glass_with_curtain" );
+    t_quadruple_pane_glass_with_curtain_open_window_closed = ter_id( "t_quadruple_pane_glass_with_curtain_open_window_closed" );
+    t_quadruple_pane_glass_with_curtain_open = ter_id( "t_quadruple_pane_glass_with_curtain_open" );
+    t_reinforced_quadruple_pane_glass = ter_id( "t_reinforced_quadruple_pane_glass" );
+    t_reinforced_quadruple_pane_glass_open = ter_id( "t_reinforced_quadruple_pane_glass_open" );
+    t_reinforced_quadruple_pane_glass_with_curtain = ter_id( "t_reinforced_quadruple_pane_glass_with_curtain" );
+    t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed = ter_id( "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed" );
+    t_reinforced_quadruple_pane_glass_with_curtain_open = ter_id( "t_reinforced_quadruple_pane_glass_with_curtain_open" );
+    t_plastic_window = ter_id( "t_plastic_window" );
+    t_plastic_window_open = ter_id( "t_plastic_window_open" );
+    t_plastic_window_with_curtain = ter_id( "t_plastic_window_with_curtain" );
+    t_plastic_window_with_curtain_open_window_closed = ter_id( "t_plastic_window_with_curtain_open_window_closed" );
+    t_plastic_window_with_curtain_open = ter_id( "t_plastic_window_with_curtain_open" );
+    t_reinforced_plastic_window = ter_id( "t_reinforced_plastic_window" );
+    t_reinforced_plastic_window_open = ter_id( "t_reinforced_plastic_window_open" );
+    t_reinforced_plastic_window_with_curtain = ter_id( "t_reinforced_plastic_window_with_curtain" );
+    t_reinforced_plastic_window_with_curtain_open_window_closed = ter_id( "t_reinforced_plastic_window_with_curtain_open_window_closed" );
+    t_reinforced_plastic_window_with_curtain_open = ter_id("t_reinforced_plastic_window_with_curtain_open" );
+    t_tempered_glass_window = ter_id( "t_tempered_glass_window" );
+    t_tempered_glass_open = ter_id( "t_tempered_glass_open" );
+    t_tempered_glass_with_curtain = ter_id( "t_tempered_glass_with_curtain" );
+    t_tempered_glass_with_curtain_open_window_closed = ter_id( "t_tempered_glass_with_curtain_open_window_closed" );
+    t_tempered_glass_with_curtain_open = ter_id( "t_tempered_glass_with_curtain_open" );
     t_rock = ter_id( "t_rock" );
     t_fault = ter_id( "t_fault" );
     t_paper = ter_id( "t_paper" );
