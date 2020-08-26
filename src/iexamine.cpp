@@ -51,6 +51,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -180,6 +181,9 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_VINES2( "VINES2" );
+static const trait_id trait_VINES3( "VINES3" );
+static const trait_id trait_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -4501,7 +4505,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 std::string query;
                 p.increase_activity_level( MODERATE_EXERCISE );
 
-                if( !has_grapnel ) {
+                if( !has_grapnel && !p.has_trait( trait_VINES2 ) && !p.has_trait( trait_VINES3 ) && !p.has_trait( trait_WEB_RAPPEL ) ) {
                     if( climb_cost <= 0 && fall_mod > 0.8 ) {
                         query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
                     } else if( climb_cost <= 0 ) {
@@ -4511,8 +4515,12 @@ void iexamine::ledge( player &p, const tripoint &examp )
                     } else {
                         query = _( "You may have problems climbing back up.  Climb down?" );
                     }
-                } else {
+                } else if( has_grapnel ) {
                     query = _( "Use your grappling hook to climb down?" );
+                } else if ( p.has_trait( trait_WEB_RAPPEL ) ) {
+                    query = _( "Spin a dragline to climb down?" );
+                } else if ( p.has_trait( trait_VINES2 ) || p.has_trait( trait_VINES3 ) ) {
+                    query = _( "Climb down with one of your vines?" );
                 }
 
                 if( !query_yn( query.c_str() ) ) {
@@ -4525,6 +4533,11 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             if( has_grapnel ) {
                 p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+            } else if ( p.has_trait( trait_WEB_RAPPEL ) ) {
+                p.add_msg_if_player( _( "You secure some webbing and begin to climb down." ) );
+            } else if ( p.has_trait( trait_VINES2 ) || p.has_trait( trait_VINES3 ) ) {
+                p.add_msg_if_player( _( "You let yourself down on a vine." ) );
+
             } else if( here.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
