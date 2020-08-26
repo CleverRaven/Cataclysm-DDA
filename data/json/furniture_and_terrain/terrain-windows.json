@@ -74,6 +74,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_curtains",
     "open": "t_window_open",
@@ -206,6 +207,7 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW" ],
+    "curtain_transform": "t_window_no_curtains_taped",
     "examine_action": "curtains",
     "bash": {
       "str_min": 6,
@@ -244,6 +246,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
@@ -282,6 +285,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
     "deconstruct": {
@@ -614,6 +618,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_window_bars_domestic",
     "bash": {
@@ -651,6 +656,7 @@
       "CONNECT_TO_WALL",
       "WINDOW"
     ],
+    "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_window_bars_curtains",
     "bash": {
@@ -766,8 +772,9 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
-    "open": "t_metal_grate_window_with_curtain_open",
+    "open": "t_metal_grate_window",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
@@ -797,6 +804,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
@@ -857,6 +865,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
@@ -888,6 +897,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
@@ -1009,6 +1019,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "open": "t_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1054,6 +1065,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "close": "t_single_pane_glass_with_curtain",
     "open": "t_single_pane_glass_with_curtain_open",
@@ -1101,6 +1113,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "close": "t_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1225,6 +1238,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
     "open": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1270,6 +1284,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_single_pane_glass_with_curtain",
     "open": "t_reinforced_single_pane_glass_with_curtain_open",
@@ -1317,6 +1332,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1441,6 +1457,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
     "open": "t_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1486,6 +1503,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
     "close": "t_double_pane_glass_with_curtain",
     "open": "t_double_pane_glass_with_curtain_open",
@@ -1533,6 +1551,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
     "close": "t_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1619,6 +1638,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_double_pane_glass",
     "close": "t_reinforced_double_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
     "bash": {
@@ -1657,6 +1677,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
     "open": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1703,6 +1724,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_double_pane_glass_with_curtain",
     "open": "t_reinforced_double_pane_glass_with_curtain_open",
@@ -1750,6 +1772,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1874,6 +1897,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
     "open": "t_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -1919,6 +1943,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
     "close": "t_triple_pane_glass_with_curtain",
     "open": "t_triple_pane_glass_with_curtain_open",
@@ -1966,6 +1991,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
     "close": "t_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2090,6 +2116,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
     "open": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2136,6 +2163,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_triple_pane_glass_with_curtain",
     "open": "t_reinforced_triple_pane_glass_with_curtain_open",
@@ -2183,6 +2211,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2306,6 +2335,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
     "open": "t_quadruple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2351,6 +2381,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
     "close": "t_quadruple_pane_glass_with_curtain",
     "open": "t_quadruple_pane_glass_with_curtain_open",
@@ -2398,6 +2429,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
     "close": "t_quadruple_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2522,6 +2554,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
     "open": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2568,6 +2601,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_quadruple_pane_glass_with_curtain",
     "open": "t_reinforced_quadruple_pane_glass_with_curtain_open",
@@ -2615,6 +2649,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
     "close": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2731,6 +2766,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "open": "t_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2776,6 +2812,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "close": "t_plastic_window_with_curtain",
     "open": "t_plastic_window_with_curtain_open",
@@ -2823,6 +2860,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "close": "t_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2947,6 +2985,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
     "open": "t_reinforced_plastic_window_with_curtain_open_window_closed",
     "deconstruct": {
@@ -2996,6 +3035,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
     "open": "t_reinforced_plastic_window_with_curtain_open",
     "close": "t_reinforced_plastic_window_with_curtain",
@@ -3047,6 +3087,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
     "close": "t_reinforced_plastic_window_with_curtain",
     "deconstruct": {
@@ -3194,6 +3235,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
     "open": "t_tempered_glass_with_curtain_open_window_closed",
     "deconstruct": {
@@ -3239,6 +3281,7 @@
       "BLOCK_WIND",
       "WINDOW"
     ],
+    "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
     "close": "t_tempered_glass_with_curtain",
     "open": "t_tempered_glass_with_curtain_open",
@@ -3286,6 +3329,7 @@
       "SMALL_PASSAGE",
       "WINDOW"
     ],
+    "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
     "close": "t_tempered_glass_with_curtain_open_window_closed",
     "deconstruct": {
