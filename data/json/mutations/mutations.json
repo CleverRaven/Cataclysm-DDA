@@ -2800,6 +2800,17 @@
   },
   {
     "type": "mutation",
+    "id": "BIOELECTRIC",
+    "name": "Bioelectric Organ",
+    "points": 1,
+    "description": "Your electroreceptors have further developed into specialized organs that can reflexively discharge electricity when you attack an enemy.",
+    "enchantments": [ "MEP_BIOELECTRIC_SHOCK" ],
+    "prereqs": [ "ELECTRORECEPTORS" ],
+    "threshreq": [ "THRESH_FISH" ],
+    "category": [ "FISH" ]
+  },
+  {
+    "type": "mutation",
     "id": "TALONS",
     "name": { "str": "Large Talons" },
     "points": 2,

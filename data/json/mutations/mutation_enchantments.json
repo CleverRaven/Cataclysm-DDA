@@ -11,5 +11,17 @@
         "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
       }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "MEP_BIOELECTRIC_SHOCK",
+    "hit_you_effect": [
+      {
+        "id": "bioelectric_shock",
+        "once_in": 32,
+        "message": "Your bioelectric cells give %2$s a powerful zap.",
+        "npc_message": "%1$s's bioelectric cells give %2$s a powerful zap."
+      }
+    ]
   }
 ]

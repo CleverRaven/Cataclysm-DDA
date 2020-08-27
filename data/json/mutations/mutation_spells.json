@@ -18,5 +18,25 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
     "energy_source": "NONE",
     "damage_type": "bio"
+  },
+  {
+    "id": "bioelectric_shock",
+    "type": "SPELL",
+    "name": { "str": "Bioelectric Shock" },
+    "description": "Stuns a nearby creature with a powerful shock.",
+    "effect": "target_attack",
+    "effect_str": "zapped",
+    "affected_body_parts": [ "TORSO" ],
+    "valid_targets": [ "hostile" ],
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 300,
+    "spell_class": "NONE",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "energy_source": "NONE",
+    "damage_type": "electric"
   }
 ]
