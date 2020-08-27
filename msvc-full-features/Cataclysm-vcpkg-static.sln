@@ -7,6 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
 		AStyleExtension-Cataclysm-DDA.cfg = AStyleExtension-Cataclysm-DDA.cfg
+		distribute.bat = distribute.bat
+		prebuild.cmd = prebuild.cmd
+		style-json.ps1 = style-json.ps1
 		vcpkg.json = vcpkg.json
 	EndProjectSection
 EndProject
@@ -16,7 +19,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-test-vcpkg-static
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static", "Cataclysm-lib-vcpkg-static.vcxproj", "{0009BB11-11AD-4C14-A5FC-D882A942C00B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter", "JsonFormatter.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-vcpkg-static", "JsonFormatter-vcpkg-static.vcxproj", "{35D74C75-FC4A-442F-AF44-43BC9D845BAF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-lib-vcpkg-static", "JsonFormatter-lib-vcpkg-static.vcxproj", "{534A4E38-96A1-40E4-BDA7-8D17607F0270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +63,14 @@ Global
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.Build.0 = Release|x64
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.ActiveCfg = Release|Win32
 		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.Build.0 = Release|Win32
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x64.ActiveCfg = Debug|x64
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x64.Build.0 = Debug|x64
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x86.ActiveCfg = Debug|Win32
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x86.Build.0 = Debug|Win32
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x64.ActiveCfg = Release|x64
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x64.Build.0 = Release|x64
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.ActiveCfg = Release|Win32
+		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
