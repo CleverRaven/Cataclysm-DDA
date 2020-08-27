@@ -1012,7 +1012,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_book() || loc->type->can_use( "learn_spell" );
+            return loc->is_book();
         }
 
         std::string get_denial( const item_location &loc ) const override {
