@@ -630,8 +630,8 @@
     "color": "white",
     "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
-      "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] },
       "passive_effects": [
+        "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] },
         {
           "has": "WORN",
           "condition": "ALWAYS",
