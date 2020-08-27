@@ -163,7 +163,6 @@
       { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
       { "item": "makarov", "prob": 100, "charges-min": 0, "charges-max": 8 },
       { "item": "mauser_c96", "prob": 103, "charges-min": 0, "charges-max": 10 },
-      { "item": "mauser_m714", "prob": 20, "charges-min": 0, "charges-max": 20 },
       { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
       { "item": "p08", "prob": 324, "charges-min": 0, "charges-max": 8 },
       { "item": "pistol_flintlock", "prob": 150 },
