@@ -3124,6 +3124,7 @@ The format also support snippet ids like above.
 {
     "id": "jabberwock",
     "type": "harvest",
+    "leftovers": "ruined_candy",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
@@ -3206,6 +3207,10 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### leftovers
+
+itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Furniture
 
