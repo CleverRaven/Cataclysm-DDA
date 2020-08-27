@@ -1181,6 +1181,12 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
     }
+    // check if there's a fire fuel source spot
+    if( warn_fuel_burn( pos ) ) {
+        if( !query_yn( _( "do you really want to burn your firewood source?" ) ) ) {
+            return false;
+        }
+    }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const item &i : here.i_at( pos ) ) {

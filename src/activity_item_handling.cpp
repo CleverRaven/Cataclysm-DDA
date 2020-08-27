@@ -3093,3 +3093,10 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
 }
+
+bool warn_fuel_burn( const tripoint &pos )
+{
+    map &here = get_map();
+    bool has_fuel_here = ( here.tr_at( pos ).id == tr_firewood_source );
+    return has_fuel_here;
+}
