@@ -632,8 +632,8 @@
     "relic_data": {
       "passive_effects": [
         {
-        "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] },
-        }
+        "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+        },
          {
           "has": "WORN",
           "condition": "ALWAYS",
