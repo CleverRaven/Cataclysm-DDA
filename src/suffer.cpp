@@ -837,8 +837,8 @@ void Character::suffer_from_sunburn()
         }
         sunlight_effect = "The sunlight is really irritating";
     } else if( has_trait( trait_SUNBURN ) ) {
-        // Sunburn effects occur about every 10 turns
-        if( !one_in( 10 ) ) {
+        // Sunburn effects occur about 3 times per minute
+        if( !one_turn_in( 20_seconds ) ) {
             return;
         }
         sunlight_effect = "The sunlight burns";
@@ -849,6 +849,7 @@ void Character::suffer_from_sunburn()
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
+        // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -872,7 +873,7 @@ void Character::suffer_from_sunburn()
     float max_exposure = 0.0f;
     // Check each bodypart with exposure above the minimum
     for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
-        const float &exposure = bp_exp.second;
+        const float exposure = bp_exp.second;
         if( exposure <= MIN_EXPOSURE ) {
             continue;
         }
@@ -918,10 +919,11 @@ void Character::suffer_from_sunburn()
 
     // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
     if( has_trait( trait_SUNBURN ) ) {
+        mod_pain( 1 );
         // Check exposure of all body parts
         for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
             const bodypart_id &this_part = bp_exp.first;
-            const float &exposure = bp_exp.second;
+            const float exposure = bp_exp.second;
             // Skip parts with adequate protection
             if( exposure <= MIN_EXPOSURE ) {
                 continue;
