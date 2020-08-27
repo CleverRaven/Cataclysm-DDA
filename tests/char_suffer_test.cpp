@@ -82,9 +82,10 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 //
 TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 {
-    Character &dummy = get_player_character();
-    clear_avatar();
     clear_map();
+    avatar &dummy = get_avatar();
+    clear_character( dummy );
+    g->reset_light_level();
 
     int focus_lost = 0;
     int pain_felt = 0;
@@ -174,9 +175,10 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
 TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 {
-    Character &dummy = get_player_character();
-    clear_avatar();
     clear_map();
+    clear_avatar();
+    Character &dummy = get_player_character();
+    g->reset_light_level();
 
     int focus_lost = 0;
     int pain_felt = 0;
