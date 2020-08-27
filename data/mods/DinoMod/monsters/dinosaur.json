@@ -84,6 +84,7 @@
     "reproduction": { "baby_egg": "egg_gallimimus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -130,6 +131,7 @@
     "reproduction": { "baby_egg": "egg_pachycephalosaurus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -284,6 +286,7 @@
     "reproduction": { "baby_egg": "egg_triceratops", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -329,7 +332,8 @@
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 20 ]
     ],
     "description": "A large slow quadruped dinosaur with plates on its back, and a spiked tail.",
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -368,7 +372,8 @@
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 40 ]
     ],
     "description": "This dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -432,7 +437,8 @@
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "SMASH", 30 ],
+      [ "EAT_CROP", 5 ]
     ],
     "description": "Massive, long-necked, four-legged dinosaur with a long, whip-like tail.  The head is upright and the neck looks like it would make a good strong club.",
     "reproduction": { "baby_egg": "egg_apatosaurus", "baby_count": 3, "baby_timer": 24 },
@@ -680,6 +686,7 @@
     "reproduction": { "baby_egg": "egg_camptosaurus", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 30 ] ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -728,6 +735,7 @@
     "reproduction": { "baby_egg": "egg_parasaurolophus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "special_attacks": [ [ "EAT_CROP", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT" ],
