@@ -124,18 +124,7 @@
     "base_casting_time": 300,
     "base_energy_cost": 2,
     "min_duration": 43200,
-    "max_duration": 43200,
-    "extra_effects": [ { "id": "pain_split" }, { "id": "werewolf_healing" } ]
-  },
-  {
-    "id": "werewolf_healing",
-    "type": "SPELL",
-    "name": { "str": "Werewolf Healing" },
-    "description": "With a soul chilling howl, wounds knit closed.",
-    "valid_targets": [ "self" ],
-    "effect": "target_attack",
-    "flags": [ "NO_HANDS", "NO_LEGS" ],
-    "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+    "max_duration": 43200
   },
   {
     "id": "wolfsbane",
