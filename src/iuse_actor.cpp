@@ -1183,7 +1183,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     // check if there's a fire fuel source spot
     if( warn_fuel_burn( pos ) ) {
-        if( !query_yn( _( "do you really want to burn your firewood source?" ) ) ) {
+        if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
             return false;
         }
     }
