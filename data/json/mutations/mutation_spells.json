@@ -17,7 +17,7 @@
     "spell_class": "NONE",
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
     "energy_source": "NONE",
-    "damage_type": "biological"
+    "damage_type": "bio"
   },
   {
     "id": "bioelectric_shock",
