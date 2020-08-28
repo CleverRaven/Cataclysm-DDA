@@ -206,7 +206,7 @@
       { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
- {
+  {
     "id": "car_luxury",
     "type": "vehicle",
     "name": "Luxury Car",
@@ -260,7 +260,6 @@
       { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
     ]
   },
-
   {
     "id": "car_anmlcmpt",
     "type": "vehicle",
