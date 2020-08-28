@@ -434,6 +434,7 @@ class Character : public Creature, public visitable<Character>
         virtual void mod_hunger( int nhunger );
         virtual void mod_thirst( int nthirst );
         virtual void mod_fatigue( int nfatigue );
+        virtual void mod_focus( int nfocus );
         virtual void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
@@ -442,6 +443,7 @@ class Character : public Creature, public visitable<Character>
         virtual void set_thirst( int nthirst );
         virtual void set_fatigue( int nfatigue );
         virtual void set_fatigue( fatigue_levels nfatigue );
+        virtual void set_focus( int nfocus );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;

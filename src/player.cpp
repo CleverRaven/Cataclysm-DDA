@@ -96,6 +96,7 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fungus( "fungus" );
+static const efftype_id effect_focus( "focus" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_masked_scent( "masked_scent" );
@@ -578,6 +579,8 @@ void player::mod_stat( const std::string &stat, float modifier )
         mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
         mod_fatigue( modifier );
+    } else if( stat == "focus_pool" ) {
+        mod_focus( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
