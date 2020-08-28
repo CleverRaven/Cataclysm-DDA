@@ -307,6 +307,24 @@
   },
   {
     "type": "ammunition_type",
+    "id": "aerosol_paint",
+    "name": "paint",
+    "default": "aerosol_paint"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "permanent_ink",
+    "name": "ink",
+    "default": "permanent_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "candle_wax",
+    "name": "wax",
+    "default": "candle_wax"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flare_nitrate",
     "name": "flare pyrotechnic",
     "default": "flare_nitrate"
