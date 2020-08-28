@@ -9,11 +9,9 @@
     "symbol": "=",
     "color": "dark_gray",
     "range": 6,
-    "damage": { "damage_type": "bullet", "amount": 6, "armor_penetration": 3},
+    "damage": { "damage_type": "bullet", "amount": 6, "armor_penetration": 3 },
     "dispersion": 90,
-    "proportional": {
-      "price": 3.0
-    }
+    "proportional": { "price": 3.0 }
   },
   {
     "id": "nail",
