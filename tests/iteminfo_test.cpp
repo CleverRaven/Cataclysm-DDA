@@ -2076,14 +2076,14 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
 
         item candle( "candle" );
+        candle.ammo_set( itype_id( "candle_wax" ) );
         REQUIRE( candle.ammo_remaining() > 0 );
 
-        candle.charges = candle.type->maximum_charges();
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
                "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
 
-        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        candle.ammo_set( itype_id( "candle_wax" ), ( candle.type->maximum_charges() / 2 ) - 1 );
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
                "<color_c_white>Fuel</color>: More than half has burned away.\n" );
