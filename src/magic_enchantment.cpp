@@ -273,12 +273,8 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.member( "intermittent_activation" );
         jsout.start_object();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "duration", pair.first );
-            jsout.start_array( "effects" );
-            for( const fake_spell &sp : pair.second ) {
-                sp.serialize( jsout );
-            }
-            jsout.end_array();
+            jsout.member( "frequency", pair.first );
+            jsout.member( "spell_effects", pair.second );
         }
         jsout.end_object();
     }
