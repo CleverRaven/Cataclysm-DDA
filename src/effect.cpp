@@ -634,8 +634,8 @@ std::string effect::disp_desc( bool reduced ) const
     val = get_avg_mod( "FATIGUE", reduced );
     values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
                                  _( "rest" ) ) );
-    val = get_avg_mod( "FOCUS_POOL", reduced );
-    values.push_back( desc_freq( get_percentage( "FOCUS_POOL", val, reduced ), val, _( "focus" ),
+    val = get_avg_mod( "FOCUS", reduced );
+    values.push_back( desc_freq( get_percentage( "FOCUS", val, reduced ), val, _( "focus" ),
                                  _( "focus" ) ) );
     val = get_avg_mod( "COUGH", reduced );
     values.push_back( desc_freq( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),

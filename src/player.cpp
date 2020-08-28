@@ -579,7 +579,7 @@ void player::mod_stat( const std::string &stat, float modifier )
         mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
         mod_fatigue( modifier );
-    } else if( stat == "focus_pool" ) {
+    } else if( stat == "focus" ) {
         mod_focus( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
