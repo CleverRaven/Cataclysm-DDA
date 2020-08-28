@@ -122,8 +122,8 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
                 // 1 pain per hour for exposed skin
                 pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                 // Without running a long test, chance of pain is too low to measure effectively
-                // This assertion will pass when pain is between 0 and 7 in an hour
-                CHECK( pain_felt == Approx( 2 ).margin( 5 ) );
+                // This assertion will pass when pain is between 0 and 12 in an hour
+                CHECK( pain_felt == Approx( 2 ).margin( 10 ) );
             }
 
             WHEN( "wielding an umbrella and wearing sunglasses" ) {
@@ -213,7 +213,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             THEN( "they suffer pain several times a minute" ) {
                 pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
                 // Chance of pain again hard to predict; this could easily be over 6/minute
-                CHECK( pain_felt == Approx( 30 ).margin( 40 ) );
+                // This will pass if pain is between 0 and 90, but 3/minute is expected baseline
+                CHECK( pain_felt == Approx( 30 ).margin( 60 ) );
             }
         }
 
