@@ -1,0 +1,7 @@
+# for Python https://pip.pypa.io/en/stable/user_guide/#requirements-files
+
+# gfx_tools/*compose.py
+pyvips
+
+# json_tools/copy_from.py
+inheritson==0.0.3
