@@ -123,8 +123,8 @@
     "spell_class": "NONE",
     "base_casting_time": 300,
     "base_energy_cost": 2,
-    "min_duration": 43200,
-    "max_duration": 43200
+    "min_duration": 4320000,
+    "max_duration": 4320000
   },
   {
     "id": "wolfsbane",
