@@ -11,13 +11,6 @@
 // Covers functions:
 // - Character::suffer_from_sunburn
 
-// Main body parts that can have HP loss
-const std::vector<bodypart_str_id> body_parts_with_hp{
-    bodypart_str_id( "head" ), bodypart_str_id( "torso" ),
-    bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
-    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ),
-};
-
 // Make character suffer for a while
 static void test_suffer( Character &dummy, const time_duration &dur )
 {
@@ -41,12 +34,14 @@ static int test_suffer_focus_lost( Character &dummy, const time_duration &dur )
 }
 
 // Return total hit points lost for each body part over a given time duration (may exceed max HP)
-static std::map<bodypart_str_id, int> test_suffer_bodypart_hp_lost( Character &dummy,
+static std::map<bodypart_id, int> test_suffer_bodypart_hp_lost( Character &dummy,
         const time_duration &dur )
 {
+    const std::vector<bodypart_id> body_parts_with_hp = dummy.get_all_body_parts(
+                get_body_part_flags::only_main );
     // Total hit points lost for each body part
-    std::map<bodypart_str_id, int> bp_hp_lost;
-    for( const bodypart_str_id &bp : body_parts_with_hp ) {
+    std::map<bodypart_id, int> bp_hp_lost;
+    for( const bodypart_id &bp : body_parts_with_hp ) {
         bp_hp_lost[bp] = 0;
     }
     // Every turn, heal completely, then suffer and accumulate HP loss for each body part
@@ -54,7 +49,7 @@ static std::map<bodypart_str_id, int> test_suffer_bodypart_hp_lost( Character &d
     for( int turn = 0; turn < num_turns; ++turn ) {
         dummy.healall( 100 );
         dummy.suffer();
-        for( const bodypart_str_id &bp : body_parts_with_hp ) {
+        for( const bodypart_id &bp : body_parts_with_hp ) {
             bp_hp_lost[bp] += dummy.get_part_hp_max( bp.id() ) - dummy.get_part_hp_cur( bp.id() );
         }
     }
@@ -193,6 +188,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     clear_avatar();
     Character &dummy = get_player_character();
     g->reset_light_level();
+    const std::vector<bodypart_id> body_parts_with_hp = dummy.get_all_body_parts(
+                get_body_part_flags::only_main );
 
     int focus_lost = 0;
     int pain_felt = 0;
@@ -209,7 +206,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         dummy.toggle_trait( trait_id( "SUNBURN" ) );
         REQUIRE( dummy.has_trait( trait_id( "SUNBURN" ) ) );
 
-        std::map<bodypart_str_id, int> bp_hp_lost;
+        std::map<bodypart_id, int> bp_hp_lost;
         WHEN( "totally naked and exposed" ) {
             dummy.worn.clear();
 
@@ -217,8 +214,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 // Should lose an average of 6 HP per minute from each body part with hit points
                 // (head, torso, both arms, both legs)
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
-                for( const bodypart_str_id &bp : body_parts_with_hp ) {
-                    CAPTURE( bp.str() );
+                for( const bodypart_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.id().str() );
                     CHECK( bp_hp_lost[bp] == Approx( 60 ).margin( 40 ) );
                 }
             }
@@ -238,8 +235,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
-                for( const bodypart_str_id &bp : body_parts_with_hp ) {
-                    CAPTURE( bp.str() );
+                for( const bodypart_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.id().str() );
                     CHECK( bp_hp_lost[bp] == 0 );
                 }
             }
@@ -273,12 +270,12 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
             THEN( "damage to torso is 90%% less than other parts" ) {
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
-                for( const bodypart_str_id &bp : body_parts_with_hp ) {
-                    CAPTURE( bp.str() );
-                    if( bp.str() == "torso" ) {
+                for( const bodypart_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.id().str() );
+                    if( bp.id().str() == "torso" ) {
                         // Torso has only 10% chance losing 2 HP, 3x per minute
                         CHECK( bp_hp_lost[bp] == Approx( 6 ).margin( 10 ) );
-                    } else if( bp.str() == "arm_l" || bp.str() == "arm_r" ) {
+                    } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
                         // Arms have 10% chance of losing 1 HP, 3x per minute (6 in 10m)
                         // But hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
                         CHECK( bp_hp_lost[bp] == Approx( 36 ).margin( 20 ) );
@@ -297,8 +294,8 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
             THEN( "they suffer no injury" ) {
                 bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
-                for( const bodypart_str_id &bp : body_parts_with_hp ) {
-                    CAPTURE( bp.str() );
+                for( const bodypart_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.id().str() );
                     CHECK( bp_hp_lost[bp] == 0 );
                 }
             }
