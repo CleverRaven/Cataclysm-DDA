@@ -874,7 +874,8 @@ void Character::suffer_from_sunburn()
     // Check each bodypart with exposure above the minimum
     for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
         const float exposure = bp_exp.second;
-        if( exposure <= MIN_EXPOSURE ) {
+        // Skip minimally-exposed parts, and skip the eyes (handled by sunglasses)
+        if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
             continue;
         }
         ++count_affected_bp;
