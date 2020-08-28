@@ -16,6 +16,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 class Character;
 class JsonIn;
@@ -287,7 +288,7 @@ class recipe
          * requirements into the standard recipe requirements. */
         bool bp_autocalc = false;
         bool check_blueprint_needs = false;
-        cata::optional<build_reqs> blueprint_reqs;
+        cata::value_ptr<build_reqs> blueprint_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H

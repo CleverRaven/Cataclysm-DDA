@@ -308,7 +308,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           exclude.get_int( "amount", 1 ) ) );
             }
             if( jo.has_member( "blueprint_needs" ) ) {
-                blueprint_reqs = build_reqs();
+                blueprint_reqs = cata::make_value<build_reqs>();
                 const JsonObject jneeds = jo.get_object( "blueprint_needs" );
                 if( jneeds.has_member( "time" ) ) {
                     if( jneeds.has_int( "time" ) ) {
@@ -349,8 +349,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 void recipe::finalize()
 {
     if( bp_autocalc ) {
-        blueprint_reqs = get_build_reqs_for_furn_ter_ids(
-                             get_changed_ids_from_update( blueprint ) );
+        blueprint_reqs =
+            cata::make_value<build_reqs>( get_build_reqs_for_furn_ter_ids(
+                                              get_changed_ids_from_update( blueprint ) ) );
     } else if( test_mode && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
