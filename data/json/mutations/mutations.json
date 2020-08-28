@@ -33,7 +33,7 @@
         {
           "trigger_type": "HUNGER",
           "threshold_low": 110,
-          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" }
+          "msg_on": { "text": "You're feeling hungry, time to lure some prey!", "rating": "mixed" }
         }
       ]
     ],
@@ -2803,11 +2803,29 @@
     "id": "BIOELECTRIC",
     "name": "Bioelectric Organ",
     "points": 1,
-    "description": "Your electroreceptors have further developed into specialized organs that can reflexively discharge electricity when you attack an enemy.",
-    "enchantments": [ "MEP_BIOELECTRIC_SHOCK" ],
+    "description": "Your electroreceptors have further developed into specialized organs that can reflexively discharge electricity when you attack an enemy. Currently they are relaxed and inactive.",
+    "active": true,
+    "time": 10,
+    "cost": 30,
+    "hunger": true,
+    "transform": { "target": "BIOELECTRIC_active", "msg_transform": "You flex your muscles and charge up your bioelectric organ.", "active": true, "moves": 5 },
     "prereqs": [ "ELECTRORECEPTORS" ],
     "threshreq": [ "THRESH_FISH" ],
     "category": [ "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOELECTRIC_active",
+    "name": { "str": "Bioelectric Organ (active)" },
+    "description": "Your bioelectric organs are charged up and ready to shock prey and predators alike, though keeping them active is a real drain on your system.",
+    "copy-from": "BIOELECTRIC",
+    "valid": false,
+    "mixed_effect": true,
+    "enchantments": [ "MEP_BIOELECTRIC_SHOCK" ],
+    "prereqs": [ "ELECTRORECEPTORS" ],
+    "threshreq": [ "THRESH_FISH" ],
+    "category": [ "FISH" ],
+    "transform": { "target": "BIOELECTRIC", "msg_transform": "You relax and feel your stored electricity dissipate.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
