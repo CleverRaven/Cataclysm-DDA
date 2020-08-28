@@ -229,6 +229,7 @@ class recipe
         bool hot_result() const;
 
     private:
+        void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
@@ -281,10 +282,12 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
 
-        /** Blueprint requirements to be checked in unit test */
-        bool has_blueprint_needs = false;
+        /** Blueprint requirements either autocalculcated or explicitly
+         * specified.  These members relate to resolving those blueprint
+         * requirements into the standard recipe requirements. */
+        bool bp_autocalc = false;
         bool check_blueprint_needs = false;
-        build_reqs blueprint_reqs;
+        cata::optional<build_reqs> blueprint_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H
