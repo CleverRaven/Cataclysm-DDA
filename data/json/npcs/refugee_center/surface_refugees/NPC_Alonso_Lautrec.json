@@ -287,8 +287,8 @@
     "value": 1000,
     "item": "pants_leather",
     "start": {
-      "assign_mission_target": { "om_terrain": "sewer", "reveal_radius": 1, "random": true, "search_range": 120, "z": -1 },
-      "update_mapgen": { "om_terrain": "sewer", "place_item": [ { "item": "pants_leather", "x": 71, "y": 65 } ] },
+      "assign_mission_target": { "om_special": "cs_sex_shop", "reveal_radius": 1, "random": true, "search_range": 120 },
+      "update_mapgen": { "om_special": "cs_sex_shop", "place_item": [ { "item": "pants_leather", "x": 19, "y": 20 } ] },
       "effect": { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
     },
     "end": {
@@ -300,10 +300,10 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I think I might know where those special pants might be though…",
-      "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a sewer not so so far.",
+      "offer": "This clown was into some of the different things, not the vanilla, you understand me?  Yes.  I think you will find my valuables in a toy shop not so so far.",
       "accepted": "You make me so happy I could give you little kisses, and some big kisses, and then something else maybe.",
       "rejected": "I know that you cannot resist me long.  I will wait, and perhaps some other pretty thing will help me instead?",
-      "advice": "It can be wet there.  Aha.  Gushy too you see.  Maybe some of the galoshes to bring?",
+      "advice": "It may be crowded no?  A popular place before, maybe is better to visit at night.  Sounds like Alonso's apartment no?",
       "inquire": "Have you found what it is that you seek?  There may be something in it for you no?  Something big, but we take it slow yes?",
       "success": "This is the best news since those lonely teachers asked me to be a nude model at the college for the blind.  Alas, the special condoms have all been used.  This is not a surprise, few could resist this seductive clown.  You find a condom, I find a use for it.  Safety, she was never more important than now, you do not want the zombie genitals to strike at you.  That would leave a mark such as you could believe.",
       "success_lie": "You give me confidence.  I trust you.  I do not know why this is.",
