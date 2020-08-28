@@ -113,5 +113,53 @@
     "base_casting_time": 3,
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_impaler"
+  },
+  {
+    "type": "SPELL",
+    "id": "small_raptor_spawn",
+    "name": { "str": "Spawn Raptors" },
+    "description": "Summons several zombiespawn raptors.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "min_damage": 3,
+    "max_damage": 4,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "base_casting_time": 80,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
+    "id": "big_raptor_spawn",
+    "name": { "str": "Spawn Raptors" },
+    "description": "Summons many zombiespawn raptors.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "min_damage": 6,
+    "max_damage": 8,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 4,
+    "max_aoe": 5,
+    "base_casting_time": 80,
+    "extra_effects": [ { "id": "spawning_zombie_die", "hit_self": true } ],
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
+    "id": "spawning_zombie_die",
+    "name": { "str": "Spawning Zombie Die" },
+    "description": "For zombies that are spawning something and die in the process.",
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "min_damage": 250,
+    "max_damage": 250,
+    "damage_type": "cut",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "effect": "target_attack"
   }
 ]
