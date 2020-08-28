@@ -354,6 +354,15 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "fatigue_chance_bot", member, "FATIGUE",  "chance_bot" );
         extract_effect( j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick" );
 
+        extract_effect( j, mod_data, "focus_amount",    member, "FOCUS",  "amount" );
+        extract_effect( j, mod_data, "focus_min",       member, "FOCUS",  "min" );
+        extract_effect( j, mod_data, "focus_max",       member, "FOCUS",  "max" );
+        extract_effect( j, mod_data, "focus_min_val",   member, "FOCUS",  "min_val" );
+        extract_effect( j, mod_data, "focus_max_val",   member, "FOCUS",  "max_val" );
+        extract_effect( j, mod_data, "focus_chance",    member, "FOCUS",  "chance_top" );
+        extract_effect( j, mod_data, "focus_chance_bot", member, "FOCUS",  "chance_bot" );
+        extract_effect( j, mod_data, "focus_tick",      member, "FOCUS",  "tick" );
+
         // Then stamina
         extract_effect( j, mod_data, "stamina_amount",    member, "STAMINA",  "amount" );
         extract_effect( j, mod_data, "stamina_min",       member, "STAMINA",  "min" );
@@ -625,6 +634,9 @@ std::string effect::disp_desc( bool reduced ) const
     val = get_avg_mod( "FATIGUE", reduced );
     values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
                                  _( "rest" ) ) );
+    val = get_avg_mod( "FOCUS_POOL", reduced );
+    values.push_back( desc_freq( get_percentage( "FOCUS_POOL", val, reduced ), val, _( "focus" ),
+                                 _( "focus" ) ) );
     val = get_avg_mod( "COUGH", reduced );
     values.push_back( desc_freq( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
                                  _( "coughing" ) ) );

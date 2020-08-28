@@ -2281,5 +2281,25 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
-  }
+  },
+  {
+   "type": "effect_type",
+    "id": "focus",
+    "name": [ "Focus 1", "Focus 2", "Focus 3", "Focus 4", "Focus 5" ],
+    "desc": [
+      "Your mind is clear.",
+      "You feel ready and eager to learn.",
+      "You're in the zone.",
+      "You've achieved a zen-like focus.",
+      "Your concentration is unbreakable."
+    ],
+    "apply_message": "You focus.",
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "rating": "good",
+    "scaling_mods": {
+      "str_mod": [ 0.25 ],
+      "focus": [ 1.25 ]
+    }
+ }
 ]

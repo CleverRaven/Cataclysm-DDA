@@ -1945,6 +1945,27 @@
     }
   },
   {
+    "id": "focus_debug",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "debug focus pill",
+    "description": "pills here.",
+    "weight": "15 g",
+    "volume": "5 ml",
+    "price": 1000000,
+    "price_postapoc": 8000,
+    "stack_size": 5,
+    "material": [ "plastic" ],
+    "symbol": "!",
+    "color": "red",
+    "healthy": 25,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You try to focus!",
+      "effects": [ { "id": "focus", "duration": "1 m" } ]
+    }
+  },
+  {
     "id": "strong_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
