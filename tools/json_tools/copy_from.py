@@ -27,8 +27,7 @@ class DefaultLoader:
         '''
         obj = self.fix_id(obj)
         results = self.explode_id_lists(obj)
-        for sub_obj in results:
-            sub_obj = self.prepare(sub_obj)
+        results = map(self.prepare, results)
         return results
 
     def fix_id(self, obj):
@@ -56,6 +55,7 @@ class DefaultLoader:
                 result[self.id_field] = sub_id
                 results.append(result)
         else:
+            id_data_type = type(id_)
             raise ValueError(
                 f'Unknown {self.id_field} data type: {id_data_type}')
 
