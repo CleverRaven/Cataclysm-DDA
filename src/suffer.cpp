@@ -786,31 +786,19 @@ void Character::suffer_in_sunlight()
 std::map<bodypart_id, float> Character::bodypart_exposure()
 {
     std::map<bodypart_id, float> bp_exposure;
-
-    // Set of all body parts affected by clothing coverage
-    // FIXME: Factor this out (same list is used in player.cpp)
-    body_part_set affected_bp { {
-            bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
-            bodypart_str_id( "head" ), bodypart_str_id( "torso" ),
-            bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ),
-            bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ),
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ),
-            bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" )
-        }
-    };
+    // May need to iterate over all body parts several times, so make a copy
+    const std::vector<bodypart_id> all_body_parts = get_all_body_parts();
 
     // Initially, all parts are assumed to be fully exposed
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( affected_bp.test( bp.id() ) ) {
-            bp_exposure[bp] = 1.0;
-        }
+    for( const bodypart_id &bp : all_body_parts ) {
+        bp_exposure[bp] = 1.0;
     }
     // For every item worn, for every body part, adjust coverage
     for( const item &it : worn ) {
         // What body parts does this item cover?
         body_part_set covered = it.get_covered_body_parts();
-        for( const bodypart_id &bp : get_all_body_parts() )  {
-            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
+        for( const bodypart_id &bp : all_body_parts )  {
+            if( !covered.test( bp.id() ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
