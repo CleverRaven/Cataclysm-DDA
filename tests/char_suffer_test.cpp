@@ -91,7 +91,9 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
     g->reset_light_level();
 
     int focus_lost = 0;
-    int pain_felt = 0;
+    // FIXME: The random chance of pain is too unprectable to test reliably.
+    // Code examples and THEN expectations are left in the tests below as documentation.
+    //int pain_felt = 0;
 
     // Need sunglasses to protect the eyes, no matter how covered the rest of the body is
     item shades( "test_sunglasses" );
@@ -123,10 +125,10 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             THEN( "they suffer about 2 pain per hour" ) {
                 // 1 pain per hour for unshaded eyes
                 // 1 pain per hour for exposed skin
-                pain_felt = test_suffer_pain_felt( dummy, 1_hours );
                 // Without running a long test, chance of pain is too low to measure effectively
                 // This assertion will pass when pain is between 0 and 12 in an hour
-                CHECK( pain_felt == Approx( 2 ).margin( 10 ) );
+                //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                //CHECK( pain_felt == Approx( 2 ).margin( 10 ) );
             }
         }
 
@@ -222,10 +224,9 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             }
 
             THEN( "they suffer pain several times a minute" ) {
-                pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
-                // Chance of pain again hard to predict; this could easily be over 6/minute
                 // This will pass if pain is between 0 and 90, but 3/minute is expected baseline
-                CHECK( pain_felt == Approx( 30 ).margin( 60 ) );
+                //pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
+                //CHECK( pain_felt == Approx( 30 ).margin( 60 ) );
             }
         }
 
@@ -247,10 +248,9 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
                 THEN( "they suffer pain" ) {
                     // Only about 3 pain per hour from exposed eyes
-                    pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                    // Without running a long test, chance of pain is too low to measure effectively
                     // This assertion will pass when pain is between 0 and 13 in an hour
-                    CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                    //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                    //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
                 }
             }
 
@@ -313,10 +313,9 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 }
                 THEN( "they suffer pain" ) {
                     // Only about 3 pain per hour from exposed eyes
-                    pain_felt = test_suffer_pain_felt( dummy, 1_hours );
-                    // Without running a long test, chance of pain is too low to measure effectively
                     // This assertion will pass when pain is between 0 and 13 in an hour
-                    CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                    //pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                    //CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
                 }
             }
 
