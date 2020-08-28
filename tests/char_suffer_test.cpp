@@ -73,12 +73,15 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
     }
     return pain_felt;
 }
-// When suffering from albinism:
-// - Only happens about once per minute: one_turn_in( 1_minutes )
-// - Without sunglasses or blindfold, suffer 1 pain and 1 focus loss
-//   gated again by a one_turn_in( 1_minutes ) chance, total of 1/3600
-// - If any bodypart except eyes are exposed, suffer 1 pain and 1 focus loss
-//   gated again by a one_turn_in( 1_minutes ) chance, total of 1/3600
+
+
+// Suffering from albinism (ALBINO trait)
+//
+// - Albinism suffering effects occur about once per minute (1/60 chance per turn)
+// - If character is wielding an umbrella and wearing sunglasses, all effects are negated
+// - If character has body parts more than 1% exposed, they suffer focus loss or pain
+// - Most of the time (59/60 chance), 1 focus is lost, or 2 without sunglasses
+// - Sometimes (1/60 chance), there is 1 pain instead, or 2 without sunglasses
 //
 TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 {
@@ -125,19 +128,19 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
                 // This assertion will pass when pain is between 0 and 12 in an hour
                 CHECK( pain_felt == Approx( 2 ).margin( 10 ) );
             }
+        }
 
-            WHEN( "wielding an umbrella and wearing sunglasses" ) {
-                dummy.wield( umbrella );
-                REQUIRE( dummy.weapon.has_flag( "RAIN_PROTECT" ) );
+        WHEN( "wielding an umbrella and wearing sunglasses" ) {
+            dummy.wield( umbrella );
+            REQUIRE( dummy.weapon.has_flag( "RAIN_PROTECT" ) );
 
-                dummy.wear_item( shades, false );
-                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+            dummy.wear_item( shades, false );
+            REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
 
-                THEN( "they suffer no pain or loss of focus" ) {
-                    focus_lost = test_suffer_focus_lost( dummy, 1_hours );
-                    CHECK( dummy.get_pain() == 0 );
-                    CHECK( focus_lost == 0 );
-                }
+            THEN( "they suffer no pain or loss of focus" ) {
+                focus_lost = test_suffer_focus_lost( dummy, 1_hours );
+                CHECK( dummy.get_pain() == 0 );
+                CHECK( focus_lost == 0 );
             }
         }
 
@@ -173,6 +176,15 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
     }
 }
 
+
+// Suffering from Solar Sensitivity (SUNBURN trait)
+//
+// - Solar Sens. suffering effects occur about 3 times per minute (1/20 chance per turn)
+// - If character is wielding an umbrella and wearing sunglasses, all effects are negated
+// - If character has body parts more than 1% exposed, they suffer pain and loss of HP
+// - Chance of pain and HP loss is directly proportional to skin exposure on each body part
+// -
+//
 TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 {
     clear_map();
@@ -186,7 +198,6 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
     item shades( "test_sunglasses" );
     item umbrella( "test_umbrella" );
     item zentai( "test_zentai" );
-    item hazmat( "test_hazmat_suit" );
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
@@ -216,6 +227,44 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                 // This will pass if pain is between 0 and 90, but 3/minute is expected baseline
                 CHECK( pain_felt == Approx( 30 ).margin( 60 ) );
             }
+        }
+
+        WHEN( "naked and wielding an umbrella, with or without sunglasses" ) {
+            dummy.worn.clear();
+            dummy.wield( umbrella );
+            REQUIRE( dummy.weapon.has_flag( "RAIN_PROTECT" ) );
+
+            // Umbrella completely shields the skin from exposure when wielded
+            THEN( "they suffer no injury" ) {
+                bp_hp_lost = test_suffer_bodypart_hp_lost( dummy, 10_minutes );
+                for( const bodypart_str_id &bp : body_parts_with_hp ) {
+                    CAPTURE( bp.str() );
+                    CHECK( bp_hp_lost[bp] == 0 );
+                }
+            }
+
+            WHEN( "not wearing sunglasses" ) {
+                REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                THEN( "they suffer pain" ) {
+                    // Only about 3 pain per hour from exposed eyes
+                    pain_felt = test_suffer_pain_felt( dummy, 1_hours );
+                    // Without running a long test, chance of pain is too low to measure effectively
+                    // This assertion will pass when pain is between 0 and 13 in an hour
+                    CHECK( pain_felt == Approx( 3 ).margin( 10 ) );
+                }
+            }
+
+            // Sunglasses protect from glare and pain
+            WHEN( "wearing sunglasses" ) {
+                dummy.wear_item( shades, false );
+                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+
+                THEN( "they suffer no pain" ) {
+                    pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
+                    CHECK( pain_felt == 0 );
+                }
+            }
+
         }
 
         WHEN( "torso and arms are 90%% covered" ) {
