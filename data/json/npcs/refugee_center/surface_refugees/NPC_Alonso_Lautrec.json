@@ -63,6 +63,15 @@
     "//": "Gates Alonso's fine services behind a mission."
   },
   {
+    "type": "effect_type",
+    "id": "al_relaxed",
+    "name": [ "Relaxed with Alonso" ],
+    "apply_message": "You feel much more relaxed.",
+    "miss_messages": [ [ "You feel relaxed.", 1 ] ],
+    "rating": "good",
+    "base_mods": { "stim_amount": [ 50 ], "stim_min": [ 50 ] }
+  },
+  {
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
@@ -323,11 +332,11 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "VIBE", "duration": 400 }, { "u_consume_item": "condom" } ]
+      "effect": [ { "u_add_effect": "al_relaxed", "duration": 400 }, { "u_consume_item": "condom" } ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "All done, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -343,11 +352,11 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "VIBE", "duration": 360 }, { "u_consume_item": "condom" } ]
+      "effect": [ { "u_add_effect": "al_relaxed", "duration": 360 }, { "u_consume_item": "condom" } ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -363,11 +372,11 @@
     },
     "speaker_effect": {
       "sentinel": "service_provided",
-      "effect": [ { "u_add_effect": "VIBE", "duration": 300 }, { "u_consume_item": "condom" } ]
+      "effect": [ { "u_add_effect": "al_relaxed", "duration": 300 }, { "u_consume_item": "condom" } ]
     },
     "responses": [
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
     ]
   }
 ]
