@@ -40,6 +40,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -767,7 +768,14 @@ bool veh_interact::can_install_part()
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
-    } else {
+    } else if( get_option<bool>( "DISABLE_LIFTING") ) {
+		qual = qual_LIFT;
+		lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         TOOL_LIFT_FACTOR );
+		str = base.lift_strength();
+		use_aid = max_lift >= lvl;
+		use_str = g->u.can_lift( base );
+		} else {
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -1740,7 +1748,14 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
-    } else {
+    } else if( get_option<bool>( "DISABLE_LIFTING") ) {
+		qual = qual_LIFT;
+		lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         TOOL_LIFT_FACTOR );
+		str = base.lift_strength();
+		use_aid = true;
+		use_str = true;
+		} else  {
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
