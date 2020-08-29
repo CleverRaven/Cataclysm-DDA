@@ -2643,7 +2643,12 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
 
 int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return bp->bionic_slots();
+    const bodypart_str_id &id = bp.id();
+    int mut_bio_slots = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_bio_slots += mut->bionic_slot_bonus( id );
+    }
+    return bp->bionic_slots() + mut_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const
