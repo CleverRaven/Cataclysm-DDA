@@ -347,6 +347,7 @@ struct mutation_branch {
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
+        std::map<bodypart_str_id, int> bionic_slot_bonuses;
         translation raw_name;
         translation raw_desc;
     public:
@@ -365,6 +366,10 @@ struct mutation_branch {
          * Returns damage resistance on a given body part granted by this mutation.
          */
         const resistances &damage_resistance( const bodypart_id &bp ) const;
+        /**
+         * Returns bionic slot bonus on a given body part granted by this mutation
+         */
+        int bionic_slot_bonus( const bodypart_str_id &part ) const;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode

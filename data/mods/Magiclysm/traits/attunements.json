@@ -88,6 +88,7 @@
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
     "spells_learned": [ [ "nitro_boost", 5 ] ],
     "bionic_mana_penalty": 0.5,
+    "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
