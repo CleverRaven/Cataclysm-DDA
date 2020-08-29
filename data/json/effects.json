@@ -2298,6 +2298,6 @@
     "max_intensity": 5,
     "max_duration": "300 s",
     "rating": "good",
-    "base_mods": { "focus_min": [ 50 ], "focus_tick": [10], "focus_chance": [1] }
+    "base_mods": { "focus_min": [5], "focus_tick": [1], "focus_chance": [1] }
     }
 ]

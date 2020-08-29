@@ -4755,7 +4755,6 @@ void Character::set_focus( int nfocus_pool )
 {
     if( focus_pool != nfocus_pool ) {
         focus_pool = nfocus_pool;
-        focus_pool -= 200;
         on_stat_change( "focus", focus_pool );
     }
 }
