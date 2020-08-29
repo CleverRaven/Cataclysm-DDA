@@ -57,7 +57,6 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -214,9 +213,10 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
+            const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
-            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
+                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+            scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag

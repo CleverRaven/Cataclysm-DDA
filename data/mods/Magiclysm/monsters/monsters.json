@@ -201,7 +201,7 @@
     "dodge": 9,
     "vision_day": 20,
     "vision_night": 20,
-    "harvest": "",
+    "harvest": "exempt",
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "DISINTEGRATE" ],
