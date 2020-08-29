@@ -1020,8 +1020,8 @@
       { "item": "tomato", "prob": 8, "container-item": "bowl_plastic" },
       { "item": "onion", "prob": 6, "container-item": "bowl_plastic" },
       { "item": "broccoli", "prob": 6, "container-item": "bowl_plastic" },
-      { "item": "celery", "prob": 6, "container-item": "bowl_plastic" },
-      { "item": "cabbage", "prob": 12, "container-item": "bowl_plastic" },
+      { "item": "celery", "prob": 6, "container-item": "bag_plastic" },
+      { "item": "cabbage", "prob": 12, "container-item": "bag_plastic" },
       { "item": "carrot", "prob": 8, "charges": 2, "container-item": "bowl_plastic" }
     ]
   },
