@@ -1,5 +1,30 @@
 #include "cata_variant.h"
 
+#include "debug_menu.h"
+#include "mutation.h"
+
+template<size_t... I>
+constexpr bool is_valid_impl( const cata_variant &v, std::index_sequence<I...> )
+{
+    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
+    const std::array<bool( * )( const std::string & ), num_types> is_valid_helpers = {{
+            []( const std::string & s )
+            {
+                constexpr cata_variant_type T = static_cast<cata_variant_type>( I );
+                return cata_variant_detail::convert<T>::is_valid( s );
+            } ...
+        }
+    };
+    // No match
+    return is_valid_helpers[static_cast<size_t>( v.type() )]( v.get_string() );
+}
+
+bool cata_variant::is_valid() const
+{
+    constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
+    return is_valid_impl( *this, std::make_index_sequence<num_types> {} );
+}
+
 namespace io
 {
 
