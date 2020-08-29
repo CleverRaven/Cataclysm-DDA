@@ -294,6 +294,13 @@
     "valid": false,
     "description": "",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
+    "armor": [
+      {
+        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ],
+        "cut": 15
+      }
+    ],
+    "passive_mods": { "str_mod": 5 },
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
