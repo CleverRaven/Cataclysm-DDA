@@ -773,8 +773,8 @@ bool veh_interact::can_install_part()
 		lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
 		str = base.lift_strength();
-		use_aid = max_lift >= lvl;
-		use_str = g->u.can_lift( base );
+		use_aid = true;
+		use_str = true;
 		} else {
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
