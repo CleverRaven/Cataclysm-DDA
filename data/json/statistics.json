@@ -427,7 +427,14 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character", "category" ]
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_last_crosses_mutation_threshold",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_crosses_mutation_threshold",
+    "field": "category"
   },
   {
     "id": "num_crosses_mutation_threshold",
