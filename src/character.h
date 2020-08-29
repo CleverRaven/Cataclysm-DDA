@@ -424,6 +424,7 @@ class Character : public Creature, public visitable<Character>
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
         int get_fatigue() const;
+        int get_focus() const;
         int get_sleep_deprivation() const;
 
         std::pair<std::string, nc_color> get_pain_description() const override;

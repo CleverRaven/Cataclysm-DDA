@@ -4749,6 +4749,7 @@ void Character::mod_fatigue( int nfatigue )
 void Character::mod_focus( int nfocus_pool )
 {
     set_focus( focus_pool + nfocus_pool );
+    focus_pool -= 100;
 }
 
 void Character::set_focus( int nfocus_pool )
@@ -4756,6 +4757,7 @@ void Character::set_focus( int nfocus_pool )
     if( focus_pool != nfocus_pool ) {
         focus_pool = nfocus_pool;
         on_stat_change( "focus", focus_pool );
+            focus_pool -= 100;
     }
 }
 
@@ -4787,6 +4789,11 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
 int Character::get_fatigue() const
 {
     return fatigue;
+}
+
+int Character::get_focus() const
+{
+    return focus_pool;
 }
 
 int Character::get_sleep_deprivation() const
