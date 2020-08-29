@@ -253,7 +253,6 @@ struct map_data_common_t {
     public:
         ter_str_id curtain_transform;
 
-    bool has_curtains() const
         bool has_curtains() const {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
