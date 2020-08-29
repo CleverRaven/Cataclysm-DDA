@@ -208,8 +208,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
+    "passive_mods": { "str_mod": 5 },
+    "hp_modifier": 1,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
