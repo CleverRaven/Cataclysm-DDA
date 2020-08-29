@@ -10583,7 +10583,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
-        if( cost == 0 ) {
+        const bool can_climb_here = cost > 0 || u.has_trait_flag( "CLIMB_NO_LADDER" );
+        if( !can_climb_here ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
         }
@@ -10596,7 +10597,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        if( cost <= 0 || pts.empty() ) {
+        if( !can_climb_here || pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
