@@ -487,7 +487,7 @@ void mapgen_spider_pit( mapgendata &dat )
         }
         for( int x1 = p.x - 3; x1 <= p.x + 3; x1++ ) {
             for( int y1 = p.y - 3; y1 <= p.y + 3; y1++ ) {
-                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
+                madd_field( m, point( x1, y1 ), field_type_id( "fd_web" ), rng( 2, 3 ) );
                 if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }

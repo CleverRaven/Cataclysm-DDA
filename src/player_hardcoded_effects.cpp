@@ -649,7 +649,7 @@ void player::hardcoded_effects( effect &it )
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
         for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
-                here.add_field( dest, fd_tindalos_rift, 3 );
+                here.add_field( dest, field_type_id( "fd_tindalos_rift" ), 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
                 //Remove the effect, since it's done all it needs to do to the target.
                 remove_effect( effect_tindrift );
