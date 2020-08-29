@@ -793,17 +793,22 @@ bool veh_interact::can_install_part()
 
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
-    if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d" ), str );
+    if( !get_option<bool>( "DISABLE_LIFTING" ) ) {
+        if( !helpers.empty() )   {
+            str_string = string_format( _( "strength ( assisted ) %d" ), str );
+        } else {
+            str_string = string_format( _( "strength %d" ), str );
+        }
+
+        //~ %1$s is quality name, %2$d is quality level
+        std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                                qual.obj().name, lvl );
+        msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                              colorize( aid_string, aid_color ),
+                              colorize( str_string, str_color ) ) + "\n";
     } else {
-        str_string = string_format( _( "strength %d" ), str );
+        msg += string_format( _( "<color_green>Lifting requirements disabled :)</color>" ) ) + "\n";
     }
-    //~ %1$s is quality name, %2$d is quality level
-    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name, lvl );
-    msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                          colorize( aid_string, aid_color ),
-                          colorize( str_string, str_color ) ) + "\n";
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
@@ -1768,18 +1773,22 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         ok = false;
     }
     const auto helpers = g->u.get_crafting_helpers();
-    if( !helpers.empty() ) {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+    if( !get_option<bool>( "DISABLE_LIFTING" ) ) {
+        if( !helpers.empty() ) {
+            msg += string_format(
+                       //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
+                       _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
+                       status_color( use_aid ), qual.obj().name, lvl,
+                       status_color( use_str ), str ) + "\n";
+        } else {
+            msg += string_format(
+                       //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
+                       _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
+                       status_color( use_aid ), qual.obj().name, lvl,
+                       status_color( use_str ), str ) + "\n";
+        }
     } else {
-        msg += string_format(
-                   //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                   _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                   status_color( use_aid ), qual.obj().name, lvl,
-                   status_color( use_str ), str ) + "\n";
+        msg += string_format( _( "<color_green>Lifting requirements disabled :)</color>" ) ) + "\n";
     }
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
