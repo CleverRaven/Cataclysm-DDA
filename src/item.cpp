@@ -640,11 +640,13 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // check ammo is valid for the item
-    const itype *atype = item_controller->find_template( ammo );
-    if( atype->ammo && ammo_types().count( atype->ammo->type ) == 0 &&
-        !magazine_compatible().count( atype->get_id() ) && !( magazine_current() &&
-                magazine_current()->ammo_types().count( atype->ammo->type ) ) ) {
-        debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
+    std::set<itype_id> mags = magazine_compatible();
+    if( ammo_types().count( ammo_type ) == 0 && !( magazine_current() &&
+            magazine_current()->ammo_types().count( ammo_type ) ) &&
+    !std::any_of( mags.begin(), mags.end(), [&ammo_type]( const itype_id & mag ) {
+    return mag->magazine->type.count( ammo_type );
+    } ) ) {
+        debugmsg( "Tried to set invalid ammo of %s for %s", ammo.c_str(), typeId().c_str() );
         return *this;
     }
 
@@ -659,32 +661,30 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     } else {
         if( !magazine_current() ) {
-            const itype *mag = find_type( magazine_default() );
+            itype_id mag = magazine_default();
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
-                          atype->nname( qty ), tname() );
+                          ammo.c_str(), typeId().c_str() );
                 return *this;
             }
 
             // if default magazine too small fetch instead closest available match
             if( mag->magazine->capacity < qty ) {
-                // as above call to magazine_default successful can infer minimum one option exists
-                auto iter = type->magazines.find( atype->ammo->type );
-                if( iter == type->magazines.end() ) {
-                    debugmsg( "%s doesn't have a magazine for %s",
-                              tname(), ammo.str() );
-                    return *this;
-                }
-                std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
-                    return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
+                std::vector<itype_id> opts;
+                std::copy_if( mags.begin(), mags.end(),
+                std::back_inserter( opts ), [&ammo_type]( const itype_id & mag ) {
+                    return mag->magazine->type.count( ammo_type );
                 } );
-                mag = find_type( opts.back() );
-                for( const itype_id &e : opts ) {
-                    if( find_type( e )->magazine->capacity >= qty ) {
-                        mag = find_type( e );
-                        break;
-                    }
+                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
+                    return lhs->magazine->capacity < rhs->magazine->capacity;
+                } );
+                auto iter = std::find_if( opts.begin(), opts.end(), [&qty]( const itype_id & mag ) {
+                    return mag->magazine->capacity >= qty;
+                } );
+                if( iter != opts.end() ) {
+                    mag = *iter;
+                } else {
+                    mag = opts.back();
                 }
             }
             put_in( item( mag ), item_pocket::pocket_type::MAGAZINE_WELL );

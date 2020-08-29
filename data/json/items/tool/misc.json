@@ -498,7 +498,7 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 10 }, "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
     "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
