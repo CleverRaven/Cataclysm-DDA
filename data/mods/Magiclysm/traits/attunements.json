@@ -934,6 +934,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
+    "spells_learned": [ [ "storm_chain_master", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
