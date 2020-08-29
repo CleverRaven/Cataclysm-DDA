@@ -296,6 +296,8 @@ struct mutation_branch {
         cata::optional<float> mana_modifier = cata::nullopt;
         cata::optional<float> mana_multiplier = cata::nullopt;
         cata::optional<float> mana_regen_multiplier = cata::nullopt;
+        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
+        cata::optional<float> bionic_mana_penalty = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */

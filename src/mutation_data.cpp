@@ -454,6 +454,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, cata::nullopt );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
+    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, cata::nullopt );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );

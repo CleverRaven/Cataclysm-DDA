@@ -87,6 +87,7 @@
     "description": "The Biotek is quite simply the marriage of technology and flesh.  It was not even discovered as an attunement until recent times due to the great advancements in technology in the last 50 years.  The Biotek is unique as it is the only known attunement that warps the Aethereum in such a way as to allow cybernetics to coincide with magical abilities, to an extent.",
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
     "spells_learned": [ [ "nitro_boost", 5 ] ],
+    "bionic_mana_penalty": 0.5,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
