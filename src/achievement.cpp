@@ -8,6 +8,7 @@
 #include "cata_assert.h"
 #include "color.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
@@ -207,6 +208,12 @@ struct achievement_requirement {
             debugmsg( "Achievement %s has a non-integer requirement which is sometimes visible.  "
                       "Such requirements must have a description, but this one does not.",
                       id.str() );
+        }
+
+        if( !target.is_valid() ) {
+            debugmsg( "Achievement %s has a requirement target %s of type %s, but that is not "
+                      "a valid value of that type.",
+                      id.str(), target.get_string(), io::enum_to_string( target.type() ) );
         }
     }
 
