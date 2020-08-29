@@ -807,7 +807,7 @@ bool veh_interact::can_install_part()
                               colorize( aid_string, aid_color ),
                               colorize( str_string, str_color ) ) + "\n";
     } else {
-        msg += string_format( _( "<color_green>Lifting requirements disabled :)</color>" ) ) + "\n";
+        msg += "\n";
     }
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
@@ -1788,7 +1788,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                        status_color( use_str ), str ) + "\n";
         }
     } else {
-        msg += string_format( _( "<color_green>Lifting requirements disabled :)</color>" ) ) + "\n";
+        msg += "\n";
     }
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
