@@ -496,7 +496,7 @@
     "hp": 70,
     "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long pointy head crest.",
     "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
-    "extend": { "flags": [ "FLIES" ] }
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
   },
   {
     "type": "MONSTER",
@@ -517,7 +517,7 @@
     "armor_bullet": 1,
     "hp": 332,
     "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long rigid neck.",
-    "extend": { "flags": [ "FLIES" ] }
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
   },
   {
     "type": "MONSTER",
@@ -579,6 +579,19 @@
     "armor_bullet": 7,
     "hp": 580,
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
-    "flags": [ "SEES", "HEARS", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "HIT_AND_RUN"
+    ]
   }
 ]
