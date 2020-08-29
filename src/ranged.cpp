@@ -291,7 +291,16 @@ class target_ui
         void set_last_target();
 
         // Prompts player to confirm attack on neutral NPC
+        // Returns 'true' if attack should proceed
         bool confirm_non_enemy_target();
+
+        // Prompts player to re-confirm an ongoing attack if
+        // a non-hostile NPC / friendly creatures enters line of fire.
+        // Returns 'true' if attack should proceed
+        bool prompt_friendlies_in_lof();
+
+        // List friendly creatures currently occupying line of fire.
+        std::vector<weak_ptr_fast<Creature>> list_friendlies_in_lof();
 
         // Toggle snap-to-target
         void toggle_snap_to_target();
@@ -1966,6 +1975,15 @@ target_handler::trajectory target_ui::run()
         attack_was_confirmed = false;
         you->last_target.reset();
     }
+    if( mode == TargetMode::Fire ) {
+        if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
+            // A friendly creature moved into line of fire during aim-and-shoot,
+            // and player decided to stop aiming
+            action.clear();
+            attack_was_confirmed = false;
+        }
+        activity->acceptable_losses.clear();
+    }
 
     // Event loop!
     ExitCode loop_exit_code;
@@ -2083,6 +2101,7 @@ target_handler::trajectory target_ui::run()
         }
         case ExitCode::Timeout: {
             // We've ran out of moves, save UI state
+            activity->acceptable_losses = list_friendlies_in_lof();
             traj.clear();
             activity->action = timed_out_action;
             activity->snap_to_target = snap_to_target;
@@ -2496,6 +2515,66 @@ bool target_ui::confirm_non_enemy_target()
         return query_yn( _( "Really attack %s?" ), who->name.c_str() );
     }
     return true;
+}
+
+bool target_ui::prompt_friendlies_in_lof()
+{
+    if( mode != TargetMode::Fire ) {
+        debugmsg( "Not implemented" );
+        return true;
+    }
+
+    std::vector<weak_ptr_fast<Creature>> in_lof = list_friendlies_in_lof();
+    std::vector<Creature *> new_in_lof;
+    for( const weak_ptr_fast<Creature> &cr_ptr : in_lof ) {
+        bool found = false;
+        Creature *cr = cr_ptr.lock().get();
+        for( const weak_ptr_fast<Creature> &cr2_ptr : activity->acceptable_losses ) {
+            Creature *cr2 = cr2_ptr.lock().get();
+            if( cr == cr2 ) {
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            new_in_lof.push_back( cr );
+        }
+    }
+
+    if( new_in_lof.empty() ) {
+        return true;
+    }
+
+    std::string msg = _( "There are friendly creatures in line of fire:\n" );
+    for( Creature *cr : new_in_lof ) {
+        msg += "  " + cr->disp_name() + "\n";
+    }
+    msg += _( "Proceed with the attack?" );
+    return query_yn( msg );
+}
+
+std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
+{
+    std::vector<weak_ptr_fast<Creature>> ret;
+    if( mode == TargetMode::Turrets || mode == TargetMode::Spell ) {
+        debugmsg( "Not implemented" );
+        return ret;
+    }
+    for( const tripoint &p : traj ) {
+        if( p != dst && p != src ) {
+            Creature *cr = g->critter_at( p, true );
+            if( cr && pl_can_target( cr ) ) {
+                Creature::Attitude a = cr->attitude_to( *this->you );
+                if(
+                    ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
+                    ( !cr->is_npc() && a == Creature::Attitude::FRIENDLY )
+                ) {
+                    ret.push_back( g->shared_from( *cr ) );
+                }
+            }
+        }
+    }
+    return ret;
 }
 
 void target_ui::toggle_snap_to_target()
