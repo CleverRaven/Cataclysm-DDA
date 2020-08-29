@@ -1226,21 +1226,21 @@ units::mass item_contents::total_container_weight_capacity() const
     return total_weight;
 }
 
-ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() const
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
 {
-    std::vector<item_pocket> pockets;
+    std::vector<const item_pocket *> pockets;
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             found = true;
-            pockets.push_back( pocket );
+            pockets.push_back( &pocket );
         }
     }
     if( found ) {
-        return ret_val<std::vector<item_pocket>>::make_success( pockets );
+        return ret_val<std::vector<const item_pocket *>>::make_success( pockets );
     } else {
-        return ret_val<std::vector<item_pocket>>::make_failure( pockets );
+        return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
     }
 }
 
@@ -1286,6 +1286,65 @@ units::volume item_contents::total_contained_volume() const
         }
     }
     return total_vol;
+}
+
+units::volume item_contents::get_contents_volume_with_tweaks( const std::map<const item *, int>
+        &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( const item_pocket *pocket : get_all_contained_pockets().value() ) {
+        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
+            for( const item *i : pocket->all_items_top() ) {
+                if( i->count_by_charges() ) {
+                    ret += i->volume() - i->get_selected_stack_volume( without );
+                } else if( !without.count( i ) ) {
+                    ret += i->volume();
+                    ret -= i->contents.get_nested_content_volume_recursive( without );
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+units::volume item_contents::get_nested_content_volume_recursive( const
+        std::map<const item *, int> &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( const item_pocket *pocket : get_all_contained_pockets().value() ) {
+        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
+            for( const item *i : pocket->all_items_top() ) {
+                if( i->count_by_charges() ) {
+                    ret += i->get_selected_stack_volume( without );
+                } else if( without.count( i ) ) {
+                    ret += i->volume();
+                } else {
+                    ret += i->contents.get_nested_content_volume_recursive( without );
+                }
+            }
+
+            if( pocket->rigid() ) {
+                ret += pocket->remaining_volume();
+            }
+        }
+    }
+
+    return ret;
 }
 
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,

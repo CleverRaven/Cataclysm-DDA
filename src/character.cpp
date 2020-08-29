@@ -3200,68 +3200,16 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += get_contents_volume_with_tweaks( &i.contents, without );
+            ret += i.contents.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += get_contents_volume_with_tweaks( &weapon.contents, without );
+        ret += weapon.contents.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
-}
-
-units::volume Character::get_contents_volume_with_tweaks( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->count_by_charges() ) {
-            ret += i->volume() - get_selected_stack_volume( i, without );
-        } else if( !without.count( i ) ) {
-            ret += i->volume();
-            ret -= get_nested_content_volume_recursive( &i->contents, without );
-        }
-    }
-
-    return ret;
-}
-
-units::volume Character::get_nested_content_volume_recursive( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->count_by_charges() ) {
-            ret += get_selected_stack_volume( i, without );
-        } else if( without.count( i ) ) {
-            ret += i->volume();
-        } else {
-            ret += get_nested_content_volume_recursive( &i->contents, without );
-        }
-    }
-    if( contents->all_pockets_rigid() ) {
-        ret += contents->remaining_container_capacity();
-    }
-
-    return ret;
-}
-
-units::volume Character::get_selected_stack_volume( const item *i,
-        const std::map<const item *, int> &without ) const
-{
-    auto stack = without.find( i );
-    if( stack != without.end() ) {
-        int selected = stack->second;
-        item copy = *i;
-        copy.charges = selected;
-        return copy.volume();
-    }
-
-    return 0_ml;
 }
 
 units::mass Character::weight_capacity() const
@@ -9741,16 +9689,28 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity -= it->volume();
+    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+        if( pocket->contains_phase( phase_id::SOLID ) ) {
+            for( const item *it : pocket->all_items_top() ) {
+                volume_capacity -= it->volume();
+            }
+        } else if( !pocket->empty() ) {
+            volume_capacity -= pocket->volume_capacity();
+        }
     }
-    volume_capacity += weapon.check_for_free_space( &weapon );
+    volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity -= it->volume();
+        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+            if( pocket->contains_phase( phase_id::SOLID ) ) {
+                for( const item *it : pocket->all_items_top() ) {
+                    volume_capacity -= it->volume();
+                }
+            } else if( !pocket->empty() ) {
+                volume_capacity -= pocket->volume_capacity();
+            }
         }
-        volume_capacity += w.check_for_free_space( &w );
+        volume_capacity += w.check_for_free_space();
     }
     return volume_capacity;
 }
@@ -9785,12 +9745,12 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
     units::volume volume_capacity = 0_ml;
 
     if( !without.count( &weapon ) ) {
-        volume_capacity += weapon.contents.total_container_capacity();
+        volume_capacity += weapon.get_total_capacity();
     }
 
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            volume_capacity += i.contents.total_container_capacity();
+            volume_capacity += i.get_total_capacity();
         }
     }
 

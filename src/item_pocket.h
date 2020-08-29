@@ -145,6 +145,7 @@ class item_pocket
 
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        bool contains_phase( phase_id phase ) const;
 
         // combined volume of contained items
         units::volume contains_volume() const;

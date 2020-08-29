@@ -10325,24 +10325,37 @@ void item::update_clothing_mod_val()
     }
 }
 
-units::volume item::check_for_free_space( const item *it ) const
+units::volume item::check_for_free_space() const
 {
     units::volume volume;
 
-    for( const item *container : it->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        ret_val<std::vector<item_pocket>> containedPockets =
-                                           container->contents.get_all_contained_pockets();
+    for( const item *container : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        ret_val<std::vector<const item_pocket *>> containedPockets =
+                container->contents.get_all_contained_pockets();
         if( containedPockets.success() ) {
-            volume += check_for_free_space( container );
+            volume += container->check_for_free_space();
 
-            for( const auto &pocket : containedPockets.value() ) {
-                if( pocket.rigid() ) {
-                    volume += pocket.remaining_volume();
+            for( const item_pocket *pocket : containedPockets.value() ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
+                    volume += pocket->remaining_volume();
                 }
             }
         }
     }
     return volume;
+}
+
+units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( this );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *this;
+        copy.charges = selected;
+        return copy.volume();
+    }
+
+    return 0_ml;
 }
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const
