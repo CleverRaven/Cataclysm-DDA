@@ -3477,11 +3477,26 @@ bool player::uncanny_dodge()
 {
     bool is_u = is_avatar();
     bool seen = get_player_view().sees( *this );
-    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
+
+    const bool can_dodge_bio = get_power_level() >= 75_kJ && has_active_bionic( bio_uncanny_dodge );
+    const bool can_dodge_mut = get_stamina() >= 2400 && has_trait_flag( "UNCANNY_DODGE" );
+    const bool can_dodge_both = get_power_level() >= 37500_J &&
+                                has_active_bionic( bio_uncanny_dodge ) &&
+                                get_stamina() >= 1200 && has_trait_flag( "UNCANNY_DODGE" );
+
+    if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
     }
     tripoint adjacent = adjacent_tile();
-    mod_power_level( -75_kJ );
+
+    if( can_dodge_both ) {
+        mod_power_level( -37500_J );
+        mod_stamina( -1200 );
+    } else if( can_dodge_bio ) {
+        mod_power_level( -75_kJ );
+    } else if( can_dodge_mut ) {
+        mod_stamina( -2400 );
+    }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
