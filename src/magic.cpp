@@ -1464,9 +1464,12 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    const int bionic_penalty = std::round( std::max( 0.0f,
+                                           units::to_kilojoule( guy.get_power_level() ) *
+                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
     const float unaugmented_mana = std::max( 0.0f,
                                    ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
+                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
