@@ -3,16 +3,19 @@
 #include "debug_menu.h"
 #include "mutation.h"
 
+template<size_t I>
+static bool is_valid_impl_2( const std::string &s )
+{
+    constexpr cata_variant_type T = static_cast<cata_variant_type>( I );
+    return cata_variant_detail::convert<T>::is_valid( s );
+}
+
 template<size_t... I>
 constexpr bool is_valid_impl( const cata_variant &v, std::index_sequence<I...> )
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
-    const std::array<bool( * )( const std::string & ), num_types> is_valid_helpers = {{
-            []( const std::string & s )
-            {
-                constexpr cata_variant_type T = static_cast<cata_variant_type>( I );
-                return cata_variant_detail::convert<T>::is_valid( s );
-            } ...
+    constexpr std::array<bool( * )( const std::string & ), num_types> is_valid_helpers = {{
+            is_valid_impl_2<I>...
         }
     };
     // No match
