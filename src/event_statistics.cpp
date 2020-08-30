@@ -679,8 +679,18 @@ struct event_statistic_field_summary : event_statistic::impl {
         cata::event::fields_type event_fields = source->fields();
         auto it = event_fields.find( field );
         if( it == event_fields.end() ) {
+            auto get_first = []( const std::pair<const std::string, cata_variant_type> &p ) {
+                return p.first;
+            };
             debugmsg( "event_statistic %s refers to field %s in event source %s, but that source "
-                      "has no such field", name, field, source->debug_description() );
+                      "has no such field.  Its fields are %s.",
+                      name, field, source->debug_description(),
+                      enumerate_as_string( event_fields, get_first ) );
+        } else if( IntField && it->second != cata_variant_type::int_ ) {
+            debugmsg( "event_statistic %s refers to field %s in event source %s, and uses that "
+                      "field as if it were an int, but in fact that field has type %s.",
+                      name, field, source->debug_description(),
+                      io::enum_to_string( it->second ) );
         }
     }
 
