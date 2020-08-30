@@ -307,6 +307,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
+            check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
             if( jo.has_member( "blueprint_needs" ) ) {
                 blueprint_reqs = cata::make_value<build_reqs>();
                 const JsonObject jneeds = jo.get_object( "blueprint_needs" );
@@ -330,10 +331,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
                     blueprint_reqs->reqs.emplace( req_id, 1 );
                 }
-            } else {
+            } else if( check_blueprint_needs ) {
                 bp_autocalc = true;
             }
-            check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -365,11 +365,6 @@ void recipe::finalize()
 
     reqs_external.clear();
     reqs_internal.clear();
-
-
-    if( bp_autocalc ) {
-        requirements_.consolidate();
-    }
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
@@ -928,9 +923,11 @@ void recipe::incorporate_build_reqs()
         val = std::max( val, p.second );
     }
 
-    for( const std::pair<const requirement_id &, int> &p : blueprint_reqs->reqs ) {
-        reqs_internal.push_back( p );
-    }
+    requirement_data req_data( blueprint_reqs->reqs );
+    req_data.consolidate();
+    const requirement_id req_id( "autocalc_blueprint_" + ident_.str() );
+    requirement_data::save_requirement( req_data, req_id );
+    reqs_internal.emplace_back( req_id, 1 );
 }
 
 void recipe_proficiency::deserialize( JsonIn &jsin )
