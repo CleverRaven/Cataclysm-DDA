@@ -169,10 +169,7 @@
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
       { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
       { "id": "mug3", "text": "The side of the mug has a picture of a happy looking family printed on'." },
-      {
-        "id": "mug4",
-        "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
-      },
+      { "id": "mug4", "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."},
       { "id": "mug5", "text": "The side of the mug reads 'I'd rather be playing open source games'." },
       { "id": "mug6", "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'." },
       { "id": "mug7", "text": "The side of the mug has a diagram of a caffeine molecule." },
@@ -182,12 +179,19 @@
       { "id": "mug11", "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber." },
       { "id": "mug12", "text": "The side of the mug reads 'House Stark' and depicts a fictional crest." },
       { "id": "mug13", "text": "The side of the mug reads 'My fandom could beat up your fandom'. " },
-      {
-        "id": "mug14",
-        "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
-      },
+      { "id": "mug14", "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."},
       { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
-      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" }
+      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" },
+	  { "id": "mug17", "text": "A white ceramic coffee mug. It says \"World's Best Dad!\" on the side."},
+      { "id": "mug18", "text": "A white ceramic coffee mug. It says \"Great Ideas start with Great Coffee.\" on the side."},
+      { "id": "mug19", "text": "A white ceramic coffee mug. On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""},
+      { "id": "mug20", "text": "A white ceramic coffee mug. It says \"This is a designer mug. It fuels designers.\" on the side."},
+      { "id": "mug21", "text": "A white ceramic coffee mug. On the side is a winking woman in lingerie."},
+      { "id": "mug22", "text": "A white ceramic coffee mug. It says \"You're my definition of perfect. <3\" on the side."},
+      { "id": "mug23", "text": "A white ceramic coffee mug. It says \"You've been poisoned.\" on the bottom, inside of it."},
+      {"id": "mug24", "text": "A white ceramic coffee mug. On the side is a dog wearing a hat, sat in a burning room, saying \"This is fine.\""},
+      {"id": "mug25", "text": "A white ceramic coffee mug. There's a tiny dinosaur sculpture inside of it."},
+      {"id": "mug26", "text": "A white ceramic coffee mug. It says \"I <3 Massachusetts.\" on the side."}
     ]
   },
   {
