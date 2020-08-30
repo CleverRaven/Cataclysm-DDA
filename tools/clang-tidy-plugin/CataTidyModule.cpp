@@ -1,5 +1,6 @@
 #include <llvm/ADT/StringRef.h>
 
+#include "AssertCheck.h"
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
 #include "CombineLocalsIntoPointCheck.h"
@@ -31,6 +32,7 @@ class CataModule : public ClangTidyModule
 {
     public:
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
+            CheckFactories.registerCheck<AssertCheck>( "cata-assert" );
             CheckFactories.registerCheck<CombineLocalsIntoPointCheck>(
                 "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
