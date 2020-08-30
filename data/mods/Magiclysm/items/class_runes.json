@@ -106,17 +106,5 @@
     "weight": "1 g",
     "material": [ "stone" ],
     "flags": [ "TRADER_AVOID" ]
-  },
-  {
-    "id": "rune_dragon_black",
-    "type": "TOOL",
-    "symbol": "=",
-    "color": "black_green",
-    "name": { "str": "black dragon rune" },
-    "description": "This magical pebble has an insignia of a dragon on it.  It is necessary for Dragon Acolytes to channel magic into their crafts.",
-    "volume": "5ml",
-    "weight": "1 g",
-    "material": [ "stone" ],
-    "flags": [ "TRADER_AVOID" ]
   }
 ]

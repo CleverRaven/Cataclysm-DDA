@@ -175,7 +175,7 @@
     "id": "TOE_CLAWS",
     "name": { "str": "Clawed Feet" },
     "copy-from": "RAP_TALONS",
-    "description": "Your toenails have grown long and sharp, prevening you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
+    "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_FEET" ]
   },
@@ -215,7 +215,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long, thick, dragonlike tail. It doesn't help you balance or dodge any better, but it is a powerful bashing weapon.  Prevents wearing non-fabric pants.",
+    "description": "You have a long, thick, dragonlike tail.  It doesn't help you balance or dodge any better, but it is a powerful bashing weapon.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_THICK" ],
     "category": [ "DRAGON_BLACK" ],
@@ -358,7 +358,7 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face and jaws have extended to a long, toothy dragon maw. It's fearsome, and causes greavous wounds, but prevents wearing mouth gear.",
+    "description": "Your face and jaws have extended to a long, toothy dragon maw.  It's fearsome and causes greavous wounds, but prevents wearing mouth gear.",
     "prereqs": [ "MUZZLE_LONG" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -450,8 +450,7 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "purifiable": false,
-    "mana_modifier": 500,
-    "spells_learned": [ [ "create_rune_dragon_black", 1 ] ]
+    "mana_modifier": 500
   },
   {
     "type": "mutation",
