@@ -49,7 +49,7 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_DANGEROUS", "chance": 4, "x": [ 8, 13 ], "y": [ 10, 15 ], "density": 0.15 },
-        { "monster": "mon_mosasaurus", "chance": 100, "x": [ 1 ], "y": [ 1 ] },
+        { "monster": "GROUP_DINOSAUR_SWIM", "chance": 100, "x": [ 1 ], "y": [ 1 ] },
         { "monster": "GROUP_DINOSAUR_FLY", "chance": 4, "x": [ 1, 13 ], "y": [ 17, 22 ], "density": 0.15 }
       ]
     }
