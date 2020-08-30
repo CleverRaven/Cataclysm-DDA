@@ -1,4 +1,4 @@
-# 0.F (05-01-2020)
+# 0.F (06-01-2020)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -15,6 +15,33 @@ Add support for json-defined achievements to provide more goals to strive for.
 Lock picking overhaul.
 Rot away items away in reality bubble.
 Implementing use of system time for holidays.
+Support for achievements hidden by other achievements
+Implements item pockets
+Allow spells to spawn items with their containers
+Add the ability for bionics to teach spells
+Separate bullet damage type from cut/stab
+Add spurge seeds
+Makes consuming items take time
+implement damage over time spell infrastructure
+Adds toggle key in inventory to show categorized items
+implement pocket max item size
+Using the debug menu disables achievements
+Finish making consume take time
+Implement item length
+Restore variable encumbrance for non-rigid containers
+Make vehicle cooler produce exhaust heat
+Wield cost takes into account parent container items
+Add penalties for gorging and json control of hunger penalties.
+Flaming eyes have their own unique attack, Tindalos rift is JSON-ized
+Allow summoning spells to spawn from a monster group
+Total pocket capacity and other improvements to pocket info display
+make packmule and disorganize affect movecost for grabbing items
+Add support for conducts (self-imposed play constraints tracked by the game)
+Define monster starting ammo in mapgen
+Swap half of the Gasoline pumps at Rural & Gas stations for Diesel pumps
+Allow achievement requirements to be hidden
+Chemistry skill
+Add blood types for character.
 
 ## Content:
 Gun volume and weight audit.
@@ -22,22 +49,201 @@ Move most urban development houses to vanilla.
 Add Survivor RV and car.
 Populate rooftops with monsters.
 Large addition of chemicals, chemistry tools and recipes.
+6th installment of my extracts and concentrates mod into mainline. All the crafting recipes and deconstruction recipe for vac oven
+Add tea bags, herbal tea bags and adjust recipes
+expanded oversized underwear and accesories
+Add extra forging recipes
+Mi-go, masters, and necromancers can open doors
+Demihuman Meat type
+Add survivor car to survivor camp
+Add survivor car and rv to fire tower
+Add FS2000 as rare rifle, give STANAG magazine real volume
+Realistic gun volumes for .45-70
+Bring royal jelly taste more in line with reality
+FoodPlace Brand Cereals
+Added medicine cabinet item group to domestic bathrooms.
+lots more books
+Adds new tea themed item_groups
+adds a bulk shipping crate possibility to the supplydrop map extra
+Give Foodperson approriate snacks™ to carry
+added bell pepper
+Continues mall clean-up of terrains.  Updates the concourse of 2nd floor, merges a few maps.
+Give musician profession a bag, cable, and plectra
+adds extract and concentrate items into appropriate item groups
+Realistic gun volumes for .44 Magnum
+Realistic gun volumes for 7.62x39
+rework the herbivore mutation chain
+Adds thug & bandit spawns to this regional dump variant.
+Added ''Zombie kill station'' map extra.
+Make cranberries not fun
+Remove control laptop
+new zombie: necro-boomer
+Realistic gun volumes for 5.45 and 4.6mm
+Crafting recipes for items 'roller blades' and 'roller skates'
+Update the ground floor of the mall for spawns, terrains, furniture, vehicle spawns.
+Spawn zombie soldiers at mx_military, rearrange weapon spawns
+Update to firearms 45/70 caliber volume and length
+Adding a series of dream sequences to Mastodon's mutation line.
+Add aero-engine
+Make cranberry juice not fun
+Add ability for user-defined profession names
+Update to survivor harness 'pocket' weight capacity
+Adds subway entrance into the mall.
+Remove cranberries from sweet_fruit_* cooking components
+Update BrownLikeBears tileset
+give protein bar its own branded wrapper
+Add semi-auto machine gun variants
+Realistic gun volumes for .45 ACP
+Adjusts weight to match aluminum density for 'extra-light frame'
+add a few more books, create abstracts for philosophy, add to SUS group
+Moves and updates 1 Fuji Structures house to mainline.
+First batch of ten furniture JSONs that I've edited. More to come.
+Moves and updates 3 Fuji Structures house to mainline.
+Rework aramid materials, add slash resistant and EOD gear
+Moves and updates 3 Fuji Structures shops to mainline.
+Moves and updates 6 Fuji Structures houses to mainline.
+nonfiction and fictional books about sports
+mainline fuji structures' games store and new items (games).
+Improve profession descriptions
+More randomized loot numbers in SUS groups
+Update to M24 longest_length attribute
+Update for longest_length on .36 & .44 paper black powder firearms
+Update to firearms longest_length for .357 SIG, .38 Super, .45 Long Colt & .270 WIN
+Update to firearms longest_length for .380 ACP and .32 caliber handguns
+Update to firearms longest_length for .38/.357 and 5.7mm caliber pistols/revolvers & P90
+Update for .410 and .454 firearms longest_length
+Update for 9x18 and 762x25 firearms longest_length
+New scenario: Fungal Infected
+Moves and updates 2 Fuji Structures stores to mainline.
+Moves and updates 2 Fuji Structures apartments to mainline.
+Add stereos to most cars, trucks and vans
+Second batch of ten furniture JSONs that I've edited. More to come.
+Remove laserturret
+Moves and updates Fuji Structures light industry special to mainline.
+Make nuclear reactor and nukes give plutonium
+Removes RM-99 caseless revolver
+New starting trait: Fast Reflexes
+More Pumpkin recipes
+Fixes egg spawn lists
+Moves and updates Fuji Structures airport to mainline.
+Adds new martial art: Desert Wind
+Typo in description puts it at Seven-Round clip whilst it's actually an Eight round
+Add sand castle construction
+Allow the of use grappling hooks on ledges
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor.
 Crafting GUI - Highlight hidden recipe info
+Minor uilist code clean-up
+Migrate overmap_ui.cpp to ui_adaptor
+Migrate inventory_ui.cpp and game_inventory.cpp to ui_adaptor
+Ask for confirmation on eating raw meat
+Tweak interface colors when removing vehicle parts
+Nested items that are not count_by_charges stack in menus
+When aiming, draw approximate line of fire for each turret in range
+Block bound inventory keys from auto assignment
+Compact aim window pt.2 - Numbers
+Add resizing callbacks to uilist
+Migrate message log UI and NPC trade UI to ui_adaptor
+adjust insert menu to support multiple items
+Reduce calorie message spam to once every 12 hours
+Migrate debug map editor to ui_adaptor
+Added more options for view movement in target ui
+Migrate inventory item menu, scores UI, and armor sorting menu to ui_adaptor
+Displays carrion spawn rate in world options as factor
+Migrate advanced inventory menu and defense game menus to ui_adaptor
+Hide main zone manager UI when selecting zone area
+Migrate iuse games to ui_adaptor
+Make unloading items not pick them up
+Place wished for liquids in containers by default
+Sepia Dark overlay for display of map memory
+Migrate mouse view and NPC dialogue window to ui_adaptor
+Custom map memory color overlay option
+Rename Deathblow to Mordhau
+Add terrain overlay callbacks and migrate targeting UI to ui_adaptor
+Clarify movement cost from leg/feet encumbrance doesn't apply only to running
+Migrate the '@' menu to ui_adaptor
+Overhaul look around panels
+Make debug and world option tabs switch places
+Fix the display error of ammo capacity
+Adjust the display content of kmenu
+Allow traversing main menu horizontally with TAB
+Migrate vehicle interaction menu to ui_adaptor
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree
 Dark Skies: Reworks Strays
 Dark Skies: Remasters the Order
 Overhaul Blazemod and split into seperate mods.
+Completely remodel blazemod solar arrays
+Move all fantastical content from blazemod offsite
+Transfer tank treads and their dependents from blazemod to tankmod
+Finalise succession of modern Blaze Industries from blazemod
+Uplifted Monsters and zeds
+Adds recipes using dino eggs
+Adds deinonychus to lab spawns
+Update
+Adds new dino flavored alternate location to 'Chicken Coop'
+Add Backgrounds for Mutant NPCs
+Create new 'monstergroup' file to clean up structure
+adds Magiclysm support for Graphical Overmap
+Adds new monster 'Z-Deinonychus'
+[Magiclysm] add bags of holding
+Creates NPC hints for DinoMod content
+Aftershock: Unwilling Operator and cranium bomb
+Aftershock Tidying a few files
+Caps large DinoMod monsters at 1000 L
+Reduced the cost of Künstler trait
+Adds monster 'Deinonychus bio-operator'
+Assorted Bugfixes
+Dark Skies: Rebalances strays, adds new ones
+Adds required spawns lists for 2.1
+Adds monster 'Albertosaurus'
+Creates news snippets establishing dino timeline
+Add Ki Strike trait
+Each dinosaur species only spawns its own species
+Create DinoMod README file
+Zombie dino improvements
+[Magiclysm] Rebalance Manatouched to be easier to obtain
+Eoraptor, Compy and Baby Dino improvements
 
 ## Balance:
 Large item price audit.
 Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels
+Reduced trading prices for both refillable and non refillable lighters
+Rework long pole
+Improvised lockpicks recipe tweak.
+Update throwing knives weight and size
+Slipping when climbing down may happen only on unstable terrain below.
+Split some traits from professions
+Replace random lab turrets with lab security
+Falling into deep water deals much less damage
+Change laser weaponry to deal 'Heat' type damage
+Update character modifications in `dig_channel_activity_actor::finish` to match `dig_activity_actor::finish`
+Rework Masochist to actually give pleasure from pain
+The Churl now has a Baselard instead of a Makeshift Knife
+Audit Pine Nuts
+Add Estoc to fencing weapons
+Firefighter belt coverage changed from 0->5
+A very basic change that allows butchering racks to be substituted with cranes.
+Tweaked zombie soldier, cop and survivor drop lists.
+Autolearn Tailor's Kit
+More complex satiety calculations
+Monsters in ROBOT species will get random starting ammo
+Reduce stamina cost from arm encumbrance
+Update smash stamina cost to be streamlined with melee and thrown stamina cost
+Remove x2 healing multiplier for having both bandages and disinfectant
+Increase movecost based on leg hp
+Allow installing AR-specific gunmods on other AR-based guns
+Improves the balance of flaming eyes
+Biker profession now starts with a motorcycle
+Blacklist bionic patient from fungal start scenario
+Nerf copper spear
+Rebalance higher end pipegun recipes in tool requirements and time taken, add lever action shotgun that is more or or less the heavy survivor carbine with an internal 6 round magazine that fires standard 12ga shotgun shells.
+Add additional considerations for slipping down
+Changes medium chemistry textbook for Science Club profession to basic one.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -57,9 +263,95 @@ Spawn regular ants under regular anthills.
 melee: Make sure that melee weapon accuracy improves hit rates.
 Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
 Wake up player if too cold due to hypothermia.
+Added biodiesel to gas turbine engines
+Fix time duration formatting for periods in excess of 1 week
+Fix caramel ointment crafting
+Fix fuel type to jp8 for the humvee-tow variant
+Fixed ammonium nitrate recipes
+Bionic fingerpick fix.
+Max stamina modifiers from mutations now affect stamina regen
+Adjust consume menu code to have same behavior as previous
+Fix attack of the tentacle dogs
+fix profession test that was broken from nested containers
+Change large quiver to hold 60
+Fix last delivery mission
+Add pockets to drop leg pouch
+Fixes a segfault during initializing crafts
+fixes segfault when attempting to siphon from vehicle with multiple tanks
+fixes negative ammo in bandoliers and quivers
+Fix selecting automove destination would reveal hidden tiles on CURSES
+Flu vaccine lasts 6 months instead of forever
+allow consume menu to look in containers
+Add check_needs_extremes msgs for npcs
+Fixes loading of desc_freq in music instruments
+Fix creatures blocking descend even if they can be displaced
+Fix helicopter rotor collides at twice the rotor diameter
+Fix of engorging on infinite source of food or water.
+Subtract 1 from the counter until correct number of items is dropped
+fixes occasional debugmsg and segfaults caused by using items in inventory
+Adds default magazine with charge to vehicle PSEUDO items for finding nearby items available for crafting.
+fixes a compiler gripe in linux + clang + RELEASE=1
+Fix horse_tack recipe
+Fix stacking bugs
+Zombies spawned corrective eyewear way too rarely
+Fix wrong lengths for large ammo
+Fix Narrow Line Spell Effects
+Make flu shot expire
+Fix bugs in the consume code.
+Fix baselard sheathing - cannot be stored in a sheath.
+Fix a crash when trying to consume fuel for cbms
+View offset reset after using vehicle turret modes
+Use unarmed skill in Bash/Cut/Pierce damage calculation if unarmed
+Stop reading if it got too dark for some reason.
+fix adv inv move all freeze
+[Magiclysm] Illiterate characters can't learn from spellbooks
+Fix unloading containers from the ground
+Fix several issues with consume
+Give Jackhammer realistic length and weight
+Make Ichaival craftable again
+Fixed several bugs with consuming items.
+Make turrets very easy to hit with melee
+Fix crash in 'wish for item' menu
+Fix lab consoles always showing the same research log
+Road and trail maps add info to world map
+Fix OnGetHit effects not triggering if player cannot block
+Fix problems with auto aim
+fix subcategory values for recipes so they all have a classification
+Fix #40654 using ZhilkinSerg's suggestion
+Make cleansuit cover head and feet
+Add secret flag to fungicide recipe
+Fixes negative ammo from picking up ammo you can't stash
+Fix elemental damage buffs and weapons not working
+order items in nested mode in inventory by parent
+Give sports cars stereos
+Make anesthetic kit work again
+Prevents monster attacking their own queens
+fix error when moving onto vehicles
+Storage space in saddle bags
+Fix items inside items carried by player getting processed too many times
+Fix item insulation
+Scenario and profession traits do not count towards traits point pool
+Fix issues with advanced inventory
+Fix ammotype for Mk19 in Aftershock APC
+Fix a bug allowing blocks outside of martial arts or shields
+Fix trade prices for tools
+Fix permanent winded status when langurous
+[Fix cash card volume and balance display]
+Fix ATM withdraw and transfer all activities
+Added pocket to the inhaler, and albuterol ammo+ammo_type
+Prevents chicks from spawning in homes by adding unfertilized eggs
+Fix crashes and freezes related to multi-insert
+Fix mapgen crash when placing spawns
+Refactor monster spawning code to avoid crash
+Fixes issues with consuming liquids
+Fixed some bugs with trait columns in character creation menu
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
+Code optimizations reported by static code analysis
+Code optimizations reported by static code analysis
+Code optimizations reported by static code analysis
+Code optimizations reported by static code analysis
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -84,6 +376,54 @@ Integrate behavior tree implementation into monster AI.
 Move ascii arts to their own file to avoid bloat.
 Enforce that functions should not have separate x, y parameters.
 Add tests for sun-related functions.
+Migrate ACT_OPEN_GATE to the activity actor system.
+Mall mapgen cleanup: merge roof maps, clean up terrains.  Split up mapgen into several files.
+Refactored aiming UI and its target selection
+Merge some mall maps, move to a different palette.
+Allow HEALING_RATE for any effect
+Add support for damage overtime
+Add a `can_resume_with` function to `activity_actor` and migrate ACT_DIG and ACT_DIG_CHANNEL
+Add tests for creature effect functions
+Expand blacklisting to more item spawning
+Add tests for the effect class
+Reformat MAGIC.md for improved readability
+fix typo in containers documentation
+Fix iteminfo tests and refactor pocket display
+Move more body_part to bodypart_id in temperature related functions
+Move bionic_data to generic_factory
+Add pocket data to all magazines
+Stop allowing duplicate comment keys in json
+Add tests for magic spells
+Move more body_part to bodypart_id in Character part1
+Move islot_seed to generic_factory
+Reformat and clean up MONSTERS.md doc
+Tile animations can be defined in tile_config.json files
+Define pockets for all integral magazines
+Body_part purge in player
+Body_part purge in Character part 2
+Implement installation requirment for CBMs
+It is no longer legal to compare a string_id to a string literal
+Remove body_part from body part name functions
+Fields can now override local light levels
+Convert itype_id to string_id<itype>
+Migrated ACT_AIM to the activity actor system
+Modernize monster deployment skill requirements
+fix ammo_capacity() and implement item_id_restriction infrastructure
+Add mag wells to all relevant items
+Expand and refactor moon tests
+Add tests for item_pocket and pocket_data
+Migrated ACT_TRY_SLEEP to the activity actor system
+refactor is_reloadable_helper
+Use itype_id for ammo_id in spawn data
+Enforce conventions regarding string_id constants
+pocket size consistency checking
+Send events for achievements and conducts
+JSONize move modes
+Migrated ACT_LOCKPICK to the activity actor system
+Remove body_part from item.cpp
+Remove islot_magazine::protects_contents
+Test and refactor item info display functions
+Migrated ACT_HOTWIRE_CAR to the activity actor system
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -91,6 +431,7 @@ Remove Travis clang-tidy job.
 Add -fsigned-char to CMakeLists.txt
 Makes json linter feedback more readable.
 Fix clang-tidy header guard check on Windows.
+Fix version pattern by adding the characters A-Z to the match filter
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -98,6 +439,12 @@ Add support for specifying identical singular and plural forms using `str_sp`.
 Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
+Routine i18n updates on 1 May 2020
+Record locales in debug.log to assist with i18n debugging
+Routine i18n updates on 9 May 2020
+Routine i18n updates on 15 May 2020
+Routine i18n updates on 22 May 2020
+Routine i18n updates on 29 May 2020
 
 # 0.E (Ellison)
 
