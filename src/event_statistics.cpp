@@ -216,10 +216,15 @@ struct value_constraint {
 
         if( equals_ ) {
             if( input_type != equals_->type() ) {
-                debugmsg( "constraint for event_transformation %s matches constant of type %s but "
-                          "value compared with it has type %s",
+                debugmsg( "constraint for event_transformation %s matches constant of type %s "
+                          "but value compared with it has type %s",
                           name, io::enum_to_string( equals_->type() ),
                           io::enum_to_string( input_type ) );
+            }
+            if( !equals_->is_valid() ) {
+                debugmsg( "constraint for event_transformation %s matches constant %s of type %s "
+                          "but that is not a valid value of that type",
+                          name, equals_->get_string(), io::enum_to_string( equals_->type() ) );
             }
         }
     }
