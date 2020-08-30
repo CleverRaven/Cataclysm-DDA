@@ -151,7 +151,7 @@
   {
     "type": "mutation",
     "id": "DRAGON_TALONS_BLACK",
-    "name": { "str": "Dragon Talons" },
+    "name": { "str": "Black Dragon Talons" },
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
