@@ -36,7 +36,7 @@
     "type": "SPELL",
     "id": "acid_bite",
     "name": "Acid Bite",
-    "description": "Your maw drip with acid as you make a bite attack.",
+    "description": "Your maw drips with acid as you make a bite attack.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "spell_class": "DRAGON_TALONS_BLACK",
