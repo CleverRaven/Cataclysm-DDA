@@ -1127,7 +1127,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
+        for( const trait_id &mut : u->get_mutations( true, mutation_filter::anger_relations ) ) {
             for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
                 if( type->in_species( elem.first ) ) {
                     effective_anger += elem.second;
@@ -1135,7 +1135,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
+        for( const trait_id &mut : u->get_mutations( true, mutation_filter::ignored_by ) ) {
             for( const species_id &spe : mut.obj().ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
