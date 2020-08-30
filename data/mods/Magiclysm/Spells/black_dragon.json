@@ -18,7 +18,7 @@
     "difficulty": 0,
     "base_casting_time": 100,
     "energy_source": "STAMINA",
-    "base_energey_cost": 100,
+    "base_energy_cost": 100,
     "extra_effects": [ { "id": "dragon_claw" } ]
   },
   {
@@ -51,7 +51,7 @@
     "difficulty": 0,
     "base_casting_time": 100,
     "energy_source": "STAMINA",
-    "base_energey_cost": 100,
+    "base_energy_cost": 100,
     "extra_effects": [ { "id": "dragon_maw" } ]
   },
   {
