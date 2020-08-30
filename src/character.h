@@ -140,27 +140,29 @@ enum sleep_deprivation_levels {
 
 // This tries to represent both rating and
 // character's decision to respect said rating
-enum edible_rating {
+enum class edible_rating {
     // Edible or we pretend it is
-    EDIBLE,
+    edible,
     // Not food at all
-    INEDIBLE,
+    inedible,
     // Not food because mutated mouth/system
-    INEDIBLE_MUTATION,
+    inedible_mutation,
     // You can eat it, but it will hurt morale
-    ALLERGY,
+    allergy,
     // Smaller allergy penalty
-    ALLERGY_WEAK,
+    allergy_weak,
     // Cannibalism (unless psycho/cannibal)
-    CANNIBALISM,
+    cannibalism,
     // Rotten or not rotten enough (for saprophages)
-    ROTTEN,
+    rotten,
     // Can provoke vomiting if you already feel nauseous.
-    NAUSEA,
+    nausea,
+    // We did overeat, cramming more will surely cause vomiting.
+    bloated,
     // We can eat this, but we'll overeat
-    TOO_FULL,
+    too_full,
     // Some weird stuff that requires a tool we don't have
-    NO_TOOL
+    no_tool
 };
 
 enum class rechargeable_cbm {

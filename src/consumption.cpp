@@ -54,6 +54,7 @@ static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
+static const efftype_id effect_bloated( "bloated" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
@@ -190,10 +191,8 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     const float relative_rot = comest.get_relative_rot();
     // Saprophages get full nutrition from rotting food
     if( relative_rot > 1.0f && !you.has_trait( trait_SAPROPHAGE ) ) {
-        // everyone else only gets a portion of the nutrition
-        // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-        kcal *= ( 1.0f - rottedness );
+        // Everyone else only gets a half of the nutrition
+        kcal *= 0.5f;
     }
 
     // Bionic digestion gives extra nutrition
@@ -397,16 +396,11 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
-        // Three effects:
-        // penalty for rot goes from -2 to -20
-        // bonus for tasty food drops from 90% to 0%
-        // disgusting food unfun increases from 110% to 200%
-        fun -= rottedness * 10;
+        fun -= 10;
         if( fun > 0 ) {
-            fun *= ( 1.0f - rottedness );
+            fun *= 0.5f;
         } else {
-            fun *= ( 1.0f + rottedness );
+            fun *= 2.0f;
         }
     }
 
@@ -446,8 +440,8 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
-    if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
+    if( has_active_bionic( bio_taste_blocker ) && comest.get_comestible_fun() < 0 &&
+        get_power_level() > units::from_kilojoule( -comest.get_comestible_fun() ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -623,7 +617,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
         if( !has ) {
-            return ret_val<edible_rating>::make_failure( NO_TOOL,
+            return ret_val<edible_rating>::make_failure( edible_rating::no_tool,
                     string_format( _( "You need a %s to consume that!" ),
                                    item::nname( comest->tool ) ) );
         }
@@ -631,30 +625,32 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
     if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+        return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "We can't eat that.  It's not right for us." ) );
     }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_PROBOSCIS ) && !( drinkable || food.is_medication() ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
+        return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
+                _( "Ugh, you can't drink that!" ) );
     }
 
     if( has_trait( trait_CARNIVORE ) && nutrition_for( food ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+        return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+        return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
     for( const trait_id &mut : get_mutations() ) {
         if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
-            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+            return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
+                    _( "You can't eat this." ) );
         }
     }
 
@@ -682,24 +678,32 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_SAPROVORE );
         if( !saprophage && !saprovore ) {
-            add_consequence( _( "This is rotten and smells awful!" ), ROTTEN );
+            add_consequence( _( "This is rotten and smells awful!" ), edible_rating::rotten );
         }
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
     if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
-        add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
+        add_consequence( _( "The thought of eating human flesh makes you feel sick." ),
+                         edible_rating::cannibalism );
     }
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
-    if( comest->has_calories() && has_effect( effect_nausea ) ) {
-        add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
+    int food_kcal = compute_effective_nutrients( food ).kcal;
+    if( food_kcal > 0 && has_effect( effect_nausea ) ) {
+        add_consequence( _( "You still feel nauseous and will probably puke it all up again." ),
+                         edible_rating::nausea );
+    }
+
+    if( ( food_kcal > 0 || comest->quench > 0 ) && has_effect( effect_bloated ) ) {
+        add_consequence( _( "You're full and will vomit if you try to consume anything." ),
+                         edible_rating::bloated );
     }
 
     if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( flag_ALLERGEN_JUNK ) &&
             !food.has_flag( flag_CARNIVORE_OK ) ) ) {
-        add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
+        add_consequence( _( "Your stomach won't be happy (allergy)." ), edible_rating::allergy );
     }
 
     if( saprophage && edible && food.rotten() && !food.has_flag( flag_FERTILIZER ) ) {
@@ -707,14 +711,17 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         // Hard-coding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
-        add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
+        add_consequence( _( "Your stomach won't be happy (not rotten enough)." ),
+                         edible_rating::allergy_weak );
     }
 
-    int food_kcal = compute_effective_nutrients( food ).kcal;
-    if( !food.has_infinite_charges() && food_kcal > 0 &&
-        get_stored_kcal() + stomach.get_calories() + food_kcal
-        > max_stored_calories() ) {
-        add_consequence( _( "You're full already and the excess food will be wasted." ), TOO_FULL );
+    if( !food.has_infinite_charges() &&
+        ( ( food_kcal > 0 &&
+            get_stored_kcal() + stomach.get_calories() + food_kcal
+            > max_stored_calories() ) ||
+          ( comest->quench > 0 && get_thirst() < comest->quench ) ) ) {
+        add_consequence( _( "You're full already and the excess food will be wasted." ),
+                         edible_rating::too_full );
     }
 
     if( !consequences.empty() ) {
@@ -727,14 +734,14 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
 
         const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
-        std::string food_tame = food.tname();
+        std::string food_tname = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == comesttype_FOOD ) {
-            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Eat your %s anyway?" ), colorize( food_tname, food_color ) );
         } else if( !eat_verb && comest->comesttype == comesttype_DRINK ) {
-            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Drink your %s anyway?" ), colorize( food_tname, food_color ) );
         } else {
-            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tame, food_color ) );
+            req += string_format( _( "Consume your %s anyway?" ), colorize( food_tname, food_color ) );
         }
 
         if( !query_yn( req ) ) {
@@ -754,6 +761,12 @@ bool player::eat( item &food, bool force )
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
     if( !ret.success() ) {
         return false;
+    }
+
+    if( has_effect( effect_bloated ) &&
+        ( compute_effective_nutrients( food ).kcal > 0 || food.get_comestible()->quench > 0 ) ) {
+        add_msg_if_player( _( "You force yourself to vomit to make space for %s." ), food.tname() );
+        vomit();
     }
 
     int charges_used = 0;
@@ -868,7 +881,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        mod_power_level( units::from_kilojoule( -std::abs( food.get_comestible_fun() ) ) );
+        mod_power_level( units::from_kilojoule( -std::min( 0, food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
@@ -986,25 +999,6 @@ void Character::modify_morale( item &food, const int )
                     food.type );
     }
 
-    // Morale bonus for eating unspoiled food with chair/table nearby
-    // Does not apply to non-ingested consumables like bandages or drugs
-    if( !food.rotten() && !food.has_flag( flag_ALLERGEN_JUNK ) && !food.has_flag( "NO_INGEST" ) &&
-        food.get_comestible()->comesttype != "MED" ) {
-        if( g->m.has_nearby_chair( pos(), 1 ) && g->m.has_nearby_table( pos(), 1 ) ) {
-            if( has_trait( trait_TABLEMANNERS ) ) {
-                rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
-            } else {
-                add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
-            }
-        } else {
-            if( has_trait( trait_TABLEMANNERS ) ) {
-                rem_morale( MORALE_ATE_WITH_TABLE );
-                add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true );
-            }
-        }
-    }
-
     if( food.has_flag( flag_HIDDEN_HALLU ) ) {
         if( has_trait( trait_SPIRITUAL ) ) {
             add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
@@ -1014,38 +1008,14 @@ void Character::modify_morale( item &food, const int )
     }
 
     if( food.has_flag( flag_CANNIBALISM ) ) {
-        // Sapiovores don't recognize humans as the same species.
-        // But let them possibly feel cool about eating sapient stuff - treat like psycho
-        // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
         const bool cannibal = has_trait( trait_CANNIBAL );
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );
-        const bool spiritual = has_trait( trait_SPIRITUAL );
-        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
-            add_msg_if_player( m_good,
-                               _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
-            // You're not really consuming anything special; you just think you are.
-            add_morale( MORALE_CANNIBAL, 25, 300 );
-        } else if( cannibal && psycho ) {
-            add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
-            add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
-            add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
-            // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
-            add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( cannibal ) {
+        if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
-            add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
-            add_msg_if_player( _( "You greedily devour the taboo meat." ) );
-            // Small bonus for violating a taboo.
-            add_morale( MORALE_CANNIBAL, 5, 50 );
+            add_morale( MORALE_CANNIBAL, 20, 200 );
         } else if( psycho || sapiovore ) {
-            add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( spiritual ) {
-            add_msg_if_player( m_bad,
-                               _( "This is probably going to count against you if there's still an afterlife." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+            // Nothing - doesn't care enough to print a message
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
@@ -1177,8 +1147,16 @@ bool Character::consume_effects( item &food )
         ingested.nutr /= 2;
     }
 
+    int excess_kcal = get_stored_kcal() + stomach.get_calories() + ingested.nutr.kcal -
+                      max_stored_calories();
+    int excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
+
+    if( excess_kcal > 0 || excess_quench > 0 ) {
+        add_effect( effect_bloated, 5_minutes );
+    }
+
     return true;
 }
 
@@ -1191,7 +1169,9 @@ hint_rating Character::rate_action_eat( const item &it ) const
     const auto rating = will_eat( it );
     if( rating.success() ) {
         return hint_rating::good;
-    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
+    } else if( rating.value() == edible_rating::inedible ||
+               rating.value() == edible_rating::inedible_mutation ) {
+
         return hint_rating::cant;
     }
 

@@ -109,6 +109,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_blisters( "blisters" );
+static const efftype_id effect_bloated( "bloated" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
@@ -7510,11 +7511,9 @@ void Character::vomit()
     if( get_effect_int( effect_fungus ) >= 3 ) {
         add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
                                _( "<npcname> vomits thousands of live spores!" ) );
-        stomach.empty();
         fungal_effects( *g, g->m ).fungalize( pos(), this );
-    } else if( stomach.get_calories() > 0 ) {
+    } else if( stomach.get_calories() > 0 || get_thirst() < 0 ) {
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
-        stomach.empty();
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
     } else {
         return;
@@ -7524,6 +7523,13 @@ void Character::vomit()
         const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() *
                                              stomach.get_calories() / 100, dummy_nausea.get_int_dur_factor() ) );
+    }
+
+    stomach.empty();
+    set_thirst( std::max( 0, get_thirst() ) );
+    remove_effect( effect_bloated );
+    if( get_healthy_mod() > 0 ) {
+        set_healthy_mod( 0 );
     }
 
     moves -= 100;

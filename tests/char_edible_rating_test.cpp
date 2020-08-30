@@ -18,11 +18,11 @@ static void expect_can_eat( avatar &dummy, item &food )
     auto rate_can = dummy.can_eat( food );
     CHECK( rate_can.success() );
     CHECK( rate_can.str().empty() );
-    CHECK( rate_can.value() == EDIBLE );
+    CHECK( rate_can.value() == edible_rating::edible );
 }
 
 static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_reason,
-                               int expect_rating = INEDIBLE )
+                               edible_rating expect_rating = edible_rating::inedible )
 {
     auto rate_can = dummy.can_eat( food );
     CHECK_FALSE( rate_can.success() );
@@ -31,7 +31,7 @@ static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_rea
 }
 
 static void expect_will_eat( avatar &dummy, item &food, std::string expect_consequence,
-                             int expect_rating )
+                             edible_rating expect_rating )
 {
     // will_eat returns the first element in a vector of ret_val<edible_rating>
     // this function only looks at the first (since each is tested separately)
@@ -54,7 +54,7 @@ TEST_CASE( "cannot eat non-comestible", "[can_eat][will_eat][edible_rating][nonf
         item rag( "rag" );
 
         THEN( "they cannot eat it" ) {
-            expect_cannot_eat( dummy, rag, "That doesn't look edible.", INEDIBLE );
+            expect_cannot_eat( dummy, rag, "That doesn't look edible.", edible_rating::inedible );
         }
     }
 }
@@ -165,14 +165,14 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
             item meat( "meat_cooked" );
             REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
 
-            expect_cannot_eat( dummy, meat, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, meat, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat eggs" ) {
             item eggs( "scrambled_eggs" );
             REQUIRE( eggs.has_flag( "ALLERGEN_EGG" ) );
 
-            expect_cannot_eat( dummy, eggs, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, eggs, expect_reason, edible_rating::inedible_mutation );
         }
     }
 }
@@ -191,28 +191,28 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
             item veggy( "veggy" );
             REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
 
-            expect_cannot_eat( dummy, veggy, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, veggy, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat fruit" ) {
             item apple( "apple" );
             REQUIRE( apple.has_flag( "ALLERGEN_FRUIT" ) );
 
-            expect_cannot_eat( dummy, apple, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, apple, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat wheat" ) {
             item bread( "sourdough_bread" );
             REQUIRE( bread.has_flag( "ALLERGEN_WHEAT" ) );
 
-            expect_cannot_eat( dummy, bread, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, bread, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they cannot eat nuts" ) {
             item nuts( "pine_nuts" );
             REQUIRE( nuts.has_flag( "ALLERGEN_NUT" ) );
 
-            expect_cannot_eat( dummy, nuts, expect_reason, INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, nuts, expect_reason, edible_rating::inedible_mutation );
         }
 
         THEN( "they can eat junk food, but are allergic to it" ) {
@@ -220,7 +220,8 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
             REQUIRE( chocolate.has_flag( "ALLERGEN_JUNK" ) );
 
             expect_can_eat( dummy, chocolate );
-            expect_will_eat( dummy, chocolate, "Your stomach won't be happy (allergy).", ALLERGY );
+            expect_will_eat( dummy, chocolate, "Your stomach won't be happy (allergy).",
+                             edible_rating::allergy );
         }
     }
 }
@@ -237,7 +238,8 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
             item nuts( "pine_nuts" );
             REQUIRE_FALSE( nuts.has_flag( "MYCUS_OK" ) );
 
-            expect_cannot_eat( dummy, nuts, "We can't eat that.  It's not right for us.", INEDIBLE_MUTATION );
+            expect_cannot_eat( dummy, nuts, "We can't eat that.  It's not right for us.",
+                               edible_rating::inedible_mutation );
         }
 
         THEN( "they can eat mycus food" ) {
@@ -265,7 +267,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
             REQUIRE( soup.has_flag( "USE_EAT_VERB" ) );
 
             THEN( "they cannot drink it" ) {
-                expect_cannot_eat( dummy, soup, expect_reason, INEDIBLE_MUTATION );
+                expect_cannot_eat( dummy, soup, expect_reason, edible_rating::inedible_mutation );
             }
         }
 
@@ -274,7 +276,7 @@ TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][prob
             REQUIRE( toastem.get_comestible()->comesttype == "FOOD" );
 
             THEN( "they cannot drink it" ) {
-                expect_cannot_eat( dummy, toastem, expect_reason, INEDIBLE_MUTATION );
+                expect_cannot_eat( dummy, toastem, expect_reason, edible_rating::inedible_mutation );
             }
         }
 
@@ -313,7 +315,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
         THEN( "they can eat food, but it nauseates them" ) {
             expect_can_eat( dummy, toastem );
             expect_will_eat( dummy, toastem, "You still feel nauseous and will probably puke it all up again.",
-                             NAUSEA );
+                             edible_rating::nausea );
         }
     }
 }
@@ -330,7 +332,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 
         THEN( "they can eat fruit, but won't like it" ) {
             expect_can_eat( dummy, fruit );
-            expect_will_eat( dummy, fruit, "Your stomach won't be happy (allergy).", ALLERGY );
+            expect_will_eat( dummy, fruit, "Your stomach won't be happy (allergy).", edible_rating::allergy );
         }
     }
 }
@@ -352,7 +354,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
                 expect_can_eat( dummy, toastem_rotten );
 
                 auto conseq = dummy.will_eat( toastem_rotten, false );
-                CHECK( conseq.value() == ROTTEN );
+                CHECK( conseq.value() == edible_rating::rotten );
                 CHECK( conseq.str() == "This is rotten and smells awful!" );
             }
         }
@@ -365,7 +367,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
                 expect_can_eat( dummy, toastem_rotten );
 
                 auto conseq = dummy.will_eat( toastem_rotten, false );
-                CHECK( conseq.value() == EDIBLE );
+                CHECK( conseq.value() == edible_rating::edible );
                 CHECK( conseq.str().empty() );
             }
         }
@@ -378,7 +380,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
                 expect_can_eat( dummy, toastem_rotten );
 
                 auto conseq = dummy.will_eat( toastem_rotten, false );
-                CHECK( conseq.value() == ALLERGY_WEAK );
+                CHECK( conseq.value() == edible_rating::allergy_weak );
                 CHECK( conseq.str() == "Your stomach won't be happy (not rotten enough)." );
             }
         }
@@ -399,7 +401,7 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
             THEN( "they can eat it, but feel sick about it" ) {
                 expect_can_eat( dummy, flesh );
                 expect_will_eat( dummy, flesh, "The thought of eating human flesh makes you feel sick.",
-                                 CANNIBALISM );
+                                 edible_rating::cannibalism );
             }
         }
 
@@ -409,7 +411,7 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
 
             THEN( "they can eat it without any qualms" ) {
                 expect_can_eat( dummy, flesh );
-                expect_will_eat( dummy, flesh, "", EDIBLE );
+                expect_will_eat( dummy, flesh, "", edible_rating::edible );
             }
         }
     }

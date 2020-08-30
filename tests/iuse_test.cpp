@@ -298,6 +298,9 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
+    // Thirsty
+    dummy.set_thirst( 100 );
+
     SECTION( "coffee reduces fatigue" ) {
         item &coffee = dummy.i_add( item( "coffee", 0, item::default_charges_tag{} ) );
         dummy.consume_item( coffee );

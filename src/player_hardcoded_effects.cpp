@@ -52,6 +52,7 @@ static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
+static const efftype_id effect_bloated( "bloated" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -427,6 +428,13 @@ static void eff_fun_frostbite( player &u, effect &it )
     }
 }
 
+static void eff_fun_bloated( player &u, effect &it )
+{
+    if( u.get_stored_kcal() > u.max_stored_calories() || u.get_thirst() < 0 ) {
+        it.set_duration( 5_minutes );
+    }
+}
+
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
@@ -448,6 +456,7 @@ void player::hardcoded_effects( effect &it )
             { effect_cold, eff_fun_cold },
             { effect_hot, eff_fun_hot },
             { effect_frostbite, eff_fun_frostbite },
+            { effect_bloated, eff_fun_bloated },
         }
     };
     const efftype_id &id = it.get_id();

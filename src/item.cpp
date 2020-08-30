@@ -3821,8 +3821,8 @@ nc_color item::color_in_inventory() const
         const ret_val<edible_rating> rating = u.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
-            case EDIBLE:
-            case TOO_FULL:
+            case edible_rating::edible:
+            case edible_rating::too_full:
                 if( preserves ) {
                     // Nothing, canned food won't rot
                 } else if( food->is_going_bad() ) {
@@ -3831,22 +3831,23 @@ nc_color item::color_in_inventory() const
                     ret = c_cyan;
                 }
                 break;
-            case INEDIBLE:
-            case INEDIBLE_MUTATION:
+            case edible_rating::inedible:
+            case edible_rating::inedible_mutation:
                 ret = c_dark_gray;
                 break;
-            case ALLERGY:
-            case ALLERGY_WEAK:
-            case CANNIBALISM:
+            case edible_rating::allergy:
+            case edible_rating::allergy_weak:
+            case edible_rating::cannibalism:
                 ret = c_red;
                 break;
-            case ROTTEN:
+            case edible_rating::rotten:
                 ret = c_brown;
                 break;
-            case NAUSEA:
+            case edible_rating::nausea:
+            case edible_rating::bloated:
                 ret = c_pink;
                 break;
-            case NO_TOOL:
+            case edible_rating::no_tool:
                 break;
         }
     } else if( is_gun() ) {

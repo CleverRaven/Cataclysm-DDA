@@ -15,6 +15,8 @@
 #include "type_id.h"
 #include "units.h"
 
+static const efftype_id effect_bloated( "bloated" );
+
 static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
@@ -237,6 +239,7 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
+    dummy.set_stored_kcal( 100 );
     item food( "protein_drink", 0, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
     int attempts = 10;
@@ -244,4 +247,30 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     } while( dummy.eat( food, true ) && --attempts > 0 );
     CAPTURE( dummy.stomach.get_calories() );
     CHECK( dummy.stomach.get_calories() == 1000 );
+}
+
+TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
+{
+    player &dummy = g->u;
+    reset_time();
+    clear_stomach( dummy );
+    dummy.set_stored_kcal( dummy.max_stored_calories() );
+    item food( "protein_drink", 0, 10 );
+    REQUIRE( dummy.compute_effective_nutrients( food ).kcal > 0 );
+    WHEN( "Character consumes calories above max" ) {
+        dummy.eat( food, true );
+        THEN( "They become bloated" ) {
+            CHECK( dummy.has_effect( effect_bloated ) );
+        }
+    }
+    WHEN( "Bloated character consumes calories" ) {
+        dummy.eat( food, true );
+        THEN( "They are no longer bloated" ) {
+            CHECK( dummy.has_effect( effect_bloated ) );
+        }
+        THEN( "They are no longer above max calories" ) {
+            CHECK( dummy.get_hunger() >= 0 );
+        }
+    }
+
 }

@@ -1901,5 +1901,17 @@
     "max_intensity": 7,
     "max_duration": "22 d",
     "int_dur_factor": "3 d"
+  },
+  {
+    "type": "effect_type",
+    "id": "bloated",
+    "name": [ "Bloated" ],
+    "desc": [
+      "You're too full to eat anything. You'll vomit if you try eating anything without waiting for your stomach to empty."
+    ],
+    "apply_message": "Your stomach is full.",
+    "remove_message": "You no longer feel so full.",
+    "rating": "bad",
+    "max_duration": "10 m"
   }
 ]

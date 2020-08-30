@@ -75,122 +75,6 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     }
 }
 
-TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" )
-{
-    clear_map();
-    avatar dummy;
-    const tripoint avatar_pos( 60, 60, 0 );
-    dummy.setpos( avatar_pos );
-
-    // Morale bonus only applies to unspoiled food that is not junk
-    item &bread = dummy.i_add( item( "sourdough_bread" ) );
-    REQUIRE( bread.is_fresh() );
-    REQUIRE_FALSE( bread.has_flag( flag_ALLERGEN_JUNK ) );
-
-    // Much of the below code is to support the "Rigid Table Manners" trait, notoriously prone to
-    // causing unexpected morale effects from bandages, aspirin, cigs etc. (#38698, #39580)
-    // Table-related morale effects should not apply to any of the following items:
-    const std::vector<std::string> no_table_eating_bonus = {
-        {
-            "aspirin",
-            "bandages",
-            "caffeine",
-            "cig",
-            "codeine",
-            "crack",
-            "dayquil",
-            "disinfectant",
-            "joint",
-            "oxycodone",
-            "weed"
-        }
-    };
-
-    GIVEN( "no table or chair are nearby" ) {
-        REQUIRE_FALSE( g->m.has_nearby_table( dummy.pos(), 1 ) );
-        REQUIRE_FALSE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
-
-        AND_GIVEN( "character has normal table manners" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
-
-            THEN( "their morale is unaffected by eating without a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
-            }
-        }
-
-        AND_GIVEN( "character has strict table manners" ) {
-            dummy.toggle_trait( trait_TABLEMANNERS );
-            REQUIRE( dummy.has_trait( trait_TABLEMANNERS ) );
-
-            THEN( "they get a morale penalty for eating food without a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) <= -2 );
-            }
-
-            for( std::string item_name : no_table_eating_bonus ) {
-                item test_item( item_name );
-
-                THEN( "they get no morale penalty for using " + item_name + " at a table" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITHOUT_TABLE ) );
-                }
-            }
-        }
-    }
-
-    GIVEN( "a table and chair are nearby" ) {
-        g->m.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
-        g->m.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
-        REQUIRE( g->m.has_nearby_table( dummy.pos(), 1 ) );
-        REQUIRE( g->m.has_nearby_chair( dummy.pos(), 1 ) );
-
-        AND_GIVEN( "character has normal table manners" ) {
-            REQUIRE_FALSE( dummy.has_trait( trait_TABLEMANNERS ) );
-
-            THEN( "they get a minimal morale bonus for eating with a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 1 );
-            }
-
-            for( std::string item_name : no_table_eating_bonus ) {
-                item test_item( item_name );
-
-                THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
-                }
-            }
-        }
-
-        AND_GIVEN( "character has strict table manners" ) {
-            dummy.toggle_trait( trait_TABLEMANNERS );
-            REQUIRE( dummy.has_trait( trait_TABLEMANNERS ) );
-
-            THEN( "they get a small morale bonus for eating with a table" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( bread );
-                CHECK( dummy.has_morale( MORALE_ATE_WITH_TABLE ) >= 3 );
-            }
-
-            for( std::string item_name : no_table_eating_bonus ) {
-                item test_item( item_name );
-
-                THEN( "they get no morale bonus for using " + item_name + " at a table" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( test_item );
-                    CHECK_FALSE( dummy.has_morale( MORALE_ATE_WITH_TABLE ) );
-                }
-            }
-        }
-    }
-}
-
 TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 {
     avatar dummy;
@@ -259,17 +143,6 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
                 dummy.modify_morale( human );
                 CHECK( dummy.has_morale( MORALE_CANNIBAL ) == 0 );
             }
-
-            AND_WHEN( "character is a spiritual psychopath" ) {
-                dummy.toggle_trait( trait_SPIRITUAL );
-                REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
-
-                THEN( "they get a small morale bonus for eating humans" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( human );
-                    CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 5 );
-                }
-            }
         }
     }
 
@@ -280,29 +153,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
         THEN( "they get a morale bonus for eating humans" ) {
             dummy.clear_morale();
             dummy.modify_morale( human );
-            CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 10 );
-        }
-
-        AND_WHEN( "they are also a psychopath" ) {
-            dummy.toggle_trait( trait_PSYCHOPATH );
-            REQUIRE( dummy.has_trait( trait_PSYCHOPATH ) );
-
-            THEN( "they get a substantial morale bonus for eating humans" ) {
-                dummy.clear_morale();
-                dummy.modify_morale( human );
-                CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 15 );
-            }
-
-            AND_WHEN( "they are also spiritual" ) {
-                dummy.toggle_trait( trait_SPIRITUAL );
-                REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
-
-                THEN( "they get a large morale bonus for eating humans" ) {
-                    dummy.clear_morale();
-                    dummy.modify_morale( human );
-                    CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 25 );
-                }
-            }
+            CHECK( dummy.has_morale( MORALE_CANNIBAL ) >= 20 );
         }
     }
 }

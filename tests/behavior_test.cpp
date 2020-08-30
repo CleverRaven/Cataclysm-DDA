@@ -163,11 +163,13 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
     SECTION( "Hungry" ) {
-        test_npc.set_hunger( 500 );
         test_npc.set_stored_kcal( 1000 );
-        CHECK( npc_needs.tick( &oracle ) == "idle" );
+        test_npc.set_thirst( 100 );
+        CHECK( oracle.needs_food_badly() == behavior::status_t::running );
+        REQUIRE( npc_needs.tick( &oracle ) == "idle" );
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
         item_location loc = item_location( test_npc, &food );
+        REQUIRE( oracle.has_food() == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
         test_npc.consume( loc );
         CHECK( npc_needs.tick( &oracle ) == "idle" );

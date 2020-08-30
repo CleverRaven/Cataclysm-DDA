@@ -221,8 +221,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
-    "fun": -30,
-    "freezing_point": 17
+    "fun": -30
   },
   {
     "type": "COMESTIBLE",
@@ -318,7 +317,7 @@
     "fun": -15
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "insecticide",
     "category": "chems",
     "name": { "str_sp": "insecticide" },
@@ -326,60 +325,48 @@
     "//": "Typically sold in larger quantities, but that's handed in the charge count.",
     "color": "pink",
     "looks_like": "fungicide",
-    "use_action": "BLECH",
-    "stim": -7,
     "container": "bag_plastic",
-    "comestible_type": "FOOD",
     "symbol": "!",
-    "healthy": -7,
     "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
     "price": 1100,
     "price_postapoc": 1000,
     "material": "powder",
+    "ammo_type": "components",
     "volume": "125ml",
-    "charges": 400,
-    "stack_size": 200,
-    "fun": -15
+    "count": 400,
+    "stack_size": 200
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "salt_water",
     "name": { "str_sp": "salt water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": -30,
-    "healthy": -1,
     "description": "Water with salt added.  Not good for drinking.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "chems",
-    "freezing_point": 28,
-    "fun": -1
+    "ammo_type": "components",
+    "category": "chems"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "soapy_water",
     "name": { "str_sp": "soapy water" },
     "weight": "260 g",
     "color": "light_cyan",
     "container": "bottle_plastic",
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": -5,
-    "healthy": -1,
     "description": "Water with soap added.  Not good for drinking.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "chems",
-    "freezing_point": 28,
-    "fun": -1
+    "ammo_type": "components",
+    "category": "chems"
   },
   {
     "type": "COMESTIBLE",
@@ -447,24 +434,21 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "sewage",
     "name": "sewage sample",
     "weight": "280 g",
     "color": "green",
     "use_action": "SEWAGE",
     "container": "bottle_plastic",
-    "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 5,
-    "healthy": -20,
     "description": "A sample of sewage from a treatment plant.  Gross.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "category": "chems",
-    "fun": -20
+    "ammo_type": "components",
+    "category": "chems"
   },
   {
     "type": "AMMO",

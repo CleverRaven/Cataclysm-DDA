@@ -74,12 +74,12 @@ struct w_point;
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
-    std::integral_constant<edible_rating, EDIBLE> {};
+    std::integral_constant<edible_rating, edible_rating::edible> {};
 
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_failure : public
-    std::integral_constant<edible_rating, INEDIBLE> {};
+    std::integral_constant<edible_rating, edible_rating::inedible> {};
 
 
 struct stat_mod {
