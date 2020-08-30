@@ -304,7 +304,7 @@
     "type": "GENERIC",
     "id": "xedra_microphone",
     "name": { "str": "NRE microphone" },
-    "description": "A squat tripod supports what appears to be a rather long microphone encased within a glass ampoule.  You can't tell wether its meant to record audio, or something else entirely.",
+    "description": "A squat tripod supports what appears to be a rather long microphone encased within a glass ampoule.  You can't tell whether it's meant to record audio, or something else entirely.",
     "symbol": "i",
     "color": "dark_gray",
     "volume": "2100 ml",

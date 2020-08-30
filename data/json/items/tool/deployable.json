@@ -78,7 +78,7 @@
     "id": "xedra_antenna",
     "type": "TOOL",
     "name": { "str": "deployable antenna" },
-    "description": "A directional antenna and accompanying tripod, folded into a shape vaguely resembling an umbrella .",
+    "description": "A directional antenna and accompanying tripod, folded into a shape vaguely resembling an umbrella.",
     "weight": "3200 g",
     "volume": "10 L",
     "longest_side": "90 cm",
