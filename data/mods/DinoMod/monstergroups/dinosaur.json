@@ -27,6 +27,7 @@
       { "monster": "mon_edmontosaurus", "freq": 100, "cost_multiplier": 10, "pack_size": [ 4, 6 ] },
       { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_pteranodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dilophosaurus", "freq": 1, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 }
     ]
@@ -40,7 +41,8 @@
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 4 ] },
       { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 4 ] },
-      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
     ]
   },
   {
@@ -59,8 +61,18 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_FLY",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] } ]
+    "default": "mon_pteranodon",
+    "monsters": [
+      { "monster": "mon_dimorphodon", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_pteranodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_SWIM",
+    "default": "mon_mosasaurus",
+    "monsters": [ { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 } ]
   },
   {
     "type": "monstergroup",
