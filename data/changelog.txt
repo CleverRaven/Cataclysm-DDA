@@ -1,442 +1,103 @@
 # 0.F (05-01-2020)
 
 ## Features:
-Added option to randomize INITIAL_DAY
-Add sheep shearing
-Vehicle autopilot follow
-Monfaction attitude hate
-Allows mutations to cast spells via enchantments
-Mining multi-activity for NPCs and players
+Added option to randomize INITIAL_DAY.
+Vehicle autopilot follow.
+Monfaction attitude hate.
+Allows mutations to cast spells via enchantments.
+Mining multi-activity for NPCs and players.
 Basecamp job rework - wandering/sitting/job priorities.
-Auto eat and drink from auto-zones during long activities/waiting
-Flyable Helicopters
-Towing vehicles
-User defined height and age
-Add support for json-defined achievements to provide more goals to strive for
-Adds fitness band and heartrate function to character for detetmining heart BPM
+Auto eat and drink from auto-zones during long activities/waiting.
+Flyable Helicopters.
+Towing vehicles.
+User defined height and age.
+Add support for json-defined achievements to provide more goals to strive for.
 Lock picking overhaul.
-Achievements can now have time constraints
-Add min/max event statistics and z-level achievements
-Add an achievement for surviving one day
-Allow achievements to have descriptions
-Rot away items away in reality bubble
-Fixes #36628, implementing use of system time for holidays
+Rot away items away in reality bubble.
+Implementing use of system time for holidays.
 
 ## Content:
-Updates UlticaDemo set for 0.E release
-added batch time saving of 80% > 1 unit for sugar recipes
-Name change and an addition to flintlock weaponry
-Added wild boar to forests
-Reworked the tool belt to be customizable
-Adds burdock as a wild vegetable found at the same rate as dandelions, and adds recipes when both are used in cooking.
-Cooking autolearn rework part 1
-Prevent cutting up TV into a ton of plastic chunks.
-Add mustard plant, mustard powder and mustard recipe
-Adds more cats
-Realistic gun volumes for .410 and .454 firearms
-Add 6-shot speedloader for Raging Judge Magnum
-Remove quantum solar panels
-Magiclysm: summon vehicle spell : floating disk
-Adds more windows
-Adds more windows update
-Aftershock Mod - Add roof-mounted tank (100L)
-Moves and updates 2 urban development houses to vanilla.
-Moves and updates 2 urban development houses to vanilla.
-Added a luna park location.
-Adds more randomized text options.
-Adds random graves map extra.
-Lets the player disassemble explosives'
-Realistic gun volumes for Russian pistol calibers
-Realistic gun volumes & weights for blackpowder firearms
-Moves and updates 2 urban development houses to vanilla.
-Adds ventilation shafts to the -4 subway
-Moves and updates 1 urban development city special to vanilla.
-M24 adjusted to real life version
-Moves and updates 1 urban development city special to vanilla.
-Add Oat seeds to Farms
-Adds two flags to triceratops entry to allow riding
-Adds 'Concrete Constructions' book to hold concrete related recipes
-Adds new monster 'SWAT zombie'
-Replaced the broken laptop with a working one
-Adds 1 new shotgun, 2 new handguns in 2 different calibers for a total of 4, and a French assault rifle.
-Refrigerated 60L Tank Vehicle part
-Add Survivor RV
-Add Survivor Car
-Restores dinosaur 'Dimorphodon' exactly as before
-Overhaul crafting recipes for arm gear
-add new item and recipe: 'wooden dog whistle'
-Craftable hotdogs
-Adds new monster 'Pachycephalosaurus'
-Add AK-47 semi-auto rifle, Mini Draco pistol, AK magazines
-Add more plastic items to the plastic chunk recipe.
-Made moss plowable
-Adds unique ammo effects to launcher ammo
-Additional changes to windows terrain
-Cave jsonify.
-Adds new profession Military Pilot
-Remove MBR vests
-Add extra .223 magazines
-Reduce frequency of helicopter crash sites
-Adds egg laying and hatchlings for monster 'Dimorphodon'
-Adds new monster 'dimorphodon hatchling' and 'pachycephalosaurus hatchling' to hatchling group
-Adds monster Dimorphodon to GROUP_PARK_ANIMAL
-Add growable popcorn and horseradish
-Split vandalized shelter into a separate location category
-Update bone seer's equipment
-Add a butchering kit made of butcher knife, carving knife and meat cleaver
-Adds new Demolition Expert profession
-Oat seeds were added to farms let us add real oats
-Restores GROUP_CAVE monster group in cave replacing bats
-Adds bodytypes and diff ratings for some dinos
-add music fluff items
-Adds new quest and stock to the arsonist
-Premium Survival Kits
-minor tweaks including item spawns for glass cabinet, fireplace terrain'
-Adds new monster groups 'GROUP_ROOF_ANIMAL' and 'GROUP_ROOF_ZOMBIE'
-Add the New York hook and pike pole as items and add them to the relevant spawn groups.
-Adds in a new recipe which allows the player to remove barbs on barbed wire.
-Add a foam rubber bat
-Adds lotus and spurge flower teas to the game. Spurge tea prevents asthma attacks.
-Add new movement based achievements and statistics
-Adds new monster  'Z-Rex'
-New multi story concrete house and palette addition for optional linoleum terrain spawn under kitchen and bathroom furniture
-Updates composite crossbow recipe.
-Add recipe that allow holster varient survivor utility belt in Aftershock to be changed back to original survivor ultility belt that is sheath varient. And also put their subcategory to be consistant as the one in non-mod game.
-Rat cave jsonify.
-add rubber as a material
-Adds new wood and copper pikes with recipes.
-Adds recipe for tinted glass
-2nd installment of my extracts and concentrates mod into mainline
-pt4 of my extracts and concentrates mod into mainline
-pt 5 of my extracts and concentrates mod adding into mainline
-Adds recipe for makeshift leather hose.
-four new tools, one renamed tool, and four crafting recipes.
-Obsoletes nail bomb and fragment bomb
-Spawn searchlights in military/police roadblocks
-Adds consumer wireless charging device and vehicle attachment
-Adds makeshift hand drill
-FEMA camp jsonify
-Adds new NPC category 'Farmer'
+Gun volume and weight audit.
+Move most urban development houses to vanilla.
+Add Survivor RV and car.
+Populate rooftops with monsters.
+Large addition of chemicals, chemistry tools and recipes.
 
 ## Interface:
-Worldcreation: Change helptext and key-hints to match other menus.
-Refactor non-waiting popups using ui_adaptor
-Extended shift-v items menu
-Make martial arts reading interface consistent w/ other books
-Item locations are no longer shown in the trade interface
-Allow random starting location in scenarios
-Migrate item info UI, crafting menu, item comparison UI, and pickup menu to ui_adaptor
-Vehicle menu: Colorize jacking and lifting qualities
-Clean up and organize item info panel
-Corrected vehicle acceleration display units
-Martialarts select and menu harmonisation
-Newcharacter menu harmonisation / consistency
-Increased overmap search radius
-Show number of variants for starting locations
-item: improve the calculation and display of DPS
-Migrate auto note manager and bionics menu to ui_adaptor
-Menu harmonisation / consistency -> crafting menu
-Menu harmonisation / consistency -> main menu + random character
-Add option to change position of look around windows
-Migrate computer UI and construction menu to ui_adaptor
-Faster scrolling of inventory item information
-Add achievements tab to score window
-Migrate extended description, faction manager, and faction camp job/worker assignment UI to ui_adaptor
-Some curses UI fixes
-Match quality color
-Item-Info: Colorize martial arts style list
+Introduce and migrate most windows to ui_adaptor.
 Crafting GUI - Highlight hidden recipe info
-Use more accurate help text for z-level option
-Migrate zone manager and look-around mode to ui_adaptor
-Match melee damage color
-Migrate panel manager to ui_adaptor
-Migrate the V menu to ui_adaptor
-sort martial arts valid weapons lists alphabetically and remove duplicate weapon names.
-Tiny interface update
-Changes to new_character
-Sort traits in chargen screen and @ display by name and color
-Add mouth and arm info to encumbrance display
-Migrate vending machine menu, martial arts info UI, and camp mission menu to ui_adaptor
-Migrate mission, morale, and mutation UIs to ui_adaptor
 
 ## Mods:
-Orichalcum recipe and tools needed
 [Magiclysm] Manatouched mutation tree
-Migrates blackpowder ammo & adds recipes for generic guns
-change out hardcoded flamethrower on tripod for json
-[Magiclysm] Add mana siphon trait to manatouched
-Qantum solar to AFS
 Dark Skies: Reworks Strays
-Reworks Strays, pt 2: Monster Groups
-Cyborg NPCs
-Add missing maintainers to DinoMod
-Update DinoMod CODEOWNERS
-give more minuses to migo tree
-Prepnet hates Fungus
-Mutation Line and profession
 Dark Skies: Remasters the Order
-Puts bfeed into a blob specific file, finalising separation of content
-Removes redundant blazemod turrets in their entirety
-Removes turretframe from blazemod
-Modernises blob treads
-Modernise glowie and blob lights
-Revise blob frostie vehicle parts and items
-Modernises blob_turret_mount and adds blob_turret abstract
-Remove glowie dependent generator and battery
-Removes turretframe from blazemod
-Streamlines blob turrets with modern json techniques
-Changes all blazemod turrets to use vanilla turrets
-Fixed bug where runes would disappear when summoned for the first time.
-Cargo portal modernisation
-Fix incorrect copy-from in blob_boards.json
-Make blob containers consistent and modern
-Modernises recipe times
-Remove invalid entries from blaze engines
-Re-incorporate shelving unit for vehicles
-Further refactor blaze vehicle parts
-[magiclysm] optical sneeze beam
-Modernise ranged damage entries for blaze turrets
-Adds new alien fauna, tweaks Strays
-MAGICLYSM: Adds recipes for mana potions. Adds mana infusion. Tweaks alchemy recipes.
-Blazemod string update
-Adds 6x6 magic basement nested maps. Adjusts academy spawns.
-Remove obsoleted scrap weapon derived content
-Minor typo fix
-Remove obsolete turrets from blazemod
-Separate blazemod turrets from vanilla ID's
-Separate blaze turrets from expanded vanilla turrets
-Refactor and modernise blazemod ammo
-Blazemod secondary content refactor
-Adjusts some potion names
-Change salvage from turrets in blazemod from count to prob
-Delete blaze_override.json
-Completely remodel blazemod solar arrays
+Overhaul Blazemod and split into seperate mods.
 
 ## Balance:
-The chance to find a non-ransacked vending machine reduces greatly with every day after the cataclysm.
-Gum no longer Junk Food
-Fix some mustard recipe math
-Craft plastic chunk from plastic zipper bags
-Adds fertilizer spawns to farms.
-adds and changes price values on half the armor
-adds and changes price values on the other half of the armor
-adds and changes price values on all guns
-adds and changes price values on all ranged weapons
-adds and balances price values on all melee weapons
-adds and changes price values on all ammo
-Rebalances some armors to fit armor balance document
-Increases military location loot
-Update recipe_food.json with batch savings for wild veggies
-Changes the prices of all books
-adds/changes the prices of half the comestibles
-adds/changes the prices of  the second half of the comestibles
-Lasers don't light up their path
-adds/changes the prices of corpses, generic, and gunmods.
-adds/changes the prices of magazines
-adds/changes the prices of  the resources
-adds/changes the prices of tools
-adds/changes the prices of vehicle parts
-adds/changes the prices of items in unsorted json
-Add bash armor to Thick/thin skin
-Limits Brigitte's ability to spawn.
-Reduce crafting time of 50% fruit juice compared to 100% fruit juice
-Fix almost instantaneous and always successful climbing the downspouts.
-melee: make polearms do less damage against adjacent targets
+Large item price audit.
+Large scale melee weapon damage audit.
+melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels
-Removes charges from beef jerky
-Add wayfarer and spiritual traits, some skills and 2 more points to medieval peasant scenario
-Gives  mark 19 grenade launcher automatic fire mode
-Rebalances unarmed weapons
-Rebalances flail weapons
-All semiauto rifles, full size semiauto pistols, and knives can be used with Krav Maga.
-Adds price to battery
-Rebalances club weapons
-Rebalances axe weapons
-Rebalances sword weapons
-Rebalances spear and staff weapons
-Rebalances Polearm weapons
-Reduces mercenary price
-Quarterstaff balance
-Use only Dex to avoid grabs and use only Str to break out of grabs
-Adds fragile melee flag to fake weapons and chainsaws
-Chainlightning CBM shot does electric damage now
-Barbute helm now covers eyes
-Cudgel now follows closer to real use case
-Streamline throwing stamina cost with melee
-Reloading wielded items now costs less than reloading items in inventory
-Reduced trading prices for both refillable and non refillable lighters
 
 ## Bugfixes:
-Prevents possible negative damage from explosions
-Removes scent diffusion over water by implementing NO_SCENT flag
-Fixes spelling errors and inconsistencies.
-Fixes various spelling errors
-Give electric motors equal power in both forward and reverse
-Fix wield action costing double than it should
-Removes food monotony penalty from junk foods
-Re-audit Kel Tec pistols & magazines
-Add spoil date to Mustard
-fix spells not gaining levels on cast
-material formatting in armor jsons
-Prevent taking traits in character generation when you start with a conflicting CBM
+Prevents possible negative damage from explosions.
+Removes scent diffusion over water by implementing NO_SCENT flag.
+Give electric motors equal power in both forward and reverse.
+Fix wield action costing double than it should.
+Fix spells not gaining levels on cast.
 Fix for light sources rendering player invisible at certain ranges.
-Fix crash when NPC gives player equipment
-Fix "Unable to find and assign mission target" message when accepting mission
+Fix crash when NPC gives player equipment.
+Fix "Unable to find and assign mission target" message when accepting mission.
 No more floor items when trading with follower NPCs.
-Fix crash by not accessing null basecamp
-allow descending into open air while moving, and disallow roof teleporting
-Fix savegame migration of rural house overmap terrain
-Fixes extra label with Magiclysm's finger firelighter
-Helicopter going up fix
-Fixes spelling errors and inconsistencies.
-Fix crash while butchering planks
-Fix ammo belt and magazine unloading
-Sealed cans no longer open upon load
-The Finite Gallon Spilling Jug
-fix finding a corpse inside a corpse
-fix gunmods not being able to be removed
-Fix crash when opening action menu with guns in inventory
-Fix crash when refreshing new character menu while the filtered list is empty
-Fixed electric blanket vanishing on expending its battery
-Correct magazine capacity for .357 SIG P320/226
-Fix cold item rotting in freezer and add more rotting tests
-Only record map notes for map extras when they do something
-Fix calorie burning errors
-Made "minefield" map extra actually spawn.
-Fixes Frost Armor spell from Magiclysm mod.
-Adds compound crossbow to itemlists
-Obsolete trigger happy trait
-Players unable to mount turrets on vehicles.
-Uses string popup menus for name, age, and height in character creation
-Fix a crash when some action consumes inventory items
-Fix Mastadon armor and mutagen
-Fix bearing requiring both "weight" and "steel"
-Place cursor at highlighted item name in construction and crafting menus as expected by screen readers
-Spawn regular ants under regular anthills
-Elite Zombie Bio-operator name format fixed
-Removed WAIST tag from utility vest item.
-Fix items spawning with fewer charges than defined
-Remove table buff/debuff for medicine
-Adds vitamins to acorn
-Fix bullets not passing through chainlink fences
-melee: Make sure that melee weapon accuracy improves hit rates
-Reduce level of vehicle heater/cooler as its now too much after 1-second turns
-Extend search range for travelling NPCs
-Use correct grammar for healing messages
-Allow climbing stairs without any chance of falling
-Changes 'crêpe' to 'crepe' in air filter desc
-Change "faulty" to "burnt out" in PrepNet mission dialogues
-Fix Dissappearing travelling NPCs
-Updates vehicle drag when door opened/closed
-Set possibly undefined vars in constructor
-Fix temperature processing in ice labs
-Fix Autodoc Failure not dealing damage or pain
-Wake up player if too cold due to hypothermia
-Fix royal jelly
-Reworked crafting skill requirement display to be more consistent while fixing a bug
-Adjust outdated descriptions of AEP_PSYSHIELD
-Don't use workbenches in dangerous area
-Fixes 100% chances to trigger teleglow effects
-Fixes syntax error
-Check values of variables in makefile instead of simply if they are defined
-Use current int instead of max int for exp calculations
-Add fire/police stations to surrounded scenario.
-add WINDOW flag to trunk doors
-Trigger traps after using probability travel CBM
-Achievements no longer become un-completed after they are completed
-Fix items with inappropriate charges in chargen
-fix door placement.
-Cap max_duration of daze effect at 10 min
-Fix mastodon mutation line
-Foodperson profession starts weilding the bat
-allow all faction camps in shelters to work.
-Various Block bugfixes
-game: don't drench the player if the player is in a boat
-Fix a crash when npc tries to heal horse-mounted player.
-Corrects volumes on rem+mossy shotguns
+Fix crash by not accessing null basecamp.
+Allow descending into open air while moving, and disallow roof teleporting.
+Fix cold item rotting in freezer and add more rotting tests.
+Place cursor at highlighted item name in construction and crafting menus as expected by screen readers.
+Spawn regular ants under regular anthills.
+melee: Make sure that melee weapon accuracy improves hit rates.
+Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
+Wake up player if too cold due to hypothermia.
 
 ## Performance:
-Use value_ptr instead of optional to save memory.
-Code optimizations reported by static code analysis
-Add option to enable batching when it is available in SDL
+Add option to enable batching when it is available in SDL.
 
 ## Infrastructure:
-Small clean up of bodypart code
-Moved mass grave terrain and special to map extra
-Jsonize vehicle parts requiring other vehicle parts
-change item_location return from an int to item_location
-move has_rotten_away() from map to item
-Overmap and mapgen: testing, cleanup, and documentation
-added new item group for spawning in domestic display cases
-refactor npc::mug_player() for loop over inventory splice
-change scope of some player member functions
-Add basic infrastructure for diseases
-Allow for specialization of activity parameters
-Improved event transformations and statistic tracking
-Jsonize Autodoc quality
-Add tests for character BMI / kcal / weight
-Jsonize mood modifier from bodyparts
-Allow multiple overmap terrains in start location
-encapsulate item::contents into a new class
-Adds stable_explosive requirement and fixes some recipes
-Add damage instance assign reader, unify item damage loading code
-migrate player_activity using item index to item_location
-refactor player::invlet_to_position() to Character::invlet_to_item()
-Make test failures from other platforms more easily reproducible
-Minor rot code improvements
-Create a GitHub workflow for running clang-tidy
-Remove Travis clang-tidy job
-split advanced_inventory::display() into smaller functions
-Enforce a standard header guard format
-Add clang-tidy check to catch incorrect use of RNGs
-Move melee related functions from player to Character
-Restructures blazemod file structure
-Transforming a mutation into another on activation
-Create item_location::item_in_container
-Migrate more functions from player to character
-Adds guide to pricing items to doc folder
-Add enchantments to bionics
-Add a start function to `activity_actor` and migrate `ACT_HACKING`
-Adjust height/bodyweight tests for varying height
-Add unit tests for get_hit, get_dodge and related functions
-Migrate more functions from player to character
-Migrate more functions from player to character
-Add test for health effect on healing rate
-Add tests for BMI effect on speed
-Switch CMake common files to an object library
-Update Catch2 to v2.12.0 (from 2.9.1)
-Achievements have better up-front checking to detect definition errors
-Tests use a different config directory by default
+Add basic infrastructure for diseases.
+Allow for specialization of activity parameters.
+Improved event transformations and statistic tracking.
+Jsonize Autodoc quality.
+Add tests for character BMI / kcal / weight.
+Jsonize mood modifier from bodyparts.
+Allow multiple overmap terrains in start location.
+Make test failures from other platforms more easily reproducible.
+Enforce a standard header guard format.
+Add clang-tidy check to catch incorrect use of RNGs.
+Adds guide to pricing items to doc folder.
+Add enchantments to bionics.
+Add test for health effect on healing rate.
+Add tests for BMI effect on speed.
+Update Catch2 to v2.12.0 (from 2.9.1).
+Achievements have better up-front checking to detect definition errors.
+Tests use a different config directory by default.
 Migrate ACT_PICKUP to the activity actor system.
-Improve character heal_rate and heal_rate_medicine tests
-Change body_part to bodypart_id in deal_damage
-Map item processing refactoring
 Integrate behavior tree implementation into monster AI.
-Move ascii arts to their own file to avoid bloat
-Replace body_part in more combat related function
-Adds fuel requirement to ANFO
-refactor Item_factory::load(islot_ammo) to islot_ammo::load
-Improve usability of the pull request template
-Enforce that functions should not have separate x, y parameters
-Add tests for sun-related functions
+Move ascii arts to their own file to avoid bloat.
+Enforce that functions should not have separate x, y parameters.
+Add tests for sun-related functions.
 
 ## Build:
+Create a GitHub workflow for running clang-tidy.
+Remove Travis clang-tidy job.
 Add -fsigned-char to CMakeLists.txt
-makes json linter feedback more readable
-Update Android precompiled dependencies
-Fix clang-tidy header guard check on Windows
+Makes json linter feedback more readable.
+Fix clang-tidy header guard check on Windows.
 
 ## I18N and A11Y:
-Fix translation of martial art initate message and computer translation
-Routine i18n updates on 18 Apr 2020
-Add support for specifying identical singular and plural forms using `str_sp`
-Remove name_plural and replace it with str_pl
-Add helper for localized sorting
-Routine i18n updates on 26 Apr 2020
-Use localized sorting in more places
-Routine i18n updates on 1 May 2020
-Record locales in debug.log to assist with i18n debugging
-
+Fix translation of martial art initate message and computer translation.
+Add support for specifying identical singular and plural forms using `str_sp`.
+Remove name_plural and replace it with str_pl.
+Add helper for localized sorting.
+Record locales in debug.log to assist with i18n debugging.
 
 # 0.E (Ellison)
 
