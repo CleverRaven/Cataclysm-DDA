@@ -177,7 +177,6 @@
     "type": "mapgen",
     "om_terrain": [ [ "microlab_generic" ] ],
     "method": "json",
-    "weight": 1000000,
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
