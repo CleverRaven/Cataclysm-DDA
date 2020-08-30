@@ -1,9 +1,9 @@
 [
-    {
-      "type": "enchantment",
-      "id": "dragon_acid_resist",
-      "condition": "ALWAYS",
-      "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
-    }
-  ]
+  {
+    "type": "enchantment",
+    "id": "dragon_acid_resist",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+  }
+]
   
