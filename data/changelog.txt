@@ -2,8 +2,8 @@
 
 ## Features:
 Added option to randomize INITIAL_DAY.
-Vehicle autopilot follow.
-Monfaction attitude hate.
+Allow vehicles with autopilot to follow you.
+Monster factions can unconditionally hate other factions.
 Allows mutations to cast spells via enchantments.
 Mining multi-activity for NPCs and players.
 Basecamp job rework - wandering/sitting/job priorities.
@@ -13,8 +13,8 @@ Towing vehicles.
 User defined height and age.
 Add support for json-defined achievements to provide more goals to strive for.
 Lock picking overhaul.
-Rot away items away in reality bubble.
-Implementing use of system time for holidays.
+Rot items away in reality bubble.
+Display holiday on main menu screen based on system time.
 
 ## Content:
 Gun volume and weight audit.
@@ -24,20 +24,20 @@ Populate rooftops with monsters.
 Large addition of chemicals, chemistry tools and recipes.
 
 ## Interface:
-Introduce and migrate most windows to ui_adaptor.
-Crafting GUI - Highlight hidden recipe info
+Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized. 
+Crafting GUI - Highlight hidden recipe info.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree
-Dark Skies: Reworks Strays
-Dark Skies: Remasters the Order
+Dark Skies: Reworks Strays.
+Dark Skies: Remasters the Order.
 Overhaul Blazemod and split into seperate mods.
 
 ## Balance:
 Large item price audit.
 Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
-Hide irradiated effect from the player, forces use of existing tools to detect radiation levels
+Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -50,7 +50,7 @@ Fix crash when NPC gives player equipment.
 Fix "Unable to find and assign mission target" message when accepting mission.
 No more floor items when trading with follower NPCs.
 Fix crash by not accessing null basecamp.
-Allow descending into open air while moving, and disallow roof teleporting.
+Helicopters: Allow descending into open air while moving, and disallow roof teleporting.
 Fix cold item rotting in freezer and add more rotting tests.
 Place cursor at highlighted item name in construction and crafting menus as expected by screen readers.
 Spawn regular ants under regular anthills.
@@ -88,7 +88,7 @@ Add tests for sun-related functions.
 ## Build:
 Create a GitHub workflow for running clang-tidy.
 Remove Travis clang-tidy job.
-Add -fsigned-char to CMakeLists.txt
+Add -fsigned-char to CMakeLists.txt.
 Makes json linter feedback more readable.
 Fix clang-tidy header guard check on Windows.
 
