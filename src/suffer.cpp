@@ -823,13 +823,13 @@ void Character::suffer_from_sunburn()
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-        sunlight_effect = "The sunlight is really irritating";
+        sunlight_effect = _( "The sunlight is really irritating" );
     } else if( has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
         }
-        sunlight_effect = "The sunlight burns";
+        sunlight_effect = _( "The sunlight burns" );
     }
 
     // Sunglasses can keep the sun off the eyes.
