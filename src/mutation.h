@@ -231,6 +231,8 @@ struct mutation_branch {
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
+        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
+
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         cata::optional<float> stealth_modifier = cata::nullopt;
 
