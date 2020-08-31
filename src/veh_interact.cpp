@@ -734,16 +734,16 @@ bool veh_interact::can_install_part()
     bool ok = format_reqs( msg, reqs, sel_vpart_info->install_skills,
                            sel_vpart_info->install_time( g->u ) );
 
-    msg += _( "<color_white>Additional requirements:</color>\n" );
+    std::string additional_requirements;
 
     if( dif_eng > 0 ) {
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        msg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
-                              skill_mechanics.obj().name(), dif_eng ) + "\n";
+        additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+                                   status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                   skill_mechanics.obj().name(), dif_eng ) + "\n";
     }
 
     if( dif_steering > 0 ) {
@@ -751,9 +751,9 @@ bool veh_interact::can_install_part()
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        msg += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
-                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
-                              skill_mechanics.obj().name(), dif_steering ) + "\n";
+        additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
+                                   status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
+                                   skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
     int lvl = 0;
@@ -803,11 +803,13 @@ bool veh_interact::can_install_part()
         //~ %1$s is quality name, %2$d is quality level
         std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
                                                 qual.obj().name, lvl );
-        msg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                              colorize( aid_string, aid_color ),
-                              colorize( str_string, str_color ) ) + "\n";
-    } else {
-        msg += "\n";
+        additional_requirements += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                                   colorize( aid_string, aid_color ),
+                                   colorize( str_string, str_color ) ) + "\n";
+    }
+    if( !additional_requirements.empty() ) {
+        msg += _( "<color_white>Additional requirements:</color>\n" );
+        msg += additional_requirements;
     }
 
     sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
@@ -1738,8 +1740,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const auto reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
-
-    msg += _( "<color_white>Additional requirements:</color>\n" );
+    std::string additional_requirements;
 
     int lvl = 0;
     int str = 0;
@@ -1775,26 +1776,30 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     const auto helpers = g->u.get_crafting_helpers();
     if( !get_option<bool>( "DISABLE_LIFTING" ) ) {
         if( !helpers.empty() ) {
-            msg += string_format(
-                       //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                       _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
-                       status_color( use_aid ), qual.obj().name, lvl,
-                       status_color( use_str ), str ) + "\n";
+            additional_requirements += string_format(
+                                           //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
+                                           _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength ( assisted ) %5$i</color>" ),
+                                           status_color( use_aid ), qual.obj().name, lvl,
+                                           status_color( use_str ), str ) + "\n";
         } else {
-            msg += string_format(
-                       //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
-                       _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
-                       status_color( use_aid ), qual.obj().name, lvl,
-                       status_color( use_str ), str ) + "\n";
+            additional_requirements += string_format(
+                                           //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
+                                           _( "> %1$s1 tool with %2$s %3$i</color> <color_white>OR</color> %4$sstrength %5$i</color>" ),
+                                           status_color( use_aid ), qual.obj().name, lvl,
+                                           status_color( use_str ), str ) + "\n";
         }
-    } else {
-        msg += "\n";
     }
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
-        msg += string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) + "\n";
+        additional_requirements += string_format( _( "> %1$s%2$s</color>" ), status_color( false ),
+                                   reason ) + "\n";
         ok = false;
+
+    }
+    if( !additional_requirements.empty() ) {
+        msg += _( "<color_white>Additional requirements:</color>\n" );
+        msg += additional_requirements;
     }
     const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
