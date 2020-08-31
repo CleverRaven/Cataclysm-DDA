@@ -933,8 +933,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
+    "enchantments": [ "STORM_ELEMENTAL" ],
     "spells_learned": [ [ "storm_chain_master", 5 ] ],
     "cancels": [
       "ARTIFICER",
