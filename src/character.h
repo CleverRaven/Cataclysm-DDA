@@ -97,7 +97,9 @@ enum action_id : int;
 
 enum class mutation_filter : int {
     all,
+    debug,
     anger_relations,
+    social_mods,
     ignored_by
 };
 
@@ -297,6 +299,9 @@ struct social_modifiers {
         this->persuade += other.persuade;
         this->intimidate += other.intimidate;
         return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
     }
 };
 
