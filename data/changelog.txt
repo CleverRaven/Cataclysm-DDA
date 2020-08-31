@@ -1,4 +1,4 @@
-# 0.F (05-01-2020)
+# 0.F (06-01-2020)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -15,6 +15,11 @@ Add support for json-defined achievements to provide more goals to strive for.
 Lock picking overhaul.
 Rot items away in reality bubble.
 Display holiday on main menu screen based on system time.
+Separate bullet damage type from cut/stab.
+Makes consuming items take time.
+Implement damage over time spell infrastructure.
+Nested Container system.
+Add support for conducts (self-imposed play constraints tracked by the game).
 
 ## Content:
 Gun volume and weight audit.
@@ -22,22 +27,28 @@ Move most urban development houses to vanilla.
 Add Survivor RV and car.
 Populate rooftops with monsters.
 Large addition of chemicals, chemistry tools and recipes.
+Mi-go, masters, and necromancers can open doors.
+Adds a bulk shipping crate possibility to the supplydrop map extra.
+New zombie: necro-boomer.
+Overhaul the mall.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized. 
 Crafting GUI - Highlight hidden recipe info.
+Overhaul target selection and aiming UI.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree
-Dark Skies: Reworks Strays.
-Dark Skies: Remasters the Order.
+Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
 Overhaul Blazemod and split into seperate mods.
+[MMA] Add Ki Strike trait.
 
 ## Balance:
 Large item price audit.
 Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
+More complex satiety calculations.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -57,6 +68,11 @@ Spawn regular ants under regular anthills.
 melee: Make sure that melee weapon accuracy improves hit rates.
 Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
 Wake up player if too cold due to hypothermia.
+Fixes a segfault during initializing crafts.
+fixes segfault when attempting to siphon from vehicle with multiple tanks.
+Fix creatures blocking descend even if they can be displaced.
+Fix OnGetHit effects not triggering if player cannot block.
+Refactor monster spawning code to avoid crash.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
@@ -84,6 +100,10 @@ Integrate behavior tree implementation into monster AI.
 Move ascii arts to their own file to avoid bloat.
 Enforce that functions should not have separate x, y parameters.
 Add tests for sun-related functions.
+Jsonize Anatomy: replace enum body_part with bodypart_id.
+Implement installation requirment for CBMs.
+Fields can now override local light levels.
+Convert itype_id to string_id<itype>.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
