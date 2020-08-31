@@ -2955,19 +2955,10 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
-<<<<<<< HEAD
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
                                       bound_key( "SWITCH_MODE" ).short_description() ) )} );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
                                       bound_key( "SWITCH_AMMO" ).short_description() ) )} );
-=======
-        lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ) ) )
-                         } );
-        lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ) ) )
-                         } );
->>>>>>> 948b851ab4b9d3464768897c59228efd78684861
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
