@@ -546,6 +546,8 @@ std::vector<mongroup *> overmapbuffer::groups_at( const tripoint_abs_sm &p )
     return result;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-noreturn"
 std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint_abs_omt
         &origin )
 {
@@ -560,6 +562,7 @@ std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const trip
 
     return found_traces;
 }
+#pragma GCC diagnostic pop
 
 scent_trace overmapbuffer::scent_at( const tripoint_abs_omt &p )
 {
