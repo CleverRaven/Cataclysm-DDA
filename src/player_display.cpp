@@ -223,7 +223,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             const int melee_roll_pen = std::max( static_cast<int>(
                     std::lround( eff_encumbrance * bp->encumbrance_effects.hit_roll_mod ) ), -75 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
-            s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
+            s += dodge_skill_text( ( double )eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
             s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
@@ -250,7 +250,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee and thrown attacks and accuracy with ranged weapons.</color>\n" );
             s += melee_stamina_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_stamina_cost );
-            s += ranged_cost_text( eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
+            s += ranged_cost_text( ( double ) eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
             break;
         case bp_hand_l:
         case bp_hand_r:
@@ -267,7 +267,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += run_cost_text( eff_encumbrance * bp->encumbrance_effects.run_cost );
             s += swim_cost_text( ( eff_encumbrance / 10 ) *
                                  ( 50 - p.get_skill_level( skill_swimming ) * 2 ) / 2 );
-            s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
+            s += dodge_skill_text( ( double ) eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             break;
         case bp_foot_l:
         case bp_foot_r:

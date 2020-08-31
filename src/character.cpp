@@ -669,7 +669,7 @@ double Character::aim_speed_encumbrance_modifier() const
 {
     double mod = 0.0;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        mod += encumb( bp ) * bp->encumbrance_effects.aim_cost;
+        mod += ( double ) encumb( bp ) * bp->encumbrance_effects.aim_cost;
     }
     return mod;
 }
