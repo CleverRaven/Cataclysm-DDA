@@ -2684,13 +2684,16 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     item *target = nullptr;
+    item_location targloc;
     if( opts.size() > 1 ) {
         const int ret = uilist( _( "Unload what?" ), msgs );
         if( ret >= 0 ) {
             target = opts[ret];
+            targloc = item_location( loc, opts[ret] );
         }
     } else {
         target = &it;
+        targloc = loc;
     }
 
     if( target == nullptr ) {
@@ -2726,7 +2729,6 @@ bool player::unload( item_location &loc, bool bypass_activity )
     } );
 
     if( target->is_magazine() ) {
-        item_location targloc = item_location( loc, target );
         if( bypass_activity ) {
             unload_mag_activity_actor::unload( *this, targloc );
         } else {
