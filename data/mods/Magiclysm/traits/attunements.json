@@ -1099,6 +1099,7 @@
     "valid": false,
     "description": "Where there is nothing, there is still power, and the Void Mages embody that power. The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
+    "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
