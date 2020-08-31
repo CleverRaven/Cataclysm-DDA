@@ -2462,7 +2462,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.furn_set( pos, f_safe_o );
         // 50% of starting a fire.
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
-            here.add_field( pos, fd_fire, 1, 10_minutes );
+            here.add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes );
         }
     }
 }

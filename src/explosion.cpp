@@ -298,7 +298,7 @@ static void do_blast( const tripoint &p, const float power,
                 intensity++;
             }
 
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
         }
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
@@ -803,24 +803,24 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_type_id type = fd_null;
+                            field_type_id type = field_type_id( "fd_null" );
                             switch( rng( 1, 7 ) ) {
                                 case 1:
-                                    type = fd_blood;
+                                    type = field_type_id( "fd_blood" );
                                     break;
                                 case 2:
-                                    type = fd_bile;
+                                    type = field_type_id( "fd_bile" );
                                     break;
                                 case 3:
                                 case 4:
-                                    type = fd_slime;
+                                    type = field_type_id( "fd_slime" );
                                     break;
                                 case 5:
-                                    type = fd_fire;
+                                    type = field_type_id( "fd_fire" );
                                     break;
                                 case 6:
                                 case 7:
-                                    type = fd_nuke_gas;
+                                    type = field_type_id( "fd_nuke_gas" );
                                     break;
                             }
                             if( !one_in( 3 ) ) {

@@ -1831,7 +1831,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, fd_fire );
+        int ffire = maptile_field_intensity( mt, field_type_id( "fd_fire" ) );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( here.tr_at( dest ) == tr_lava ) {
@@ -1867,7 +1867,8 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ?
+                   field_type_id( "ffd_fire" )->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -5835,7 +5836,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 {
     map &here = get_map();
     if( here.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
-        field_entry *fire = here.get_field( examp, fd_fire );
+        field_entry *fire = here.get_field( examp, field_type_id( "ffd_fire" ) );
         if( fire ) {
             std::string ss;
             ss += _( "There is a fire here." );
@@ -9658,11 +9659,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
-        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
-        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
-        m.remove_field( shifted_furn_pos, fd_fire );
-        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
-        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        m.remove_field( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        m.set_field_intensity( shifted_furn_dest, field_type_id( "fd_fire" ), fire_intensity );
+        m.set_field_age( shifted_furn_dest, field_type_id( "fd_fire" ), fire_age );
     }
 
     if( u.is_hauling() ) {
@@ -10172,8 +10173,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
-    time_duration fire_age = m.get_field_age( fpos, fd_fire );
+    const int fire_intensity = m.get_field_intensity( fpos, field_type_id( "fd_fire" ) );
+    time_duration fire_age = m.get_field_age( fpos, field_type_id( "fd_fire" ) );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -10241,9 +10242,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fpos, f_null );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
-        m.remove_field( fpos, fd_fire );
-        m.set_field_intensity( fdest, fd_fire, fire_intensity );
-        m.set_field_age( fdest, fd_fire, fire_age );
+        m.remove_field( fpos, field_type_id( "fd_fire" ) );
+        m.set_field_intensity( fdest, field_type_id( "fd_fire" ), fire_intensity );
+        m.set_field_age( fdest, field_type_id( "fd_fire" ), fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.
