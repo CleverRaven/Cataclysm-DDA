@@ -88,16 +88,16 @@ struct stat_hp_mods {
 // See JSON_INFO.md for documentation
 struct encumbrance_effects_t {
     float dodge_skill = 0.0f;
-    float hit_roll_perc = 0.0f;
+    float hit_roll_mod = 0.0f;
     float melee_thrown_attack_cost = 0.0f;
-    int trap_detection_per_100 = 0.0f;
+    float trap_detection_mod = 0.0f;
     float throwing_dispersion = 0.0f;
     float ranged_dispersion = 0.0f;
     float ranged_sights_dispersion = 0.0f;
     float stamina_regeneration = 0.0f;
-    int melee_thrown_stamina_cost = 0;
-    float aim_cost = 0;
-    int item_handling_cost = 0;
+    float melee_thrown_stamina_cost = 0.0f;
+    float aim_cost = 0.0f;
+    float item_handling_cost = 0.0f;
     float dex_throw_vs_dodge = 0.0f;
     float run_cost = 0.0f;
 

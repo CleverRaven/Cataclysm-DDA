@@ -318,7 +318,7 @@ float Character::get_melee_accuracy() const
     float encumbrance_mult = 1.0f;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // .hit_roll_perc is usually nonpositive, so we're adding it (and not subtracting).
-        encumbrance_mult += encumb( bp ) * bp->encumbrance_effects.hit_roll_perc / 100.0f;
+        encumbrance_mult += encumb( bp ) * bp->encumbrance_effects.hit_roll_mod;
     }
     hit *= std::max( 0.25f, encumbrance_mult );
 
@@ -350,10 +350,8 @@ std::string Character::get_miss_reason()
     for( const bodypart_id &bp : get_all_body_parts() ) {
         add_miss_reason(
             string_format(
-                _( "Your %s encumbrance throws you off-balance." ), bp->name ),
-            // Why is this divided by 10 (and not by 100)?..
-            // You can't directly compare multiplicative effect from encumbrance to additive one from farsight, but still?
-            roll_remainder( encumb( bp ) * std::fabs( bp->encumbrance_effects.hit_roll_perc ) / 10 ) );
+                _( "Your %s encumbrance throws you off-balance." ), body_part_name_accusative( bp ) ),
+            roll_remainder( encumb( bp ) * bp->encumbrance_effects.hit_roll_mod ) );
     }
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&

@@ -221,7 +221,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_torso: {
             // hardcapped at 75 in Character::get_melee_accuracy()
             const int melee_roll_pen = std::max( static_cast<int>(
-                    std::lround( eff_encumbrance * bp->encumbrance_effects.hit_roll_perc ) ), -75 );
+                    std::lround( eff_encumbrance * bp->encumbrance_effects.hit_roll_mod ) ), -75 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
@@ -238,7 +238,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
                         "Dispersion when throwing items: <color_white>%+d</color>\n"
                         "Dispersion when using ranged weapons: <color_white>%+d</color>\n"
                       ),
-                     ( eff_encumbrance * bp->encumbrance_effects.trap_detection_per_100 ) / 100,
+                     eff_encumbrance * bp->encumbrance_effects.trap_detection_mod,
                      eff_encumbrance * bp->encumbrance_effects.throwing_dispersion,
                      eff_encumbrance * bp->encumbrance_effects.ranged_sights_dispersion );
             break;

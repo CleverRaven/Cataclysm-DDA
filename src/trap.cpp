@@ -219,7 +219,7 @@ int trap_base_detection_score( const Character &p )
     int vision = p.per_cur;
     // Encumbered eyes make seeing harder
     for( const bodypart_id &bp : p.get_all_body_parts() ) {
-        vision += ( p .encumb( bp ) * bp->encumbrance_effects.trap_detection_per_100 ) / 100 ;
+        vision += p.encumb( bp ) * bp->encumbrance_effects.trap_detection_mod;
     }
     // ...small bonus from stimulants...
     vision += ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 );

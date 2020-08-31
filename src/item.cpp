@@ -1458,7 +1458,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
     float hit_encumbrance_mult = 1.0f;
     for( const bodypart_id &bp : guy.get_all_body_parts() ) {
-        hit_encumbrance_mult += guy.encumb( bp ) * bp->encumbrance_effects.hit_roll_perc / 100;
+        hit_encumbrance_mult += guy.encumb( bp ) * bp->encumbrance_effects.hit_roll_mod;
     }
     base_hit *= std::max( 0.25f, hit_encumbrance_mult );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
