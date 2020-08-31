@@ -11,8 +11,7 @@
     "blueprint_name": "northeast shack",
     "blueprint_requires": [ { "id": "fbmh_0" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_northeast" } ]
   },
   {
     "type": "recipe",
@@ -26,8 +25,7 @@
     "blueprint_name": "expand northeast shack",
     "blueprint_requires": [ { "id": "fbmh_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 2 }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 2 }, { "id": "fbmh_tent_northeast" } ]
   },
   {
     "type": "recipe",
@@ -41,8 +39,7 @@
     "blueprint_name": "finish northeast shack",
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 2 } ],
-    "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ]
   },
   {
     "type": "recipe",
@@ -56,8 +53,7 @@
     "blueprint_name": "east shack",
     "blueprint_requires": [ { "id": "fbmh_tent_northeast" }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_east" } ]
   },
   {
     "type": "recipe",
@@ -71,8 +67,7 @@
     "blueprint_name": "east room",
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_east" }, { "id": "fbmh_tent_northeast" } ]
   },
   {
     "type": "recipe",
@@ -86,8 +81,7 @@
     "blueprint_name": "southeast shack",
     "blueprint_requires": [ { "id": "fbmh_tent_east" } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_southeast" } ]
   },
   {
     "type": "recipe",
@@ -101,8 +95,7 @@
     "blueprint_name": "southeast room",
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_southeast" }, { "id": "fbmh_tent_east" } ]
   },
   {
     "type": "recipe",
@@ -116,8 +109,7 @@
     "blueprint_name": "northwest shack",
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_northwest" } ]
   },
   {
     "type": "recipe",
@@ -131,8 +123,7 @@
     "blueprint_name": "west shack",
     "blueprint_requires": [ { "id": "fbmh_tent_northwest" } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_west" } ]
   },
   {
     "type": "recipe",
@@ -146,8 +137,7 @@
     "blueprint_name": "west room",
     "blueprint_requires": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_west" }, { "id": "fbmh_tent_northwest" } ]
   },
   {
     "type": "recipe",
@@ -161,8 +151,7 @@
     "blueprint_name": "southwest shack",
     "blueprint_requires": [ { "id": "fbmh_tent_west" } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_southwest" } ]
   },
   {
     "type": "recipe",
@@ -176,8 +165,7 @@
     "blueprint_name": "southwest room",
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_southwest" }, { "id": "fbmh_tent_west" } ]
   },
   {
     "type": "recipe",
@@ -191,8 +179,7 @@
     "blueprint_name": "central building NE corner",
     "blueprint_requires": [ { "id": "fbmh_tent_east" } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
-    "blueprint_excludes": [ { "id": "fbmh_ne_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_ne_center" } ]
   },
   {
     "type": "recipe",
@@ -206,8 +193,7 @@
     "blueprint_name": "central building NE corner",
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_ne_center" } ],
-    "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_tent_east" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_tent_east" } ]
   },
   {
     "type": "recipe",
@@ -221,8 +207,7 @@
     "blueprint_name": "central building NW corner",
     "blueprint_requires": [ { "id": "fbmh_tent_west" } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
-    "blueprint_excludes": [ { "id": "fbmh_nw_center" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_nw_center" } ]
   },
   {
     "type": "recipe",
@@ -236,8 +221,7 @@
     "blueprint_name": "central building NW corner",
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 2 }, { "id": "fbmh_nw_center" } ],
-    "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_west" } ]
   },
   {
     "type": "recipe",
@@ -251,8 +235,7 @@
     "blueprint_name": "central building north half",
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 }, { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_center", "amount": 4 }, { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" } ],
-    "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_ne_center" }, { "id": "fbmh_nw_center" }, { "id": "fbmh_tent_east" }, { "id": "fbmh_tent_west" } ]
   },
   {
     "type": "recipe",
@@ -266,8 +249,7 @@
     "blueprint_name": "central building SE corner",
     "blueprint_requires": [ { "id": "fbmh_tent_southeast" } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
-    "blueprint_excludes": [ { "id": "fbmh_se_south" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_se_south" } ]
   },
   {
     "type": "recipe",
@@ -281,8 +263,7 @@
     "blueprint_name": "central building SE corner",
     "blueprint_requires": [ { "id": "fbmh_southeast", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_se_south" } ],
-    "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_se_south" }, { "id": "fbmh_tent_southeast" } ]
   },
   {
     "type": "recipe",
@@ -296,8 +277,7 @@
     "blueprint_name": "central building SW corner",
     "blueprint_requires": [ { "id": "fbmh_tent_southwest" } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
-    "blueprint_excludes": [ { "id": "fbmh_sw_south" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_sw_south" } ]
   },
   {
     "type": "recipe",
@@ -311,8 +291,7 @@
     "blueprint_name": "central building SW corner",
     "blueprint_requires": [ { "id": "fbmh_southwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_south", "amount": 2 }, { "id": "fbmh_sw_south" } ],
-    "blueprint_excludes": [ { "id": "fbmh_sw_south" }, { "id": "fbmh_tent_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_excludes": [ { "id": "fbmh_sw_south" }, { "id": "fbmh_tent_southwest" } ]
   },
   {
     "type": "recipe",
@@ -331,7 +310,6 @@
       { "id": "fbmh_sw_south" },
       { "id": "fbmh_tent_southeast" },
       { "id": "fbmh_tent_southwest" }
-    ],
-    "blueprint_autocalc": true
+    ]
   }
 ]
