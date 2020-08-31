@@ -1526,6 +1526,11 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
+    if( weapon.has_item( target ) ) {
+        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        return false;
+    }
+
     if( !can_wield( target ).success() ) {
         return false;
     }
