@@ -61,8 +61,8 @@
       { "type": "bite", "cooldown": 3 },
       {
         "type": "spell",
-        "spell_data": { "id": "small_raptor_spawn" },
-        "cooldown": 20,
+        "spell_data": { "id": "small_raptor_spawn", "hit_self": true },
+        "cooldown": 50,
         "monster_message": "The pulsing zombie crawler bursts, and gore-smeared winged beasts climb out of the corpse!"
       }
     ],
@@ -82,12 +82,12 @@
       { "type": "bite", "cooldown": 3 },
       {
         "type": "spell",
-        "spell_data": { "id": "big_raptor_spawn" },
-        "cooldown": 20,
+        "spell_data": { "id": "big_raptor_spawn", "hit_self": true },
+        "cooldown": 50,
         "monster_message": "The pupating zombie bursts, and gore-smeared winged beasts climb out of the corpse!"
       }
     ],
-    "regenerates": 20,
+    "regenerates": 10,
     "extend": { "flags": [ "SLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
@@ -167,7 +167,13 @@
     "dodge": 2,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [ { "id": "impale", "cooldown": 30, "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
+    "special_attacks": [
+      {
+        "id": "impale",
+        "cooldown": 30,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ]
+      }
+    ],
     "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
