@@ -34,12 +34,13 @@ Overhaul the mall.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor.
-Crafting GUI - Highlight hidden recipe info.
-Overhaul target selection and aiming UI.
+Crafting GUI - Highlight hidden recipe info
+When aiming, draw approximate line of fire for each turret in range.
 
 ## Mods:
-[Magiclysm] Manatouched mutation tree.
-Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
+[Magiclysm] Manatouched mutation tree
+Dark Skies: Reworks Strays
+Dark Skies: Remasters the Order
 Overhaul Blazemod and split into seperate mods.
 Add Ki Strike trait.
 
@@ -47,7 +48,7 @@ Add Ki Strike trait.
 Large item price audit.
 Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
-Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
+Hide irradiated effect from the player, forces use of existing tools to detect radiation levels
 More complex satiety calculations.
 
 ## Bugfixes:
@@ -108,7 +109,7 @@ Convert itype_id to string_id<itype>.
 ## Build:
 Create a GitHub workflow for running clang-tidy.
 Remove Travis clang-tidy job.
-Add -fsigned-char to CMakeLists.txt.
+Add -fsigned-char to CMakeLists.txt
 Makes json linter feedback more readable.
 
 ## I18N and A11Y:
