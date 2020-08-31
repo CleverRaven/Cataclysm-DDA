@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 # pylint: disable=C0103
 # pylint: disable=C0301
+"""Convert a Cataclysm-DDA tileset to isometric view.
+Run this script with -h for full usage information.
+
+Examples:
+
+    %(prog)s gfx/UltimateCataclysm
+    %(prog)s gfx/BrownLikeBears
+
+Isometric tiles are saved to a new folder like gfx/UltimateCataclysm_iso.
+"""
 
 import os
 import json
@@ -15,11 +25,13 @@ import math
 # offset>=1 will be an absolute number of pixels
 SPRITE_OFFSET_FROM_BOTTOM = 1.0 / 8
 
-parser = argparse.ArgumentParser(description='Convert a Cataclysm-DDA tileset to isometric view.')
+parser = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('tileset', help='name of the tileset directory to convert')
 
-parser.add_argument('-f', dest='floodfill', action='store_true')
+parser.add_argument('-f', dest='floodfill', action='store_true',
+                    help='use filled background instead of transparent')
 
 args = parser.parse_args()
 
