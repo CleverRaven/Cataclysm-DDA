@@ -186,7 +186,7 @@ static std::string melee_cost_text( int moves )
 }
 static std::string melee_stamina_cost_text( int cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee and thrown stamina cost: <color_white>%+d</color>\n" ), cost );
 }
 static std::string mouth_stamina_cost_text( int cost )
 {
@@ -219,12 +219,14 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
 
     switch( bp->token ) {
         case bp_torso: {
-            const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
+            // hardcapped at 75 in Character::get_melee_accuracy()
+            const int melee_roll_pen = std::max( static_cast<int>(
+                    std::lround( eff_encumbrance * bp->encumbrance_effects.hit_roll_perc ) ), -75 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
-            s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
+            s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
             break;
         }
         case bp_head:
@@ -232,41 +234,44 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
-                     -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     _( "Perception when checking traps: <color_white>%+d</color>\n"
+                        "Dispersion when throwing items: <color_white>%+d</color>\n"
+                        "Dispersion when using ranged weapons: <color_white>%+d</color>\n"
+                      ),
+                     ( eff_encumbrance * bp->encumbrance_effects.trap_detection_per_100 ) / 100,
+                     eff_encumbrance * bp->encumbrance_effects.throwing_dispersion,
+                     eff_encumbrance * bp->encumbrance_effects.ranged_sights_dispersion );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
+            s += mouth_stamina_cost_text( bp->encumbrance_effects.stamina_regeneration );
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
-            s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee and thrown attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_stamina_cost );
+            s += ranged_cost_text( eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
             break;
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
+            s += reload_cost_text( eff_encumbrance * bp->encumbrance_effects.item_handling_cost );
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
-                                -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
+                                eff_encumbrance * bp->encumbrance_effects.dex_throw_vs_dodge );
+            s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
                                 p.aim_speed_encumbrance_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
-                                     skill_swimming ) * 2 ) / 2 );
-            s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
+            s += run_cost_text( eff_encumbrance * bp->encumbrance_effects.run_cost );
+            s += swim_cost_text( ( eff_encumbrance / 10 ) *
+                                 ( 50 - p.get_skill_level( skill_swimming ) * 2 ) / 2 );
+            s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             break;
         case bp_foot_l:
         case bp_foot_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.25 ) );
+            s += run_cost_text( eff_encumbrance * bp->encumbrance_effects.run_cost );
             break;
         case num_bp:
             break;
@@ -475,7 +480,9 @@ static void draw_stats_info( const catacurses::window &w_info,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
+                            string_format(
+                                _( "Melee to-hit bonus: <color_white>%+.1lf</color> base / <color_white>%+.1lf</color> current " ),
+                                you.get_hit_base(), you.get_melee_accuracy() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
                                            -std::abs( you.ranged_dex_mod() ) ) );

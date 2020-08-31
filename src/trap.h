@@ -213,6 +213,7 @@ struct trap {
          * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
          */
         bool detected_by_ground_sonar() const;
+
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const Character &p ) const;

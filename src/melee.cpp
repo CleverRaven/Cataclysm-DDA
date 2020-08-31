@@ -295,16 +295,13 @@ float Character::get_hit_weapon( const item &weap ) const
     return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
 }
 
-float Character::get_melee_hit_base() const
+float Character::get_melee_accuracy() const
 {
-    // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
-}
-
-float Character::hit_roll() const
-{
-    // Dexterity, skills, weapon and martial arts
-    float hit = get_melee_hit_base();
+    float hit = 0.0;
+    // Dexterity
+    hit += Character::get_hit_base();
+    // Weapon and martial arts
+    hit += get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
@@ -317,8 +314,20 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bodypart_id( "torso" ) ) / 100.0f );
+    // Torso encumberance makes hitting harder, multiplicatively.
+    float encumbrance_mult = 1.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        // .hit_roll_perc is usually nonpositive, so we're adding it (and not subtracting).
+        encumbrance_mult += encumb( bp ) * bp->encumbrance_effects.hit_roll_perc / 100.0f;
+    }
+    hit *= std::max( 0.25f, encumbrance_mult );
 
+    return hit;
+}
+
+float Character::hit_roll() const
+{
+    float hit = get_melee_accuracy();
     return melee::melee_hit_range( hit );
 }
 
@@ -338,9 +347,14 @@ std::string Character::get_miss_reason()
     // everything that lowers accuracy in player::hit_roll()
     // adding it in hit_roll() might not be safe if it's called multiple times
     // in one turn
-    add_miss_reason(
-        _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bodypart_id( "torso" ) ) / 10.0 ) );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        add_miss_reason(
+            string_format(
+                _( "Your %s encumbrance throws you off-balance." ), bp->name ),
+            // Why is this divided by 10 (and not by 100)?..
+            // You can't directly compare multiplicative effect from encumbrance to additive one from farsight, but still?
+            roll_remainder( encumb( bp ) * std::fabs( bp->encumbrance_effects.hit_roll_perc ) / 10 ) );
+    }
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
@@ -2264,8 +2278,12 @@ int Character::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = encumb( bodypart_id( "torso" ) ) +
-                                    ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 2;
+    float encumbrance_penalty = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_penalty += encumb( bp ) * bp->encumbrance_effects.melee_thrown_attack_cost;
+
+    }
+
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );

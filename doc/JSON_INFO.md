@@ -571,6 +571,7 @@ For information about tools with option to export ASCII art in format ready to b
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| encumbrance_effects | (_mandatory_) How and how much each point of encumbrance on this part affects the character. Object. See below for documentation.
 | drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
@@ -592,6 +593,11 @@ For information about tools with option to export ASCII art in format ready to b
     "heading_multiple": "Torso",
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
+    "encumbrance_effects": {
+      "dodge_skill": -0.1,
+      "hit_roll_perc": -1,
+      "melee_thrown_attack_cost": 1
+    },
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
@@ -610,6 +616,26 @@ For information about tools with option to export ASCII art in format ready to b
     "bionic_slots": 80
   }
 ```
+
+#### `encumbrance_effects`
+
+How much and in which way *each point* (unless noted otherwise) of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
+
+| Identifier                | Description
+|---                        |---
+| dodge_skill               | (_optional_) Adjustment to effective dodging skill. Negative values reduce dodging. (default: `0`)
+| hit_roll_perc             | (_optional_) Melee hit rolls are adjusted by this percentage, multiplicatively. Negative values worsen accuracy. Additive across encumbered parts. Total effect is hard-capped at -75% (default: `0`)
+| melee_thrown_attack_cost  | (_optional_) Adjustments to melee and thrown attack cost, in time points. Positive values slow down attacks. (default: `0`)
+| trap_detection_per_100    | (_optional_) Adjustment to ability to detect traps. Number is for 100 points of encumbrance, not one. Value must be integer, not float. Base detection score is the character perception. Checked against trap visibility score. Negative values make seeing traps harder. (default: `0`)
+| throwing_dispersion       | (_optional_) Adjustment to throwing dispersion. Positive values decrease throwing accuracy. (default: `0`)
+| ranged_dispersion         | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. (default: `0`)
+| ranged_sights_dispersion  | (_optional_) Adjustment to ranged (but not thrown) sights dispersion. The difference from the above is that you can burn this one down by aiming. Positive values decrease gun accuracy. (default: `0`)
+| stamina_regeneration      | (_optional_) Adjustment to stamina regeneration rate. Values are per turn, same as PLAYER_BASE_STAMINA_REGEN_RATE option. Negative values make it harder to run longer. (default: `0`)
+| melee_thrown_stamina_cost | (_optional_) Adjustment to stamina cost of melle and thrown attacks. Positive values make fighting for long periods harder. (default: `0`)
+| aim_cost                  | (_optional_) Adjustment to move point cost for aiming down sights. In practice the effective aim speed depends non-lienarly on current recoil (the higher - the higher), and capped at both sides, so you are unlikely to notice exact representation of this field in game. Positive values mean aiming is slower. (default: `0`)
+| item_handling_cost        | (_optional_) Adjustment to move point cost for manipulating items (wearing, wielding, reloading, etc). Positive values make actions slower. **Note:** this is hardcoded to only work for hands, due to how we handle two-handed item manipulation. (default: `0`)
+| dex_throw_vs_dodge        | (_optional_) When throwing items against a dodging critter, one suffers a penalty to dispersion per point of critter's dodge. This penalty is initially based on thrower's dexterity (the higher - the lower). `dex_throw_vs_dodge` is the adjustment to dexterity for the purpose of these calculations. Negative values means it's harder to hit a chipmunk with a thrown rock. (default: `0`)
+| run_cost                  | (_optional_) Adjustment to move point cost for walking/running. Positive values mean running is slower. (default: `0`)
 
 ### Bionics
 

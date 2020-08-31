@@ -596,7 +596,9 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( bodypart_id( "eyes" ) ) / 2;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        dispersion += encumb( bp ) * bp->encumbrance_effects.ranged_sights_dispersion;
+    }
 
     return std::max( dispersion, 0 );
 }
@@ -665,7 +667,11 @@ double Character::aim_speed_dex_modifier() const
 
 double Character::aim_speed_encumbrance_modifier() const
 {
-    return ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 10.0;
+    double mod = 0.0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        mod += encumb( bp ) * bp->encumbrance_effects.aim_cost;
+    }
+    return mod;
 }
 
 double Character::aim_cap_from_volume( const item &gun ) const
@@ -2467,8 +2473,10 @@ int Character::get_standard_stamina_cost( item *thrown_item )
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
-    const int encumbrance_cost = this->encumb( bodypart_id( "arm_l" ) ) + this->encumb(
-                                     bodypart_id( "arm_r" ) );
+    int encumbrance_cost = 0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_cost += encumb( bp ) * bp->encumbrance_effects.melee_thrown_stamina_cost;
+    }
     return ( weight_cost + encumbrance_cost + 50 ) * -1;
 }
 
@@ -7923,8 +7931,12 @@ void Character::update_stamina( int turns )
     float stamina_multiplier = std::max<float>( 0.1f, ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
+    float encumbrance_modifier = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_modifier += encumb( bp ) * bp->encumbrance_effects.stamina_regeneration;
+    }
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
+                        base_regen_rate + encumbrance_modifier );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -8201,10 +8213,15 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
     }
 
     // For single handed items use the least encumbered hand
+    const bodypart_id &hand_l = bodypart_id( "hand_l" );
+    const bodypart_id &hand_r = bodypart_id( "hand_r" );
     if( it.is_two_handed( *this ) ) {
-        mv += encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) );
+        mv += encumb( hand_l ) * hand_l->encumbrance_effects.item_handling_cost +
+              encumb( hand_r ) * hand_r->encumbrance_effects.item_handling_cost;
+
     } else {
-        mv += std::min( encumb( bodypart_id( "hand_l" ) ), encumb( bodypart_id( "hand_r" ) ) );
+        mv += std::min( encumb( hand_l ) * hand_l->encumbrance_effects.item_handling_cost,
+                        encumb( hand_r ) * hand_r->encumbrance_effects.item_handling_cost );
     }
 
     return std::max( mv, 0 );
@@ -10927,9 +10944,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost +=
-            ( ( encumb( bodypart_id( "foot_l" ) ) + encumb( bodypart_id( "foot_r" ) ) ) * 2.5 +
-              ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) * 1.5 ) / 10;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            movecost += encumb( bp ) * bp->encumbrance_effects.run_cost;
+        }
 
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes

@@ -190,6 +190,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+    mandatory( jo, was_loaded, "encumbrance_effects", encumbrance_effects );
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
@@ -587,6 +588,29 @@ void stat_hp_mods::load( const JsonObject &jsobj )
 }
 
 void stat_hp_mods::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
+void encumbrance_effects_t::load( const JsonObject &jsobj )
+{
+    optional( jsobj, was_loaded, "dodge_skill", dodge_skill, 0.0f );
+    optional( jsobj, was_loaded, "hit_roll_perc", hit_roll_perc, 0.0f );
+    optional( jsobj, was_loaded, "melee_thrown_attack_cost", melee_thrown_attack_cost, 0.0f );
+    optional( jsobj, was_loaded, "trap_detection_per_100", trap_detection_per_100, 0.0f );
+    optional( jsobj, was_loaded, "throwing_dispersion", throwing_dispersion, 0.0f );
+    optional( jsobj, was_loaded, "ranged_dispersion", ranged_dispersion, 0.0f );
+    optional( jsobj, was_loaded, "ranged_sights_dispersion", ranged_sights_dispersion, 0.0f );
+    optional( jsobj, was_loaded, "stamina_regeneration", stamina_regeneration, 0.0f );
+    optional( jsobj, was_loaded, "melee_thrown_stamina_cost", melee_thrown_stamina_cost, 0.0f );
+    optional( jsobj, was_loaded, "aim_cost", aim_cost, 0.0f );
+    optional( jsobj, was_loaded, "item_handling_cost", item_handling_cost, 0 );
+    optional( jsobj, was_loaded, "dex_throw_vs_dodge", dex_throw_vs_dodge, 0.0f );
+    optional( jsobj, was_loaded, "run_cost", run_cost, 0.0f );
+}
+
+void encumbrance_effects_t::deserialize( JsonIn &jsin )
 {
     const JsonObject &jo = jsin.get_object();
     load( jo );

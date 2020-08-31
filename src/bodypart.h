@@ -85,6 +85,27 @@ struct stat_hp_mods {
     void deserialize( JsonIn &jsin );
 };
 
+// See JSON_INFO.md for documentation
+struct encumbrance_effects_t {
+    float dodge_skill = 0.0f;
+    float hit_roll_perc = 0.0f;
+    float melee_thrown_attack_cost = 0.0f;
+    int trap_detection_per_100 = 0.0f;
+    float throwing_dispersion = 0.0f;
+    float ranged_dispersion = 0.0f;
+    float ranged_sights_dispersion = 0.0f;
+    float stamina_regeneration = 0.0f;
+    int melee_thrown_stamina_cost = 0;
+    float aim_cost = 0;
+    int item_handling_cost = 0;
+    float dex_throw_vs_dodge = 0.0f;
+    float run_cost = 0.0f;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
+};
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -100,6 +121,8 @@ struct body_part_type {
         translation smash_message;
         std::string hp_bar_ui_text;
         std::string encumb_text;
+        /** How and how much each point of encumbrance on this part affects the character. */
+        encumbrance_effects_t encumbrance_effects;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
