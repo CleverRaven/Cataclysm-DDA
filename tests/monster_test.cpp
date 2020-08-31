@@ -237,7 +237,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
     for( auto &stat_pair : turns_at_angle ) {
         std::stringstream sample_string;
-        for( auto sample : stat_pair.second.get_samples() ) {
+        for( int sample : stat_pair.second.get_samples() ) {
             sample_string << sample << ", ";
         }
         INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<

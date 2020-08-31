@@ -236,7 +236,7 @@ enum class blood_type {
 
 template<>
 struct enum_traits<blood_type> {
-    static constexpr auto last = blood_type::num_bt;
+    static constexpr blood_type last = blood_type::num_bt;
 };
 
 /// @brief how digestible or palatable an item is

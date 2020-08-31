@@ -919,7 +919,7 @@ int Character::swim_speed() const
             return ret;
         }
     }
-    const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    const body_part_set usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bodypart_str_id( "hand_l" ) ) ? 0.5f : 0.0f ) +
                             ( usable.test( bodypart_str_id( "hand_r" ) ) ? 0.5f : 0.0f );
 
@@ -4040,7 +4040,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
             continue;
         }
 
-        const auto item_layer = it.get_layer();
+        const layer_level item_layer = it.get_layer();
         int encumber_val = it.get_encumber( c, bp.id() );
         int layering_encumbrance = clamp( encumber_val, 2, 10 );
 
@@ -4331,7 +4331,7 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
     }
 
     // Lower penalty for bps covered only by XL armor
-    const auto oversize = exclusive_flag_coverage( flag_OVERSIZE );
+    const body_part_set oversize = exclusive_flag_coverage( flag_OVERSIZE );
     for( const trait_id &mut : get_mutations() ) {
         apply_mut_encumbrance( vals, mut, oversize );
     }
@@ -5737,7 +5737,7 @@ void Character::update_bodytemp()
         return;
     }
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const auto player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
@@ -9360,7 +9360,7 @@ int Character::hitall( int dam, int vary, Creature *source )
     for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
-        auto damage = damage_instance::physical( ddam, cut, 0 );
+        damage_instance damage = damage_instance::physical( ddam, cut, 0 );
         damage_taken += deal_damage( source, bp, damage ).total_damage();
     }
     return damage_taken;

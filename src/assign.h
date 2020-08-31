@@ -122,7 +122,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
     std::pair<T, T> out;
 
     if( jo.has_array( name ) ) {
-        auto arr = jo.get_array( name );
+        JsonArray arr = jo.get_array( name );
         arr.read( 0, out.first );
         arr.read( 1, out.second );
 

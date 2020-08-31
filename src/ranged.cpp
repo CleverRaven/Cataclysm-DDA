@@ -706,7 +706,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         }
 
         item *weapon = &gun;
-        const auto data = weapon->gun_noise( shots > 1 );
+        const item::sound_data data = weapon->gun_noise( shots > 1 );
 
         add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
@@ -783,7 +783,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
-        auto shot = projectile_attack( make_gun_projectile( gun ), pos(), aim, dispersion, this, in_veh );
+        dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
+                                       dispersion, this, in_veh );
         curshot++;
 
         int qty = gun.gun_recoil( *this, bipod );
@@ -1094,7 +1095,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
-    auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, this );
+    dealt_projectile_attack dealt_attack = projectile_attack( proj, throw_from, target, dispersion,
+                                           this );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
@@ -1601,7 +1603,7 @@ static void cycle_action( item &weap, const tripoint &pos )
 
 void make_gun_sound_effect( const player &p, bool burst, item *weapon )
 {
-    const auto data = weapon->gun_noise( burst );
+    const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );

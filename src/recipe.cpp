@@ -162,7 +162,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
-        auto batch = jo.get_array( "batch_time_factors" );
+        JsonArray batch = jo.get_array( "batch_time_factors" );
         batch_rscale = batch.get_int( 0 ) / 100.0;
         batch_rsize  = batch.get_int( 1 );
     }
@@ -173,7 +173,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "skill_used", skill_used, strict );
 
     if( jo.has_member( "skills_required" ) ) {
-        auto sk = jo.get_array( "skills_required" );
+        JsonArray sk = jo.get_array( "skills_required" );
         required_skills.clear();
 
         if( sk.empty() ) {

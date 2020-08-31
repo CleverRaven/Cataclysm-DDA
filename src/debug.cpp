@@ -286,8 +286,8 @@ static time_info get_time() noexcept
     timeval tv;
     gettimeofday( &tv, nullptr );
 
-    const auto tt      = time_t {tv.tv_sec};
-    const auto current = localtime( &tt );
+    const time_t tt      = time_t {tv.tv_sec};
+    struct tm *const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
                        static_cast<int>( std::lround( tv.tv_usec / 1000.0 ) )
@@ -483,7 +483,7 @@ static bool debug_is_safe_string( const char *start, const char *finish )
     using std::end;
     const auto is_safe_char =
     [&]( char c ) {
-        auto in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
+        const char *in_safe = std::find( begin( safe_chars ), end( safe_chars ), c );
         return c && in_safe != end( safe_chars );
     };
     return std::all_of( start, finish, is_safe_char );
@@ -816,9 +816,9 @@ void debug_write_backtrace( std::ostream &out )
             out.write( "    ", 4 );
             // Strip leading directories for source file path
             char search_for[] = "/src/";
-            auto buf_end = buf + strlen( buf );
-            auto src = std::find_end( buf, buf_end,
-                                      search_for, search_for + strlen( search_for ) );
+            char *buf_end = buf + strlen( buf );
+            char *src = std::find_end( buf, buf_end,
+                                       search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
                 src = buf;
             } else {
@@ -843,10 +843,10 @@ void debug_write_backtrace( std::ostream &out )
         // extract the address (the last thing) because that's already
         // available in bt.
 
-        auto funcName = funcNames[i];
+        char *funcName = funcNames[i];
         cata_assert( funcName ); // To appease static analysis
-        const auto funcNameEnd = funcName + std::strlen( funcName );
-        const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
+        char *const funcNameEnd = funcName + std::strlen( funcName );
+        char *const binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {
             out << "    backtrace: Could not extract binary name from line\n";
             continue;
@@ -865,12 +865,12 @@ void debug_write_backtrace( std::ostream &out )
         // correct addresses to addr2line
         auto load_offset = load_offsets.find( binary_name );
         if( load_offset == load_offsets.end() ) {
-            const auto symbolNameStart = binaryEnd + 1;
-            const auto symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
-            const auto offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
+            char *const symbolNameStart = binaryEnd + 1;
+            char *const symbolNameEnd = std::find( symbolNameStart, funcNameEnd, '+' );
+            char *const offsetEnd = std::find( symbolNameStart, funcNameEnd, ')' );
 
             if( symbolNameEnd < offsetEnd && offsetEnd < funcNameEnd ) {
-                const auto offsetStart = symbolNameEnd + 1;
+                char *const offsetStart = symbolNameEnd + 1;
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 

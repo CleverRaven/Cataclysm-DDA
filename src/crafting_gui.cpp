@@ -847,7 +847,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             {
                 std::string example_name = _( "shirt" );
-                auto padding = max_example_length - utf8_width( example_name );
+                int padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
                                    example_name, padding, spaces,
@@ -855,7 +855,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             for( const auto &prefix : prefixes ) {
-                auto padding = max_example_length - utf8_width( prefix.example );
+                int padding = max_example_length - utf8_width( prefix.example );
                 description += string_format(
                                    _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
                                    prefix.key, prefix.example, padding, spaces, prefix.description );

@@ -1640,7 +1640,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
  */
 void map::examine( Character &p, const tripoint &pos )
 {
-    const auto furn_here = furn( pos ).obj();
+    const furn_t furn_here = furn( pos ).obj();
     if( furn_here.examine != iexamine::none ) {
         furn_here.examine( dynamic_cast<player &>( p ), pos );
     } else {
@@ -4829,7 +4829,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
-        auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
+        vehicle_stack items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
         if( target.has_temperature() || target.is_food_container() ) {
@@ -5770,7 +5770,7 @@ void map::update_visibility_cache( const int zlev )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
                 const tripoint sm( gridx, gridy, 0 );
-                const auto abs_sm = map::abs_sub + sm;
+                const tripoint abs_sm = map::abs_sub + sm;
                 // TODO: fix point types
                 const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sm ) );
                 overmap_buffer.set_seen( abs_omt, true );
@@ -6380,7 +6380,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     if( const auto obstacle_f = furn( obstaclepos ) ) {
         return obstacle_f->coverage;
     }
-    if( const auto vp = veh_at( obstaclepos ) ) {
+    if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
         } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
@@ -6395,7 +6395,7 @@ int map::coverage( const tripoint &p ) const
     if( const auto obstacle_f = furn( p ) ) {
         return obstacle_f->coverage;
     }
-    if( const auto vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
         } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
@@ -8485,8 +8485,8 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                           const point &min, const point &max )
 {
-    auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_NO_SCENT;
+    ter_bitflags reduce = TFLAG_REDUCE_SCENT;
+    ter_bitflags block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const point p = lp + sm_to_ms_copy( gp.xy() );

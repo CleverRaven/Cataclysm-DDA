@@ -226,7 +226,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
 static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
                              std::string &ter_sym )
 {
-    auto possible_scent = overmap_buffer.scent_at( pos );
+    scent_trace possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;

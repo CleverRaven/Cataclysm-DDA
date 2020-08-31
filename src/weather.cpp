@@ -164,7 +164,7 @@ inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )
 {
-    const auto wgen = g->weather.get_cur_weather_gen();
+    const weather_generator wgen = g->weather.get_cur_weather_gen();
     if( g->weather.weather_override != WEATHER_NULL ) {
         return g->weather.weather_override;
     }
@@ -663,7 +663,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 {
     std::string weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
+    const city_reference cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report += string_format(
@@ -698,7 +698,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type_id forecast = WEATHER_NULL;
-        const auto wgen = get_weather().get_cur_weather_gen();
+        const weather_generator wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w, g->weather.next_instance_allowed ) );

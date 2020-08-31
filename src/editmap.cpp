@@ -1880,8 +1880,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 for( int y = 0; y < 2; y++ ) {
                     // Apply previewed mapgen to map. Since this is a function for testing, we try avoid triggering
                     // functions that would alter the results
-                    const auto dest_pos = target_sub + tripoint( x, y, target.z );
-                    const auto src_pos = tripoint{ x, y, target.z };
+                    const tripoint dest_pos = target_sub + tripoint( x, y, target.z );
+                    const tripoint src_pos = tripoint{ x, y, target.z };
 
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );

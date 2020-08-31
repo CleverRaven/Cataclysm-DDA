@@ -118,7 +118,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
-            const auto itm = create_single( birthday, rec );
+            const item itm = create_single( birthday, rec );
             if( !itm.is_null() ) {
                 result.push_back( itm );
             }
