@@ -1,4 +1,4 @@
-# 0.F (06-01-2020
+# 0.F (06-01-2020)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -13,7 +13,7 @@ Towing vehicles.
 User defined height and age.
 Add support for json-defined achievements to provide more goals to strive for.
 Lock picking overhaul.
-Rot away items away in reality bubble.
+Rot items away in reality bubble.
 Display holiday on main menu screen based on system time.
 Separate bullet damage type from cut/stab.
 Makes consuming items take time.
@@ -23,7 +23,7 @@ Add support for conducts (self-imposed play constraints tracked by the game).
 
 ## Content:
 Gun volume and weight audit.
-Move most Urban Development and Fuji Structures buildings to vanilla.
+Move most urban development houses to vanilla.
 Add Survivor RV and car.
 Populate rooftops with monsters.
 Large addition of chemicals, chemistry tools and recipes.
@@ -35,14 +35,13 @@ Overhaul the mall.
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized. 
 Crafting GUI - Highlight hidden recipe info.
-When aiming, draw approximate line of fire for each turret in range.
+Overhaul target selection and aiming UI.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree
-Dark Skies: Reworks Strays.
-Dark Skies: Remasters the Order.
+Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
 Overhaul Blazemod and split into seperate mods.
-Add Ki Strike trait.
+[MMA] Add Ki Strike trait.
 
 ## Balance:
 Large item price audit.
