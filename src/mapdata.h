@@ -228,6 +228,7 @@ enum ter_connects : int {
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
     TERCONN_COUNTER,
+    TERCONN_CANVAS_WALL,
 };
 
 struct map_data_common_t {
