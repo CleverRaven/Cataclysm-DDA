@@ -187,7 +187,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    const tripoint target = mon.attack_target()->pos();
+    const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
     std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
