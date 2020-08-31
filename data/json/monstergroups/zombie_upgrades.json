@@ -22,7 +22,21 @@
       { "monster": "mon_zombie_master", "freq": 3, "cost_multiplier": 30 },
       { "monster": "mon_zombie_hollow", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_thorny", "freq": 30, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_winged", "freq": 60, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_pupa", "freq": 30, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_FAT",
+    "default": "mon_zombie_gasbag",
+    "//": "fat zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 1, "cost_multiplier": 27 }
     ]
   },
   {

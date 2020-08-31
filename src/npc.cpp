@@ -2181,7 +2181,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + weapon.damage_melee( DT_BASH );
+        return str_cur + weapon.damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash

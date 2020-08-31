@@ -434,13 +434,6 @@ class lockpick_activity_actor : public activity_actor
         cata::optional<item> fake_lockpick;
         tripoint target;
 
-    public:
-        /**
-         * When assigning, set either 'lockpick' or 'fake_lockpick'
-         * @param lockpick Physical lockpick (if using one)
-         * @param fake_lockpick Fake item spawned by a bionic
-         * @param target lockpicking target (in global coords)
-         */
         lockpick_activity_actor(
             int moves_total,
             const cata::optional<item_location> &lockpick,
@@ -448,6 +441,19 @@ class lockpick_activity_actor : public activity_actor
             const tripoint &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
+
+    public:
+        /** Use regular lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_item(
+            int moves_total,
+            const item_location &lockpick,
+            const tripoint &target
+        );
+
+        /** Use bionic lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_bionic(
+            const tripoint &target
+        );
 
         activity_id get_type() const override {
             return activity_id( "ACT_LOCKPICK" );

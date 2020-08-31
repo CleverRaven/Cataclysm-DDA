@@ -496,7 +496,28 @@
     "hp": 70,
     "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long pointy head crest.",
     "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
-    "extend": { "flags": [ "FLIES" ] }
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zuetzalcoatlus",
+    "name": { "str": "Quetzalcoatlus zombie" },
+    "copy-from": "mon_zamptosaurus",
+    "looks_like": "mon_pteranodon",
+    "volume": "190 L",
+    "weight": "250 kg",
+    "bodytype": "bird",
+    "speed": 120,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_bullet": 1,
+    "hp": 332,
+    "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long rigid neck.",
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
   },
   {
     "type": "MONSTER",
@@ -558,6 +579,19 @@
     "armor_bullet": 7,
     "hp": 580,
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
-    "flags": [ "SEES", "HEARS", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "HIT_AND_RUN"
+    ]
   }
 ]

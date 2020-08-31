@@ -315,7 +315,7 @@
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
-    "container": "can_food",
+    "container": "can_medium",
     "fun": -2,
     "delete": { "flags": [ "RAW" ] }
   },
@@ -455,7 +455,7 @@
     "description": "You're pretty sure this is lung tissue.",
     "looks_like": "lung",
     "cooks_like": "lung_cooked",
-    "proportional": { "price": 0.1, "calories": 0.65 },
+    "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
     "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
   },
   {

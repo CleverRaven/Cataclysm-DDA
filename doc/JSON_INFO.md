@@ -579,6 +579,8 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
+| smash_message      | (_optional_) The message displayed when using that part to smash something.
+| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {
@@ -604,6 +606,7 @@ For information about tools with option to export ASCII art in format ready to b
     "base_hp": 60,
     "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
+    "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80
   }
 ```
@@ -2178,7 +2181,7 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -2492,7 +2495,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
-    "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
+    "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
@@ -2890,7 +2893,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "effects" : { "high": 15 }, // Effects and their duration.
     "damage_over_time": [
         {
-          "damage_type": "true", // Type of damage
+          "damage_type": "pure", // Type of damage
           "duration": "1 m", // For how long this damage will be applied
           "amount": -10, // Amount of damage applied every turn, negative damage heals
           "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
@@ -3124,6 +3127,7 @@ The format also support snippet ids like above.
 {
     "id": "jabberwock",
     "type": "harvest",
+    "leftovers": "ruined_candy",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
@@ -3206,6 +3210,10 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### leftovers
+
+itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Furniture
 

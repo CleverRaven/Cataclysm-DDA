@@ -1420,7 +1420,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             // Draw header.
             draw_points( w, points, netPointCost );
-            char *prof_msg_temp;
+            const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
                 prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",
@@ -2888,11 +2888,17 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
+std::vector<trait_id> Character::get_mutations( bool include_hidden, mutation_filter filter ) const
 {
     std::vector<trait_id> result;
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
+            if( filter == mutation_filter::anger_relations && t.first.obj().anger_relations.empty() ) {
+                continue;
+            }
+            if( filter == mutation_filter::ignored_by && t.first.obj().ignored_by.empty() ) {
+                continue;
+            }
             result.push_back( t.first );
         }
     }

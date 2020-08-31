@@ -564,11 +564,11 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             const int coll_dmg = coll.imp;
             // Shock damage, if the target part is a rotor treat as an aimed hit.
             if( veh.part_info( coll.part ).rotor_diameter() > 0 ) {
-                veh.damage( coll.part, coll_dmg, DT_BASH, true );
+                veh.damage( coll.part, coll_dmg, damage_type::BASH, true );
             } else {
                 impulse += coll_dmg;
-                veh.damage( coll.part, coll_dmg, DT_BASH );
-                veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+                veh.damage( coll.part, coll_dmg, damage_type::BASH );
+                veh.damage_all( coll_dmg / 2, coll_dmg, damage_type::BASH, collision_point );
             }
         }
     } while( collision_attempts-- > 0 && coll_velocity != 0 &&
@@ -845,10 +845,10 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         }
 
         epicenter1 += veh.part( parm1 ).mount;
-        veh.damage( parm1, dmg1_part, DT_BASH );
+        veh.damage( parm1, dmg1_part, damage_type::BASH );
 
         epicenter2 += veh2.part( parm2 ).mount;
-        veh2.damage( parm2, dmg2_part, DT_BASH );
+        veh2.damage( parm2, dmg2_part, damage_type::BASH );
     }
 
     epicenter2.x /= coll_parts_cnt;
@@ -856,7 +856,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
     if( dmg2_part > 100 ) {
         // Shake vehicle because of collision
-        veh2.damage_all( dmg2_part / 2, dmg2_part, DT_BASH, epicenter2 );
+        veh2.damage_all( dmg2_part / 2, dmg2_part, damage_type::BASH, epicenter2 );
     }
 
     if( dmg_veh1 > 800 ) {
@@ -2194,17 +2194,23 @@ void map::drop_furniture( const tripoint &p )
         player *pl = dynamic_cast<player *>( critter );
         monster *mon = dynamic_cast<monster *>( critter );
         if( pl != nullptr ) {
-            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( dmg / 3,
+                             dmg ), 0,
                              0.5f ) );
-            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( DT_BASH, rng( dmg / 3, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "head" ),  damage_instance( damage_type::BASH, rng( dmg / 3,
+                             dmg ), 0,
                              0.5f ) );
-            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH, rng( dmg / 2,
+                             dmg ), 0,
                              0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH, rng( dmg / 2,
+                             dmg ), 0,
                              0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::BASH, rng( dmg / 2,
+                             dmg ), 0,
                              0.4f ) );
-            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH, rng( dmg / 2, dmg ), 0,
+            pl->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::BASH, rng( dmg / 2,
+                             dmg ), 0,
                              0.4f ) );
         } else if( mon != nullptr ) {
             // TODO: Monster's armor and size - don't crush hulks with chairs
@@ -3033,7 +3039,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                    i->damage() < i->max_damage() ) {
-                i->inc_damage( DT_BASH );
+                i->inc_damage( damage_type::BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
@@ -3493,7 +3499,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 {
     // Smash vehicle if present
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        vp->vehicle().damage( vp->part_index(), params.strength, DT_BASH );
+        vp->vehicle().damage( vp->part_index(), params.strength, damage_type::BASH );
         if( !params.silent ) {
             sounds::sound( p, 18, sounds::sound_t::combat, _( "crash!" ), false,
                            "smash_success", "hit_vehicle" );
@@ -3565,19 +3571,19 @@ void map::crush( const tripoint &p )
             // TODO: Make this depend on the ceiling material
             const int dam = rng( 0, 40 );
             // Torso and head take the brunt of the blow
-            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_type::BASH,
                                          dam * .25 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
                                          dam * .45 ) );
             // Legs take the next most through transferred force
-            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_l" ), damage_instance( damage_type::BASH,
                                          dam * .10 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "leg_r" ), damage_instance( damage_type::BASH,
                                          dam * .10 ) );
             // Arms take the least
-            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_type::BASH,
                                          dam * .05 ) );
-            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( DT_BASH,
+            crushed_player->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_type::BASH,
                                          dam * .05 ) );
 
             // Pin whoever got hit
@@ -3588,7 +3594,8 @@ void map::crush( const tripoint &p )
 
     if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
-        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
+        monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( 0,
+                             25 ) ) );
 
         // Pin whoever got hit
         monhit->add_effect( effect_crushed, 1_turns, true );
@@ -3597,7 +3604,7 @@ void map::crush( const tripoint &p )
 
     if( const optional_vpart_position vp = veh_at( p ) ) {
         // Arbitrary number is better than collapsing house roof crushing APCs
-        vp->vehicle().damage( vp->part_index(), rng( 100, 1000 ), DT_BASH, false );
+        vp->vehicle().damage( vp->part_index(), rng( 100, 1000 ), damage_type::BASH, false );
     }
 }
 
@@ -3625,7 +3632,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     const bool inc = ammo_effects.count( "INCENDIARY" );
     if( const optional_vpart_position vp = veh_at( p ) ) {
-        dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
+        dam = vp->vehicle().damage( vp->part_index(), dam, inc ? damage_type::HEAT : damage_type::STAB,
+                                    hit_items );
     }
     const auto break_glass = []( const tripoint & p, int vol ) {
         sounds::sound( p, vol, sounds::sound_t::combat, _( "glass breaking!" ), false,

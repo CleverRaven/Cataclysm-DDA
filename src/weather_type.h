@@ -59,7 +59,7 @@ struct enum_traits<weather_time_requirement_type> {
     static constexpr weather_time_requirement_type last = weather_time_requirement_type::last;
 };
 
-enum weather_sound_category : int {
+enum class weather_sound_category : int {
     silent,
     drizzle,
     rainy,
@@ -81,7 +81,10 @@ struct enum_traits<weather_sound_category> {
 struct weather_animation_t {
     float factor = 0.0f;
     nc_color color = c_white;
-    char glyph = '*';
+    uint32_t symbol = NULL_UNICODE;
+    std::string get_symbol() const {
+        return utf32_to_utf8( symbol );
+    }
 };
 
 struct weather_requirements {
@@ -137,7 +140,7 @@ struct weather_effect {
     trait_id trait_id_to_add;
     trait_id trait_id_to_remove;
     bodypart_str_id target_part;
-    damage_instance damage;
+    cata::optional<damage_instance> damage;
     std::vector<spawn_type> spawns;
     std::vector<weather_field> fields;
 };
@@ -154,7 +157,7 @@ struct weather_type {
         // Map color of weather type.
         nc_color map_color = c_white;
         // Map glyph of weather type.
-        char glyph = '*';
+        uint32_t symbol = PERCENT_SIGN_UNICODE;
         // Penalty to ranged attacks.
         int ranged_penalty = 0;
         // Penalty to per-square visibility, applied in transparency map.
@@ -178,7 +181,7 @@ struct weather_type {
         // Information for weather animations
         weather_animation_t weather_animation;
         // if playing sound effects what to use
-        weather_sound_category sound_category = silent;
+        weather_sound_category sound_category = weather_sound_category::silent;
         // strength of the sun
         sun_intensity_type sun_intensity = sun_intensity_type::none;
         // when this weather should happen
@@ -190,6 +193,9 @@ struct weather_type {
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+        std::string get_symbol() const {
+            return utf32_to_utf8( symbol );
+        }
         weather_type() = default;
 };
 namespace weather_types

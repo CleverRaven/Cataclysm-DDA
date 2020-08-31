@@ -1178,15 +1178,15 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, pgettext( "Shot as damage", "SHOT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_BASH ) );
+                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_CUT ) );
+                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_STAB ) );
+                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
             }, _( "STAB" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -1222,7 +1222,8 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
+                   it.damage_melee( damage_type::STAB );
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {

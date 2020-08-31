@@ -2094,14 +2094,7 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 std::string inventory_selector::action_bound_to_key( char key ) const
 {
-    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
-        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
-            if( key == bound_key ) {
-                return action_descriptor;
-            }
-        }
-    }
-    return std::string();
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
 }
 
 item_location inventory_pick_selector::execute()
@@ -2539,13 +2532,23 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
+            auto iter = find_if( dropping.begin(), dropping.end(), [&it]( drop_location drop ) {
+                return drop.first == it;
+            } );
+            if( iter == dropping.end() ) {
+                dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
+            }
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                dropping.emplace_back( loc, 1 );
+                auto iter = find_if( dropping.begin(), dropping.end(), [&loc]( drop_location drop ) {
+                    return drop.first == loc;
+                } );
+                if( iter == dropping.end() ) {
+                    dropping.emplace_back( loc, 1 );
+                }
                 count--;
             }
         }

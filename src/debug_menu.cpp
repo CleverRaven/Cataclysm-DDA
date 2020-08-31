@@ -567,7 +567,9 @@ void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
-    nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
+    nmenu.addentry( D_STATUS, true,
+                    hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
+                    "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
     nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
@@ -1213,7 +1215,8 @@ void draw_benchmark( const int max_difference )
 
 void debug()
 {
-    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
+    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
+                                 /*maximum_modifier_count=*/ -1, false ).has_value();
     cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used

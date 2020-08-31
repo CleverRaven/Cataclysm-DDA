@@ -1724,6 +1724,9 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
                 d.alpha->i_add( new_item );
             } else {
                 for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    if( !new_item.ammo_default().is_null() ) {
+                        new_item.ammo_set( new_item.ammo_default() );
+                    }
                     d.alpha->i_add( new_item );
                 }
             }

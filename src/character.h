@@ -95,7 +95,11 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
-static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
+enum class mutation_filter : int {
+    all,
+    anger_relations,
+    ignored_by
+};
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -1505,12 +1509,6 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_selected_stack_volume( const item *i,
-                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
@@ -1734,7 +1732,8 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true,
+                                             mutation_filter filter = mutation_filter::all ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -2141,7 +2140,9 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful. */
         bool feed_furnace_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it, item_pocket *parent_pocket );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
@@ -2382,7 +2383,6 @@ class Character : public Creature, public visitable<Character>
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
         const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
@@ -2393,8 +2393,7 @@ class Character : public Creature, public visitable<Character>
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
-        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();

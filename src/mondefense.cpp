@@ -82,7 +82,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     const damage_instance shock {
-        DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
+        damage_type::ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
     source->deal_damage( &m, bodypart_id( "arm_l" ), shock );
     source->deal_damage( &m, bodypart_id( "arm_r" ), shock );
@@ -109,12 +109,12 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     } else {
         if( const player *const foe = dynamic_cast<player *>( source ) ) {
-            if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
+            if( foe->weapon.is_melee( damage_type::CUT ) || foe->weapon.is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
                 const damage_instance acid_burn{
-                    DT_ACID, static_cast<float>( rng( 1, 5 ) )
+                    damage_type::ACID, static_cast<float>( rng( 1, 5 ) )
                 };
                 source->deal_damage( &m, one_in( 2 ) ? bodypart_id( "hand_l" ) : bodypart_id( "hand_r" ),
                                      acid_burn );
@@ -132,7 +132,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.range = 4;
     prj.proj_effects.insert( "DRAW_AS_LINE" );
     prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
-    prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
+    prj.impact.add_damage( damage_type::ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
         const tripoint &target = random_entry( pts );
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );

@@ -963,7 +963,7 @@ struct itype {
         units::money price_post = -1_cent;
 
         /** Damage output in melee for zero or more damage types */
-        std::array<int, NUM_DT> melee;
+        std::array<int, static_cast<int>( damage_type::NUM )> melee;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 

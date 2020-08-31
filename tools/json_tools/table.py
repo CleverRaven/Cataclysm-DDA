@@ -55,7 +55,7 @@ parser.add_argument(
 parser.set_defaults(with_header=True, tileset_types_only=False)
 
 
-I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt')
+I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt', '//~')
 I18N_DICT_KEYS_SET = set(I18N_DICT_KEYS)
 TILESET_TYPES=[
     "AMMO", "ARMOR", "BATTERY", "BIONIC_ITEM", "bionic", "BOOK", "COMESTIBLE",

@@ -54,7 +54,7 @@
       "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ],
       "damage_over_time": [
         {
-          "damage_type": "true",
+          "damage_type": "pure",
           "duration": "1 m",
           "amount": -10,
           "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ]

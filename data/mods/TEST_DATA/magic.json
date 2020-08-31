@@ -5,7 +5,7 @@
     "name": "Pew, Pew",
     "description": "You aim your finger at your opponent and make 'Pew, pew' sounds.",
     "effect": "target_attack",
-    "damage_type": "true",
+    "damage_type": "pure",
     "valid_targets": [ "hostile" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
     "max_level": 10,
