@@ -167,6 +167,8 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
             REQUIRE( rod_15.length() == 15_cm );
 
             REQUIRE( box.is_container_empty() );
+            // TODO use capture_debugmsg_during, after PR #41677 will be merged
+            // because it adds debugmsg in item::put_in
             box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
             // Box should still be empty
             CHECK( box.is_container_empty() );
