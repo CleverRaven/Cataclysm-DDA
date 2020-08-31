@@ -547,7 +547,7 @@ std::vector<mongroup *> overmapbuffer::groups_at( const tripoint_abs_sm &p )
 }
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsuggest-attribute=noreturn"
+#pragma GCC diagnostic ignored "-Wmissing-noreturn"
 std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint_abs_omt
         &origin )
 {
