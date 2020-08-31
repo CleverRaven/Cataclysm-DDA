@@ -3097,6 +3097,17 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 bool warn_fuel_burn( const tripoint &pos )
 {
     map &here = get_map();
-    bool has_fuel_here = ( here.tr_at( pos ).id == tr_firewood_source );
-    return has_fuel_here;
+
+    if ( here.tr_at( pos ).id == tr_firewood_source ) {
+        return true;
+    }
+
+    zone_manager &mgr = zone_manager::get_manager();
+    auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
+
+    if ( zones.size() > 0 ) {
+        return true;
+    }
+
+    return false;
 }
