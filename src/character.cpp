@@ -2646,7 +2646,6 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
         pocket.second->add( it, &ret );
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
-        ret = &pocket.second->back();
     }
 
     if( keep_invlet ) {
