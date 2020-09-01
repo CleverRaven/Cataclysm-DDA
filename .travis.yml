@@ -65,14 +65,6 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
-    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
-      name: "GCC 7 Make build with Curses and GLIBCXX_DEBUG"
-      compiler: gcc
-      addons: &gcc7
-        apt:
-          packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
-          sources: *apt_sources
-
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
       env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
