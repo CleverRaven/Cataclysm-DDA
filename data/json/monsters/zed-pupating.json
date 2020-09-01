@@ -1,7 +1,6 @@
 [
   {
     "id": "mon_zombie_crawler_pupa_decoy",
-    "copy-from": "mon_zombie_crawler_pupa",
     "type": "MONSTER",
     "name": { "str": "pupating zombie crawler" },
     "description": "This half of a human corpse is wrapped in sticky black fibers that cover everything neck down.  Beneath the wrapping there is strange rhythmic movement grotesque to behold.",
