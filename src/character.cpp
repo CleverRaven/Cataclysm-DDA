@@ -2619,27 +2619,10 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
     item *ret = nullptr;
     if( pocket.second == nullptr ) {
-        if( has_weapon() ) {
-            if( avoid != nullptr && is_wielding( *avoid ) ) {
-                return nullptr;
-            }
-            item_location weapon_location( *this, &weapon );
-            std::pair<item_location, item_pocket *> weapon_pocket = weapon.best_pocket( it, weapon_location );
-            if( weapon_pocket.second != nullptr ) {
-                weapon_pocket.second->add( it );
-                ret = &weapon_pocket.second->back();
-                weapon_pocket.first.on_contents_changed();
-                weapon_pocket.second->on_contents_changed();
-                return ret;
-            } else {
-                return nullptr;
-            }
+        if( !has_weapon() && allow_wield && wield( it ) ) {
+            ret = &weapon;
         } else {
-            if( allow_wield && wield( it ) ) {
-                ret = &weapon;
-            } else {
-                return nullptr;
-            }
+            return nullptr;
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
