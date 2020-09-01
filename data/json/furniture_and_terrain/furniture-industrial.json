@@ -188,7 +188,7 @@
     "name": "mobile antenna",
     "symbol": "1",
     "looks_like": "f_small_satelitte_dish",
-    "description": "A stark black directionally antenna, seemingly part of a monitoring setup.  A led mounted on its back lights up with a lazy and irregular rhythm.",
+    "description": "A stark black directional antenna, seemingly part of a monitoring setup.  A led mounted on its back lights up with a lazy and irregular rhythm.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "coverage": 10,
