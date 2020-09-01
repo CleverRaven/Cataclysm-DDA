@@ -142,6 +142,7 @@ jobs:
 
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
       name: "GCC 7 Make build with Curses and GLIBCXX_DEBUG"
+      if: type != pull_request
       compiler: gcc
       addons: &gcc7
         apt:
