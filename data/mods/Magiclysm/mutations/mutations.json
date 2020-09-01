@@ -357,7 +357,7 @@
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
-    "description": "Your face and jaws have extended to a long, toothy dragon maw.  It's fearsome and causes greavous wounds, but prevents wearing mouth gear.",
+    "description": "Your face and jaws have extended to a long, toothy dragon maw.  It's fearsome and causes grievous wounds, but prevents wearing mouth gear.",
     "prereqs": [ "MUZZLE_LONG" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
