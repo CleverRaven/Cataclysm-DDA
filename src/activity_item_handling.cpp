@@ -3098,7 +3098,7 @@ bool warn_fuel_burn( const tripoint &pos )
 {
     map &here = get_map();
 
-    if ( here.tr_at( pos ).id == tr_firewood_source ) {
+    if( here.tr_at( pos ).id == tr_firewood_source ) {
         return true;
     }
 
