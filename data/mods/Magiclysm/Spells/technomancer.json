@@ -367,7 +367,7 @@
     "duration_increment": 200
   },
   {
-    "id": "summon_magicmotorcycle",
+    "id": "summon_magic_motorcycle",
     "type": "SPELL",
     "name": "Summon Magic Motorcycle",
     "description": "You're not a cowboy, but on a steel horse you ride regardless.",
@@ -376,7 +376,7 @@
     "effect": "summon_vehicle",
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "effect_str": "magicmotorcycle",
+    "effect_str": "magic_motorcycle",
     "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 120,

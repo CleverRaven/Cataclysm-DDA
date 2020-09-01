@@ -15,7 +15,7 @@
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
   },
   {
-    "id": "engine_vtwinMagic",
+    "id": "engine_vtwin_magic",
     "copy-from": "mana_engine",
     "type": "vehicle_part",
     "item": "v2_combustion",
