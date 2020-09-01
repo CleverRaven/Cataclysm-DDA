@@ -41,7 +41,7 @@
     "wet_protection": [
       { "part": "leg_l", "neutral": 2 },
       { "part": "leg_r", "neutral": 2 },
-      { "part": "arm_r", "neutral": 2 },
+      { "part": "arm_l", "neutral": 2 },
       { "part": "arm_r", "neutral": 2 },
       { "part": "torso", "neutral": 4 }
     ],
