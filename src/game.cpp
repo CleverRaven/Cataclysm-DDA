@@ -1868,7 +1868,7 @@ int get_convection_temperature( const tripoint &location )
     map &here = get_map();
     // Directly on lava tiles
     int lava_mod = here.tr_at( location ) == tr_lava ?
-                   field_type_id( "ffd_fire" )->get_convection_temperature_mod() : 0;
+                   field_type_id( "fd_fire" )->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -5836,7 +5836,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 {
     map &here = get_map();
     if( here.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
-        field_entry *fire = here.get_field( examp, field_type_id( "ffd_fire" ) );
+        field_entry *fire = here.get_field( examp, field_type_id( "fd_fire" ) );
         if( fire ) {
             std::string ss;
             ss += _( "There is a fire here." );
