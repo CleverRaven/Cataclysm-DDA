@@ -91,6 +91,49 @@ extern bool test_mode;
 /** Set to true when any error is logged. */
 static bool error_observed = false;
 
+/** If true, debug messages will be captured,
+ * used to test debugmsg calls in the unit tests
+ */
+static bool capturing = false;
+/** сaptured debug messages */
+static std::string captured;
+
+/**
+ * Class for capturing debugmsg,
+ * used by capture_debugmsg_during.
+ */
+class capture_debugmsg
+{
+    public:
+        capture_debugmsg();
+        std::string dmsg();
+        ~capture_debugmsg();
+};
+
+std::string capture_debugmsg_during( const std::function<void()> &func )
+{
+    capture_debugmsg capture;
+    func();
+    return capture.dmsg();
+}
+
+capture_debugmsg::capture_debugmsg()
+{
+    capturing = true;
+    captured = "";
+}
+
+std::string capture_debugmsg::dmsg()
+{
+    capturing = false;
+    return captured;
+}
+
+capture_debugmsg::~capture_debugmsg()
+{
+    capturing = false;
+}
+
 bool debug_has_error_been_observed()
 {
     return error_observed;
@@ -112,8 +155,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     cata_assert( line != nullptr );
     cata_assert( funcname != nullptr );
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
-                                << text << std::flush;
+    if( capturing ) {
+        captured += text;
+    } else {
+        DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
+                                    std::flush;
+    }
 
     if( test_mode ) {
         return;
