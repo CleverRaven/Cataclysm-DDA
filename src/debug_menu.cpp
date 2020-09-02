@@ -155,6 +155,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
+        case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -293,6 +294,7 @@ static int teleport_uilist()
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
+        { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
 
     return uilist( _( "Teleport…" ), uilist_initializer );
@@ -425,17 +427,31 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
-void teleport_overmap()
+void teleport_overmap( bool specific_coordinates )
 {
-    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
-    if( !dir_ ) {
-        return;
-    }
-
     Character &player_character = get_player_character();
-    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
-
+    tripoint_abs_omt where;
+    if( specific_coordinates ) {
+        const std::string text = string_input_popup()
+                                 .title( "Teleport where?" )
+                                 .width( 20 )
+                                 .query_string();
+        if( text.empty() ) {
+            return;
+        }
+        const std::vector<std::string> coord_strings = string_split( text, ',' );
+        const int coord_x = coord_strings.size() >= 1 ? std::atoi( coord_strings[0].c_str() ) : 0;
+        const int coord_y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
+        const int coord_z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        where = tripoint_abs_omt( OMAPX * coord_x, OMAPY * coord_y, coord_z );
+    } else {
+        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        if( !dir_ ) {
+            return;
+        }
+        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        where = player_character.global_omt_location() + offset;
+    }
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
@@ -1797,6 +1813,9 @@ void debug()
 
         case debug_menu_index::OM_TELEPORT:
             debug_menu::teleport_overmap();
+            break;
+        case debug_menu_index::OM_TELEPORT_COORDINATES:
+            debug_menu::teleport_overmap( true );
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();

@@ -56,6 +56,7 @@ enum class debug_menu_index : int {
     OM_EDITOR,
     BENCHMARK,
     OM_TELEPORT,
+    OM_TELEPORT_COORDINATES,
     TRAIT_GROUP,
     ENABLE_ACHIEVEMENTS,
     SHOW_MSG,
@@ -85,7 +86,7 @@ enum class debug_menu_index : int {
 
 void teleport_short();
 void teleport_long();
-void teleport_overmap();
+void teleport_overmap( bool specific_coordinates = false );
 
 void spawn_nested_mapgen();
 void character_edit_menu();
