@@ -119,7 +119,7 @@
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_condoms_restored" }, { "u_has_item": "condom" } ] }
+        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
       }
     ]
   },
