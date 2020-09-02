@@ -1790,17 +1790,8 @@ double player::gun_value( const item &weap, int ammo ) const
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
-    if( tmp.is_magazine() ) {
+    if( tmp.is_magazine() || tmp.magazine_current() || tmp.magazine_default() ) {
         tmp.ammo_set( ammo_type );
-    } else if( tmp.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-        item mag;
-        if( weap.magazine_current() ) {
-            mag = item( *weap.magazine_current() );
-        } else {
-            mag = item( weap.magazine_default() );
-        }
-        mag.ammo_set( ammo_type );
-        tmp.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
     }
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
