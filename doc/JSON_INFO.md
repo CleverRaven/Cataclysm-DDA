@@ -579,6 +579,8 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
+| smash_message      | (_optional_) The message displayed when using that part to smash something.
+| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {
@@ -604,6 +606,7 @@ For information about tools with option to export ASCII art in format ready to b
     "base_hp": 60,
     "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
+    "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80
   }
 ```
@@ -3124,6 +3127,7 @@ The format also support snippet ids like above.
 {
     "id": "jabberwock",
     "type": "harvest",
+    "leftovers": "ruined_candy",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
@@ -3206,6 +3210,10 @@ For every `type` other then `bionic` and `bionic_group` following entries scale 
 
 For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
     `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+
+### leftovers
+
+itype_id of the item dropped as leftovers after butchery or when the monster is gibbed.  Default as "ruined_chunks".
 
 ### Furniture
 

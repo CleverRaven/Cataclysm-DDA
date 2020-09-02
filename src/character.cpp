@@ -501,22 +501,22 @@ void Character::randomize_blood()
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
-        return fd_acid;
+        return field_type_id( "fd_acid" );
     }
     if( has_trait( trait_THRESH_PLANT ) ) {
-        return fd_blood_veggy;
+        return field_type_id( "fd_blood_veggy" );
     }
     if( has_trait( trait_THRESH_INSECT ) || has_trait( trait_THRESH_SPIDER ) ) {
-        return fd_blood_insect;
+        return field_type_id( "fd_blood_insect" );
     }
     if( has_trait( trait_THRESH_CEPHALOPOD ) ) {
-        return fd_blood_invertebrate;
+        return field_type_id( "fd_blood_invertebrate" );
     }
-    return fd_blood;
+    return field_type_id( "fd_blood" );
 }
 field_type_id Character::gibType() const
 {
-    return fd_gibs_flesh;
+    return field_type_id( "fd_gibs_flesh" );
 }
 
 bool Character::in_species( const species_id &spec ) const
@@ -2619,34 +2619,16 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
     item *ret = nullptr;
     if( pocket.second == nullptr ) {
-        if( has_weapon() ) {
-            if( avoid != nullptr && is_wielding( *avoid ) ) {
-                return nullptr;
-            }
-            item_location weapon_location( *this, &weapon );
-            std::pair<item_location, item_pocket *> weapon_pocket = weapon.best_pocket( it, weapon_location );
-            if( weapon_pocket.second != nullptr ) {
-                weapon_pocket.second->add( it );
-                ret = &weapon_pocket.second->back();
-                weapon_pocket.first.on_contents_changed();
-                weapon_pocket.second->on_contents_changed();
-                return ret;
-            } else {
-                return nullptr;
-            }
+        if( !has_weapon() && allow_wield && wield( it ) ) {
+            ret = &weapon;
         } else {
-            if( allow_wield && wield( it ) ) {
-                ret = &weapon;
-            } else {
-                return nullptr;
-            }
+            return nullptr;
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
         pocket.second->add( it, &ret );
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
-        ret = &pocket.second->back();
     }
 
     if( keep_invlet ) {
@@ -3200,68 +3182,16 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += get_contents_volume_with_tweaks( &i.contents, without );
+            ret += i.contents.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += get_contents_volume_with_tweaks( &weapon.contents, without );
+        ret += weapon.contents.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
-}
-
-units::volume Character::get_contents_volume_with_tweaks( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->count_by_charges() ) {
-            ret += i->volume() - get_selected_stack_volume( i, without );
-        } else if( !without.count( i ) ) {
-            ret += i->volume();
-            ret -= get_nested_content_volume_recursive( &i->contents, without );
-        }
-    }
-
-    return ret;
-}
-
-units::volume Character::get_nested_content_volume_recursive( const item_contents *contents,
-        const std::map<const item *, int> &without ) const
-{
-    units::volume ret = 0_ml;
-
-    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->count_by_charges() ) {
-            ret += get_selected_stack_volume( i, without );
-        } else if( without.count( i ) ) {
-            ret += i->volume();
-        } else {
-            ret += get_nested_content_volume_recursive( &i->contents, without );
-        }
-    }
-    if( contents->all_pockets_rigid() ) {
-        ret += contents->remaining_container_capacity();
-    }
-
-    return ret;
-}
-
-units::volume Character::get_selected_stack_volume( const item *i,
-        const std::map<const item *, int> &without ) const
-{
-    auto stack = without.find( i );
-    if( stack != without.end() ) {
-        int selected = stack->second;
-        item copy = *i;
-        copy.charges = selected;
-        return copy.volume();
-    }
-
-    return 0_ml;
 }
 
 units::mass Character::weight_capacity() const
@@ -6303,7 +6233,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = here.get_field_intensity( p, fd_web );
+    int web = here.get_field_intensity( p, field_type_id( "fd_web" ) );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -8502,7 +8432,7 @@ void Character::vomit()
 
     if( stomach.contains() != 0_ml ) {
         stomach.empty();
-        get_map().add_field( adjacent_tile(), fd_bile, 1 );
+        get_map().add_field( adjacent_tile(), field_type_id( "fd_bile" ), 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
 
@@ -9526,7 +9456,7 @@ void Character::blossoms()
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
-        here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
+        here.add_field( tmp, field_type_id( "fd_fungal_haze" ), rng( 1, 2 ) );
     }
 }
 
@@ -9741,16 +9671,28 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item *it : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        volume_capacity -= it->volume();
+    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+        if( pocket->contains_phase( phase_id::SOLID ) ) {
+            for( const item *it : pocket->all_items_top() ) {
+                volume_capacity -= it->volume();
+            }
+        } else if( !pocket->empty() ) {
+            volume_capacity -= pocket->volume_capacity();
+        }
     }
-    volume_capacity += weapon.check_for_free_space( &weapon );
+    volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item *it : w.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            volume_capacity -= it->volume();
+        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+            if( pocket->contains_phase( phase_id::SOLID ) ) {
+                for( const item *it : pocket->all_items_top() ) {
+                    volume_capacity -= it->volume();
+                }
+            } else if( !pocket->empty() ) {
+                volume_capacity -= pocket->volume_capacity();
+            }
         }
-        volume_capacity += w.check_for_free_space( &w );
+        volume_capacity += w.check_for_free_space();
     }
     return volume_capacity;
 }
@@ -9785,12 +9727,12 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
     units::volume volume_capacity = 0_ml;
 
     if( !without.count( &weapon ) ) {
-        volume_capacity += weapon.contents.total_container_capacity();
+        volume_capacity += weapon.get_total_capacity();
     }
 
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            volume_capacity += i.contents.total_container_capacity();
+            volume_capacity += i.get_total_capacity();
         }
     }
 

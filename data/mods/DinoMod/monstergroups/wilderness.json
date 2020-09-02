@@ -230,7 +230,8 @@
       { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 72 },
       { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 168 },
       { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 672 },
-      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 }
+      { "monster": "mon_zosasaurus", "freq": 1, "cost_multiplier": 100, "starts": 2160 },
+      { "monster": "mon_quetzalcoatlus", "freq": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -431,6 +432,7 @@
       { "monster": "mon_utahraptor", "freq": 100, "cost_multiplier": 30 },
       { "monster": "mon_parasaurolophus", "freq": 80, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_dimorphodon", "freq": 500, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 50, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus", "freq": 50, "cost_multiplier": 10, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -442,6 +444,7 @@
     "monsters": [
       { "monster": "mon_dimorphodon", "freq": 25, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_pteranodon", "freq": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_quetzalcoatlus", "freq": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       {
         "monster": "mon_eoraptor",
         "freq": 50,

@@ -95,6 +95,14 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
+enum class mutation_filter : int {
+    all,
+    debug,
+    anger_relations,
+    social_mods,
+    ignored_by
+};
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -291,6 +299,9 @@ struct social_modifiers {
         this->persuade += other.persuade;
         this->intimidate += other.intimidate;
         return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
     }
 };
 
@@ -1204,8 +1215,6 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
 
-        /**Convert fuel to bionic power*/
-        bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
@@ -1503,12 +1512,6 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_selected_stack_volume( const item *i,
-                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
@@ -1732,7 +1735,8 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true,
+                                             mutation_filter filter = mutation_filter::all ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -2568,6 +2572,13 @@ class Character : public Creature, public visitable<Character>
 
         pimpl<player_morale> morale;
 
+    public:
+        /**
+         * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
+         * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
+         * Used to determine suffering effects of albinism and solar sensitivity.
+         */
+        std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
@@ -2580,7 +2591,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_asthma( int current_stim );
         void suffer_from_pain();
         void suffer_in_sunlight();
-        void suffer_from_albinism();
+        void suffer_from_sunburn();
         void suffer_from_other_mutations();
         void suffer_from_item_dropping();
         void suffer_from_radiation();
@@ -2595,6 +2606,17 @@ class Character : public Creature, public visitable<Character>
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        struct auto_toggle_bionic_result;
+        /**
+         * Automatically turn bionic on or off according to remaining fuel and
+         * user settings, and return info of the first burnable fuel.
+         */
+        auto_toggle_bionic_result auto_toggle_bionic( int b, bool start );
+        /**
+         *Convert fuel to bionic power
+         */
+        void burn_fuel( int b, const auto_toggle_bionic_result &result );
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache

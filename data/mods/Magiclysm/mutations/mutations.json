@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_DRAGON_BLACK",
+    "name": { "str": "Black Dragon" },
+    "points": 1,
+    "description": "You sometimes think back about the world you left behind.  You're glad you burned it in your wake.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  }
+]

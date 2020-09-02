@@ -244,5 +244,35 @@
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "sewing_standard", 150 ], [ "welding_standard", 20 ] ],
     "components": [ [ [ "black_dragon_tanned_hide", 6 ] ], [ [ "dragon_black_scale", 75 ] ], [ [ "dragon_essence", 7 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_black_dragon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "chemistry",
+    "skills_required": [ "spellcraft", 6 ],
+    "difficulty": 4,
+    "time": "4 h",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons_historical", 7 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "potion_starter_superior", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_black_dragon",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "chemistry",
+    "skills_required": [ "spellcraft", 8 ],
+    "difficulty": 6,
+    "time": "8 h",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons_historical", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "dragon_essence", 5 ] ], [ [ "mutagen_black_dragon", 1 ] ], [ [ "manatouched_serum", 1 ] ] ],
+    "flags": [ "SECRET" ]
   }
 ]

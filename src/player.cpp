@@ -2684,13 +2684,16 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     item *target = nullptr;
+    item_location targloc;
     if( opts.size() > 1 ) {
         const int ret = uilist( _( "Unload what?" ), msgs );
         if( ret >= 0 ) {
             target = opts[ret];
+            targloc = item_location( loc, opts[ret] );
         }
     } else {
         target = &it;
+        targloc = loc;
     }
 
     if( target == nullptr ) {
@@ -2726,7 +2729,6 @@ bool player::unload( item_location &loc, bool bypass_activity )
     } );
 
     if( target->is_magazine() ) {
-        item_location targloc = item_location( loc, target );
         if( bypass_activity ) {
             unload_mag_activity_actor::unload( *this, targloc );
         } else {
@@ -3187,7 +3189,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), fd_web );
+        int web = here.get_field_intensity( pos(), field_type_id( "fd_web" ) );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -3197,7 +3199,7 @@ void player::try_to_sleep( const time_duration &dur )
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
                                    _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), fd_web );
+                here.remove_field( pos(), field_type_id( "fd_web" ) );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.

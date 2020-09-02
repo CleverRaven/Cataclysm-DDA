@@ -708,7 +708,7 @@ void draw(
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
-                ter_sym = type->glyph;
+                ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {

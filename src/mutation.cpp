@@ -100,7 +100,19 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    for( const trait_id &mut : get_mutations() ) {
+    mutation_filter filter = mutation_filter::all;
+    if( b.is_valid() ) {
+        if( b.obj().debug ) {
+            filter = mutation_filter::debug;
+        } else if( !b.obj().anger_relations.empty() ) {
+            filter = mutation_filter::anger_relations;
+        } else if( !b.obj().ignored_by.empty() ) {
+            filter = mutation_filter::ignored_by;
+        } else if( !b.obj().social_mods.empty() ) {
+            filter = mutation_filter::social_mods;
+        }
+    }
+    for( const trait_id &mut : get_mutations( true, filter ) ) {
         if( mut == b ) {
             return true;
         }
@@ -625,7 +637,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), field_type_id( "fd_web" ), 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;

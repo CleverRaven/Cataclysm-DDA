@@ -551,8 +551,8 @@
     "healthy": 0,
     "price_postapoc": 25,
     "quench": 0,
-    "calories": 164,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 12 ] ]
+    "calories": 133,
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 20 ] ]
   },
   {
     "id": "sweetbread_cooked",
@@ -561,7 +561,7 @@
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
     "price_postapoc": 50,
-    "fun": -4,
+    "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0,
     "delete": { "flags": [ "RAW" ] }
