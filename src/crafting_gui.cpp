@@ -251,7 +251,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             proficiency_maluses = r->proficiency_maluses( player );
             has_all_skills = r->skill_used.is_null() ||
                              player.get_skill_level( r->skill_used ) >= r->difficulty;
-            for( const std::pair<skill_id, int> &e : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
                 if( player.get_skill_level( e.first ) < e.second ) {
                     has_all_skills = false;
                     break;
