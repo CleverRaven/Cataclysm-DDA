@@ -458,7 +458,7 @@
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
     "extend": { "category": [ "DRAGON_BLACK" ] },
-    "leads_to": [ "DRAGON_BREATH_BLACK", "OVERLY_ACIDIC_GUT" ]
+    "leads_to": [ "DRAGON_BREATH_BLACK", "OVERLY_ACID_GUT" ]
   },
   {
     "type": "mutation",
