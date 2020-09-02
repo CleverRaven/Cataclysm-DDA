@@ -32,6 +32,7 @@
     "material": [ "plastic" ],
     "symbol": "/",
     "color": "light_gray",
+    "flags": [ "BELT_CLIP" ],
     "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {

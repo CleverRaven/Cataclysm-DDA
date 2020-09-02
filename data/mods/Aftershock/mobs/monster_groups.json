@@ -90,6 +90,17 @@
   },
   {
     "type": "monstergroup",
+    "name": "AFS_GROUP_AUG_CLINIC",
+    "default": "mon_broken_cyborg",
+    "monsters": [
+      { "monster": "mon_zombie_electric", "freq": 450, "cost_multiplier": 1 },
+      { "monster": "mon_prototype_cyborg", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_technician", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_secubot", "freq": 50, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRUTE",
     "default": "mon_zombie_brute",
     "//": "Brute upgrades",

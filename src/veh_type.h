@@ -140,18 +140,53 @@ struct transform_terrain_data {
     time_duration post_field_age = 0_turns;
 };
 
+const std::vector<std::pair<std::string, std::string>> vpart_variants = {
+    { "cover", "Cover" }, { "cross_unconnected", "Unconnected Cross" }, { "cross", "Cross" },
+    { "horizontal_front", "Front Horizontal" },
+    { "horizontal_front_edge", "Front Edge Horizontal" },
+    { "horizontal_rear", "Rear Horizontal" },
+    { "horizontal_rear_edge", "Rear Edge Horizontal" },
+    { "horizontal_2_front", "Front Thick Horizontal" },
+    { "horizontal_2_rear", "Rear Thick Horizontal" },
+    { "ne_edge", "Front Right Corner" }, { "nw_edge", "Front Left Corner" },
+    { "se_edge", "Rear Right Corner" }, { "sw_edge", "Rear Left Corner" },
+    { "vertical_right", "Right Vertical", }, { "vertical_left", "Left Vertical" },
+    { "vertical_2_right", "Right Thick Vertical" },
+    { "vertical_2_left", "Left Thick Vertical" },
+    { "vertical_T_right", "Right T Joint" }, { "vertical_T_left", "Left T Joint" },
+    // these have to be last to avoid false positives
+    { "vertical", "Vertical" }, { "horizontal", "Horizontal" },
+    { "vertical_2", "Thick Vertical" }, { "horizontal_2", "Thick Horizontal" },
+    { "ne", "Front Right" }, { "nw", "Front Left" },
+    { "se", "Rear Right" }, { "sw", "Rear Left" },
+    { "front", "Front" }, { "rear", "Rear" },
+    { "left", "Left" }, { "right", "Right" }
+};
+
+const std::map<std::string, int> vpart_variants_standard = {
+    { "cover", '^' }, { "cross", 'c' },
+    { "horizontal", 'h' }, { "horizontal_2", '=' }, { "vertical", 'j' }, { "vertical_2", 'H' },
+    { "ne", 'u' }, { "nw", 'y' }, { "se", 'n' }, { "sw", 'b' }
+};
+std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid );
+std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
+std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
+
 class vpart_info
 {
-    private:
-        /** Unique identifier for this part */
-        vpart_id id;
-
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
-
     public:
+        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+                                 const itype_id &fuel_type );
+        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load( const JsonObject &jo, const std::string &src );
+        static void finalize();
+        static void check();
+        static void reset();
+
+        static const std::map<vpart_id, vpart_info> &all();
+
         /** Translated name of a part */
         std::string name() const;
 
@@ -159,74 +194,16 @@ class vpart_info
             return id;
         }
 
-        /** base item for this part */
-        itype_id item;
-
-        /** What slot of the vehicle tile does this part occupy? */
-        std::string location;
-
-        /** Color of part for different states */
-        nc_color color = c_light_gray;
-        nc_color color_broken = c_light_gray;
-
-        /**
-         * Symbol of part which will be translated as follows:
-         * y, u, n, b to NW, NE, SE, SW lines correspondingly
-         * h, j, c to horizontal, vertical, cross correspondingly
-         */
-        int sym = 0;
-        char sym_broken = '#';
-
-        /** hint to tilesets for what tile to use if this part doesn't have one */
-        std::string looks_like;
-
-        /** Maximum damage part can sustain before being destroyed */
-        int durability = 0;
-
-        /** A text description of the part as a vehicle part */
-        translation description;
-
-        /** Damage modifier (percentage) used when damaging other entities upon collision */
-        int dmg_mod = 100;
-
-        /**
-         * Electrical power, flat rate (watts); positive for generation, negative for consumption
-         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
-         */
-        int epower = 0;
-
-        /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
-         * Includes waste. Gets scaled based on powertrain demand.
-         */
-        int energy_consumption = 0;
-
-        /**
-         * For engines and motors this is maximum output (watts)
-         * For alternators is engine power consumed (negative value)
-         */
-        int power = 0;
-
-        /** Emissions of part */
-        std::set<emit_id> emissions;
-
-        /** Fuel type of engine or tank */
-        itype_id fuel_type = itype_id::NULL_ID();
-
-        /** Default ammo (for turrets) */
-        itype_id default_ammo = itype_id::NULL_ID();
-
-        /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
-
-        /** Cargo location volume */
-        units::volume size = 0_ml;
-
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
-        /** Legacy parts don't specify installation requirements */
-        bool legacy = true;
+        const std::set<std::string> &get_flags() const {
+            return flags;
+        }
+        bool has_flag( const std::string &flag ) const {
+            return flags.count( flag ) != 0;
+        }
+        bool has_flag( const vpart_bitflags flag ) const {
+            return bitflags.test( flag );
+        }
+        void set_flag( const std::string &flag );
 
         /** Format the description for display */
         int format_description( std::string &msg, const nc_color &format_color, int width ) const;
@@ -234,23 +211,11 @@ class vpart_info
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
 
-        /** Required skills to install this component */
-        std::map<skill_id, int> install_skills;
-
-        /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = to_moves<int>( 1_hours );
-
         /** Installation time (in moves) for this component accounting for player skills */
         int install_time( const player &p ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
-
-        /** Required skills to remove this component */
-        std::map<skill_id, int> removal_skills;
-
-        /** Removal time (in moves) for component (@see removal_time), default is half @ref install_moves */
-        int removal_moves = -1;
 
         /** Removal time (in moves) for this component accounting for player skills */
         int removal_time( const player &p ) const;
@@ -261,37 +226,8 @@ class vpart_info
         /** Returns whether or not the part is repairable  */
         bool is_repairable() const;
 
-        /** Required skills to repair this component */
-        std::map<skill_id, int> repair_skills;
-
-        /** Repair time (in moves) to fully repair a component (@see repair_time) */
-        int repair_moves = to_moves<int>( 1_hours );
-
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
         int repair_time( const player &p ) const;
-
-        /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
-
-        /** Tool qualities this vehicle part can provide when installed */
-        std::map<quality_id, int> qualities;
-
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
-        int bonus = 0;
-
-        /** cargo weight modifier (percentage) */
-        int cargo_weight_modifier = 100;
-
-        /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction = {};
-
-        /* Contains data for terrain transformer parts */
-        transform_terrain_data transform_terrain;
-
-        /*Comfort data for sleeping in vehicles*/
-        int comfort = 0;
-        int floor_bedding_warmth = 0;
-        int bonus_fire_warmth_feet = 300;
 
         /**
          * @name Engine specific functions
@@ -322,9 +258,6 @@ class vpart_info
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
     private:
-        /** Name from vehicle part definition which if set overrides the base item name */
-        translation name_;
-
         std::set<std::string> flags;
         // flags checked so often that things slow down due to string cmp
         std::bitset<NUM_VPFLAGS> bitflags;
@@ -334,35 +267,37 @@ class vpart_info
         std::vector<std::pair<requirement_id, int>> removal_reqs;
         std::vector<std::pair<requirement_id, int>> repair_reqs;
 
+        cata::optional<vpslot_engine> engine_info;
+        cata::optional<vpslot_wheel> wheel_info;
+        cata::optional<vpslot_rotor> rotor_info;
+        cata::optional<vpslot_workbench> workbench_info;
+
+        /** Unique identifier for this part */
+        vpart_id id;
+
+        /** Name from vehicle part definition which if set overrides the base item name */
+        translation name_;
+
     public:
+        /* map of standard variant names to symbols */
+        std::map<std::string, int> symbols;
 
-        // z-ordering, inferred from location, cached here
-        int z_order = 0;
-        // Display order in vehicle interact display
-        int list_order = 0;
+        /** Required skills to install, repair, or remove this component */
+        std::map<skill_id, int> install_skills;
+        std::map<skill_id, int> repair_skills;
+        std::map<skill_id, int> removal_skills;
 
-        const std::set<std::string> &get_flags() const {
-            return flags;
-        }
-        bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) != 0;
-        }
-        bool has_flag( const vpart_bitflags flag ) const {
-            return bitflags.test( flag );
-        }
-        void set_flag( const std::string &flag );
+        /** @ref item_group this part breaks into when destroyed */
+        std::string breaks_into_group = "EMPTY_GROUP";
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
-                                 const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
-        static void load( const JsonObject &jo, const std::string &src );
-        static void finalize();
-        static void check();
-        static void reset();
+        /** Flat decrease of damage of a given type. */
+        std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
 
-        static const std::map<vpart_id, vpart_info> &all();
+        /** Tool qualities this vehicle part can provide when installed */
+        std::map<quality_id, int> qualities;
+
+        /** Emissions of part */
+        std::set<emit_id> emissions;
 
         /**
           * Exhaust emissions of part
@@ -371,6 +306,99 @@ class vpart_info
           * otherwise, it is emitted in place
           */
         std::set<emit_id> exhaust;
+
+        /** Color of part for different states */
+        nc_color color = c_light_gray;
+        nc_color color_broken = c_light_gray;
+
+        /* Contains data for terrain transformer parts */
+        transform_terrain_data transform_terrain;
+
+        /** Fuel type of engine or tank */
+        itype_id fuel_type = itype_id::NULL_ID();
+
+        /** Default ammo (for turrets) */
+        itype_id default_ammo = itype_id::NULL_ID();
+
+        /** Volume of a foldable part when folded */
+        units::volume folded_volume = 0_ml;
+
+        /** Cargo location volume */
+        units::volume size = 0_ml;
+
+        /** hint to tilesets for what tile to use if this part doesn't have one */
+        std::string looks_like;
+
+        /** A text description of the part as a vehicle part */
+        translation description;
+
+        /** base item for this part */
+        itype_id item;
+
+        /** What slot of the vehicle tile does this part occupy? */
+        std::string location;
+
+        /**
+         * Symbol of part which will be translated as follows:
+         * y, u, n, b to NW, NE, SE, SW lines correspondingly
+         * h, j, c to horizontal, vertical, cross correspondingly
+         */
+        int sym = 0;
+        int sym_broken = '#';
+
+        /** Maximum damage part can sustain before being destroyed */
+        int durability = 0;
+
+        /** Damage modifier (percentage) used when damaging other entities upon collision */
+        int dmg_mod = 100;
+
+        /**
+         * Electrical power, flat rate (watts); positive for generation, negative for consumption
+         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         */
+        int epower = 0;
+
+        /**
+         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Includes waste. Gets scaled based on powertrain demand.
+         */
+        int energy_consumption = 0;
+
+        /**
+         * For engines and motors this is maximum output (watts)
+         * For alternators is engine power consumed (negative value)
+         */
+        int power = 0;
+
+        /** Mechanics skill required to install item */
+        int difficulty = 0;
+
+        /** Installation time (in moves) for component (@see install_time), default 1 hour */
+        int install_moves = to_moves<int>( 1_hours );
+        /** Repair time (in moves) to fully repair a component (@see repair_time) */
+        int repair_moves = to_moves<int>( 1_hours );
+        /** Removal time (in moves) for component (@see removal_time),
+         *  default is half @ref install_moves */
+        int removal_moves = -1;
+
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        int bonus = 0;
+
+        /** cargo weight modifier (percentage) */
+        int cargo_weight_modifier = 100;
+
+        /*Comfort data for sleeping in vehicles*/
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+        int bonus_fire_warmth_feet = 300;
+
+        // z-ordering, inferred from location, cached here
+        int z_order = 0;
+        // Display order in vehicle interact display
+        int list_order = 0;
+
+        /** Legacy parts don't specify installation requirements */
+        bool legacy = true;
 };
 
 struct vehicle_item_spawn {
@@ -392,6 +420,7 @@ struct vehicle_prototype {
     struct part_def {
         point pos;
         vpart_id part;
+        std::string variant;
         int with_ammo = 0;
         std::set<itype_id> ammo_types;
         std::pair<int, int> ammo_qty = { -1, -1 };

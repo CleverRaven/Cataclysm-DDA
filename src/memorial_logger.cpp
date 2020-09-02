@@ -272,7 +272,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id bp ) {
+    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -530,22 +530,22 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::broken_bone: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broke his %s." ),
                      pgettext( "memorial_female", "Broke her %s." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                body_part part = e.get<body_part>( "part" );
+                bodypart_id part = e.get<bodypart_id>( "part" );
                 //~ %s is bodypart
                 add( pgettext( "memorial_male", "Broken %s began to mend." ),
                      pgettext( "memorial_female", "Broken %s began to mend." ),
-                     body_part_name( convert_bp( part ).id() ) );
+                     body_part_name( part ) );
             }
             break;
         }

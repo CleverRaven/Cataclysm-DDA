@@ -13,6 +13,7 @@
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
@@ -144,7 +145,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "sealed_data", sealed_data );
 }
 
-void resealable_data::load( const JsonObject &jo )
+void sealable_data::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "spoil_multiplier", spoil_multiplier, 1.0f );
 }
@@ -311,7 +312,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
     if( !data->watertight ) {
         return false;
     }
-    if( !resealable() && _sealed ) {
+    if( sealable() && _sealed ) {
         return false;
     }
     for( const item &liquid : allowed_liquids ) {
@@ -638,16 +639,9 @@ bool item_pocket::will_spill() const
     }
 }
 
-bool item_pocket::resealable() const
-{
-    // if it has sealed data it is understood that the
-    // data is different when sealed than when not
-    return !data->sealed_data;
-}
-
 bool item_pocket::seal()
 {
-    if( resealable() || empty() ) {
+    if( !sealable() || empty() ) {
         return false;
     }
     _sealed = true;
@@ -661,11 +655,18 @@ void item_pocket::unseal()
 
 bool item_pocket::sealed() const
 {
-    if( resealable() ) {
+    if( !sealable() ) {
         return false;
     } else {
         return _sealed;
     }
+}
+bool item_pocket::sealable() const
+{
+    // if it has sealed data it is understood that the
+    // data is different when sealed than when not
+    // In other words, a pocket is sealable IFF it has sealed_data.
+    return !!data->sealed_data;
 }
 
 std::string item_pocket::translated_sealed_prefix() const
@@ -760,8 +761,6 @@ static void insert_separation_line( std::vector<iteminfo> &info )
 void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                 bool disp_pocket_number ) const
 {
-    const std::string space = "  ";
-
     if( disp_pocket_number ) {
         const std::string pocket_num = string_format( _( "Pocket %d:" ), pocket_number );
         info.emplace_back( "DESCRIPTION", pocket_num );
@@ -805,7 +804,6 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     info.emplace_back( "DESCRIPTION",
                        string_format( _( "Base moves to remove item: <neutral>%d</neutral>" ),
                                       data->moves ) );
-
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
@@ -846,6 +844,23 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
                                data->volume_multiplier * 100 ) );
     }
+
+    // Display flags items need to be stored in this pocket
+    if( !data->flag_restriction.empty() ) {
+        info.emplace_back( "DESCRIPTION", _( "<bold>Restrictions</bold>:" ) );
+        bool first = true;
+        for( const std::string &e : data->flag_restriction ) {
+            const json_flag &f = json_flag::get( e );
+            if( !f.restriction().empty() ) {
+                if( first ) {
+                    info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.restriction() ) ) );
+                    first = false;
+                } else {
+                    info.emplace_back( "DESCRIPTION", string_format( "* <bold>or</bold> %s", _( f.restriction() ) ) );
+                }
+            }
+        }
+    }
 }
 
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
@@ -855,7 +870,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     insert_separation_line( info );
     if( disp_pocket_number ) {
-        if( !resealable() ) {
+        if( sealable() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>%s pocket %d</bold>" ),
                                translated_sealed_prefix(),
                                pocket_number ) );
@@ -1062,6 +1077,11 @@ bool item_pocket::can_contain_liquid( bool held_or_ground ) const
         }
         return data->watertight;
     }
+}
+
+bool item_pocket::contains_phase( phase_id phase ) const
+{
+    return !empty() && contents.front().made_of( phase );
 }
 
 cata::optional<item> item_pocket::remove_item( const item &it )

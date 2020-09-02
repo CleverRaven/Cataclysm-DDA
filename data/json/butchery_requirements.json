@@ -49,6 +49,53 @@
           "FULL": "full_butchery_large",
           "QUICK": "butchery_large"
         }
+      ],
+      "1.2": [
+        {
+          "FIELD_DRESS": "field_dress_no_surface",
+          "QUARTER": "field_dress_no_surface",
+          "SKIN": "field_dress_no_surface",
+          "DISMEMBER": "field_dress_no_surface",
+          "DISSECT": "dissect_small_no_surface",
+          "FULL": "butchery_small_no_surface",
+          "QUICK": "butchery_small_no_surface"
+        },
+        {
+          "FIELD_DRESS": "field_dress_no_surface",
+          "QUARTER": "field_dress_no_surface",
+          "SKIN": "field_dress_no_surface",
+          "DISMEMBER": "field_dress_no_surface",
+          "DISSECT": "dissect_small_no_surface",
+          "FULL": "butchery_small_no_surface",
+          "QUICK": "butchery_small_no_surface"
+        },
+        {
+          "FIELD_DRESS": "field_dress_no_surface",
+          "QUARTER": "field_dress_no_surface",
+          "SKIN": "field_dress_no_surface",
+          "DISMEMBER": "field_dress_no_surface",
+          "DISSECT": "dissect_small_no_surface",
+          "FULL": "butchery_small_no_surface",
+          "QUICK": "butchery_small_no_surface"
+        },
+        {
+          "FIELD_DRESS": "field_dress_no_surface",
+          "QUARTER": "field_dress_no_surface",
+          "SKIN": "field_dress_no_surface",
+          "DISMEMBER": "field_dress_no_surface",
+          "DISSECT": "dissect_large_no_surface",
+          "FULL": "full_butchery_large_no_surface",
+          "QUICK": "butchery_large_no_surface"
+        },
+        {
+          "FIELD_DRESS": "field_dress_no_surface",
+          "QUARTER": "field_dress_no_surface",
+          "SKIN": "field_dress_no_surface",
+          "DISMEMBER": "field_dress_no_surface",
+          "DISSECT": "dissect_large_no_surface",
+          "FULL": "full_butchery_large_no_surface",
+          "QUICK": "butchery_large_no_surface"
+        }
       ]
     }
   }

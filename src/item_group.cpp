@@ -1,10 +1,10 @@
 #include "item_group.h"
 
 #include <algorithm>
-#include <cassert>
 #include <set>
 
 #include "calendar.h"
+#include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
@@ -241,7 +241,8 @@ std::set<const itype *> Single_item_creator::every_item() const
         case S_NONE:
             return {};
     }
-    assert( !"Unexpected type" );
+    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+    cata_assert( !"Unexpected type" );
     return {};
 }
 
@@ -363,20 +364,19 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo == nullptr ) {
-            // In case there is no explicit ammo item defined, use the default ammo
-            if( !new_item.ammo_types().empty() ) {
-                new_item.ammo_set( new_item.ammo_default(), ch );
-            }
+        itype_id ammo_id;
+        if( ammo ) {
+            ammo_id = ammo->create_single( new_item.birthday() ).typeId();
+        } else if( new_item.ammo_default() ) {
+            ammo_id = new_item.ammo_default();
+        } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
+            ammo_id = new_item.magazine_default()->magazine->default_ammo;
+        }
+        if( ammo_id ) {
+            new_item.ammo_set( ammo_id, ch );
         } else {
-            const item am = ammo->create_single( new_item.birthday() );
-            if( !new_item.magazine_default().is_null() ) {
-                item mag( new_item.magazine_default() );
-                mag.ammo_set( am.typeId(), ch );
-                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-            } else {
-                new_item.ammo_set( am.typeId(), ch );
-            }
+            debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                      new_item.typeId().c_str() );
         }
         // Make sure the item is in valid state
         if( new_item.magazine_integral() ) {
@@ -510,7 +510,7 @@ void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
 {
-    assert( ptr.get() != nullptr );
+    cata_assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }

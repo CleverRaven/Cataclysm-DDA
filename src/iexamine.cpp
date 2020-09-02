@@ -200,6 +200,7 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
@@ -249,7 +250,8 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
     auto loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( DT_CUT ) || e.is_melee( DT_STAB ) ) && e.made_of( material_id( "steel" ) ) &&
+        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
+               e.made_of( material_id( "steel" ) ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
@@ -336,7 +338,6 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     here.add_item_or_charges( spawn_point, new_item );
 
 }
-
 
 /// @brief Use "gas pump."
 /// @details Will pump any liquids on tile.
@@ -955,6 +956,48 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
     g->open_gate( examp );
 }
 
+static bool try_start_hacking( player &p, const tripoint &examp )
+{
+    if( p.has_trait( trait_ILLITERATE ) ) {
+        add_msg( _( "You cannot read!" ) );
+        return false;
+    }
+    const bool has_item = p.has_charges( itype_electrohack, 25 );
+    const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
+    if( !has_item && !has_bionic ) {
+        add_msg( _( "You don't have a hacking tool with enough charges!" ) );
+        return false;
+    }
+    bool use_bionic = has_bionic;
+    if( has_item && has_bionic ) {
+        uilist menu;
+        menu.settext( _( "Use which hacking tool?" ) );
+        menu.addentry( 0, true, MENU_AUTOASSIGN, "%s", itype_electrohack->nname( 1 ) );
+        menu.addentry( 1, true, MENU_AUTOASSIGN, "%s", bio_fingerhack->name );
+        menu.query();
+        switch( menu.ret ) {
+            case 0:
+                use_bionic = false;
+                break;
+            case 1:
+                use_bionic = true;
+                break;
+            default:
+                return false;
+        }
+    }
+    if( use_bionic ) {
+        p.mod_power_level( -25_kJ );
+        p.assign_activity( player_activity( hacking_activity_actor(
+                                                hacking_activity_actor::use_bionic {} ) ) );
+    } else {
+        p.use_charges( itype_electrohack, 25 );
+        p.assign_activity( player_activity( hacking_activity_actor() ) );
+    }
+    p.activity.placement = examp;
+    return true;
+}
+
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
@@ -989,8 +1032,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -1051,8 +1093,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                        _( "\"Your face is inadequate.  Please go away.\"" ), true,
                        "speech", "welcome" );
         if( query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-            p.assign_activity( player_activity( hacking_activity_actor() ) );
-            p.activity.placement = examp;
+            try_start_hacking( p, examp );
         }
     }
 }
@@ -1408,8 +1449,7 @@ void iexamine::safe( player &p, const tripoint &examp )
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
     if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 }
 
@@ -1452,10 +1492,24 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 }
 
 /**
-* Checks whether PC has picklocks then calls pick_lock_actor.
+* Checks whether PC has picklocks then calls pick_lock iuse function OR assigns ACT_LOCKPICK
 */
 void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
+    map &here = get_map();
+
+    if( p.has_bionic( bio_lockpick ) ) {
+        if( p.get_power_level() >= bio_lockpick->power_activate ) {
+            p.mod_power_level( -bio_lockpick->power_activate );
+            p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
+            p.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            return;
+        } else {
+            p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
+                                 bio_lockpick->name );
+        }
+    }
+
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
         // Don't include worn items such as hairpins
         if( !p.is_worn( it ) ) {
@@ -1464,7 +1518,6 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         return false;
     } );
 
-    map &here = get_map();
     if( picklocks.empty() ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock with…" ),
                  here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
@@ -2822,7 +2875,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                                         p.enough_power_for( bio_lighter );
 
     auto firequenchers = p.items_with( []( const item & it ) {
-        return it.damage_melee( DT_BASH );
+        return it.damage_melee( damage_type::BASH );
     } );
 
     uilist selection_menu;
@@ -2868,7 +2921,8 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 2: {
-            if( !here.get_field( examp, fd_fire ) && here.add_field( examp, fd_fire, 1 ) ) {
+            if( !here.get_field( examp, field_type_id( "fd_fire" ) ) &&
+                here.add_field( examp, field_type_id( "fd_fire" ), 1 ) ) {
                 p.mod_power_level( -bio_lighter->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
@@ -2890,7 +2944,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 4: {
-            here.remove_field( examp, fd_fire );
+            here.remove_field( examp, field_type_id( "fd_fire" ) );
             p.mod_moves( -200 );
             p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
                                  here.furnname( examp ) );
@@ -4402,8 +4456,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( hack == choice ) {
-        p.assign_activity( player_activity( hacking_activity_actor() ) );
-        p.activity.placement = examp;
+        try_start_hacking( p, examp );
     }
 
     if( refund == choice ) {
@@ -4495,14 +4548,14 @@ void iexamine::ledge( player &p, const tripoint &examp )
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = p.climbing_cost( where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = ngettext( "Looks like %d story.  Jump down?",
+            const char *query_str = ngettext( "Looks like %d story.  Jump down?",
                                               "Looks like %d stories.  Jump down?",
                                               height );
 
-            if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
+            if( height > 1 && !query_yn( query_str, height ) ) {
                 return;
             } else if( height == 1 ) {
-                std::string query;
+                const char *query;
                 p.increase_activity_level( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
@@ -4519,7 +4572,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                     query = _( "Use your grappling hook to climb down?" );
                 }
 
-                if( !query_yn( query.c_str() ) ) {
+                if( !query_yn( query ) ) {
                     return;
                 }
             }
@@ -5927,7 +5980,16 @@ void iexamine::open_safe( player &, const tripoint &examp )
 
 void iexamine::workbench( player &p, const tripoint &examp )
 {
-    workbench_internal( p, examp, cata::nullopt );
+    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
+        workbench_internal( p, examp, cata::nullopt );
+    } else {
+        if( !get_map().i_at( examp ).empty() ) {
+            Pickup::pick_up( examp, 0 );
+        }
+        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+            deployed_furniture( p, examp );
+        }
+    }
 }
 
 void iexamine::workbench_internal( player &p, const tripoint &examp,
@@ -6051,9 +6113,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 pgettext( "in progress craft", "You start working on the %s." ),
                 pgettext( "in progress craft", "<npcname> starts working on the %s." ),
                 selected_craft->tname() );
-            p.assign_activity( activity_id( "ACT_CRAFT" ) );
-            p.activity.targets.push_back( crafts[amenu2.ret] );
-            p.activity.values.push_back( 0 ); // Not a long craft
+            p.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             break;
         }
         case get_items: {

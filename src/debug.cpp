@@ -1,7 +1,6 @@
 #include "debug.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cctype>
 #include <cerrno>
 #include <cmath>
@@ -23,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -91,6 +91,49 @@ extern bool test_mode;
 /** Set to true when any error is logged. */
 static bool error_observed = false;
 
+/** If true, debug messages will be captured,
+ * used to test debugmsg calls in the unit tests
+ */
+static bool capturing = false;
+/** сaptured debug messages */
+static std::string captured;
+
+/**
+ * Class for capturing debugmsg,
+ * used by capture_debugmsg_during.
+ */
+class capture_debugmsg
+{
+    public:
+        capture_debugmsg();
+        std::string dmsg();
+        ~capture_debugmsg();
+};
+
+std::string capture_debugmsg_during( const std::function<void()> &func )
+{
+    capture_debugmsg capture;
+    func();
+    return capture.dmsg();
+}
+
+capture_debugmsg::capture_debugmsg()
+{
+    capturing = true;
+    captured = "";
+}
+
+std::string capture_debugmsg::dmsg()
+{
+    capturing = false;
+    return captured;
+}
+
+capture_debugmsg::~capture_debugmsg()
+{
+    capturing = false;
+}
+
 bool debug_has_error_been_observed()
 {
     return error_observed;
@@ -108,12 +151,16 @@ std::set<std::string> ignored_messages;
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
 {
-    assert( filename != nullptr );
-    assert( line != nullptr );
-    assert( funcname != nullptr );
+    cata_assert( filename != nullptr );
+    cata_assert( line != nullptr );
+    cata_assert( funcname != nullptr );
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
-                                << text << std::flush;
+    if( capturing ) {
+        captured += text;
+    } else {
+        DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text <<
+                                    std::flush;
+    }
 
     if( test_mode ) {
         return;
@@ -189,7 +236,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     } );
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DEBUG_MSG", keyboard_mode::keychar );
+    input_context ctxt( "DEBUG_MSG", keyboard_mode::keycode );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
@@ -844,7 +891,7 @@ void debug_write_backtrace( std::ostream &out )
         // available in bt.
 
         auto funcName = funcNames[i];
-        assert( funcName ); // To appease static analysis
+        cata_assert( funcName ); // To appease static analysis
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {

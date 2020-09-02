@@ -131,13 +131,9 @@ static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
-static const trait_id trait_HUGE( "HUGE" );
-static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LARGE( "LARGE" );
-static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -301,7 +297,7 @@ void player::process_turn()
     }
 
     visit_items( [this]( item * e ) {
-        e->process_artifact( this, pos() );
+        e->process_relic( this, pos() );
         return VisitResponse::NEXT;
     } );
 
@@ -504,13 +500,6 @@ void player::recalc_speed_bonus()
         }
     }
 
-    if( has_artifact_with( AEP_SPEED_UP ) ) {
-        mod_speed_bonus( 20 );
-    }
-    if( has_artifact_with( AEP_SPEED_DOWN ) ) {
-        mod_speed_bonus( -20 );
-    }
-
     float speed_modifier = Character::mutation_value( "speed_modifier" );
     set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
 
@@ -681,29 +670,6 @@ std::list<item *> player::get_radio_items()
         }
     }
     return rc_items;
-}
-
-std::list<item *> player::get_artifact_items()
-{
-    std::list<item *> art_items;
-    const invslice &stacks = inv->slice();
-    for( const auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.is_artifact() ) {
-            art_items.push_back( &stack_iter );
-        }
-    }
-    for( auto &elem : worn ) {
-        if( elem.is_artifact() ) {
-            art_items.push_back( &elem );
-        }
-    }
-    if( is_armed() ) {
-        if( weapon.is_artifact() ) {
-            art_items.push_back( &weapon );
-        }
-    }
-    return art_items;
 }
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
@@ -958,7 +924,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         int shock = rng( 1, 4 );
         mod_power_level( units::from_kilojoule( -shock ) );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
@@ -977,7 +943,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
                      source->disp_name() );
         }
         damage_instance spine_damage;
-        spine_damage.add_damage( DT_STAB, spine );
+        spine_damage.add_damage( damage_type::STAB, spine );
         source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
     }
     if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
@@ -992,7 +958,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         }
         int thorn = rng( 1, 4 );
         damage_instance thorn_damage;
-        thorn_damage.add_damage( DT_CUT, thorn );
+        thorn_damage.add_damage( damage_type::CUT, thorn );
         // In general, critters don't have separate limbs
         // so safer to target the torso
         source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
@@ -1254,9 +1220,9 @@ int player::impact( const int force, const tripoint &p )
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
-            di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
+            di.add_damage( damage_type::BASH, bash, 0, armor_eff, mod );
             // No good way to land on sharp stuff, so here modifier == 1.0f
-            di.add_damage( DT_CUT, cut, 0, armor_eff, 1.0f );
+            di.add_damage( damage_type::CUT, cut, 0, armor_eff, 1.0f );
             total_dealt += deal_damage( nullptr, bp, di ).total_damage();
         }
     }
@@ -1297,7 +1263,7 @@ void player::knock_back_to( const tripoint &to )
 
     // First, see if we hit a monster
     if( monster *const critter = g->critter_at<monster>( to ) ) {
-        deal_damage( critter, bodypart_id( "torso" ), damage_instance( DT_BASH,
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
                      static_cast<float>( critter->type->size ) ) );
         add_effect( effect_stunned, 1_turns );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
@@ -1318,9 +1284,9 @@ void player::knock_back_to( const tripoint &to )
 
     if( npc *const np = g->critter_at<npc>( to ) ) {
         deal_damage( np, bodypart_id( "torso" ),
-                     damage_instance( DT_BASH, static_cast<float>( np->get_size() ) ) );
+                     damage_instance( damage_type::BASH, static_cast<float>( np->get_size() ) ) );
         add_effect( effect_stunned, 1_turns );
-        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, 3 ) );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
                                np->name );
         np->check_dead_state();
@@ -1531,10 +1497,10 @@ void player::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -1555,10 +1521,10 @@ void player::process_one_effect( effect &it, bool is_new )
             if( has_trait( trait_FAT ) ) {
                 mod *= 1.5;
             }
-            if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+            if( get_size() == creature_size::large ) {
                 mod *= 2;
             }
-            if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+            if( get_size() == creature_size::huge ) {
                 mod *= 3;
             }
         }
@@ -2217,7 +2183,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
                 bio_cqb ) ? bio_cqb_styles :
             ma_styles;
 
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
@@ -2718,13 +2684,16 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     item *target = nullptr;
+    item_location targloc;
     if( opts.size() > 1 ) {
         const int ret = uilist( _( "Unload what?" ), msgs );
         if( ret >= 0 ) {
             target = opts[ret];
+            targloc = item_location( loc, opts[ret] );
         }
     } else {
         target = &it;
+        targloc = loc;
     }
 
     if( target == nullptr ) {
@@ -2760,7 +2729,6 @@ bool player::unload( item_location &loc, bool bypass_activity )
     } );
 
     if( target->is_magazine() ) {
-        item_location targloc = item_location( loc, target );
         if( bypass_activity ) {
             unload_mag_activity_actor::unload( *this, targloc );
         } else {
@@ -3221,7 +3189,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), fd_web );
+        int web = here.get_field_intensity( pos(), field_type_id( "fd_web" ) );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -3231,7 +3199,7 @@ void player::try_to_sleep( const time_duration &dur )
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
                                    _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), fd_web );
+                here.remove_field( pos(), field_type_id( "fd_web" ) );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.

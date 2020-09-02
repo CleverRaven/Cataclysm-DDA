@@ -59,7 +59,6 @@ void butchery_requirements::load( const JsonObject &jo, const std::string & )
                           id.c_str(), creature_size::num_sizes - 1 );
                 break;
             }
-            std::map<butcher_type, requirement_id> temp;
             requirements[modifier].emplace( static_cast<creature_size>( critter_size ),
                                             std::map<butcher_type, requirement_id> {} );
 
@@ -96,13 +95,14 @@ void butchery_requirements::check_consistency()
 std::pair<float, requirement_id> butchery_requirements::get_fastest_requirements(
     const inventory &crafting_inv, creature_size size, butcher_type butcher ) const
 {
-    for( auto riter = requirements.rbegin(); riter != requirements.rend(); ++riter ) {
-        if( riter->second.at( size ).at( butcher )->can_make_with_inventory( crafting_inv,
+    for( const std::pair<const float, std::map<creature_size, std::map<butcher_type, requirement_id>>>
+         &riter : requirements ) {
+        if( riter.second.at( size ).at( butcher )->can_make_with_inventory( crafting_inv,
                 is_crafting_component ) ) {
-            return std::make_pair( riter->first, riter->second.at( size ).at( butcher ) );
+            return std::make_pair( riter.first, riter.second.at( size ).at( butcher ) );
         }
     }
     // we didn't find anything we could "craft", so return the requirement that's the fastest
-    const auto first = requirements.begin();
+    const auto first = requirements.rbegin();
     return std::make_pair( first->first, first->second.at( size ).at( butcher ) );
 }

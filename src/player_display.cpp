@@ -210,7 +210,7 @@ static int get_encumbrance( const player &p, const bodypart_id &bp, bool combine
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, const bodypart_id bp,
+static std::string get_encumbrance_description( const player &p, const bodypart_id &bp,
         bool combine )
 {
     std::string s;
@@ -407,7 +407,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
 
     // Stats
     const auto display_stat = [&w_stats]( const char *name, int cur, int max, int line_n,
-    const nc_color col ) {
+    const nc_color & col ) {
         nc_color cstatus;
         if( cur <= 0 ) {
             cstatus = c_dark_gray;

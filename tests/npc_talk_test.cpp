@@ -67,7 +67,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
-        response.create_option_line( d, ' ' );
+        response.create_option_line( d, input_event() );
     }
     if( d.responses.size() != expected_count ) {
         printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );

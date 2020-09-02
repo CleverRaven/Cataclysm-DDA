@@ -351,7 +351,7 @@ ifeq ($(RELEASE), 1)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # OTHERS += -march=native # Uncomment this to build an optimized binary for your machine only
-  
+
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
@@ -420,7 +420,7 @@ ifeq ($(PCH), 1)
         CXXFLAGS += -Xclang -fno-pch-timestamp
       endif
     endif
-    
+
   endif
 endif
 
@@ -801,7 +801,7 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
+JSON_FORMATTER_SOURCES := tools/format/format.cpp tools/format/format_main.cpp src/json.cpp
 CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
@@ -934,7 +934,9 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.{gch,pch,d}
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1133,7 +1135,7 @@ astyle: $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
 endif
 
 astyle-check:

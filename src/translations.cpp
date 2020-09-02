@@ -30,6 +30,15 @@
 #include "rng.h"
 #include "text_style_check.h"
 
+#if defined(MACOSX)
+#include <CoreFoundation/CFLocale.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+#include "cata_utility.h"
+
+std::string getOSXSystemLang();
+#endif
+
 extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
@@ -52,15 +61,6 @@ static bool sanity_checked_genders = false;
 #   include "platform_win.h"
 #endif
 #   include "mmsystem.h"
-#endif
-
-#if defined(MACOSX)
-#   include <CoreFoundation/CFLocale.h>
-#   include <CoreFoundation/CoreFoundation.h>
-
-#include "cata_utility.h"
-
-std::string getOSXSystemLang();
 #endif
 
 const char *pgettext( const char *context, const char *msgid )

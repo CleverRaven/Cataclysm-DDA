@@ -1,3 +1,124 @@
+# 0.F (06-01-2020)
+
+## Features:
+Added option to randomize INITIAL_DAY.
+Allow vehicles with autopilot to follow you.
+Monster factions can unconditionally hate other factions.
+Allows mutations to cast spells via enchantments.
+Mining multi-activity for NPCs and players.
+Basecamp job rework - wandering/sitting/job priorities.
+Auto eat and drink from auto-zones during long activities/waiting.
+Flyable Helicopters.
+Towing vehicles.
+User defined height and age.
+Add support for json-defined achievements to provide more goals to strive for.
+Lock picking overhaul.
+Rot items away in reality bubble.
+Display holiday on main menu screen based on system time.
+Separate bullet damage type from cut/stab.
+Makes consuming items take time.
+Implement damage over time spell infrastructure.
+Nested Container system.
+Add support for conducts (self-imposed play constraints tracked by the game).
+
+## Content:
+Gun volume and weight audit.
+Move most urban development houses to vanilla.
+Add Survivor RV and car.
+Populate rooftops with monsters.
+Large addition of chemicals, chemistry tools and recipes.
+Mi-go, masters, and necromancers can open doors.
+Adds a bulk shipping crate possibility to the supplydrop map extra.
+New zombie: necro-boomer.
+Overhaul the mall.
+
+## Interface:
+Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized. 
+Crafting GUI - Highlight hidden recipe info.
+Overhaul target selection and aiming UI.
+
+## Mods:
+[Magiclysm] Manatouched mutation tree
+Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
+Overhaul Blazemod and split into seperate mods.
+[MMA] Add Ki Strike trait.
+
+## Balance:
+Large item price audit.
+Large scale melee weapon damage audit.
+melee: make polearms do less damage against adjacent targets.
+Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
+More complex satiety calculations.
+
+## Bugfixes:
+Prevents possible negative damage from explosions.
+Removes scent diffusion over water by implementing NO_SCENT flag.
+Give electric motors equal power in both forward and reverse.
+Fix wield action costing double than it should.
+Fix spells not gaining levels on cast.
+Fix for light sources rendering player invisible at certain ranges.
+Fix crash when NPC gives player equipment.
+Fix "Unable to find and assign mission target" message when accepting mission.
+No more floor items when trading with follower NPCs.
+Fix crash by not accessing null basecamp.
+Helicopters: Allow descending into open air while moving, and disallow roof teleporting.
+Fix cold item rotting in freezer and add more rotting tests.
+Place cursor at highlighted item name in construction and crafting menus as expected by screen readers.
+Spawn regular ants under regular anthills.
+melee: Make sure that melee weapon accuracy improves hit rates.
+Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
+Wake up player if too cold due to hypothermia.
+Fixes a segfault during initializing crafts.
+fixes segfault when attempting to siphon from vehicle with multiple tanks.
+Fix creatures blocking descend even if they can be displaced.
+Fix OnGetHit effects not triggering if player cannot block.
+Refactor monster spawning code to avoid crash.
+
+## Performance:
+Add option to enable batching when it is available in SDL.
+
+## Infrastructure:
+Add basic infrastructure for diseases.
+Allow for specialization of activity parameters.
+Improved event transformations and statistic tracking.
+Jsonize Autodoc quality.
+Add tests for character BMI / kcal / weight.
+Jsonize mood modifier from bodyparts.
+Allow multiple overmap terrains in start location.
+Make test failures from other platforms more easily reproducible.
+Enforce a standard header guard format.
+Add clang-tidy check to catch incorrect use of RNGs.
+Adds guide to pricing items to doc folder.
+Add enchantments to bionics.
+Add test for health effect on healing rate.
+Add tests for BMI effect on speed.
+Update Catch2 to v2.12.0 (from 2.9.1).
+Achievements have better up-front checking to detect definition errors.
+Tests use a different config directory by default.
+Migrate ACT_PICKUP to the activity actor system.
+Integrate behavior tree implementation into monster AI.
+Move ascii arts to their own file to avoid bloat.
+Enforce that functions should not have separate x, y parameters.
+Add tests for sun-related functions.
+Jsonize Anatomy: replace enum body_part with bodypart_id.
+Implement installation requirment for CBMs.
+Fields can now override local light levels.
+Convert itype_id to string_id<itype>.
+
+## Build:
+Create a GitHub workflow for running clang-tidy.
+Remove Travis clang-tidy job.
+Add -fsigned-char to CMakeLists.txt.
+Makes json linter feedback more readable.
+Fix clang-tidy header guard check on Windows.
+
+## I18N and A11Y:
+Fix translation of martial art initate message and computer translation.
+Add support for specifying identical singular and plural forms using `str_sp`.
+Remove name_plural and replace it with str_pl.
+Add helper for localized sorting.
+Record locales in debug.log to assist with i18n debugging.
+
 # 0.E (Ellison)
 
 ## Highlights:

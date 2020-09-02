@@ -183,7 +183,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( flag_YOUNG, p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
-            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, field_type_id( "fd_fungal_haze" ) ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
                     if( gm.place_critter_at( mon_fungal_blossom, p ) ) {
@@ -199,7 +199,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( flag_TREE, p ) ) {
         if( one_in( 10 ) ) {
-            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, field_type_id( "fd_fungal_haze" ) ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
                     if( gm.place_critter_at( mon_fungal_blossom, p ) ) {

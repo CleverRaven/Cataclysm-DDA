@@ -47,11 +47,11 @@
     "copy-from": "afs_sentinel_cloak",
     "name": { "str": "hologram cloak mk.2" },
     "description": " A, when activated, will create an holographic decoy of its wearer.  Powered by an experimental n-space energy generator, it slowly recharges itself for free, probably by syphoning excess energy from some unknown hyperdimensional space.",
-    "max_charges": 15,
-    "initial_charges": 15,
     "charges_per_use": 1,
+    "//": "Change charges and charge_regen only",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 15 } } ],
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
-    "artifact_data": { "charge_type": "ARTC_TIME" },
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -339,5 +339,66 @@
     "volume": "250 ml",
     "copy-from": "legpouch_large",
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "afs_herc_rig",
+    "type": "ARMOR",
+    "name": { "str": "HERC rig" },
+    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
+    "weight": "600 g",
+    "volume": "10 L",
+    "looks_like": "tacvest",
+    "price": 7400,
+    "price_postapoc": 5000,
+    "material": [ "steel", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 2,
+    "max_encumbrance": 15,
+    "material_thickness": 2,
+    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true
+      },
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
+        "moves": 40,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "rigid": true,
+        "holster": true
+      },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "5 kg", "moves": 150 },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "2 L",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "30 kg",
+        "flag_restriction": [ "MAG_BULKY" ],
+        "moves": 60
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ]
   }
 ]

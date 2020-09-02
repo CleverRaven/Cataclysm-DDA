@@ -251,8 +251,6 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
-        // If spell is to summon a vehicle, the vproto_id of the vehicle
-        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -264,7 +262,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NULL;
+        damage_type dmg_type = damage_type::NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;
@@ -275,7 +273,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
@@ -376,7 +374,7 @@ class spell
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input

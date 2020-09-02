@@ -132,7 +132,7 @@ static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense,
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( damage_type::HEAT, rng( intense,
                    intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
@@ -590,36 +590,13 @@ void player::hardcoded_effects( effect &it )
             apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
-        // Worn or wielded; diminished effects
-        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
-                          weapon.has_effect_when_carried( AEP_EVIL );
-        for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
-                lesserEvil = true;
-                break;
-            }
-        }
-        if( lesserEvil ) {
-            // Only minor effects, some even good!
-            mod_str_bonus( dur > 450_minutes ? 10.0 : dur / 45_minutes );
-            if( dur < 1_hours ) {
-                mod_dex_bonus( 1 );
-            } else {
-                int dex_mod = -( dur > 360_minutes ? 10.0 : ( dur - 1_hours ) / 30_minutes );
-                mod_dex_bonus( dex_mod );
-                add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
-            }
-            mod_int_bonus( -( dur > 300_minutes ? 10.0 : ( dur - 50_minutes ) / 25_minutes ) );
-            mod_per_bonus( -( dur > 480_minutes ? 10.0 : ( dur - 80_minutes ) / 40_minutes ) );
-        } else {
-            // Major effects, all bad.
-            mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
-            int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
-            mod_dex_bonus( dex_mod );
-            add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
-            mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
-            mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
-        }
+        // Major effects, all bad.
+        mod_str_bonus( -( dur > 500_minutes ? 10.0 : dur / 50_minutes ) );
+        int dex_mod = -( dur > 600_minutes ? 10.0 : dur / 60_minutes );
+        mod_dex_bonus( dex_mod );
+        add_miss_reason( _( "Why waste your time on that insignificant speck?" ), -dex_mod );
+        mod_int_bonus( -( dur > 450_minutes ? 10.0 : dur / 45_minutes ) );
+        mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
@@ -658,8 +635,8 @@ void player::hardcoded_effects( effect &it )
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
-                body_part itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, convert_bp( itch ).id() );
+                const bodypart_id &itch = random_body_part( true );
+                add_effect( effect_formication, 60_minutes, itch );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -672,7 +649,7 @@ void player::hardcoded_effects( effect &it )
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
         for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
-                here.add_field( dest, fd_tindalos_rift, 3 );
+                here.add_field( dest, field_type_id( "fd_tindalos_rift" ), 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
                 //Remove the effect, since it's done all it needs to do to the target.
                 remove_effect( effect_tindrift );
@@ -976,13 +953,13 @@ void player::hardcoded_effects( effect &it )
                 } else if( intense == 2 ) {
                     warning = _( "Your pale skin is sweating, your heart beats fast and you feel restless.  Maybe you lost too much blood?" );
                 } else if( intense == 3 ) {
-                    warning = _( "You're unsettlingly white, but your fingetips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
+                    warning = _( "You're unsettlingly white, but your fingertips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
                 } else { //intense == 4
-                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of colapse from effects of a bood loss." );
+                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of collapse from effects of a blood loss." );
                 }
                 add_msg_if_player( m_bad, warning );
             } else {
-                // effect dice, with progresion of effects, 3 possible effects per tier
+                // effect dice, with progression of effects, 3 possible effects per tier
                 int dice_roll = rng( 0, 2 ) + intense;
                 switch( dice_roll ) {
                     case 1:
@@ -994,7 +971,7 @@ void player::hardcoded_effects( effect &it )
                         mod_fatigue( 3 * intense );
                         break;
                     case 3:
-                        warning = _( "You are anxcious and cannot collect your thoughts." );
+                        warning = _( "You are anxious and cannot collect your thoughts." );
                         focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
                         break;
                     case 4:
@@ -1059,7 +1036,7 @@ void player::hardcoded_effects( effect &it )
                     mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
                     break;
                 case 2:
-                    add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
+                    add_msg_if_player( m_bad, _( "Your feet feel unusually cold." ) );
                     mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
                     mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
                     break;
@@ -1105,7 +1082,7 @@ void player::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migrane follows." ) );
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migraine follows." ) );
                         mod_pain( intense * 9 );
                         break;
                     case 7: // 7-9 empty for variability, as messages stack on higher intensity
@@ -1478,8 +1455,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( ( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-                  one_in( 43200 ) && is_player() ) ) {
+            if( has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && is_player() ) {
                 if( one_in( 2 ) ) {
                     sound_hallu();
                 } else {
@@ -1616,7 +1592,7 @@ void player::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_unwield( weapon ).success() ) {
+                        if( is_armed() && can_drop( weapon ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
                             } else {

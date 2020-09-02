@@ -1,7 +1,6 @@
 #include "overmapbuffer.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <iterator>
 #include <list>
@@ -11,6 +10,7 @@
 
 #include "basecamp.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -55,13 +55,13 @@ const city_reference city_reference::invalid{ nullptr, tripoint_abs_sm(), -1 };
 
 int city_reference::get_distance_from_bounds() const
 {
-    assert( city != nullptr );
+    cata_assert( city != nullptr );
     return distance - omt_to_sm_copy( city->size );
 }
 
 int camp_reference::get_distance_from_bounds() const
 {
-    assert( camp != nullptr );
+    cata_assert( camp != nullptr );
     return distance - omt_to_sm_copy( 4 );
 }
 
@@ -546,6 +546,8 @@ std::vector<mongroup *> overmapbuffer::groups_at( const tripoint_abs_sm &p )
     return result;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-noreturn"
 std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint_abs_omt
         &origin )
 {
@@ -560,6 +562,7 @@ std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const trip
 
     return found_traces;
 }
+#pragma GCC diagnostic pop
 
 scent_trace overmapbuffer::scent_at( const tripoint_abs_omt &p )
 {
@@ -1080,7 +1083,7 @@ cata::optional<basecamp *> overmapbuffer::find_camp( const point_abs_omt &p )
 
 void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 {
-    assert( who );
+    cata_assert( who );
     const tripoint_abs_omt npc_omt_pos = who->global_omt_location();
     const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
     get( npc_om_pos ).insert_npc( who );
@@ -1400,14 +1403,14 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
         // is stored *after* it has gone out of bounds during shifting. When reloading
         // we only need the part that tells where on the submap to put it.
         point ms( modulo( this_monster.posx(), SEEX ), modulo( this_monster.posy(), SEEY ) );
-        assert( ms.x >= 0 && ms.x < SEEX );
-        assert( ms.y >= 0 && ms.y < SEEX );
+        cata_assert( ms.x >= 0 && ms.x < SEEX );
+        cata_assert( ms.y >= 0 && ms.y < SEEX );
         // TODO: fix point types
         ms += project_to<coords::ms>( p.xy() ).raw();
         const map &here = get_map();
         // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( here.getlocal( ms ), p.z() );
-        assert( here.inbounds( local ) );
+        cata_assert( here.inbounds( local ) );
         monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
                                 local );
         if( placed ) {

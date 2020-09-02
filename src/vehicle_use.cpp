@@ -94,14 +94,18 @@ enum change_types : int {
     CANCEL
 };
 
-char keybind( const std::string &opt, const std::string &context )
+static input_event keybind( const std::string &opt,
+                            const std::string &context = "VEHICLE" )
 {
-    const auto keys = input_context( context, keyboard_mode::keychar ).keys_bound_to( opt );
-    return keys.empty() ? ' ' : keys.front();
+    const std::vector<input_event> keys = input_context( context, keyboard_mode::keycode )
+                                          .keys_bound_to( opt, /*maximum_modifier_count=*/1 );
+    return keys.empty() ? input_event() : keys.front();
 }
 
 void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                  std::vector<std::function<void()>> &actions,
+                                  const std::string &name,
+                                  const input_event &key,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
@@ -240,7 +244,8 @@ void vehicle::control_doors()
 void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         std::vector<std::function<void()>> &actions )
 {
-    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+    auto add_toggle = [&]( const std::string & name, const input_event & key,
+    const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
@@ -1295,7 +1300,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, DT_BASH, false );
+            damage( vp.part_index(), v_damage, damage_type::BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1364,7 +1369,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( planter_id, rng( 1, 10 ), DT_BASH, false );
+                    damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }
@@ -1425,7 +1430,7 @@ void vehicle::operate_scoop()
             }
             if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->inc_damage( DT_BASH );
+                that_item_there->inc_damage( damage_type::BASH );
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
                                               that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
@@ -2040,8 +2045,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
     if( has_workbench ) {
-        selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
-                             parts[workbench_part].name() ) );
+        selectmenu.addentry( WORKBENCH, true,
+                             hotkey_for_action( ACTION_CRAFT, /*maximum_modifier_count=*/1 ),
+                             string_format( _( "Craft at the %s" ),
+                                            parts[workbench_part].name() ) );
     }
 
     int choice;

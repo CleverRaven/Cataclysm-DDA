@@ -95,12 +95,16 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
-static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
+enum class mutation_filter : int {
+    all,
+    anger_relations,
+    ignored_by
+};
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
@@ -469,6 +473,8 @@ class Character : public Creature, public visitable<Character>
 
         /** Get size class of character **/
         creature_size get_size() const override;
+        /** Recalculate size class of character **/
+        void recalculate_size();
 
         /** Returns either "you" or the player's name. capitalize_first assumes
             that the character's name is already upper case and uses it only for
@@ -1042,7 +1048,7 @@ class Character : public Creature, public visitable<Character>
         float mabuff_attack_cost_mult() const;
 
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
+        void mutation_effect( const trait_id &mut, bool worn_destroyed_override );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
@@ -1195,7 +1201,7 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( int difficulty, int success, float adjusted_skill );
 
         /**When a critical failure occurs*/
-        void roll_critical_bionics_failure( body_part bp );
+        void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -1204,8 +1210,6 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
 
-        /**Convert fuel to bionic power*/
-        bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
@@ -1235,7 +1239,9 @@ class Character : public Creature, public visitable<Character>
         struct has_mission_item_filter {
             int mission_id;
             bool operator()( const item &it ) {
-                return it.mission_id == mission_id;
+                return it.mission_id == mission_id || it.contents.has_any_with( [&]( const item & it ) {
+                    return it.mission_id == mission_id;
+                }, item_pocket::pocket_type::SOFTWARE );
             }
         };
 
@@ -1501,12 +1507,6 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_selected_stack_volume( const item *i,
-                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
@@ -1549,15 +1549,22 @@ class Character : public Creature, public visitable<Character>
          * @param it Thing to be unwielded
          */
         ret_val<bool> can_unwield( const item &it ) const;
+        /**
+         * Check player capable of droping an item.
+         * @param it Thing to be unwielded
+         */
+        ret_val<bool> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
+        // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
+        void invalidate_inventory_validity_cache();
+
+        void invalidate_weight_carried_cache();
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
         void drop( item_location loc, const tripoint &where );
         virtual void drop( const drop_locations &what, const tripoint &target, bool stash = false );
-
-        virtual bool has_artifact_with( art_effect_passive effect ) const;
 
         bool is_wielding( const item &target ) const;
 
@@ -1624,13 +1631,12 @@ class Character : public Creature, public visitable<Character>
         bool has_proficiency( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof );
         void lose_proficiency( const proficiency_id &prof );
-        void practice_proficiency( const proficiency_id &prof, time_duration amount,
-                                   cata::optional<time_duration> max = cata::nullopt );
+        void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+                                   const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
-
 
         // --------------- Other Stuff ---------------
 
@@ -1724,7 +1730,8 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true,
+                                             mutation_filter filter = mutation_filter::all ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -2131,7 +2138,9 @@ class Character : public Creature, public visitable<Character>
         * @return true when recharging was successful.
         */
         bool feed_reactor_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful. */
         bool feed_furnace_with( item &it, item_pocket *parent_pocket );
+        /** @return true if successful and was not a magazine. */
         bool fuel_bionic_with( item &it, item_pocket *parent_pocket );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
@@ -2342,7 +2351,7 @@ class Character : public Creature, public visitable<Character>
          * @param craft - the in progress craft
          * @param time - the amount of time since the last practice tick
          */
-        void craft_proficiency_gain( const item &craft, time_duration time );
+        void craft_proficiency_gain( const item &craft, const time_duration &time );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -2372,9 +2381,8 @@ class Character : public Creature, public visitable<Character>
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
         select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys = DEFAULT_HOTKEYS,
                                bool can_cancel = false, bool player_inv = true,
-        std::function<int( int )> charges_required_modifier = []( int i ) {
+        const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;
         } );
         /** Consume tools for the next multiplier * 5% progress of the craft */
@@ -2383,8 +2391,7 @@ class Character : public Creature, public visitable<Character>
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
-        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1 );
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
@@ -2517,6 +2524,11 @@ class Character : public Creature, public visitable<Character>
          * Pointers to mutation branches in @ref my_mutations.
          */
         std::vector<const mutation_branch *> cached_mutations;
+        /**
+         * The amount of weight the Character is carrying.
+         * If it is nullopt, needs to be recalculated
+         */
+        mutable cata::optional<units::mass> cached_weight_carried = cata::nullopt;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -2555,6 +2567,13 @@ class Character : public Creature, public visitable<Character>
 
         pimpl<player_morale> morale;
 
+    public:
+        /**
+         * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
+         * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
+         * Used to determine suffering effects of albinism and solar sensitivity.
+         */
+        std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
@@ -2567,12 +2586,11 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_asthma( int current_stim );
         void suffer_from_pain();
         void suffer_in_sunlight();
-        void suffer_from_albinism();
+        void suffer_from_sunburn();
         void suffer_from_other_mutations();
         void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
-        void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
         void suffer_from_tourniquet();
@@ -2583,6 +2601,17 @@ class Character : public Creature, public visitable<Character>
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        struct auto_toggle_bionic_result;
+        /**
+         * Automatically turn bionic on or off according to remaining fuel and
+         * user settings, and return info of the first burnable fuel.
+         */
+        auto_toggle_bionic_result auto_toggle_bionic( int b, bool start );
+        /**
+         *Convert fuel to bionic power
+         */
+        void burn_fuel( int b, const auto_toggle_bionic_result &result );
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
@@ -2605,6 +2634,7 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance = true;
+        bool cache_inventory_is_valid = false;
 
         int stim;
         int pkill;
@@ -2638,9 +2668,6 @@ class Character : public Creature, public visitable<Character>
 };
 
 Character &get_player_character();
-
-/// Little size helper, exposed for use in deserialization code.
-creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<character_stat> {

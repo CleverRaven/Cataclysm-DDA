@@ -666,7 +666,7 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
-                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
+                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
                             e.get_bool( "permanent", false ),
                             e.get_int( "chance", 100 ) );
 }
@@ -790,7 +790,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( DT_CUT, bonus_cut );
+        melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
     if( jo.has_member( "death_drops" ) ) {
@@ -1203,6 +1203,9 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
         }
+        if( !mon.harvest.is_valid() ) {
+            debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
                 debugmsg( "monster %s has unknown scents_tracked %s", mon.id.c_str(), s_id.c_str() );
@@ -1213,7 +1216,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
-        for( const auto &s : mon.starting_ammo ) {
+        for( const std::pair<const itype_id, int> &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }

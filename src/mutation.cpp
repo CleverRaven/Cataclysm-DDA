@@ -65,6 +65,9 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -97,7 +100,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) > 0;
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut == b ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -151,7 +159,7 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait );
+    mutation_effect( trait, false );
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -336,20 +344,22 @@ const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) c
     return iter->second;
 }
 
-creature_size calculate_size( const Character &c )
+void Character::recalculate_size()
 {
-    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
-        c.has_trait( trait_id( "SMALL" ) ) ) {
-        return creature_size::small;
-    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return creature_size::large;
-    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return creature_size::huge;
+    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ) {
+        size_class = creature_size::tiny;
+    } else if( has_trait( trait_SMALL ) ) {
+        size_class = creature_size::small;
+    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+        size_class = creature_size::large;
+    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+        size_class = creature_size::huge;
+    } else {
+        size_class = creature_size::medium;
     }
-    return creature_size::medium;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -382,11 +392,11 @@ void Character::mutation_effect( const trait_id &mut )
         apply_mods( mut, true );
     }
 
-    size_class = calculate_size( *this );
+    recalculate_size();
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -398,7 +408,7 @@ void Character::mutation_effect( const trait_id &mut )
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( branch.destroys_gear ) {
+        if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
@@ -454,11 +464,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
         apply_mods( mut, false );
     }
 
-    size_class = calculate_size( *this );
+    recalculate_size();
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -615,7 +625,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), field_type_id( "fd_web" ), 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;

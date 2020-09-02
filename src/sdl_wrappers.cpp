@@ -2,11 +2,11 @@
 
 #include "sdl_wrappers.h"
 
-#include <cassert>
 #include <ostream>
 #include <stdexcept>
 #include <string>
 
+#include "cata_assert.h"
 #include "debug.h"
 #include "point.h"
 
@@ -154,7 +154,7 @@ void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &bl
 
 SDL_Surface_Ptr load_image( const char *const path )
 {
-    assert( path );
+    cata_assert( path );
     SDL_Surface_Ptr result( IMG_Load( path ) );
     if( !result ) {
         throw std::runtime_error( "Could not load image \"" + std::string( path ) + "\": " +

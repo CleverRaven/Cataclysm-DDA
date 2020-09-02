@@ -1,0 +1,7 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": { "shops": { "afs_augmentation_clinic_1": 300 } }
+  }
+]

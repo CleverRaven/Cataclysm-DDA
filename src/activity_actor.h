@@ -91,6 +91,13 @@ class activity_actor
         }
 
         /**
+         * Used to generate the progress display at the top of the screen
+         */
+        virtual std::string get_progress_message( const player_activity & ) const {
+            return std::string();
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {
@@ -221,6 +228,8 @@ class dig_activity_actor : public activity_actor
             return std::make_unique<dig_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity &act ) const override;
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -281,14 +290,22 @@ class dig_channel_activity_actor : public activity_actor
             return std::make_unique<dig_channel_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity &act ) const override;
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
 class hacking_activity_actor : public activity_actor
 {
+    private:
+        bool using_bionic = false;
+
     public:
+        struct use_bionic {};
+
         hacking_activity_actor() = default;
+        hacking_activity_actor( use_bionic );
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -417,13 +434,6 @@ class lockpick_activity_actor : public activity_actor
         cata::optional<item> fake_lockpick;
         tripoint target;
 
-    public:
-        /**
-         * When assigning, set either 'lockpick' or 'fake_lockpick'
-         * @param lockpick Physical lockpick (if using one)
-         * @param fake_lockpick Fake item spawned by a bionic
-         * @param target lockpicking target (in global coords)
-         */
         lockpick_activity_actor(
             int moves_total,
             const cata::optional<item_location> &lockpick,
@@ -431,6 +441,19 @@ class lockpick_activity_actor : public activity_actor
             const tripoint &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
+
+    public:
+        /** Use regular lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_item(
+            int moves_total,
+            const item_location &lockpick,
+            const tripoint &target
+        );
+
+        /** Use bionic lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_bionic(
+            const tripoint &target
+        );
 
         activity_id get_type() const override {
             return activity_id( "ACT_LOCKPICK" );
@@ -611,6 +634,33 @@ class unload_mag_activity_actor : public activity_actor
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<unload_mag_activity_actor>( *this );
         }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class craft_activity_actor : public activity_actor
+{
+    private:
+        item_location craft_item;
+        bool is_long;
+
+    public:
+        craft_activity_actor( item_location &it, bool is_long );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRAFT" );
+        }
+
+        void start( player_activity &act, Character &crafter ) override;
+        void do_turn( player_activity &act, Character &crafter ) override;
+        void finish( player_activity &act, Character &crafter ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<craft_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

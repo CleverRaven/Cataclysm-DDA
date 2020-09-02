@@ -19,7 +19,6 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_type.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -1682,7 +1681,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
         switch( animal_food_type ) {
             case DOGFOOD:
                 if( mon.type->id == mon_dog_thing ) {
-                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 1, 10 ) ) );
+                    p.deal_damage( &mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
                     p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
@@ -1888,10 +1887,6 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( it->charges < 0 ) {
-            it->charges = 0;
-            return 0;
-        }
         if( p->is_mounted() ) {
             p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
             return 0;
@@ -1901,7 +1896,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Fish are not foolish enough to go in here without bait." ) );
             return 0;
         }
@@ -1930,7 +1925,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
     } else {
         // Handle processing fish trap over time.
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             it->active = false;
             return 0;
         }
@@ -1943,15 +1938,15 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 
             int success = -50;
             const int surv = p->get_skill_level( skill_survival );
-            const int attempts = rng( it->charges, it->charges * it->charges );
+            const int attempts = rng( it->ammo_remaining(), it->ammo_remaining() * it->ammo_remaining() );
             for( int i = 0; i < attempts; i++ ) {
                 /** @EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap */
                 success += rng( surv, surv * surv );
             }
 
-            it->charges = rng( -1, it->charges );
-            if( it->charges < 0 ) {
-                it->charges = 0;
+            int bait_consumed = rng( 0, it->ammo_remaining() + 1 );
+            if( bait_consumed > it->ammo_remaining() ) {
+                bait_consumed = it->ammo_remaining();
             }
 
             int fishes = 0;
@@ -1967,7 +1962,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             }
 
             if( fishes == 0 ) {
-                it->charges = 0;
+                it->ammo_consume( it->ammo_remaining(), pos );
                 p->practice( skill_survival, rng( 5, 15 ) );
 
                 return 0;
@@ -2008,6 +2003,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                     }
                 }
             }
+            it->ammo_consume( bait_consumed, pos );
         }
         return 0;
     }
@@ -2030,7 +2026,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 
     map &here = get_map();
     // Reduce the strength of fire (if any) in the target tile.
-    here.add_field( dest, fd_extinguisher, 3, 10_turns );
+    here.add_field( dest, field_type_id( "fd_extinguisher" ), 3, 10_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -2062,7 +2058,8 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        here.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
+        here.mod_field_intensity( dest, field_type_id( "fd_fire" ), std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ),
+                                  0 ) );
     }
 
     return it->type->charges_to_use();
@@ -3443,7 +3440,7 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_lockpick ) ) * 2300 );
     }
 
-    you.assign_activity( lockpick_activity_actor( duration, item_location( you, it ), cata::nullopt,
+    you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
                          get_map().getabs( *target ) ) );
     return it->type->charges_to_use();
 }
@@ -3852,7 +3849,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
-                        here.add_field( dest, fd_bees, rng( 1, 3 ) );
+                        here.add_field( dest, field_type_id( "fd_bees" ), rng( 1, 3 ) );
                     }
                 }
                 break;
@@ -3882,7 +3879,7 @@ int iuse::acidbomb_act( player *p, item *it, bool, const tripoint &pos )
         it->charges = -1;
         map &here = get_map();
         for( const tripoint &tmp : here.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
-            here.add_field( tmp, fd_acid, 3 );
+            here.add_field( tmp, field_type_id( "fd_acid" ), 3 );
         }
         return 1;
     }
@@ -3908,12 +3905,12 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                here.add_field( flame, fd_fire, rng( 0, 2 ) );
+                here.add_field( flame, field_type_id( "fd_fire" ), rng( 0, 2 ) );
             }
         }
         explosion_handler::explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
-            here.add_field( dest, fd_incendiary, 3 );
+            here.add_field( dest, field_type_id( "fd_incendiary" ), 3 );
         }
 
     }
@@ -3950,7 +3947,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
         }
         return 1;
     } else if( it->charges > 0 ) {
@@ -4166,8 +4163,9 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
     } else {
         // TODO: Maybe - Execute an attack and maybe zap something other than torso
         // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 5,
-                                       25 ) ) ).total_damage();
+        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
+                                       rng( 5,
+                                            25 ) ) ).total_damage();
         if( dam > 0 ) {
             p->add_msg_player_or_npc( m_good,
                                       _( "You shock %s!" ),
@@ -4791,7 +4789,7 @@ int iuse::call_of_tindalos( player *p, item *it, bool, const tripoint & )
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( p->pos(), 12 ) ) {
         if( here.is_cornerfloor( dest ) ) {
-            here.add_field( dest, fd_tindalos_rift, 3 );
+            here.add_field( dest, field_type_id( "fd_tindalos_rift" ), 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
@@ -4845,7 +4843,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         item acid( "chem_sulphuric_acid", calendar::turn );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
-            if( it->inc_damage( DT_ACID ) ) {
+            if( it->inc_damage( damage_type::ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
                                       it->tname() );
                 p->i_rem( it );
@@ -5364,342 +5362,6 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         p->moves -= 15;
     } else {
         return 0;
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::artifact( player *p, item *it, bool, const tripoint & )
-{
-    if( p->is_npc() ) {
-        // TODO: Allow this for trusting NPCs
-        return 0;
-    }
-
-    if( !it->is_artifact() ) {
-        debugmsg( "iuse::artifact called on a non-artifact item!  %s",
-                  it->tname() );
-        return 0;
-    } else if( !it->is_tool() ) {
-        debugmsg( "iuse::artifact called on a non-tool artifact!  %s",
-                  it->tname() );
-        return 0;
-    }
-    get_event_bus().send<event_type::activates_artifact>( p->getID(), it->tname( 1, false ) );
-
-    const auto &art = it->type->artifact;
-    size_t num_used = rng( 1, art->effects_activated.size() );
-    if( num_used < art->effects_activated.size() ) {
-        num_used += rng( 1, art->effects_activated.size() - num_used );
-    }
-
-    map &here = get_map();
-    std::vector<art_effect_active> effects = art->effects_activated;
-    for( size_t i = 0; i < num_used && !effects.empty(); i++ ) {
-        const art_effect_active used = random_entry_removed( effects );
-
-        switch( used ) {
-            case AEA_STORM: {
-                sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
-                               "thunder_near" );
-                int num_bolts = rng( 2, 4 );
-                for( int j = 0; j < num_bolts; j++ ) {
-                    point dir;
-                    while( dir.x == 0 && dir.y == 0 ) {
-                        dir.x = rng( -1, 1 );
-                        dir.y = rng( -1, 1 );
-                    }
-                    int dist = rng( 4, 12 );
-                    point bolt( p->posx(), p->posy() );
-                    for( int n = 0; n < dist; n++ ) {
-                        bolt.x += dir.x;
-                        bolt.y += dir.y;
-                        here.add_field( {bolt, p->posz()}, fd_electricity, rng( 2, 3 ) );
-                        if( one_in( 4 ) ) {
-                            if( dir.x == 0 ) {
-                                dir.x = rng( 0, 1 ) * 2 - 1;
-                            } else {
-                                dir.x = 0;
-                            }
-                        }
-                        if( one_in( 4 ) ) {
-                            if( dir.y == 0 ) {
-                                dir.y = rng( 0, 1 ) * 2 - 1;
-                            } else {
-                                dir.y = 0;
-                            }
-                        }
-                    }
-                }
-            }
-            break;
-
-            case AEA_FIREBALL: {
-                if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    explosion_handler::explosion( *fireball, 180, 0.5, true );
-                }
-            }
-            break;
-
-            case AEA_ADRENALINE:
-                p->add_msg_if_player( m_good, _( "You're filled with a roaring energy!" ) );
-                p->add_effect( effect_adrenaline, rng( 20_minutes, 25_minutes ) );
-                break;
-
-            case AEA_MAP: {
-                const tripoint_abs_omt center = p->global_omt_location();
-                const bool new_map = overmap_buffer.reveal( center.xy(), 20, center.z() );
-                if( new_map ) {
-                    p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area…" ) );
-                    p->moves -= to_moves<int>( 1_seconds );
-                }
-            }
-            break;
-
-            case AEA_BLOOD: {
-                bool blood = false;
-                for( const tripoint &tmp : here.points_in_radius( p->pos(), 4 ) ) {
-                    if( !one_in( 4 ) && here.add_field( tmp, fd_blood, 3 ) &&
-                        ( blood || get_player_view().sees( tmp ) ) ) {
-                        blood = true;
-                    }
-                }
-                if( blood ) {
-                    p->add_msg_if_player( m_warning, _( "Blood soaks out of the ground and walls." ) );
-                }
-            }
-            break;
-
-            case AEA_FATIGUE: {
-                p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
-                point p2( rng( p->posx() - 3, p->posx() + 3 ), rng( p->posy() - 3, p->posy() + 3 ) );
-                here.add_field( {p2, p->posz()}, fd_fatigue, rng( 1, 2 ) );
-            }
-            break;
-
-            case AEA_ACIDBALL: {
-                if( const cata::optional<tripoint> acidball = g->look_around() ) {
-                    for( const tripoint &tmp : here.points_in_radius( *acidball, 1 ) ) {
-                        here.add_field( tmp, fd_acid, rng( 2, 3 ) );
-                    }
-                }
-            }
-            break;
-
-            case AEA_PULSE:
-                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
-                               "earthquake" );
-                for( const tripoint &pt : here.points_in_radius( p->pos(), 2 ) ) {
-                    here.bash( pt, 40 );
-                    here.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
-                    here.bash( pt, 40 );
-                    if( here.is_bashable( pt ) && rng( 1, 10 ) >= 3 ) {
-                        here.bash( pt, 999, false, true );
-                    }
-                }
-                break;
-
-            case AEA_HEAL:
-                p->add_msg_if_player( m_good, _( "You feel healed." ) );
-                p->healall( 2 );
-                break;
-
-            case AEA_CONFUSED:
-                for( const tripoint &dest : here.points_in_radius( p->pos(), 8 ) ) {
-                    if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
-                        mon->add_effect( effect_stunned, rng( 5_turns, 15_turns ) );
-                    }
-                }
-                break;
-
-            case AEA_ENTRANCE:
-                for( const tripoint &dest : here.points_in_radius( p->pos(), 8 ) ) {
-                    monster *const mon = g->critter_at<monster>( dest, true );
-                    if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
-                        mon->make_friendly();
-                    }
-                }
-                break;
-
-            case AEA_BUGS: {
-                int roll = rng( 1, 10 );
-                mtype_id bug = mtype_id::NULL_ID();
-                int num = 0;
-                if( roll <= 4 ) {
-                    p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
-                } else if( roll <= 7 ) {
-                    p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
-                    bug = mon_fly;
-                    num = rng( 2, 4 );
-                } else if( roll <= 9 ) {
-                    p->add_msg_if_player( m_warning, _( "Giant bees appear!" ) );
-                    bug = mon_bee;
-                    num = rng( 1, 3 );
-                } else {
-                    p->add_msg_if_player( m_warning, _( "Giant wasps appear!" ) );
-                    bug = mon_wasp;
-                    num = rng( 1, 2 );
-                }
-                if( bug ) {
-                    for( int j = 0; j < num; j++ ) {
-                        if( monster *const b = g->place_critter_around( bug, p->pos(), 1 ) ) {
-                            b->friendly = -1;
-                            b->add_effect( effect_pet, 1_turns, true );
-                        }
-                    }
-                }
-            }
-            break;
-
-            case AEA_TELEPORT:
-                teleport::teleport( *p );
-                break;
-
-            case AEA_LIGHT:
-                p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                get_timed_events().add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
-                break;
-
-            case AEA_GROWTH: {
-                monster tmptriffid( mtype_id::NULL_ID(), p->pos() );
-                mattack::growplants( &tmptriffid );
-            }
-            break;
-
-            case AEA_HURTALL:
-                for( monster &critter : g->all_monsters() ) {
-                    critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 0, 5 ) );
-                }
-                break;
-
-            case AEA_RADIATION:
-                add_msg( m_warning, _( "Horrible gases are emitted!" ) );
-                for( const tripoint &dest : here.points_in_radius( p->pos(), 1 ) ) {
-                    here.add_field( dest, fd_nuke_gas, rng( 2, 3 ) );
-                }
-                break;
-
-            case AEA_PAIN:
-                p->add_msg_if_player( m_bad, _( "You're wracked with pain!" ) );
-                // OK, the Lovecraftian thingamajig can bring Deadened
-                // masochists & Cenobites the stimulation they've been
-                // craving ;)
-                p->mod_pain_noresist( rng( 5, 15 ) );
-                break;
-
-            case AEA_MUTATE:
-                if( !one_in( 3 ) ) {
-                    p->mutate();
-                }
-                break;
-
-            case AEA_PARALYZE:
-                p->add_msg_if_player( m_bad, _( "You're paralyzed!" ) );
-                p->moves -= rng( 50, 200 );
-                break;
-
-            case AEA_FIRESTORM: {
-                p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_points_first( p->pos(), 3 );
-                for( auto p_it : ps ) {
-                    if( !one_in( 3 ) ) {
-                        here.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
-                    }
-                }
-                break;
-            }
-
-            case AEA_ATTENTION:
-                p->add_msg_if_player( m_warning, _( "You feel like your action has attracted attention." ) );
-                p->add_effect( effect_attention, rng( 1_hours, 3_hours ) );
-                break;
-
-            case AEA_TELEGLOW:
-                p->add_msg_if_player( m_warning, _( "You feel unhinged." ) );
-                p->add_effect( effect_teleglow, rng( 30_minutes, 120_minutes ) );
-                break;
-
-            case AEA_NOISE:
-                sounds::sound( p->pos(), 100, sounds::sound_t::combat,
-                               string_format( _( "a deafening boom from %s %s" ),
-                                              p->disp_name( true ), it->tname() ), true, "misc", "shockwave" );
-                break;
-
-            case AEA_SCREAM:
-                sounds::sound( p->pos(), 40, sounds::sound_t::alert,
-                               string_format( _( "a disturbing scream from %s %s" ),
-                                              p->disp_name( true ), it->tname() ), true, "shout", "scream" );
-                if( !p->is_deaf() ) {
-                    p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
-                }
-                break;
-
-            case AEA_DIM:
-                p->add_msg_if_player( _( "The sky starts to dim." ) );
-                get_timed_events().add( timed_event_type::DIM, calendar::turn + 5_minutes );
-                break;
-
-            case AEA_FLASH:
-                p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                explosion_handler::flashbang( p->pos() );
-                break;
-
-            case AEA_VOMIT:
-                p->add_msg_if_player( m_bad, _( "A wave of nausea passes through you!" ) );
-                p->vomit();
-                break;
-
-            case AEA_SHADOWS: {
-                int num_shadows = rng( 4, 8 );
-                int num_spawned = 0;
-                for( int j = 0; j < num_shadows; j++ ) {
-                    for( int tries = 0; tries < 10; ++tries ) {
-                        tripoint monp = p->pos();
-                        if( one_in( 2 ) ) {
-                            monp.x = rng( p->posx() - 5, p->posx() + 5 );
-                            monp.y = ( one_in( 2 ) ? p->posy() - 5 : p->posy() + 5 );
-                        } else {
-                            monp.x = ( one_in( 2 ) ? p->posx() - 5 : p->posx() + 5 );
-                            monp.y = rng( p->posy() - 5, p->posy() + 5 );
-                        }
-                        if( !here.sees( monp, p->pos(), 10 ) ) {
-                            continue;
-                        }
-                        if( monster *const spawned = g->place_critter_at( mon_shadow, monp ) ) {
-                            num_spawned++;
-                            spawned->reset_special_rng( "DISAPPEAR" );
-                            break;
-                        }
-                    }
-                }
-                if( num_spawned > 1 ) {
-                    p->add_msg_if_player( m_warning, _( "Shadows form around you." ) );
-                } else if( num_spawned == 1 ) {
-                    p->add_msg_if_player( m_warning, _( "A shadow forms nearby." ) );
-                }
-            }
-            break;
-
-            case AEA_STAMINA_EMPTY:
-                p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
-                p->set_stamina( p->get_stamina() * 1 / ( rng( 3, 8 ) ) );
-                break;
-
-            case AEA_FUN:
-                p->add_msg_if_player( m_good, _( "You're filled with euphoria!" ) );
-                p->add_morale( MORALE_FEELING_GOOD, rng( 20, 50 ), 0, 5_minutes, 5_turns, false );
-                break;
-
-            case AEA_SPLIT:
-                // TODO: Add something
-                break;
-
-            case AEA_NULL:
-            // BUG
-            case NUM_AEAS:
-            default:
-                debugmsg( "iuse::artifact(): wrong artifact type (%d)", used );
-                break;
-        }
     }
     return it->type->charges_to_use();
 }
@@ -9170,10 +8832,10 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             }
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item( *it ) );
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_veh->install_part( vcoords, source_part );
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords, item( *it ) );
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
             target_veh->install_part( vcoords, target_part );
 
             if( p->has_item( *it ) ) {
@@ -9406,13 +9068,13 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item( *it ) );
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = here.getabs( target_veh->global_pos3() );
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords, item( *it ) );
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
@@ -9994,9 +9656,8 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
     p->add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
-    p->assign_activity( ACT_CRAFT );
-    p->activity.targets.push_back( item_location( *p, it ) );
-    p->activity.values.push_back( 0 ); // Not a long craft
+    item_location craft_loc = item_location( *p, it );
+    p->assign_activity( player_activity( craft_activity_actor( craft_loc, false ) ) );
 
     return 0;
 }

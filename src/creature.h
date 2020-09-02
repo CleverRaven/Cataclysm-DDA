@@ -47,7 +47,7 @@ class time_duration;
 struct point;
 struct tripoint;
 
-enum damage_type : int;
+enum class damage_type : int;
 enum m_flag : int;
 struct damage_instance;
 struct damage_unit;
@@ -1031,7 +1031,8 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();

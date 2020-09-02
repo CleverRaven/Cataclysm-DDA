@@ -34,6 +34,44 @@
   },
   {
     "type": "AMMO",
+    "id": "aerosol_paint",
+    "name": { "str_sp": "aerosol paint" },
+    "symbol": "~",
+    "description": "A paint that comes in a sealed, pressurized container and is released in an aerosol spray when a valve button is depressed.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "aerosol_paint"
+  },
+  {
+    "type": "AMMO",
+    "id": "permanent_ink",
+    "name": { "str_sp": "permanent ink" },
+    "symbol": "~",
+    "description": "A ink comprises a main carrier solvent, a glyceride, a pyrrolidone, a resin and a colorant, making it water resistant.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "permanent_ink"
+  },
+  {
+    "type": "AMMO",
+    "id": "candle_wax",
+    "name": { "str_sp": "candle wax" },
+    "symbol": "~",
+    "description": "A flammable solid substance used to make candles.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "candle_wax"
+  },
+  {
+    "type": "AMMO",
     "id": "flare_nitrate",
     "name": { "str_sp": "flare pyrotechnic" },
     "symbol": "~",
@@ -991,23 +1029,6 @@
     "count": 20,
     "stack_size": 50,
     "ammo_type": "fish_bait"
-  },
-  {
-    "type": "AMMO",
-    "id": "oxygen",
-    "category": "spare_parts",
-    "price": 12000,
-    "price_postapoc": 1000,
-    "//": "This seems like the larger medical tank, not an instant-use model with mask attached",
-    "name": { "str_sp": "oxygen" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "A canister of oxygen.",
-    "material": [ "steel" ],
-    "volume": "2500 ml",
-    "weight": "1183 g",
-    "ammo_type": "oxygen",
-    "count": 10
   },
   {
     "type": "AMMO",

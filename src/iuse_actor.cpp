@@ -116,7 +116,6 @@ static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -132,8 +131,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -695,7 +692,7 @@ static effect_data load_effect_data( const JsonObject &e )
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }
     return effect_data( efftype_id( e.get_string( "id" ) ), time,
-                        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+                        bodypart_id( e.get_string( "bp", "bp_null" ) ), e.get_bool( "permanent", false ) );
 }
 
 void consume_drug_iuse::load( const JsonObject &obj )
@@ -777,14 +774,14 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     // Apply the various effects.
-    for( const auto &eff : effects ) {
+    for( const effect_data &eff : effects ) {
         time_duration dur = eff.duration;
         if( p.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
         } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p.add_effect( eff.id, dur, convert_bp( eff.bp ).id(), eff.permanent );
+        p.add_effect( eff.id, dur, eff.bp, eff.permanent );
     }
     //Apply the various damage_over_time
     for( const damage_over_time_data &Dot : damage_over_time ) {
@@ -1179,7 +1176,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         return false;
     }
     map &here = get_map();
-    if( here.get_field( pos, fd_fire ) ) {
+    if( here.get_field( pos, field_type_id( "fd_fire" ) ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
@@ -1198,7 +1195,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
-    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -2715,7 +2712,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_sizing( pl ) != item::sizing::ignore;
-    const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
+    const bool small = pl.get_size() == creature_size::tiny;
     const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -2805,8 +2802,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     }
 
     Character &player_character = get_player_character();
-    const bool smol = player_character.has_trait( trait_SMALL2 ) ||
-                      player_character.has_trait( trait_SMALL_OK );
+    const bool smol = player_character.get_size() == creature_size::tiny;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );
@@ -3062,7 +3058,7 @@ static player &get_patient( player &healer, const tripoint &pos )
     player *const person = g->critter_at<player>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
-        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        add_msg_debug( "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
@@ -3254,7 +3250,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     }
 
     for( const auto &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, convert_bp( eff.bp ).id(), eff.permanent );
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
     if( !used_up_item_id.is_empty() ) {
@@ -4395,7 +4391,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
 
     // Apply the various effects.
     for( const auto &eff : effects ) {
-        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ).id(), eff.permanent );
+        p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
     return charges_to_use;
 }

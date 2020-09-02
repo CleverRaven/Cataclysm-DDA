@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -16,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -588,7 +588,7 @@ class inventory_selector
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
-        inventory_entry *find_entry_by_coordinate( point coordinate ) const;
+        inventory_entry *find_entry_by_coordinate( const point &coordinate ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;

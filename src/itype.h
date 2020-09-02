@@ -804,19 +804,6 @@ struct islot_seed {
     islot_seed() = default;
 };
 
-struct islot_artifact {
-    art_charge charge_type;
-    art_charge_req charge_req;
-    std::vector<art_effect_passive> effects_wielded;
-    std::vector<art_effect_active>  effects_activated;
-    std::vector<art_effect_passive> effects_carried;
-    std::vector<art_effect_passive> effects_worn;
-    std::vector<std::string> dream_msg_unmet;
-    std::vector<std::string> dream_msg_met;
-    int dream_freq_unmet;
-    int dream_freq_met;
-};
-
 enum condition_type {
     FLAG,
     COMPONENT_ID,
@@ -876,7 +863,6 @@ struct itype {
         cata::value_ptr<islot_bionic> bionic;
         cata::value_ptr<islot_ammo> ammo;
         cata::value_ptr<islot_seed> seed;
-        cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
@@ -977,7 +963,7 @@ struct itype {
         units::money price_post = -1_cent;
 
         /** Damage output in melee for zero or more damage types */
-        std::array<int, NUM_DT> melee;
+        std::array<int, static_cast<int>( damage_type::NUM )> melee;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 

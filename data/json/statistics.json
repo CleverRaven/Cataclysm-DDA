@@ -454,32 +454,25 @@
     "id": "avatar_broken_right_leg",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_r" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "leg_r" ] } }
   },
   {
     "id": "avatar_broken_left_leg",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_l" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "leg_l" ] } }
   },
   {
     "id": "avatar_broken_right_arm",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_r" ] } }
+    "value_constraints": { "part": { "equals": [ "body_part", "arm_r" ] } }
   },
   {
     "id": "avatar_broken_left_arm",
     "type": "event_transformation",
     "event_type": "broken_bone",
-    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_l" ] } }
-  },
-  {
-    "id": "num_broken_bone",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_broken_bone",
-    "description": { "str": "bone broken", "str_pl": "bones broken" }
+    "value_constraints": { "part": { "equals": [ "body_part", "arm_l" ] } }
   },
   {
     "id": "num_broken_right_leg",

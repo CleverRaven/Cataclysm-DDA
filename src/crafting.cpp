@@ -1,7 +1,6 @@
 #include "crafting.h"
 
 #include <algorithm>
-#include <cassert>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -20,6 +19,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -78,7 +78,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 
 static const efftype_id effect_contacts( "contacts" );
@@ -445,31 +444,38 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() || ( allow_bucket && cont.will_spill() ) ) {
+    if( cont.is_watertight_container() && ( allow_bucket || !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
 
     return false;
 }
 
+static std::vector<const item *> get_eligible_containers_recursive( const item &cont,
+        bool allow_bucket )
+{
+    std::vector<const item *> ret;
+
+    if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
+        ret.push_back( &cont );
+    }
+    for( const item *it : cont.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        //buckets are never allowed when inside another container
+        std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
+        ret.insert( ret.end(), inside.begin(), inside.end() );
+    }
+    return ret;
+}
+
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
-    if( is_container_eligible_for_crafting( weapon, true ) ) {
-        conts.push_back( &weapon );
-    }
+    conts = get_eligible_containers_recursive( weapon, true );
+
     for( const auto &it : worn ) {
-        if( is_container_eligible_for_crafting( it, false ) ) {
-            conts.push_back( &it );
-        }
-    }
-    for( size_t i = 0; i < inv->size(); i++ ) {
-        for( const auto &it : inv->const_stack( i ) ) {
-            if( is_container_eligible_for_crafting( it, false ) ) {
-                conts.push_back( &it );
-            }
-        }
+        std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
+        conts.insert( conts.begin(), eligible.begin(), eligible.end() );
     }
 
     map &here = get_map();
@@ -481,18 +487,16 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
         }
         if( here.accessible_items( loc ) ) {
             for( const item &it : here.i_at( loc ) ) {
-                if( is_container_eligible_for_crafting( it, true ) ) {
-                    conts.emplace_back( &it );
-                }
+                std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
+                conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
         }
 
         if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
             for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
-                if( is_container_eligible_for_crafting( it, false ) ) {
-                    conts.emplace_back( &it );
-                }
+                std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
+                conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
         }
     }
@@ -841,9 +845,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
         return;
     }
 
-    assign_activity( ACT_CRAFT );
-    activity.targets.push_back( craft_in_world );
-    activity.values.push_back( command.is_long() );
+    assign_activity( player_activity( craft_activity_actor( craft_in_world, command.is_long() ) ) );
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
@@ -896,7 +898,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-void Character::craft_proficiency_gain( const item &craft, const time_duration time )
+void Character::craft_proficiency_gain( const item &craft, const time_duration &time )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
@@ -1419,7 +1421,7 @@ bool Character::can_continue_craft( item &craft )
         std::vector<comp_selection<tool_comp>> new_tool_selections;
         for( const std::vector<tool_comp> &alternatives : tool_reqs ) {
             comp_selection<tool_comp> selection = select_tool_component( alternatives, batch_size,
-            map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+            map_inv, true, true, []( int charges ) {
                 return charges / 20;
             } );
             if( selection.use_from == usage_from::cancel ) {
@@ -1438,7 +1440,7 @@ const requirement_data *Character::select_requirements(
     const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
     const std::function<bool( const item & )> &filter ) const
 {
-    assert( !alternatives.empty() );
+    cata_assert( !alternatives.empty() );
     if( alternatives.size() == 1 || !is_avatar() ) {
         return alternatives.front();
     }
@@ -1728,9 +1730,8 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
 
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
-                                  inventory &map_inv,
-                                  const std::string &hotkeys, bool can_cancel, bool player_inv,
-                                  const std::function<int( int )> charges_required_modifier )
+                                  inventory &map_inv, bool can_cancel, bool player_inv,
+                                  const std::function<int( int )> &charges_required_modifier )
 {
 
     comp_selection<tool_comp> selected;
@@ -1788,7 +1789,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
-        uilist tmenu( hotkeys );
+        uilist tmenu;
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 const int charge_count = calc_charges( map_ha );
@@ -1961,12 +1962,11 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
-void Character::consume_tools( const std::vector<tool_comp> &tools, int batch,
-                               const std::string &hotkeys )
+void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
+    consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
 ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv ) const

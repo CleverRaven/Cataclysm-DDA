@@ -679,11 +679,11 @@
     "//": "Can't change the ID as that breaks save-compatibility.",
     "name": { "str": "Scout" },
     "points": 1,
-    "description": "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
     "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
-    "cancels": [ "MYOPIC", "UNOBSERVANT" ],
+    "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
   },
   {
@@ -888,7 +888,7 @@
     "points": -2,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE", "EAGLEEYED" ],
+    "cancels": [ "URSINE_EYE" ],
     "category": [ "BEAST", "TROGLOBITE" ]
   },
   {
@@ -1279,9 +1279,9 @@
   {
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
-    "name": { "str": "Schizophrenic" },
+    "name": { "str": "Kaluptic Psychosis" },
     "points": -3,
-    "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ]
@@ -2294,7 +2294,8 @@
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 8,
-        "cut": 8
+        "cut": 8,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -2374,7 +2375,8 @@
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 8,
-        "cut": 8
+        "cut": 8,
+        "bullet": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -5950,7 +5952,7 @@
     "points": -5,
     "visibility": 8,
     "ugliness": 3,
-    "description": "You have grown a thick shell over your torso, providing excellent armor.  You find you can use the empty space as 16 storage space, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
+    "description": "You have grown a thick shell over your torso, providing excellent armor, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
     "prereqs": [ "CHITIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
@@ -5958,7 +5960,7 @@
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 6, "cut": 14 } ]
+    "armor": [ { "parts": "torso", "bash": 6, "cut": 14, "bullet": 4 } ]
   },
   {
     "type": "mutation",
@@ -5979,7 +5981,7 @@
     "active": true,
     "restricts_gear": [ "torso" ],
     "destroys_gear": true,
-    "armor": [ { "parts": "torso", "bash": 9, "cut": 17 } ]
+    "armor": [ { "parts": "torso", "bash": 9, "cut": 17, "bullet": 6 } ]
   },
   {
     "type": "mutation",
@@ -6653,6 +6655,16 @@
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
     "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
+    "name": { "str": "Debug Clairvoyance Plus" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
     "debug": true
   },
   {

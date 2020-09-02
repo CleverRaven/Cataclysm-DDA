@@ -79,13 +79,13 @@ bool monster::wander()
 
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
-    if( fid == fd_fungal_haze ) {
+    if( fid == field_type_id( "fd_fungal_haze" ) ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
     }
-    if( fid == fd_fungicidal_gas ) {
+    if( fid == field_type_id( "fd_fungicidal_gas" ) ) {
         return !type->in_species( species_FUNGUS );
     }
-    if( fid == fd_insecticidal_gas ) {
+    if( fid == field_type_id( "fd_insecticidal_gas" ) ) {
         return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
     }
     const field_type &ft = fid.obj();
@@ -214,10 +214,10 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( field_type_id( "fd_fire" ) ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( field_type_id( "fd_electricity" ) ) ) {
             return false;
         }
     }
@@ -1631,13 +1631,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        here.add_field( pos(), fd_acid, 3 );
+        here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( MF_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
-            here.add_field( pos(), fd_acid, 3 );
+            here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
         }
     }
 
@@ -1645,7 +1645,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                here.add_field( sludge_p, fd_sludge, fstr );
+                here.add_field( sludge_p, field_type_id( "fd_sludge" ), fstr );
             }
         }
     }
@@ -1893,7 +1893,7 @@ void monster::knock_back_to( const tripoint &to )
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bodypart_id( "torso" ),
-                        damage_instance( DT_BASH, static_cast<float>( type->size ) ) );
+                        damage_instance( damage_type::BASH, static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }

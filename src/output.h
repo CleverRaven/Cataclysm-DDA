@@ -3,7 +3,6 @@
 #define CATA_SRC_OUTPUT_H
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
@@ -16,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "color.h"
 #include "debug.h"
@@ -706,7 +706,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
+std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
@@ -718,6 +718,13 @@ std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
         }
     }
     return enumerate_as_string( values, conj );
+}
+
+template<typename Container, typename F>
+std::string enumerate_as_string( const Container &cont, F &&string_for,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+{
+    return enumerate_as_string( cont.begin(), cont.end(), std::forward<F>( string_for ), conj );
 }
 
 /**
@@ -773,7 +780,7 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
     [&current_tab]( const typename TabList::value_type & pair ) {
         return pair.first == current_tab;
     } );
-    assert( current_tab_it != tab_list.end() );
+    cata_assert( current_tab_it != tab_list.end() );
     draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
 }
 
@@ -788,7 +795,7 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
     std::vector<typename TabList::value_type> ordered_tab_list;
     for( const auto &key : keys ) {
         auto it = tab_list.find( key );
-        assert( it != tab_list.end() );
+        cata_assert( it != tab_list.end() );
         ordered_tab_list.push_back( *it );
     }
     draw_tabs( w, ordered_tab_list, current_tab );

@@ -269,8 +269,8 @@
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "rock", 56 ] ], [ [ "stick", 32 ], [ "2x4", 32 ] ] ]
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [ [ [ "2x4", 32 ], [ "stick", 32 ] ], [ [ "rock", 56 ] ] ]
       }
     }
   },
