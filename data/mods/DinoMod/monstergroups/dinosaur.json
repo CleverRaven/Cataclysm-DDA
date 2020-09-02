@@ -41,8 +41,7 @@
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 4 ] },
       { "monster": "mon_pachycephalosaurus", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 4 ] },
-      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_camptosaurus", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -83,6 +82,7 @@
       { "monster": "mon_stegosaurus", "freq": 5, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_ankylosaurus", "freq": 5, "cost_multiplier": 20 },
       { "monster": "mon_diplodocus", "freq": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_camarasaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus", "freq": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_parasaurolophus", "freq": 3, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_corythosaurus", "freq": 20, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
