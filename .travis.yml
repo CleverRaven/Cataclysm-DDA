@@ -65,6 +65,16 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
+    # Clang 5.0 (still on Trusty, because I could find no readily available
+    # source on Xenial at time of writing)
+    - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      name: "Clang 5 Make build with Curses"
+      compiler: clang
+      addons: &clang50
+        apt:
+          packages: ["clang-5.0"]
+          sources: [*apt_sources, llvm-toolchain-xenial-5.0]
+
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
       env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
