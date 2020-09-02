@@ -65,6 +65,14 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
+    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
+      name: "Clang 6 CMake build with tiles and sound"
+      compiler: clang
+      addons: &clang60
+        apt:
+          packages: ["clang-6.0", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-xenial-6.0]
+
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
       env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
