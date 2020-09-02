@@ -766,7 +766,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "dark_gray",
-    "covers": [ "TORSO", "ARMS", "LEGS", "FEET" ],
+    "covers": [ "feet_l", "feet_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
     "coverage": 95,
     "encumbrance": 18,
     "warmth": 15,
