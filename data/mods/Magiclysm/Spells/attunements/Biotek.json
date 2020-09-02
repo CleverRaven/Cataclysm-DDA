@@ -43,7 +43,7 @@
     "energy_cost_increment": -20,
     "final_energy_cost": 100,
     "components": "jury_rig",
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATION" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOTEK",
     "difficulty": 2,
     "energy_source": "BIONIC"
