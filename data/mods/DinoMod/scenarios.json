@@ -1,0 +1,12 @@
+[
+  {
+    "type": "scenario",
+    "id": "dino_tour",
+    "name": "Dino Tour of Terror",
+    "points": 0,
+    "description": "While the world was falling apart you chose to check out the new dinosaur exhibit.  When you arrived, you found yourself alone.  Then the power went out.",
+    "start_name": "Dinosaur exhibit",
+    "allowed_locs": [ "dinoexhibit" ],
+    "flags": [ "LONE_START" ]
+  }
+]
