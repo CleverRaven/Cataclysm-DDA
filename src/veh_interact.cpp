@@ -792,7 +792,7 @@ bool veh_interact::can_install_part()
 
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
-    if ( lifting_or_jacking_required ) {
+    if( lifting_or_jacking_required ) {
         if( !helpers.empty() )   {
             str_string = string_format( _( "strength ( assisted ) %d" ), str );
         } else {
