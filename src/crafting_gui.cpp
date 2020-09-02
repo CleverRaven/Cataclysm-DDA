@@ -513,6 +513,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Batch time savings: <color_cyan>%s</color>" ),
                                         current[line]->batch_savings_string() );
 
+                const int makes = current[line]->makes_amount();
+                if ( makes > 1 ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                        _( "Recipe makes: <color_cyan>%d</color>" ),
+                        makes );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
