@@ -130,6 +130,18 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
+    "encumbrance_always": [
+      [ "torso", 10 ],
+      [ "head", 10 ],
+      [ "arm_l", 10 ],
+      [ "arm_r", 10 ],
+      [ "hand_l", 10 ],
+      [ "hand_r", 10 ],
+      [ "leg_l", 10 ],
+      [ "leg_r", 10 ],
+      [ "foot_l", 10 ],
+      [ "foot_r", 10 ]
+    ],
     "armor": [
       {
         "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
@@ -138,7 +150,8 @@
       }
     ],
     "passive_mods": { "dex_mod": -4 },
-    "enchantments": [ "dragon_acid_resist" ]
+    "enchantments": [ "dragon_resist_acid" ],
+    "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
     "type": "mutation",
@@ -167,7 +180,8 @@
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "spells_learned": [ [ "acid_claw", 0 ] ]
+    "spells_learned": [ [ "acid_claw", 1 ] ],
+    "prereqs2": [ "DRAGON_SPELLS" ]
   },
   {
     "type": "mutation",
@@ -194,12 +208,14 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
     "attacks": {
-      "attack_text_u": "You slash %s with your claws",
-      "attack_text_npc": "%1$s slashes %2$s with their claws",
+      "attack_text_u": "You slash %s with your clawed feet",
+      "attack_text_npc": "%1$s slashes %2$s with their clawed feet",
       "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 15 }
+      "base_damage": { "damage_type": "cut", "amount": 20 },
+      "strength_damage": { "damage_type": "cut", "amount": 0.25 }
     },
-    "movecost_modifier": 1.05
+    "movecost_modifier": 1.05,
+    "enchantments": [ "dragon_leg_strength" ]
   },
   {
     "type": "mutation",
@@ -225,7 +241,8 @@
       "attack_text_u": "You smash %s with your tail",
       "attack_text_npc": "%1$s smashes %2$s with their tail",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 15 }
+      "base_damage": { "damage_type": "bash", "amount": 15 },
+      "strength_damage": { "damage_type": "bash", "amount": 0.25 }
     }
   },
   {
@@ -242,27 +259,82 @@
   },
   {
     "type": "mutation",
-    "id": "LARGE",
-    "copy-from": "LARGE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "id": "LARGE_DRAGON",
+    "name": { "str": "Inconvenient Draconic Growth" },
+    "points": 0,
+    "visibility": 1,
+    "ugliness": 1,
+    "mixed_effect": true,
+    "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
+    "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
+    "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
+    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "str_mod": 2 },
+    "weight_capacity_modifier": 1.05,
+    "anger_relations": [ [ "HUMAN", 10 ] ]
   },
   {
     "type": "mutation",
-    "id": "LARGE_OK",
-    "copy-from": "LARGE_OK",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "id": "LARGE_OK_DRAGON",
+    "name": { "str": "Draconic Growth" },
+    "points": 2,
+    "visibility": 1,
+    "description": "You carry your rugged body with the dignity you deserve, but are all the more menacing for it.  Strength +2.",
+    "prereqs": [ "LARGE_DRAGON" ],
+    "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
+    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "changes_to": [ "HUGE_DRAGON" ],
+    "leads_to": [ "MUT_TOUGH" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "str_mod": 2 },
+    "weight_capacity_modifier": 1.05,
+    "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
     "type": "mutation",
-    "id": "HUGE",
-    "copy-from": "HUGE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "id": "HUGE_DRAGON",
+    "name": { "str": "Freakish Draconic Maturity" },
+    "points": -2,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+    "prereqs": [ "LARGE_DRAGON", "LARGE_OK_DRAGON" ],
+    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
+    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "changes_to": [ "HUGE_OK_DRAGON" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "str_mod": 4 },
+    "hp_adjustment": -6,
+    "fatigue_modifier": 0.15,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "weight_capacity_modifier": 1.1,
+    "anger_relations": [ [ "HUMAN", 30 ] ]
   },
   {
     "type": "mutation",
-    "id": "HUGE_OK",
-    "copy-from": "HUGE_OK",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "id": "HUGE_OK_DRAGON",
+    "name": { "str": "Draconic Maturity" },
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 3,
+    "mixed_effect": true,
+    "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "prereqs": [ "HUGE_DRAGON" ],
+    "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
+    "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "leads_to": [ "MUT_TOUGH" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "str_mod": 4 },
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "weight_capacity_modifier": 1.1,
+    "anger_relations": [ [ "HUMAN", 40 ] ]
   },
   {
     "type": "mutation",
@@ -292,16 +364,16 @@
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS" ] }
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
   },
   {
     "type": "mutation",
-    "id": "DRAGON_WINGS",
-    "name": { "str": "Dragon Wings" },
+    "id": "DRAGON_WINGS_BLACK",
+    "name": { "str": "Black Dragon Wings" },
     "points": 1,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw your off balance, greatly reducing your ability to dodge.",
+    "description": "You have a pair of large, black scaled dragon wings.  While you have control of them and can make attacks with them, they are not large enough nor strong enough to allow you to fly and they throw your off balance, greatly reducing your ability to dodge.  They can be used to cast a protective spell on yourself however.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "dodge_modifier": -3,
@@ -309,8 +381,12 @@
       "attack_text_u": "You bash %s with your powerful wings",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 20 }
-    }
+      "base_damage": { "damage_type": "bash", "amount": 20 },
+      "strength_damage": { "damage_type": "bash", "amount": 0.5 }
+    },
+    "spells_learned": [ [ "dragon_shell_black", 1 ] ],
+    "prereqs2": [ "DRAGON_SPELLS" ],
+    "anger_relations": [ [ "HUMAN", 5 ] ]
   },
   {
     "type": "mutation",
@@ -337,7 +413,8 @@
           "required_mutations": [ "DRAGON_MAW_BLACK" ],
           "body_part": "mouth",
           "chance": 20,
-          "base_damage": { "damage_type": "stab", "amount": 25 }
+          "base_damage": { "damage_type": "stab", "amount": 25 },
+          "strength_damage": { "damage_type": "stab", "amount": 0.25 }
         }
       ]
     }
@@ -370,27 +447,41 @@
       "blocker_mutations": [ "FANGS" ],
       "body_part": "mouth",
       "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 20 }
+      "base_damage": { "damage_type": "stab", "amount": 20 },
+      "strength_damage": { "damage_type": "stab", "amount": 0.25 }
     },
-    "spells_learned": [ [ "acid_bite", 0 ] ]
+    "spells_learned": [ [ "acid_bite", 1 ] ],
+    "prereqs2": [ "DRAGON_MAGIC" ]
   },
   {
     "type": "mutation",
     "id": "VOMITOUS",
     "copy-from": "VOMITOUS",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_BREATH_BLACK" ] }
+    "extend": { "category": [ "DRAGON_BLACK" ] },
+    "leads_to": [ "DRAGON_BREATH_BLACK", "OVERLY_ACIDIC_GUT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "OVERLY_ACID_GUT",
+    "name": { "str": "Overly Acidic Digestion" },
+    "description": "Your digestive issues have developed to become overly acidic which greatly impacts your ability to normally digest food, resulting in getting far less nutrition from the food you eat and making your need to eat more often.",
+    "points": -3,
+    "prereqs": [ "VOMITOUS" ],
+    "category": [ "DRAGON_BLACK" ],
+    "metabolism_modifier": 0.5,
+    "vitamins_absorb_multi": [ "all", [ [ "vitA", 0.5 ], [ "vitB", 0.5 ], [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] 
   },
   {
     "type": "mutation",
     "id": "DRAGON_BREATH_BLACK",
     "name": { "str": "Black Dragon Breath" },
-    "description": "Your digestive issues have settled, and now you have the ability to spit acid breath!",
+    "description": "Your digestive issues may not have settled entirely, but you can somewhat control them and now you have the ability to spit acid!",
     "points": 2,
     "prereqs": [ "VOMITOUS" ],
     "prereqs2": [ "DRAGON_MAW_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "spells_learned": [ [ "dragon_breath_black", 0 ] ]
+    "spells_learned": [ [ "dragon_spit_acid", 1 ], [ "dragon_breath_acid", 1 ] ]
   },
   {
     "type": "mutation",
@@ -412,15 +503,40 @@
   },
   {
     "type": "mutation",
-    "id": "COLDBLOOD3",
-    "copy-from": "COLDBLOOD3",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
+    "id": "DRAGONBLOOD",
+    "name": { "str": "Draconic Heat Dependence" },
+    "points": -1,
+    "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  Unfortunately, this doesn't seem to help you conserve any energy.",
+    "changes_to": [ "DRAGONBLOOD2" ],
+    "types": [ "METABOLISM" ],
+    "category": [ "DRAGON_BLACK" ],
+    "temperature_speed_modifier": 0.2
   },
   {
     "type": "mutation",
-    "id": "COLDBLOOD4",
-    "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "id": "DRAGONBLOOD2",
+    "name": { "str": "High Draconic Heat Dependence" },
+    "points": -2,
+    "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).  Unfortunately, it seems you have to exert more energy to keep moving.",
+    "changes_to": [ "DRAGONBLOOD3" ],
+    "types": [ "METABOLISM" ],
+    "category": [ "DRAGON_BLACK" ],
+    "temperature_speed_modifier": 0.2,
+    "metabolism_modifier": 0.25
+  },
+  {
+    "type": "mutation",
+    "id": "DRAGONBLOOD3",
+    "name": { "str": "Draconic Ectothermia" },
+    "points": -3,
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
+    "prereqs": [ "DRAGONBLOOD2" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "purifiable": false,
+    "types": [ "METABOLISM" ],
+    "category": [ "DRAGON_BLACK" ],
+    "temperature_speed_modifier": 0.5,
+    "metabolism_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -436,12 +552,6 @@
   },
   {
     "type": "mutation",
-    "id": "MANA_CRYST_MANA",
-    "copy-from": "MANA_CRYST_MANA",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
     "description": "You are imbued with with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
@@ -449,18 +559,22 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "purifiable": false,
-    "mana_modifier": 500
+    "mana_modifier": 250,
+    "spells_learned": [ [ "dragon_terror", 1 ] ],
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
     "id": "DRAGON_SPELLS",
     "name": { "str": "Draconic Spellcasting" },
-    "description": "You no longer need to move your arms or use your voice to cast spells, due to your draconic modifications.  Arm and mouth encumbrance no longer applies to spell failure chance.",
+    "description": "Your mind has fully opened to the power and ancient heritage of dragons.  You can access even greater quantities of mana and you have access to more dragon spells.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
-    "flags": [ "SUBTLE_SPELL", "SILENT_SPELL" ]
+    "spells_learned": [ [ "dragon_boost", 1 ] ],
+    "mana_modifier": 500,
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
@@ -470,20 +584,20 @@
   },
   {
     "type": "mutation",
-    "id": "MANA_ADD_MANATOUCHED",
-    "copy-from": "MANA_ADD_MANATOUCHED",
+    "id": "MANA_ADD3",
+    "copy-from": "MANA_ADD3",
     "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
-    "id": "MANA_REGEN_MANATOUCHED",
-    "copy-from": "MANA_REGEN_MANATOUCHED",
+    "id": "MANA_REGEN3",
+    "copy-from": "MANA_REGEN3",
     "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
-    "id": "MANA_MULT_MANATOUCHED",
-    "copy-from": "MANA_MULT_MANATOUCHED",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "id": "MANA_MULT3",
+    "copy-from": "MANA_MULT3",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   }
 ]
