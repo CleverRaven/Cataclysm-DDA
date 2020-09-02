@@ -190,10 +190,7 @@ android {
         }
     } else {
         println("Overriding version number to $override_version")
-        exec {
-            workingDir './../..'
-            commandLine 'echo', '#define VERSION $override_version', '>', '$version_header_path'
-        }
+        new File("$version_header_path").text = "#define VERSION \"$override_version\""
     }
 
     defaultConfig {

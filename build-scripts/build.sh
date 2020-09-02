@@ -166,7 +166,8 @@ then
     cd android
     # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Poverride_version=${TRAVIS_BUILD_NUMBER} \
+        -Pdeps="${HOME}/build/${TRAVIS_REPO_SLUG}/android/app/deps.zip"
 else
     if [ "$DEPLOY" == 1 -a "$NATIVE" == "osx" ]
     then
