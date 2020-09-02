@@ -2851,9 +2851,12 @@ bool map::mop_spills( const tripoint &p )
     }
 
     field &fld = field_at( p );
-    for( const auto &f : fld ) {
-        if( f.second.get_field_type().obj().phase == phase_id::LIQUID ) {
-            retval |= fld.remove_field( f.first );
+    for( auto it = fld.begin(); it != fld.end(); ) {
+        if( it->second.get_field_type().obj().phase == phase_id::LIQUID ) {
+            it = fld.remove_field( it );
+            retval = true;
+        } else {
+            ++it;
         }
     }
 

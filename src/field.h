@@ -170,8 +170,10 @@ class field
         /**
          * Make sure to decrement the field counter in the submap.
          * Removes the field entry, the iterator must point into @ref _field_type_list and must be valid.
+         * @return iterator following the removed element
          */
-        void remove_field( std::map<field_type_id, field_entry>::iterator );
+        std::map<field_type_id, field_entry>::iterator
+        remove_field( std::map<field_type_id, field_entry>::iterator );
 
         // Returns the number of fields existing on the current tile.
         unsigned int field_count() const;

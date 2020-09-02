@@ -212,9 +212,10 @@ bool field::remove_field( const field_type_id &field_to_remove )
     return true;
 }
 
-void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
+std::map<field_type_id, field_entry>::iterator
+field::remove_field( const std::map<field_type_id, field_entry>::iterator it )
 {
-    _field_type_list.erase( it );
+    auto &&ret = _field_type_list.erase( it );
     if( _field_type_list.empty() ) {
         _displayed_field_type = field_type_id( "fd_null" );
     } else {
@@ -225,6 +226,7 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
             }
         }
     }
+    return ret;
 }
 
 /*
