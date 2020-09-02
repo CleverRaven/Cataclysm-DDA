@@ -232,6 +232,8 @@ class inventory : public visitable<inventory>
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
+        int count_item( const itype_id &item_type ) const;
+
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
