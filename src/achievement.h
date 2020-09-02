@@ -1,21 +1,36 @@
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
+#include <algorithm>
+#include <array>
+#include <functional>
 #include <list>
-#include <string>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
-#include "event_bus.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "enum_traits.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
+class JsonIn;
 class JsonObject;
-struct achievement_requirement;
+class JsonOut;
 class achievements_tracker;
+struct achievement_requirement;
+template <typename E> struct enum_traits;
+
+namespace cata
+{
+class event;
+}  // namespace cata
 class requirement_watcher;
 class stats_tracker;
 
@@ -211,5 +226,7 @@ class achievements_tracker : public event_subscriber
         std::unordered_map<achievement_id, achievement_tracker> trackers_;
         std::unordered_map<achievement_id, achievement_state> achievements_status_;
 };
+
+achievements_tracker &get_achievements();
 
 #endif // CATA_SRC_ACHIEVEMENT_H

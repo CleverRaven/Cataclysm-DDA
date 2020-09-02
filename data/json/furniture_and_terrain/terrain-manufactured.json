@@ -1018,7 +1018,7 @@
     "description": "A machine used in the dairy industry to milk cows.",
     "symbol": "%",
     "color": "light_gray",
-    "move_cost": 1,
+    "move_cost": 2,
     "bash": {
       "str_min": 10,
       "str_max": 50,

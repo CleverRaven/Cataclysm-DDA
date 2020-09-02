@@ -1,0 +1,28 @@
+[
+  {
+    "type": "recipe",
+    "result": "inactive_frankenstein",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_CBMS",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 8 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "cyrus'_notes", 7 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "tools": [ [ [ "afs_solderers_item", -1 ], [ "toolset", -1 ] ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CUT_FINE", "level": 2 } ],
+    "components": [
+      [ [ "afs_energy_storage_4", 6 ] ],
+      [ [ "afs_biomaterial_3", 4 ] ],
+      [ [ "living_brain_jar", 1 ] ],
+      [ [ "humming_heart", 2 ] ],
+      [ [ "bot_broken_cyborg", 1 ] ],
+      [ [ "thread", 600 ] ],
+      [ [ "1st_aid", 4 ] ],
+      [ [ "chain", 2 ] ]
+    ]
+  }
+]

@@ -1,10 +1,9 @@
 #include "anatomy.h"
 
 #include <array>
-#include <cmath>
 #include <cstddef>
 #include <numeric>
-#include <set>
+#include <unordered_set>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -75,8 +74,6 @@ void anatomy::finalize()
             debugmsg( "Anatomy %s has invalid body part %s", id.c_str(), id.c_str() );
         }
     }
-
-    unloaded_bps.clear();
 }
 
 void anatomy::check_consistency()
@@ -102,6 +99,34 @@ void anatomy::check() const
             debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
                       static_cast<int>( i ) - 1 );
         }
+    }
+
+    std::unordered_set<bodypart_str_id> all_parts( unloaded_bps.begin(), unloaded_bps.end() );
+    std::unordered_set<bodypart_str_id> root_parts;
+
+    for( const bodypart_str_id &bp : unloaded_bps ) {
+        if( !id.is_valid() ) {
+            // Error already reported in finalize
+            continue;
+        }
+        if( !all_parts.count( bp->main_part ) ) {
+            debugmsg( "Anatomy %s contains part %s whose main_part %s is not part of the anatomy",
+                      id.str(), bp.str(), bp->main_part.str() );
+        } else if( !all_parts.count( bp->connected_to ) ) {
+            debugmsg( "Anatomy %s contains part %s with connected_to part %s which is not part of "
+                      "the anatomy", id.str(), bp.str(), bp->main_part.str() );
+        }
+
+        if( bp->connected_to == bp ) {
+            root_parts.insert( bp );
+        }
+    }
+
+    if( root_parts.size() > 1 ) {
+        debugmsg( "Anatomy %s has multiple root parts: %s", id.str(),
+        enumerate_as_string( root_parts.begin(), root_parts.end(), []( const bodypart_str_id & p ) {
+            return p.str();
+        } ) );
     }
 }
 
@@ -154,7 +179,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name, pr.weight );
+        add_msg_debug( "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -163,6 +188,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_str_id::NULL_ID().id();
     }
 
-    add_msg( m_debug, "selected part: %s", ret->id().obj().name );
+    add_msg_debug( "selected part: %s", ret->id().obj().name );
     return *ret;
 }

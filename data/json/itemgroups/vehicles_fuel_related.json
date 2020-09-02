@@ -25,15 +25,16 @@
       [ "jerrycan_big", 3 ],
       [ "hose", 7 ],
       [ "jumper_cable", 10 ],
-      [ "sm_extinguisher", 7 ],
-      [ "extinguisher", 2 ],
+      { "item": "sm_extinguisher", "prob": 7, "charges": 10 },
+      { "item": "extinguisher", "prob": 2, "charges": 100 },
       [ "1st_aid", 5 ],
+      [ "plastic_sheet", 12 ],
       [ "survival_kit", 3 ],
       { "item": "duct_tape", "prob": 13, "charges-min": 20, "charges-max": 200 },
       [ "screwdriver", 8 ],
       [ "screwdriver_set", 2 ],
       [ "hd_tow_cable", 5 ],
-      [ "toolbox", 1 ]
+      { "group": "tools_toolbox", "prob": 1 }
     ]
   },
   {

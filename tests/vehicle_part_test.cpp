@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <array>
 
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "type_id.h"
 #include "veh_type.h"

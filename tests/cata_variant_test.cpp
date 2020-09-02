@@ -1,14 +1,14 @@
+#include "catch/catch.hpp"
+#include "cata_variant.h"
+
 #include <sstream>
 #include <string>
 #include <utility>
 
-#include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "enum_conversions.h"
-#include "item.h"
 #include "json.h"
-#include "string_id.h"
+#include "point.h"
 #include "type_id.h"
 
 TEST_CASE( "variant_construction", "[variant]" )
@@ -100,4 +100,19 @@ TEST_CASE( "variant_deserialization", "[variant]" )
     cata_variant v;
     v.deserialize( jsin );
     CHECK( v == cata_variant( mtype_id( "zombie" ) ) );
+}
+
+TEST_CASE( "variant_from_string" )
+{
+    cata_variant v = cata_variant::from_string( cata_variant_type::mtype_id, "mon_zombie" );
+    CHECK( v == cata_variant( mtype_id( "mon_zombie" ) ) );
+}
+
+TEST_CASE( "variant_type_for", "[variant]" )
+{
+    CHECK( cata_variant_type_for<bool>() == cata_variant_type::bool_ );
+    CHECK( cata_variant_type_for<int>() == cata_variant_type::int_ );
+    CHECK( cata_variant_type_for<point>() == cata_variant_type::point );
+    CHECK( cata_variant_type_for<trait_id>() == cata_variant_type::trait_id );
+    CHECK( cata_variant_type_for<ter_id>() == cata_variant_type::ter_id );
 }

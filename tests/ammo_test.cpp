@@ -1,7 +1,9 @@
-#include "item.h"
-#include "itype.h"
-
 #include "catch/catch.hpp"
+
+#include <set>
+
+#include "item.h"
+#include "type_id.h"
 
 // Functions:
 // - item::ammo_types
@@ -17,7 +19,6 @@
 // Only magazines have ammo_types().
 //
 // Tools, tool mods, and (all other item types?) have empty ammo_types()
-
 
 // Return true if the given item has non-empty ammo_types
 static bool has_ammo_types( const item &it )

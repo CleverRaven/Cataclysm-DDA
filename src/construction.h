@@ -11,13 +11,16 @@
 #include <utility>
 #include <vector>
 
+#include "int_id.h"
 #include "item.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class inventory;
 class player;
 struct construction;
+struct point;
 
 namespace catacurses
 {

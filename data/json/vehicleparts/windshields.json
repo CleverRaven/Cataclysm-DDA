@@ -1,0 +1,81 @@
+[
+  {
+    "id": "windshield",
+    "type": "vehicle_part",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
+    "symbol": "\"",
+    "symbols": {
+      "nw": "y",
+      "ne": "u",
+      "sw": "b",
+      "se": "n",
+      "nw_edge": "y",
+      "ne_edge": "u",
+      "sw_edge": "b",
+      "se_edge": "n",
+      "vertical": "j",
+      "vertical_left": "j",
+      "vertical_right": "H",
+      "horizontal_front": "T",
+      "horizontal_front_edge": "^",
+      "horizontal_rear": "B",
+      "horizontal_rear_edge": "="
+    },
+    "broken_color": "light_gray",
+    "broken_symbol": "0",
+    "color": "light_cyan",
+    "damage_modifier": 70,
+    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "durability": 50,
+    "flags": [ "OVER", "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "item": "glass_sheet",
+    "location": "center",
+    "looks_like": "t_wall_glass",
+    "name": { "str": "windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "id": "reinforced_windshield",
+    "type": "vehicle_part",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
+    "symbol": "\"",
+    "symbols": {
+      "nw": "y",
+      "ne": "u",
+      "sw": "b",
+      "se": "n",
+      "nw_edge": "y",
+      "ne_edge": "u",
+      "sw_edge": "b",
+      "se_edge": "n",
+      "vertical": "j",
+      "vertical_left": "j",
+      "vertical_right": "H",
+      "horizontal_front": "T",
+      "horizontal_front_edge": "^",
+      "horizontal_rear": "B",
+      "horizontal_rear_edge": "="
+    },
+    "broken_color": "light_gray",
+    "broken_symbol": "0",
+    "color": "light_blue",
+    "damage_modifier": 80,
+    "damage_reduction": { "all": 16 },
+    "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
+    "durability": 250,
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "item": "reinforced_glass_sheet",
+    "location": "center",
+    "looks_like": "windshield",
+    "name": { "str": "reinforced windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  }
+]

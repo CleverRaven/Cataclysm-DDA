@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room_center_rock",
-    "description": "Lets start building the central kitchen rock walls.",
+    "description": "Let's start building the central kitchen rock walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -34,7 +34,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room2_center_rock",
-    "description": "Lets finish the central kitchen rock walls.",
+    "description": "Let's finish the central kitchen rock walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -66,7 +66,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_rock",
-    "description": "Lets get this rock wall smoking area covered to protect the workers from the weather.",
+    "description": "Let's get this rock wall smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -96,7 +96,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_pantry_rock",
-    "description": "Lets build a rock wall pantry west of the kitchen.",
+    "description": "Let's build a rock wall pantry west of the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -127,7 +127,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_west_rock",
-    "description": "Lets build the west rock wall of the rock wall dining hall.",
+    "description": "Let's build the west rock wall of the rock wall dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -159,7 +159,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_east_rock",
-    "description": "Lets build the east rock wall of the rock wall dining hall.",
+    "description": "Let's build the east rock wall of the rock wall dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -190,7 +190,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_center_rock",
-    "description": "Lets build the center of the rock wall dining hall.",
+    "description": "Let's build the center of the rock wall dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

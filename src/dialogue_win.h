@@ -10,7 +10,11 @@
 #include "color.h"
 #include "cursesdef.h"
 
-using talk_data = std::pair<nc_color, std::string>;
+struct talk_data {
+    nc_color color;
+    std::string hotkey_desc;
+    std::string text;
+};
 
 class ui_adaptor;
 
@@ -25,7 +29,7 @@ class dialogue_window
         bool text_only = false;
 
         void clear_window_texts();
-        void handle_scrolling( int ch );
+        void handle_scrolling( const std::string &action );
         void display_responses( int hilight_lines, const std::vector<talk_data> &responses );
         void refresh_response_display();
         /**

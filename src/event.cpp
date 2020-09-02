@@ -1,5 +1,7 @@
 #include "event.h"
 
+#include <algorithm>
+
 namespace io
 {
 

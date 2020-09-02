@@ -424,7 +424,7 @@
       "str_max": 12,
       "sound": "metal rattling!",
       "sound_fail": "whack!",
-      "ter_set": "t_fence_post",
+      "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
   },
@@ -784,7 +784,7 @@
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
     }
   },
   {

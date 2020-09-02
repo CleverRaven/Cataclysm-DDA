@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_LINE_H
 #define CATA_SRC_LINE_H
 
+#include <algorithm>
 #include <cmath>
 #include <functional>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 #include "math_defines.h"
 #include "point.h"

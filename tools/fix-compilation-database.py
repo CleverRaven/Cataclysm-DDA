@@ -13,7 +13,7 @@ starts_with_drive_letter = re.compile("^/(\w)/(.*)$")
 
 data = None
 with open(compile_db, 'r', encoding="utf-8") as fs:
-    data = json.load( fs )
+    data = json.load(fs)
 
     for j in range(len(data)):
         directory = data[j]["directory"]
@@ -24,7 +24,7 @@ with open(compile_db, 'r', encoding="utf-8") as fs:
                 rsp_path = os.path.join(directory, command[i][1:])
                 with open(rsp_path, 'r', encoding="utf-8") as rsp:
                     newflags = shlex.split(rsp.read())
-                    command = command[:i] + newflags + command[i+1:]
+                    command = command[:i] + newflags + command[i + 1:]
                     i = i + len(newflags)
             else:
                 match_result = starts_with_drive_letter.match(command[i])

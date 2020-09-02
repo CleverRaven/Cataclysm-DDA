@@ -1,24 +1,23 @@
 #include "handle_liquid.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "action.h"
-#include "avatar.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"
@@ -32,7 +31,6 @@
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "type_id.h"
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -94,20 +92,20 @@ static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 namespace liquid_handler
 {
-void handle_all_liquid( item liquid, const int radius )
+void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
     while( liquid.charges > 0 ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, nullptr, radius );
+        handle_liquid( liquid, avoid, radius );
     }
 }
 
-bool consume_liquid( item &liquid, const int radius )
+bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
     const auto original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
+    while( liquid.charges > 0 && handle_liquid( liquid, avoid, radius ) ) {
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;
@@ -155,7 +153,7 @@ bool handle_liquid_from_container( item &container, int radius )
     return handled;
 }
 
-static bool get_liquid_target( item &liquid, item *const source, const int radius,
+static bool get_liquid_target( item &liquid, const item *const source, const int radius,
                                const tripoint *const source_pos,
                                const vehicle *const source_veh,
                                const monster *const source_mon,
@@ -188,9 +186,10 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         //~ %s: liquid name
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
+    Character &player_character = get_player_character();
     std::vector<std::function<void()>> actions;
-    if( g->u.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
-        if( g->u.can_consume_for_bionic( liquid ) ) {
+    if( player_character.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
+        if( player_character.can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
             menu.addentry( -1, true, 'e', _( "Consume it" ) );
@@ -203,7 +202,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        target.item_loc = game_menus::inv::container_for( g->u, liquid, radius );
+        target.item_loc = game_menus::inv::container_for( player_character, liquid,
+                          radius, /*avoid=*/source );
         item *const cont = target.item_loc.get_item();
 
         if( cont == nullptr || cont->is_null() ) {
@@ -220,8 +220,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const auto &e : here.points_in_radius( g->u.pos(), 1 ) ) {
-        auto veh = veh_pointer_or_null( here.veh_at( e ) );
+    for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
+        vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
         vehicle_part_range vpr = veh->get_all_parts();
         if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
         return pt.part().can_reload( liquid );
@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             opts.insert( veh );
         }
     }
-    for( auto veh : opts ) {
+    for( vehicle *veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -240,14 +240,14 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         } );
     }
 
-    for( auto &target_pos : here.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
         if( source_pos != nullptr && *source_pos == target_pos ) {
             continue;
         }
-        const std::string dir = direction_name( direction_from( g->u.pos(), target_pos ) );
+        const std::string dir = direction_name( direction_from( player_character.pos(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir );
         actions.emplace_back( [ &, target_pos]() {
             target.pos = target_pos;
@@ -315,14 +315,15 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
         return transfer_ok;
     }
 
+    Character &player_character = get_player_character();
     const auto create_activity = [&]() {
         if( source_veh != nullptr ) {
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( g->u.activity, *source_veh, part_num, liquid );
+            player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( player_character.activity, *source_veh, part_num, liquid );
             return true;
         } else if( source_pos != nullptr ) {
-            g->u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
-            serialize_liquid_source( g->u.activity, *source_pos, liquid );
+            player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
         } else if( source_mon != nullptr ) {
             return false;
@@ -334,7 +335,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     map &here = get_map();
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            g->u.assign_activity( player_activity( consume_activity_actor( liquid ) ) );
+            player_character.assign_activity( player_activity( consume_activity_actor( liquid ) ) );
             liquid.charges--;
             transfer_ok = true;
             break;
@@ -342,8 +343,8 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             // Currently activities can only store item position in the players inventory,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
-                serialize_liquid_target( g->u.activity, target.item_loc );
-            } else if( g->u.pour_into( *target.item_loc, liquid ) ) {
+                serialize_liquid_target( player_character.activity, target.item_loc );
+            } else if( player_character.pour_into( *target.item_loc, liquid ) ) {
                 if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {
@@ -359,7 +360,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                             break;
                     }
                 }
-                g->u.mod_moves( -100 );
+                player_character.mod_moves( -100 );
             }
             transfer_ok = true;
             break;
@@ -369,16 +370,16 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                 break;
             }
             if( create_activity() ) {
-                serialize_liquid_target( g->u.activity, *target.veh );
-            } else if( g->u.pour_into( *target.veh, liquid ) ) {
-                g->u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
+                serialize_liquid_target( player_character.activity, *target.veh );
+            } else if( player_character.pour_into( *target.veh, liquid ) ) {
+                player_character.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
             }
             transfer_ok = true;
             break;
         case LD_KEG:
         case LD_GROUND:
             if( create_activity() ) {
-                serialize_liquid_target( g->u.activity, target.pos );
+                serialize_liquid_target( player_character.activity, target.pos );
             } else {
                 if( target.dest_opt == LD_KEG ) {
                     iexamine::pour_into_keg( target.pos, liquid );
@@ -386,7 +387,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
                     here.add_item_or_charges( target.pos, liquid );
                     liquid.charges = 0;
                 }
-                g->u.mod_moves( -100 );
+                player_character.mod_moves( -100 );
             }
             transfer_ok = true;
             break;
@@ -397,7 +398,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     return transfer_ok;
 }
 
-bool handle_liquid( item &liquid, item *const source, const int radius,
+bool handle_liquid( item &liquid, const item *const source, const int radius,
                     const tripoint *const source_pos,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )

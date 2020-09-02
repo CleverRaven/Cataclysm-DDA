@@ -12,6 +12,7 @@
 
 #include "fire.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class material_type;
@@ -42,9 +43,9 @@ class material_type
         int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
-        float _specific_heat_liquid = 4.186;
-        float _specific_heat_solid = 2.108;
-        float _latent_heat = 334;
+        float _specific_heat_liquid = 4.186f;
+        float _specific_heat_solid = 2.108f;
+        float _latent_heat = 334.0f;
         int _freeze_point = 32; // Fahrenheit
         bool _edible = false;
         bool _rotting = false;

@@ -21,6 +21,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "sdl_wrappers.h"
+#include "sdl_geometry.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weighted_list.h"
@@ -266,7 +267,7 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
     public:
-        cata_tiles( const SDL_Renderer_Ptr &render );
+        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
@@ -315,8 +316,14 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
@@ -498,6 +505,7 @@ class cata_tiles
 
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
+        const GeometryRenderer_Ptr &geometry;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;

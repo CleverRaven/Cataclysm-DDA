@@ -1,7 +1,6 @@
 #include "bionics.h"
 
 #include <algorithm> //std::min
-#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -9,14 +8,15 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <type_traits>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
-#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -59,8 +59,8 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
@@ -76,6 +76,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -83,12 +84,11 @@
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_dermatik( "dermatik" );
@@ -101,7 +101,6 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
@@ -110,7 +109,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stung( "stung" );
-static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
@@ -119,7 +117,6 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_under_operation( "under_operation" );
 static const efftype_id effect_visuals( "visuals" );
-static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_metabolism( "metabolism" );
@@ -202,7 +199,6 @@ static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 
@@ -291,6 +287,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
+    optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
@@ -507,9 +504,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( is_armed() ) {
             stow_item( weapon );
         }
-        if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
-        }
+        add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
+                                disp_name(), bio.info().name );
 
         weapon = item( bio.info().fake_item );
         mod_power_level( -bio.info().power_activate );
@@ -591,6 +587,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     };
 
     item tmp_item;
+    avatar &player_character = get_avatar();
     map &here = get_map();
     // On activation effects go here
     if( bio.info().has_flag( flag_BIO_GUN ) ) {
@@ -599,7 +596,8 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         if( close_bionics_ui ) {
             *close_bionics_ui = true;
         }
-        avatar_action::fire_ranged_bionic( g->u, item( bio.info().fake_item ), bio.info().power_activate );
+        avatar_action::fire_ranged_bionic( player_character, item( bio.info().fake_item ),
+                                           bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
@@ -631,7 +629,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            avatar_action::fire_wielded_weapon( g->u );
+            avatar_action::fire_wielded_weapon( player_character );
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
@@ -653,9 +651,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
-        const w_point weatherPoint = *g->weather.weather_precise;
+        const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                           g->is_sheltered( g->u.pos() ) );
+                                           g->is_sheltered( player_character.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
@@ -674,7 +672,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_cqb ) {
         add_msg_activate();
         const avatar *you = as_avatar();
-        if( you && !martial_arts_data.pick_style( *you ) ) {
+        if( you && !martial_arts_data->pick_style( *you ) ) {
             bio.powered = false;
             add_msg_if_player( m_info, _( "You change your mind and turn it off." ) );
             return false;
@@ -727,113 +725,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
-        static const std::map<efftype_id, std::string> bad_effects = {{
-                { effect_fungus, translate_marker( "Fungal Infection" ) },
-                { effect_dermatik, translate_marker( "Insect Parasite" ) },
-                { effect_stung, translate_marker( "Stung" ) },
-                { effect_poison, translate_marker( "Poison" ) },
-                // Those may be good for the player, but the scanner doesn't like them
-                { effect_drunk, translate_marker( "Alcohol" ) },
-                { effect_cig, translate_marker( "Nicotine" ) },
-                { effect_meth, translate_marker( "Methamphetamines" ) },
-                { effect_high, translate_marker( "Intoxicant: Other" ) },
-                { effect_weed_high, translate_marker( "THC Intoxication" ) },
-                // This little guy is immune to the blood filter though, as he lives in your bowels.
-                { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
-                { effect_bloodworms, translate_marker( "Hemolytic Parasites" ) },
-                // These little guys are immune to the blood filter too, as they live in your brain.
-                { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
-                // These little guys are immune to the blood filter too, as they live in your muscles.
-                { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
-                // Tetanus infection.
-                { effect_tetanus, translate_marker( "Clostridium Tetani Infection" ) },
-                { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
-                // TODO: Hallucinations not inducted by chemistry
-                { effect_hallu, translate_marker( "Hallucinations" ) },
-                { effect_visuals, translate_marker( "Hallucinations" ) },
-            }
-        };
-
-        static const std::map<efftype_id, std::string> good_effects = {{
-                { effect_pkill1, translate_marker( "Minor Painkiller" ) },
-                { effect_pkill2, translate_marker( "Moderate Painkiller" ) },
-                { effect_pkill3, translate_marker( "Heavy Painkiller" ) },
-                { effect_pkill_l, translate_marker( "Slow-Release Painkiller" ) },
-
-                { effect_pblue, translate_marker( "Prussian Blue" ) },
-                { effect_iodine, translate_marker( "Potassium Iodide" ) },
-
-                { effect_took_xanax, translate_marker( "Xanax" ) },
-                { effect_took_prozac, translate_marker( "Prozac" ) },
-                { effect_took_flumed, translate_marker( "Antihistamines" ) },
-                { effect_adrenaline, translate_marker( "Adrenaline Spike" ) },
-                // Should this be described like that? Does the bionic know what is this?
-                { effect_adrenaline_mycus, translate_marker( "Mycal Spike" ) },
-            }
-        };
-
-        std::vector<std::string> good;
-        std::vector<std::string> bad;
-
-        if( get_rad() > 0 ) {
-            bad.push_back( _( "Irradiated" ) );
-        }
-
-        // TODO: Expose the player's effects to check it in a cleaner way
-        for( const auto &pr : bad_effects ) {
-            if( has_effect( pr.first ) ) {
-                bad.push_back( _( pr.second ) );
-            }
-        }
-
-        for( const auto &pr : good_effects ) {
-            if( has_effect( pr.first ) ) {
-                good.push_back( _( pr.second ) );
-            }
-        }
-
-        const int win_w = 46;
-        size_t win_h = 0;
-        catacurses::window w;
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            win_h = std::min( static_cast<size_t>( TERMY ),
-                              std::max<size_t>( 1, bad.size() + good.size() ) + 2 );
-            w = catacurses::newwin( win_h, win_w,
-                                    point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
-            ui.position_from_window( w );
-        } );
-        ui.mark_resize();
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
-            if( good.empty() && bad.empty() ) {
-                trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
-            } else {
-                for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
-                    if( line <= bad.size() ) {
-                        trim_and_print( w, point( 2, line ), win_w - 3, c_red, bad[line - 1] );
-                    } else {
-                        trim_and_print( w, point( 2, line ), win_w - 3, c_green,
-                                        good[line - 1 - bad.size()] );
-                    }
-                }
-            }
-            wnoutrefresh( w );
-        } );
-        input_context ctxt( "BLOOD_TEST_RESULTS" );
-        ctxt.register_action( "CONFIRM" );
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-        bool stop = false;
-        // Display new messages
-        g->invalidate_main_ui_adaptor();
-        while( !stop ) {
-            ui_manager::redraw();
-            const std::string action = ctxt.handle_input();
-            if( action == "CONFIRM" || action == "QUIT" ) {
-                stop = true;
-            }
-        }
+        conduct_blood_analysis();
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
@@ -843,11 +735,11 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed,
+                effect_took_flumed, effect_antifungal
             }
         };
 
-        for( const auto &eff : removable ) {
+        for( const string_id<effect_type> &eff : removable ) {
             remove_effect( eff );
         }
         // Purging the substance won't remove the fatigue it caused
@@ -912,7 +804,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         bool no_target = true;
         bool extracted = false;
         for( item &it : here.i_at( pos() ) ) {
-            static const auto volume_per_water_charge = 500_ml;
+            static const units::volume volume_per_water_charge = 500_ml;
             if( it.is_corpse() ) {
                 const int avail = it.get_var( "remaining_water", it.volume() / volume_per_water_charge );
                 if( avail > 0 ) {
@@ -980,7 +872,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         if( !is_avatar() ) {
             return false;
         }
-        cata::optional<tripoint> target = lockpick_activity_actor::select_location( g->u );
+        cata::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
             item fake_lockpick = item( itype_pseudo_bio_picklock );
@@ -1013,7 +905,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
-        const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+        const int player_local_temp = g->weather.get_temperature( player_character.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
                            cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
@@ -1022,7 +914,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                       g->is_sheltered( g->u.pos() ) ) ) );
+                                       g->is_sheltered( player_character.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
@@ -1213,7 +1105,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( g->u.sees( pos() ) ) {
+            if( get_player_view().sees( pos() ) ) {
                 add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
                                 weapon.tname() );
             }
@@ -1224,7 +1116,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
-        martial_arts_data.selected_style_check();
+        martial_arts_data->selected_style_check();
     } else if( bio.id == bio_remote ) {
         if( g->remoteveh() != nullptr && !has_active_item( itype_remotevehcontrol ) ) {
             g->setremoteveh( nullptr );
@@ -1315,7 +1207,7 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
-            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
+            if( bio.get_safe_fuel_thresh() > 0 &&
                 ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency >
                     get_max_power_level() ) ||
                   ( ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency ) >
@@ -1568,7 +1460,7 @@ void Character::heat_emission( int b, int fuel_energy )
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, false, heat_prod );
+        add_effect( effect_heating_bionic, 2_seconds, bp.first.id(), false, heat_prod );
     }
 }
 
@@ -1585,7 +1477,7 @@ float Character::get_effective_efficiency( int b, float fuel_efficiency )
                 if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage();
+                    coverage += i.get_coverage( elem.first.id() );
                 }
             }
         }
@@ -1638,6 +1530,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
 void Character::process_bionic( int b )
 {
     bionic &bio = ( *my_bionics )[b];
+    Character &player_character = get_player_character();
     if( ( !bio.id->fuel_opts.empty() || bio.id->is_remote_fueled ) && bio.is_auto_start_on() ) {
         const float start_threshold = bio.get_auto_start_thresh();
         std::vector<itype_id> fuel_available = get_fuel_available( bio.id );
@@ -1654,7 +1547,7 @@ void Character::process_bionic( int b )
             }
         }
         if( !fuel_available.empty() && get_power_level() <= start_threshold * get_max_power_level() ) {
-            g->u.activate_bionic( b );
+            player_character.activate_bionic( b );
         } else if( get_power_level() <= start_threshold * get_max_power_level() &&
                    calendar::once_every( 1_hours ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to use Auto Start." ),
@@ -1716,7 +1609,7 @@ void Character::process_bionic( int b )
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
             for( const bodypart_id bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp->token ) ) {
+                if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
             }
@@ -1730,8 +1623,7 @@ void Character::process_bionic( int b )
             for( const bodypart_id &i : bleeding_bp_parts ) {
                 // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
-                            i->token ).get_int_dur_factor() );
+                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );
                 } else {
                     bleeding_bp_parts.clear();
@@ -1777,7 +1669,7 @@ void Character::process_bionic( int b )
         if( calendar::once_every( 5_minutes ) ) {
             const w_point weatherPoint = *get_weather().weather_precise;
             int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                               g->is_sheltered( g->u.pos() ) );
+                                               g->is_sheltered( player_character.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
@@ -1808,10 +1700,10 @@ void Character::process_bionic( int b )
     }
 }
 
-void Character::roll_critical_bionics_failure( body_part bp )
+void Character::roll_critical_bionics_failure( const bodypart_id &bp )
 {
-    if( one_in( get_part_hp_cur( convert_bp( bp ).id() ) / 4 ) ) {
-        set_part_hp_cur( convert_bp( bp ).id(), 0 );
+    if( one_in( get_part_hp_cur( bp ) / 4 ) ) {
+        set_part_hp_cur( bp, 0 );
     }
 }
 
@@ -1835,7 +1727,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1847,12 +1739,11 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 2:
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
                     apply_damage( this, bp, rng( 5, 10 ), true );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                            body_part_name_accusative( bp ) );
@@ -1863,15 +1754,14 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 4:
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
 
                     apply_damage( this, bp, rng( 25, 50 ), true );
-                    roll_critical_bionics_failure( enum_bp );
+                    roll_critical_bionics_failure( bp );
 
                     add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
                                            _( "<npcname>'s %s is severely damaged." ),
@@ -1924,7 +1814,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                 break;
         }
     }
-    std::set<body_part> bp_hurt;
+    std::set<bodypart_id> bp_hurt;
     switch( fail_type ) {
         case 1:
             if( !has_trait( trait_NOPAIN ) ) {
@@ -1936,12 +1826,11 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 2:
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
                     patient.apply_damage( this, bp, rng( failure_level, failure_level * 2 ), true );
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
@@ -1954,15 +1843,14 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 4:
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
-                const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
-                    if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
+                    if( bp_hurt.count( bp->main_part ) > 0 ) {
                         continue;
                     }
-                    bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                    bp_hurt.emplace( bp->main_part );
 
                     patient.apply_damage( this, bp, rng( 25, 50 ), true );
-                    roll_critical_bionics_failure( enum_bp );
+                    roll_critical_bionics_failure( bp );
 
                     if( u_see ) {
                         patient.add_msg_player_or_npc( m_bad, _( "Your %s is severely damaged." ),
@@ -2120,7 +2008,7 @@ int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const 
 // bionic manipulation chance of success
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 {
-    if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
         return 100;
     }
 
@@ -2145,7 +2033,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
     if( item::type_is_defined( b_id->itype() ) ) {
-        auto type = item::find_type( b_id->itype() );
+        const itype *type = item::find_type( b_id->itype() );
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2162,8 +2050,9 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         return false;
     }
 
+    Character &player_character = get_player_character();
     if( ( b_id == bio_reactor ) || ( b_id == bio_advreactor ) ) {
-        if( !g->u.query_yn(
+        if( !player_character.query_yn(
                 _( "WARNING: Removing a reactor may leave radioactive material!  Remove anyway?" ) ) ) {
             return false;
         }
@@ -2188,13 +2077,13 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
                             installer );
 
     if( chance_of_success >= 100 ) {
-        if( !g->u.query_yn(
+        if( !player_character.query_yn(
                 _( "Are you sure you wish to uninstall the selected bionic?" ),
                 100 - chance_of_success ) ) {
             return false;
         }
     } else {
-        if( !g->u.query_yn(
+        if( !player_character.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
                 ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
@@ -2210,7 +2099,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
     int difficulty = 12;
     if( item::type_is_defined( b_id->itype() ) ) {
-        auto type = item::find_type( b_id->itype() );
+        const itype *type = item::find_type( b_id->itype() );
         if( type->bionic ) {
             difficulty = type->bionic->difficulty;
         }
@@ -2248,7 +2137,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
 
     return true;
@@ -2259,7 +2148,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
 {
     map &here = get_map();
     if( success > 0 ) {
-        g->events().send<event_type::removes_cbm>( getID(), bid );
+        get_event_bus().send<event_type::removes_cbm>( getID(), bid );
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
@@ -2280,7 +2169,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
     } else {
-        g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
+        get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
@@ -2288,16 +2177,15 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
-    here.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                   float adjusted_skill )
 {
+    viewer &player_view = get_player_view();
     if( installer.ammo[itype_anesthetic] <= 0 ) {
-        if( g->u.sees( installer ) ) {
-            add_msg( _( "The %s's anesthesia kit looks empty." ), installer.name() );
-        }
+        add_msg_if_player_sees( installer, _( "The %s's anesthesia kit looks empty." ), installer.name() );
         return false;
     }
 
@@ -2316,10 +2204,10 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     if( patient.is_player() ) {
         add_msg( m_bad,
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-    } else if( g->u.sees( installer ) ) {
-        add_msg( m_bad,
-                 _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
-                 installer.name(), patient.disp_name() );
+    } else {
+        add_msg_if_player_sees( installer, m_bad,
+                                _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
+                                installer.name(), patient.disp_name() );
     }
 
     installer.ammo[itype_anesthetic] -= 1;
@@ -2329,9 +2217,9 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
 
     if( patient.is_player() ) {
         add_msg( _( "You fall asleep and %1$s starts operating." ), installer.disp_name() );
-    } else if( g->u.sees( patient ) ) {
-        add_msg( _( "%1$s falls asleep and %2$s starts operating." ), patient.disp_name(),
-                 installer.disp_name() );
+    } else {
+        add_msg_if_player_sees( patient, _( "%1$s falls asleep and %2$s starts operating." ),
+                                patient.disp_name(), installer.disp_name() );
     }
 
     if( success > 0 ) {
@@ -2339,7 +2227,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         if( patient.is_player() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
-        } else if( patient.is_npc() && g->u.sees( patient ) ) {
+        } else if( patient.is_npc() && player_view.sees( patient ) ) {
             add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
                      patient.disp_name() );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
@@ -2350,7 +2238,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         patient.remove_bionic( target_cbm.id );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.info().itype() ) ) {
-            cbm = item( target_cbm.id.c_str() );
+            cbm = bionic_to_uninstall;
         }
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
@@ -2417,14 +2305,15 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         return false;
     }
 
+    Character &player_character = get_player_character();
     if( chance_of_success >= 100 ) {
-        if( !g->u.query_yn(
+        if( !player_character.query_yn(
                 _( "Are you sure you wish to install the selected bionic?" ),
                 100 - chance_of_success ) ) {
             return false;
         }
     } else {
-        if( !g->u.query_yn(
+        if( !player_character.query_yn(
                 _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation!  Continue anyway?" ),
                 ( 100 - chance_of_success ) ) ) {
             return false;
@@ -2436,7 +2325,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
 
 float Character::env_surgery_bonus( int radius ) const
 {
-    float bonus = 1.0;
+    float bonus = 1.0f;
     map &here = get_map();
     for( const tripoint &cell : here.points_in_radius( pos(), radius ) ) {
         if( here.furn( cell )->surgery_skill_multiplier ) {
@@ -2492,7 +2381,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
 
     return true;
@@ -2503,7 +2392,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     if( success > 0 ) {
-        g->events().send<event_type::installs_cbm>( getID(), bid );
+        get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -2525,7 +2414,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
         }
 
     } else {
-        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
+        get_event_bus().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -2533,7 +2422,8 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
                                ( 10.0 ) );
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
-    get_map().invalidate_map_cache( g->get_levz() );
+    map &here = get_map();
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
@@ -2566,7 +2456,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
         add_msg( m_neutral, _( "The installation fails without incident." ) );
         drop_cbm = true;
     } else {
-        std::set<body_part> bp_hurt;
+        std::set<bodypart_id> bp_hurt;
         switch( fail_type ) {
 
             case 1:
@@ -2594,7 +2484,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         set_max_power_level( units::from_kilojoule( rng( 0,
                                              units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
                         if( is_player() ) {
-                            g->memorial().add(
+                            get_memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                 units::to_kilojoule( old_power - get_max_power_level() ) );
@@ -2604,7 +2494,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                 } else {
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
-                    g->events().send<event_type::installs_faulty_cbm>( getID(), id );
+                    get_event_bus().send<event_type::installs_faulty_cbm>( getID(), id );
                 }
 
                 break;
@@ -2612,15 +2502,14 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 4:
             case 5: {
                 for( const bodypart_id &bp : get_all_body_parts() ) {
-                    const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_operation, enum_bp ) ) {
-                        if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
+                    if( has_effect( effect_under_operation, bp.id() ) ) {
+                        if( bp_hurt.count( bp->main_part ) > 0 ) {
                             continue;
                         }
-                        bp_hurt.emplace( mutate_to_main_part( enum_bp ) );
+                        bp_hurt.emplace( bp->main_part );
 
                         apply_damage( this, bp, rng( 25, 50 ), true );
-                        roll_critical_bionics_failure( enum_bp );
+                        roll_critical_bionics_failure( bp );
 
                         add_msg_player_or_npc( m_bad, _( "Your %s is damaged." ), _( "<npcname>'s %s is damaged." ),
                                                body_part_name_accusative( bp ) );
@@ -2732,14 +2621,18 @@ void Character::add_bionic( const bionic_id &b )
                 add_msg_if_player( spell_class->desc() );
             }
         }
-        if( !magic.knows_spell( learned_spell ) ) {
-            magic.learn_spell( learned_spell, *this, true );
+        if( !magic->knows_spell( learned_spell ) ) {
+            magic->learn_spell( learned_spell, *this, true );
         }
-        spell &known_spell = magic.get_spell( learned_spell );
+        spell &known_spell = magic->get_spell( learned_spell );
         // spells you learn from installing a bionic upgrade spells you know if they are the same
         if( known_spell.get_level() < spell_pair.second ) {
             known_spell.set_level( spell_pair.second );
         }
+    }
+
+    for( const proficiency_id &learned : b->proficiencies ) {
+        add_proficiency( learned );
     }
 
     calc_encumbrance();
@@ -2774,8 +2667,12 @@ void Character::remove_bionic( const bionic_id &b )
     // any spells you learn from installing a bionic you forget.
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
         if( cbm_spells.count( spell_pair.first ) == 0 ) {
-            magic.forget_spell( spell_pair.first );
+            magic->forget_spell( spell_pair.first );
         }
+    }
+
+    for( const proficiency_id &lost : b->proficiencies ) {
+        lose_proficiency( lost );
     }
 
     *my_bionics = new_my_bionics;
@@ -2837,6 +2734,7 @@ void Character::clear_bionics()
 void reset_bionics()
 {
     faulty_bionics.clear();
+    bionic_factory.reset();
 }
 
 void bionic::set_flag( const std::string &flag )
@@ -2856,7 +2754,7 @@ bool bionic::has_flag( const std::string &flag ) const
 
 int bionic::get_quality( const quality_id &quality ) const
 {
-    const auto &i = info();
+    const bionic_data &i = info();
     if( i.fake_item.is_empty() ) {
         return INT_MIN;
     }
@@ -2872,13 +2770,7 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
-        return;
-    }
-    if( !has_flag( flag_SAFE_FUEL_OFF ) ) {
-        set_flag( flag_SAFE_FUEL_OFF );
-        set_safe_fuel_thresh( 2.0 );
-    } else {
+    if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
@@ -2891,25 +2783,24 @@ void bionic::toggle_safe_fuel_mod()
         if( get_auto_start_thresh() < 0.30 ) {
             tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
         }
+        tmenu.addentry( 5, true, 'd', _( "Disabled" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
             case 1:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 1.0 );
+                set_safe_fuel_thresh( 1.0f );
                 break;
             case 2:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.80 );
+                set_safe_fuel_thresh( 0.80f );
                 break;
             case 3:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.55 );
+                set_safe_fuel_thresh( 0.55f );
                 break;
             case 4:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.30 );
+                set_safe_fuel_thresh( 0.30f );
                 break;
+            case 5:
+                set_safe_fuel_thresh( -1.0f );
             default:
                 break;
         }
@@ -3104,7 +2995,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
 
     if( has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = get_effect_dur( effect_narcosis );
-        if( remaining_time <= duration ) {
+        if( remaining_time < duration ) {
             const time_duration top_off_time = duration - remaining_time;
             add_effect( effect_narcosis, top_off_time );
             fall_asleep( top_off_time );

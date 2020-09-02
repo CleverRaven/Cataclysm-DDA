@@ -1,11 +1,16 @@
+#include "catch/catch.hpp"
+
+#include <algorithm>
+#include <set>
 #include <sstream>
 
-#include "catch/catch.hpp"
 #include "json.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "line_attack", "[magic]" )
 {

@@ -152,7 +152,7 @@
     "type": "MONSTER",
     "copy-from": "mon_turkey",
     "name": { "str": "pheasant" },
-    "description": "A medium sized game bird that can have bright feathers depending on the sex and species.",
+    "description": "A medium-sized game bird that can have bright feathers depending on the sex and species.",
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 6,

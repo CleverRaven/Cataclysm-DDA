@@ -1,43 +1,25 @@
-#include <cstdio>
-#include <cstdlib>
-#include <sstream>
-#include <algorithm>
-#include <cmath>
-#include <map>
+#include "catch/catch.hpp"
+
+#include <array>
 #include <memory>
 #include <set>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
-#include "itype.h"
-#include "map.h"
-#include "map_helpers.h"
-#include "map_iterator.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
-#include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
+#include "character.h"
 #include "game.h"
 #include "game_constants.h"
-#include "item.h"
-#include "line.h"
-#include "mapdata.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "mtype.h"
-#include "units.h"
-#include "type_id.h"
+#include "optional.h"
 #include "point.h"
+#include "type_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
 #include "vpart_position.h"
-#include "player_helpers.h"
-#include "map_helpers.h"
-
-static const efftype_id effect_blind( "blind" );
+#include "vpart_range.h"
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
@@ -195,7 +177,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
     }
 }
 
-static void test_ramp( std::string type, const int transition_x )
+static void test_ramp( const std::string &type, const int transition_x )
 {
     SECTION( type + " no ramp" ) {
         ramp_transition_angled( vproto_id( type ), 180, transition_x, false, false );
@@ -305,7 +287,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     CHECK( veh.global_pos3().z == 0 );
 }
 
-static void test_leveling( std::string type )
+static void test_leveling( const std::string &type )
 {
     SECTION( type + " body drop" ) {
         level_out( vproto_id( type ), true );

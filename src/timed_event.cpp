@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -61,7 +62,7 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->events().send<event_type::becomes_wanted>( player_character.getID() );
+                get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
                 point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
                            u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
                 g->place_critter_at( robot_type, tripoint( rob, player_character.posz() ) );
@@ -70,10 +71,10 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::SPAWN_WYRMS: {
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 return;
             }
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
@@ -94,14 +95,14 @@ void timed_event::actualize()
             }
             // They just keep coming!
             if( !one_in( 25 ) ) {
-                g->timed_events.add( timed_event_type::SPAWN_WYRMS,
-                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
+                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
 
         case timed_event_type::AMIGARA: {
-            g->events().send<event_type::angers_amigara_horrors>();
+            get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             cata::optional<tripoint> fault_point;
             bool horizontal = false;
@@ -140,7 +141,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::ROOTS_DIE:
-            g->events().send<event_type::destroys_triffid_grove>();
+            get_event_bus().send<event_type::destroys_triffid_grove>();
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_root_wall && one_in( 3 ) ) {
                     here.ter_set( p, t_underbrush );
@@ -149,7 +150,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::TEMPLE_OPEN: {
-            g->events().send<event_type::opens_temple>();
+            get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_grate ) {
@@ -208,13 +209,13 @@ void timed_event::actualize()
                     player_character.pos() ) ) {
                 if( flood_buf[player_character.posx()][player_character.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
                         pgettext( "memorial_female", "Water level reached knees." ) );
                 } else {
                     // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
                     avatar_action::swim( here, player_character, player_character.pos() );
@@ -224,8 +225,8 @@ void timed_event::actualize()
             for( const tripoint &p : here.points_on_zlevel() ) {
                 here.ter_set( p, flood_buf[p.x][p.y] );
             }
-            g->timed_events.add( timed_event_type::TEMPLE_FLOOD,
-                                 calendar::turn + rng( 2_turns, 3_turns ) );
+            get_timed_events().add( timed_event_type::TEMPLE_FLOOD,
+                                    calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 
@@ -252,7 +253,7 @@ void timed_event::per_turn()
     switch( type ) {
         case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
+            if( here.get_abs_sub().z >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = here.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     // We're safely indoors!
@@ -269,7 +270,7 @@ void timed_event::per_turn()
         break;
 
         case timed_event_type::SPAWN_WYRMS:
-            if( g->get_levz() >= 0 ) {
+            if( here.get_abs_sub().z >= 0 ) {
                 when -= 1_turns;
                 return;
             }

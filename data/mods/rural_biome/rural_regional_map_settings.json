@@ -605,7 +605,6 @@
       "base_temperature": 6.5,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
-      "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,
@@ -618,8 +617,6 @@
         "rain",
         "thunder",
         "lightning",
-        "acid_drizzle",
-        "acid_rain",
         "flurries",
         "snowing",
         "snowstorm"

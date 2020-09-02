@@ -1,0 +1,52 @@
+[
+  {
+    "type": "palette",
+    "id": "underwater_structure",
+    "terrain": {
+      "~": "t_water_dp",
+      "-": "t_water_cube",
+      "*": "t_water_pool",
+      " ": "t_bulkhead_floor",
+      ".": "t_metal_floor",
+      "A": "t_metal_floor",
+      "#": "t_metal_pontoon_dp",
+      ">": "t_ladder_down",
+      "<": "t_ladder_up",
+      "|": "t_wall_bulkhead",
+      "+": "t_door_metal_bulkhead_c",
+      "o": "t_porthole",
+      "P": "t_concrete_dock_deep_pile",
+      "`": "t_bulkhead_roof",
+      "^": "t_lake_bed_concrete",
+      "y": "t_lake_bed_concrete_yellow",
+      ";": "t_lake_bed",
+      "2": "t_machinery_electronic"
+    },
+    "furniture": {
+      "1": "f_control_station",
+      "A": "f_air_compressor",
+      "B": "f_sample_freezer",
+      "C": "f_workbench",
+      "E": "f_shaker",
+      "G": "f_stool",
+      "H": "f_counter",
+      "I": "f_IV_pole",
+      "J": "f_curtain",
+      "K": "f_fridge",
+      "S": "f_sink",
+      "Q": "f_rack",
+      "U": "f_shower",
+      "W": "f_water_purifier",
+      "b": "f_bench",
+      "c": "f_cupboard",
+      "f": "f_tourist_table",
+      "h": "f_camp_chair",
+      "l": "f_foot_locker",
+      "@": "f_bed",
+      "&": "f_cleat"
+    },
+    "toilets": { "t": {  } },
+    "gaspumps": { "!": {  } },
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+  }
+]

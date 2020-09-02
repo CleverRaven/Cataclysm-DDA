@@ -4,8 +4,8 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "cata_utility.h"
 #include "filesystem.h"
+#include "ofstream_wrapper.h"
 
 #if defined(__linux__)
 #include <unistd.h>

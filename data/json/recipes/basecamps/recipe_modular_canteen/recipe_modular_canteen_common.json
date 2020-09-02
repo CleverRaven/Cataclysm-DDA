@@ -109,7 +109,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_canteen_counters",
-    "description": "Lets build some counters and shelves.",
+    "description": "Let's build some counters and shelves.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -149,8 +149,8 @@
       "skills": [ [ "cooking", 2 ], [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
-        "components": [ [ [ "rock", 64 ] ], [ [ "stick", 48 ], [ "2x4", 48 ] ] ]
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [ [ [ "2x4", 48 ], [ "stick", 48 ] ], [ [ "rock", 64 ] ] ]
       }
     }
   },

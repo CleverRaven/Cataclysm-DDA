@@ -3,11 +3,13 @@
 #include <utility>
 #include <vector>
 
-#include "messages.h"
 #include "enums.h"
+#include "messages.h"
 
+class Creature;
 class JsonObject;
 class JsonOut;
+struct tripoint;
 
 namespace catacurses
 {
@@ -41,3 +43,7 @@ void Messages::deserialize( const JsonObject & ) {}
 
 void add_msg( std::string ) {}
 void add_msg( const game_message_params &, std::string ) {}
+void add_msg_if_player_sees( const tripoint &, std::string ) {}
+void add_msg_if_player_sees( const Creature &, std::string ) {}
+void add_msg_if_player_sees( const tripoint &, const game_message_params &, std::string ) {}
+void add_msg_if_player_sees( const Creature &, const game_message_params &, std::string ) {}

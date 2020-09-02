@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "barley",
-    "name": { "str": "barley" },
+    "name": { "str_sp": "barley" },
     "weight": "211 g",
     "color": "brown",
     "comestible_type": "FOOD",
@@ -24,7 +24,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm",
-    "name": { "str": "bee balm" },
+    "name": { "str_sp": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
     "comestible_type": "FOOD",
     "calories": 9,
@@ -189,7 +189,7 @@
   {
     "type": "COMESTIBLE",
     "id": "celery",
-    "name": "celery",
+    "name": { "str_sp": "celery" },
     "weight": "107 g",
     "color": "light_green",
     "spoils_in": "6 days 6 hours",
@@ -835,6 +835,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
+    "volume": "250 ml",
     "weight": "194 g",
     "symbol": "%",
     "healthy": -2,
@@ -856,6 +857,7 @@
     "color": "light_green",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
+    "volume": "250 ml",
     "weight": "194 g",
     "symbol": "%",
     "healthy": -2,

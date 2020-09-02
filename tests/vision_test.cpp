@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstddef>
 #include <iomanip>
@@ -9,21 +11,21 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "shadowcasting.h"
 #include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_crouch( "crouch" );
 
 enum class vision_test_flags {

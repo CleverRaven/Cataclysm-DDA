@@ -17,7 +17,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_brewery1_southwest",
-    "description": "We could uprade the workspace in the brewery to add a still, wood stove and work table.",
+    "description": "We could upgrade the workspace in the brewery to add a still, wood stove and work table.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

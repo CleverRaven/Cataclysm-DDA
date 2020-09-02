@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -7,7 +9,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "damage.h"
 #include "game.h"
 #include "game_constants.h"
@@ -15,9 +17,9 @@
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
-#include "material.h"
 #include "monster.h"
 #include "npc.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -68,7 +70,7 @@ static void reset_player( Character &p, const throw_test_pstats &pstats, const t
     p.set_per_bonus( 0 );
     p.set_dex_bonus( 0 );
     p.worn.clear();
-    p.inv.clear();
+    p.inv->clear();
     p.remove_weapon();
     p.set_skill_level( skill_throw, pstats.skill_lvl );
 }
@@ -129,7 +131,7 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.i_rem( -1 );
+        p.remove_weapon();
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throws );
@@ -279,7 +281,7 @@ static void test_player_kills_monster(
             while( p.get_moves() > 0 ) {
                 p.wield( it );
                 p.throw_item( mon.pos(), it );
-                p.i_rem( -1 );
+                p.remove_weapon();
                 ++num_items;
             }
             mon_is_dead = mon.is_dead();

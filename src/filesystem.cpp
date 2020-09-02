@@ -124,6 +124,13 @@ const char *cata_files::eol()
     return local_eol;
 }
 
+std::string read_entire_file( const std::string &path )
+{
+    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    return std::string( std::istreambuf_iterator<char>( infile ),
+                        std::istreambuf_iterator<char>() );
+}
+
 namespace
 {
 
@@ -148,12 +155,12 @@ void for_each_dir_entry( const std::string &path, Function function )
 
     const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( const auto entry = readdir( root ) ) {
+    while( const dirent *entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
@@ -185,7 +192,7 @@ bool is_directory_stat( const std::string &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }

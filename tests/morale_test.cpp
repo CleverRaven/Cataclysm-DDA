@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "bodypart.h"
 #include "item.h"
 #include "morale.h"
@@ -350,18 +351,18 @@ TEST_CASE( "player_morale" )
 
     GIVEN( "tough temperature conditions" ) {
         WHEN( "chilly" ) {
-            m.on_effect_int_change( effect_cold, 1, bp_torso );
-            m.on_effect_int_change( effect_cold, 1, bp_head );
-            m.on_effect_int_change( effect_cold, 1, bp_eyes );
-            m.on_effect_int_change( effect_cold, 1, bp_mouth );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_r );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -385,18 +386,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "cold" ) {
-            m.on_effect_int_change( effect_cold, 2, bp_torso );
-            m.on_effect_int_change( effect_cold, 2, bp_head );
-            m.on_effect_int_change( effect_cold, 2, bp_eyes );
-            m.on_effect_int_change( effect_cold, 2, bp_mouth );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_r );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -418,18 +419,18 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
-                m.on_effect_int_change( effect_cold, 0, bp_torso );
-                m.on_effect_int_change( effect_cold, 0, bp_head );
-                m.on_effect_int_change( effect_cold, 0, bp_eyes );
-                m.on_effect_int_change( effect_cold, 0, bp_mouth );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_l );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_r );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_l );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_r );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_l );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_r );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_l );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_r );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "torso" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "head" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "eyes" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "mouth" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "arm_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "arm_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "leg_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "leg_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "hand_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "hand_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "foot_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "foot_r" ) );
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
@@ -437,18 +438,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "warm" ) {
-            m.on_effect_int_change( effect_hot, 1, bp_torso );
-            m.on_effect_int_change( effect_hot, 1, bp_head );
-            m.on_effect_int_change( effect_hot, 1, bp_eyes );
-            m.on_effect_int_change( effect_hot, 1, bp_mouth );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_r );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -472,18 +473,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "hot" ) {
-            m.on_effect_int_change( effect_hot, 2, bp_torso );
-            m.on_effect_int_change( effect_hot, 2, bp_head );
-            m.on_effect_int_change( effect_hot, 2, bp_eyes );
-            m.on_effect_int_change( effect_hot, 2, bp_mouth );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_r );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -505,18 +506,18 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
-                m.on_effect_int_change( effect_hot, 0, bp_torso );
-                m.on_effect_int_change( effect_hot, 0, bp_head );
-                m.on_effect_int_change( effect_hot, 0, bp_eyes );
-                m.on_effect_int_change( effect_hot, 0, bp_mouth );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_l );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_r );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_l );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_r );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_l );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_r );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_l );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_r );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "torso" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "head" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "eyes" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "mouth" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "arm_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "arm_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "leg_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "leg_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "hand_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "hand_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "foot_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "foot_r" ) );
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );

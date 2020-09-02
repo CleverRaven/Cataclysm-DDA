@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room_center_log",
-    "description": "Lets start building the central kitchen log walls.",
+    "description": "Let's start building the central kitchen log walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -32,7 +32,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room2_center_log",
-    "description": "Lets finish the central kitchen log walls.",
+    "description": "Let's finish the central kitchen log walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -62,7 +62,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_log",
-    "description": "Lets get this log wall smoking area covered to protect the workers from the weather.",
+    "description": "Let's get this log wall smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -85,7 +85,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_pantry_log",
-    "description": "Lets build a log wall pantry west of the kitchen.",
+    "description": "Let's build a log wall pantry west of the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -114,7 +114,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_west_log",
-    "description": "Lets build the west log wall of the dining hall.",
+    "description": "Let's build the west log wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -144,7 +144,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_east_log",
-    "description": "Lets build the east log wall of the dining hall.",
+    "description": "Let's build the east log wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -173,7 +173,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_center_log",
-    "description": "Lets build the center of the log wall dining hall.",
+    "description": "Let's build the center of the log wall dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

@@ -130,6 +130,8 @@ class generic_factory
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
+        // TEMPORARY until 0.G: Remove "ident" support
+        const std::string legacy_id_member_name = "ident";
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
             result = id.get_cid();
@@ -214,9 +216,9 @@ class generic_factory
             }
 
             if( jo.has_string( abstract_member_name ) ) {
-                if( jo.has_string( id_member_name ) ) {
-                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'",
-                                                   abstract_member_name, id_member_name ) );
+                if( jo.has_string( id_member_name ) || jo.has_string( legacy_id_member_name ) ) {
+                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
+                                                   abstract_member_name, id_member_name, legacy_id_member_name ) );
                 }
                 def.load( jo, src );
                 abstracts[jo.get_string( abstract_member_name )] = def;
@@ -258,7 +260,7 @@ class generic_factory
                     }
                 }
 
-            } else  if( jo.has_array( id_member_name ) ) {
+            } else if( jo.has_array( id_member_name ) ) {
                 for( const auto &e : jo.get_array( id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
@@ -273,9 +275,39 @@ class generic_factory
                                                    alias_member_name, id_member_name ) );
                 }
 
+            } else if( jo.has_string( legacy_id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
+                def.load( jo, src );
+                insert( def );
+
+                if( jo.has_member( alias_member_name ) ) {
+                    std::set<string_id<T>> aliases;
+                    assign( jo, alias_member_name, aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
+                }
+
+            } else if( jo.has_array( legacy_id_member_name ) ) {
+                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                    T def;
+                    if( !handle_inheritance( def, jo, src ) ) {
+                        break;
+                    }
+                    def.id = string_id<T>( e );
+                    def.load( jo, src );
+                    insert( def );
+                }
+                if( jo.has_member( alias_member_name ) ) {
+                    jo.throw_error( string_format( "can not specify '%s' when '%s' is array",
+                                                   alias_member_name, legacy_id_member_name ) );
+                }
+
             } else if( !jo.has_string( abstract_member_name ) ) {
-                jo.throw_error( string_format( "must specify either '%s' or '%s'",
-                                               abstract_member_name, id_member_name ) );
+                jo.throw_error( string_format( "must specify either '%s' or '%s'/'%s'",
+                                               abstract_member_name, id_member_name, legacy_id_member_name ) );
             }
         }
         /**

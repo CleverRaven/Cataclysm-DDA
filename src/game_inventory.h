@@ -10,6 +10,7 @@
 #include "inventory_ui.h"
 #include "item_location.h"
 
+class Character;
 struct tripoint;
 
 namespace cata
@@ -84,9 +85,10 @@ item_location consume_drink( player &p );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( player &p );
 /** Choosing a container for liquid. */
-item_location container_for( avatar &you, const item &liquid, int radius = 0 );
+item_location container_for( Character &you, const item &liquid, int radius = 0,
+                             const item *avoid = nullptr );
 /** Item disassembling menu. */
-item_location disassemble( player &p );
+item_location disassemble( Character &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */

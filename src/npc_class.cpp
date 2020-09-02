@@ -112,7 +112,7 @@ void apply_all_to_unassigned( T &skills )
 
 void npc_class::finalize_all()
 {
-    for( auto &cl_const : npc_class_factory.get_all() ) {
+    for( const npc_class &cl_const : npc_class_factory.get_all() ) {
         auto &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
@@ -135,7 +135,7 @@ void npc_class::check_consistency()
         }
     }
 
-    for( auto &cl : npc_class_factory.get_all() ) {
+    for( const npc_class &cl : npc_class_factory.get_all() ) {
         if( !item_group::group_is_defined( cl.shopkeeper_item_group ) ) {
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
@@ -256,6 +256,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
             _starting_spells.emplace( sp, level );
         }
     }
+
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },

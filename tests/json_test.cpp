@@ -1,11 +1,17 @@
+#include "catch/catch.hpp"
 #include "json.h"
 
+#include <array>
 #include <list>
+#include <map>
+#include <set>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "bodypart.h"
-#include "catch/catch.hpp"
-#include "debug.h"
+#include "mutation.h"
+#include "colony.h"
 #include "string_formatter.h"
 #include "type_id.h"
 
@@ -42,8 +48,8 @@ TEST_CASE( "serialize_map", "[json]" )
     test_serialization( s_map, R"({"bar":"bar_val","foo":"foo_val"})" );
     std::map<mtype_id, std::string> string_id_map = { { mtype_id( "foo" ), "foo_val" } };
     test_serialization( string_id_map, R"({"foo":"foo_val"})" );
-    std::map<body_part, std::string> enum_map = { { bp_foot_l, "foo_val" } };
-    test_serialization( enum_map, R"({"FOOT_L":"foo_val"})" );
+    std::map<trigger_type, std::string> enum_map = { { HUNGER, "foo_val" } };
+    test_serialization( enum_map, R"({"HUNGER":"foo_val"})" );
 }
 
 TEST_CASE( "serialize_pair", "[json]" )
@@ -68,6 +74,6 @@ TEST_CASE( "serialize_set", "[json]" )
     test_serialization( s_set, R"(["bar","foo"])" );
     std::set<mtype_id> string_id_set = { mtype_id( "foo" ) };
     test_serialization( string_id_set, R"(["foo"])" );
-    std::set<body_part> enum_set = { bp_foot_l };
-    test_serialization( enum_set, string_format( R"([%d])", static_cast<int>( bp_foot_l ) ) );
+    std::set<trigger_type> enum_set = { HUNGER };
+    test_serialization( enum_set, string_format( R"([%d])", static_cast<int>( HUNGER ) ) );
 }

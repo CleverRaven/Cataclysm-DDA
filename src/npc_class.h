@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
@@ -80,6 +81,7 @@ class npc_class
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
+        std::vector<proficiency_id> _starting_proficiencies;
         npc_class();
 
         std::string get_name() const;

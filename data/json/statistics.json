@@ -475,13 +475,6 @@
     "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_l" ] } }
   },
   {
-    "id": "num_broken_bone",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "avatar_broken_bone",
-    "description": { "str": "bone broken", "str_pl": "bones broken" }
-  },
-  {
     "id": "num_broken_right_leg",
     "type": "event_statistic",
     "stat_type": "count",
@@ -844,7 +837,7 @@
     "id": "num_gains_rifle_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_7",
+    "event_transformation": "avatar_gains_rifle_level_7",
     "description": { "str_sp": "rifles skill level 7 gained" }
   },
   {
@@ -1366,7 +1359,7 @@
     "id": "num_gains_rifle_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_10",
+    "event_transformation": "avatar_gains_rifle_level_10",
     "description": { "str_sp": "rifles skill level 10 gained" }
   },
   {

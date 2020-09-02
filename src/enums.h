@@ -49,6 +49,19 @@ static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
+enum class bionic_ui_sort_mode : int {
+    NONE   = 0,
+    POWER  = 1,
+    NAME   = 2,
+    INVLET = 3,
+    nsort  = 4,
+};
+
+template<>
+struct enum_traits<bionic_ui_sort_mode> {
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
+};
+
 enum class holiday : int {
     none = 0,
     new_year,
@@ -269,6 +282,11 @@ enum class layer_level : int {
     AURA,
     /* Not a valid layer; used for C-style iteration through this enum */
     NUM_LAYER_LEVELS
+};
+
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
 };
 
 inline layer_level &operator++( layer_level &l )

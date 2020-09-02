@@ -150,6 +150,7 @@ void help::display_help()
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
+    ctxt = input_context( "default", keyboard_mode::keychar );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );

@@ -52,7 +52,7 @@
     "max_range": 20,
     "difficulty": 1,
     "extra_effects": [ { "id": "afs_holo_flare_explosion" } ],
-    "damage_type": "none"
+    "damage_type": "true"
   },
   {
     "id": "afs_holo_flare_explosion",
@@ -72,7 +72,7 @@
     "spell_class": "NONE",
     "flags": [ "SILENT" ],
     "base_casting_time": 0,
-    "damage_type": "none",
+    "damage_type": "true",
     "difficulty": 1
   },
   {

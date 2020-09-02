@@ -12,7 +12,8 @@
     "ammo_type": "anesthetic",
     "count": 540,
     "phase": "liquid",
-    "container": "jar_3l_glass",
+    "container": "jar_3l_glass_sealed",
+    "sealed": false,
     "symbol": "!",
     "color": "cyan",
     "looks_like": "ether"
@@ -222,7 +223,8 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17
+    "freezing_point": 17,
+    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
     "type": "COMESTIBLE",
@@ -380,71 +382,6 @@
     "category": "chems",
     "freezing_point": 28,
     "fun": -1
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "water_acid",
-    "name": { "str_sp": "acid water" },
-    "weight": "260 g",
-    "color": "light_green",
-    "flags": [ "ACID" ],
-    "use_action": [ "BLECH" ],
-    "container": "jug_plastic",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": -56,
-    "healthy": -2,
-    "description": "Water collected during an acid rainstorm.  Don't drink it.  Boiling it concentrates the acid.",
-    "price": 0,
-    "price_postapoc": 0,
-    "volume": "250 ml",
-    "phase": "liquid",
-    "category": "chems",
-    "fun": -30
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "water_acid_weak",
-    "name": { "str_sp": "weak acid water" },
-    "weight": "255 g",
-    "color": "light_green",
-    "flags": [ "ACID" ],
-    "use_action": [ "BLECH" ],
-    "container": "jug_plastic",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": -28,
-    "healthy": -1,
-    "description": "A mixture of rain and acid rain.  Don't drink it.  Boiling it concentrates the acid.",
-    "price": 0,
-    "price_postapoc": 0,
-    "volume": "250 ml",
-    "phase": "liquid",
-    "category": "chems",
-    "fun": -15
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "acid",
-    "name": { "str_sp": "concentrated acid" },
-    "weight": "250 g",
-    "color": "green",
-    "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID" ],
-    "use_action": [ "BLECH" ],
-    "container": "jug_plastic",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": -96,
-    "healthy": -4,
-    "description": "Concentrated acid.  Don't drink it.",
-    "price": 2000,
-    "price_postapoc": 50,
-    "volume": "250 ml",
-    "phase": "liquid",
-    "category": "chems",
-    "fun": -45,
-    "freezing_point": 25,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
   },
   {
     "type": "COMESTIBLE",
@@ -1288,6 +1225,8 @@
     "container": "bottle_glass",
     "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
     "volume": "1 ml",
+    "//": "0.7134 g/cm3",
+    "weight": "713 mg",
     "phase": "liquid"
   },
   {
@@ -1305,6 +1244,8 @@
     "container": "bottle_glass",
     "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
     "volume": "1 ml",
+    "//": "1.1004 g/cm3",
+    "weight": "1100 mg",
     "phase": "liquid"
   },
   {
@@ -1322,6 +1263,8 @@
     "fun": -20,
     "description": "Famous for its abilities as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
     "volume": "1 ml",
+    "//": "1.489 g/cm3 at 25C",
+    "weight": "1489 mg",
     "phase": "liquid"
   },
   {
@@ -1339,6 +1282,8 @@
     "container": "bottle_glass",
     "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "volume": "1 ml",
+    "//": "1.07 g/cm3",
+    "weight": "1070 mg",
     "phase": "liquid"
   },
   {
@@ -1353,8 +1298,9 @@
     "healthy": -1,
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
-    "volume": "1 ml",
+    "description": "Also called glycerin, this clear, odorless liquid is both a handy skin moisteurizer and an ingredient necessary to make dynamite.",
+    "volume": "15 ml",
+    "weight": "20 g",
     "phase": "liquid"
   },
   {

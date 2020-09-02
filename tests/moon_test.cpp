@@ -1,7 +1,9 @@
+#include "catch/catch.hpp"
+
+#include <string>
+
 #include "calendar.h"
 #include "enum_conversions.h"
-
-#include "catch/catch.hpp"
 
 // MOON TESTS
 //
@@ -213,7 +215,7 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
 
         // Daylight level should be 100 at first new moon
         float daylight_level = current_daylight_level( new_noon );
-        float half_twilight = ( daylight_level + 1 ) / 2;
+        float half_twilight = ( daylight_level + 1.0f ) / 2.0f;
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
@@ -248,7 +250,7 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
 
         // Daylight level is higher, later in the season (~104 at first full moon)
         float daylight_level = current_daylight_level( full_noon );
-        float half_twilight = ( daylight_level + 10 ) / 2;
+        float half_twilight = ( daylight_level + 10.0f ) / 2.0f;
         float moonlight_level = 10.0f;
 
         THEN( "at night, light is only moonlight" ) {

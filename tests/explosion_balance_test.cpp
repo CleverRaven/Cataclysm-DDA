@@ -1,4 +1,5 @@
-#include <algorithm>
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <sstream>
@@ -6,7 +7,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "game.h"
 #include "item.h"
@@ -15,7 +15,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "veh_type.h"

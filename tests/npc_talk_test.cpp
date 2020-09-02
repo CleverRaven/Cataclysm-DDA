@@ -1,20 +1,22 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
+#include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "dialogue.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -27,8 +29,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
-#include "string_id.h"
-#include "stringmaker.h"
+#include "talker.h"
 #include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
@@ -51,6 +52,7 @@ static npc &create_test_talker()
     for( const trait_id &tr : model_npc->get_mutations() ) {
         model_npc->unset_mutation( tr );
     }
+    model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
@@ -65,7 +67,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
-        response.create_option_line( d, ' ' );
+        response.create_option_line( d, input_event() );
     }
     if( d.responses.size() != expected_count ) {
         printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );
@@ -85,7 +87,9 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    const tripoint omt_pos = ms_to_omt_copy( get_map().getabs( get_player_character().pos() ) );
+    // TODO: fix point types
+    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
+                                        get_player_character().pos() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
@@ -93,7 +97,8 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
-    player &player_character = get_avatar();
+    avatar &player_character = get_avatar();
+    player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
     const tripoint test_origin( 15, 15, 0 );
@@ -101,12 +106,12 @@ static npc &prep_test( dialogue &d )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc &talker_npc = create_test_talker();
+    npc &beta = create_test_talker();
 
-    d.alpha = &player_character;
-    d.beta = &talker_npc;
+    d.alpha = get_talker_for( player_character );
+    d.beta = get_talker_for( beta );
 
-    return talker_npc;
+    return beta;
 }
 
 TEST_CASE( "npc_talk_start", "[npc_talk]" )
@@ -884,16 +889,16 @@ TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
 TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
-    npc &talker_npc = prep_test( d );
+    npc &beta = prep_test( d );
     player &player_character = get_avatar();
 
     player_character.clear_bionics();
-    talker_npc.clear_bionics();
+    beta.clear_bionics();
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     player_character.add_bionic( bionic_id( "bio_ads" ) );
-    talker_npc.add_bionic( bionic_id( "bio_power_storage" ) );
+    beta.add_bionic( bionic_id( "bio_power_storage" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
@@ -965,4 +970,19 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     talk_effect_t &effects = d.responses[18].success;
     effects.apply( d );
     CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
+}
+
+TEST_CASE( "npc_change_topic", "[npc_talk]" )
+{
+    dialogue d;
+    npc &talker_npc = prep_test( d );
+
+    const std::string original_chat = talker_npc.chatbin.first_topic;
+    REQUIRE( original_chat != "TALK_TEST_SET_TOPIC" );
+    d.add_topic( "TALK_TEST_SET_TOPIC" );
+    gen_response_lines( d, 2 );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    CHECK( talker_npc.chatbin.first_topic != original_chat );
+    CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
 }

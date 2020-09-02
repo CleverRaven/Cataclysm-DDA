@@ -1,28 +1,29 @@
 #include "pathfinding.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
 #include <queue>
 #include <set>
-#include <array>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "point.h"
 #include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "line.h"
-#include "type_id.h"
-#include "point.h"
 
 enum astar_state {
     ASL_NONE,
@@ -314,9 +315,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const maptile &tile = maptile_at_internal( p );
                 const auto &terrain = tile.get_ter_t();
                 const auto &furniture = tile.get_furn_t();
+                const auto &field = tile.get_field();
                 const vehicle *veh = veh_at_internal( p, part );
 
-                const int cost = move_cost_internal( furniture, terrain, veh, part );
+                const int cost = move_cost_internal( furniture, terrain, field, veh, part );
                 // Don't calculate bash rating unless we intend to actually use it
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );

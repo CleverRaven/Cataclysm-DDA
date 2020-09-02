@@ -2,7 +2,7 @@
   {
     "result": "mre_accessory",
     "type": "uncraft",
-    "time": "4 s",
+    "time": "3 s",
     "components": [
       [ [ "pur_tablets", 6 ] ],
       [ [ "gummy_vitamins", 1 ] ],
@@ -14,12 +14,12 @@
       [ [ "spork", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "mre_dessert",
     "type": "uncraft",
-    "time": "4 s",
+    "time": "3 s",
     "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -425,6 +425,22 @@
       [ [ "mre_dessert", 1 ] ],
       [ [ "mre_accessory", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "//": "Until 0.F, allow disassembling legacy toolboxes",
+    "result": "toolbox",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [
+      [ [ "toolbox_empty", 1 ] ],
+      [ [ "pockknife", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hammer", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   }

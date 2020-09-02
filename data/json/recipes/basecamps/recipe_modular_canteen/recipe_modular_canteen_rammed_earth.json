@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room_center_rammed_earth",
-    "description": "Lets start building the central kitchen rammed earth walls.",
+    "description": "Let's start building the central kitchen rammed earth walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -39,7 +39,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room2_center_rammed_earth",
-    "description": "Lets finish the central kitchen rammed earth walls.",
+    "description": "Let's finish the central kitchen rammed earth walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -76,7 +76,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_rammed_earth",
-    "description": "Lets get this rammed earth smoking area covered to protect the workers from the weather.",
+    "description": "Let's get this rammed earth smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -107,7 +107,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_pantry_rammed_earth",
-    "description": "Lets build a rammed earth wall pantry west of the kitchen.",
+    "description": "Let's build a rammed earth wall pantry west of the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -138,7 +138,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_west_rammed_earth",
-    "description": "Lets build the west rammed earth wall of the dining hall.",
+    "description": "Let's build the west rammed earth wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -179,7 +179,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_east_rammed_earth",
-    "description": "Lets build the east rammed earth wall of the dining hall.",
+    "description": "Let's build the east rammed earth wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -210,7 +210,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_center_rammed_earth",
-    "description": "Lets build the center of the rammed earth dining hall.",
+    "description": "Let's build the center of the rammed earth dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

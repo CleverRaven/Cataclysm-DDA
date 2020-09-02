@@ -2074,7 +2074,7 @@
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "flashlight", "prob": 40 },
       { "item": "boots_rubber", "prob": 20 },
-      { "item": "toolbox", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
       { "item": "apron_leather", "prob": 10 }
     ]
   },
@@ -2400,7 +2400,7 @@
       [ "grapnel", 6 ],
       [ "misc_repairkit", 8 ],
       [ "survival_kit", 3 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt", 2 ],
       [ "survivor_machete", 2 ],
       [ "spear_survivor", 2 ],

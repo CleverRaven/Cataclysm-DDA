@@ -10,6 +10,7 @@ class monster;
 
 namespace behavior
 {
+enum class status_t : char;
 
 class monster_oracle_t : public oracle_t
 {

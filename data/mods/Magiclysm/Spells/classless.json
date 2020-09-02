@@ -60,7 +60,7 @@
     "description": "You always wanted to fire energy beams like in the animes you watched as a kid.  Now you can!",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "line_attack",
-    "damage_type": "fire",
+    "damage_type": "heat",
     "base_casting_time": 200,
     "base_energy_cost": 8000,
     "energy_source": "STAMINA",
@@ -128,7 +128,7 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "none"
+    "damage_type": "true"
   },
   {
     "id": "ethereal_grasp",

@@ -273,7 +273,7 @@ description_affix field::displayed_description_affix() const
 int field::total_move_cost() const
 {
     int current_cost = 0;
-    for( auto &fld : _field_type_list ) {
+    for( const auto &fld : _field_type_list ) {
         current_cost += fld.second.move_cost();
     }
     return current_cost;

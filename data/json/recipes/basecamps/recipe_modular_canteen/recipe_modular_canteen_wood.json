@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room_center_wood",
-    "description": "Lets start building the central kitchen wood panel walls.",
+    "description": "Let's start building the central kitchen wood panel walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -25,7 +25,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room2_center_wood",
-    "description": "Lets finish the central kitchen wood panel walls.",
+    "description": "Let's finish the central kitchen wood panel walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -48,7 +48,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_wood",
-    "description": "Lets get this wood panel smoking area covered to protect the workers from the weather.",
+    "description": "Let's get this wood panel smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -71,7 +71,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_pantry_wood",
-    "description": "Lets build a wood panel pantry west of the kitchen.",
+    "description": "Let's build a wood panel pantry west of the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -94,7 +94,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_west_wood",
-    "description": "Lets build the west wood panel wall of the dining hall.",
+    "description": "Let's build the west wood panel wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -117,7 +117,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_east_wood",
-    "description": "Lets build the east wood panel wall of the dining hall.",
+    "description": "Let's build the east wood panel wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -140,7 +140,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_center_wood",
-    "description": "Lets build the center of the wood panel dining hall.",
+    "description": "Let's build the center of the wood panel dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

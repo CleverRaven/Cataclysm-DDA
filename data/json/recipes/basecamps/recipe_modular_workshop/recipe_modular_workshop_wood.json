@@ -78,14 +78,14 @@
       "skills": [ [ "fabrication", 3 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "qualities": [ [ { "id": "DIG" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 321 ] ],
-          [ [ "nail", 906 ] ],
-          [ [ "wood_panel", 47 ] ],
+          [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 2 ] ],
+          [ [ "nail", 906 ] ],
           [ [ "rock", 40 ] ],
-          [ [ "glass_sheet", 1 ] ]
+          [ [ "wood_panel", 47 ] ]
         ]
       }
     }
@@ -93,7 +93,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_workshop_room5_wood_center",
-    "description": "Let's expand work area, and add add a bookshelf for our reference books.",
+    "description": "Let's expand work area, and add a bookshelf for our reference books.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

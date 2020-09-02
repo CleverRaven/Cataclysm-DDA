@@ -333,8 +333,7 @@
   },
   {
     "abstract": "book_martial",
-    "type": "GENERIC",
-    "category": "books",
+    "type": "BOOK",
     "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
@@ -343,6 +342,7 @@
     "symbol": "?",
     "color": "green",
     "use_action": [ "MA_MANUAL" ],
-    "book_data": { "time": "10 m", "intelligence": 9 }
+    "intelligence": 9,
+    "time": "10 m"
   }
 ]

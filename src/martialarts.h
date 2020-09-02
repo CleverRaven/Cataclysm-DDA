@@ -12,9 +12,13 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "input.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+
+class input_context;
+struct input_event;
 
 enum damage_type : int;
 class Character;

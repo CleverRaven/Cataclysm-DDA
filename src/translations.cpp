@@ -4,10 +4,10 @@
 #include <clocale>
 #include <cstdlib>
 #include <functional>
+#include <locale>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
-#include <cstdlib>
 
 #define __STRICT_ANSI__
 #endif
@@ -23,13 +23,21 @@
 
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "cursesdef.h"
 #include "json.h"
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "rng.h"
 #include "text_style_check.h"
+
+#if defined(MACOSX)
+#include <CoreFoundation/CFLocale.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+#include "cata_utility.h"
+
+std::string getOSXSystemLang();
+#endif
 
 extern bool test_mode;
 
@@ -53,15 +61,6 @@ static bool sanity_checked_genders = false;
 #   include "platform_win.h"
 #endif
 #   include "mmsystem.h"
-#endif
-
-#if defined(MACOSX)
-#   include <CoreFoundation/CFLocale.h>
-#   include <CoreFoundation/CoreFoundation.h>
-
-#include "cata_utility.h"
-
-std::string getOSXSystemLang();
 #endif
 
 const char *pgettext( const char *context, const char *msgid )
@@ -191,7 +190,7 @@ void set_language()
         }
 #endif
         else {
-            const auto env = getenv( "LANGUAGE" );
+            const char *env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {
@@ -728,3 +727,8 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
     return std::locale()( l, r );
 #endif
 }
+
+// silence -Wunused-macro
+#ifdef __STRICT_ANSI__
+#undef __STRICT_ANSI__
+#endif

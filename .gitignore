@@ -123,7 +123,7 @@ nbproject/
 
 # OSX
 Cataclysm.app
-data/osx/AppIcon.icns
+build-data/osx/AppIcon.icns
 Cataclysm.dmg
 
 # Jetbrains CLion
@@ -191,3 +191,9 @@ Xcode/
 /.flatpak-builder/
 /repo/
 /build-dir/
+
+# precompiled headers
+/pch/main-pch.hpp.gch
+/pch/main-pch.hpp.pch
+/tests/pch/tests-pch.hpp.gch
+/tests/pch/tests-pch.hpp.pch

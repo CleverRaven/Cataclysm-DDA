@@ -224,7 +224,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_furniture1_west",
-    "description": "We could use some storage containers.  Lets build some book cases to in the western alcove.",
+    "description": "We could use some storage containers.  Let's build some book cases to in the western alcove.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -247,7 +247,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_furniture2_east",
-    "description": "We could use some storage containers.  Lets build some lockers in the eastern alcove.",
+    "description": "We could use some storage containers.  Let's build some lockers in the eastern alcove.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -277,7 +277,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_furniture3_center",
-    "description": "We could use some storage containers.  Lets build some tables.",
+    "description": "We could use some storage containers.  Let's build some tables.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

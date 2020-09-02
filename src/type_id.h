@@ -2,8 +2,10 @@
 #ifndef CATA_SRC_TYPE_ID_H
 #define CATA_SRC_TYPE_ID_H
 
+// IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+// IWYU pragma: end_exports
 
 class achievement;
 using achievement_id = string_id<achievement>;

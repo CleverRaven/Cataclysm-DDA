@@ -85,6 +85,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "500 ml",
+    "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5
   },
@@ -102,6 +103,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "500 ml",
+    "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 6
   },

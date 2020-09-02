@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,8 +14,9 @@
 #include "json.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
@@ -163,7 +165,12 @@ class enchantment
         void cast_hit_you( Character &caster, const Creature &target ) const;
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
+
+        std::set<trait_id> get_mutations() const {
+            return mutations;
+        }
     private:
+        std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value

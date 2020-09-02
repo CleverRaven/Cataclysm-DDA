@@ -3,8 +3,11 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -29,6 +32,9 @@
 #include "value_ptr.h"
 
 class Item_factory;
+class JsonIn;
+class JsonObject;
+class body_part_set;
 class item;
 class player;
 struct tripoint;
@@ -166,9 +172,9 @@ struct islot_comestible {
         std::map<diseasetype_id, int> contamination;
 
         //** specific heats in J/(g K) and latent heat in J/g */
-        float specific_heat_liquid = 4.186;
-        float specific_heat_solid = 2.108;
-        float latent_heat = 333;
+        float specific_heat_liquid = 4.186f;
+        float specific_heat_solid = 2.108f;
+        float latent_heat = 333.0f;
 
         /** A penalty applied to fun for every time this food has been eaten in the last 48 hours */
         int monotony_penalty = 2;
@@ -208,29 +214,31 @@ struct islot_brewable {
     void deserialize( JsonIn &jsin );
 };
 
+struct armor_portion_data {
+
+    // How much this piece encumbers the player.
+    int encumber = 0;
+
+    // When storage is full, how much it encumbers the player.
+    int max_encumber = 0;
+
+    // Percentage of the body part that this item covers.
+    // This determines how likely it is to hit the item instead of the player.
+    int coverage = 0;
+
+    // Where does this cover if any
+    cata::optional<body_part_set> covers;
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //cata::optional<layer_level> layer;
+};
+
 struct islot_armor {
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
-    /**
-     * Whether this item can be worn on either side of the body
-     */
-    bool sided = false;
-    /**
-     * How much this item encumbers the player.
-     */
-    int encumber = 0;
-    /**
-    * When storage is full, how much it encumbers the player.
+    * Whether this item can be worn on either side of the body
     */
-    int max_encumber = 0;
-    /**
-     * Percentage of the body part area that this item covers.
-     * This determines how likely it is to hit the item instead of the player.
-     */
-    int coverage = 0;
+    bool sided = false;
     /**
      * TODO: document me.
      */
@@ -250,7 +258,7 @@ struct islot_armor {
     /**
     * Factor modifiying weight capacity
     */
-    float weight_capacity_modifier = 1.0;
+    float weight_capacity_modifier = 1.0f;
     /**
     * Bonus to weight capacity
     */
@@ -264,6 +272,9 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    // Layer, encumbrance and coverage information.
+    std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
 
@@ -395,7 +406,7 @@ struct islot_mod {
     std::vector<pocket_data> add_pockets;
 
     /** Proportional adjustment of parent item ammo capacity */
-    float capacity_multiplier = 1.0;
+    float capacity_multiplier = 1.0f;
 };
 
 /**
@@ -689,7 +700,7 @@ struct islot_ammo : common_ranged_data {
      *@{*/
     itype_id drop = itype_id::NULL_ID();
 
-    float drop_chance = 1.0;
+    float drop_chance = 1.0f;
 
     bool drop_active = true;
     /*@}*/
@@ -729,7 +740,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * The damage multiplier to apply after a critical hit.
      */
-    float critical_multiplier = 2.0;
+    float critical_multiplier = 2.0f;
 
     /**
      * Some combat ammo might not have a damage value
@@ -793,19 +804,6 @@ struct islot_seed {
     islot_seed() = default;
 };
 
-struct islot_artifact {
-    art_charge charge_type;
-    art_charge_req charge_req;
-    std::vector<art_effect_passive> effects_wielded;
-    std::vector<art_effect_active>  effects_activated;
-    std::vector<art_effect_passive> effects_carried;
-    std::vector<art_effect_passive> effects_worn;
-    std::vector<std::string> dream_msg_unmet;
-    std::vector<std::string> dream_msg_met;
-    int dream_freq_unmet;
-    int dream_freq_met;
-};
-
 enum condition_type {
     FLAG,
     COMPONENT_ID,
@@ -865,7 +863,6 @@ struct itype {
         cata::value_ptr<islot_bionic> bionic;
         cata::value_ptr<islot_ammo> ammo;
         cata::value_ptr<islot_seed> seed;
-        cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
@@ -882,6 +879,7 @@ struct itype {
 
         // The container it comes in
         cata::optional<itype_id> default_container;
+        bool default_container_sealed = true;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;
@@ -1006,12 +1004,12 @@ struct itype {
          * a vehicle base part.  Larger means more insulation, less than 1 but
          * greater than zero, transfers faster, cannot be less than zero.
          */
-        float insulation_factor = 1;
+        float insulation_factor = 1.0f;
 
         /**
          * Efficiency of solar energy conversion for solarpacks.
          */
-        float solar_efficiency = 0;
+        float solar_efficiency = 0.0f;
 
         // used for generic_factory for copy-from
         bool was_loaded = false;

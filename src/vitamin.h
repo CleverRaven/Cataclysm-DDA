@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VITAMIN_H
 #define CATA_SRC_VITAMIN_H
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <string>
@@ -9,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

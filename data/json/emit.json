@@ -247,15 +247,15 @@
     "id": "emit_hot_air_migo_seep",
     "type": "emit",
     "field": "fd_hot_air_sauna",
-    "intensity": 3,
-    "qty": 50
+    "intensity": 2,
+    "qty": 60
   },
   {
     "id": "emit_hot_air_migo_blast",
     "type": "emit",
     "field": "fd_hot_air_sauna",
     "intensity": 3,
-    "qty": 300
+    "qty": 150
   },
   {
     "id": "emit_migo_atmosphere",

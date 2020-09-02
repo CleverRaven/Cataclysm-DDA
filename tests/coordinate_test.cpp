@@ -1,9 +1,12 @@
 #include "catch/catch.hpp"
 
-#include "coordinates.h"
-#include "coordinate_conversions.h"
+#include <string>
+#include <tuple>
+
 #include "cata_generators.h"
-#include "stringmaker.h"
+#include "coordinate_conversions.h"
+#include "coordinates.h"
+#include "point.h"
 
 constexpr int num_trials = 5;
 
@@ -346,4 +349,37 @@ TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
         tripoint_abs_sm recombined = project_combine( quotient, remainder );
         CHECK( recombined == orig );
     }
+}
+
+TEST_CASE( "coord_point_distances", "[point][coords]" )
+{
+    point_abs_omt p0;
+    point_abs_omt p1( 10, 10 );
+    tripoint_abs_omt t0;
+    tripoint_abs_omt t1( 10, 10, 10 );
+
+    SECTION( "square" ) {
+        CHECK( square_dist( p0, p1 ) == 10 );
+        CHECK( square_dist( t0, t1 ) == 10 );
+    }
+
+    SECTION( "trig" ) {
+        CHECK( trig_dist( p0, p1 ) == 14 ); // int(10*sqrt(2))
+        CHECK( trig_dist( t0, t1 ) == 17 ); // int(10*sqrt(3))
+    }
+
+    SECTION( "manhattan" ) {
+        CHECK( manhattan_dist( p0, p1 ) == 20 );
+    }
+}
+
+TEST_CASE( "coord_point_midpoint", "[point][coords]" )
+{
+    point_abs_omt p0( 2, 2 );
+    point_abs_omt p1( 8, 17 );
+    tripoint_abs_omt t0( 2, 2, 2 );
+    tripoint_abs_omt t1( 8, 17, 5 );
+
+    CHECK( midpoint( p0, p1 ) == point_abs_omt( 5, 9 ) );
+    CHECK( midpoint( t0, t1 ) == tripoint_abs_omt( 5, 9, 3 ) );
 }

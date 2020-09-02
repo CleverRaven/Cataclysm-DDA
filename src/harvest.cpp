@@ -90,6 +90,10 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
 
+    if( !jo.read( "butchery_requirements", ret.butchery_requirements_ ) ) {
+        ret.butchery_requirements_ = butchery_requirements_id( "default" );
+    }
+
     auto &new_entry = harvest_all[ ret.id_ ];
     new_entry = ret;
     return new_entry.id();

@@ -1,7 +1,6 @@
 #include "magic_enchantment.h"
 
 #include <cstdlib>
-#include <memory>
 #include <set>
 
 #include "character.h"
@@ -227,6 +226,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "mutations", mutations );
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
@@ -281,6 +282,8 @@ void enchantment::serialize( JsonOut &jsout ) const
         }
         jsout.end_object();
     }
+
+    jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
     jsout.start_array();
@@ -337,6 +340,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
@@ -442,7 +449,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+        guy.add_effect( eff.first, 1_seconds, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {

@@ -5,26 +5,28 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
 #include "active_item_cache.h"
 #include "bionics.h"
-#include "mutation.h"
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "string_id.h"
 #include "submap.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -201,7 +203,7 @@ bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level
 template <>
 bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    auto self = static_cast<const vehicle_cursor *>( this );
+    const vehicle_cursor *self = static_cast<const vehicle_cursor *>( this );
 
     qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
@@ -211,7 +213,7 @@ bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, 
 template <>
 bool visitable<Character>::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    auto self = static_cast<const Character *>( this );
+    const Character *self = static_cast<const Character *>( this );
 
     for( const auto &bio : *self->my_bionics ) {
         if( bio.get_quality( qual ) >= level ) {
@@ -270,9 +272,9 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 {
     int res = INT_MIN;
 
-    auto self = static_cast<const Character *>( this );
+    const Character *self = static_cast<const Character *>( this );
 
-    for( const auto &bio : *self->my_bionics ) {
+    for( const bionic &bio : *self->my_bionics ) {
         res = std::max( res, bio.get_quality( qual ) );
     }
 
@@ -289,7 +291,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 template <>
 int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
 {
-    auto self = static_cast<const vehicle_cursor *>( this );
+    const vehicle_cursor *self = static_cast<const vehicle_cursor *>( this );
     return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
                      max_quality_internal( *this, qual ) );
 }
@@ -421,7 +423,7 @@ template <>
 VisitResponse visitable<item>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto it = static_cast<item *>( this );
+    item *it = static_cast<item *>( this );
     return visit_internal( func, it );
 }
 
@@ -430,7 +432,7 @@ template <>
 VisitResponse visitable<inventory>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto inv = static_cast<inventory *>( this );
+    inventory *inv = static_cast<inventory *>( this );
     for( auto &stack : inv->items ) {
         for( auto &it : stack ) {
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
@@ -446,7 +448,7 @@ template <>
 VisitResponse visitable<Character>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto ch = static_cast<Character *>( this );
+    Character *ch = static_cast<Character *>( this );
 
     if( !ch->weapon.is_null() &&
         visit_internal( func, &ch->weapon ) == VisitResponse::ABORT ) {
@@ -459,7 +461,7 @@ VisitResponse visitable<Character>::visit_items(
         }
     }
 
-    return ch->inv.visit_items( func );
+    return ch->inv->visit_items( func );
 }
 
 /** @relates visitable */
@@ -467,7 +469,7 @@ template <>
 VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto cur = static_cast<map_cursor *>( this );
+    const map_cursor *cur = static_cast<map_cursor *>( this );
     map &here = get_map();
     // skip inaccessible items
     if( here.has_flag( "SEALED", *cur ) && !here.has_flag( "LIQUIDCONT", *cur ) ) {
@@ -500,7 +502,7 @@ template <>
 VisitResponse visitable<vehicle_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
-    auto self = static_cast<vehicle_cursor *>( this );
+    const vehicle_cursor *self = static_cast<vehicle_cursor *>( this );
 
     int idx = self->veh.part_with_feature( self->part, "CARGO", true );
     if( idx >= 0 ) {
@@ -566,7 +568,7 @@ template <>
 std::list<item> visitable<inventory>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    auto inv = static_cast<inventory *>( this );
+    inventory *inv = static_cast<inventory *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -614,7 +616,7 @@ template <>
 std::list<item> visitable<Character>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    auto ch = static_cast<Character *>( this );
+    Character *ch = static_cast<Character *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -623,7 +625,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = ch->inv.remove_items_with( filter, count );
+    res = ch->inv->remove_items_with( filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;
@@ -662,7 +664,7 @@ template <>
 std::list<item> visitable<map_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    auto cur = static_cast<map_cursor *>( this );
+    const map_cursor *cur = static_cast<map_cursor *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -729,7 +731,7 @@ template <>
 std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
-    auto cur = static_cast<vehicle_cursor *>( this );
+    const vehicle_cursor *cur = static_cast<vehicle_cursor *>( this );
     std::list<item> res;
 
     if( count <= 0 ) {
@@ -805,7 +807,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                         found_tool_with_UPS = true;
                     }
                 }
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                if( !e->has_pockets() ) {
+                    return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                }
 
             } else if( e->count_by_charges() ) {
                 if( e->typeId() == id ) {
@@ -872,8 +876,8 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
                                       const std::function<bool( const item & )> &filter,
                                       const std::function<void( int )> &visitor ) const
 {
-    auto self = static_cast<const Character *>( this );
-    auto p = dynamic_cast<const player *>( self );
+    const Character *self = static_cast<const Character *>( this );
+    const player *p = dynamic_cast<const player *>( self );
 
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
@@ -891,7 +895,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
             qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
         }
         if( p && p->is_mounted() ) {
-            auto mons = p->mounted_creature.get();
+            const auto *mons = p->mounted_creature.get();
             if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
                 qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
             }
@@ -957,7 +961,7 @@ template <>
 int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limit,
                                      const std::function<bool( const item & )> &filter ) const
 {
-    auto self = static_cast<const Character *>( this );
+    const Character *self = static_cast<const Character *>( this );
 
     if( what == itype_toolset && pseudo && self->has_active_bionic( bio_tools ) ) {
         return 1;

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstdio>
 #include <memory>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "character.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -13,7 +14,6 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "value_ptr.h"

@@ -222,7 +222,7 @@ void addict_effect( Character &u, addiction &add )
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }
-            } else if( in > 5 || one_in( 500 - 15 * in ) ) {
+            } else if( one_in( 500 - 15 * in ) ) {
                 u.add_msg_if_player( m_warning, rng( 0, 6 ) < in ? _( "You haven't had any mutagen lately." ) :
                                      _( "You could use some new parts…" ) );
                 u.add_morale( MORALE_CRAVING_MUTAGEN, -5, -50 );

@@ -1,7 +1,4 @@
 // Monster movement code; essentially, the AI
-
-#include "monster.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
@@ -15,6 +12,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
@@ -27,14 +25,15 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
+#include "monster.h" // IWYU pragma: associated
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
 #include "pimpl.h"
+#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -43,7 +42,9 @@
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -337,7 +338,7 @@ void monster::plan()
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
                 season_type season = season_of_year( calendar::turn );
-                for( auto &elem : type->baby_flags ) {
+                for( const std::string &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
                         ( season == WINTER && elem == "WINTER" ) ||
                         ( season == SPRING && elem == "SPRING" ) ||
@@ -415,7 +416,7 @@ void monster::plan()
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
                 season_type season = season_of_year( calendar::turn );
-                for( auto &elem : type->baby_flags ) {
+                for( const std::string &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
                         ( season == WINTER && elem == "WINTER" ) ||
                         ( season == SPRING && elem == "SPRING" ) ||
@@ -508,7 +509,7 @@ void monster::plan()
     if( type->has_special_attack( "OPERATE" ) ) {
         if( has_effect( effect_operating ) ) {
             friendly = 100;
-            for( auto critter : here.get_creatures_in_radius( pos(), 6 ) ) {
+            for( Creature *critter : here.get_creatures_in_radius( pos(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
                     anger = 100;
@@ -607,9 +608,7 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
         die( nullptr );
-        if( get_player_character().sees( at_pos ) ) {
-            add_msg( _( "The %s drowns!" ), name() );
-        }
+        add_msg_if_player_sees( at_pos, _( "The %s drowns!" ), name() );
         return true;
     }
     return false;
@@ -645,10 +644,9 @@ void monster::move()
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
     if( action == "consume_items" ) {
-        if( player_character.sees( *this ) ) {
-            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name() );
-        }
+        add_msg_if_player_sees( *this,
+                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                                name() );
         static const auto volume_per_hp = 250_ml;
         for( item &elem : here.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
@@ -661,9 +659,7 @@ void monster::move()
                     hp -= type->hp;
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
-                    if( player_character.sees( *this ) ) {
-                        add_msg( _( "The %s splits in two!" ), name() );
-                    }
+                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
                 }
             }
         }
@@ -867,7 +863,7 @@ void monster::move()
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
-        float switch_chance = 0.0;
+        float switch_chance = 0.0f;
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
@@ -1129,7 +1125,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // TODO: Remove when scentmap is 3D
-    if( std::abs( posz() - g->get_levz() ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - get_map().get_abs_sub().z ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
 
@@ -1148,19 +1144,19 @@ tripoint monster::scent_move()
     Character &player_character = get_player_character();
     const bool fleeing = is_fleeing( player_character );
     if( fleeing ) {
-        bestsmell = g->scent.get( pos() );
+        bestsmell = get_scent().get( pos() );
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
+    if( ( !fleeing && get_scent().get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
     for( const auto &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = g->scent.get( dest );
-        const scenttype_id &type_scent = g->scent.get_type( dest );
+        int smell = get_scent().get( dest );
+        const scenttype_id &type_scent = get_scent().get_type( dest );
 
         bool right_scent = false;
         // is the monster tracking this scent
@@ -1421,7 +1417,7 @@ bool monster::attack_at( const tripoint &p )
         return true;
     }
 
-    if( const auto mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
+    if( monster *mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
         monster &mon = *mon_;
 
         // Don't attack yourself.
@@ -1494,7 +1490,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    Character &player_character = get_player_character();
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( here.has_flag( "CLIMBABLE", destination ) ) {
@@ -1502,19 +1497,15 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( flies() ) {
                 moves -= 100;
                 force = true;
-                if( player_character.sees( *this ) ) {
-                    add_msg( _( "The %1$s flies over the %2$s." ), name(),
-                             here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
-                             here.tername( p ) );
-                }
+                add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
+                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.tername( p ) );
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
-                if( player_character.sees( *this ) ) {
-                    add_msg( _( "The %1$s climbs over the %2$s." ), name(),
-                             here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
-                             here.tername( p ) );
-                }
+                add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
+                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.tername( p ) );
             }
         }
     }
@@ -1549,24 +1540,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     bool will_be_water = on_ground && can_submerge() && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
-    if( was_water && flies() && player_character.sees( *this ) ) {
+    if( was_water && flies() ) {
         if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
-                     here.tername( pos() ) );
+            add_msg_if_player_sees( *this, m_warning, _( "A %1$s flies over the %2$s!" ),
+                                    name(), here.tername( pos() ) );
         }
-    } else if( was_water && !will_be_water && player_character.sees( *this ) ) {
+    } else if( was_water && !will_be_water ) {
         // Use more dramatic messages for swimming monsters
-        //~ Message when a monster emerges from water
-        //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 here.tername( pos() ) );
-    } else if( !was_water && will_be_water && player_character.sees( *this ) ) {
-        //~ Message when a monster enters water
-        //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 here.tername( destination ) );
+        add_msg_if_player_sees( *this, m_warning,
+                                //~ Message when a monster emerges from water
+                                //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+                                pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ),
+                                name(), swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
+    } else if( !was_water && will_be_water ) {
+        add_msg_if_player_sees( *this, m_warning, pgettext( "monster movement",
+                                //~ Message when a monster enters water
+                                //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+                                "A %1$s %2$s into the %3$s!" ),
+                                name(), swims() ||
+                                has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
     }
 
     setpos( destination );
@@ -1591,13 +1583,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     if( here.has_flag( "UNSTABLE", destination ) && on_ground ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
 
     if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, destination ) && on_ground ) {
-        add_effect( effect_no_sight, 1_turns, num_bp, true );
+        add_effect( effect_no_sight, 1_turns, true );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }
@@ -1627,6 +1619,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                 break;
             case creature_size::huge:
                 factor = 1;
+                break;
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
                 break;
         }
         // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
@@ -1796,9 +1791,9 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     Character &player_character = get_player_character();
     // Only print the message when near player or it can get spammy
-    if( rl_dist( player_character.pos(), pos() ) < 4 && player_character.sees( *critter ) ) {
-        add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name(), critter->disp_name() );
+    if( rl_dist( player_character.pos(), pos() ) < 4 ) {
+        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s" ),
+                                name(), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -1871,7 +1866,7 @@ void monster::knock_back_to( const tripoint &to )
         return;
     }
 
-    bool u_see = get_player_character().sees( to );
+    bool u_see = get_player_view().sees( to );
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
@@ -1960,8 +1955,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { p, posz() } ) > g->scent.get( pos() ) ) {
+    if( has_flag( MF_SMELLS ) && get_scent().get( pos() ) > 0 &&
+        get_scent().get( { p, posz() } ) > get_scent().get( pos() ) ) {
         return true;
     }
 
@@ -2052,11 +2047,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                if( get_player_character().sees( this->pos() ) ) {
-                    //~ %1$s - monster name, %2$s - vehicle name
-                    add_msg( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
-                             veh.disp_name() );
-                }
+                //~ %1$s - monster name, %2$s - vehicle name
+                add_msg_if_player_sees( this->pos(), m_bad, _( "%1$s shoves %2$s out of their way!" ),
+                                        this->disp_name(),
+                                        veh.disp_name() );
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );

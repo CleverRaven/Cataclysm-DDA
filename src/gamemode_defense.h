@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "gamemode.h"
@@ -124,7 +125,7 @@ struct defense_game : public special_game {
         bool allow_save = false;
 
         // Start defence location position on overmap
-        tripoint defloc_pos;
+        tripoint_om_omt defloc_pos;
 
         // Defense location special
         overmap_special_id defloc_special;

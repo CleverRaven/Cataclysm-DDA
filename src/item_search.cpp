@@ -56,7 +56,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         case 'd':
             return [filter]( const item & i ) {
                 const auto &components = i.get_uncraft_components();
-                for( auto &component : components ) {
+                for( const item_comp &component : components ) {
                     if( lcmatch( component.to_string(), filter ) ) {
                         return true;
                     }

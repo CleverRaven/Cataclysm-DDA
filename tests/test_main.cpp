@@ -12,25 +12,25 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
-#include <algorithm>
-#include <cassert>
+#include "catch/catch.hpp"
+
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 #include <ctime>
-#include <exception>
-#include <memory>
-#include <ostream>
+#include <string>
 #include <string>
 #include <utility>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
-#include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -48,6 +48,8 @@
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
+
+class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -90,7 +92,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
@@ -98,15 +101,18 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     PATH_INFO::set_standard_filenames();
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        assert( !"Unable to make config directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make config directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        assert( !"Unable to make save directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make save directory.  Check permissions." );
     }
 
     if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        assert( !"Unable to make templates directory.  Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -130,9 +136,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != nullptr );
+    cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != nullptr );
+    cata_assert( world_generator->active_world != nullptr );
 
     calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
@@ -146,10 +152,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_map() = map();
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
-    get_map().load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    map &here = get_map();
+    // TODO: fix point types
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     get_weather().update_weather();
 }
@@ -288,6 +296,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

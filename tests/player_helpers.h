@@ -14,7 +14,7 @@ struct point;
 int get_remaining_charges( const std::string &tool_id );
 bool player_has_item_of_type( const std::string & );
 void clear_character( player &, bool debug_storage = true );
-void clear_avatar();
+void clear_avatar( bool debug_storage = true );
 void process_activity( player &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );

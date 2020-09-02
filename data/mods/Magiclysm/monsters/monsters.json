@@ -41,7 +41,7 @@
     "default_faction": "ooze",
     "bodytype": "blob",
     "symbol": "O",
-    "species": [ "BLOB" ],
+    "species": [ "SLIME" ],
     "diff": 1,
     "volume": "62500 ml",
     "weight": "81500 g",

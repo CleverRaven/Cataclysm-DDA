@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "crt_expansion",
+    "id": "crt_expansion",
     "name": "C.R.I.T Expansion Mod",
     "authors": [ "Soupster89" ],
     "maintainers": [ "Soupster89" ],

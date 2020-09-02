@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
@@ -12,13 +13,13 @@
 
 #include "calendar.h"
 #include "character_id.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -2518,7 +2519,7 @@ void mapgen_forest( mapgendata &dat )
             return 0;
         }
         std::vector<int> factors;
-        for( auto &b : dat.region.forest_composition.biomes ) {
+        for( const auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }
         return *max_element( std::begin( factors ), std::end( factors ) );
@@ -2539,7 +2540,7 @@ void mapgen_forest( mapgendata &dat )
         // Pick one random feature from each biome according to the biome defs and save it into a lookup.
         // We'll blend these features together below based on the current and adjacent terrains.
         std::map<oter_id, ter_furn_id> biome_features;
-        for( auto &b : dat.region.forest_composition.biomes ) {
+        for( const auto &b : dat.region.forest_composition.biomes ) {
             biome_features[b.first] = b.second.pick();
         }
 
@@ -2690,7 +2691,7 @@ void mapgen_forest( mapgendata &dat )
 
         if( one_in( tdf.chance ) ) {
             // Pick a furniture and set it on the map right now.
-            const auto fid = tdf.furniture.pick();
+            const furn_id *fid = tdf.furniture.pick();
             m->furn_set( p, *fid );
         }
     };
@@ -2889,7 +2890,7 @@ void mapgen_lake_shore( mapgendata &dat )
             oter_id match = adjacent;
 
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
-            for( auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+            for( const auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
@@ -3195,7 +3196,7 @@ void mapgen_lake_shore( mapgendata &dat )
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might

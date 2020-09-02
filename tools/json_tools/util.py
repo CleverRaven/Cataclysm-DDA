@@ -1,21 +1,18 @@
 """Utility stuff for json tools.
 """
 
-from __future__ import print_function
-
 import argparse
 from collections import Counter, OrderedDict
 from fnmatch import fnmatch
 import json
 import re
 import os
-from StringIO import StringIO
+from io import StringIO
 
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
 JSON_FNMATCH = "*.json"
-
 
 
 def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
@@ -47,13 +44,12 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     return (data, errors)
 
 
-
 def match_primitive_values(item_value, where_value):
     """Perform any odd logic on item matching.
     """
     # Matching interpolation for keyboard constrained input.
-    if type(item_value) == str or type(item_value) == unicode:
-        # Direct match, and don't convert unicode in Python 2.
+    if type(item_value) == str:
+        # Direct match
         return bool(re.match(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
@@ -63,7 +59,6 @@ def match_primitive_values(item_value, where_value):
         return bool(re.match(where_value, str(item_value).lower()))
     else:
         return False
-
 
 
 def matches_where(item, where_key, where_value):
@@ -102,7 +97,6 @@ def matches_where(item, where_key, where_value):
         return match_primitive_values(item_value, where_value)
 
 
-
 def matches_all_wheres(item, where_fn_list):
     """Takes a list of where functions and attempts to match against them.
 
@@ -120,7 +114,6 @@ def matches_all_wheres(item, where_fn_list):
             return False
     # Must be a match.
     return True
-
 
 
 class WhereAction(argparse.Action):
@@ -155,7 +148,6 @@ class WhereAction(argparse.Action):
             setattr(namespace, self.dest, where_functions)
         except Exception:
             raise ValueError("Where options are strict. Must be in the form of 'where_key=where_value'")
-
 
 
 def key_counter(data, where_fn_list):
@@ -200,14 +192,14 @@ def item_value_counter(_value):
     """
     stats = Counter()
     # String or unicode
-    if isinstance(_value, basestring):
+    if isinstance(_value, str):
         stats[_value] += 1
     # Cast numbers to strings
     elif type(_value) == int or type(_value) == float:
         stats[str(_value)] += 1
     # Pull all values from objects
     elif type(_value) == OrderedDict:
-        stats += list_value_counter(_value.values())
+        stats += list_value_counter(list(_value.values()))
     # Pull values from list of objects or strings
     elif type(_value) == list:
         stats += list_value_counter(_value)
@@ -215,6 +207,7 @@ def item_value_counter(_value):
         raise ValueError("Value '%s' has unknown type %s" %
                          (_value, type(_value)))
     return stats
+
 
 def list_value_counter(_list):
     """Return a Counter tallying all values in the given {list of dicts}
@@ -224,6 +217,7 @@ def list_value_counter(_list):
     for elem in _list:
         stats += item_value_counter(elem)
     return stats
+
 
 def value_counter(data, search_key, where_fn_list):
     """Takes a search_key {str}, and for values found in data {list of dicts}
@@ -246,7 +240,7 @@ def value_counter(data, search_key, where_fn_list):
         parent_key = search_key
         child_key = None
     else:
-        raise ArgumentError("Only one '.' allowed in search key")
+        raise argparse.ArgumentError("Only one '.' allowed in search key")
 
     for item in matching_data:
         if parent_key not in item:
@@ -261,7 +255,7 @@ def value_counter(data, search_key, where_fn_list):
         # If this value is a list of objects, pull parent_key.child_key
         # values from all of them to include in stats
         if type(parent_val) == list and all(type(e) == OrderedDict
-                                              for e in parent_val):
+                                            for e in parent_val):
             for od in parent_val:
                 if child_key in od:
                     stat_vals.append(od[child_key])
@@ -281,12 +275,11 @@ def value_counter(data, search_key, where_fn_list):
     return stats, len(matching_data)
 
 
-
 def ui_values_to_columns(values, screen_width=80):
     """Take a list of strings and output in fixed width columns.
     """
-    max_val_len = len(max(values, key=len))+1
-    cols = screen_width/max_val_len
+    max_val_len = len(max(values, key=len)) + 1
+    cols = screen_width / max_val_len
     iters = 0
     for v in values:
         print(v.ljust(max_val_len), end=' ')
@@ -296,18 +289,16 @@ def ui_values_to_columns(values, screen_width=80):
     print("")
 
 
-
 def ui_counts_to_columns(counts):
     """Take a Counter instance and display in single fixed width key:value
     column.
     """
     # Values in left column, counts in right, left column as wide as longest string length.
     key_vals = counts.most_common()
-    key_field_len = len(max(list(counts.keys()), key=len))+1
+    key_field_len = len(max(list(counts.keys()), key=len)) + 1
     output_template = "%%-%ds: %%s" % key_field_len
     for k_v in key_vals:
         print(output_template % k_v)
-
 
 
 class CDDAJSONWriter(object):
@@ -330,7 +321,7 @@ class CDDAJSONWriter(object):
         # buf is initialized on a call to dumps
 
     def indented_write(self, s):
-        self.buf.write(self.indent*self.indent_multiplier + s)
+        self.buf.write(self.indent * self.indent_multiplier + s)
 
     def write_key(self, k):
         self.indented_write("\"%s\": " % k)
@@ -361,7 +352,7 @@ class CDDAJSONWriter(object):
                 self.buf.write(",\n")
             else:
                 self.buf.write("\n")
-            self.indent_multiplier -=1
+            self.indent_multiplier -= 1
         self.indented_write("]")
 
     def dumps(self):
@@ -372,7 +363,7 @@ class CDDAJSONWriter(object):
             self.buf = None
 
         self.buf = StringIO()
-        items = self.d.items()
+        items = list(self.d.items())
         global indent_multiplier
         self.indented_write("{\n")
         self.indent_multiplier += 1

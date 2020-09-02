@@ -11,7 +11,11 @@
 
 #include "optional.h"
 
+class map;
 class time_duration;
+template<typename Tripoint>
+class tripoint_range;
+struct tripoint;
 
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
@@ -159,10 +163,6 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
-class map;
-template<typename Tripoint>
-class tripoint_range;
-struct tripoint;
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range<tripoint> points_in_range( const map &m );

@@ -9,7 +9,7 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
     "min_damage": 82,
     "max_damage": 166,
-    "damage_type": "fire"
+    "damage_type": "heat"
   },
   {
     "id": "skullgun_snapback",
@@ -23,6 +23,6 @@
     "min_damage": 10,
     "max_damage": 10,
     "message": "Your head snaps back from the force of the shot.",
-    "damage_type": "bio"
+    "damage_type": "biological"
   }
 ]
