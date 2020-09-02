@@ -735,6 +735,7 @@ bool veh_interact::can_install_part()
                            sel_vpart_info->install_time( g->u ) );
 
     std::string additional_requirements;
+    bool lifting_or_jacking_required = false;
 
     if( dif_eng > 0 ) {
         if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
@@ -763,19 +764,17 @@ bool veh_interact::can_install_part()
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
+        lifting_or_jacking_required = true;
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         TOOL_LIFT_FACTOR );
-        str = base.lift_strength();
         use_aid = true;
         use_str = true;
     } else {
+        lifting_or_jacking_required = true;
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -793,7 +792,7 @@ bool veh_interact::can_install_part()
 
     const auto helpers = g->u.get_crafting_helpers();
     std::string str_string;
-    if( !get_option<bool>( "DISABLE_LIFTING" ) ) {
+    if ( lifting_or_jacking_required ) {
         if( !helpers.empty() )   {
             str_string = string_format( _( "strength ( assisted ) %d" ), str );
         } else {
@@ -1741,6 +1740,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     bool ok = format_reqs( msg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
     std::string additional_requirements;
+    bool lifting_or_jacking_required = false;
 
     int lvl = 0;
     int str = 0;
@@ -1749,19 +1749,17 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     bool use_str = false;
     item base( sel_vpart_info->item );
     if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
+        lifting_or_jacking_required = true;
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
         use_aid = ( max_jack >= lvl ) || can_self_jack();
         use_str = g->u.can_lift( *veh );
     } else if( get_option<bool>( "DISABLE_LIFTING" ) ) {
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         TOOL_LIFT_FACTOR );
-        str = base.lift_strength();
         use_aid = true;
         use_str = true;
     } else  {
+        lifting_or_jacking_required = true;
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          TOOL_LIFT_FACTOR );
@@ -1774,7 +1772,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         ok = false;
     }
     const auto helpers = g->u.get_crafting_helpers();
-    if( !get_option<bool>( "DISABLE_LIFTING" ) ) {
+    if( lifting_or_jacking_required ) {
         if( !helpers.empty() ) {
             additional_requirements += string_format(
                                            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is the tool quality, %3$i is tool level, %4$s is the internal color name which shouldn't be translated and %5$i is the character's strength
