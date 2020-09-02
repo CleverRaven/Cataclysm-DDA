@@ -3105,7 +3105,7 @@ bool warn_fuel_burn( const tripoint &pos )
     zone_manager &mgr = zone_manager::get_manager();
     auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
 
-    if( zones.size() > 0 ) {
+    if( !zones.empty() ) {
         return true;
     }
 
