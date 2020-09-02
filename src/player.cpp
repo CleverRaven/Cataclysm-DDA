@@ -514,7 +514,7 @@ void player::recalc_speed_bonus()
     }
 }
 
-float player::stability_roll() const
+float Character::stability_roll() const
 {
     /** @EFFECT_STR improves player stability roll */
 
@@ -863,13 +863,13 @@ void player::search_surroundings()
     }
 }
 
-bool player::is_dead_state() const
+bool Character::is_dead_state() const
 {
     return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
            get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
 }
 
-void player::on_dodge( Creature *source, float difficulty )
+void Character::on_dodge( Creature *source, float difficulty )
 {
     static const matec_id tec_none( "tec_none" );
 
@@ -903,8 +903,8 @@ void player::on_dodge( Creature *source, float difficulty )
     }
 }
 
-void player::on_hit( Creature *source, bodypart_id bp_hit,
-                     float /*difficulty*/, dealt_projectile_attack const *const proj )
+void Character::on_hit( Creature *source, bodypart_id bp_hit,
+                        float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
     check_dead_state();
     if( source == nullptr || proj != nullptr ) {
@@ -3466,12 +3466,12 @@ nc_color encumb_color( int level )
     return c_red;
 }
 
-float player::get_melee() const
+float Character::get_melee() const
 {
     return get_skill_level( skill_id( "melee" ) );
 }
 
-bool player::uncanny_dodge()
+bool Character::uncanny_dodge()
 {
     bool is_u = is_avatar();
     bool seen = get_player_view().sees( *this );
