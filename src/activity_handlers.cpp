@@ -2538,6 +2538,9 @@ struct weldrig_hack {
         , pseudo( itype_welder, calendar::turn )
     { }
 
+    weldrig_hack( const weldrig_hack & ) = delete;
+    weldrig_hack operator=( const weldrig_hack & ) = delete;
+
     bool init( const player_activity &act ) {
         if( act.coords.empty() || act.values.size() < 2 ) {
             return false;

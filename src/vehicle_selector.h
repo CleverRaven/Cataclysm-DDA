@@ -53,6 +53,8 @@ class vehicle_selector : public visitable<vehicle_selector>
         vehicle_selector( const vehicle_selector &that ) = delete;
         vehicle_selector &operator=( const vehicle_selector & ) = delete;
         vehicle_selector( vehicle_selector && ) = default;
+        vehicle_selector &operator=( vehicle_selector && ) = default;
+        ~vehicle_selector() = default;
 
         size_type size() const {
             return data.size();

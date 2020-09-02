@@ -35,6 +35,8 @@ class pixel_minimap
 {
     public:
         pixel_minimap( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry );
+        pixel_minimap( const pixel_minimap & ) = delete;
+        pixel_minimap &operator=( const pixel_minimap & ) = delete;
         ~pixel_minimap();
 
         void set_type( pixel_minimap_type type );

@@ -358,6 +358,8 @@ class JsonObjectOutputArchive
             : stream( stream ) {
             stream.start_object();
         }
+        JsonObjectOutputArchive( const JsonObjectOutputArchive & ) = delete;
+        JsonObjectOutputArchive &operator=( const JsonObjectOutputArchive & ) = delete;
         ~JsonObjectOutputArchive() {
             stream.end_object();
         }
@@ -455,6 +457,8 @@ class JsonArrayOutputArchive
             : stream( stream ) {
             stream.start_array();
         }
+        JsonArrayOutputArchive( const JsonArrayOutputArchive & ) = delete;
+        JsonArrayOutputArchive &operator=( const JsonArrayOutputArchive & ) = delete;
         ~JsonArrayOutputArchive() {
             stream.end_array();
         }

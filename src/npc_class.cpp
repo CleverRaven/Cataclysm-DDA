@@ -394,11 +394,6 @@ distribution::distribution()
     };
 }
 
-distribution::distribution( const distribution &d )
-{
-    generator_function = d.generator_function;
-}
-
 distribution::distribution( const std::function<float()> &gen )
 {
     generator_function = gen;
@@ -464,5 +459,3 @@ distribution distribution::operator*( const distribution &other ) const
         return my_fun() * other_fun();
     } );
 }
-
-distribution &distribution::operator=( const distribution &other ) = default;

@@ -96,6 +96,8 @@ class string_input_popup // NOLINT(cata-xy)
 
     public:
         string_input_popup();
+        string_input_popup( const string_input_popup & ) = delete;
+        string_input_popup &operator=( const string_input_popup & ) = delete;
         ~string_input_popup();
         /**
          * The title: short string before the actual input field.

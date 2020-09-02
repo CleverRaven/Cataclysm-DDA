@@ -19,6 +19,7 @@ class clone_ptr
             return *this;
         }
         clone_ptr &operator=( clone_ptr && ) = default;
+        ~clone_ptr() = default;
 
         // implicit conversion from unique_ptr
         template<typename U>

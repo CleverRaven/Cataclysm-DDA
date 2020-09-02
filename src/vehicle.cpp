@@ -265,8 +265,6 @@ vehicle::vehicle() : vehicle( vproto_id() )
     sm_pos = tripoint_zero;
 }
 
-vehicle::~vehicle() = default;
-
 bool vehicle::player_in_control( const Character &p ) const
 {
     // Debug switch to prevent vehicles from skidding

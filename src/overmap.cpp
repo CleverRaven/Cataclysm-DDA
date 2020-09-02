@@ -1034,8 +1034,6 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
     init_layers();
 }
 
-overmap::~overmap() = default;
-
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
     try {

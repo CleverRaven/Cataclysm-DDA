@@ -35,6 +35,8 @@ class advanced_inventory
 {
     public:
         advanced_inventory();
+        advanced_inventory( const advanced_inventory & ) = delete;
+        advanced_inventory &operator=( const advanced_inventory & ) = delete;
         ~advanced_inventory();
 
         void display();

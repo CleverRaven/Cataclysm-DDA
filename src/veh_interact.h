@@ -61,7 +61,6 @@ class veh_interact
 
     private:
         veh_interact( vehicle &veh, const point &p = point_zero );
-        ~veh_interact();
 
         item_location target;
 

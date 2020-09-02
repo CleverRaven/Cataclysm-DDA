@@ -206,7 +206,6 @@ class Item_modifier
         std::vector<std::string> custom_flags;
 
         Item_modifier();
-        Item_modifier( Item_modifier && ) = default;
 
         void modify( item &new_item ) const;
         void check_consistency( const std::string &context ) const;

@@ -98,8 +98,6 @@ DynamicDataLoader::DynamicDataLoader()
     initialize();
 }
 
-DynamicDataLoader::~DynamicDataLoader() = default;
-
 DynamicDataLoader &DynamicDataLoader::get_instance()
 {
     static DynamicDataLoader theDynamicDataLoader;

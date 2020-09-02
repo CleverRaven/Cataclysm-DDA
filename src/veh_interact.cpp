@@ -252,8 +252,6 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     move_cursor( point_zero );
 }
 
-veh_interact::~veh_interact() = default;
-
 void veh_interact::allocate_windows()
 {
     // grid window

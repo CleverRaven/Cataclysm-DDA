@@ -23,10 +23,12 @@ class value_ptr : public std::unique_ptr<T>
         value_ptr( T *value ) : std::unique_ptr<T>( value ) {}
         value_ptr( const value_ptr<T> &other ) :
             std::unique_ptr<T>( other ? new T( *other ) : nullptr ) {}
-        value_ptr &operator=( value_ptr<T> other ) {
-            std::unique_ptr<T>::operator=( std::move( other ) );
+        value_ptr &operator=( const value_ptr<T> &other ) {
+            *this = value_ptr( other );
             return *this;
         }
+        value_ptr &operator=( value_ptr<T> &&other ) = default;
+        ~value_ptr() = default;
 
         template<typename Stream = JsonOut>
         void serialize( Stream &jsout ) const {

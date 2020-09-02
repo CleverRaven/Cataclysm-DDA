@@ -94,6 +94,8 @@ class editmap
         bool uberdraw;
 
         editmap();
+        editmap( const editmap & ) = delete;
+        editmap &operator=( const editmap & ) = delete;
         ~editmap();
 
     private:

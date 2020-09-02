@@ -41,7 +41,6 @@ class vpart_position
 
     public:
         vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
-        vpart_position( const vpart_position & ) = default;
 
         ::vehicle &vehicle() const {
             return vehicle_.get();
@@ -124,8 +123,6 @@ class vpart_reference : public vpart_position
 {
     public:
         vpart_reference( ::vehicle &v, const size_t part ) : vpart_position( v, part ) { }
-        vpart_reference( const vpart_reference & ) = default;
-        vpart_reference &operator=( const vpart_reference & ) = default;
 
         using vpart_position::vehicle;
 

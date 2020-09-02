@@ -83,8 +83,6 @@ class actmenu_cb : public uilist_callback
 
 item_action_generator::item_action_generator() = default;
 
-item_action_generator::~item_action_generator() = default;
-
 // Get use methods of this item and its contents
 bool item::item_has_uses_recursive() const
 {

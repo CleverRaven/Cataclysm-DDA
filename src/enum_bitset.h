@@ -18,8 +18,6 @@ class enum_bitset
 
     public:
         enum_bitset() = default;
-        enum_bitset( const enum_bitset & ) = default;
-        enum_bitset &operator=( const enum_bitset & ) = default;
 
         bool operator==( const enum_bitset &rhs ) const noexcept {
             return bits == rhs.bits;

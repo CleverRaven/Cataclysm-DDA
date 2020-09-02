@@ -161,8 +161,6 @@ class effect
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
         }
-        effect( const effect & ) = default;
-        effect &operator=( const effect & ) = default;
 
         /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;

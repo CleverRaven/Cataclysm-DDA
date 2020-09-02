@@ -160,7 +160,6 @@ struct bash_params {
 struct level_cache {
     // Zeros all relevant values
     level_cache();
-    level_cache( const level_cache &other ) = default;
 
     bool transparency_cache_dirty = false;
     bool outside_cache_dirty = false;
@@ -220,9 +219,12 @@ class map
         // Constructors & Initialization
         map( int mapsize = MAPSIZE, bool zlev = true );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
-        virtual ~map();
 
+        map( const map & ) = delete;
+        map( map && ) = default;
+        map &operator=( const map & ) = delete;
         map &operator=( map && ) = default;
+        virtual ~map();
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -1861,6 +1863,5 @@ class fake_map : public tinymap
     public:
         fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_id &trap_type,
                   int fake_map_z );
-        ~fake_map() override;
 };
 #endif // CATA_SRC_MAP_H

@@ -297,6 +297,8 @@ static time_info get_time() noexcept
 
 struct DebugFile {
     DebugFile();
+    DebugFile( const DebugFile & ) = delete;
+    DebugFile &operator=( const DebugFile & ) = delete;
     ~DebugFile();
     void init( DebugOutput, const std::string &filename );
     void deinit();

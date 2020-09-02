@@ -142,6 +142,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             {}
         };
 
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         struct group : public node_allocator_type {
             node_pointer_type nodes;
             node_pointer_type free_list_head;
@@ -197,6 +198,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
             }
         };
 
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         class group_vector : private node_pointer_allocator_type
         {
             public:
@@ -739,6 +741,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
     public:
 
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         template <bool is_const> class list_iterator
         {
             private:
@@ -843,6 +846,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 list_iterator( const node_pointer_type node_p ) noexcept: node_pointer( node_p ) {}
         };
 
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         template <bool is_const> class list_reverse_iterator
         {
             private:

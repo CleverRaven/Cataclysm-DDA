@@ -43,7 +43,6 @@ class Creature_tracker
 
     public:
         Creature_tracker();
-        ~Creature_tracker();
         /**
          * Returns the monster at the given location.
          * If there is no monster, it returns a `nullptr`.

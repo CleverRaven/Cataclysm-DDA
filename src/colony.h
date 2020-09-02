@@ -131,6 +131,7 @@ class colony : private element_allocator_type
         // Colony groups:
 
         // Empty base class optimization (EBCO) - inheriting allocator functions
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         struct group : private uchar_allocator_type {
             aligned_pointer_type
             last_endpoint;              // The address that is one past the highest cell number that's been used so far in this group - does not change with erase command but may change with insert (if no previously-erased locations are available) - is necessary because an iterator cannot access the colony's end_iterator. Most-used variable in colony use (operator ++, --) so first in struct
@@ -194,6 +195,7 @@ class colony : private element_allocator_type
     public:
 
         // Iterators:
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         template <bool is_const> class colony_iterator
         {
             private:
@@ -414,6 +416,7 @@ class colony : private element_allocator_type
         }; // colony_iterator
 
         // Reverse iterators:
+        // NOLINTNEXTLINE(cppcoreguidelines-special-member-functions)
         template <bool r_is_const> class colony_reverse_iterator
         {
             private:

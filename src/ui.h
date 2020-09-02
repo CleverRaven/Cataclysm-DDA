@@ -193,6 +193,8 @@ class uilist // NOLINT(cata-xy)
         };
 
         uilist();
+        uilist( const uilist & ) = delete;
+        uilist &operator=( const uilist & ) = delete;
         // query() will be called at the end of these convenience constructors
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
@@ -363,6 +365,8 @@ class pointmenu_cb : public uilist_callback
         pimpl<impl_t> impl;
     public:
         pointmenu_cb( const std::vector< tripoint > &pts );
+        pointmenu_cb( const pointmenu_cb & ) = delete;
+        pointmenu_cb &operator=( const pointmenu_cb & ) = delete;
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };

@@ -13,6 +13,7 @@ cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
+cppcoreguidelines-special-member-functions,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
@@ -53,9 +54,13 @@ WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
-  - key: readability-uppercase-literal-suffix.NewSuffixes
-    value: 'L;UL;LL;ULL'
   - key: cata-text-style.EscapeUnicode
     value: 0
+  - key: cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions
+    value: 1
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: 1
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: 'L;UL;LL;ULL'
 
 # vim:tw=0

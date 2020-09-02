@@ -36,7 +36,6 @@ class item_action_generator
         }
 
         item_action_generator();
-        ~item_action_generator();
 
         // Assigns items to actions they perform on use
         // Prefers items with smaller charge_per_use

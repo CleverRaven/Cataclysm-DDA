@@ -161,6 +161,7 @@ class achievement_tracker
 
         achievement_tracker( const achievement &a, achievements_tracker &tracker,
                              stats_tracker &stats );
+        ~achievement_tracker() = default;
 
         void set_requirement( requirement_watcher *watcher, bool is_satisfied );
 

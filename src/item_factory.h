@@ -83,7 +83,6 @@ class Item_factory
 {
     public:
         Item_factory();
-        ~Item_factory();
         /**
          * Reset the item factory. All item type definitions and item groups are erased.
          */

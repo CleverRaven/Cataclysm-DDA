@@ -421,6 +421,9 @@ class on_out_of_scope
         on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
 
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+
         ~on_out_of_scope() {
             if( func ) {
                 func();

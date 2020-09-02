@@ -268,6 +268,8 @@ class cata_tiles
 {
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
+        cata_tiles( const cata_tiles & ) = delete;
+        cata_tiles &operator=( const cata_tiles & ) = delete;
         ~cata_tiles();
     public:
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking

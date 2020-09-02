@@ -725,8 +725,6 @@ void Item_factory::load_item_blacklist( const JsonObject &json )
     item_blacklist.sub_blacklist.emplace_back( std::make_pair( whitelist, tmp_blacklist ) );
 }
 
-Item_factory::~Item_factory() = default;
-
 Item_factory::Item_factory()
 {
     init();

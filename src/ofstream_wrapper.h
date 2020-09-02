@@ -30,6 +30,8 @@ class ofstream_wrapper
 
     public:
         ofstream_wrapper( const std::string &path, std::ios::openmode mode );
+        ofstream_wrapper( const ofstream_wrapper & ) = delete;
+        ofstream_wrapper &operator=( const ofstream_wrapper & ) = delete;
         ~ofstream_wrapper();
 
         std::ostream &stream() {

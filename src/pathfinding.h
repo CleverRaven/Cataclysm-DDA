@@ -40,7 +40,6 @@ inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
 
 struct pathfinding_cache {
     pathfinding_cache();
-    ~pathfinding_cache();
 
     bool dirty = false;
 
@@ -64,7 +63,6 @@ struct pathfinding_settings {
     bool avoid_sharp = false;
 
     pathfinding_settings() = default;
-    pathfinding_settings( const pathfinding_settings & ) = default;
     pathfinding_settings( int bs, int md, int ml, int cc, bool aod, bool at, bool acs, bool art,
                           bool as )
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),

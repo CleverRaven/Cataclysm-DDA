@@ -70,6 +70,8 @@ class mod_manager
         using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
+        mod_manager( const mod_manager & ) = delete;
+        mod_manager &operator=( const mod_manager & ) = delete;
         ~mod_manager();
         /**
          * Reload the map of available mods (@ref mod_map).

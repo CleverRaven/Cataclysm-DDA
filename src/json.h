@@ -180,6 +180,7 @@ class JsonIn
         JsonIn( std::istream &s ) : stream( &s ) {}
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
+        ~JsonIn() = default;
 
         bool get_ate_separator() {
             return ate_separator;
@@ -561,6 +562,7 @@ class JsonOut
         JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
         JsonOut( const JsonOut & ) = delete;
         JsonOut &operator=( const JsonOut & ) = delete;
+        ~JsonOut() = default;
 
         // punctuation
         void write_indent();

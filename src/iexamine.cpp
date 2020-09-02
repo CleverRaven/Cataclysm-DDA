@@ -416,6 +416,8 @@ class atm_menu
             reset( false );
         }
 
+        ~atm_menu() = default;
+
         void start() {
             for( bool result = false; !result; ) {
                 switch( choose_option() ) {

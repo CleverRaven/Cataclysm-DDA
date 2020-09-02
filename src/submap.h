@@ -66,9 +66,11 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap();
+        submap( const submap & ) = delete;
         submap( submap && );
         ~submap();
 
+        submap &operator=( const submap & ) = delete;
         submap &operator=( submap && );
 
         trap_id get_trap( const point &p ) const {

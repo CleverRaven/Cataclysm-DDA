@@ -26,11 +26,6 @@ class player_morale
     public:
         player_morale();
 
-        player_morale( player_morale && ) noexcept = default;
-        player_morale( const player_morale & ) = default;
-        player_morale &operator =( player_morale && ) = default;
-        player_morale &operator =( const player_morale & ) = default;
-
         /** Adds morale to existing or creates one */
         void add( const morale_type &type, int bonus, int max_bonus = 0,
                   const time_duration &duration = 6_minutes, const time_duration &decay_start = 3_minutes,

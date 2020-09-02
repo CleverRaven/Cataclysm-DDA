@@ -13,6 +13,8 @@ class live_view
 {
     public:
         live_view();
+        live_view( const live_view & ) = delete;
+        live_view &operator=( const live_view & ) = delete;
         ~live_view();
 
         void init();

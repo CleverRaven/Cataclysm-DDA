@@ -319,6 +319,10 @@ class mapgen_function_json_base
 
     protected:
         mapgen_function_json_base( const std::string &s );
+        mapgen_function_json_base( const mapgen_function_json_base & ) = default;
+        mapgen_function_json_base( mapgen_function_json_base && ) = default;
+        mapgen_function_json_base &operator=( const mapgen_function_json_base & ) = default;
+        mapgen_function_json_base &operator=( mapgen_function_json_base && ) = default;
         virtual ~mapgen_function_json_base();
 
         void setup_common();

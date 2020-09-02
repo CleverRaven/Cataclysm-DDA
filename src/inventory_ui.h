@@ -463,6 +463,8 @@ class selection_column : public inventory_column
 {
     public:
         selection_column( const std::string &id, const std::string &name );
+        selection_column( const selection_column & ) = delete;
+        selection_column operator=( const selection_column & ) = delete;
         ~selection_column() override;
 
         bool activatable() const override {
@@ -491,7 +493,10 @@ class inventory_selector
 {
     public:
         inventory_selector( Character &u, const inventory_selector_preset &preset = default_preset );
+        inventory_selector( const inventory_selector & ) = delete;
+        inventory_selector &operator=( const inventory_selector & ) = delete;
         virtual ~inventory_selector();
+
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
         void add_contained_items( item_location &container, inventory_column &column );

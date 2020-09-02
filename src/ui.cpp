@@ -1035,6 +1035,8 @@ struct pointmenu_cb::impl_t {
     shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
 
     impl_t( const std::vector<tripoint> &pts );
+    impl_t( const impl_t & ) = delete;
+    impl_t &operator=( const impl_t & ) = delete;
     ~impl_t();
 
     void select( uilist *menu );

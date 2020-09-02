@@ -166,12 +166,18 @@ class watcher_set
 class stats_tracker_state
 {
     public:
+        stats_tracker_state() = default;
+        stats_tracker_state( const stats_tracker_state & ) = delete;
+        stats_tracker_state &operator=( const stats_tracker_state & ) = delete;
         virtual ~stats_tracker_state() = 0;
 };
 
 class stats_tracker : public event_subscriber
 {
     public:
+        stats_tracker() = default;
+        stats_tracker( const stats_tracker & ) = delete;
+        stats_tracker &operator=( const stats_tracker & ) = delete;
         ~stats_tracker() override;
 
         event_multiset &get_events( event_type );

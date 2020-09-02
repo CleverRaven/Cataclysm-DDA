@@ -184,7 +184,10 @@ struct pixel_minimap::submap_cache {
         pool.release_tex( texture_index, std::move( chunk_tex ) );
     }
 
+    submap_cache( const submap_cache & ) = delete;
     submap_cache( submap_cache && ) = default;
+    submap_cache &operator=( const submap_cache & ) = delete;
+    submap_cache &operator=( submap_cache && ) = delete;
 
     SDL_Color &color_at( const point &p ) {
         cata_assert( p.x < SEEX );

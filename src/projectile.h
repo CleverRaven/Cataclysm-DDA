@@ -8,6 +8,7 @@
 
 #include "damage.h"
 #include "point.h"
+#include "value_ptr.h"
 
 class Creature;
 struct explosion_data;
@@ -39,15 +40,16 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept;
         projectile &operator=( const projectile & );
+        projectile &operator=( projectile && ) noexcept;
         ~projectile();
 
     private:
         // Actual item used (to drop contents etc.).
         // Null in case of bullets (they aren't "made of cartridges").
-        std::unique_ptr<item> drop;
-        std::unique_ptr<explosion_data> custom_explosion;
+        cata::value_ptr<item> drop;
+        cata::value_ptr<explosion_data> custom_explosion;
 };
 
 struct dealt_projectile_attack {

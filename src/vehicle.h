@@ -497,6 +497,7 @@ class turret_data
         turret_data &operator=( const turret_data & ) = delete;
         turret_data( turret_data && ) = default;
         turret_data &operator=( turret_data && ) = default;
+        ~turret_data() = default;
 
         /** Is this a valid instance? */
         explicit operator bool() const {
@@ -762,7 +763,6 @@ class vehicle
     public:
         vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
-        ~vehicle();
 
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();

@@ -431,9 +431,11 @@ struct vehicle_prototype {
     vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
                        const std::vector<vehicle_item_spawn> &item_spawns,
                        std::unique_ptr<vehicle> &&blueprint );
+    vehicle_prototype( const vehicle_prototype & ) = delete;
     vehicle_prototype( vehicle_prototype && );
     ~vehicle_prototype();
 
+    vehicle_prototype &operator=( const vehicle_prototype & ) = delete;
     vehicle_prototype &operator=( vehicle_prototype && );
 
     std::string name;

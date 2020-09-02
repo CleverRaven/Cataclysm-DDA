@@ -19,6 +19,8 @@ class loading_ui
         void init();
     public:
         loading_ui( bool display );
+        loading_ui( const loading_ui & ) = delete;
+        loading_ui &operator=( const loading_ui & ) = delete;
         ~loading_ui();
 
         /**

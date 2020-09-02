@@ -19,6 +19,8 @@ class mapbuffer
 {
     public:
         mapbuffer();
+        mapbuffer( const mapbuffer & ) = delete;
+        mapbuffer &operator=( const mapbuffer & ) = delete;
         ~mapbuffer();
 
         /** Store all submaps in this instance into savefiles.

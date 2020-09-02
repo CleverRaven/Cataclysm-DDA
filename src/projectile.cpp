@@ -13,32 +13,17 @@
 #include "messages.h"
 #include "rng.h"
 #include "string_id.h"
+#include "value_ptr.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
+projectile::projectile( const projectile & ) = default;
+projectile::projectile( projectile && ) noexcept = default;
+projectile &projectile::operator=( const projectile & ) = default;
+projectile &projectile::operator=( projectile && ) noexcept = default;
 projectile::~projectile() = default;
-
-projectile::projectile( projectile && ) = default;
-
-projectile::projectile( const projectile &other )
-{
-    *this = other;
-}
-
-projectile &projectile::operator=( const projectile &other )
-{
-    impact = other.impact;
-    speed = other.speed;
-    range = other.range;
-    proj_effects = other.proj_effects;
-    critical_multiplier = other.critical_multiplier;
-    set_drop( other.get_drop() );
-    set_custom_explosion( other.get_custom_explosion() );
-
-    return *this;
-}
 
 const item &projectile::get_drop() const
 {
@@ -55,7 +40,7 @@ void projectile::set_drop( const item &it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop = std::make_unique<item>( it );
+        drop = cata::make_value<item>( it );
     }
 }
 
@@ -64,7 +49,7 @@ void projectile::set_drop( item &&it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop = std::make_unique<item>( std::move( it ) );
+        drop = cata::make_value<item>( std::move( it ) );
     }
 }
 
@@ -85,7 +70,7 @@ const explosion_data &projectile::get_custom_explosion() const
 
 void projectile::set_custom_explosion( const explosion_data &ex )
 {
-    custom_explosion = std::make_unique<explosion_data>( ex );
+    custom_explosion = cata::make_value<explosion_data>( ex );
 }
 
 void projectile::unset_custom_explosion()

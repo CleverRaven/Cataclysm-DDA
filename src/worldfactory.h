@@ -44,8 +44,6 @@ class save_t
         bool operator!=( const save_t &rhs ) const {
             return !operator==( rhs );
         }
-        save_t( const save_t & ) = default;
-        save_t &operator=( const save_t & ) = default;
 };
 
 struct WORLD {
@@ -88,6 +86,8 @@ class worldfactory
 {
     public:
         worldfactory();
+        worldfactory( const worldfactory & ) = delete;
+        worldfactory &operator=( const worldfactory & ) = delete;
         ~worldfactory();
 
         // Generate a world

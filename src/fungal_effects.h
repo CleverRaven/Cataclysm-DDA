@@ -16,7 +16,8 @@ class fungal_effects
     public:
         fungal_effects( game &g, map &mp );
         fungal_effects( const fungal_effects & ) = delete;
-        fungal_effects( fungal_effects && ) = delete;
+        fungal_effects &operator=( const fungal_effects & ) = delete;
+        ~fungal_effects() = default;
 
         void marlossify( const tripoint &p );
         /** Makes spores at p. source is used for kill counting */

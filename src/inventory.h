@@ -100,10 +100,6 @@ class inventory : public visitable<inventory>
         std::map<char, itype_id> assigned_invlet;
 
         inventory();
-        inventory( inventory && ) noexcept = default;
-        inventory( const inventory & ) = default;
-        inventory &operator=( inventory && ) = default;
-        inventory &operator=( const inventory & ) = default;
 
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );

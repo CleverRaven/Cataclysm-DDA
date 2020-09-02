@@ -7804,8 +7804,6 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
     }
 }
 
-fake_map::~fake_map() = default;
-
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
     if( !inbounds( p ) ) {
@@ -8701,8 +8699,6 @@ pathfinding_cache::pathfinding_cache()
 {
     dirty = true;
 }
-
-pathfinding_cache::~pathfinding_cache() = default;
 
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
 {

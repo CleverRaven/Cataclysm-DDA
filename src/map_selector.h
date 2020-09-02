@@ -38,9 +38,11 @@ class map_selector : public visitable<map_selector>
         map_selector( const tripoint &pos, int radius = 0, bool accessible = true );
 
         // similar to item_location you are not supposed to store this class between turns
-        map_selector( const map_selector &that ) = delete;
+        map_selector( const map_selector & ) = delete;
         map_selector &operator=( const map_selector & ) = delete;
         map_selector( map_selector && ) = default;
+        map_selector &operator=( map_selector && ) = default;
+        ~map_selector() = default;
 
         size_type size() const {
             return data.size();

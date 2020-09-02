@@ -167,6 +167,8 @@ class game
         friend memorial_logger &get_memorial();
     public:
         game();
+        game( const game & ) = delete;
+        game &operator=( const game & ) = delete;
         ~game();
 
         /** Loads static data that does not depend on mods or similar. */
@@ -237,6 +239,8 @@ class game
         {
             public:
                 draw_callback_t( const std::function<void()> &cb );
+                draw_callback_t( const draw_callback_t & ) = delete;
+                draw_callback_t &operator=( const draw_callback_t & ) = delete;
                 ~draw_callback_t();
                 void operator()();
                 friend class game;
@@ -391,8 +395,6 @@ class game
                                 ++iter;
                             }
                         }
-                        iterator( const iterator & ) = default;
-                        iterator &operator=( const iterator & ) = default;
 
                         bool operator==( const iterator &rhs ) const {
                             return iter == rhs.iter;

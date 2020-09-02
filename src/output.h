@@ -384,6 +384,7 @@ class border_helper
                 border_info( border_info && ) = default;
                 border_info &operator=( const border_info & ) = delete;
                 border_info &operator=( border_info && ) = default;
+                ~border_info() = default;
 
                 friend class border_helper;
             private:

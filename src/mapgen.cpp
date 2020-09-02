@@ -7019,6 +7019,9 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
                 }
             }
 
+            rotation_guard( const rotation_guard & ) = delete;
+            rotation_guard &operator=( const rotation_guard & ) = delete;
+
             ~rotation_guard() {
                 // If we rotated the map before applying updates, we now need to rotate
                 // it back to where we found it.

@@ -471,9 +471,6 @@ class item : public visitable<item>
             public:
                 reload_option() = default;
 
-                reload_option( const reload_option & );
-                reload_option &operator=( const reload_option & );
-
                 reload_option( const player *who, const item *target, const item *parent,
                                const item_location &ammo );
 

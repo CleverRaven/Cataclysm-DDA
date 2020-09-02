@@ -100,7 +100,6 @@ class DynamicDataLoader
                           const std::string &full_path = std::string() );
 
         DynamicDataLoader();
-        ~DynamicDataLoader();
         /**
          * Initializes @ref type_function_map
          */

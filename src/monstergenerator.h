@@ -54,6 +54,8 @@ class MonsterGenerator
 
             return generator;
         }
+        MonsterGenerator( const MonsterGenerator & ) = delete;
+        MonsterGenerator &operator=( const MonsterGenerator & ) = delete;
         ~MonsterGenerator();
 
         // clear monster & species definitions
