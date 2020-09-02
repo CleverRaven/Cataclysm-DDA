@@ -105,7 +105,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
-        auto shr = jo.get_object( "shrapnel" );
+        JsonObject shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
     }
 
@@ -350,8 +350,9 @@ static void do_blast( const tripoint &p, const float power,
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( damage_type::BASH, part_dam, 0, blp.armor_mul );
-            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
+                                                 blp.armor_mul );
+            const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
             add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );

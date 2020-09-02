@@ -5,6 +5,7 @@ find_package(Clang REQUIRED CONFIG)
 
 add_library(
     CataAnalyzerPlugin MODULE
+    AlmostNeverAutoCheck.cpp
     AssertCheck.cpp
     CataTidyModule.cpp
     CombineLocalsIntoPointCheck.cpp

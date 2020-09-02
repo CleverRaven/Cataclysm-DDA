@@ -92,12 +92,12 @@ enum class spell_target : int {
 
 template<>
 struct enum_traits<spell_target> {
-    static constexpr auto last = spell_target::num_spell_targets;
+    static constexpr spell_target last = spell_target::num_spell_targets;
 };
 
 template<>
 struct enum_traits<spell_flag> {
-    static constexpr auto last = spell_flag::LAST;
+    static constexpr spell_flag last = spell_flag::LAST;
 };
 
 struct fake_spell {

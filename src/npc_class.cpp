@@ -278,7 +278,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
                 debugmsg( "Unrecognized mutation category %s", mutation );
                 continue;
             }
-            auto distrib = member.get_object();
+            JsonObject distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }

@@ -197,7 +197,7 @@ bool good_for_pickup( const item &it, npc &who )
 
     const bool whitelisting = who.has_item_whitelist();
     auto weight_allowed = who.weight_capacity() - who.weight_carried();
-    auto min_value = who.minimum_item_value();
+    int min_value = who.minimum_item_value();
 
     if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
         ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
@@ -309,7 +309,7 @@ bool npc::could_move_onto( const tripoint &p ) const
         return true;
     }
 
-    const auto fields_here = here.field_at( pos() );
+    const field fields_here = here.field_at( pos() );
     for( const auto &e : here.field_at( p ) ) {
         if( !is_dangerous_field( e.second ) ) {
             continue;
@@ -479,7 +479,7 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
-        auto att = critter.attitude_to( *this );
+        Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
@@ -1122,7 +1122,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            auto mode = weapon.gun_current_mode();
+            gun_mode mode = weapon.gun_current_mode();
             if( !mode ) {
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
@@ -1533,7 +1533,7 @@ item &npc::find_reloadable()
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
-        const auto it_loc = select_ammo( *node ).ammo;
+        const item_location it_loc = select_ammo( *node ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node;
             return VisitResponse::ABORT;
@@ -1570,7 +1570,7 @@ item_location npc::find_usable_ammo( const item &weap )
         return item_location();
     }
 
-    auto loc = select_ammo( weap ).ammo;
+    item_location loc = select_ammo( weap ).ammo;
     if( !loc || !wants_to_reload_with( weap, *loc ) ) {
         return item_location();
     }
@@ -2165,7 +2165,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
         return true;
     }
 
-    const auto distance = rl_dist( pos(), target->pos() );
+    const int distance = rl_dist( pos(), target->pos() );
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_player() || target->is_npc() ) {
@@ -2307,7 +2307,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             move_pause();
             return;
         }
-        const auto att = attitude_to( *critter );
+        const Creature::Attitude att = attitude_to( *critter );
         if( att == Attitude::HOSTILE ) {
             if( !no_bashing ) {
                 warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
@@ -3101,7 +3101,7 @@ std::list<item> npc::pick_up_item_map( const tripoint &where )
 
 std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
-    auto stack = veh.get_items( part_index );
+    vehicle_stack stack = veh.get_items( part_index );
     return npc_pickup_from_stack( *this, stack );
 }
 

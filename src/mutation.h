@@ -109,7 +109,7 @@ enum trigger_type {
 };
 template<>
 struct enum_traits<trigger_type> {
-    static constexpr auto last = trigger_type::num_trigger;
+    static constexpr trigger_type last = trigger_type::num_trigger;
 };
 
 struct reflex_activation_data {

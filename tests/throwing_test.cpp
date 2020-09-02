@@ -107,7 +107,7 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
-        auto atk = p.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = p.throw_item( mon.pos(), it );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 

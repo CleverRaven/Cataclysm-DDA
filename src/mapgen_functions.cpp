@@ -175,7 +175,7 @@ ter_id clay_or_sand()
 
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
 {
-    const auto dir = terrain_type->get_dir();
+    const om_direction::type dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
@@ -501,7 +501,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
     int num_dirs = 0;
-    for( const auto dir : om_direction::all ) {
+    for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
     }
     return num_dirs;

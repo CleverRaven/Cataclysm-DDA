@@ -667,7 +667,7 @@ template <class Compare>
 void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
-    const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
     const auto sort_text = string_format(
                                _( "<color_white>Sort by:</color> %1$s "
                                   "(Press <color_light_green>%2$s</color> to change sorting.)" ),

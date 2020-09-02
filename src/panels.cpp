@@ -1944,7 +1944,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     const std::string style = u.martial_arts_data->selected_style_name( u );
 
     if( !style.empty() ) {
-        const auto style_color = u.is_armed() ? c_red : c_blue;
+        const nc_color style_color = u.is_armed() ? c_red : c_blue;
         mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 

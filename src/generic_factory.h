@@ -979,7 +979,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         }
 
         E get_next( JsonIn &jin ) const {
-            const auto position = jin.tell();
+            const int position = jin.tell();
             const std::string flag = jin.get_string();
             try {
                 return io::string_to_enum<E>( flag );

@@ -284,7 +284,7 @@ float Character::get_hit_weapon( const item &weap ) const
     /** @EFFECT_BASHING improves hit chance for bashing weapons */
     /** @EFFECT_CUTTING improves hit chance for cutting weapons */
     /** @EFFECT_STABBING improves hit chance for piercing weapons */
-    auto skill = get_skill_level( weap.melee_skill() );
+    int skill = get_skill_level( weap.melee_skill() );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
     if( skill < BIO_CQB_LEVEL && has_active_bionic( bio_cqb ) ) {

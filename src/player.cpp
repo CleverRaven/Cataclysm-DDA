@@ -493,7 +493,7 @@ void player::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
-            const auto player_local_temp = get_weather().get_temperature( pos() );
+            const int player_local_temp = get_weather().get_temperature( pos() );
             if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
                 mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
             }
@@ -1333,7 +1333,7 @@ int player::hp_percentage() const
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    auto qty = veh.fuel_left( desired_liquid );
+    int qty = veh.fuel_left( desired_liquid );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
                  item::nname( desired_liquid ) );
@@ -1949,7 +1949,7 @@ item::reload_option player::select_ammo( const item &base,
         default_to = -1;
     }
 
-    for( auto i = 0; i < static_cast<int>( opts.size() ); ++i ) {
+    for( int i = 0; i < static_cast<int>( opts.size() ); ++i ) {
         const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
                            *opts[ i ].ammo;
 
@@ -2006,7 +2006,7 @@ item::reload_option player::select_ammo( const item &base,
             {}
 
             bool key( const input_context &, const input_event &event, int idx, uilist *menu ) override {
-                auto cur_key = event.get_first_input();
+                int cur_key = event.get_first_input();
                 if( default_to != -1 && cur_key == last_key ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
@@ -2259,7 +2259,7 @@ void player::mend_item( item_location &&obj, bool interactive )
         return;
     }
 
-    auto inv = crafting_inventory();
+    inventory inv = crafting_inventory();
 
     struct mending_option {
         fault_id fault;
@@ -2318,7 +2318,7 @@ void player::mend_item( item_location &&obj, bool interactive )
             const mending_method &method = opt.method;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
-            auto reqs = method.requirements.obj();
+            requirement_data reqs = method.requirements.obj();
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
@@ -2805,7 +2805,7 @@ void player::use_wielded()
 void player::use( int inventory_position )
 {
     item &used = i_at( inventory_position );
-    auto loc = item_location( *this, &used );
+    item_location loc = item_location( *this, &used );
 
     use( loc );
 }

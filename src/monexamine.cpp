@@ -357,7 +357,7 @@ void monexamine::insert_battery( monster &z )
     }
     selection_menu.selected = 1;
     selection_menu.query();
-    auto index = selection_menu.ret;
+    int index = selection_menu.ret;
     if( index == 0 || index == UILIST_CANCEL || index < 0 ||
         index > static_cast<int>( bat_inv.size() ) ) {
         return;
@@ -730,7 +730,7 @@ void monexamine::tie_or_untie( monster &z )
         }
         selection_menu.selected = 1;
         selection_menu.query();
-        auto index = selection_menu.ret;
+        int index = selection_menu.ret;
         if( index == 0 || index == UILIST_CANCEL || index < 0 ||
             index > static_cast<int>( rope_inv.size() ) ) {
             return;

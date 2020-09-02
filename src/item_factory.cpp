@@ -410,7 +410,7 @@ void Item_factory::finalize_pre( itype &obj )
             }
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
-            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+            int healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
 
             // TODO: migrate inedible comestibles to appropriate alternative types.
@@ -2476,7 +2476,7 @@ static void set_allergy_flags( itype &item_template )
 void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
-    const auto old_size = mats.size();
+    const size_t old_size = mats.size();
     mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
@@ -2600,7 +2600,7 @@ enum class grip_val : int {
 };
 template<>
 struct enum_traits<grip_val> {
-    static constexpr auto last = grip_val::LAST;
+    static constexpr grip_val last = grip_val::LAST;
 };
 enum class length_val : int {
     HAND = 0,
@@ -2610,7 +2610,7 @@ enum class length_val : int {
 };
 template<>
 struct enum_traits<length_val> {
-    static constexpr auto last = length_val::LAST;
+    static constexpr length_val last = length_val::LAST;
 };
 enum class surface_val : int {
     POINT = 0,
@@ -2621,7 +2621,7 @@ enum class surface_val : int {
 };
 template<>
 struct enum_traits<surface_val> {
-    static constexpr auto last = surface_val::LAST;
+    static constexpr surface_val last = surface_val::LAST;
 };
 enum class balance_val : int {
     CLUMSY = 0,
@@ -2632,7 +2632,7 @@ enum class balance_val : int {
 };
 template<>
 struct enum_traits<balance_val> {
-    static constexpr auto last = balance_val::LAST;
+    static constexpr balance_val last = balance_val::LAST;
 };
 
 namespace io
@@ -2782,7 +2782,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     if( jo.has_member( "damage_states" ) ) {
-        auto arr = jo.get_array( "damage_states" );
+        JsonArray arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
@@ -2910,7 +2910,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.countdown_action = usage_from_string( jo.get_string( "countdown_action" ) );
 
     } else if( jo.has_object( "countdown_action" ) ) {
-        auto tmp = jo.get_object( "countdown_action" );
+        JsonObject tmp = jo.get_object( "countdown_action" );
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.countdown_action = fun;
@@ -2921,7 +2921,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.drop_action = usage_from_string( jo.get_string( "drop_action" ) );
 
     } else if( jo.has_object( "drop_action" ) ) {
-        auto tmp = jo.get_object( "drop_action" );
+        JsonObject tmp = jo.get_object( "drop_action" );
         use_function fun = usage_from_object( tmp ).second;
         if( fun ) {
             def.drop_action = fun;
@@ -3223,8 +3223,9 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     if( entries.size() > 1 && name != "contents" ) {
         obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
     } else if( entries.size() == 1 ) {
-        const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP :
-                          Single_item_creator::Type::S_ITEM;
+        const Single_item_creator::Type type = entries.front().second ?
+                                               Single_item_creator::Type::S_ITEM_GROUP :
+                                               Single_item_creator::Type::S_ITEM;
         Single_item_creator *result = new Single_item_creator( entries.front().first, type, prob );
         result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
         ptr.reset( result );
@@ -3336,7 +3337,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj )
 void Item_factory::load_item_group( const JsonArray &entries, const Group_tag &group_id,
                                     const bool is_collection, const int ammo_chance, const int magazine_chance )
 {
-    const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
+    const Item_group::Type type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
     Item_group *const ig = make_group_or_throw( group_id, isd, type, ammo_chance, magazine_chance );
 
@@ -3425,7 +3426,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 std::string type = entry.get_string();
                 emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
-                auto obj = entry.get_object();
+                JsonObject obj = entry.get_object();
                 std::pair<std::string, use_function> fun = usage_from_object( obj );
                 if( fun.second ) {
                     use_methods.insert( fun );
@@ -3439,7 +3440,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             std::string type = jo.get_string( member );
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
-            auto obj = jo.get_object( member );
+            JsonObject obj = jo.get_object( member );
             std::pair<std::string, use_function> fun = usage_from_object( obj );
             if( fun.second ) {
                 use_methods.insert( fun );

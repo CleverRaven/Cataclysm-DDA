@@ -371,7 +371,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
         container.fill( load_func( jo.get_string( key ) ) );
 
     } else if( jo.has_array( key ) ) {
-        auto arr = jo.get_array( key );
+        JsonArray arr = jo.get_array( key );
         if( arr.size() == 1 ) {
             container.fill( load_func( arr.get_string( 0 ) ) );
 
