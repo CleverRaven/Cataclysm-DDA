@@ -20,24 +20,15 @@ Makes consuming items take time.
 Implement damage over time spell infrastructure.
 Nested Container system.
 Add support for conducts (self-imposed play constraints tracked by the game).
-Add blood types for character.
-NPCs: more useful monsters warnings and eating messages
-Custom achievement/conduct requirement descriptions
-[Magiclysm] Add spell level and number of spells known achievements
-Sort the list in the wish menu
-Allow event_statistic to be defined as first and last events in an event stream
-Enable mouse input for inventory
-Allow statistics and achievements to depend on oter_type rather than oter
-Add block effectiveness martial arts buff attribute
-Add critical hit chance martial arts buff attribute
-Add newly created weapons to weapon-based martial arts list
-Introduces pocket favorite settings
-Worn gloves count as unarmed weapons when no weapon is held
-Any corpse can rise again as a zombie
+Custom achievement/conduct requirement descriptions.
+[Magiclysm] Add spell level and number of spells known achievements.
+Allow event_statistic to be defined as first and last events in an event stream.
+Enable mouse input for inventory.
+Worn gloves count as unarmed weapons when no weapon is held.
+Any corpse can rise again as a zombie.
 Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
-Allow randomizing scenario and profession in new character menu
-Let flammable things in spell effect area be ignited if the spell is fire damage spell
-Workout and exercise
+Allow randomizing scenario and profession in new character menu.
+Workout and exercise.
 
 ## Content:
 Gun volume and weight audit.
@@ -49,129 +40,22 @@ Mi-go, masters, and necromancers can open doors.
 Adds a bulk shipping crate possibility to the supplydrop map extra.
 New zombie: necro-boomer.
 Overhaul the mall.
-Allow the of use grappling hooks on ledges
-Added a scottish tailoring book, and removing some recipes from the scottish cookbook
-Adds new martial art: Diamond Mind
-Fix length and volume for wood materials, rename stick to stout branch
-Adds sugared tea and coffee variants
-Adding artificial sweetener powder
-Move lever shotgun to survivorzed drops
-Correct wording of 'sweetener' in drinks.
-Adds new martial art: Hylian Swordsmanship
-Add length to swords and blades, holsters and sheaths
-Deal minor damage to arms when smashing without gloves or weapon
-Adds new martial art: Iron Heart
-Change heavy and long stick references to stout branch
-Make bugs much more mutated
-add details to science fiction books and other book related additions and fixes
-Adds new martial art: Pokken
-Adds new martial art: Setting Sun
-m add hole puncher, remove adj from adventure book
-Adds a new scenario for Magiclysm
-Adds new martial art: Shii-Cho
-Adds inactive robot disassembly recipes '
-Allow extra magazines for AR-based pistols
-Escape grabs and some traps while waiting
-Adds new martial art: Stone Dragon
-New sidequest: Clear a leech bloom for Hub 01
-This adds two new professions to the Magiclysm MOD
-Adds raft type boat hull
-Add Desert Island start to wilderness
-Adding metal and plastic rakes, metal and plastic snow shovels and garden hose
-Add flimsy wood seat
-Adds recipes for bike and motorbike alternators.
-Two upgraded monsters each for three zombie animals
-Rigid plastic sheet name updated
-Update UltiCa Demo
-Adds new martial art: Tiger Claw
-Water vegetation for river banks and lake shores
-Add a new early-game weapon - the makeshift shotgun
-Add sandpaper as an early game filing option
-Add artificial sweetener into various recipes
-Adding green tea and fruit tea. Makes tea to black tea.
-Added brains to tanning leather recipe
-Adds three new medical professions, and one new challenging profession.
-Add Wooden Wheel Mount
-Redesigned land prison
-Add recipes for bundles of planks and stout branches
-Adds longest side values to spears and polearms
-Adding Vegetarian Nachos, and Cheesy Vegetarian Nachos
-Add dry cat and dog foods
-Adds pipe fittings to the game
-Made carpets obtainable by deconstructing them, added carpets variants for different floor types
-Adds new monster 'mass of zombie spiders'
-Adds jp8 barrels to helipad and avgas barrels to the regional airport
-Rearrange Ally conversation menu to use submenus
-Adds new monster 'tiger'
-Add longest_side properties to musical instruments (tools)
-Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights
-Adds 'What the hell happened' stories to NPCs, keyed off backgrounds
-Adds exodii monster stat blocks. These monsters do not spawn yet.
-Give volume or rigidity to tool battery compartments
-Add longest_side properties to relevant knife tools
-Skill based achievements
-Add longest_side and adjust volume for 12 mm gun(s)
-Adds a no-welder version of the four winds shotgun
-Added recipe for separation funnel and stopcock
+Allow the of use grappling hooks on ledges.
+Make bugs much more mutated.
+Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights.
+Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
 Crafting GUI - Highlight hidden recipe info.
 Overhaul target selection and aiming UI.
-Migrate vehicle interaction menu to ui_adaptor
-Clarify damage from str is Bash damage
-Some ui_adaptor cleanup
-Migrate blood analysis menu, debug sound display, debug NPC display, debug scent display, and hit animation to ui_adaptor
-Format average melee damage for easier weapon comparison
-All UIs now use the ui_adaptor system for refreshing and resizing
-variant" or "variants" depending on number of starting location variants in Description tab in character generation menu.
-Improved interactions with activity interruption
-Lockpick doors with 'e' if prying is not available
-Add set all health from the debug menu
-Show tool requirements in 'Disassembly' section of item info
-Warn when trying to push past creatures on stairs
-Added filtering for mod list in 'new world' menu
-Feedback for burnout of candles and torches
-Open zone manager on the same side as sidebar
 
 ## Mods:
-[Magiclysm] Manatouched mutation tree
+[Magiclysm] Manatouched mutation tree.
 Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
 Overhaul Blazemod and split into seperate mods.
 [MMA] Add Ki Strike trait.
-Move DinoMod location to wilderness
-Adds new monster 'Camptosaurus'
-[magiclysm] Goblin encampment
-Adds monster 'Ceratosaurus'
-Adds alien scrap for later crafting
-Added `"spell_class": "EARTHSHAPER"` to Lava Bomb spell
-Add monster 'Triceratops bio-operator'
-Adds monster 'S-Rex'
-Adds Knock, Improved Knock spells to Magiclysm.
-Add monster 'Spinosaurus zombie'
-Adds new monster 'Apatosaurus'
-Aftershock: Design Doc and Modinfo Update
-Rebalance Ichaival and orichalcum arrows
-Allow Aftershock's Energy Saber (off) to be worn at the hip
-Add NPC 'CEO Bo Baronyx'
-Crafting Scraps and spawns
-Aftershock: Use aftershock exclusive components for bionic crafting
-More professions for Magiclysm
-Create design doc
-Adds three shady dino zombie monsters
-Three new fungal dino monsters'
-Adds Repelling Arc spell to Magiclysm
-Adds Repelling Arc scroll to class itemgroup
-Adds zombie dinos
-Adds knock and improved knock scrolls to itemgroup
-Allow spawning of monsters as pets through item use_action
-Add zombify_into for Aftershock
-[Aftershock] Skullgun
-fix encumbrance, storage, and descriptions for dimensional toolbelts (formerly girdles of pockets)
-Adding missing residental Buildings into Graphical Overmap
-Dinosaur corpses revive as zombie dino
-Polymorph spells to transform your foes
-Properly prevent use of forbidden healing items in My Sweet Cataclysm
+Polymorph spells to transform your foes.
 
 ## Balance:
 Large item price audit.
@@ -179,31 +63,7 @@ Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
 More complex satiety calculations.
-Make shop_restock() affected by item spawn rate
-Brawling: Leg block replaced with additional block
-weapons: add tests to confirm melee weapon value and adjust some weapons
-Tweak bionics failures and chance of death on critical fails
-weapons: add tests to confirm melee weapon value and adjust some weapons (part 2)
-weapons: add tests to confirm melee weapon value and adjust some weapons (part 3)
-Added lengths to `bludgeons.json`
-Removed Wayfarer trait from medieval peasant scenario
-Expanded Digestive System to extract more vitamins
-Update belts & add belt clip
-Buff SLOWHEALER mending_modifier so it is in line with other healing traits, also better descriptions for healing traits
-Remove int debuff from pain starting at 1
-Fast reflexes doubles grab dodge chance
-Slow down leech drone spawning
-NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies
-Chance to spawn intact supply drop crates decreases with every passed day after the Cataclysm
-Dodge decreases linearly to 0 from 50% stamina
-Being high will reduce chance of vomiting
-More hearing protection in gunstore range.
-Update storage.json values
-Gum webs behave more like regular webs but stronger
-Adds lengths to tools in json\items\tool\firefighting.json
-Add lengths to items\tools\entry_tool.json
-Add lengths to items in json\items\tool\landscaping.json
-Change batch time savings when crafting clean water to 20% at >1 unit
+NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -228,105 +88,16 @@ fixes segfault when attempting to siphon from vehicle with multiple tanks.
 Fix creatures blocking descend even if they can be displaced.
 Fix OnGetHit effects not triggering if player cannot block.
 Refactor monster spawning code to avoid crash.
-Fixed some bugs with trait columns in character creation menu
-Fix gas mask to allow filter reload and activation
-Fix Return Field Data quest
-Fix crash in sort armour UI
-Achievements are correctly enabled for new games
-Don't inflict pain inside vehicles to a large character if character has deadened trait or under narcosis
-Fix ammo showing on items with or with empty magazines
-Only show radiation protection for power armors
-fix item_contents save/load
-Don't show messages about creature you can't see
-Added rigid JSON flag to MAGAZINE_WELL for flashlight and heavy duty flashlight
-Remove max_charges from musical instruments so they don't seem reloadable
-Reset game mode before loading normal saves
-Fix crash when repairing with soldering iron
-adjust shelter nests to the used shelter spawns with vandalized start scenario
-Update monster_size_capacity to creature_size_capacity in creature capture containers
-Added missing max_item_legnth to various holsters
-Fix item duplication when picking them up
-Add rigid:true to vehicle battery magazines
-Fix max volume and weight for electrolysis kit and other Science tools
-Let lockpicks in inventory be used to pick locks by examining them
-Minimize UI flickering on curses
-Alter clothes modification code to check for correct ammo
-Fixed skeleton key of opening acting like a regular lockpick
-Use is_worn to correctly determine if item is worn for cutting up
-Fix look-around cursor not displaying
-New Cookbooks didn't spawn
-Fix mushy harvest
-No longer add volume for every container inside every worn item unless that container is rigid
-Fix crash upon examining vehicles containing minireactor
-Fix segfault on harvest
-Fix golf bag encumbrance
-Correct length of Vz. 61 Skorpion
-Combining duplicate ingredient entries for afs_kitchen_rig
-Bugfix for cancelling unwielding when wielding an item and has item in hand
-Update map's vehicle cache when a part is installed or removed
-Adding max_item_volume to most appropiate liquid containers
-Make eyewear reasonably easy to repair
-Fix crash on examining vehicles with some turrets
-Fix root cellars not working in certain situations
-Fixed trying to mark an item as favorite in 'Disassemble item' menu when none of the items matching filter can be disassembled would lead to a crash
-Aikido stances no longer usable with every unarmed weapon
-Fix issue 41008: redo AIM stack grouping, switch AIM stack to vector
-Fix several bugs with consuming
-Backported some fixes to 0.E
-Solves issues with siphoning along with unloading a reactor.
-Obsoleted opened can variants from recipes and itemgroups
-Fix furniture crafting
-Fixed sidebar incorrectly trims name of wielded weapon
-Fixed character targeting while underground
-Fix being warned about being too full to use medicine
-Fixes FEMA camp rotation
-Fixed turning on music on laptop would trap player in gaming loop
-fix volume multiplier display in item info
-use sorted names to initialize pocket item white/blacklist rather than raw item list
-Fix ranch foreman mission mapgen update.
-Fix Jack Isherwood mission target/description mismatch.
-Bump walking activity level to moderate from light
-Allow nested items to be deselected if selecting the container for dropping
-Fix issues that cropped up with #41391
-Adjust activity levels to be more in line with actual activity levels
-Pockets for tool ammo
-quickly audits some egregiously incorrect food weights that were messing with satiety calculations
-Fix gunmods disappearing
-Fix exertion level not changing while in an activity
-fix deleting items on insert
-Prevent crashing on invalid hexamine ammunition type
-Light survivor mask consumes charges on activation.
-Show ammo_restriction info for non-MAGAZINE items
-Fix loading of legacy characters without bodies
-Fixes tool belt pockets bug, issue
-Make most MAGAZINE rigid and add some missing magazine_well values
-Fix explosions not affecting terrain
-Destroying non-trivial vehicle parts impairs flying
-Fix container with none
-Use base_volume instead of volume in `repair_item_actor::handle_components`
-The game will no longer crash when you remove the last part from a vehicle.
-Fix gas tanks spawning without charges
-Increase size of holster and XL holster
-Restore accidentally deleted help options
-Fill matches, lighters, electronics, and other items for starting professions
-Fix some crashes and item disappearance
-Sealed stomach with repeated components but different quantities
-Fix throwing axe recipe listing tongs twice
-Allow marlin 39A reloading again, fix a crash caused by speed loader
-Blow up molotov immediately on impact
-Allow wash multiple items instead of just one for every stack
-Do not process held item twice
-Fix crash when trying to reloading item inside advanced inventory
-If chosen, let the game unload certain mod instead of the gun itself
-Fixes first outpost quest
-Fix transparency cache issue
+Reset game mode before loading normal saves.
+Minimize UI flickering on curses.
+Fix crash upon examining vehicles containing minireactor.
+Fix segfault on harvest.
+Fix loading of legacy characters without bodies.
+Fix explosions not affecting terrain.
+Do not process held item twice.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
-Code optimizations reported by static code analysis
-Converts material tags from strings to arrays.
-Code optimizations reported by static code analysis
-Code optimizations reported by static code analysis
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -355,50 +126,15 @@ Jsonize Anatomy: replace enum body_part with bodypart_id.
 Implement installation requirment for CBMs.
 Fields can now override local light levels.
 Convert itype_id to string_id<itype>.
-Test and refactor item info display functions
-Migrated ACT_HOTWIRE_CAR to the activity actor system
-Add three new event types and three achievements which test them
-Remove body_part from mutations and bionics
-Rollback Visual Studio version in Appveyor
-Remove islot_magazine::reliability
-Add the ability to smash vehicle parts on removal
-Improve QoL of style-json targets in Makefile
-Moved can_reload and rate_action_* functions
-Converts remaining flag and technique tags from strings to arrays.
-Refactor and improve Python tools for JSON data
-Milling products can be defined in JSON
-Add item whitelist capability
-Converts steel (and bronze) material tags from strings to arrays.
-Converts food-related material tags from strings to arrays.
+Test and refactor item info display functions.
+Milling products can be defined in JSON.
 Add a Clang Build Analyzer build step to CI.
-Converts various material tags from strings to arrays.
-Add debug, save, and load events
-Refactor rectangle and box types
-Mutations can be reflexively triggered without player imput
-Continues to convert string material tags to arrays.
-Enforce use of points as local variables
-Converts all remaining material tags from string to arrays
-Add JSON_TOOLS.md with docs and examples on Python tools
-Add nested objects and dotted key notation to JSON tools
-Jsonize vitamin absorbtion modifier from bionics
-Encapsulate vehicle parts inside the vehicle class
-Converts use_action and ammo_type strings to arrays.
-Lumination is passive
-Remove separate rot check on map load
-AIM: add, use dedicated pagination class
-Don't generate translation strings for TEST_DATA
-Add table.py to make tables of JSON data
-Modernize JSON: Convert folded_volume to metric with units
-Clean up obsolete storage code, replace with pocket data
-Add some load functions to islot structs
-Add documentation for trap json
-Move hp to bodypart object
-Add minimal support for calling debugmsg in ui_manager callbacks
-Move handling of item left behind by attack out of process_internal
-add a guide for intermediate mapgen help.
-Fire extinguishers use visible fields
-Move bandage and disinfectant to body
-options: remove the option to not use z-levels
+Refactor rectangle and box types.
+Mutations can be reflexively triggered without player input.
+Enforce use of points as local variables.
+Add table.py to make tables of JSON data.
+Add a guide for intermediate mapgen help.
+Options: remove the option to not use z-levels.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -406,8 +142,8 @@ Remove Travis clang-tidy job.
 Add -fsigned-char to CMakeLists.txt.
 Makes json linter feedback more readable.
 Fix clang-tidy header guard check on Windows.
-Progress feedback for JSON formatting script
-set 'disable MS telemetry' flag in VCPKG setup guide
+Progress feedback for JSON formatting script.
+Set 'disable MS telemetry' flag in VCPKG setup guide.
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -415,9 +151,6 @@ Add support for specifying identical singular and plural forms using `str_sp`.
 Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
-Routine i18n updates on 6 Jun 2020
-Routine i18n updates on 13 Jun 2020
-Routine i18n updates on 26 Jun 2020
 
 # 0.E (Ellison)
 
