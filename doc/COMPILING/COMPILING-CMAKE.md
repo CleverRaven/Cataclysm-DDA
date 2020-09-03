@@ -1,4 +1,4 @@
-#Disclaimer
+# Disclaimer
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
@@ -6,19 +6,20 @@ For official way to build CataclysmDDA See:
   * [COMPILING.md](COMPILING.md)
 
 
-#Contents
+# Contents
 
-  1. Prerequisites
-  2. Build Environment
-    * UNIX Environment
-    * Windows Environment
-  3. CMake Build
-    * MinGW,MSYS,MSYS2
-  5. Build Options
-    * CMake specific options
-    * CataclysmDDA specific options
+  * [Prerequisites](#prerequisites)
+  * [Build Environment](#build-environment)
+    * [UNIX Environment](#unix-environment)
+    * [Windows Environment](#windows-environment-msys2)
+  * [CMake Build](#cmake-build)
+    * [MinGW,MSYS,MSYS2](#cmake-build-for-msys2-mingw)
+    * [MSBuild, VisualStudio](#cmake-build-for-visual-studio--msbuild)
+  * [Build Options](#build-options)
+    * [CMake specific options](#cmake-specific-options)
+    * [CataclysmDDA specific options])(#cataclysmdda-specific-options)
 
-#1. Prerequisites
+# Prerequisites
 
 You'll need to have these libraries and their development headers installed in
 order to build CataclysmDDA:
@@ -47,7 +48,7 @@ order to build CataclysmDDA:
    * `iconv`
 
 
-#2. Build Environment
+# Build Environment
 
 You can obtain the source code tarball for the latest version from [git](https://github.com/CleverRaven/Cataclysm-DDA).
 
@@ -348,3 +349,4 @@ Run the game. Should work.
 ```
 cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
 ```
+

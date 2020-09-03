@@ -88,6 +88,7 @@ Given you're building from source you have a number of choices to make:
   * `TILES=1` - with this you'll get the tiles version, without it the curses version
   * `SOUND=1` - if you want sound; this requires `TILES=1`
   * `LOCALIZE=0` - this disables localizations so `gettext` is not needed
+  * `LANGUAGES=` - specifies localizations. See details [here](#compiling-localization-files)
   * `CLANG=1` - use Clang instead of GCC
   * `CCACHE=1` - use ccache
   * `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
@@ -109,11 +110,11 @@ You should probably always build with `RELEASE=1` unless you experience segfault
 
 ## Compiling localization files
 
-If you want to compile localization files for specific languages, you can add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
+`LOCALIZE` (enabled by default) only enables localization itself, but doesn't include any languages. If you want to compile files for specific languages, you should add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
 
     make LANGUAGES="zh_CN zh_TW"
 
-You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
+You can get the language ID from the filenames of `*.po` in `lang/po` directory or use `LANGUAGES="all"` to complile all available localizations. 
 
 Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 
