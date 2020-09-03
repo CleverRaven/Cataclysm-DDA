@@ -481,7 +481,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+bool Character::is_category_allowed( const std::vector<mutation_category_id> &category ) const
 {
     bool allowed = false;
     bool restricted = false;
@@ -489,7 +489,7 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
         if( !mut.obj().allowed_category.empty() ) {
             restricted = true;
         }
-        for( const std::string &Mu_cat : category ) {
+        for( const mutation_category_id &Mu_cat : category ) {
             if( mut.obj().allowed_category.count( Mu_cat ) ) {
                 allowed = true;
                 break;
@@ -504,12 +504,12 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
 
 }
 
-bool Character::is_category_allowed( const std::string &category ) const
+bool Character::is_category_allowed( const mutation_category_id &category ) const
 {
     bool allowed = false;
     bool restricted = false;
     for( const trait_id &mut : get_mutations() ) {
-        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+        for( const mutation_category_id &Ch_cat : mut.obj().allowed_category ) {
             restricted = true;
             if( Ch_cat == category ) {
                 allowed = true;
@@ -822,10 +822,10 @@ void Character::mutate()
     }
 
     // Determine the highest mutation category
-    std::string cat = get_highest_category();
+    mutation_category_id cat = get_highest_category();
 
     if( !is_category_allowed( cat ) ) {
-        cat.clear();
+        cat = mutation_category_id();
     }
 
     // See if we should upgrade/extend an existing mutation...
@@ -902,7 +902,7 @@ void Character::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if( !downgrades.empty() && !cat.empty() ) {
+        if( !downgrades.empty() && !cat.str().empty() ) {
             size_t roll = rng( 0, downgrades.size() + 4 );
             if( roll < downgrades.size() ) {
                 remove_mutation( downgrades[roll] );
@@ -919,10 +919,10 @@ void Character::mutate()
         // there, try again with empty category
         // CHAOTIC_BAD lets the game pull from any category by default
         if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
-            cat.clear();
+            cat = mutation_category_id();
         }
 
-        if( cat.empty() ) {
+        if( cat.str().empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
@@ -948,7 +948,7 @@ void Character::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while( valid.empty() && !cat.empty() );
+    } while( valid.empty() && !cat.str().empty() );
 
     if( valid.empty() ) {
         // Couldn't find anything at all!
@@ -963,11 +963,11 @@ void Character::mutate()
     }
 }
 
-void Character::mutate_category( const std::string &cat )
+void Character::mutate_category( const mutation_category_id &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
-    if( cat == "ANY" ) {
+    if( cat == mutation_category_id( "ANY" ) ) {
         mutate();
         return;
     }
@@ -1533,13 +1533,13 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         return;
     }
 
-    std::string mutation_category = m_category.id;
+    mutation_category_id mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
         total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
-    const std::string &primary = guy.get_highest_category();
+    const mutation_category_id &primary = guy.get_highest_category();
     int breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
@@ -1550,7 +1550,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         // Alpha is similarly eclipsed by other mutation categories.
         // Will add others if there's serious/demonstrable need.
         int booster = 0;
-        if( mutation_category == "URSINE"  || mutation_category == "ALPHA" ) {
+        if( mutation_category == mutation_category_id( "URSINE" ) ||
+            mutation_category == mutation_category_id( "ALPHA" ) ) {
             booster = 50;
         }
         int breacher = breach_power + booster;
@@ -1562,7 +1563,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
+            if( mutation_category == mutation_category_id( "URSINE" ) &&
+                guy.has_trait( trait_CARNIVORE ) ) {
                 guy.unset_mutation( trait_CARNIVORE );
                 guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }

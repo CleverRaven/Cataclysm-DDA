@@ -628,7 +628,7 @@ bool player::purifiable( const trait_id &flag ) const
 }
 
 /// Returns a randomly selected dream
-std::string player::get_category_dream( const std::string &cat,
+std::string player::get_category_dream( const mutation_category_id &cat,
                                         int strength ) const
 {
     std::vector<dream> valid_dreams;

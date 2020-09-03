@@ -32,8 +32,8 @@ generic_factory<mutation_branch> trait_factory( "trait" );
 } // namespace
 
 std::vector<dream> dreams;
-std::map<std::string, std::vector<trait_id> > mutations_category;
-std::map<std::string, mutation_category_trait> mutation_category_traits;
+std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
+std::map<mutation_category_id, mutation_category_trait> mutation_category_traits;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const
@@ -84,7 +84,7 @@ static void load_mutation_mods(
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
-    new_category.id = jsobj.get_string( "id" );
+    jsobj.read( "id", new_category.id, true );
     new_category.raw_name = jsobj.get_string( "name" );
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
@@ -174,13 +174,13 @@ std::string mutation_category_trait::memorial_message_female() const
     return pgettext( "memorial_female", raw_memorial_message.c_str() );
 }
 
-const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
+const std::map<mutation_category_id, mutation_category_trait> &mutation_category_trait::get_all()
 {
     return mutation_category_traits;
 }
 
-const mutation_category_trait &mutation_category_trait::get_category( const std::string
-        &category_id )
+const mutation_category_trait &mutation_category_trait::get_category(
+    const mutation_category_id &category_id )
 {
     return mutation_category_traits.find( category_id )->second;
 }
@@ -490,7 +490,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
     }
 
-    optional( jo, was_loaded, "category", category, string_reader{} );
+    optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
 
     for( JsonArray ja : jo.get_array( "spells_learned" ) ) {
         const spell_id sp( ja.next_string() );
@@ -679,7 +679,7 @@ void dream::load( const JsonObject &jsobj )
     dream newdream;
 
     newdream.strength = jsobj.get_int( "strength" );
-    newdream.category = jsobj.get_string( "category" );
+    jsobj.read( "category", newdream.category, true );
 
     for( const std::string line : jsobj.get_array( "messages" ) ) {
         newdream.raw_messages.push_back( line );
@@ -715,7 +715,7 @@ bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 void mutation_branch::finalize()
 {
     for( const mutation_branch &branch : get_all() ) {
-        for( const std::string &cat : branch.category ) {
+        for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
     }
@@ -888,7 +888,13 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
-bool mutation_category_is_valid( const std::string &cat )
+bool mutation_category_is_valid( const mutation_category_id &cat )
 {
     return mutation_category_traits.count( cat );
+}
+
+template<>
+bool string_id<mutation_category_trait>::is_valid() const
+{
+    return mutation_category_traits.count( *this );
 }

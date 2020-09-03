@@ -174,8 +174,8 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( const std::string &j : mdata.category ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    for( const mutation_category_id &j : mdata.category ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
                         line2++;
                     }
                 }
