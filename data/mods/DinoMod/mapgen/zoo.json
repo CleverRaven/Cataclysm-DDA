@@ -111,7 +111,7 @@
       "place_items": [
         { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
-        { "chance": 55, "item": "note_dinomod_3", "x": 13, "y": 15 },
+        { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
         { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
         { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
