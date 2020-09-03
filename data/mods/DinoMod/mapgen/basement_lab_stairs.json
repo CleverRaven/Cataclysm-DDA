@@ -101,7 +101,6 @@
         { "group": "fridgesnacks", "x": [ 13, 20 ], "y": 6, "chance": 80 },
         { "group": "pool_table", "x": [ 17, 18 ], "y": [ 11, 13 ], "chance": 90 },
         { "group": "livingroom", "x": [ 9, 23 ], "y": [ 6, 16 ], "chance": 60 },
-        { "item": "dinomod_newest_news_3", "x": 18, "y": 19, "chance": 100 },
         { "group": "dresser", "x": 22, "y": 19, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 19, "chance": 80 }
       ],
