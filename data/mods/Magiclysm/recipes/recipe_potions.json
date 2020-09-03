@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "potion_starter",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -17,6 +18,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "potion_starter_superior",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -33,6 +35,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion_lesser",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -48,6 +51,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -63,6 +67,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_potion_greater",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
@@ -78,6 +83,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "manatouched_serum",
     "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [ [ [ "mana_dust", 20 ] ], [ [ "mana_potion", 4 ], [ "mana_potion_greater", 1 ], [ "mana_infused_blood", 6 ] ] ],
@@ -92,6 +98,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cats_grace_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -124,6 +131,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "ogres_strength_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -139,6 +147,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "eagles_sight_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -182,6 +191,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "foxs_cunning_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -208,6 +218,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "twisted_restore_potion",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",
@@ -227,6 +238,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "twisted_restore_potion_improved",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_POTIONS",

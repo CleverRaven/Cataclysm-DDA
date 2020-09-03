@@ -98,6 +98,15 @@ class activity_actor
         }
 
         /**
+         * Called every turn, in player_activity::do_turn
+         * (with some indirection through player_activity::exertion_level)
+         * How strenous this acitivty level is
+         */
+        virtual float exertion_level() const {
+            return get_type()->exertion_level();
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {
@@ -645,6 +654,8 @@ class craft_activity_actor : public activity_actor
         item_location craft_item;
         bool is_long;
 
+        float activity_override = NO_EXERCISE;
+
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -661,6 +672,8 @@ class craft_activity_actor : public activity_actor
         }
 
         std::string get_progress_message( const player_activity & ) const override;
+
+        float exertion_level() const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

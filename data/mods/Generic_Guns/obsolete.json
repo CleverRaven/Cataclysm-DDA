@@ -36,16 +36,19 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rifle_pipe_carbine",
     "obsolete": true
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rifle_pipe_rifle",
     "obsolete": true
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "slam_shotgun",
     "obsolete": true
   }

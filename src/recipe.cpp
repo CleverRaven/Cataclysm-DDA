@@ -135,6 +135,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     abstract = jo.has_string( "abstract" );
 
+    const std::string type = jo.get_string( "type" );
+
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
@@ -142,8 +144,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         ident_ = recipe_id( result_.str() );
     }
 
+    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
+        if( abstract ) {
+            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+        }
+        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+    }
+
     if( jo.has_bool( "obsolete" ) ) {
         assign( jo, "obsolete", obsolete );
+    }
+
+    // If it's an obsolete recipe, we don't need any more data, skip loading
+    if( obsolete ) {
+        return;
     }
 
     if( jo.has_int( "time" ) ) {
@@ -204,6 +218,19 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    // Mandatory: This recipe's exertion level
+    // TODO: Make this mandatory, no default or 'fake' exception
+    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    // For making scripting that needs to be broken up over multiple PRs easier
+    if( exert == "fake" ) {
+        exert = "MODERATE_EXERCISE";
+    }
+    const auto it = activity_levels.find( exert );
+    if( it == activity_levels.end() ) {
+        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+    }
+    exertion = it->second;
+
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
         assign( jo, "never_learn", never_learn );
@@ -251,8 +278,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    const std::string type = jo.get_string( "type" );
-
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();
 
@@ -262,12 +287,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     blueprint_reqs.reset();
 
     if( type == "recipe" ) {
-        if( jo.has_string( "id_suffix" ) ) {
-            if( abstract ) {
-                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
-            }
-            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
-        }
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
@@ -631,6 +650,11 @@ float recipe::proficiency_maluses( const Character &guy ) const
         }
     }
     return malus;
+}
+
+float recipe::exertion_level() const
+{
+    return exertion;
 }
 
 // Format a std::pair<skill_id, int> for the crafting menu.

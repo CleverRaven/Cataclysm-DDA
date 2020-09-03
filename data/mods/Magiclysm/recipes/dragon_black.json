@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "black_dragon_tanning_hide",
     "byproducts": [ [ "dragon_black_scale", 20 ] ],
     "category": "CC_ENCHANTED",
@@ -24,6 +25,7 @@
   {
     "result": "suit_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -38,6 +40,7 @@
   {
     "result": "suit_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -52,6 +55,7 @@
   {
     "result": "boots_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -66,6 +70,7 @@
   {
     "result": "boots_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -80,6 +85,7 @@
   {
     "result": "helmet_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -94,6 +100,7 @@
   {
     "result": "helmet_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -108,6 +115,7 @@
   {
     "result": "gloves_black_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -122,6 +130,7 @@
   {
     "result": "gauntlets_black_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -136,6 +145,7 @@
   {
     "result": "suit_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -150,6 +160,7 @@
   {
     "result": "suit_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -164,6 +175,7 @@
   {
     "result": "boots_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -178,6 +190,7 @@
   {
     "result": "boots_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -192,6 +205,7 @@
   {
     "result": "helmet_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -206,6 +220,7 @@
   {
     "result": "helmet_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
@@ -220,6 +235,7 @@
   {
     "result": "gloves_xlblack_dragon_hide",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -234,6 +250,7 @@
   {
     "result": "gauntlets_xlblack_dragon_scale",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "fabrication",
