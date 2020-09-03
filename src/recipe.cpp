@@ -913,16 +913,15 @@ bool recipe::hot_result() const
 int recipe::makes_amount() const
 {
     int makes;
-    if (charges.has_value()) {
+    if( charges.has_value() ) {
         makes = charges.value();
-    }
-    else {
-        makes = item::find_type(result_)->charges_default();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
     }
     // return either charges * mult or 1
-    return makes ? makes * result_mult : 1 ;    
+    return makes ? makes * result_mult : 1 ;
 }
-  
+
 void recipe::incorporate_build_reqs()
 {
     if( !blueprint_reqs ) {
