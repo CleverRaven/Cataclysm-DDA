@@ -1373,7 +1373,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
     // TODO: Remove broken parts, parts removed by mutations etc.
 
-    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
+    const std::vector<bodypart_id> &all_bps = get_anatomy()->get_bodyparts();
     std::vector<bodypart_id> main_bps;
 
     for( const bodypart_id bp : all_bps ) {

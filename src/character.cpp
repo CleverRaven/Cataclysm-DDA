@@ -8125,12 +8125,16 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
 
+    const body_part bp_token = bp->token;
+    if(bp_token == num_bp) {
+        debugmsg("Wacky bodypart hit!");
+        return dealt_damage_instance();
+    }
+
     //damage applied here
     dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
-
-    const body_part bp_token = bp->token;
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
     if( dam > 0 && g->u.sees( pos() ) ) {

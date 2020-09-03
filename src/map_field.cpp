@@ -1354,8 +1354,13 @@ void map::player_in_field( player &u )
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
                         msg_num = 3;
-                        const std::vector<bodypart_id> all_parts = u.get_all_body_parts();
-                        parts_burned.assign( all_parts.begin(), all_parts.end() );
+                        const std::vector<bodypart_id> &all_parts = u.get_all_body_parts();
+                        // HACK: Skip num_bp part
+                        for( auto bp : all_parts ) {
+                            if( bp->token != num_bp ) {
+                                parts_burned.push_back( bp );
+                            }
+                        }
                     }
 
                     int total_damage = 0;
