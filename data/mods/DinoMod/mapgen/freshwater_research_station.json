@@ -163,9 +163,7 @@
       "place_loot": [
         { "item": "microwave", "x": 10, "y": 19, "chance": 100 },
         { "item": "toaster", "x": 11, "y": 19, "chance": 100 },
-        { "item": "hotplate", "x": 12, "y": 19, "chance": 100 },
-        { "item": "dinomod_newest_news_1", "x": 11, "y": 18, "chance": 100 },
-        { "item": "iv_mutagen_raptor", "x": 12, "y": 18, "chance": 100 }
+        { "item": "hotplate", "x": 12, "y": 19, "chance": 100 }
       ],
       "items": {
         "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
