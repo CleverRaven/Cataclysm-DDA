@@ -29,32 +29,12 @@ Any corpse can rise again as a zombie.
 Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
 Allow randomizing scenario and profession in new character menu.
 Workout and exercise.
-Workout and exercise
-vehicles: ground vehicle z-level transitions and z+1 bridges
-npctalk: add set var variants for storing and comparing time
-remove static/random NPC options, adjust random NPC rates
-Added smart engine controller vehicle part and Hybrid Car
+Vehicles: ground vehicle z-level transitions and z+1 bridges.
+Remove static/random NPC options, adjust random NPC rates.
 Blood and blood loss overhaul.
-added door frame and metal door frame as stages in makeshift door and bar door
-Artifact procgen - artifacts that spawn use the new relic data
-item mods can modify pockets
-initial calorie tracker infrastructure
-enchantments can now effect max hp and hp regen
-Have Size-based Mutations modify Max Stomach Capacity
+Artifact procgen - artifacts that spawn use the new relic data.
 Grappling hooks can be deployed for climbing, just like ladders.
-Add proficiencies, representing specific knowledge in a certain area not covered by normal skills
-Implement some more of the enchant values
-Docouple encumbrance, max_encumbrance and coverage in armor on a per bodypart_id basis
-enchantments can have mutations
-add trader_keep and trader_keep_equipped flags
-Allow itemgroups to have a container-item
-bionics: allow sorting bionics list
-Allow NPCs to assist in recipes where the player lacks proficiencies
-itemgroups can spawn procedurally generated artifacts
-update butchery to use requirements
-You can now use an acetylene to open all locked safes
-Added ability for autodoc to check radiation level and administer rad-away if needed.
-Allow bionics to teach proficiencies
+Add proficiencies, representing specific knowledge in a certain area not covered by normal skills.
 
 ## Content:
 Gun volume and weight audit.
@@ -70,75 +50,14 @@ Allow the of use grappling hooks on ledges.
 Make bugs much more mutated.
 Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights.
 Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
-Adds a no-welder version of the four winds shotgun
-Added recipe for separation funnel and stopcock
-Add recipe for molasses
-Audit volume and longest_side for .308 type guns
-Fleshier basement for the collapsed Tower
-Resolves missing fliers by adding new content
-Updates UltiCa tileset
-Add some new ASCII art
-Add cat breeds to crazy cat person professions
-Adds upgrade path for zombie dogs and wolves
-Feral Humans with blob psychosis
-Make solar backpack description clearer
-Add zombie horses
-Update ASCII art for items
-Adds laser turrets to hub 01
-Add the double-barrel four winds shotgun and update the shotgun trap
-Change barrel_length property to barrel_volume
-Adds some new exodii furniture (not spawning) and general scrap metal furniture (constructable)
-Reactor map for microlabs
+Feral Humans with blob psychosis.
 Allow plank and branch bundles to be made from cordage, vines, or wire
-Add zombie cow and zombie deer
-Expand usable ingredients in cooking recipes
-Additions to make it possible to disassemble some ordinary tools
-Added zombull.
-Audit volume, weight, and longest side for .22 LR guns
-Change Red Fox butchery type to allow fur harvesting
-Bring back the previously obsoleted coilgun
-Moves and updates urban development house to vanilla.
-Adds a new lake special, submerged freshwater research station and supporting terrains/furniture.
-Moves and updates urban development house 9 to vanilla.
-Moves and updates urban_29_dense_row to vanilla.
-Expand primitive crafting
-Workshop toolbox change to group/add boxcutter knife
-Audit .223/5.56x45 NATO calibre guns for weight, volume, and longest_side
-split vandalized and non-vandalized shelter starts into two scenarios
-Mutant animal mutations
-Make feral humans drop their weapon on death
-minor: add hole punch to office supply groups
-4 different types of junk drawers
-Changes to the densities of several items (including fuels) to make them more accurate to their real life counterparts.
-Moves and updates urban development hosptial to vanilla.
-Hub01 side mission 'Iron Safari', retrieve an inactive Talon UGV
-Audit guns in the .30-06 calibre for volume, weight, and longest_side
-Adds the Relief Volunteer and Speed King/Queen professions. Adds the Combat Medic profession to Helicopter Crash and Overrun scenarios
-Add 2 new effect types: Nightmares and Incorporeal
-Adds recipe for isolating yeast from environment
-Audit 300BLK/.300 AAC Blackout firearms for weight, volume, and longest_side
-Audit Rivtech guns for volume, weight, and longest_side
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
 Crafting GUI - Highlight hidden recipe info.
 Overhaul target selection and aiming UI.
-Extend nested items deselection on container drop to `,`
-added safe_fuel_threshold option for bionic control
-vehicle-related improvements in debug menu
-Add unwield support for bionic weapons and items (like monoblade)
-Mark computer actions as unavailable if using them will affect nothing
-Display missing and obsolete mods for current world
-Favorite pockets menu - move options section before contents section
-Re-colorize achievements UI
-Query before dropping liquid
-Starting locations with one variant don't display number of variants
-Irradiated effect displays as Weakness.
-Warns the player before pulping an acidic corpse
-Bypass IME on SDL in most UIs
-Added Smart Engine Controller configuration and UI
-Updated title screens with ASCII art
-Add key code mode support to popups
+Display missing and obsolete mods for current world.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -146,25 +65,6 @@ Add Dark Skies Above, a partial conversion mod based around an alien invasion ra
 Overhaul Blazemod and split into seperate mods.
 [MMA] Add Ki Strike trait.
 Polymorph spells to transform your foes.
-Add more zombie dino upgrades
-Fix Aftershock UPS spawining without charges/not being rechargeable
-[AFS] Make CBMS easier
-Aftershock: Increase cryosleep survivors resistance to cold
-fd_clairvoyant reveals creatures.
-Aftershock: Adds super-processed food to aftershock.
-Adds monsters 'Tyruckusaurus Rex' and 'Goliath Rex'
-Add freerunner's boots, which are enchanted boots that grant the parkour expert trait
-New location and trader NPC
-Add Tornskin spell
-Professions added to vanilla scenarios
-Aftershock: Create a new scenario, Anomalous Materials
-Re-implement an obsoleted rail-gun into Aftershock
-Add monsters 'Diplodocus' 'Corythosaurus' and 'Edmontosaurus'
-Add dino missions to Old Guard
-[Magiclysm] Implement spell components
-Aftershock: Cam-spy drones let you survey buildings from safety
-Full dino egg cooking
-Adds four new dino bio-operators and zombie variants
 
 ## Balance:
 Large item price audit.
@@ -173,28 +73,7 @@ melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
 More complex satiety calculations.
 NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
-Change batch time savings when crafting clean water to 20% at >1 unit
-Don't damage legs wearing rubber boots in acid puddle
-Allow tea recipes to inherit nutrients from its components
-Expanded the capacity of the firefighter belt so it can fit inside a Halligan Bar and a Fire Axe
-Modifies stats for rubber hose
-Sourdough starter wait times and flavor text have been updated to better match reality: 6 days to culture, 1 day to split.  Making and feeding starter now requires clean water.
-Gives EMP Grenade electrical damage.
-Realistic wearable_light, flashlights and mining_hat
-Reduce dehydration from hypovolemia
-Add lone start flag to Really Bad Day
-Increase charges of cotton balls to more realistically match volume of item
-adjust volume, weight, and longest side values of cooking tools
-update volume, weight, and longest_side values of tools in deloyable.json
-Add longest_side to items in tools/electronics.json
-updates tool/fishing.json where necessary
-updates tools in tools/handloading.json where necessary
-Various mapgen, terrain and field/emit adjustments for Mi-go structures.
-Antifungal drugs work over time
-Made zombull less deadly.
-Adjust the affects of adrenaline to reflect real life rather than magic
-Fixes sheath capability and length of flails
-Add portion data for helmets and some masks
+Antifungal drugs work over time.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -226,118 +105,15 @@ Fix segfault on harvest.
 Fix loading of legacy characters without bodies.
 Fix explosions not affecting terrain.
 Do not process held item twice.
-Allow marlin 39A reloading again, fix a crash caused by speed loader
-Blow up molotov immediately on impact
-Allow wash multiple items instead of just one for every stack
-Do not process held item twice
 Fix crash when trying to reloading item inside advanced inventory
-If chosen, let the game unload certain mod instead of the gun itself
-Fixes first outpost quest
-Fix transparency cache issue
-Make it  possible to directly use vehicle mounted electric tools
-Survivor utility belt sheath is now the correct size
-Fix deluxe veggie beans & rice causing engorged
-Make water purification tablets be made of powder
-Fix butane considered solid ammo
-items: fix the effective DPS test
-Fix fire field processing
-[Using base_volume instead of volume for calculating water/detergent consumption]
-Modifiy weldrig_hack used in `activity_handlers::repair_item_finish`
-Fixes Blood Draw Kits
-Fix 'move all' from inventory in AIM by moving only top level inventory items
-Allow shooting with Winchester M37 again
-Fix item disappearing when wielding item that can merge with the wielded item
-Fix zone sorting and category display in advanced inventory UI.
-Make lighters and matchbooks rigid
-Amend Estoc+1 and Estoc+2 in Magiclysm Fencing
-Activating a spellbook opens the spell learning menu
-add looks_like to red carpets, fix mall for consistency
-Fix megastore roof
-Fix cooking tools magazines
-fix drinking potions
-Fix consume menu filter reset after consuming
-Fixed CQB bionic not teaching certain styles
-fix looks_like for indoor yellow concrete.
-Make Small Cardboard Boxes Rigid
-Fix plutonium duplication and it's weight/volume inside tools
-Prevent generation of additional erroneous bridgeheads on savegame load for bridges of at least 2 tiles.
-Fix vitamins not being modified properly when the game first starts
-Fixes double recursion on nested containers in inventory_selector
-Fixes getting duplicate entries from `item_contents::all_items_ptr` in nested pockets
-Drop menu properly calculates weight and volume
-Some advacned inventory fixes
-Fix item selection menu for various actions would sometimes silently omit non-electable items rather than print the reason
-Fix some item deletion bugs
-Fix player being able to access the content of items that can't be unloaded
-Fix item duplication when inserting partial stacks
-Fix crash when repairing with bionic-powered tools
-Fixed crash when detaching gunmods with full magazines
-player: fix process_items() for new pocket system
-Fix mutagen withdrawal messages being sent each second
-Update inventory access calls in NPC code
-Fix MRE Accessory packs creating empty matchbooks
-Fixes a crash when reloading with items not in the inventory
-Fix portable autoclave deleting CBMs
-Fixes the drop menu volume display to be like the inventory volume display
-Fix crash when unloading wielded tool with battery when another empty tool that can contain the battery is in inventory
-Fix Power Armor intersection
-Fix Battery System CBM not accepting batteries
-Fix falling into a pit right after digging it
-Fix NPC crash when wielding bio guns
-Fix double prompt when eating while full
-Reimplement original behavior for default magazines for nested containers
-Fix gas station console not working
-Don't decrease field intensity if you're immune
-Fix CBMs defaulting to -100% safe threshold
-Fix NPCs not being able to use battery system CBM
-Fix moving all from inventory or worn items not moving items to the correct location
-Remove comestibles after using last charge
-dialogue: allow NPCs to train the avatar
-Don't wake up characters under anesthesia
-npc: various NPC AI fixes
-Fix player changing from normal to hungry on eating
 Blobs are slimes. name them such.
-Fix martial arts books requiring no time to read
-Give ammo to monsters spawned by ID
-Fix freezing to death when wet
-Fix weapon techniques not triggering
-lighters spawn with charges again
-Players are not immortal anymore
-Fix uninitialized variable causing compiler warning with LTO=1
-Thorazine now correctly displays the 'Took Thorazine' effect
-npc: fix crashes when told to use items with one charge
-Fix fridge tanks
-Fix exceeding the limits of parent containers by inserting in a child with more capacity
-Fix crafting with debug hammer space
-Refridgerated Tank Fix
-Fixes spilling contents of wielded open containers
-Fix toggling favorite and display favorite items in the front of inventory UI
-Fix consumption of CBM fuel
-Fix inserting filled open containers into pockets
-player: simplify UPS processing in process_items
-Sealed container fixes
-Fix container having one less charge than its full capacity when spawned or filled
-move_items_activity_actor: check before manipulating charges
-Add weight to some chemicals
-Fix infinite wetness
-Fix repair_item action for UPS-modded tools
-Detect charges stored in pockets of a tool_armor
-Fix Rifleman achievement events
-When loading a contained item with invalid container, drop it on the ground.
-Fix JSON errors during loading of very old saves
-Make necro boomer explosions check for corpses with revival eligibility like necromancers
-Fix Torso appearing as broken in mending menu
-Update and fix problems in player::sort_armor
-Audits and repairs zombie evolution upgrade lists, particularly soldier zombies
-Clarify description for SURFACE, abstract unrolling mats
-Fix weather effects displaying pain even when value is 0.
+Fix freezing to death when wet.
+Fix weapon techniques not triggering.
 Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses
-Per Tonkatsu this weapons should fit in a standard holster, this PR's JSON change will allow that.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
-Skip unnecessary weather calculations for root cellar
-Code optimizations reported by static code analysis
+Skip unnecessary weather calculations for root cellar.
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -375,49 +151,15 @@ Enforce use of points as local variables.
 Add table.py to make tables of JSON data.
 Add a guide for intermediate mapgen help.
 Options: remove the option to not use z-levels.
-Move bandage and disinfectant to body
-options: remove the option to not use z-levels
-Adds a script for creating directional vehicle parts from json.
-Make the clang-tidy CI job less verbose
-Provide point types with coordinate system type safety
-Remove  hp_part for good
+Provide point types with coordinate system type safety.
 Move weather from being hardcoded into json.
-Move encumbrance to bodyparts
-Make point serialization via member functions
-Additional pocket sanity checking to help catch json errors
-Genericise simple_pathfinding point type
-npctalk: move some functionality into npc::
 Update Catch2 to 2.13.0
-Changes some awkward terrains into furnitures for better layering
-Create a machine-readable memorial file at game over
-Adds more control and new options to weather json effects
-looks_like support for walls
-Document recipe requirements and components better in JSON_INFO
-Adds looks like support for furniture_tools and furniture_industrial
-Adds looks_like to containers.json
-Remove and replace Character::i_rem( int ) uses
-dialogue: create an talker API for speakers in a dialogue
-Combine last_rot_check into last_temp_check
-dialogue: make npc_chatbin generic
-Remove unused code
-Move remaining enum arrays to bodypart
-Provide common operator overloads for flag enums
-Make use of new point types for overmap-scale code
-Add new possible requirements to weather via json.
-Add documentation for new coord_point
-Rename box to cuboid
-Make rectangle and cuboid generic with respect to point type
-Decouple rectangle rendering in SDL related code
-Document the 'using' field for recipe requirements
-Configure GitHub build matrix to permit more C++ build testing to happen there
-add sorted creature type count to location summary of debug menu game state screen
-Jsonify blood analysis CBM results
-Stop running sanitizer builds on Travis
-Check for zero weight items
-Jsonize some field effects
-minor doxygen comments
-Removes unused concept of regional/weather acid
-Remove body_part from effect
+Changes some awkward terrains into furnitures for better layering.
+Create a machine-readable memorial file at game over.
+Dialogue: create an talker API for speakers in a dialogue.
+Make rectangle and cuboid generic with respect to point type.
+Configure GitHub build matrix to permit more C++ build testing to happen there.
+Check for zero weight items.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -427,10 +169,10 @@ Makes json linter feedback more readable.
 Fix clang-tidy header guard check on Windows.
 Progress feedback for JSON formatting script.
 Set 'disable MS telemetry' flag in VCPKG setup guide.
-Automatic handling of vcpkg dependencies
-vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part
-Improve use of precompiled headers
-compose.py: allow default sized tilesheets to specify offsets
+Automatic handling of vcpkg dependencies.
+Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
+Improve use of precompiled headers.
+compose.py: allow default sized tilesheets to specify offsets.
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -438,12 +180,7 @@ Add support for specifying identical singular and plural forms using `str_sp`.
 Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
-Routine i18n updates on 3 Jul 2020
 Add translator glossary and explain etymology of Exodii
-Routine i18n updates on 10 Jul 2020
-Routine i18n updates on 17 Jul 2020
-Routine i18n updates on 26 Jul 2020
-Routine i18n updates on 31 Jul 2020
 
 # 0.E (Ellison)
 
