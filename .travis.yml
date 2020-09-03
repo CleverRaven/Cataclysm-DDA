@@ -127,7 +127,7 @@ jobs:
           sources: *apt_sources
 
     # Android
-    - env: NATIVE=android BUILD_NAME=android
+    - env: NATIVE=android BUILD_NAME=android DEPLOY=1
       name: "Android ARM 64"
       language: android
       dist: trusty
