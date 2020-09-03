@@ -2315,7 +2315,6 @@
           "socks",
           "sneakers",
           "tank_top",
-          "sewing_kit",
           "mbag",
           "fur_cat_ears",
           "fur_cat_tail",
@@ -2324,7 +2323,7 @@
           "mag_animecon",
           "cheeseburger"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "sewing_kit", "charges": 200 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3528,19 +3527,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "blazer",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "tie_skinny",
-          "tieclip",
-          "poetry_book",
-          "permanent_marker",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "dress_shirt", "blazer", "pants", "socks", "dress_shoes", "tie_skinny", "tieclip", "poetry_book", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "permanent_marker", "charges": 500 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
