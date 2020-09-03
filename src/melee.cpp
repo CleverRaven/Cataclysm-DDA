@@ -819,7 +819,13 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     return chance_triple + ma_buff_crit_chance;
 }
 
-float Character::get_dodge() const
+float player::get_dodge_base() const
+{
+    // TODO: Remove this override?
+    return Character::get_dodge_base();
+}
+
+float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
@@ -877,7 +883,7 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float Character::dodge_roll()
+float player::dodge_roll()
 {
     return get_dodge() * 5;
 }
