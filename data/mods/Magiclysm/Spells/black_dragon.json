@@ -181,7 +181,6 @@
     "effect_str": "STAMINA",
     "min_damage": 0,
     "max_damage": -10,
-    "damage_increment": -1,
     "flags": [ "SILENT", "RANDOM_DAMAGE" ]
   },
   {
