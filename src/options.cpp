@@ -2168,6 +2168,12 @@ void options_manager::add_options_world_default()
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
        );
+
+    add( "DISABLE_LIFTING", "world_default",
+         translate_marker( "Disables lifting requirements for vehicle parts." ),
+         translate_marker( "If true, strength checks and/or lifting qualities no longer need to be met in order to change parts." ),
+         false, COPT_ALWAYS_HIDE
+       );
 }
 
 void options_manager::add_options_android()
