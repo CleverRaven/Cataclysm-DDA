@@ -36,6 +36,12 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     spell_json.resize( QSize( 800, 600 ) );
     spell_json.setReadOnly( true );
 
+    error_window.setParent( &spell_json );
+    error_window.setText( QString( "!!ERRORS!!" ) );
+    error_window.resize( default_text_box_size );
+    error_window.setReadOnly( true );
+    error_window.hide();
+
     id_label.setParent( this );
     id_label.setText( QString( "id" ) );
     id_label.resize( default_text_box_size );
@@ -718,6 +724,44 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
 void creator::spell_window::write_json()
 {
+    std::string errors;
+
+    const auto add_newline = []( std::string & error ) {
+        if( !error.empty() ) {
+            error += '\n';
+        }
+    };
+
+    if( editable_spell.id.is_empty() ) {
+        errors = "Spell id is empty";
+    }
+    if( editable_spell.name.empty() ) {
+        add_newline( errors );
+        errors += "Spell name is empty";
+    }
+    if( editable_spell.description.empty() ) {
+        add_newline( errors );
+        errors += "Spell description is empty";
+    }
+    bool has_targets = false;
+    for( int i = 0; i < static_cast<int>( spell_target::num_spell_targets ); i++ ) {
+        if( editable_spell.valid_targets.test( static_cast<spell_target>( i ) ) ) {
+            has_targets = true;
+            break;
+        }
+    }
+    if( !has_targets ) {
+        add_newline( errors );
+        errors += "\nSpell has no valid targets";
+    }
+
+    if( !errors.empty() ) {
+        error_window.setToolTip( QString( errors.c_str() ) );
+        error_window.show();
+    } else {
+        error_window.hide();
+    }
+
     std::ostringstream stream;
     JsonOut jo( stream );
     jo.write( editable_spell );
