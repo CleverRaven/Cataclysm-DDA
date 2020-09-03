@@ -334,38 +334,57 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
     // TODO: Random duration
 }
 
-TEST_CASE( "permanent spells", "[magic][spell][permanent]" )
+// Spells with the PERMANENT flag have behavior that depends on what kind of spell it is
+// - If spell has "effect": "spawn_item", the spawned item only has permanent duration at maximum level
+// - If spell has "effect": "summon", the summoned monster can have permanent duration at any level
+TEST_CASE( "permanent spell duration depends on effect and level", "[magic][spell][permanent]" )
 {
-    spell_id box_id( "test_spell_box" );
-    spell_id mummy_id( "test_spell_tp_mummy" );
-    spell box_spell( box_id );
-    spell mummy_spell( mummy_id );
-    int max_level;
+    GIVEN( "spell with spawn_item effect, nonzero duration, and PERMANENT flag" ) {
+        const spell_id box_id( "test_spell_box" );
+        const spell_type &box_type = box_id.obj();
+        const spell box_spell( box_id );
+        REQUIRE( box_type.effect_name == "spawn_item" );
+        REQUIRE( box_type.duration_increment > 0 );
+        REQUIRE( box_type.min_duration > 0 );
+        REQUIRE( box_type.max_duration > 0 );
+        REQUIRE( box_spell.has_flag( spell_flag::PERMANENT ) );
+        REQUIRE( box_spell.get_max_level() > 9 );
 
-    // Summoned items are only permanent at max level
-    REQUIRE( box_spell.has_flag( spell_flag::PERMANENT ) );
-    max_level = box_spell.get_max_level();
-    REQUIRE( max_level > 0 );
-    CHECK( spell_duration_string( box_id, 0 ) == "10 minutes" );
-    CHECK( spell_duration_string( box_id, 1 ) == "15 minutes" );
-    CHECK( spell_duration_string( box_id, 2 ) == "20 minutes" );
-    CHECK( spell_duration_string( box_id, 3 ) == "25 minutes" );
-    CHECK( spell_duration_string( box_id, 4 ) == "30 minutes" );
-    CHECK( spell_duration_string( box_id, 5 ) == "35 minutes" );
-    CHECK( spell_duration_string( box_id, 6 ) == "40 minutes" );
-    CHECK( spell_duration_string( box_id, 7 ) == "45 minutes" );
-    CHECK( spell_duration_string( box_id, 8 ) == "50 minutes" );
-    CHECK( spell_duration_string( box_id, 9 ) == "55 minutes" );
-    CHECK( spell_duration_string( box_id, max_level ) == "Permanent" );
+        THEN( "spell has increasing duration before reaching max level" ) {
+            CHECK( spell_duration_string( box_id, 0 ) == "10 minutes" );
+            CHECK( spell_duration_string( box_id, 1 ) == "15 minutes" );
+            CHECK( spell_duration_string( box_id, 2 ) == "20 minutes" );
+            CHECK( spell_duration_string( box_id, 3 ) == "25 minutes" );
+            CHECK( spell_duration_string( box_id, 4 ) == "30 minutes" );
+            CHECK( spell_duration_string( box_id, 5 ) == "35 minutes" );
+            CHECK( spell_duration_string( box_id, 6 ) == "40 minutes" );
+            CHECK( spell_duration_string( box_id, 7 ) == "45 minutes" );
+            CHECK( spell_duration_string( box_id, 8 ) == "50 minutes" );
+            CHECK( spell_duration_string( box_id, 9 ) == "55 minutes" );
+        }
 
-    // Summoned monsters can be permanent at any level
-    REQUIRE( mummy_spell.has_flag( spell_flag::PERMANENT ) );
-    max_level = mummy_spell.get_max_level();
-    REQUIRE( max_level > 0 );
-    CHECK( spell_duration_string( mummy_id, 0 ) == "Permanent" );
-    CHECK( spell_duration_string( mummy_id, 1 ) == "Permanent" );
-    CHECK( spell_duration_string( mummy_id, 2 ) == "Permanent" );
-    CHECK( spell_duration_string( mummy_id, max_level ) == "Permanent" );
+        THEN( "spell is permanent at max level" ) {
+            CHECK( spell_duration_string( box_id, box_spell.get_max_level() ) == "Permanent" );
+        }
+    }
+
+    GIVEN( "spell with summon effect, zero duration, and PERMANENT flag" ) {
+        const spell_id mummy_id( "test_spell_tp_mummy" );
+        const spell_type &mummy_type = mummy_id.obj();
+        const spell mummy_spell( mummy_id );
+        REQUIRE( mummy_type.effect_name == "summon" );
+        REQUIRE( mummy_type.min_duration == 0 );
+        REQUIRE( mummy_type.max_duration == 0 );
+        REQUIRE( mummy_spell.has_flag( spell_flag::PERMANENT ) );
+        REQUIRE( mummy_spell.get_max_level() > 0 );
+
+        THEN( "spell has permanent duration at every level" ) {
+            CHECK( spell_duration_string( mummy_id, 0 ) == "Permanent" );
+            CHECK( spell_duration_string( mummy_id, 1 ) == "Permanent" );
+            CHECK( spell_duration_string( mummy_id, 2 ) == "Permanent" );
+            CHECK( spell_duration_string( mummy_id, mummy_spell.get_max_level() ) == "Permanent" );
+        }
+    }
 }
 
 // Spell range
