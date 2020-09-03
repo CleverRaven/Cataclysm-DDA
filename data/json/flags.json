@@ -148,7 +148,7 @@
     "id": "ETHEREAL_ITEM",
     "type": "json_flag",
     "context": [  ],
-    "info": "This item disappears as soon as its timer runs out whether it is food or not."
+    "info": "This item disappears as soon as its timer runs out, unless it is permanent or comestible."
   },
   {
     "id": "ONLY_ONE",
