@@ -535,10 +535,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         current[line]->batch_savings_string() );
 
                 const int makes = current[line]->makes_amount();
-                if ( makes > 1 ) {
+                if( makes > 1 ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                        _( "Recipe makes: <color_cyan>%d</color>" ),
-                        makes );
+                                            _( "Recipe makes: <color_cyan>%d</color>" ),
+                                            makes );
                 }
 
                 print_colored_text(
@@ -547,20 +547,20 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
-                
+
                 std::string nearby_string;
                 const int nearby_amount = crafting_inv.count_item( current[line]->result() );
 
-                if ( nearby_amount == 0 ) {
+                if( nearby_amount == 0 ) {
                     nearby_string = "<color_light_gray>0</color>";
-                } else if ( nearby_amount > 9000 ) {
+                } else if( nearby_amount > 9000 ) {
                     // at some point you get too many to count at a glance and just know you have a lot
                     nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
                 } else {
                     nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
                 }
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
-                    _( "Nearby: %s" ), nearby_string );
+                                        _( "Nearby: %s" ), nearby_string );
 
                 const bool can_craft_this = available[line].can_craft;
                 if( can_craft_this && !available[line].can_craft_non_rotten ) {

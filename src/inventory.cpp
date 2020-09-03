@@ -1034,15 +1034,15 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
     return temp_cache;
 }
 
-int inventory::count_item( const itype_id& item_type ) const
+int inventory::count_item( const itype_id &item_type ) const
 {
     int num = 0;
     const itype_bin bin = get_binned_items();
-    if ( bin.find( item_type ) == bin.end() ) {
+    if( bin.find( item_type ) == bin.end() ) {
         return num;
     }
-    const std::list<const item*> items = get_binned_items().find( item_type )->second;
-    for ( const item *it : items ) {
+    const std::list<const item *> items = get_binned_items().find( item_type )->second;
+    for( const item *it : items ) {
         num += it->count();
     }
     return num;
