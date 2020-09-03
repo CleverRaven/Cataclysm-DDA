@@ -114,6 +114,7 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            ACTIVE, // the item, mutation, etc. is active
             NUM_CONDITION
         };
 
@@ -146,7 +147,8 @@ class enchantment
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active( const Character &guy ) const;
+        // @active means the container for the enchantment is active, for comparison to active flag.
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available

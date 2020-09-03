@@ -625,6 +625,10 @@ void Character::activate_mutation( const trait_id &mut )
         recalc_sight_limits();
     }
 
+    if( !mut->enchantments.empty() ) {
+        recalculate_enchantment_cache();
+    }
+
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
@@ -770,6 +774,10 @@ void Character::deactivate_mutation( const trait_id &mut )
 
     if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
         add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+    }
+
+    if( !mut->enchantments.empty() ) {
+        recalculate_enchantment_cache();
     }
 }
 
