@@ -934,7 +934,7 @@ ma_technique character_martial_arts::get_grab_break_tec( const item &weap ) cons
     return tec;
 }
 
-bool player::can_grab_break( const item &weap ) const
+bool Character::can_grab_break( const item &weap ) const
 {
     if( !has_grab_break_tec() ) {
         return false;
@@ -1193,14 +1193,14 @@ bool Character::is_quiet() const
         return b.is_quiet();
     } );
 }
-bool player::is_stealthy() const
+bool Character::is_stealthy() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();
     } );
 }
 
-bool player::can_melee() const
+bool Character::can_melee() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.can_melee();
@@ -1232,7 +1232,7 @@ void character_martial_arts::add_martialart( const matype_id &ma_id )
     ma_styles.emplace_back( ma_id );
 }
 
-bool player::can_autolearn( const matype_id &ma_id ) const
+bool Character::can_autolearn( const matype_id &ma_id ) const
 {
     if( ma_id.obj().autolearn_skills.empty() ) {
         return false;

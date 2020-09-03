@@ -510,8 +510,17 @@ class Character : public Creature, public visitable<Character>
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
 
+        /** Called after the player has successfully dodged an attack */
+        void on_dodge( Creature *source, float difficulty ) override;
+
         /** Combat getters */
         float get_dodge_base() const override;
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
+        float dodge_roll() override;
+        /** Returns Creature::get_dodge() modified by any Character effects */
+        float get_dodge() const override;
+        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
+        bool uncanny_dodge() override;
         float get_hit_base() const override;
 
         const tripoint &pos() const override;
@@ -537,6 +546,8 @@ class Character : public Creature, public visitable<Character>
         bool is_on_ground() const override;
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
+        float get_melee() const override;
         /**
          * @brief Adds a reason for why the player would miss a melee attack.
          *
@@ -781,6 +792,18 @@ class Character : public Creature, public visitable<Character>
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
+        /** Returns true if the player should be dead */
+        bool is_dead_state() const override;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
+        /** Returns true if the current martial art works with the player's current weapon */
+        bool can_melee() const;
+        /** Returns value of player's stable footing */
+        float stability_roll() const override;
+        /** Returns true if the player can learn the entered martial art */
+        bool can_autolearn( const matype_id &ma_id ) const;
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_grab_break( const item &weap ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
@@ -805,8 +828,9 @@ class Character : public Creature, public visitable<Character>
         std::string weapname() const;
 
         // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        /** Handles special defenses from an attack that hit us (source can be null) */
+        void on_hit( Creature *source, bodypart_id bp_hit,
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
 

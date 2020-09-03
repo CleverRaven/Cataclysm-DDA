@@ -114,6 +114,7 @@ static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -188,6 +189,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -227,17 +229,24 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -1302,6 +1311,91 @@ void Character::dismount()
         mod_moves( -100 );
         set_movement_mode( move_mode_id( "walk" ) );
     }
+}
+
+float Character::stability_roll() const
+{
+    /** @EFFECT_STR improves player stability roll */
+
+    /** @EFFECT_PER slightly improves player stability roll */
+
+    /** @EFFECT_DEX slightly improves player stability roll */
+
+    /** @EFFECT_MELEE improves player stability roll */
+    return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
+}
+
+bool Character::is_dead_state() const
+{
+    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
+           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+}
+
+void Character::on_dodge( Creature *source, float difficulty )
+{
+    static const matec_id tec_none( "tec_none" );
+
+    // Each avoided hit consumes an available dodge
+    // When no more available we are likely to fail player::dodge_roll
+    dodges_left--;
+
+    // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
+    if( is_armed() && weapon.is_gun() ) {
+        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil = std::min( MAX_RECOIL, recoil );
+    }
+
+    // Even if we are not to train still call practice to prevent skill rust
+    difficulty = std::max( difficulty, 0.0f );
+    practice( skill_dodge, difficulty * 2, difficulty );
+
+    martial_arts_data->ma_ondodge_effects( *this );
+
+    // For adjacent attackers check for techniques usable upon successful dodge
+    if( source && square_dist( pos(), source->pos() ) == 1 ) {
+        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+
+        if( tec != tec_none && !is_dead_state() ) {
+            if( get_stamina() < get_stamina_max() / 3 ) {
+                add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+            } else {
+                melee_attack( *source, false, tec );
+            }
+        }
+    }
+}
+
+float Character::get_melee() const
+{
+    return get_skill_level( skill_id( "melee" ) );
+}
+
+bool Character::uncanny_dodge()
+{
+    bool is_u = is_avatar();
+    bool seen = get_player_view().sees( *this );
+    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
+        return false;
+    }
+    tripoint adjacent = adjacent_tile();
+    mod_power_level( -75_kJ );
+    if( adjacent.x != posx() || adjacent.y != posy() ) {
+        position.x = adjacent.x;
+        position.y = adjacent.y;
+        if( is_u ) {
+            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
+
+        }
+        return true;
+    }
+    if( is_u ) {
+        add_msg( _( "You try to dodge but there's no room!" ) );
+    } else if( seen ) {
+        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
+    }
+    return false;
 }
 
 void Character::handle_skill_warning( const skill_id &id, bool force_warning )
@@ -9074,9 +9168,108 @@ std::string Character::weapname() const
     }
 }
 
-void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                        float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
+void Character::on_hit( Creature *source, bodypart_id bp_hit,
+                        float /*difficulty*/, dealt_projectile_attack const *const proj )
 {
+    check_dead_state();
+    if( source == nullptr || proj != nullptr ) {
+        return;
+    }
+
+    bool u_see = get_player_view().sees( *this );
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
+        if( is_player() ) {
+            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
+                     source->disp_name() );
+        } else if( u_see ) {
+            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
+                     disp_name(),
+                     source->disp_name() );
+        }
+        int shock = rng( 1, 4 );
+        mod_power_level( units::from_kilojoule( -shock ) );
+        damage_instance ods_shock_damage;
+        ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
+    }
+    if( !wearing_something_on( bp_hit ) &&
+        ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
+        int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), name,
+                         ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
+                         source->disp_name() );
+            }
+        } else {
+            add_msg( m_good, _( "Your %1$s puncture %2$s in mid-attack!" ),
+                     ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
+                     source->disp_name() );
+        }
+        damage_instance spine_damage;
+        spine_damage.add_damage( damage_type::STAB, spine );
+        source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
+    }
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
+        ( !( source->has_weapon() ) ) ) {
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), name,
+                         _( "thorns" ), source->disp_name() );
+            }
+        } else {
+            add_msg( m_good, _( "Your thorns scrape %s in mid-attack!" ), source->disp_name() );
+        }
+        int thorn = rng( 1, 4 );
+        damage_instance thorn_damage;
+        thorn_damage.add_damage( damage_type::CUT, thorn );
+        // In general, critters don't have separate limbs
+        // so safer to target the torso
+        source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
+    }
+    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
+        if( !is_player() ) {
+            if( u_see ) {
+                add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
+                         name, ( _( "hair" ) ) );
+            }
+        } else {
+            add_msg( m_good, _( "Your hairs detach into %s!" ), source->disp_name() );
+        }
+        source->add_effect( effect_stunned, 2_turns );
+        if( one_in( 3 ) ) { // In the eyes!
+            source->add_effect( effect_blind, 2_turns );
+        }
+    }
+    if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
+        int rolls = 4;
+        if( worn_with_flag( "ROLLER_ONE" ) ) {
+            rolls += 2;
+        }
+        if( has_trait( trait_PROF_SKATER ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_DEFT ) ) {
+            rolls--;
+        }
+        if( has_trait( trait_CLUMSY ) ) {
+            rolls++;
+        }
+
+        if( stability_roll() < dice( rolls, 10 ) ) {
+            if( !is_player() ) {
+                if( u_see ) {
+                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                }
+            } else {
+                add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+            }
+            // This kind of downing is not subject to immunity.
+            add_effect( effect_downed, 2_turns, false, 0, true );
+        }
+    }
+
     enchantment_cache->cast_hit_me( *this, source );
 }
 
