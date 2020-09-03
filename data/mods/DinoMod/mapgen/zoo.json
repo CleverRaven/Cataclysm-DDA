@@ -285,7 +285,7 @@
         { "item": "rock", "repeat": 1, "x": 12, "y": 16 }
       ],
       "place_items": [
-        { "chance": 45, "item": "dinomod_newest_news_2", "x": 20, "y": 5 },
+        { "chance": 45, "item": "trash", "x": 20, "y": 5 },
         { "chance": 65, "item": "vet_softdrug", "x": 10, "y": 18 },
         { "chance": 45, "item": "vet_hardrug", "x": 9, "y": 18 }
       ],
