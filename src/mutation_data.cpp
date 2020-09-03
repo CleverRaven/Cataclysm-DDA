@@ -352,12 +352,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
     if( jo.has_object( "spawn_item" ) ) {
-        auto si = jo.get_object( "spawn_item" );
+        JsonObject si = jo.get_object( "spawn_item" );
         optional( si, was_loaded, "type", spawn_item );
         optional( si, was_loaded, "message", raw_spawn_item_message );
     }
     if( jo.has_object( "ranged_mutation" ) ) {
-        auto si = jo.get_object( "ranged_mutation" );
+        JsonObject si = jo.get_object( "ranged_mutation" );
         optional( si, was_loaded, "type", ranged_mutation );
         optional( si, was_loaded, "message", raw_ranged_mutation_message );
     }
@@ -371,7 +371,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
-        auto bodytemp_array = jo.get_array( "bodytemp_modifiers" );
+        JsonArray bodytemp_array = jo.get_array( "bodytemp_modifiers" );
         bodytemp_min = bodytemp_array.get_int( 0 );
         bodytemp_max = bodytemp_array.get_int( 1 );
     }

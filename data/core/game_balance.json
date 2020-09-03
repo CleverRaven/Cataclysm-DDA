@@ -159,5 +159,12 @@
     "info": "The amount of focus gained per each INT point above INT_BASED_LEARNING_BASE_VALUE",
     "stype": "int",
     "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WORKBENCH_ALL_OPTIONS",
+    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
+    "stype": "bool",
+    "value": true
   }
 ]

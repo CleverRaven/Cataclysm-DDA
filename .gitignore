@@ -194,8 +194,10 @@ Xcode/
 /build-dir/
 
 # precompiled headers
+/pch/pch.hpp.pch
 /pch/main-pch.hpp.gch
 /pch/main-pch.hpp.pch
+/tests/pch/pch.hpp.pch
 /tests/pch/tests-pch.hpp.gch
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch

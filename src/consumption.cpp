@@ -1287,7 +1287,7 @@ bool Character::consume_effects( item &food )
     }
 
     // Used in hibernation messages.
-    const auto nutr = nutrition_for( food );
+    const int nutr = nutrition_for( food );
     const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
     // We can handle junk just fine
     if( !skip_health ) {

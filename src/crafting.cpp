@@ -444,7 +444,7 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() || ( allow_bucket && cont.will_spill() ) ) {
+    if( cont.is_watertight_container() && ( allow_bucket || !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
 
@@ -2225,7 +2225,7 @@ void Character::complete_disassemble()
 void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
-    const auto dis_requirements = dis.disassembly_requirements();
+    const requirement_data dis_requirements = dis.disassembly_requirements();
     item &org_item = *target;
     const bool filthy = org_item.is_filthy();
     const tripoint loc = target.position();

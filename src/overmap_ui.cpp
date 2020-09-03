@@ -226,7 +226,7 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
 static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
                              std::string &ter_sym )
 {
-    auto possible_scent = overmap_buffer.scent_at( pos );
+    scent_trace possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
         color_manager &color_list = get_all_colors();
         int i = 0;
@@ -708,7 +708,7 @@ void draw(
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 const weather_type_id type = get_weather_at_point( omp );
                 ter_color = type->map_color;
-                ter_sym = type->glyph;
+                ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {

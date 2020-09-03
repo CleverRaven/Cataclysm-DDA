@@ -52,7 +52,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
         dyn_cast<ClassTemplateSpecializationDecl>( Type );
     QualType ArgType = CTSDecl->getTemplateArgs()[0].getAsType();
     PrintingPolicy Policy( LangOptions{} );
-    Policy.SuppressTagKeyword = true;
+    Policy.adjustForCPlusPlus();
     std::string TypeName = ArgType.getAsString( Policy );
 
     static const std::unordered_map<std::string, std::string> HardcodedPrefixes = {

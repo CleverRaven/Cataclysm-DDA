@@ -755,19 +755,8 @@ void Character::suffer_in_sunlight()
         return;
     }
 
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
-        suffer_from_albinism();
-    }
-
-    if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) ) {
-                wake_up();
-            }
-            mod_pain( 1 );
-            hurtall( 1, nullptr );
-        }
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) || has_trait( trait_SUNBURN ) ) {
+        suffer_from_sunburn();
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
@@ -794,16 +783,61 @@ void Character::suffer_in_sunlight()
     }
 }
 
-void Character::suffer_from_albinism()
+std::map<bodypart_id, float> Character::bodypart_exposure()
 {
-    if( !one_turn_in( 1_minutes ) ) {
+    std::map<bodypart_id, float> bp_exposure;
+    // May need to iterate over all body parts several times, so make a copy
+    const std::vector<bodypart_id> all_body_parts = get_all_body_parts();
+
+    // Initially, all parts are assumed to be fully exposed
+    for( const bodypart_id &bp : all_body_parts ) {
+        bp_exposure[bp] = 1.0;
+    }
+    // For every item worn, for every body part, adjust coverage
+    for( const item &it : worn ) {
+        // What body parts does this item cover?
+        body_part_set covered = it.get_covered_body_parts();
+        for( const bodypart_id &bp : all_body_parts )  {
+            if( !covered.test( bp.id() ) ) {
+                continue;
+            }
+            // How much exposure does this item leave on this part? (1.0 == naked)
+            float part_exposure = 1.0 - it.get_coverage( bp ) / 100.0f;
+            // Coverage multiplies, so two layers with 50% coverage will together give 75%
+            bp_exposure[bp] = bp_exposure[bp] * part_exposure;
+        }
+    }
+    return bp_exposure;
+}
+
+
+void Character::suffer_from_sunburn()
+{
+    if( !has_trait( trait_ALBINO ) && !has_effect( effect_datura ) && !has_trait( trait_SUNBURN ) ) {
         return;
     }
+
+    std::string sunlight_effect;
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        // Albinism and datura have the same effects, once per minute on average
+        if( !one_turn_in( 1_minutes ) ) {
+            return;
+        }
+        sunlight_effect = _( "The sunlight is really irritating" );
+    } else if( has_trait( trait_SUNBURN ) ) {
+        // Sunburn effects occur about 3 times per minute
+        if( !one_turn_in( 20_seconds ) ) {
+            return;
+        }
+        sunlight_effect = _( "The sunlight burns" );
+    }
+
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
+        add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
+        // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -814,71 +848,95 @@ void Character::suffer_from_albinism()
     if( weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
-    //calculate total coverage of skin
-    body_part_set affected_bp { {
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
-        }
-    };
-    //pecentage of "open skin" by body part
-    std::map<bodypart_id, float> open_percent;
-    //initialize coverage
-    for( const bodypart_id  &bp : get_all_body_parts() ) {
-        if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp] = 1.0;
-        }
-    }
-    //calculate coverage for every body part
-    for( const item &i : worn ) {
-        body_part_set covered = i.get_covered_body_parts();
-        for( const bodypart_id  &bp : get_all_body_parts() )  {
-            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
-                continue;
-            }
-            //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            open_percent[bp] = open_percent[bp] * p;
-        }
-    }
 
-    const float COVERAGE_LIMIT = 0.01f;
-    bodypart_id max_affected_bp;
-    float max_affected_bp_percent = 0.0f;
+    std::map<bodypart_id, float> bp_exposure = bodypart_exposure();
+
+    // Minimum exposure threshold for pain
+    const float MIN_EXPOSURE = 0.01f;
+    // Count how many body parts are above the threshold
     int count_affected_bp = 0;
-    for( const std::pair<const bodypart_id, float> &it : open_percent ) {
-        const bodypart_id &bp = it.first;
-        const float &p = it.second;
-
-        if( p <= COVERAGE_LIMIT ) {
+    // Get the most exposed body part, and how exposed it is.  This is to tell the player what body
+    // part is most irritated by sun, so they know what needs to be covered up better.
+    bodypart_id most_exposed_bp;
+    float max_exposure = 0.0f;
+    // Check each bodypart with exposure above the minimum
+    for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+        const float exposure = bp_exp.second;
+        // Skip minimally-exposed parts, and skip the eyes (handled by sunglasses)
+        if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
             continue;
         }
         ++count_affected_bp;
-        if( max_affected_bp_percent < p ) {
-            max_affected_bp_percent = p;
-            max_affected_bp = bp;
+        if( exposure > max_exposure ) {
+            max_exposure = exposure;
+            most_exposed_bp = bp_exp.first;
         }
     }
-    if( count_affected_bp > 0 && max_affected_bp != bodypart_str_id( "bp_null" ) ) {
-        //Check if both arms/legs are affected
-        int parts_count = 1;
-        const bodypart_id &other_bp = max_affected_bp->opposite_part;
-        const bodypart_id &other_bp_rev = other_bp->opposite_part;
-        if( other_bp != other_bp_rev ) {
-            const auto found = open_percent.find( other_bp );
-            if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
-                ++parts_count;
+
+    // If all body parts are protected, there is no suffering
+    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id( "bp_null" ) ) {
+        return;
+    }
+
+    // Check if both arms/legs are affected
+    int count_limbs = 1;
+    const bodypart_id &other_bp = most_exposed_bp->opposite_part;
+    const bodypart_id &other_bp_rev = other_bp->opposite_part;
+    // If these are different, we have a left/right part like a leg or arm.
+    // If same, it's a central body part with no opposite, like head or torso.
+    // Only used to generate a simpler message when both arms or both legs are affected.
+    if( other_bp != other_bp_rev ) {
+        const auto found = bp_exposure.find( other_bp );
+        // Is opposite part exposed?
+        if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
+            ++count_limbs;
+        }
+    }
+    // Get singular or plural body part name; append "and other body parts" if appropriate
+    std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
+    if( count_affected_bp == count_limbs ) {
+        add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, bp_name );
+    } else {
+        add_msg_if_player( m_bad, _( "%s your %s and other body parts." ), sunlight_effect,
+                           bp_name );
+    }
+
+    // Wake up from skin irritation/burning
+    if( has_effect( effect_sleep ) ) {
+        wake_up();
+    }
+
+    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
+    if( has_trait( trait_SUNBURN ) ) {
+        mod_pain( 1 );
+        // Check exposure of all body parts
+        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+            const bodypart_id &this_part = bp_exp.first;
+            const float exposure = bp_exp.second;
+            // Skip parts with adequate protection
+            if( exposure <= MIN_EXPOSURE ) {
+                continue;
+            }
+            // Don't damage eyes directly, since it takes from head HP (in other words, your head
+            // won't be destroyed if only your eyes are exposed).
+            if( this_part == bodypart_id( "eyes" ) ) {
+                continue;
+            }
+            // Exposure percentage determines likelihood of injury
+            // 10% exposure is 10% chance of injury, naked = 100% chance
+            if( x_in_y( exposure, 1.0 ) ) {
+                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
+                // an HP pool with the head, those parts take an unfair share of damage in relation
+                // to the torso, which only has one part.  Increase torso damage to balance this.
+                if( this_part == bodypart_id( "torso" ) ) {
+                    apply_damage( nullptr, this_part, 2 );
+                } else {
+                    apply_damage( nullptr, this_part, 1 );
+                }
             }
         }
-        std::string bp_name = body_part_name( max_affected_bp, parts_count );
-        if( count_affected_bp > parts_count ) {
-            bp_name = string_format( _( "%s and other body parts" ), bp_name );
-        }
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
-
-        //apply effects
-        if( has_effect( effect_sleep ) ) {
-            wake_up();
-        }
+    } else {
+        // Albinism/datura causes pain (1/60) or focus loss (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -898,7 +956,7 @@ void Character::suffer_from_item_dropping()
             }
         }
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
-        for( auto i : dump ) {
+        for( item *i : dump ) {
             i_rem( i );
         }
     }
@@ -955,7 +1013,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
 
     }
 
@@ -980,7 +1038,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1791,7 +1849,7 @@ void Character::apply_wetness_morale( int temperature )
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
-    const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    const body_part_set wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
         const int part_drench = get_part_wetness( bp );

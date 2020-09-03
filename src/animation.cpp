@@ -734,7 +734,7 @@ namespace
 void draw_weather_curses( const catacurses::window &win, const weather_printable &w )
 {
     for( const auto &drop : w.vdrops ) {
-        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.cGlyph );
+        mvwputch( win, point( drop.first, drop.second ), w.colGlyph, w.get_symbol() );
     }
 }
 } //namespace

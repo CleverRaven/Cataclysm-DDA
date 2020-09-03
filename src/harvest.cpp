@@ -86,6 +86,8 @@ const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &s
 
     jo.read( "message", ret.message_ );
 
+    assign( jo, "leftovers", ret.leftovers );
+
     for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
         ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
     }
@@ -161,7 +163,10 @@ void harvest_list::check_consistency()
         if( !errors.empty() ) {
             debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
-
+        if( !pr.first->leftovers.is_valid() ) {
+            debugmsg( "Harvest id %s has invalid leftovers: %s", pr.first.c_str(),
+                      pr.first->leftovers.c_str() );
+        }
     }
 }
 

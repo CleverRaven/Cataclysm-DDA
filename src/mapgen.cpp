@@ -435,7 +435,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
-        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
             oter_mapgen.add( id_base, ret );
         } else {
@@ -1942,7 +1942,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
+        float rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -2849,7 +2849,7 @@ void jmapgen_objects::apply( const mapgendata &dat, const point &offset ) const
 bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat, const point &offset ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        auto where = obj.first;
+        jmapgen_place where = obj.first;
         where.offset( -offset );
         const auto &what = *obj.second;
         if( what.has_vehicle_collision( dat, point( where.x.get(), where.y.get() ) ) ) {
@@ -4043,9 +4043,9 @@ void map::draw_lab( mapgendata &dat )
                             if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
                                                    t_strconc_floor == ter( point( i, j ) ) ) ) {
                                 if( is_toxic ) {
-                                    add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
+                                    add_field( {i, j, abs_sub.z}, field_type_id( "fd_gas_vent" ), 1 );
                                 } else {
-                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
+                                    add_field( {i, j, abs_sub.z}, field_type_id( "fd_smoke_vent" ), 2 );
                                 }
                             }
                         }
@@ -4500,8 +4500,8 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
-                        add_field( {SEEX, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
-                        add_field( {SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( {SEEX, i, abs_sub.z}, field_type_id( "fd_fire_vent" ), rng( 1, 3 ) );
+                        add_field( {SEEX + 1, i, abs_sub.z}, field_type_id( "fd_fire_vent" ), rng( 1, 3 ) );
                     }
                     break;
 
@@ -4831,7 +4831,7 @@ void map::draw_mine( mapgendata &dat )
                     int cx = rng( 9, 14 );
                     int cy = rng( 9, 14 );
                     ter_set( point( cx, cy ), t_rock );
-                    add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
+                    add_field( {cx, cy, abs_sub.z}, field_type_id( "fd_gas_vent" ), 2 );
                 }
                 break;
 
@@ -5248,7 +5248,7 @@ void map::draw_spider_pit( const mapgendata &dat )
                     one_in( 4 ) ) {
                     ter_set( point( i, j ), t_rock_floor );
                     if( !one_in( 3 ) ) {
-                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
+                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_web" ), rng( 1, 3 ) );
                     }
                 } else {
                     ter_set( point( i, j ), t_rock );
@@ -5351,7 +5351,7 @@ void map::draw_triffid( const mapgendata &dat )
                 } else {
                     for( int webx = node2.x; webx <= node2.x + 3; webx++ ) {
                         for( int weby = node2.y; weby <= node2.y + 3; weby++ ) {
-                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
+                            add_field( {webx, weby, abs_sub.z}, field_type_id( "fd_web" ), rng( 1, 3 ) );
                         }
                     }
                     place_spawns( GROUP_SPIDER, 1, spawn, spawn, 1, true );
@@ -5788,10 +5788,11 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     }
     for( item *e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
-            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+            if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
+                !e->magazine_current() ) {
                 e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }
@@ -5933,7 +5934,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const auto p = veh->global_part_pos3( *part );
+        const tripoint p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -6787,7 +6788,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
+                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_push_items" ), 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point( i, j ), "rock" );
                         }
@@ -6864,18 +6865,19 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_ELECTRIC:
         case ARTPROP_CRACKLING:
-            add_field( {c, abs_sub.z}, fd_shock_vent, 3 );
+            add_field( {c, abs_sub.z}, field_type_id( "fd_shock_vent" ), 3 );
             break;
 
         case ARTPROP_SLIMY:
-            add_field( {c, abs_sub.z}, fd_acid_vent, 3 );
+            add_field( {c, abs_sub.z}, field_type_id( "fd_acid_vent" ), 3 );
             break;
 
         case ARTPROP_WARM:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
+                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_fire_vent" ), 1 + ( rl_dist( c, point( i,
+                                   j ) ) % 3 ) );
                     }
                 }
             }
@@ -7140,7 +7142,7 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 
 int register_mapgen_function( const std::string &key )
 {
-    if( const auto ptr = get_mapgen_cfunction( key ) ) {
+    if( const building_gen_pointer ptr = get_mapgen_cfunction( key ) ) {
         return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
     return -1;

@@ -1155,7 +1155,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = player_character.will_eat( *consume_location, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1165,7 +1165,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = player_character.will_eat( consume_item, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1196,14 +1196,15 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     std::vector<int> temp_selections = consume_menu_selections;
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
+    item_location consume_loc = consume_location;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
-        if( consume_location ) {
-            trinary result = player_character.consume( consume_location, /*force=*/true );
+        if( consume_loc ) {
+            trinary result = player_character.consume( consume_loc, /*force=*/true );
             // Parent pockets need to be notified so they can be unsealed as well.
             if( result != trinary::NONE ) {
-                game::handle_contents_changed( consume_location );
+                game::handle_contents_changed( consume_loc );
             }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );

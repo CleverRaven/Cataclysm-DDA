@@ -1,6 +1,6 @@
 [
   {
-    "id": "test_bio_night",
+    "id": "test_bio_ench",
     "type": "bionic",
     "name": { "str": "Artificial Night Generator" },
     "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",

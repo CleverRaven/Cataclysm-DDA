@@ -92,12 +92,12 @@ enum class spell_target : int {
 
 template<>
 struct enum_traits<spell_target> {
-    static constexpr auto last = spell_target::num_spell_targets;
+    static constexpr spell_target last = spell_target::num_spell_targets;
 };
 
 template<>
 struct enum_traits<spell_flag> {
-    static constexpr auto last = spell_flag::LAST;
+    static constexpr spell_flag last = spell_flag::LAST;
 };
 
 struct fake_spell {
@@ -251,8 +251,6 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
-        // If spell is to summon a vehicle, the vproto_id of the vehicle
-        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time

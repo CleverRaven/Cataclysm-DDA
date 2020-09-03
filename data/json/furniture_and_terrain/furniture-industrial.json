@@ -184,6 +184,23 @@
   },
   {
     "type": "furniture",
+    "id": "f_xedra_antenna",
+    "name": "mobile antenna",
+    "symbol": "1",
+    "looks_like": "f_small_satelitte_dish",
+    "description": "A stark black directional antenna, seemingly part of a monitoring setup.  A led mounted on its back lights up with a lazy and irregular rhythm.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 2,
+    "deployed_item": "xedra_antenna",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT" ],
+    "max_volume": "600 L",
+    "deconstruct": { "items": [ { "item": "xedra_antenna", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
     "id": "f_machinery_light",
     "name": "light machinery",
     "looks_like": "t_machinery_light",

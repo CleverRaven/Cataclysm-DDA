@@ -782,7 +782,7 @@ bool game::start_game()
     if( scen->has_flag( "HELI_CRASH" ) ) {
         start_loc.handle_heli_crash( u );
         bool success = false;
-        for( auto v : m.get_vehicles() ) {
+        for( wrapped_vehicle v : m.get_vehicles() ) {
             std::string name = v.v->type.str();
             std::string search = std::string( "helicopter" );
             if( name.find( search ) != std::string::npos ) {
@@ -791,7 +791,7 @@ bool game::start_game()
                     u.setpos( pos );
 
                     // Delete the items that would have spawned here from a "corpse"
-                    for( auto sp : v.v->parts_at_relative( vp.mount(), true ) ) {
+                    for( int sp : v.v->parts_at_relative( vp.mount(), true ) ) {
                         vehicle_stack here = v.v->get_items( sp );
 
                         for( auto iter = here.begin(); iter != here.end(); ) {
@@ -1831,7 +1831,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, fd_fire );
+        int ffire = maptile_field_intensity( mt, field_type_id( "fd_fire" ) );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else if( here.tr_at( dest ) == tr_lava ) {
@@ -1867,7 +1867,8 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ?
+                   field_type_id( "fd_fire" )->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -3081,7 +3082,7 @@ bool game::load_packs( const std::string &msg, const std::vector<mod_id> &packs,
 
 void game::reset_npc_dispositions()
 {
-    for( auto elem : follower_ids ) {
+    for( character_id elem : follower_ids ) {
         shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
         if( !npc_to_get )  {
             continue;
@@ -3293,7 +3294,7 @@ void game::write_memorial_file( std::string sLastWords )
 void game::disp_NPC_epilogues()
 {
     // TODO: This search needs to be expanded to all NPCs
-    for( auto elem : follower_ids ) {
+    for( character_id elem : follower_ids ) {
         shared_ptr_fast<npc> guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;
@@ -3644,8 +3645,8 @@ void game::draw_panels( bool force_draw )
                 if( show_panel_adm ) {
                     const std::string panel_name = _( panel.get_name() );
                     const int panel_name_width = utf8_width( panel_name );
-                    auto label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
-                                                     TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
+                    catacurses::window label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
+                                               TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
                     werase( label );
                     mvwprintz( label, point_zero, c_light_red, panel_name );
                     wnoutrefresh( label );
@@ -3774,7 +3775,7 @@ cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
 void game::draw_veh_dir_indicator( bool next )
 {
     if( const cata::optional<tripoint> indicator_offset = get_veh_dir_indicator_location( next ) ) {
-        auto col = next ? c_white : c_dark_gray;
+        nc_color col = next ? c_white : c_dark_gray;
         mvwputch( w_terrain, indicator_offset->xy() - u.view_offset.xy() + point( POSX, POSY ), col, 'X' );
     }
 }
@@ -5440,7 +5441,7 @@ void game::exam_vehicle( vehicle &veh, const point &c )
         add_msg( m_info, _( "This is your %s" ), veh.name );
         return;
     }
-    auto act = veh_interact::run( veh, c );
+    player_activity act = veh_interact::run( veh, c );
     if( act ) {
         u.moves = 0;
         u.assign_activity( act );
@@ -5835,7 +5836,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 {
     map &here = get_map();
     if( here.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
-        field_entry *fire = here.get_field( examp, fd_fire );
+        field_entry *fire = here.get_field( examp, field_type_id( "fd_fire" ) );
         if( fire ) {
             std::string ss;
             ss += _( "There is a fire here." );
@@ -5900,6 +5901,10 @@ static std::string get_fire_fuel_string( const tripoint &examp )
 
 void game::examine( const tripoint &examp )
 {
+    if( disable_robot( examp ) ) {
+        return;
+    }
+
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
@@ -7542,8 +7547,8 @@ void game::list_items_monsters()
     }
 
     std::sort( mons.begin(), mons.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        const auto att_lhs = lhs->attitude_to( u );
-        const auto att_rhs = rhs->attitude_to( u );
+        const Creature::Attitude att_lhs = lhs->attitude_to( u );
+        const Creature::Attitude att_rhs = rhs->attitude_to( u );
 
         return att_lhs < att_rhs || ( att_lhs == att_rhs
                                       && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
@@ -8090,7 +8095,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     std::map<int, Creature::Attitude> mSortCategory;
 
     for( int i = 0, last_attitude = -1; i < static_cast<int>( monster_list.size() ); i++ ) {
-        const auto attitude = monster_list[i]->attitude_to( u );
+        const Creature::Attitude attitude = monster_list[i]->attitude_to( u );
         if( static_cast<int>( attitude ) != last_attitude ) {
             mSortCategory[i + mSortCategory.size()] = attitude;
             last_attitude = static_cast<int>( attitude );
@@ -8142,7 +8147,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     --iCurMon;
                 }
 
-                const auto endY = std::min<int>( iMaxRows - 1, iMenuSize );
+                const int endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
                     if( CatSortIter != mSortCategory.cend() ) {
                         const int iCurPos = iStartPos + y;
@@ -9314,7 +9319,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
     std::vector<std::string> harmful_stuff;
-    const auto fields_here = m.field_at( u.pos() );
+    const field fields_here = m.field_at( u.pos() );
     for( const auto &e : m.field_at( dest_loc ) ) {
         // warn before moving into a dangerous field except when already standing within a similar field
         if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
@@ -9658,11 +9663,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     if( pulling ) {
         const tripoint shifted_furn_pos = furn_pos - ms_shift;
         const tripoint shifted_furn_dest = furn_dest - ms_shift;
-        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
-        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
-        m.remove_field( shifted_furn_pos, fd_fire );
-        m.set_field_intensity( shifted_furn_dest, fd_fire, fire_intensity );
-        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        const int fire_intensity = m.get_field_intensity( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        m.remove_field( shifted_furn_pos, field_type_id( "fd_fire" ) );
+        m.set_field_intensity( shifted_furn_dest, field_type_id( "fd_fire" ), fire_intensity );
+        m.set_field_age( shifted_furn_dest, field_type_id( "fd_fire" ), fire_age );
     }
 
     if( u.is_hauling() ) {
@@ -10172,8 +10177,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-    const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
-    time_duration fire_age = m.get_field_age( fpos, fd_fire );
+    const int fire_intensity = m.get_field_intensity( fpos, field_type_id( "fd_fire" ) );
+    time_duration fire_age = m.get_field_age( fpos, field_type_id( "fd_fire" ) );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -10241,9 +10246,9 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fpos, f_null );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
-        m.remove_field( fpos, fd_fire );
-        m.set_field_intensity( fdest, fd_fire, fire_intensity );
-        m.set_field_age( fdest, fd_fire, fire_age );
+        m.remove_field( fpos, field_type_id( "fd_fire" ) );
+        m.set_field_intensity( fdest, field_type_id( "fd_fire" ), fire_intensity );
+        m.set_field_age( fdest, field_type_id( "fd_fire" ), fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.

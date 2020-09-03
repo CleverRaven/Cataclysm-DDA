@@ -102,7 +102,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bionic_id( "bio_batteries" ) );
 
         static const std::list<std::string> always = {
             "battery" // old-school

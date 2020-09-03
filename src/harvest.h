@@ -43,6 +43,8 @@ class harvest_list
     public:
         harvest_list();
 
+        itype_id leftovers = itype_id( "ruined_chunks" );
+
         const harvest_id &id() const;
 
         std::string message() const;

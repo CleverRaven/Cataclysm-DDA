@@ -95,6 +95,14 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
+enum class mutation_filter : int {
+    all,
+    debug,
+    anger_relations,
+    social_mods,
+    ignored_by
+};
+
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -230,7 +238,7 @@ enum class blood_type {
 
 template<>
 struct enum_traits<blood_type> {
-    static constexpr auto last = blood_type::num_bt;
+    static constexpr blood_type last = blood_type::num_bt;
 };
 
 /// @brief how digestible or palatable an item is
@@ -291,6 +299,9 @@ struct social_modifiers {
         this->persuade += other.persuade;
         this->intimidate += other.intimidate;
         return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
     }
 };
 
@@ -499,8 +510,17 @@ class Character : public Creature, public visitable<Character>
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
 
+        /** Called after the player has successfully dodged an attack */
+        void on_dodge( Creature *source, float difficulty ) override;
+
         /** Combat getters */
         float get_dodge_base() const override;
+        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
+        float dodge_roll() override;
+        /** Returns Creature::get_dodge() modified by any Character effects */
+        float get_dodge() const override;
+        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
+        bool uncanny_dodge() override;
         float get_hit_base() const override;
 
         const tripoint &pos() const override;
@@ -526,6 +546,8 @@ class Character : public Creature, public visitable<Character>
         bool is_on_ground() const override;
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
+        float get_melee() const override;
         /**
          * @brief Adds a reason for why the player would miss a melee attack.
          *
@@ -770,6 +792,18 @@ class Character : public Creature, public visitable<Character>
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
+        /** Returns true if the player should be dead */
+        bool is_dead_state() const override;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
+        /** Returns true if the current martial art works with the player's current weapon */
+        bool can_melee() const;
+        /** Returns value of player's stable footing */
+        float stability_roll() const override;
+        /** Returns true if the player can learn the entered martial art */
+        bool can_autolearn( const matype_id &ma_id ) const;
+        /** Returns true if the player is able to use a grab breaking technique */
+        bool can_grab_break( const item &weap ) const;
     private:
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
@@ -794,8 +828,9 @@ class Character : public Creature, public visitable<Character>
         std::string weapname() const;
 
         // any side effects that might happen when the Character is hit
-        void on_hit( Creature *source, bodypart_id /*bp_hit*/,
-                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        /** Handles special defenses from an attack that hit us (source can be null) */
+        void on_hit( Creature *source, bodypart_id bp_hit,
+                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
         // any side effects that might happen when the Character hits a Creature
         void did_hit( Creature &target );
 
@@ -1204,8 +1239,6 @@ class Character : public Creature, public visitable<Character>
         void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
 
-        /**Convert fuel to bionic power*/
-        bool burn_fuel( int b, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
@@ -1503,12 +1536,6 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_nested_content_volume_recursive( const item_contents *contents,
-                const std::map<const item *, int> &without ) const;
-        units::volume get_selected_stack_volume( const item *i,
-                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
@@ -1732,7 +1759,8 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true,
+                                             mutation_filter filter = mutation_filter::all ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
@@ -2568,6 +2596,13 @@ class Character : public Creature, public visitable<Character>
 
         pimpl<player_morale> morale;
 
+    public:
+        /**
+         * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
+         * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
+         * Used to determine suffering effects of albinism and solar sensitivity.
+         */
+        std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const mutation_branch &mdata );
@@ -2580,7 +2615,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_asthma( int current_stim );
         void suffer_from_pain();
         void suffer_in_sunlight();
-        void suffer_from_albinism();
+        void suffer_from_sunburn();
         void suffer_from_other_mutations();
         void suffer_from_item_dropping();
         void suffer_from_radiation();
@@ -2595,6 +2630,17 @@ class Character : public Creature, public visitable<Character>
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        struct auto_toggle_bionic_result;
+        /**
+         * Automatically turn bionic on or off according to remaining fuel and
+         * user settings, and return info of the first burnable fuel.
+         */
+        auto_toggle_bionic_result auto_toggle_bionic( int b, bool start );
+        /**
+         *Convert fuel to bionic power
+         */
+        void burn_fuel( int b, const auto_toggle_bionic_result &result );
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache

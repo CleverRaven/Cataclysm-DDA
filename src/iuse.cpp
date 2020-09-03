@@ -2026,7 +2026,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 
     map &here = get_map();
     // Reduce the strength of fire (if any) in the target tile.
-    here.add_field( dest, fd_extinguisher, 3, 10_turns );
+    here.add_field( dest, field_type_id( "fd_extinguisher" ), 3, 10_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -2058,7 +2058,8 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        here.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
+        here.mod_field_intensity( dest, field_type_id( "fd_fire" ), std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ),
+                                  0 ) );
     }
 
     return it->type->charges_to_use();
@@ -2267,7 +2268,7 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     }
     const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
-    const auto tref = overmap_buffer.find_radio_station( radio.frequency );
+    const radio_tower_reference tref = overmap_buffer.find_radio_station( radio.frequency );
     if( !tref ) {
         p->add_msg_if_player( m_info, _( "You can't find the direction if your radio isn't tuned." ) );
         return 0;
@@ -2285,7 +2286,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
         // Normal use
         std::string message = _( "Radio: Kssssssssssssh." );
-        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
             const radio_tower *selected_tower = tref.tower;
             if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
@@ -2337,7 +2338,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
                 for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
-                    const auto new_frequency = tref.tower->frequency;
+                    const int new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
                     }
@@ -3727,7 +3728,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         int explosion_radius = 3;
         int effect_roll = rng( 1, 5 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
-            auto modified_stat = current_stat + modify_by;
+            int modified_stat = current_stat + modify_by;
             current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
         };
         avatar &player_character = get_avatar();
@@ -3848,7 +3849,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
-                        here.add_field( dest, fd_bees, rng( 1, 3 ) );
+                        here.add_field( dest, field_type_id( "fd_bees" ), rng( 1, 3 ) );
                     }
                 }
                 break;
@@ -3878,7 +3879,7 @@ int iuse::acidbomb_act( player *p, item *it, bool, const tripoint &pos )
         it->charges = -1;
         map &here = get_map();
         for( const tripoint &tmp : here.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
-            here.add_field( tmp, fd_acid, 3 );
+            here.add_field( tmp, field_type_id( "fd_acid" ), 3 );
         }
         return 1;
     }
@@ -3904,12 +3905,12 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
             for( auto &flame : flames ) {
-                here.add_field( flame, fd_fire, rng( 0, 2 ) );
+                here.add_field( flame, field_type_id( "fd_fire" ), rng( 0, 2 ) );
             }
         }
         explosion_handler::explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
-            here.add_field( dest, fd_incendiary, 3 );
+            here.add_field( dest, field_type_id( "fd_incendiary" ), 3 );
         }
 
     }
@@ -3946,7 +3947,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
         }
         return 1;
     } else if( it->charges > 0 ) {
@@ -4788,7 +4789,7 @@ int iuse::call_of_tindalos( player *p, item *it, bool, const tripoint & )
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( p->pos(), 12 ) ) {
         if( here.is_cornerfloor( dest ) ) {
-            here.add_field( dest, fd_tindalos_rift, 3 );
+            here.add_field( dest, field_type_id( "fd_tindalos_rift" ), 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
@@ -5425,7 +5426,7 @@ int iuse::handle_ground_graffiti( Character &p, item *it, const std::string &pre
  */
 static bool heat_item( player &p )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
+    item_location loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
         return food && !food->item_tags.count( "HOT" );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
@@ -5863,7 +5864,7 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    auto loc = game_menus::inv::gun_to_modify( *p, *it );
+    item_location loc = game_menus::inv::gun_to_modify( *p, *it );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -5906,8 +5907,8 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         } );
     };
 
-    auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
-                                  _( "You don't have compatible tools." ) );
+    item_location loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
+                                           _( "You don't have compatible tools." ) );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -8377,7 +8378,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( query_yn( _( "Start the autoclave?" ) ) ) {
-            auto reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_id( "autoclave_item" );
             for( const auto &e : reqs.get_components() ) {
                 p->consume_items( e, 1, is_crafting_component );
             }
@@ -8934,7 +8935,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else {
-            const auto abspos = here.getabs( posp );
+            const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
@@ -9044,7 +9045,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else if( cable_cbm ) {
-            const auto abspos = here.getabs( vpos );
+            const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
@@ -9124,7 +9125,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( p->pos() );
+    const int player_local_temp = g->weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9737,7 +9738,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
     int rn = rng( 0, tab.size() - 1 );
-    auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
+    game_message_type color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
     p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(), _( tab[rn] ) );
     return 0;
 }

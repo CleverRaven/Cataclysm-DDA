@@ -640,11 +640,13 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // check ammo is valid for the item
-    const itype *atype = item_controller->find_template( ammo );
-    if( atype->ammo && ammo_types().count( atype->ammo->type ) == 0 &&
-        !magazine_compatible().count( atype->get_id() ) && !( magazine_current() &&
-                magazine_current()->ammo_types().count( atype->ammo->type ) ) ) {
-        debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
+    std::set<itype_id> mags = magazine_compatible();
+    if( ammo_types().count( ammo_type ) == 0 && !( magazine_current() &&
+            magazine_current()->ammo_types().count( ammo_type ) ) &&
+    !std::any_of( mags.begin(), mags.end(), [&ammo_type]( const itype_id & mag ) {
+    return mag->magazine->type.count( ammo_type );
+    } ) ) {
+        debugmsg( "Tried to set invalid ammo of %s for %s", ammo.c_str(), typeId().c_str() );
         return *this;
     }
 
@@ -659,32 +661,30 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     } else {
         if( !magazine_current() ) {
-            const itype *mag = find_type( magazine_default() );
+            itype_id mag = magazine_default();
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo of %s without suitable magazine for %s",
-                          atype->nname( qty ), tname() );
+                          ammo.c_str(), typeId().c_str() );
                 return *this;
             }
 
             // if default magazine too small fetch instead closest available match
             if( mag->magazine->capacity < qty ) {
-                // as above call to magazine_default successful can infer minimum one option exists
-                auto iter = type->magazines.find( atype->ammo->type );
-                if( iter == type->magazines.end() ) {
-                    debugmsg( "%s doesn't have a magazine for %s",
-                              tname(), ammo.str() );
-                    return *this;
-                }
-                std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
-                    return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
+                std::vector<itype_id> opts;
+                std::copy_if( mags.begin(), mags.end(),
+                std::back_inserter( opts ), [&ammo_type]( const itype_id & mag ) {
+                    return mag->magazine->type.count( ammo_type );
                 } );
-                mag = find_type( opts.back() );
-                for( const itype_id &e : opts ) {
-                    if( find_type( e )->magazine->capacity >= qty ) {
-                        mag = find_type( e );
-                        break;
-                    }
+                std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
+                    return lhs->magazine->capacity < rhs->magazine->capacity;
+                } );
+                auto iter = std::find_if( opts.begin(), opts.end(), [&qty]( const itype_id & mag ) {
+                    return mag->magazine->capacity >= qty;
+                } );
+                if( iter != opts.end() ) {
+                    mag = *iter;
+                } else {
+                    mag = opts.back();
                 }
             }
             put_in( item( mag ), item_pocket::pocket_type::MAGAZINE_WELL );
@@ -1098,6 +1098,10 @@ bool item::merge_charges( const item &rhs )
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
+    if( !result.success() ) {
+        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
+                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+    }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
@@ -6019,6 +6023,18 @@ bool item::is_money() const
     return ammo_types().count( ammotype( "money" ) );
 }
 
+bool item::is_software() const
+{
+    if( const cata::optional<itype_id> &cont = type->default_container ) {
+        return item( *cont ).is_software_storage();
+    }
+    return false;
+}
+
+bool item::is_software_storage() const
+{
+    return contents.has_pocket_type( item_pocket::pocket_type::SOFTWARE );
+}
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
@@ -8336,6 +8352,11 @@ units::volume item::get_total_capacity() const
     return contents.total_container_capacity();
 }
 
+units::mass item::get_total_weight_capacity() const
+{
+    return contents.total_container_weight_capacity();
+}
+
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
@@ -8677,18 +8698,12 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
-                item temp( *e );
-                if( temp.is_magazine() ) {
+                if( e->is_magazine() || e->magazine_current() != nullptr ) {
+                    item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
-                } else if( e->magazine_current() != nullptr ) {
-                    item temp_mag( *e->magazine_current() );
-                    temp_mag.ammo_set( e->ammo_current(), n );
-                    temp.put_in( temp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
-                } else {
-                    return VisitResponse::SKIP;
+                    used.push_back( temp );
+                    e->ammo_consume( n, pos );
                 }
-                used.push_back( temp );
-                e->ammo_consume( n, pos );
             }
             return VisitResponse::SKIP;
 
@@ -9537,7 +9552,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
                 here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, fd_fire, 1 );
+                here.add_field( pos, field_type_id( "fd_fire" ), 1 );
             }
         }
     }
@@ -10325,24 +10340,37 @@ void item::update_clothing_mod_val()
     }
 }
 
-units::volume item::check_for_free_space( const item *it ) const
+units::volume item::check_for_free_space() const
 {
     units::volume volume;
 
-    for( const item *container : it->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        ret_val<std::vector<item_pocket>> containedPockets =
-                                           container->contents.get_all_contained_pockets();
+    for( const item *container : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        ret_val<std::vector<const item_pocket *>> containedPockets =
+                container->contents.get_all_contained_pockets();
         if( containedPockets.success() ) {
-            volume += check_for_free_space( container );
+            volume += container->check_for_free_space();
 
-            for( const auto &pocket : containedPockets.value() ) {
-                if( pocket.rigid() ) {
-                    volume += pocket.remaining_volume();
+            for( const item_pocket *pocket : containedPockets.value() ) {
+                if( pocket->rigid() && ( pocket->empty() || pocket->contains_phase( phase_id::SOLID ) ) ) {
+                    volume += pocket->remaining_volume();
                 }
             }
         }
     }
     return volume;
+}
+
+units::volume item::get_selected_stack_volume( const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( this );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *this;
+        copy.charges = selected;
+        return copy.volume();
+    }
+
+    return 0_ml;
 }
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const
