@@ -5,15 +5,18 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
+#include "game_ui.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "mapsharing.h"
+#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "platform_win.h"
 #include "rng.h"
 #include "string_id.h"
 #include "ui.h"
+#include "worldfactory.h"
 
 #include <QtWidgets/qapplication.h>
 
@@ -121,6 +124,20 @@ int main( int argc, char *argv[] )
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
+
+    loading_ui ui( false );
+
+    get_options().init();
+    get_options().load();
+
+    init_colors();
+
+    world_generator = std::make_unique<worldfactory>();
+    world_generator->init();
+    world_generator->active_world = world_generator->make_new_world( { mod_id( "dda" ) } );
+
+    g->load_core_data( ui );
+    g->load_world_modfiles( ui );
 
     QApplication app( argc, argv );
 
