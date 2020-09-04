@@ -1472,9 +1472,10 @@
   },
   {
     "type": "recipe",
-    "result": "herbal_tea",
+    "result": "herbal_tea", 
     "id_suffix": "from_tea_bag",
     "copy-from": "tea",
+    "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -1484,6 +1485,7 @@
     "result": "dandelion_tea",
     "id_suffix": "from_tea_bag",
     "copy-from": "tea",
+    "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
@@ -1493,6 +1495,7 @@
     "result": "chamomile_tea",
     "id_suffix": "from_tea_bag",
     "copy-from": "tea",
+    "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
