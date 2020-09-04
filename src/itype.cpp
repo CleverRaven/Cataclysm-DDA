@@ -105,6 +105,7 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         return 0;
     }
 
+    p.invalidate_weight_carried_cache();
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {

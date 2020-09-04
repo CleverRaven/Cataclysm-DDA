@@ -542,14 +542,14 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 
     // Bashing critical
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( DT_BASH ) * hit_spread > get_hp_max() ) {
+        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
             add_effect( effect_stunned, 1_turns ); // 1 turn is enough
         }
     }
 
     // Stabbing effects
-    int stab_moves = rng( d.type_damage( DT_STAB ) / 2,
-                          d.type_damage( DT_STAB ) * 1.5 );
+    int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
+                          d.type_damage( damage_type::STAB ) * 1.5 );
     if( critical_hit ) {
         stab_moves *= 1.5;
     }
@@ -880,7 +880,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         int cur_damage = 0;
         deal_damage_handle_type( it, bp, cur_damage, total_pain );
         if( cur_damage > 0 ) {
-            dealt_dams.dealt_dams[ it.type ] += cur_damage;
+            dealt_dams.dealt_dams[ static_cast<int>( it.type ) ] += cur_damage;
             total_damage += cur_damage;
         }
     }
@@ -907,31 +907,31 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     float div = 4.0f;
 
     switch( du.type ) {
-        case DT_BASH:
+        case damage_type::BASH:
             // Bashing damage is less painful
             div = 5.0f;
             break;
 
-        case DT_HEAT:
+        case damage_type::HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
                 add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
-        case DT_ELECTRIC:
+        case damage_type::ELECTRIC:
             // Electrical damage adds a major speed/dex debuff
             add_effect( effect_zapped, 1_turns * std::max( adjusted_damage, 2 ) );
             break;
 
-        case DT_ACID:
+        case damage_type::ACID:
             // Acid damage and acid burns are more painful
             div = 3.0f;
             break;
 
-        case DT_CUT:
-        case DT_STAB:
-        case DT_BULLET:
+        case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
             // these are bleed inducing damage types
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );

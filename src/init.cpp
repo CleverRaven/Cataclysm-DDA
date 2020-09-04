@@ -410,7 +410,7 @@ void DynamicDataLoader::initialize()
     add( "mod_tileset", &load_mod_tileset );
 #else
     // Dummy function
-    add( "mod_tileset", []( const JsonObject &, const std::string & ) { } );
+    add( "mod_tileset", load_ignored_type );
 #endif
 }
 

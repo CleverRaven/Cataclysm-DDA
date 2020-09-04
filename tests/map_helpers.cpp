@@ -30,8 +30,8 @@ void wipe_map_terrain()
 {
     map &here = get_map();
     const int mapsize = here.getmapsize() * SEEX;
-    for( int z = 0; z <= OVERMAP_HEIGHT; ++z ) {
-        ter_id terrain = z == 0 ? t_grass : t_open_air;
+    for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
+        ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
                 here.set( { x, y, z}, terrain, f_null );

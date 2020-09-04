@@ -26,7 +26,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "CRIT service knife", "str_pl": "CRIT service knives" },
-    "description": "A modified trench knife.  Has a knuckleduster guard and a small, hooked pry bar at the bottom. The matte black finish helps it avoid flash in dim-light situations and tanto tip allows for light-armor penetration.  Blade length allows for decent reach.",
+    "description": "A modified trench knife.  Has a knuckleduster guard and a small, hooked pry bar at the bottom.  The matte black finish helps it avoid flash in dim-light situations and tanto tip allows for light-armor penetration.  Blade length allows for decent reach.",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
     "weight": "350 g",

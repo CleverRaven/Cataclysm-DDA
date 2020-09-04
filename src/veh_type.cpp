@@ -201,7 +201,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     }
     JsonObject src = obj.get_object( key );
 
-    auto sk = src.get_array( "skills" );
+    JsonArray sk = src.get_array( "skills" );
     if( !sk.empty() ) {
         skills.clear();
     }
@@ -249,14 +249,14 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
     assign( jo, "m2c", e_info.m2c );
     assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
-    auto excludes = jo.get_array( "exclusions" );
+    JsonArray excludes = jo.get_array( "exclusions" );
     if( !excludes.empty() ) {
         e_info.exclusions.clear();
         for( const std::string line : excludes ) {
             e_info.exclusions.push_back( line );
         }
     }
-    auto fuel_opts = jo.get_array( "fuel_options" );
+    JsonArray fuel_opts = jo.get_array( "fuel_options" );
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
@@ -418,7 +418,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "requirements" ) ) {
-        auto reqs = jo.get_object( "requirements" );
+        JsonObject reqs = jo.get_object( "requirements" );
 
         parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills,
                        def.install_moves );
@@ -467,7 +467,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
     }
 
-    auto qual = jo.get_array( "qualities" );
+    JsonArray qual = jo.get_array( "qualities" );
     if( !qual.empty() ) {
         def.qualities.clear();
         for( JsonArray pair : qual ) {
@@ -836,26 +836,17 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
 
 requirement_data vpart_info::install_requirements() const
 {
-    return std::accumulate( install_reqs.begin(), install_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( install_reqs );
 }
 
 requirement_data vpart_info::removal_requirements() const
 {
-    return std::accumulate( removal_reqs.begin(), removal_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( removal_reqs );
 }
 
 requirement_data vpart_info::repair_requirements() const
 {
-    return std::accumulate( repair_reqs.begin(), repair_reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    return requirement_data( repair_reqs );
 }
 
 bool vpart_info::is_repairable() const

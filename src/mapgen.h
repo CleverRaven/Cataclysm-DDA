@@ -422,6 +422,10 @@ int register_mapgen_function( const std::string &key );
  * Check that @p key is present in @ref oter_mapgen.
  */
 bool has_mapgen_for( const std::string &key );
+/**
+ * Check whether @p key is a valid update_mapgen id.
+ */
+bool has_update_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */

@@ -81,16 +81,8 @@
   },
   {
     "type": "recipe",
-    "result": "barrel_big",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": false,
-    "tools": [ [ [ "large_repairkit", 100 ], [ "small_repairkit", 300 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ] ]
+    "obsolete": true,
+    "result": "barrel_big"
   },
   {
     "id": "barrel_rifled",
@@ -334,15 +326,7 @@
   {
     "result": "beltfeed",
     "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "rifle", 2 ],
-    "time": 200000,
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 4 ] ] ]
+    "obsolete": true
   },
   {
     "id": "tuned_mechanism",

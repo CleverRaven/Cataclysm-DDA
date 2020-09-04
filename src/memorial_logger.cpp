@@ -272,7 +272,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //HP
 
     const auto limb_hp =
-    [&file, &indent, &u]( const std::string & desc, const bodypart_id bp ) {
+    [&file, &indent, &u]( const std::string & desc, const bodypart_id & bp ) {
         file << indent <<
              string_format( desc, u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) ) << eol;
     };
@@ -760,7 +760,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                std::string category_id =
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );

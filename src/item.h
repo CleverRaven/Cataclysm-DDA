@@ -78,7 +78,7 @@ struct damage_instance;
 struct damage_unit;
 struct fire_data;
 
-enum damage_type : int;
+enum class damage_type : int;
 enum clothing_mod_type : int;
 
 std::string rad_badge_color( int rad );
@@ -327,6 +327,8 @@ class item : public visitable<item>
         bool ready_to_revive( const tripoint &pos ) const;
 
         bool is_money() const;
+        bool is_software() const;
+        bool is_software_storage() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -739,9 +741,11 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+        units::mass get_total_weight_capacity() const;
 
-        // recusive function that checks pockets for remaining free space
-        units::volume check_for_free_space( const item *it ) const;
+        // recursive function that checks pockets for remaining free space
+        units::volume check_for_free_space() const;
+        units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious
@@ -1069,7 +1073,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref DT_NONE as damage type.
+        /// same as other mod_damage, but uses @ref damage_type::NONE as damage type.
         bool mod_damage( int qty );
 
         /**
@@ -1078,7 +1082,7 @@ class item : public visitable<item>
          * @return whether item should be destroyed
          */
         bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref DT_NONE as damage type.
+        /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1344,7 +1348,7 @@ class item : public visitable<item>
         /**
          * Callback immediately **before** an item is damaged
          * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or DT_NONE)
+         * @param dt type of damage (or damage_type::NONE)
          */
         void on_damage( int qty, damage_type dt );
 

@@ -53,18 +53,15 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
-
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
-
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
@@ -894,6 +891,32 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     return actor.clone();
 }
 
+lockpick_activity_actor lockpick_activity_actor::use_item(
+    int moves_total,
+    const item_location &lockpick,
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        moves_total,
+        lockpick,
+        cata::nullopt,
+        target
+    };
+}
+
+lockpick_activity_actor lockpick_activity_actor::use_bionic(
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        to_moves<int>( 4_seconds ),
+        cata::nullopt,
+        item( itype_pseudo_bio_picklock ),
+        target
+    };
+}
+
 void lockpick_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
@@ -1132,7 +1155,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = player_character.will_eat( *consume_location, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1142,7 +1165,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = player_character.will_eat( consume_item, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -1168,10 +1191,21 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
+    // Consuming an item may cause various effects, including cancelling our activity.
+    // Back up these values since this activity actor might be destroyed.
+    std::vector<int> temp_selections = consume_menu_selections;
+    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
+    const std::string temp_filter = consume_menu_filter;
+    item_location consume_loc = consume_location;
+
     avatar &player_character = get_avatar();
     if( !canceled ) {
-        if( consume_location ) {
-            player_character.consume( consume_location, /*force=*/true );
+        if( consume_loc ) {
+            trinary result = player_character.consume( consume_loc, /*force=*/true );
+            // Parent pockets need to be notified so they can be unsealed as well.
+            if( result != trinary::NONE ) {
+                game::handle_contents_changed( consume_loc );
+            }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {
@@ -1181,10 +1215,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
-    //setting act to null clears these so back them up
-    std::vector<int> temp_selections = consume_menu_selections;
-    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
-    const std::string temp_filter = consume_menu_filter;
+
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
@@ -1417,11 +1448,11 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
-
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1523,6 +1554,11 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
     return craft_item.get_item()->tname();
+}
+
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
 }
 
 void craft_activity_actor::serialize( JsonOut &jsout ) const

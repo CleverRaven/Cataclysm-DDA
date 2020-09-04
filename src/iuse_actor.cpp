@@ -116,7 +116,6 @@ static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_syringe( "syringe" );
-static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -132,8 +131,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
-static const trait_id trait_SMALL_OK( "SMALL_OK" );
-static const trait_id trait_SMALL2( "SMALL2" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -252,7 +249,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             int qty;
             if( !random_ammo_qty.empty() ) {
-                const auto index = rng( 1, random_ammo_qty.size() - 1 );
+                const int index = rng( 1, random_ammo_qty.size() - 1 );
                 qty = rng( random_ammo_qty[index - 1], random_ammo_qty[index] );
             } else {
                 qty = ammo_qty;
@@ -500,7 +497,7 @@ static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int r
 void explosion_iuse::load( const JsonObject &obj )
 {
     if( obj.has_object( "explosion" ) ) {
-        auto expl = obj.get_object( "explosion" );
+        JsonObject expl = obj.get_object( "explosion" );
         explosion = load_explosion_data( expl );
     }
 
@@ -715,8 +712,8 @@ void consume_drug_iuse::load( const JsonObject &obj )
     obj.read( "moves", moves );
 
     for( JsonArray vit : obj.get_array( "vitamins" ) ) {
-        auto lo = vit.get_int( 1 );
-        auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
+        int lo = vit.get_int( 1 );
+        int hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
         vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
     }
 
@@ -1179,7 +1176,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         return false;
     }
     map &here = get_map();
-    if( here.get_field( pos, fd_fire ) ) {
+    if( here.get_field( pos, field_type_id( "fd_fire" ) ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
@@ -1198,7 +1195,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
-    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1328,7 +1325,7 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    auto item_loc = game_menus::inv::salvage( p, this );
+    item_location item_loc = game_menus::inv::salvage( p, this );
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return 0;
@@ -2626,7 +2623,7 @@ static int find_repair_difficulty( const player &pl, const itype_id &id, bool tr
     // If the recipe is not found, this will remain unchanged
     int min = -1;
     for( const auto &e : recipe_dict ) {
-        const auto r = e.second;
+        const recipe r = e.second;
         if( id != r.result() ) {
             continue;
         }
@@ -2715,7 +2712,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_sizing( pl ) != item::sizing::ignore;
-    const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
+    const bool small = pl.get_size() == creature_size::tiny;
     const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -2805,8 +2802,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     }
 
     Character &player_character = get_player_character();
-    const bool smol = player_character.has_trait( trait_SMALL2 ) ||
-                      player_character.has_trait( trait_SMALL_OK );
+    const bool smol = player_character.get_size() == creature_size::tiny;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );
@@ -2836,7 +2832,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 static bool damage_item( player &pl, item_location &fix )
 {
     const std::string startdurability = fix->durability_indicator( true );
-    const auto destroyed = fix->inc_damage();
+    const bool destroyed = fix->inc_damage();
     const std::string resultdurability = fix->durability_indicator( true );
     pl.add_msg_if_player( m_bad, _( "You damage your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                           startdurability, resultdurability );
@@ -2868,7 +2864,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     const int current_skill_level = pl.get_skill_level( used_skill );
-    const auto action = default_action( *fix, current_skill_level );
+    const repair_item_actor::repair_type action = default_action( *fix, current_skill_level );
     const auto chance = repair_chance( pl, *fix, action );
     int practice_amount = repair_recipe_difficulty( pl, *fix, true ) / 2 + 1;
     float roll_value = rng_float( 0.0, 1.0 );
@@ -2908,7 +2904,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
             const std::string startdurability = fix->durability_indicator( true );
-            const auto damage = fix->damage();
+            const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
             const std::string resultdurability = fix->durability_indicator( true );
@@ -3698,7 +3694,7 @@ int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
         return 0;
     }
 
-    auto loc = game_menus::inv::saw_barrel( p, it );
+    item_location loc = game_menus::inv::saw_barrel( p, it );
 
     if( !loc ) {
         p.add_msg_if_player( _( "Never mind." ) );
@@ -3879,7 +3875,7 @@ std::unique_ptr<iuse_actor> mutagen_actor::clone() const
 
 void mutagen_actor::load( const JsonObject &obj )
 {
-    mutation_category = obj.get_string( "mutation_category", "ANY" );
+    mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
     is_weak = obj.get_bool( "is_weak", false );
     is_strong = obj.get_bool( "is_strong", false );
 }
@@ -3936,7 +3932,7 @@ std::unique_ptr<iuse_actor> mutagen_iv_actor::clone() const
 
 void mutagen_iv_actor::load( const JsonObject &obj )
 {
-    mutation_category = obj.get_string( "mutation_category", "ANY" );
+    mutation_category = mutation_category_id( obj.get_string( "mutation_category", "ANY" ) );
 }
 
 int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
@@ -3984,9 +3980,9 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     p.mod_thirst( m_category.iv_thirst * mut_count );
     p.mod_fatigue( m_category.iv_fatigue * mut_count );
 
-    if( m_category.id == "CHIMERA" ) {
+    if( m_category.id == mutation_category_id( "CHIMERA" ) ) {
         p.add_morale( MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max );
-    } else if( m_category.id == "ELFA" ) {
+    } else if( m_category.id == mutation_category_id( "ELFA" ) ) {
         p.add_morale( MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max );
     } else if( m_category.iv_morale > 0 ) {
         p.add_morale( MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max );
@@ -4041,7 +4037,7 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
-        if( const auto vp = here.veh_at( dest ) ) {
+        if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return 0;
         }
@@ -4235,7 +4231,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     int index = 0;
     for( const clothing_mod_id &cm : clothing_mods ) {
-        auto obj = cm.obj();
+        clothing_mod obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
 
@@ -4329,7 +4325,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( rn <= 8 ) {
         const std::string startdurability = mod.durability_indicator( true );
-        const auto destroyed = mod.inc_damage();
+        const bool destroyed = mod.inc_damage();
         const std::string resultdurability = mod.durability_indicator( true );
         p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!  ( %s-> %s)" ),
                              mod.tname( 1, false ), startdurability, resultdurability );

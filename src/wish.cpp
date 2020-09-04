@@ -174,8 +174,8 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( const std::string &j : mdata.category ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    for( const mutation_category_id &j : mdata.category ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
                         line2++;
                     }
                 }
@@ -343,7 +343,6 @@ class wish_monster_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-            const std::string padding = std::string( getmaxx( w_info ), ' ' );
 
             const int entnum = menu->selected;
             const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
@@ -655,6 +654,10 @@ void debug_menu::wishskill( player *p )
     uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
+    skmenu.additional_actions = {
+        { "LEFT", to_translation( "Decrease skill" ) },
+        { "RIGHT", to_translation( "Increase skill" ) }
+    };
     skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     auto sorted_skills = Skill::get_skills_sorted_by( []( const Skill & a, const Skill & b ) {
@@ -678,12 +681,12 @@ void debug_menu::wishskill( player *p )
         int skill_id = -1;
         int skset = -1;
         const int sksel = skmenu.selected - skoffset;
-        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.keypress == KEY_LEFT ||
-                                              skmenu.keypress == KEY_RIGHT ) ) {
+        if( skmenu.ret == UILIST_UNBOUND && ( skmenu.ret_act == "LEFT" ||
+                                              skmenu.ret_act == "RIGHT" ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
                 skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
-                        ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
+                        ( skmenu.ret_act == "LEFT" ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
                    sksel < static_cast<int>( sorted_skills.size() ) ) {

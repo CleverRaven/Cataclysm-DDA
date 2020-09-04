@@ -40,7 +40,7 @@ enum body_part : int {
 
 template<>
 struct enum_traits<body_part> {
-    static constexpr auto last = body_part::num_bp;
+    static constexpr body_part last = body_part::num_bp;
 };
 
 enum class side : int {
@@ -52,7 +52,7 @@ enum class side : int {
 
 template<>
 struct enum_traits<side> {
-    static constexpr auto last = side::num_sides;
+    static constexpr side last = side::num_sides;
 };
 
 /**
@@ -97,6 +97,7 @@ struct body_part_type {
         translation accusative_multiple;
         translation name_as_heading;
         translation name_as_heading_multiple;
+        translation smash_message;
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"
@@ -123,6 +124,8 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+
+        float smash_efficiency = 0.5f;
 
         //Morale parameters
         float hot_morale_mod = 0.0f;

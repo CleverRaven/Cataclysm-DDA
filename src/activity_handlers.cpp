@@ -212,7 +212,6 @@ static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -407,7 +406,6 @@ activity_handlers::finish_functions = {
     { ACT_SPELLCASTING, spellcasting_finish },
     { ACT_STUDY_SPELL, study_spell_finish }
 };
-
 
 namespace io
 {
@@ -1135,10 +1133,11 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 monster_weight_remaining -= monster_weight * 0.15;
             }
         }
+        const itype_id &leftover_id = mt.harvest->leftovers;
         const int item_charges = monster_weight_remaining / to_gram( (
-                                     item::find_type( itype_ruined_chunks ) )->weight );
+                                     item::find_type( leftover_id ) )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( itype_ruined_chunks, calendar::turn, item_charges );
+            item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
@@ -1924,13 +1923,13 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     const tripoint &pos = here.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
-                                    p->weapon.damage_melee( DT_STAB ) / 2 );
+    const int cut_power = std::max( p->weapon.damage_melee( damage_type::CUT ),
+                                    p->weapon.damage_melee( damage_type::STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
+    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( damage_type::BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
+    float pulp_effort = p->str_cur + p->weapon.damage_melee( damage_type::BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
@@ -1952,7 +1951,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( DT_BASH );
+                corpse.inc_damage( damage_type::BASH );
                 if( corpse.damage() == corpse.max_damage() ) {
                     num_corpses++;
                 }
@@ -2463,7 +2462,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.furn_set( pos, f_safe_o );
         // 50% of starting a fire.
         if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
-            here.add_field( pos, fd_fire, 1, 10_minutes );
+            here.add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes );
         }
     }
 }

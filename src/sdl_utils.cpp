@@ -36,7 +36,7 @@ color_pixel_function_pointer get_color_pixel_function( const std::string &name )
 SDL_Color curses_color_to_SDL( const nc_color &color )
 {
     const int pair_id = color.to_color_pair_index();
-    const auto pair = cata_cursesport::colorpairs[pair_id];
+    const cata_cursesport::pairs pair = cata_cursesport::colorpairs[pair_id];
 
     int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
 

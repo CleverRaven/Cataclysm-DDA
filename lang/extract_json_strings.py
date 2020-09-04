@@ -1202,6 +1202,9 @@ def extract(item, infilename):
         c = "Please leave anything in <angle brackets> unchanged."
         writestr(outfile, item["info"], comment=c, **kwargs)
         wrote = True
+    if "restriction" in item:
+        writestr(outfile, item["restriction"], **kwargs)
+        wrote = True
     if "verb" in item:
         writestr(outfile, item["verb"], **kwargs)
         wrote = True

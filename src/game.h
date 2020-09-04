@@ -569,10 +569,6 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
-
         void peek();
         void peek( const tripoint &p );
         cata::optional<tripoint> look_debug();
@@ -1108,6 +1104,9 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
+
+        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
+        static void handle_contents_changed( const item_location &acted_item );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

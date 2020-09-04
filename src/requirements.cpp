@@ -325,6 +325,17 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     return res;
 }
 
+requirement_data requirement_data::operator+(
+    const std::pair<const requirement_id, int> &rhs ) const
+{
+    return *this + *rhs.first * rhs.second;
+}
+
+requirement_data requirement_data::operator+( const std::pair<requirement_id, int> &rhs ) const
+{
+    return *this + *rhs.first * rhs.second;
+}
+
 void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
 {
     requirement_data req;
@@ -346,7 +357,7 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
 
 void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
 {
-    auto dup = req;
+    requirement_data dup = req;
     if( !id.is_null() ) {
         dup.id_ = id;
     }

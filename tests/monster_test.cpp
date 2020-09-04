@@ -237,7 +237,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
     for( auto &stat_pair : turns_at_angle ) {
         std::stringstream sample_string;
-        for( auto sample : stat_pair.second.get_samples() ) {
+        for( int sample : stat_pair.second.get_samples() ) {
             sample_string << sample << ", ";
         }
         INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<
@@ -330,4 +330,19 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
+}
+
+TEST_CASE( "monster_extend_flags", "[monster]" )
+{
+    // mon_dog_zombie_brute is copy-from mon_dog_zombie_rot
+    // mon_dog_zombie_rot contains
+    // "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    // mon_dog_zombie_brute contains
+    // "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
+
+    // This test verifies that "extend" works on monster flags by checking both
+    // those take effect
+    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    CHECK( m.has_flag( MF_SEES ) );
+    CHECK( m.has_flag( MF_PUSH_VEH ) );
 }

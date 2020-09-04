@@ -28,6 +28,12 @@ const move_mode &move_mode_id::obj() const
     return move_mode_factory.obj( *this );
 }
 
+template<>
+bool move_mode_id::is_valid() const
+{
+    return move_mode_factory.is_valid( *this );
+}
+
 static const std::map<std::string, move_mode_type> move_types {
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },

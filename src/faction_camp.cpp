@@ -666,7 +666,7 @@ void talk_function::basecamp_mission( npc &p )
             mgr.cache_vzones();
         }
         tripoint src_loc;
-        const auto abspos = p.global_square_location();
+        const tripoint abspos = p.global_square_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -1226,7 +1226,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
     const std::string base_dir_id = base_data.id;
     reset_camp_resources();
-    std::string gather_bldg = "null";
 
     // Handling for the central tile
     // return legacy workers
@@ -1239,7 +1238,6 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                 base_camps::base_dir, entry, avail );
     }
     for( const basecamp_upgrade &upgrade : available_upgrades( base_camps::base_dir ) ) {
-        gather_bldg = upgrade.bldg;
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
         comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
         if( npc_list.empty() && !upgrade.in_progress ) {
@@ -3087,7 +3085,7 @@ void basecamp::search_results( int skill, const Group_tag &group_id, int attempt
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
-            auto result = item_group::item_from( group_id, calendar::turn );
+            item result = item_group::item_from( group_id, calendar::turn );
             if( !result.is_null() ) {
                 place_results( result );
             }
@@ -3139,7 +3137,7 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
             const mtype_id *target = hunting_targets.pick();
-            auto result = item::make_corpse( *target, calendar::turn, "" );
+            item result = item::make_corpse( *target, calendar::turn, "" );
             if( !result.is_null() ) {
                 place_results( result );
             }
@@ -4050,7 +4048,7 @@ void basecamp::place_results( const item &result )
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();
-        const auto abspos = here.getabs( player_character.pos() );
+        const tripoint abspos = here.getabs( player_character.pos() );
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );

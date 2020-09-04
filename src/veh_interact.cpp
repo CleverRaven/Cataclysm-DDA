@@ -751,7 +751,7 @@ bool veh_interact::can_install_part()
         }
     }
 
-    const auto reqs = sel_vpart_info->install_requirements();
+    const requirement_data reqs = sel_vpart_info->install_requirements();
 
     avatar &player_character = get_avatar();
     std::string nmsg;
@@ -1387,43 +1387,13 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
+    const hotkey_queue &hotkeys = hotkey_queue::alphabets();
+
     const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
         if( overview_action && overview_enable && overview_enable( pt ) ) {
-            switch( evt.type ) {
-                case input_event_t::keyboard_char: {
-                    const input_event next = evt;
-                    do {
-                        if( evt.sequence[0] == 'z' ) {
-                            evt.sequence[0] = 'A';
-                        } else if( evt.sequence[0] == 'Z' ) {
-                            evt = input_event();
-                        } else {
-                            ++evt.sequence[0];
-                        }
-                    } while( evt.type == input_event_t::keyboard_char &&
-                             main_context.input_to_action( evt ) != "ERROR" );
-                    return next;
-                }
-                case input_event_t::keyboard_code: {
-                    const input_event next = evt;
-                    do {
-                        if( evt.sequence[0] == 'z' ) {
-                            if( evt.modifiers.count( keymod_t::shift ) ) {
-                                evt = input_event();
-                            } else {
-                                evt.sequence[0] = 'a';
-                                evt.modifiers.emplace( keymod_t::shift );
-                            }
-                        } else {
-                            ++evt.sequence[0];
-                        }
-                    } while( evt.type == input_event_t::keyboard_code &&
-                             main_context.input_to_action( evt ) != "ERROR" );
-                    return next;
-                }
-                default:
-                    return input_event();
-            }
+            const input_event prev = evt;
+            evt = main_context.next_unassigned_hotkey( hotkeys, evt );
+            return prev;
         } else {
             return input_event();
         }
@@ -1483,9 +1453,7 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
 
-    input_event hotkey = main_context.is_event_type_enabled( input_event_t::keyboard_code )
-                         ? input_event( 'a', input_event_t::keyboard_code )
-                         : input_event( 'a', input_event_t::keyboard_char );
+    input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( vpr.part().is_engine() && vpr.part().is_available() ) {
@@ -1663,25 +1631,10 @@ void veh_interact::display_overview()
         // print part name
         const input_event &hotkey = overview_opts[idx].hotkey;
         nc_color col = hotkey != input_event() ? c_white : c_dark_gray;
-        std::string maybe_shift_symbol;
-        switch( hotkey.type ) {
-            case input_event_t::keyboard_char:
-                maybe_shift_symbol = " ";
-                break;
-            case input_event_t::keyboard_code:
-                if( hotkey.modifiers.count( keymod_t::shift ) ) {
-                    maybe_shift_symbol = "\u21E7"; // upwards white arrow
-                } else {
-                    maybe_shift_symbol = " ";
-                }
-                break;
-            default:
-                maybe_shift_symbol = " ";
-        }
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
                         highlighted ? hilite( col ) : col,
-                        "<color_dark_gray>%s%c </color>%s", maybe_shift_symbol,
-                        hotkey != input_event() ? hotkey.sequence[0] : ' ', pt.name() );
+                        "<color_dark_gray>%s </color>%s",
+                        right_justify( hotkey.short_description(), 2 ), pt.name() );
 
         // print extra columns (if any)
         overview_opts[idx].details( pt, w_list, y );
@@ -1768,7 +1721,7 @@ void veh_interact::overview( const overview_enable_t &enable,
                     overview_pos = 0;
                 }
             } while( overview_opts[overview_pos].hotkey == input_event() );
-        } else {
+        } else if( input == "ANY_INPUT" ) {
             // did we try and activate a hotkey option?
             const input_event hotkey = main_context.get_raw_input();
             if( hotkey != input_event() && overview_action ) {
@@ -1849,7 +1802,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                     sel_vehicle_part->name(), result_of_removal.display_name() );
     }
 
-    const auto reqs = sel_vpart_info->removal_requirements();
+    const requirement_data reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
 
@@ -2581,12 +2534,12 @@ void veh_interact::display_stats() const
     if( is_boat ) {
 
         const double water_clearance = veh->water_hull_height() - veh->water_draft();
-        std::string draft_string = water_clearance > 0 ?
+        const char *draft_string = water_clearance > 0 ?
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
                                    _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" ) ;
 
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                        draft_string.c_str(),
+                        draft_string,
                         veh->water_draft(), water_clearance );
         i += 1;
     }
@@ -3024,7 +2977,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const auto pt : p.activity.coord_set ) {
+            for( const tripoint pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
@@ -3051,7 +3004,7 @@ void veh_interact::complete_vehicle( player &p )
         case 'i': {
             const inventory &inv = p.crafting_inventory();
 
-            const auto reqs = vpinfo.install_requirements();
+            const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ),
                          vpinfo.name() );
@@ -3185,7 +3138,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
 
             } else if( pt.is_fuel_store() ) {
-                auto qty = src->charges;
+                int qty = src->charges;
                 pt.base.reload( p, std::move( src ), qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
@@ -3213,7 +3166,7 @@ void veh_interact::complete_vehicle( player &p )
                     return;
                 }
             }
-            const auto reqs = vpinfo.removal_requirements();
+            const requirement_data reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
                 add_msg( m_info, _( "You don't meet the requirements to remove the %1$s." ),
