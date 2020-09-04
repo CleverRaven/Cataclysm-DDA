@@ -923,7 +923,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
     if( jo.has_member( "path_settings" ) ) {
-        auto jop = jo.get_object( "path_settings" );
+        JsonObject jop = jo.get_object( "path_settings" );
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
@@ -1119,7 +1119,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
                       id.c_str(), name );
         }
     }
-    auto new_attack = mtype_special_attack( iter->second );
+    mtype_special_attack new_attack = mtype_special_attack( iter->second );
     new_attack.actor->cooldown = inner.get_int( 1 );
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );

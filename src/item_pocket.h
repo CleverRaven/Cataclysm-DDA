@@ -390,7 +390,7 @@ class pocket_data
 
 template<>
 struct enum_traits<item_pocket::pocket_type> {
-    static constexpr auto last = item_pocket::pocket_type::LAST;
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

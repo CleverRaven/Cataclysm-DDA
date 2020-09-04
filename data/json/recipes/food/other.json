@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "molasses",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -16,6 +17,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "young_yeast",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",

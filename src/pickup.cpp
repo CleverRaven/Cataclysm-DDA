@@ -893,7 +893,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 iScrollPos = 0;
             } else if( action == "SELECT_ALL" ) {
                 int count = 0;
-                for( auto i : matches ) {
+                for( int i : matches ) {
                     if( getitem[i].pick ) {
                         count++;
                     }
@@ -997,7 +997,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         bool item_selected = false;
         // Check if we have selected an item.
-        for( auto selection : getitem ) {
+        for( pickup_count selection : getitem ) {
             if( selection.pick ) {
                 item_selected = true;
             }

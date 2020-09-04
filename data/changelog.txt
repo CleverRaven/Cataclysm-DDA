@@ -1,4 +1,4 @@
-# 0.F (06-01-2020)
+# 0.F (2020-08-01)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -20,6 +20,21 @@ Makes consuming items take time.
 Implement damage over time spell infrastructure.
 Nested Container system.
 Add support for conducts (self-imposed play constraints tracked by the game).
+Custom achievement/conduct requirement descriptions.
+[Magiclysm] Add spell level and number of spells known achievements.
+Allow event_statistic to be defined as first and last events in an event stream.
+Enable mouse input for inventory.
+Worn gloves count as unarmed weapons when no weapon is held.
+Any corpse can rise again as a zombie.
+Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
+Allow randomizing scenario and profession in new character menu.
+Workout and exercise.
+Vehicles: ground vehicle z-level transitions and z+1 bridges.
+Remove static/random NPC options, adjust random NPC rates.
+Blood and blood loss overhaul.
+Artifact procgen - artifacts that spawn use the new relic data.
+Grappling hooks can be deployed for climbing, just like ladders.
+Add proficiencies, representing specific knowledge in a certain area not covered by normal skills.
 
 ## Content:
 Gun volume and weight audit.
@@ -31,17 +46,25 @@ Mi-go, masters, and necromancers can open doors.
 Adds a bulk shipping crate possibility to the supplydrop map extra.
 New zombie: necro-boomer.
 Overhaul the mall.
+Allow the of use grappling hooks on ledges.
+Make bugs much more mutated.
+Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights.
+Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
+Feral Humans with blob psychosis.
+Allow plank and branch bundles to be made from cordage, vines, or wire.
 
 ## Interface:
-Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized. 
+Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
 Crafting GUI - Highlight hidden recipe info.
 Overhaul target selection and aiming UI.
+Display missing and obsolete mods for current world.
 
 ## Mods:
-[Magiclysm] Manatouched mutation tree
+[Magiclysm] Manatouched mutation tree.
 Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
 Overhaul Blazemod and split into seperate mods.
 [MMA] Add Ki Strike trait.
+Polymorph spells to transform your foes.
 
 ## Balance:
 Large item price audit.
@@ -49,6 +72,8 @@ Large scale melee weapon damage audit.
 melee: make polearms do less damage against adjacent targets.
 Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
 More complex satiety calculations.
+NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
+Antifungal drugs work over time.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -73,9 +98,22 @@ fixes segfault when attempting to siphon from vehicle with multiple tanks.
 Fix creatures blocking descend even if they can be displaced.
 Fix OnGetHit effects not triggering if player cannot block.
 Refactor monster spawning code to avoid crash.
+Reset game mode before loading normal saves.
+Minimize UI flickering on curses.
+Fix crash upon examining vehicles containing minireactor.
+Fix segfault on harvest.
+Fix loading of legacy characters without bodies.
+Fix explosions not affecting terrain.
+Do not process held item twice.
+Fix crash when trying to reloading item inside advanced inventory
+Blobs are slimes. name them such.
+Fix freezing to death when wet.
+Fix weapon techniques not triggering.
+Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
+Skip unnecessary weather calculations for root cellar.
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -104,6 +142,24 @@ Jsonize Anatomy: replace enum body_part with bodypart_id.
 Implement installation requirment for CBMs.
 Fields can now override local light levels.
 Convert itype_id to string_id<itype>.
+Test and refactor item info display functions.
+Milling products can be defined in JSON.
+Add a Clang Build Analyzer build step to CI.
+Refactor rectangle and box types.
+Mutations can be reflexively triggered without player input.
+Enforce use of points as local variables.
+Add table.py to make tables of JSON data.
+Add a guide for intermediate mapgen help.
+Options: remove the option to not use z-levels.
+Provide point types with coordinate system type safety.
+Move weather from being hardcoded into json.
+Update Catch2 to 2.13.0.
+Changes some awkward terrains into furnitures for better layering.
+Create a machine-readable memorial file at game over.
+Dialogue: create an talker API for speakers in a dialogue.
+Make rectangle and cuboid generic with respect to point type.
+Configure GitHub build matrix to permit more C++ build testing to happen there.
+Check for zero weight items.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -111,6 +167,12 @@ Remove Travis clang-tidy job.
 Add -fsigned-char to CMakeLists.txt.
 Makes json linter feedback more readable.
 Fix clang-tidy header guard check on Windows.
+Progress feedback for JSON formatting script.
+Set 'disable MS telemetry' flag in VCPKG setup guide.
+Automatic handling of vcpkg dependencies.
+Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
+Improve use of precompiled headers.
+compose.py: allow default sized tilesheets to specify offsets.
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -118,6 +180,7 @@ Add support for specifying identical singular and plural forms using `str_sp`.
 Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
+Add translator glossary and explain etymology of Exodii.
 
 # 0.E (Ellison)
 

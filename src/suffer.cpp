@@ -956,7 +956,7 @@ void Character::suffer_from_item_dropping()
             }
         }
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
-        for( auto i : dump ) {
+        for( item *i : dump ) {
             i_rem( i );
         }
     }
@@ -1849,7 +1849,7 @@ void Character::apply_wetness_morale( int temperature )
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
-    const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    const body_part_set wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
         const int part_drench = get_part_wetness( bp );

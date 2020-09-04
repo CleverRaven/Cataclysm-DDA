@@ -1009,7 +1009,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::FRIENDLY;
         }
 
-        auto faction_att = faction.obj().attitude( m->faction );
+        mf_attitude faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other

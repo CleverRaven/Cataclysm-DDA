@@ -2,6 +2,7 @@
   {
     "result": "spaghetti_cooked",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -17,6 +18,7 @@
   {
     "result": "macaroni_cooked",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -34,6 +36,7 @@
   {
     "result": "spaghetti_bolognese",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -60,6 +63,7 @@
   {
     "result": "lasagne",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -87,6 +91,7 @@
   {
     "result": "spaghetti_pesto",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -118,6 +123,7 @@
   {
     "result": "noodles_fast",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -130,6 +136,7 @@
   {
     "result": "spaghetti_raw",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -142,6 +149,7 @@
   {
     "result": "lasagne_raw",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -154,6 +162,7 @@
   {
     "result": "macaroni_raw",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",
@@ -166,6 +175,7 @@
   {
     "result": "macaroni_helper",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_PASTA",
     "skill_used": "cooking",

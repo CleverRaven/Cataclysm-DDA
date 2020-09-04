@@ -1098,6 +1098,10 @@ bool item::merge_charges( const item &rhs )
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
+    if( !result.success() ) {
+        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
+                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+    }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
@@ -6019,6 +6023,18 @@ bool item::is_money() const
     return ammo_types().count( ammotype( "money" ) );
 }
 
+bool item::is_software() const
+{
+    if( const cata::optional<itype_id> &cont = type->default_container ) {
+        return item( *cont ).is_software_storage();
+    }
+    return false;
+}
+
+bool item::is_software_storage() const
+{
+    return contents.has_pocket_type( item_pocket::pocket_type::SOFTWARE );
+}
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
@@ -8336,6 +8352,11 @@ units::volume item::get_total_capacity() const
     return contents.total_container_capacity();
 }
 
+units::mass item::get_total_weight_capacity() const
+{
+    return contents.total_container_weight_capacity();
+}
+
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
@@ -8677,18 +8698,12 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
-                item temp( *e );
-                if( temp.is_magazine() ) {
+                if( e->is_magazine() || e->magazine_current() != nullptr ) {
+                    item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
-                } else if( e->magazine_current() != nullptr ) {
-                    item temp_mag( *e->magazine_current() );
-                    temp_mag.ammo_set( e->ammo_current(), n );
-                    temp.put_in( temp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
-                } else {
-                    return VisitResponse::SKIP;
+                    used.push_back( temp );
+                    e->ammo_consume( n, pos );
                 }
-                used.push_back( temp );
-                e->ammo_consume( n, pos );
             }
             return VisitResponse::SKIP;
 

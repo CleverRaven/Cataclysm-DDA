@@ -198,7 +198,7 @@ enum class oter_flags : int {
 
 template<>
 struct enum_traits<oter_flags> {
-    static constexpr auto last = oter_flags::num_oter_flags;
+    static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
 struct oter_type_t {

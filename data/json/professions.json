@@ -20,6 +20,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_laptop",
+    "entries": [ { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_smart_phone",
     "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 } ]
   },
@@ -1608,10 +1614,11 @@
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "laptop", "caffeine" ],
+        "items": [ "pants", "tshirt_text", "socks", "sneakers", "mbag", "caffeine" ],
         "entries": [
           { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "portable_game" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "charged_laptop" }
         ]
       },
       "male": [ "briefs" ],
@@ -2315,7 +2322,6 @@
           "socks",
           "sneakers",
           "tank_top",
-          "sewing_kit",
           "mbag",
           "fur_cat_ears",
           "fur_cat_tail",
@@ -2324,7 +2330,7 @@
           "mag_animecon",
           "cheeseburger"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "sewing_kit", "charges": 200 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2769,20 +2775,8 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "wristwatch",
-          "backpack",
-          "laptop",
-          "flyer",
-          "flyer",
-          "flyer",
-          "holy_symbol"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "backpack", "flyer", "flyer", "flyer", "holy_symbol" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_laptop" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3528,19 +3522,8 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "blazer",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "tie_skinny",
-          "tieclip",
-          "poetry_book",
-          "permanent_marker",
-          "wristwatch"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "dress_shirt", "blazer", "pants", "socks", "dress_shoes", "tie_skinny", "tieclip", "poetry_book", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "permanent_marker", "charges": 500 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]

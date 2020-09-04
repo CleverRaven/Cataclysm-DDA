@@ -2225,7 +2225,7 @@ void Character::complete_disassemble()
 void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
-    const auto dis_requirements = dis.disassembly_requirements();
+    const requirement_data dis_requirements = dis.disassembly_requirements();
     item &org_item = *target;
     const bool filthy = org_item.is_filthy();
     const tripoint loc = target.position();

@@ -84,7 +84,7 @@ extern bool sound_enabled;
 
 template<>
 struct enum_traits<sounds::sound_t> {
-    static constexpr auto last = sounds::sound_t::_LAST;
+    static constexpr sounds::sound_t last = sounds::sound_t::_LAST;
 };
 
 namespace sfx

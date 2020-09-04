@@ -1475,6 +1475,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
     mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
 
@@ -1944,7 +1945,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     const std::string style = u.martial_arts_data->selected_style_name( u );
 
     if( !style.empty() ) {
-        const auto style_color = u.is_armed() ? c_red : c_blue;
+        const nc_color style_color = u.is_armed() ? c_red : c_blue;
         mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 

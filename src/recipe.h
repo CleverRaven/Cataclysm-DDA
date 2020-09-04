@@ -75,6 +75,8 @@ class recipe
 
         int time = 0; // in movement points (100 per turn)
 
+        float exertion;
+
     public:
         recipe();
 
@@ -173,6 +175,9 @@ class recipe
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
         float proficiency_maluses( const Character &guy ) const;
+
+        // How active of exercise this recipe is
+        float exertion_level() const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;

@@ -651,6 +651,7 @@
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
     "volume": "3 L",
+    "longest_side": "91 cm",
     "price": 16000,
     "price_postapoc": 1250,
     "to_hit": -2,

@@ -251,7 +251,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             proficiency_maluses = r->proficiency_maluses( player );
             has_all_skills = r->skill_used.is_null() ||
                              player.get_skill_level( r->skill_used ) >= r->difficulty;
-            for( const std::pair<skill_id, int> &e : r->required_skills ) {
+            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
                 if( player.get_skill_level( e.first ) < e.second ) {
                     has_all_skills = false;
                     break;
@@ -867,7 +867,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             {
                 std::string example_name = _( "shirt" );
-                auto padding = max_example_length - utf8_width( example_name );
+                int padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
                                    example_name, padding, spaces,
@@ -875,7 +875,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             for( const auto &prefix : prefixes ) {
-                auto padding = max_example_length - utf8_width( prefix.example );
+                int padding = max_example_length - utf8_width( prefix.example );
                 description += string_format(
                                    _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
                                    prefix.key, prefix.example, padding, spaces, prefix.description );

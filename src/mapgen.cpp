@@ -435,7 +435,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
     }
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
-        if( const auto ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
+        if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
             oter_mapgen.add( id_base, ret );
         } else {
@@ -1942,7 +1942,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
+        float rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -2849,7 +2849,7 @@ void jmapgen_objects::apply( const mapgendata &dat, const point &offset ) const
 bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat, const point &offset ) const
 {
     for( const jmapgen_obj &obj : objects ) {
-        auto where = obj.first;
+        jmapgen_place where = obj.first;
         where.offset( -offset );
         const auto &what = *obj.second;
         if( what.has_vehicle_collision( dat, point( where.x.get(), where.y.get() ) ) ) {
@@ -5788,10 +5788,11 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     }
     for( item *e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
-            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
+            if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
+                !e->magazine_current() ) {
+                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );
             }
         }
@@ -5933,7 +5934,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const auto p = veh->global_part_pos3( *part );
+        const tripoint p = veh->global_part_pos3( *part );
 
         //Don't spawn anything in water
         if( has_flag_ter( TFLAG_DEEP_WATER, p ) && !can_float ) {
@@ -7141,7 +7142,7 @@ bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat )
 
 int register_mapgen_function( const std::string &key )
 {
-    if( const auto ptr = get_mapgen_cfunction( key ) ) {
+    if( const building_gen_pointer ptr = get_mapgen_cfunction( key ) ) {
         return oter_mapgen.add( key, std::make_shared<mapgen_function_builtin>( ptr ) );
     }
     return -1;
