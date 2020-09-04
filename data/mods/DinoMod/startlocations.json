@@ -3,6 +3,6 @@
     "type": "start_location",
     "id": "sloc_dinoexhibit",
     "name": "Dinosaur exhibit",
-    "target": "dinoexhibit"
+    "terrain": [ "dinoexhibit" ]
   }
 ]
