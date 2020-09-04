@@ -42,6 +42,11 @@
   },
   {
     "type": "construction_category",
+    "id": "WINDOWS",
+    "name": "Windows"
+  },
+  {
+    "type": "construction_category",
     "id": "OTHER",
     "name": "Others"
   },

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_TUPLE_HASH_H
-#define CATA_TUPLE_HASH_H
+#ifndef CATA_SRC_HASH_UTILS_H
+#define CATA_SRC_HASH_UTILS_H
 
 #include <functional>
 
@@ -88,4 +88,4 @@ struct range_hash {
 
 } // namespace cata
 
-#endif // CATA_TUPLE_HASH_H
+#endif // CATA_SRC_HASH_UTILS_H

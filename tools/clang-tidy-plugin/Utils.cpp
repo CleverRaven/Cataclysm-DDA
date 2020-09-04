@@ -30,7 +30,7 @@ NameConvention::NameConvention( StringRef xName )
     }
 }
 
-NameConvention::MatchResult NameConvention::Match( StringRef name )
+NameConvention::MatchResult NameConvention::Match( StringRef name ) const
 {
     if( name.empty() ) {
         return None;

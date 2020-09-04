@@ -143,13 +143,10 @@
         { "item": "cattlefodder", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] }
       ],
       "place_monster": [
-        { "monster": "mon_pig", "x": 4, "y": 14, "repeat": [ 2, 4 ], "density": 0.2 },
-        { "monster": "mon_sheep", "x": 17, "y": 14, "repeat": [ 2, 4 ], "density": 0.2 }
+        { "monster": "mon_pig", "x": 4, "y": 14, "repeat": [ 2, 4 ] },
+        { "monster": "mon_sheep", "x": 17, "y": 14, "repeat": [ 2, 4 ] }
       ],
-      "place_npcs": [
-        { "chance": 100, "class": "isherwood_jack", "x": 28, "y": 15 },
-        { "chance": 100, "class": "isherwood_claire", "x": 38, "y": 12 }
-      ],
+      "place_npcs": [ { "class": "isherwood_jack", "x": 28, "y": 15 }, { "class": "isherwood_claire", "x": 38, "y": 12 } ],
       "palettes": [ "farm" ]
     }
   },

@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "retrodays" ],
+    "compatibility": [ "retrodays", "retrodays+" ],
     "tile_info": [ { "height": 10, "width": 10, "pixelscale": 2 } ],
     "tiles-new": [
       {

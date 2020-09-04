@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_utrc",
-    "comment": "underground, top right corner",
+    "//": "underground, top right corner",
     "weight": 250,
     "method": "json",
     "object": {

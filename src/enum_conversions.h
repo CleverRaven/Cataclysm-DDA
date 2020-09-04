@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_ENUM_CONVERSIONS_H
-#define CATA_ENUM_CONVERSIONS_H
+#ifndef CATA_SRC_ENUM_CONVERSIONS_H
+#define CATA_SRC_ENUM_CONVERSIONS_H
 
 #include <unordered_map>
 
@@ -61,6 +61,14 @@ std::unordered_map<std::string, E> build_enum_lookup_map()
     return result;
 }
 
+template<typename E>
+const std::unordered_map<std::string, E> &get_enum_lookup_map()
+{
+    static const std::unordered_map<std::string, E> string_to_enum_map =
+        build_enum_lookup_map<E>();
+    return string_to_enum_map;
+}
+
 // Helper function to do the lookup in an associative container
 template<typename C, typename E = typename C::mapped_type>
 inline E string_to_enum_look_up( const C &container, const std::string &data )
@@ -76,12 +84,16 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
 template<typename E>
 E string_to_enum( const std::string &data )
 {
-    static const std::unordered_map<std::string, E> string_to_enum_map =
-        build_enum_lookup_map<E>();
-    return string_to_enum_look_up( string_to_enum_map, data );
+    return string_to_enum_look_up( get_enum_lookup_map<E>(), data );
+}
+
+template<typename E>
+bool enum_is_valid( const std::string &data )
+{
+    return get_enum_lookup_map<E>().count( data );
 }
 
 /*@}*/
 } // namespace io
 
-#endif // CATA_ENUM_CONVERSIONS_H
+#endif // CATA_SRC_ENUM_CONVERSIONS_H

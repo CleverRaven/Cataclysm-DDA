@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PANELS_H
-#define PANELS_H
+#ifndef CATA_SRC_PANELS_H
+#define CATA_SRC_PANELS_H
 
 #include <cstddef>
 #include <functional>
@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 
-class avatar;
+#include "coordinates.h"
+
 class JsonIn;
 class JsonOut;
-
+class avatar;
+struct point;
 struct tripoint;
 
 namespace catacurses
@@ -29,7 +31,7 @@ enum face_type : int {
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                         const tripoint &global_omt, int start_y, int start_x, int width,
+                         const tripoint_abs_omt &global_omt, const point &start, int width,
                          int height );
 } // namespace overmap_ui
 
@@ -78,7 +80,7 @@ class panel_manager
         int get_width_right();
         int get_width_left();
 
-        void draw_adm( const catacurses::window &w, size_t column = 0, size_t index = 1 );
+        void show_adm();
 
         void init();
 
@@ -98,4 +100,4 @@ class panel_manager
 
 };
 
-#endif //PANELS_H
+#endif // CATA_SRC_PANELS_H

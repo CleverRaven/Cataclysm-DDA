@@ -1,0 +1,139 @@
+[
+  {
+    "id": "brain_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "brain_cooked",
+    "looks_like": "offal_cooked",
+    "name": { "str_sp": "cooked brains" },
+    "description": "Now you can emulate a zombie!  Preparing brain for eating is challenging, and this doesn't seem to be the best way to do it."
+  },
+  {
+    "//": "tainted meat is meat that has been heavily genetically poisoned or is completely alien in nature",
+    "type": "COMESTIBLE",
+    "id": "meat_tainted",
+    "copy-from": "meat_tainted",
+    "name": { "str": "chunk of alien meat", "str_pl": "chunks of alien meat" },
+    "description": "This dense, stringy substance smells strongly like burnt oil, or some sort of industrial chemical.  For all intents and purposes, it seems like the 'meat' of the creature, but its bizarre texture and faintly red-purple tint is unlike anything you've ever experienced before.  You could eat it, but no doubt it would not only taste henious but also make you sick, being made of material your body was never supposed to injest."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_meat_tainted",
+    "name": "dehydrated alien meat",
+    "copy-from": "dry_meat_tainted",
+    "description": "Pieces of alien meat that have been dried to prevent them from rotting away.  It will still poison you if you eat this."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "bone_tainted",
+    "category": "other",
+    "copy-from": "bone_tainted",
+    "name": "alien bone",
+    "description": "A piece of a hard material with many crests and protrusions, made of a hard material that occasionally leaves a bit of moisture on your hand when you touch it.  It seems basically like a bone, though not one you'd see in any anatomy textbook.  You could eat it, but no doubt it would not only taste henious but also make you sick, being made of material your body was never supposed to injest.  It might at least be able to be used for something, if not as well as the earthly variant due to its fiddly size and shape."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fat_tainted",
+    "category": "other",
+    "copy-from": "fat_tainted",
+    "name": "alien fat",
+    "description": "A chunk of dense fat that is tough and rubbery.  It smells simply henious, like open sewer and pungent chemicals, and is doubtless full of strange material that your body was never supposed to injest.  It might at least be able to be used for something, if not quite as well as its earthly variant due to its relative impurities."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tallow_tainted",
+    "copy-from": "tallow_tainted",
+    "name": "alien tallow",
+    "description": "A smooth grayish block of cleaned and rendered alien fat.  Processing it seems to have at least removed some of the smell.  It won't spoil for a very long time, and can be used as an ingredient in many projects.  It is no safer than its source material to consume."
+  },
+  {
+    "//": "mutant meat is meat that comes from a creature that is spliced with earthly genes or originally came from earth before being modded",
+    "id": "mutant_meat",
+    "copy-from": "mutant_meat",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of unusual meat", "str_pl": "chunks of unusual meat" },
+    "description": "Meat from the aliens is typically quite foul, full of toxins and substances not meant to be digested by humans, however this piece almost looks edible - if not for a few sections that still have strange hues and disgusting, spongey texture.  Still, with a bit of preperation, it might even be somewhat palatable."
+  },
+  {
+    "id": "mutant_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap",
+    "name": { "str": "scrap of unusual meat", "str_pl": "scraps of unusual meat" },
+    "description": "A tiny scrap of meat from an unusual creature.  It smells a bit odd and has a variety of discolorations that indicate that it is still going to be rough on your digestive system.  Still, seems digestible at least, if you cook it and remove the worst parts."
+  },
+  {
+    "id": "mutant_human_flesh",
+    "copy-from": "mutant_human_flesh",
+    "type": "COMESTIBLE",
+    "name": "unusual humanoid meat",
+    "description": "Freshly butchered from the body of an alien creature that was unsettlingly humanoid in appearance.  It smells faintly of chemicals and is colored odd hues that indicate that it is still going to be rough on your digestive system.  You'd have to be crazy or starving to eat this."
+  },
+  {
+    "id": "mutant_human_cooked",
+    "copy-from": "mutant_human_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked cretin",
+    "description": "Cooked meat from an alien humanoid.  Now that the worst bits have been processed, it's probably digestible, if not very appetizing."
+  },
+  {
+    "id": "mutant_meat_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_cooked",
+    "name": "cooked unusual meat",
+    "description": "This is a cooked chunk of meat from an unusual critter.  It has strange colors, smells a bit funny, and has a mushy texture but it tastes… mostly normal.  Hopefully you cut away the worst bits well enough."
+  },
+  {
+    "id": "mutant_meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap_cooked",
+    "name": { "str": "cooked scrap of unusual meat", "str_pl": "cooked scraps of unusual meat" }
+  },
+  {
+    "id": "mutant_tallow",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_tallow",
+    "name": "unusual tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from an unusual creature.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "mutant_lard",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_lard",
+    "name": "unusual lard",
+    "description": "A smooth white block of dry-rendered fat sourced from an alien.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "mutant_human_fat",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_human_fat",
+    "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
+    "description": "Freshly butchered fat from an alien humanoid."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_tallow",
+    "name": "unusual humanoid tallow",
+    "copy-from": "mutant_human_tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from an alien humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_lard",
+    "name": "unusual humanoid lard",
+    "copy-from": "mutant_human_lard",
+    "description": "A smooth white block of dry-rendered fat sourced from an alien humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_hleather",
+    "copy-from": "raw_hleather",
+    "name": "raw human skin",
+    "description": "A carefully folded raw skin harvested from a humanoid.  You can cure it for storage and tanning, or eat it if you're desperate enough."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_hfur",
+    "copy-from": "raw_hfur",
+    "name": "raw humanoid pelt",
+    "description": "A carefully folded raw skin harvested from a fur-bearing creature that was disturbingly humanoid.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough."
+  }
+]

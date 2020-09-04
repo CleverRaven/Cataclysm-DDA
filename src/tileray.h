@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TILERAY_H
-#define TILERAY_H
+#ifndef CATA_SRC_TILERAY_H
+#define CATA_SRC_TILERAY_H
 
 #include "point.h"
 
@@ -25,20 +25,20 @@
 class tileray
 {
     private:
-        point delta;    // ray delta
-        int leftover;   // counter to shift coordinates
-        point abs_d;    // absolute value of delta
-        int direction;  // ray direction
-        point last_d;   // delta of last advance
-        int steps;      // how many steps we advanced so far
-        bool infinite;  // ray is infinite (end will always return true)
+        point delta;            // ray delta
+        int leftover = 0;       // counter to shift coordinates
+        point abs_d;            // absolute value of delta
+        int direction = 0;      // ray direction
+        point last_d;           // delta of last advance
+        int steps = 0;          // how many steps we advanced so far
+        bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
-        tileray( int adx, int ady );
+        tileray( const point &ad );
         tileray( int adir );
 
-        void init( int adx, int ady );  // init ray with dx,dy
-        void init( int adir );          // init ray with direction
+        void init( const point &ad );  // init ray with ad
+        void init( int adir );         // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)
         int dy() const;       // return dy of last advance (-1 to 1)
@@ -58,4 +58,4 @@ class tileray
         bool end();      // do we reach the end of (dx,dy) defined ray?
 };
 
-#endif
+#endif // CATA_SRC_TILERAY_H

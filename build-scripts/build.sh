@@ -2,16 +2,18 @@
 
 # Build script intended for use in Travis CI
 
-set -ex
+set -exo pipefail
 
 num_jobs=3
 
 function run_tests
 {
-    $WINE "$@" -d yes --rng-seed time $EXTRA_TEST_OPTS
+    # --min-duration shows timing lines for tests with a duration of at least that many seconds.
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
 }
 
-date +%s > build-start-time
+# We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
+export PATH=$HOME/.local/bin:$PATH
 
 if [ -n "$TEST_STAGE" ]
 then
@@ -22,7 +24,8 @@ then
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
-elif [ -n "$JUST_JSON" ]
+# Skip the rest of the run if this change is pure json and this job doesn't test any extra mods
+elif [ -n "$JUST_JSON" -a -z "$MODS" ]
 then
     echo "Early exit on just-json change"
     exit 0
@@ -33,7 +36,7 @@ ccache --zero-stats
 ccache -M 2G
 ccache --show-stats
 
-if [ -n "$CMAKE" ]
+if [ "$CMAKE" = "1" ]
 then
     bin_path="./"
     if [ "$RELEASE" = "1" ]
@@ -44,26 +47,35 @@ then
         build_type=Debug
     fi
 
-    cmake_extra_opts=
+    cmake_extra_opts=()
 
     if [ "$CATA_CLANG_TIDY" = "plugin" ]
     then
-        cmake_extra_opts="$cmake_extra_opts -DCATA_CLANG_TIDY_PLUGIN=ON"
+        cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
         # use the llvm-7 that comes by default on the Travis Xenial image.
-        cmake_extra_opts="$cmake_extra_opts -DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm"
-        cmake_extra_opts="$cmake_extra_opts -DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang"
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang")
+    fi
+
+    if [ "$COMPILER" = "clang++-8" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
+    then
+        # This is a hacky workaround for the fact that the custom clang-tidy we are
+        # using is built for Travis CI, so it's not using the correct include directories
+        # for GitHub workflows.
+        cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/8.0.0/include")
     fi
 
     mkdir build
     cd build
     cmake \
         -DBACKTRACE=ON \
+        ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
-        $cmake_extra_opts \
+        "${cmake_extra_opts[@]}" \
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
     then
@@ -84,6 +96,11 @@ then
 
         "$CATA_CLANG_TIDY" --version
 
+        # Show compiler C++ header search path
+        ${COMPILER:-clang++} -v -x c++ /dev/null -c
+        # And the same for clang-tidy
+        "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
+
         # Run clang-tidy analysis instead of regular build & test
         # We could use CMake to create compile_commands.json, but that's super
         # slow, so use compiledb <https://github.com/nickdiego/compiledb>
@@ -95,6 +112,7 @@ then
 
         # We want to first analyze all files that changed in this PR, then as
         # many others as possible, in a random order.
+        set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
@@ -112,7 +130,8 @@ then
         {
             if [ -n "$1" ]
             then
-                echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh
+                echo "$1" | shuf | \
+                    xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
             else
                 echo "No files to analyze"
             fi
@@ -123,6 +142,7 @@ then
 
         echo "Analyzing remaining files"
         analyze_files_in_random_order "$remaining_cpp_files"
+        set -x
     else
         # Regular build
         make -j$num_jobs
@@ -138,13 +158,13 @@ then
 
     # Tweak the ccache compiler analysis.  We're using the compiler from the
     # Android NDK which has an unpredictable mtime, so we need to hash the
-    # content rather than the size+mtime (which is ccache's default behaviour).
+    # content rather than the size+mtime (which is ccache's default behavior).
     export CCACHE_COMPILERCHECK=content
 
     cd android
-    # Specify dumb terminal to suppress gradle's constatnt output of time spent building, which
+    # Specify dumb terminal to suppress gradle's constant output of time spent building, which
     # fills the log with nonsense.
-    TERM=dumb ./gradlew assembleDebug -Pj=3
+    TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
@@ -155,10 +175,22 @@ else
         run_tests ./tests/cata_test &
         if [ -n "$MODS" ]
         then
-            run_tests ./tests/cata_test --user-dir=modded $MODS &
+            run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
             wait -n
         fi
         wait -n
+    fi
+
+    if [ -n "$TEST_STAGE" ]
+    then
+        # Run the tests one more time, without actually running any tests, just to verify that all
+        # the mod data can be successfully loaded
+
+        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
+        # shrink over time.
+        blacklist=build-scripts/mod_test_blacklist
+        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
 ccache --show-stats

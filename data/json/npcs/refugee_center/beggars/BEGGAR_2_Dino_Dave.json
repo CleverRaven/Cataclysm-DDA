@@ -16,7 +16,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_2",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -65,7 +65,7 @@
       "no": "Have I told you about cardboard, friend?  Do you have any?"
     },
     "responses": [
-      { "condition": "has_assigned_mission", "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
+      { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
       {
         "condition": {
           "and": [
@@ -107,7 +107,7 @@
         "text": "Get away from me.",
         "topic": "TALK_DONE"
       },
-      { "text": "...", "topic": "TALK_DONE" }
+      { "text": "…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -149,7 +149,7 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -160,18 +160,18 @@
       { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
-    "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
+    "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
     "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -179,8 +179,8 @@
     "id": "TALK_REFUGEE_BEGGAR_2_SANDMAN",
     "dynamic_line": "If you don't know who he is, I definitely can't tell you.  He talks to everyone, if you didn't hear him that means you can't be trusted, except to help me out.",
     "responses": [
-      { "text": "... What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "…What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -189,7 +189,7 @@
     "dynamic_line": "These cowards are afraid of me.  They won't let me into their base.  I'm going to build my new house and I won't let them in.",
     "responses": [
       { "text": "You said you were building a house?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -197,10 +197,10 @@
     "id": "TALK_REFUGEE_BEGGAR_2_DINOSAUR",
     "dynamic_line": "No.",
     "responses": [
-      { "text": "I... I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
+      { "text": "I… I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -210,7 +210,7 @@
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+      { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -221,7 +221,7 @@
       "type": "general",
       "context": "recruit",
       "value": "yes",
-      "yes": "Well... I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
+      "yes": "Well… I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
       "no": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going."
     },
     "responses": [
@@ -242,7 +242,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
     "type": "mission_definition",
-    "name": "Bring 40 small cardboard boxes",
+    "name": { "str": "Bring 40 small cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -252,7 +252,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
-      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
+      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like… like… forty?",
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
       "advice": "Watch out, he's looking for it too.",
@@ -265,7 +265,7 @@
   {
     "id": "MISSION_BEGGAR_2_DUCT_TAPE",
     "type": "mission_definition",
-    "name": "Bring a roll of duct tape",
+    "name": { "str": "Bring a roll of duct tape" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -278,7 +278,7 @@
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
       "advice": "Watch out, he's looking for it too.",
-      "inquire": "It's all around us... but did you get it in a crude matter form?",
+      "inquire": "It's all around us… but did you get it in a crude matter form?",
       "success": "Oh this is so great, so great!",
       "success_lie": "Oh this is so great, so great!",
       "failure": "Oh, that's too bad.  Guess they're eating it all."
@@ -287,7 +287,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "type": "mission_definition",
-    "name": "Bring 10 medium-sized cardboard boxes",
+    "name": { "str": "Bring 10 medium-sized cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -310,7 +310,7 @@
   {
     "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "type": "mission_definition",
-    "name": "Bring 10 large plastic sheets",
+    "name": { "str": "Bring 10 large plastic sheets" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -333,7 +333,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_LARGE",
     "type": "mission_definition",
-    "name": "Bring 5 large cardboard boxes",
+    "name": { "str": "Bring 5 large cardboard boxes" },
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -343,13 +343,13 @@
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
-      "accepted": "Yes! The home stretch!",
+      "accepted": "Yes!  The home stretch!",
       "rejected": "Oh man, but we're so close!",
       "advice": "Try looking in cargo storage areas.",
       "inquire": "Did you bring me those last few boxes?",
       "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
       "success_lie": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
-      "failure": "No!  Oh god, no, this can't be happening..."
+      "failure": "No!  Oh god, no, this can't be happening…"
     }
   }
 ]

@@ -1,0 +1,198 @@
+[
+  {
+    "type": "item_group",
+    "id": "swat_gear",
+    "subtype": "distribution",
+    "items": [
+      { "group": "cop_gear", "prob": 100 },
+      [ "40x46mm_m433", 5 ],
+      [ "40x46mm_m651", 10 ],
+      [ "ammo_satchel", 5 ],
+      [ "bootstrap", 5 ],
+      [ "chestpouch", 5 ],
+      [ "dragonskin", 5 ],
+      [ "flashbang", 30 ],
+      [ "goggles_ir", 10 ],
+      [ "goggles_nv", 10 ],
+      [ "helmet_lobster", 5 ],
+      [ "helmet_riot", 5 ],
+      [ "holo_sight", 20 ],
+      [ "balclava", 10 ],
+      [ "balaclava_cut_resistant", 5 ],
+      [ "holster", 15 ],
+      [ "bandolier_shotgun", 15 ],
+      [ "torso_bandolier_shotgun", 8 ],
+      [ "kevlar", 20 ],
+      [ "knife_combat", 10 ],
+      [ "legpouch_large", 5 ],
+      [ "mask_bal", 10 ],
+      [ "mask_gas", 10 ],
+      [ "ballistic_vest_esapi", 15 ],
+      [ "smokebomb", 5 ],
+      [ "suppressor", 25 ],
+      [ "suppressor_compact", 20 ],
+      [ "swat_armor", 20 ],
+      [ "tac_fullhelmet", 5 ],
+      [ "tac_helmet", 10 ]
+    ]
+  },
+  {
+    "id": "gear_medical",
+    "type": "item_group",
+    "//": "Medical equipment including consumables but not major painkillers",
+    "items": [
+      { "group": "tools_medical", "prob": 100 },
+      { "group": "drugs_heal_simple", "prob": 40 },
+      { "group": "drugs_emergency", "prob": 40 },
+      { "group": "drugs_misc", "prob": 20 },
+      { "item": "gloves_medical", "prob": 5 },
+      { "item": "mask_dust", "prob": 5 }
+    ]
+  },
+  {
+    "id": "gear_soldier_sidearm",
+    "type": "item_group",
+    "//": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
+    "items": [
+      {
+        "distribution": [
+          { "item": "PR24-retracted", "prob": 20 },
+          { "collection": [ { "item": "knife_combat" }, { "item": "sheath" } ], "prob": 30 },
+          { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gear_survival",
+    "type": "item_group",
+    "//": "Lightweight, simple and portable items useful for survival.",
+    "items": [
+      { "group": "drugs_heal_simple", "prob": 60 },
+      { "group": "tools_lighting", "prob": 50 },
+      { "group": "tools_survival", "prob": 100 },
+      { "group": "tools_tailor", "prob": 20 },
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      [ "duct_tape", 10 ],
+      [ "plastichoboreel", 5 ],
+      [ "survivormap", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fireman_gear",
+    "items": [
+      { "item": "extinguisher", "prob": 10, "charges": 100 },
+      { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
+      [ "fire_ax", 60 ],
+      [ "halligan", 50 ],
+      [ "1st_aid", 10 ],
+      [ "bandages", 5 ],
+      [ "cotton_ball", 2 ],
+      [ "crowbar", 15 ],
+      [ "entry_suit", 10 ],
+      [ "hammer_sledge", 5 ],
+      [ "hammer_sledge_short", 4 ],
+      [ "hammer_sledge_engineer", 5 ],
+      [ "hammer_sledge_heavy", 1 ],
+      [ "shovel", 20 ],
+      [ "cell_phone", 10 ],
+      [ "smart_phone", 10 ],
+      [ "airhorn", 5 ],
+      [ "boltcutters", 5 ],
+      [ "tacvest", 10 ],
+      [ "chainsaw_off", 1 ],
+      [ "backpack", 15 ],
+      [ "rope_30", 10 ],
+      [ "rx12_injector", 1 ],
+      [ "ampoule", 5 ],
+      [ "rx11_stimpack", 1 ],
+      [ "stimpack_ammo", 5 ],
+      [ "flaregun", 5 ],
+      [ "signal_flare", 5 ],
+      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
+      [ "handflare", 20 ],
+      [ "heavy_flashlight", 30 ],
+      [ "glowstick", 10 ],
+      [ "two_way_radio", 20 ],
+      [ "emergency_book", 1 ],
+      [ "textbook_firstaid", 5 ],
+      [ "manual_first_aid", 5 ],
+      [ "pocket_firstaid", 10 ],
+      [ "pocketwatch", 5 ],
+      [ "wristwatch", 10 ],
+      { "group": "tobacco_products", "prob": 32 },
+      [ "ref_lighter", 1 ],
+      [ "flask_hip", 1 ],
+      [ "textbook_fireman", 10 ],
+      [ "knee_pads", 5 ],
+      [ "elbow_pads", 5 ],
+      [ "legrig", 5 ],
+      [ "UPS_off", 5 ],
+      [ "adv_UPS_off", 2 ],
+      [ "emer_blanket", 5 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 50 },
+      [ "tool_belt", 5 ],
+      [ "oxygen_tank", 15 ],
+      [ "fireman_belt", 15 ],
+      [ "jack", 5 ],
+      [ "throw_extinguisher", 10 ],
+      [ "grapnel", 5 ],
+      [ "wearable_light", 5 ],
+      { "group": "tools_toolbox", "prob": 1 },
+      [ "smoxygen_tank", 35 ],
+      [ "watercannon", 10 ],
+      [ "l-stick", 1 ],
+      [ "solarpack", 2 ],
+      [ "bag_body_bag", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "rad_gear",
+    "items": [
+      [ "wrapped_rad_badge", 80 ],
+      [ "geiger_off", 20 ],
+      [ "rad_monitor", 10 ],
+      [ "oxygen_tank", 10 ],
+      [ "smoxygen_tank", 15 ],
+      [ "adv_UPS_off", 2 ],
+      [ "prussian_blue", 25 ],
+      [ "iodine", 50 ]
+    ]
+  },
+  {
+    "id": "SUS_scuba_gear",
+    "type": "item_group",
+    "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ], "prob": 65 },
+      { "group": "swimmer_head", "prob": 100 },
+      { "group": "swimmer_torso", "prob": 100 },
+      { "group": "swimmer_pants", "prob": 100 },
+      { "group": "swimmer_wetsuit", "prob": 100 },
+      { "item": "dive_bag", "prob": 100 },
+      { "item": "wetsuit_gloves", "prob": 70 },
+      { "item": "wetsuit_booties", "prob": 70 },
+      { "item": "swim_fins", "prob": 100 },
+      {
+        "distribution": [
+          { "item": "airspeargun", "prob": 20 },
+          { "item": "doublespeargun", "prob": 10 },
+          { "item": "minispeargun", "prob": 30 },
+          { "item": "speargun", "prob": 40 }
+        ],
+        "prob": 65
+      },
+      {
+        "collection": [ { "item": "small_scuba_tank", "prob": 40 }, { "item": "scuba_tank", "prob": 60 } ],
+        "prob": 85
+      },
+      {
+        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90 } ],
+        "prob": 20
+      }
+    ]
+  }
+]

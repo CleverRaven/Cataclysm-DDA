@@ -14,7 +14,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Mangalpreet",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Mangalpreet is the mother of a small family.  They've made it through this unscathed and have a lot of survivor's guilt.",
@@ -114,7 +114,7 @@
     "id": "TALK_REFUGEE_Mangalpreet_1_firstmeet",
     "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
-      { "text": "I'm a traveller actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },

@@ -1,15 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
 
-from __future__ import print_function
-
 import sys
-import os
 import json
 import argparse
 from util import import_data, key_counter, ui_counts_to_columns,\
-        matches_all_wheres, CDDAJSONWriter, WhereAction
+    WhereAction
 
 parser = argparse.ArgumentParser(description="""Count the number of times a specific key occurs.
 
@@ -21,16 +18,18 @@ Example usages:
     # List keys on JSON objects of type "bionic", output in JSON.
     %(prog)s type=bionic
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("--human",
-        action="store_true",
-        help="if set, makes output human readable. default is to return output in JSON.")
-parser.add_argument("where",
-        action=WhereAction, nargs='*', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
-
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "--human",
+    action="store_true",
+    help="if set, makes output human readable. default is to return output in JSON.")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='*', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":
@@ -41,7 +40,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_5_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was part of a black ops paramilitary unit.  I still don't know if I worked for the government or a corporation.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGSS_UPLIFTED_ANIMAL_5_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_5_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "My team was sent in to a lab on a purge in fire mission.  The things I saw in there haunt me.",
+    "responses": [
+      { "text": "Tell me more?", "topic": "BGSS_UPLIFTED_ANIMAL_5_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_UPLIFTED_ANIMAL_5_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Others may have survived but I doubt it.  I certainly hope they haven't come back.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGSS_UPLIFTED_ANIMAL_5_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

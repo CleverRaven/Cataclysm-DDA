@@ -88,7 +88,7 @@ if(NOT CURSES_USE_NCURSES)
   get_filename_component(_cursesParentDir "${_cursesLibDir}" PATH)
 
   # for compatibility with older FindCurses.cmake this has to be in the cache
-  # FORCE must not be used since this would break builds which preload a cache wqith these variables set
+  # FORCE must not be used since this would break builds which preload a cache with these variables set
   set(CURSES_INCLUDE_PATH "${CURSES_CURSES_H_PATH}"
     CACHE FILEPATH "The curses include path")
   set(CURSES_LIBRARY "${CURSES_CURSES_LIBRARY}"
@@ -113,7 +113,7 @@ else()
   # FORCE must not be used since this would break builds which preload
   # however if the value of the variable has NOTFOUND in it, then
   # it is OK to force, and we need to force in order to have it work.
-  # a cache wqith these variables set
+  # a cache with these variables set
   # only put ncurses include and library into
   # variables if they are found
   if(NOT CURSES_NCURSES_INCLUDE_PATH AND CURSES_HAVE_NCURSES_NCURSES_H)
@@ -155,7 +155,7 @@ find_library(CURSES_FORM_LIBRARY form )
 
 # for compatibility with older FindCurses.cmake this has to be in the cache
 # FORCE must not be used since this would break builds which preload a cache
-# qith these variables set
+# with these variables set
 set(FORM_LIBRARY "${CURSES_FORM_LIBRARY}"
   CACHE FILEPATH "The curses form library")
 

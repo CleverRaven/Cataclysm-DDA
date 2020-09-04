@@ -2,6 +2,7 @@
   {
     "result": "battery_ups",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -22,23 +23,9 @@
     "components": [ [ [ "power_supply", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
-    "result": "double_plutonium_core",
-    "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_PARTS",
-    "skill_used": "electronics",
-    "difficulty": 7,
-    "skills_required": [ "fabrication", 7 ],
-    "time": "60 m",
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_atomic_battery", 7 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 9 ] ], [ [ "cable", 6 ] ], [ [ "alloy_plate", 1 ] ] ]
-  },
-  {
     "result": "magazine_battery_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -55,6 +42,7 @@
   {
     "result": "magazine_battery_light_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -72,6 +60,7 @@
   {
     "result": "magazine_battery_medium_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -89,6 +78,7 @@
   {
     "result": "magazine_battery_heavy_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -105,6 +95,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "medium_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -121,6 +112,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "heavy_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -137,6 +129,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "medium_plus_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -153,6 +146,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "heavy_plus_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",

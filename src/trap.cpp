@@ -1,26 +1,33 @@
 #include "trap.h"
 
-#include <vector>
 #include <set>
+#include <vector>
 
+#include "assign.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "event.h"
 #include "event_bus.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
+#include "item.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "player.h"
+#include "point.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "assign.h"
-#include "bodypart.h"
-#include "item.h"
-#include "rng.h"
-#include "creature.h"
-#include "point.h"
+
+static const skill_id skill_traps( "traps" );
+
+static const efftype_id effect_lack_sleep( "lack_sleep" );
+
+static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
+static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
 
 namespace
 {
@@ -79,10 +86,6 @@ bool string_id<trap>::is_valid() const
 
 static std::vector<const trap *> funnel_traps;
 
-const skill_id skill_traps( "traps" );
-
-const efftype_id effect_lack_sleep( "lack_sleep" );
-
 const std::vector<const trap *> &trap::get_funnels()
 {
     return funnel_traps;
@@ -93,12 +96,12 @@ size_t trap::count()
     return trap_factory.size();
 }
 
-void trap::load_trap( JsonObject &jo, const std::string &src )
+void trap::load_trap( const JsonObject &jo, const std::string &src )
 {
     trap_factory.load( jo, src );
 }
 
-void trap::load( JsonObject &jo, const std::string & )
+void trap::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name_ );
@@ -113,28 +116,29 @@ void trap::load( JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
+    optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );
     optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
-    JsonArray ja = jo.get_array( "drops" );
-    while( ja.has_more() ) {
-        std::string item_type;
+    for( const JsonValue entry : jo.get_array( "drops" ) ) {
+        itype_id item_type;
         int quantity = 0;
         int charges = 0;
-        if( ja.test_object() ) {
-            JsonObject jc = ja.next_object();
-            item_type = jc.get_string( "item" );
+        if( entry.test_object() ) {
+            JsonObject jc = entry.get_object();
+            jc.read( "item", item_type, true );
             quantity = jc.get_int( "quantity", 1 );
             charges = jc.get_int( "charges", 1 );
         } else {
-            item_type = ja.next_string();
+            entry.read( item_type, true );
             quantity = 1;
             charges = 1;
         }
-        if( !item_type.empty() && quantity > 0 && charges > 0 ) {
+        if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
             components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
         }
     }
@@ -152,13 +156,13 @@ void trap::load( JsonObject &jo, const std::string & )
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
         vehicle_data.spawn_items.clear();
         if( jv.has_array( "spawn_items" ) ) {
-            JsonArray ja = jv.get_array( "spawn_items" );
-            while( ja.has_more() ) {
-                if( ja.test_object() ) {
-                    JsonObject joitm = ja.next_object();
-                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+            for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
+                if( entry.test_object() ) {
+                    JsonObject joitm = entry.get_object();
+                    vehicle_data.spawn_items.emplace_back(
+                        itype_id( joitm.get_string( "id" ) ), joitm.get_float( "chance" ) );
                 } else {
-                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                    vehicle_data.spawn_items.emplace_back( itype_id( entry.get_string() ), 1.0 );
                 }
             }
         }
@@ -174,13 +178,30 @@ std::string trap::name() const
     return _( name_ );
 }
 
+std::string trap::map_regen_target() const
+{
+    return map_regen;
+}
+
 void trap::reset()
 {
     funnel_traps.clear();
     trap_factory.reset();
 }
 
-bool trap::detect_trap( const tripoint &pos, const player &p ) const
+bool trap::is_trivial_to_spot() const
+{
+    // @TODO technically the trap may not be detected even with visibility == 0, see trap::detect_trap
+    return visibility <= 0 && !is_always_invisible();
+}
+
+bool trap::detected_by_ground_sonar() const
+{
+    // @TODO make this a property
+    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+}
+
+bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -190,9 +211,9 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return p.per_cur - p.encumb( bp_eyes ) / 10 +
+    return p.per_cur - p.encumb( bodypart_id( "eyes" ) ) / 10 +
            // ...small bonus from stimulants...
-           ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
+           ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
            p.get_skill_level( skill_traps ) * 2 +
@@ -203,30 +224,46 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
-           ( p.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
+           ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
+           ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const player &p ) const
+bool trap::can_see( const tripoint &pos, const Character &p ) const
 {
     if( is_null() ) {
         // There is no trap at all, so logically one can not see it.
         return false;
     }
+    if( is_always_invisible() ) {
+        return false;
+    }
     return visibility < 0 || p.knows_trap( pos );
+}
+
+void trap::trigger( const tripoint &pos, Creature &creature ) const
+{
+    return trigger( pos, &creature, nullptr );
+}
+
+void trap::trigger( const tripoint &pos, item &item ) const
+{
+    return trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
+    if( is_null() ) {
+        return;
+    }
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
     if( is_real_creature || item != nullptr ) {
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
-                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+                get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
     }
@@ -249,8 +286,8 @@ bool trap::is_funnel() const
 
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
-    for( auto &i : components ) {
-        const std::string &item_type = std::get<0>( i );
+    for( const auto &i : components ) {
+        const itype_id &item_type = std::get<0>( i );
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
@@ -264,26 +301,9 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 // convenient int-lookup names for hard-coded functions
 trap_id
 tr_null,
-tr_bubblewrap,
-tr_glass,
-tr_cot,
-tr_funnel,
-tr_metal_funnel,
-tr_makeshift_funnel,
-tr_leather_funnel,
-tr_rollmat,
-tr_fur_rollmat,
-tr_beartrap,
 tr_beartrap_buried,
-tr_nailboard,
-tr_caltrops,
-tr_caltrops_glass,
-tr_tripwire,
-tr_crossbow,
 tr_shotgun_2,
-tr_shotgun_2_1,
 tr_shotgun_1,
-tr_engine,
 tr_blade,
 tr_landmine,
 tr_landmine_buried,
@@ -292,30 +312,37 @@ tr_goo,
 tr_dissector,
 tr_sinkhole,
 tr_pit,
-tr_spike_pit,
 tr_lava,
 tr_portal,
 tr_ledge,
-tr_boobytrap,
 tr_temple_flood,
 tr_temple_toggle,
 tr_glow,
 tr_hum,
 tr_shadow,
 tr_drain,
-tr_snake,
-tr_glass_pit;
+tr_snake;
 
 void trap::check_consistency()
 {
-    for( const auto &t : trap_factory.get_all() ) {
-        for( auto &i : t.components ) {
-            const std::string &item_type = std::get<0>( i );
+    for( const trap &t : trap_factory.get_all() ) {
+        for( const auto &i : t.components ) {
+            const itype_id &item_type = std::get<0>( i );
             if( !item::type_is_defined( item_type ) ) {
-                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), item_type.c_str() );
+                debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
         }
     }
+}
+
+bool trap::easy_take_down() const
+{
+    return avoidance == 0 && difficulty == 0;
+}
+
+bool trap::can_not_be_disarmed() const
+{
+    return difficulty >= 99;
 }
 
 void trap::finalize()
@@ -332,26 +359,9 @@ void trap::finalize()
         return trap_str_id( id ).id();
     };
     tr_null = trap_str_id::NULL_ID().id();
-    tr_bubblewrap = trapfind( "tr_bubblewrap" );
-    tr_glass = trapfind( "tr_glass" );
-    tr_cot = trapfind( "tr_cot" );
-    tr_funnel = trapfind( "tr_funnel" );
-    tr_metal_funnel = trapfind( "tr_metal_funnel" );
-    tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );
-    tr_leather_funnel = trapfind( "tr_leather_funnel" );
-    tr_rollmat = trapfind( "tr_rollmat" );
-    tr_fur_rollmat = trapfind( "tr_fur_rollmat" );
-    tr_beartrap = trapfind( "tr_beartrap" );
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
-    tr_nailboard = trapfind( "tr_nailboard" );
-    tr_caltrops = trapfind( "tr_caltrops" );
-    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
-    tr_tripwire = trapfind( "tr_tripwire" );
-    tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
-    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
-    tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
     tr_landmine = trapfind( "tr_landmine" );
     tr_landmine_buried = trapfind( "tr_landmine_buried" );
@@ -360,11 +370,9 @@ void trap::finalize()
     tr_dissector = trapfind( "tr_dissector" );
     tr_sinkhole = trapfind( "tr_sinkhole" );
     tr_pit = trapfind( "tr_pit" );
-    tr_spike_pit = trapfind( "tr_spike_pit" );
     tr_lava = trapfind( "tr_lava" );
     tr_portal = trapfind( "tr_portal" );
     tr_ledge = trapfind( "tr_ledge" );
-    tr_boobytrap = trapfind( "tr_boobytrap" );
     tr_temple_flood = trapfind( "tr_temple_flood" );
     tr_temple_toggle = trapfind( "tr_temple_toggle" );
     tr_glow = trapfind( "tr_glow" );
@@ -372,5 +380,10 @@ void trap::finalize()
     tr_shadow = trapfind( "tr_shadow" );
     tr_drain = trapfind( "tr_drain" );
     tr_snake = trapfind( "tr_snake" );
-    tr_glass_pit = trapfind( "tr_glass_pit" );
+}
+
+std::string trap::debug_describe() const
+{
+    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ), visibility,
+                          avoidance, difficulty, is_benign() ? _( "Yes" ) : _( "No" ) );
 }

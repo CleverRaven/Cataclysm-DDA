@@ -12,40 +12,45 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <algorithm>
-#include <cstring>
+#include "catch/catch.hpp"
+
 #include <chrono>
+#include <cstdio>
+#include <cstdlib>
 #include <ctime>
-#include <exception>
-#include <map>
-#include <memory>
-#include <ostream>
+#include <string>
 #include <string>
 #include <utility>
-#include <vector>
+#include <utility>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "cata_assert.h"
+#include "cata_utility.h"
+#include "color.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "loading_ui.h"
 #include "map.h"
+#include "messages.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "worldfactory.h"
-#include "color.h"
-#include "options.h"
 #include "pldata.h"
+#include "point.h"
 #include "rng.h"
 #include "type_id.h"
-#include "cata_utility.h"
-#include "calendar.h"
+#include "weather.h"
+#include "worldfactory.h"
+
+class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -68,25 +73,17 @@ static std::string extract_argument( std::vector<const char *> &arg_vec, const s
 
 static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
-    std::vector<mod_id> ret;
     std::string mod_string = extract_argument( arg_vec, "--mods=" );
 
-    const char delim = ',';
-    size_t i = 0;
-    size_t pos = mod_string.find( delim );
-    if( pos == std::string::npos && !mod_string.empty() ) {
-        ret.emplace_back( mod_string );
-    }
-
-    while( pos != std::string::npos ) {
-        ret.emplace_back( mod_string.substr( i, pos - i ) );
-        i = ++pos;
-        pos = mod_string.find( delim, pos );
-
-        if( pos == std::string::npos ) {
-            ret.emplace_back( mod_string.substr( i, mod_string.length() ) );
+    std::vector<std::string> mod_names = string_split( mod_string, ',' );
+    std::vector<mod_id> ret;
+    for( const std::string &mod_name : mod_names ) {
+        if( !mod_name.empty() ) {
+            ret.emplace_back( mod_name );
         }
     }
+    // Always load test data mod
+    ret.emplace_back( "test_data" );
 
     return ret;
 }
@@ -96,23 +93,27 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     const std::string &user_dir )
 {
     if( !assure_dir_exist( user_dir ) ) {
-        assert( !"Unable to make user_dir directory. Check permissions." );
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make user_dir directory.  Check permissions." );
     }
 
     PATH_INFO::init_base_path( "" );
-    PATH_INFO::init_user_dir( user_dir.c_str() );
+    PATH_INFO::init_user_dir( user_dir );
     PATH_INFO::set_standard_filenames();
 
-    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        assert( !"Unable to make config directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make config directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
-        assert( !"Unable to make save directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make save directory.  Check permissions." );
     }
 
-    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
-        assert( !"Unable to make templates directory. Check permissions." );
+    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
+        // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
+        cata_assert( !"Unable to make templates directory.  Check permissions." );
     }
 
     get_options().init();
@@ -136,9 +137,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != nullptr );
+    cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != nullptr );
+    cata_assert( world_generator->active_world != nullptr );
 
     calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
@@ -147,15 +148,19 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = avatar();
-    g->u.create( PLTYPE_NOW );
+    get_avatar() = avatar();
+    get_avatar().create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    get_map() = map();
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
-    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    map &here = get_map();
+    // TODO: fix point types
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -219,7 +224,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 {
     std::string option_user_dir = extract_argument( arg_vec, "--user-dir=" );
     if( option_user_dir.empty() ) {
-        return "./";
+        return "./test_user_dir/";
     }
     if( !string_ends_with( option_user_dir, "/" ) ) {
         option_user_dir += "/";
@@ -234,6 +239,24 @@ struct CataListener : Catch::TestEventListenerBase {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );
+        // Clear the message log so on test failures we see only messages from
+        // during that test
+        Messages::clear_messages();
+    }
+
+    void sectionEnded( Catch::SectionStats const &sectionStats ) override {
+        TestEventListenerBase::sectionEnded( sectionStats );
+        if( !sectionStats.assertions.allPassed() ) {
+            std::vector<std::pair<std::string, std::string>> messages =
+                        Messages::recent_messages( 0 );
+            if( !messages.empty() ) {
+                stream << "Log messages during failed test:\n";
+            }
+            for( const std::pair<std::string, std::string> &message : messages ) {
+                stream << message.first << ": " << message.second << '\n';
+            }
+            Messages::clear_messages();
+        }
     }
 
     bool assertionEnded( Catch::AssertionStats const &assertionStats ) override {
@@ -275,10 +298,10 @@ int main( int argc, const char *argv[] )
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
         printf( "CataclysmDDA specific options:\n" );
-        printf( "  --mods=<mod1,mod2,...>       Loads the list of mods before executing tests.\n" );
+        printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,...] Name-value pairs of game options for tests.\n" );
+        printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
         return result;
     }
@@ -292,6 +315,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

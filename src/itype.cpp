@@ -1,12 +1,13 @@
 #include "itype.h"
 
+#include <cstdlib>
 #include <utility>
 
 #include "debug.h"
-#include "player.h"
-#include "translations.h"
 #include "item.h"
+#include "player.h"
 #include "ret_val.h"
+#include "translations.h"
 
 struct tripoint;
 
@@ -16,20 +17,39 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<condition_type>( condition_type data )
+{
+    switch( data ) {
+        case condition_type::FLAG:
+            return "FLAG";
+        case condition_type::COMPONENT_ID:
+            return "COMPONENT_ID";
+        case condition_type::num_condition_types:
+            break;
+    }
+    debugmsg( "Invalid condition_type" );
+    abort();
+}
+} // namespace io
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
     // (Maybe gases too?  There are no gases at the moment)
-    if( phase == LIQUID ) {
+    if( phase == phase_id::LIQUID ) {
         quantity = 1;
     }
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
 {
     if( volume == 0_ml ) {
-        return item::INFINITE_CHARGES; // TODO: items should not have 0 volume at all!
+        // TODO: items should not have 0 volume at all!
+        return item::INFINITE_CHARGES;
     }
     return ( count_by_charges() ? stack_size : 1 ) * vol / volume;
 }
@@ -56,7 +76,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
-    for( auto &method : use_methods ) {
+    for( const auto &method : use_methods ) {
         const int val = method.second.call( p, it, true, pos );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
@@ -85,6 +105,7 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         return 0;
     }
 
+    p.invalidate_weight_carried_cache();
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {

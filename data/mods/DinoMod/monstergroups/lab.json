@@ -1,0 +1,66 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 168 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 672 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 2160 },
+      { "monster": "mon_velociraptor_bio_op", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_deino_bio_op", "freq": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "freq": 25,
+        "cost_multiplier": 30,
+        "starts": 2160,
+        "pack_size": [ 2, 3 ]
+      },
+      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
+      { "monster": "mon_zallimimus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 72 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 168 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 672 },
+      { "monster": "mon_zachycephalosaurus_bio_op", "freq": 25, "cost_multiplier": 20, "starts": 2160 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 72 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 168 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 672 },
+      { "monster": "mon_zriceratops_bio_op", "freq": 25, "cost_multiplier": 40, "starts": 2160 },
+      { "monster": "mon_velociraptor_bio_op", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_deino_bio_op", "freq": 100, "cost_multiplier": 20, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zeinonychus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
+      {
+        "monster": "mon_zeinonychus_bio_op",
+        "freq": 25,
+        "cost_multiplier": 30,
+        "starts": 2160,
+        "pack_size": [ 2, 3 ]
+      },
+      { "monster": "mon_dimorphodon_bio_op", "freq": 100, "cost_multiplier": 10 }
+    ]
+  }
+]

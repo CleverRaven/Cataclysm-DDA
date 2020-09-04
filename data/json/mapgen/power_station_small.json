@@ -40,7 +40,6 @@
         ".": "t_grass",
         "8": "t_potential_trans",
         "B": "t_oil_circ_brkr_l",
-        "C": "t_console_broken",
         "S": "t_switchgear_l",
         "T": "t_support_l",
         "W": "t_window",
@@ -62,7 +61,7 @@
         "4": "t_gutter_downspout"
       },
       "toilets": { "&": {  } },
-      "furniture": { "c": "f_counter", "a": "f_stool", "I": "f_desk", "k": "f_filing_cabinet", "$": "f_sink" },
+      "furniture": { "C": "f_console_broken", "c": "f_counter", "a": "f_stool", "I": "f_desk", "k": "f_filing_cabinet", "$": "f_sink" },
       "items": {
         "I": { "item": "office", "chance": 30, "repeat": [ 1, 2 ] },
         "k": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] }

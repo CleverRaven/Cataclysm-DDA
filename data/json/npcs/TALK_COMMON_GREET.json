@@ -5,6 +5,7 @@
     "responses": [
       { "text": "Another survivor!  We should travel together.", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What are you doing?", "topic": "TALK_DESCRIBE_MISSION" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Care to trade?",
         "topic": "TRADE_HALLU",
@@ -81,7 +82,7 @@
   {
     "id": "TALK_STRANGER_WARY",
     "type": "talk_topic",
-    "dynamic_line": "Okay, no sudden movements...",
+    "dynamic_line": "Okay, no sudden movements…",
     "responses": [ { "text": "Bye.", "topic": "TALK_DONE" } ]
   },
   {

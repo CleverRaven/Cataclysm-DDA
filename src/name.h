@@ -1,19 +1,34 @@
 #pragma once
-#ifndef NAME_H
-#define NAME_H
+#ifndef CATA_SRC_NAME_H
+#define CATA_SRC_NAME_H
 
 #include <string>
 
-enum nameFlags {
-    nameIsMaleName   = 1 << 0,
-    nameIsFemaleName = 1 << 1,
-    nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
-    nameIsGivenName  = 1 << 2,
-    nameIsFamilyName = 1 << 3,
-    nameIsNickName   = 1 << 4,
-    nameIsTownName   = 1 << 5,
-    nameIsFullName   = 1 << 6,
-    nameIsWorldName  = 1 << 7
+#include "enum_traits.h"
+
+template <typename E> struct enum_traits;
+
+/// @brief types of proper noun tables
+enum class nameFlags : int {
+    /// Masculine first names, also used for Unisex
+    IsMaleName   = 1 << 0,
+    /// Feminine first names, also used for Unisex
+    IsFemaleName = 1 << 1,
+    IsUnisexName = IsMaleName | IsFemaleName,
+    IsGivenName  = 1 << 2,
+    IsFamilyName = 1 << 3,
+    IsNickName   = 1 << 4,
+    /// Names of cities and towns in game
+    IsTownName   = 1 << 5,
+    /// Full names of crowdfunding donors
+    IsFullName   = 1 << 6,
+    /// Name belongs to list for world config saves. Seen in start menu.
+    IsWorldName  = 1 << 7
+};
+
+template<>
+struct enum_traits<nameFlags> {
+    static constexpr bool is_flag_enum = true;
 };
 
 namespace Name
@@ -31,14 +46,4 @@ std::string generate( bool is_male );
 void clear();
 } // namespace Name
 
-inline nameFlags operator|( nameFlags l, nameFlags r )
-{
-    return static_cast<nameFlags>( static_cast<unsigned>( l ) | static_cast<unsigned>( r ) );
-}
-
-inline nameFlags operator&( nameFlags l, nameFlags r )
-{
-    return static_cast<nameFlags>( static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
-
-#endif
+#endif // CATA_SRC_NAME_H

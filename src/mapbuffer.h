@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAPBUFFER_H
-#define MAPBUFFER_H
+#ifndef CATA_SRC_MAPBUFFER_H
+#define CATA_SRC_MAPBUFFER_H
 
 #include <list>
 #include <map>
@@ -32,7 +32,7 @@ class mapbuffer
 
         /** Add a new submap to the buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref lookup_submap.
          * @param sm The submap. If the submap has been added, the unique_ptr
          * is released (set to NULL).
@@ -41,20 +41,17 @@ class mapbuffer
          * is not stored than and the caller must take of the submap object
          * on their own (and properly delete it).
          */
-        bool add_submap( int x, int y, int z, std::unique_ptr<submap> &sm );
         bool add_submap( const tripoint &p, std::unique_ptr<submap> &sm );
-        bool add_submap( int x, int y, int z, submap *sm );
         bool add_submap( const tripoint &p, submap *sm );
 
         /** Get a submap stored in this buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref add_submap.
          * @return NULL if the submap is not in the mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned
          * submap object, don't delete it on your own.
          */
-        submap *lookup_submap( int x, int y, int z );
         submap *lookup_submap( const tripoint &p );
 
     private:
@@ -82,4 +79,4 @@ class mapbuffer
 
 extern mapbuffer MAPBUFFER;
 
-#endif
+#endif // CATA_SRC_MAPBUFFER_H

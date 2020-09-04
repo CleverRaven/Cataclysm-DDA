@@ -1,0 +1,11 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_mutpoppy",
+    "copy-from": "f_mutpoppy",
+    "name": "poppy bush",
+    "symbol": "f",
+    "color": "light_red",
+    "description": "An invasive species brought to Earth by the invaders and found it quite to its liking.  It spiny, writhing fronds make it look more like a jungle bush than a conventional poppy except for its red petals, but is named after such due to its similar medicinal properties.  It exudes a potent, sleep inducing aroma."
+  }
+]

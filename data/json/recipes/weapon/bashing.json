@@ -1,28 +1,21 @@
 [
   {
-    "result": "battletorch",
+    "result": "hollow_cane",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": "2 m",
-    "reversible": true,
+    "difficulty": 4,
+    "time": "40 m",
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bat", 1 ] ],
-      [ [ "nomex", 5 ] ],
-      [
-        [ "lamp_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ]
-      ]
-    ]
+    "using": [ [ "adhesive", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shillelagh",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -33,10 +26,11 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shillelagh_weighted",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -45,11 +39,13 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
-    "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "using": [ [ "forging_standard", 5 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blackjack",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -60,10 +56,11 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "weights", 10, "LIST" ] ] ]
+    "components": [ [ [ "leather", 5 ] ], [ [ "spring", 1 ] ], [ [ "weights", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "makeshift_sap",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",

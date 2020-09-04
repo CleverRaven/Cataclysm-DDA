@@ -22,7 +22,7 @@
         "I'm supposed to direct all questions to my leadership, marshal."
       ],
       "no": [
-        "Hey, citizen... I'm not sure you belong here.",
+        "Hey, citizen… I'm not sure you belong here.",
         "You should mind your own business, nothing to see here.",
         "If you need something you'll need to talk to someone else.",
         {
@@ -32,6 +32,6 @@
         }
       ]
     },
-    "responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
   }
 ]

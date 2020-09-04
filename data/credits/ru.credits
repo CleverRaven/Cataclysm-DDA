@@ -1,18 +1,28 @@
 # Max length of a line is 78 characters; the following line is for reference
 # Longer lines will be automatically folded
 ##############################################################################
-Оригинальный автор:    Менеджер проекта:    Вебсайт/Форум:
-Whales (не активен)    KevinGranade         GlyphGryph
+<color_white>Оригинальный автор:</color>    <color_white>Менеджер проекта:</color>
+<color_yellow>Whales</color> (<color_dark_gray>не активен</color>)    <color_yellow>KevinGranade</color>
 
-Текущие основные разработчики и менеджеры проекта на Github:
-KevinGranade, Rivet-the-Zombie, KA101, BevapDin, Coolthulu, i2amroy
+<color_white>Текущие основные разработчики:</color>
+<color_yellow>mlangsdorf</color> - Машины, лодки, лагеря и гайды по моддингу.
+<color_yellow>I-am-Erk</color> - Ultica, диалоги, NPC и хлам в шкафах.
+<color_yellow>KorGgenT</color> - Колдоклизм и кишечные колики.
 
-Особая благодарность:
-Narc - за настройку Jenkins, автоматической системы сборки.
-Acidia - за замечательный вклад в NPC, квесты и локации.
-Wuzzy и VlasovVitaly - за титанический труд по переводу.
-HuXTUS - за огромное количество потрясающего контента.
+<color_white>Особая благодарность:</color>
+<color_yellow>Narc</color> - За поддержку автоматической системы сборки Jenkins.
+<color_yellow>Rivet-the-Zombie</color> - За PR в день (и как ей не лень?).
+<color_yellow>BevapDin</color> - За обзоры и рефакторинг кода.
+<color_yellow>BrettDong</color> - За переводы.
+<color_yellow>curstwist</color> - За крышевание зданий, NPC и чейнжлоги.
+<color_yellow>davidpwbrown</color> - За авто-перемещения и авто-езду.  Ну и за коневодство тоже.
+<color_yellow>jbytheway</color> - За работу над CI и умение остаивать свою точку зрения.
+<color_yellow>Hymore246</color> - За переработку боевых искусств.
+<color_yellow>Qrox</color> - За читабельную трассировку в Windows-билдах.
+<color_yellow>ZhilkinSerg</color> - За тестирование и слияние изменений.
 
-Полный список участников находится здесь:
-https://github.com/CleverRaven/Cataclysm-DDA/contributors
-«Катаклизм: Тёмные дни впереди» выпущен под лицензией CC-BY-SA 3.0.
+<color_white>Полный список участников находится здесь:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Катаклизм</color>: <color_light_blue>Тёмные дни впереди</color> выпущен под лицензией <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

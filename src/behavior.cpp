@@ -1,6 +1,5 @@
 #include "behavior.h"
 
-#include <assert.h>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -8,6 +7,7 @@
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "cata_assert.h"
 #include "generic_factory.h"
 #include "debug.h"
 #include "json.h"
@@ -18,9 +18,10 @@ void node_t::set_strategy( const strategy_t *new_strategy )
 {
     strategy = new_strategy;
 }
-void node_t::set_predicate( std::function<status_t ( const oracle_t * )> new_predicate )
+void node_t::add_predicate( std::function<status_t ( const oracle_t *, const std::string & )>
+                            new_predicate, const std::string &argument )
 {
-    predicate = new_predicate;
+    conditions.emplace_back( std::make_pair( new_predicate, argument ) );
 }
 void node_t::set_goal( const std::string &new_goal )
 {
@@ -33,13 +34,25 @@ void node_t::add_child( const node_t *new_child )
 
 behavior_return node_t::tick( const oracle_t *subject ) const
 {
-    assert( predicate );
     if( children.empty() ) {
-        return { predicate( subject ), this };
+        status_t result = status_t::running;
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
+            result = predicate_pair.first( subject, predicate_pair.second );
+            if( result != status_t::running ) {
+                break;
+            }
+        }
+        return { result, this };
     } else {
-        assert( strategy != nullptr );
-        status_t result = predicate( subject );
-        if( result == running ) {
+        cata_assert( strategy != nullptr );
+        status_t result = status_t::running;
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
+            result = predicate_pair.first( subject, predicate_pair.second );
+            if( result != status_t::running ) {
+                break;
+            }
+        }
+        if( result == status_t::running ) {
             return strategy->evaluate( subject, children );
         } else {
             return { result, nullptr };
@@ -55,7 +68,7 @@ std::string node_t::goal() const
 std::string tree::tick( const oracle_t *subject )
 {
     behavior_return result = root->tick( subject );
-    active_node = result.result == running ? result.selection : nullptr;
+    active_node = result.result == status_t::running ? result.selection : nullptr;
     return goal();
 }
 
@@ -83,23 +96,25 @@ generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
 } // namespace
 
+/** @relates string_id */
+template<>
+bool string_id<node_t>::is_valid() const
+{
+    return behavior_factory.is_valid( *this );
+}
+
 template<>
 const node_t &string_id<node_t>::obj() const
 {
     return behavior_factory.obj( *this );
 }
 
-void behavior::load_behavior( JsonObject &jo, const std::string &src )
+void behavior::load_behavior( const JsonObject &jo, const std::string &src )
 {
     behavior_factory.load( jo, src );
 }
 
-node_t::node_t()
-{
-    predicate = &oracle_t::return_running;
-}
-
-void node_t::load( JsonObject &jo, const std::string & )
+void node_t::load( const JsonObject &jo, const std::string & )
 {
     // We don't initialize the node unless it has no children (opportunistic optimization).
     // Instead we initialize a parallel struct that holds the labels until finalization.
@@ -120,15 +135,16 @@ void node_t::load( JsonObject &jo, const std::string & )
             jo.throw_error( "Invalid strategy in behavior." );
         }
     }
-    if( jo.has_string( "predicate" ) ) {
-        auto new_predicate = predicate_map.find( jo.get_string( "predicate" ) );
-        if( new_predicate != predicate_map.end() ) {
-            predicate = new_predicate->second;
-        } else {
+    for( const JsonObject &predicate_object : jo.get_array( "conditions" ) ) {
+        const std::string predicate_id = predicate_object.get_string( "predicate" );
+        auto new_predicate = predicate_map.find( predicate_id );
+        if( new_predicate == predicate_map.end() ) {
             debugmsg( "While loading %s, failed to find predicate %s.",
-                      id.str(), jo.get_string( "predicate" ) );
-            jo.throw_error( "Invalid strategy in behavior." );
+                      id.str(), predicate_id );
+            jo.throw_error( "Invalid predicate in behavior." );
         }
+        const std::string predicate_argument = predicate_object.get_string( "argument", "" );
+        conditions.emplace_back( std::make_pair( new_predicate->second, predicate_argument ) );
     }
     optional( jo, was_loaded, "goal", _goal );
 }
@@ -160,7 +176,7 @@ void behavior::reset()
 void behavior::finalize()
 {
     for( const node_data &new_node : temp_node_data ) {
-        for( const std::string child : new_node.children ) {
+        for( const std::string &child : new_node.children ) {
             const_cast<node_t &>( new_node.id.obj() ).
             add_child( &string_id<node_t>( child ).obj() );
         }

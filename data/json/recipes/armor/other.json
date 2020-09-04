@@ -2,11 +2,11 @@
   {
     "result": "blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "time": "80 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ] ]
@@ -14,6 +14,7 @@
   {
     "result": "electric_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -27,43 +28,51 @@
   {
     "result": "gold_ring",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
     "result": "gold_bracelet",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
   },
   {
     "result": "copper_bracelet",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "type": "recipe",
-    "components": [ [ [ "copper", 60 ] ] ]
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "silver_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -71,12 +80,14 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "type": "recipe",
+    "using": [ [ "blacksmithing_standard", 3 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bead_bracelet",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -84,8 +95,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "type": "recipe",
-    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "string_6", 1 ] ] ]
+    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
   },
   {
     "result": "bead_necklace",
@@ -96,17 +106,18 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "string_36", 1 ] ] ]
+    "activity_level": "MODERATE_EXERCISE",
+    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "result": "down_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "85 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
@@ -114,6 +125,7 @@
   {
     "result": "fur_blanket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -129,6 +141,7 @@
   {
     "result": "fur_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -139,13 +152,14 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
   {
     "result": "faux_fur_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -156,13 +170,14 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "faux_fur", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
   {
     "result": "fur_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -176,6 +191,7 @@
   {
     "result": "faux_fur_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -189,6 +205,7 @@
   {
     "result": "basket_laundry",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -202,6 +219,7 @@
   {
     "result": "leather_cat_tail",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -212,13 +230,14 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
-      [ [ "string_36", 1 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
       [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
     ]
   },
   {
     "result": "leather_collar",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -232,11 +251,12 @@
   {
     "result": "rebreather_filter",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
@@ -250,16 +270,18 @@
     ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "components": [
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
       [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "scrap", 2 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
     "result": "gasfilter_s",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -269,11 +291,13 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
+    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_m",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
@@ -283,19 +307,22 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
+    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ], [ "bottle_plastic_small", 1 ] ] ]
   },
   {
     "result": "gasfilter_l",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": [ "chemistry", 1 ],
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
+    "flags": [ "UNCRAFT_BY_QUANTITY" ],
     "book_learn": [
       [ "textbook_fireman", 4 ],
       [ "atomic_survival", 4 ],
@@ -310,12 +337,13 @@
       [ [ "oxy_powder", 50 ] ],
       [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
       [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "scrap", 2 ], [ "can_food", 1 ], [ "can_drink", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
     "result": "sleeping_bag_roll",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -330,6 +358,7 @@
   {
     "result": "sleeping_bag_fur_roll",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -346,6 +375,7 @@
   {
     "result": "survivor_belt",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
@@ -364,6 +394,7 @@
   {
     "result": "survivor_belt_notools",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
@@ -382,6 +413,7 @@
   {
     "result": "towel",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "knitting",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
@@ -393,8 +425,9 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "towel",
-    "category": "CC_OTHER",
+    "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "survival",
     "time": "4 m",

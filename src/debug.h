@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DEBUG_H
-#define DEBUG_H
+#ifndef CATA_SRC_DEBUG_H
+#define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
 
@@ -24,7 +24,7 @@
  * DebugLog always returns a stream that starts on a new line. Don't add a
  * newline at the end of your debug message.
  * If the specific debug level or class have been disabled, the message is
- * actually discarded, otherwise it is written to a log file (FILENAMES["debug"]).
+ * actually discarded, otherwise it is written to a log file.
  * If a single source file contains mostly messages for the same debug class
  * (e.g. mapgen.cpp), create and use the macro dbg.
  *
@@ -47,10 +47,11 @@
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
-#include <vector>
 #include <string>
-#include <utility>
 #include <type_traits>
+#include <utility>
+#include <vector>
+#include <functional>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -79,6 +80,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
     return realDebugmsg( filename, line, funcname, string_format( mes,
                          std::forward<Args>( args )... ) );
 }
+
+// A fatal error for use in constexpr functions
+// This exists for compatibility reasons.  On gcc 5.3 we need a
+// different implementation that is messier.
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
+// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// actually be returned, it's just needed for the type), and then
+// args as if to debugmsg for the remaining args.
+#if defined(__GNUC__) && __GNUC__ < 6
+#define constexpr_fatal(ret, ...) \
+    do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
+#else
+#define constexpr_fatal(ret, ...) \
+    do { debugmsg(__VA_ARGS__); abort(); } while(false)
+#endif
 
 /**
  * Used to generate game report information.
@@ -152,7 +168,7 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
-enum class DebugOutput {
+enum class DebugOutput : int {
     std_err,
     file,
 };
@@ -182,33 +198,18 @@ void limitDebugClass( int );
  */
 bool debug_has_error_been_observed();
 
+/**
+ * Capturing debug messages during func execution,
+ * used to test debugmsg calls in the unit tests
+ * @return std::string debugmsg
+ */
+std::string capture_debugmsg_during( const std::function<void()> &func );
+
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------
 
 // See documentation at the top.
 std::ostream &DebugLog( DebugLevel, DebugClass );
-
-// OStream operators                                                {{{1
-// ---------------------------------------------------------------------
-
-template<typename C, typename A>
-std::ostream &operator<<( std::ostream &out, const std::vector<C, A> &elm )
-{
-    bool first = true;
-    for( typename std::vector<C>::const_iterator
-         it = elm.begin(),
-         end = elm.end();
-         it != end; ++it ) {
-        if( first ) {
-            first = false;
-        } else {
-            out << ",";
-        }
-        out << *it;
-    }
-
-    return out;
-}
 
 /**
  * Extended debugging mode, can be toggled during game.
@@ -225,4 +226,4 @@ void debug_write_backtrace( std::ostream &out );
 #endif
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
-#endif
+#endif // CATA_SRC_DEBUG_H

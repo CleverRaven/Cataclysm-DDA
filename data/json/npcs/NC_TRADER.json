@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "NC_TRADER_storage",
-    "items": [ [ "duffelbag", 80 ], [ "rucksack", 50 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "duffelbag", "prob": 80 }, { "item": "rucksack", "prob": 50 } ]
   }
 ]

@@ -1,0 +1,106 @@
+[
+  {
+    "id": "mon_goblin_warrior",
+    "type": "MONSTER",
+    "name": { "str": "goblin warrior" },
+    "description": "This short humanoid is covered in filth and shouts slurs at you as it brandishes a cudgel.",
+    "default_faction": "goblin",
+    "bodytype": "human",
+    "species": [ "GOBLIN" ],
+    "volume": "32 L",
+    "weight": "42 kg",
+    "hp": 40,
+    "speed": 105,
+    "material": [ "flesh" ],
+    "symbol": "g",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "dodge": 5,
+    "harvest": "demihuman",
+    "vision_day": 30,
+    "vision_night": 8,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "cudgel", "prob": 95 }
+      ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_goblin_slinger",
+    "name": { "str": "goblin slinger" },
+    "description": "An ugly creature that slings rocks almost as well as it slings insults.",
+    "copy-from": "mon_goblin_warrior",
+    "melee_skill": 2,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "sling", "prob": 95 }
+      ]
+    },
+    "starting_ammo": { "rock": 30 },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "gun",
+          "cooldown": 15,
+          "move_cost": 90,
+          "gun_type": "sling",
+          "ammo_type": "rock",
+          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
+          "fake_dex": 8,
+          "fake_per": 8,
+          "require_targeting_player": false,
+          "description": "The goblin slings a rock at you!",
+          "ranges": [ [ 2, 10, "DEFAULT" ] ],
+          "no_ammo_sound": "grunting"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_goblin_chieftain",
+    "type": "MONSTER",
+    "copy-from": "mon_goblin_warrior",
+    "name": { "str": "goblin chieftain" },
+    "description": "An ugly creature that was promoted to chieftain because it figured out which end of the weapon is pointy.",
+    "hp": 135,
+    "dodge": 6,
+    "melee_dice_sides": 8,
+    "melee_cut": 4,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
+      ]
+    }
+  },
+  {
+    "id": "mon_troll_goblin_tamed",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "default_faction": "goblin"
+  }
+]

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <functional>
 #include <iterator>
@@ -5,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "flat_set.h"
 #include "assertion_helpers.h"
 
@@ -74,7 +75,7 @@ TEST_CASE( "flat_set_ranged_operations", "[flat_set]" )
 
 TEST_CASE( "reversed_flat_set_insertion", "[flat_set]" )
 {
-    cata::flat_set<int, std::greater<int>> s;
+    cata::flat_set<int, std::greater<>> s;
     s.insert( 2 );
     s.insert( 1 );
     s.insert( 4 );
@@ -123,8 +124,8 @@ struct int_like {
     friend bool operator op( int_like l, int_like r ) { \
         return l.i op r.i; \
     }
-    INT_LIKE_OPERATOR( == );
-    INT_LIKE_OPERATOR( < );
+    INT_LIKE_OPERATOR( == )
+    INT_LIKE_OPERATOR( < )
 };
 
 TEST_CASE( "flat_set_transparent_lookup", "[flat_set]" )

@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "apartment_palette",
     "terrain": {
-      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 1 ] ],
+      " ": [ [ "t_region_groundcover_urban", 50 ], "t_region_shrub_decorative" ],
       "+": [ [ "t_door_c", 2 ], "t_door_o" ],
       "-": "t_wall",
       "%": "t_rock",
@@ -15,7 +15,6 @@
       "W": "t_window",
       "s": "t_sidewalk",
       "w": [ [ "t_window_domestic", 3 ], "t_curtains" ],
-      "x": "t_console_broken",
       "|": "t_wall",
       "z": "t_flat_roof",
       "(": "t_flat_roof",
@@ -41,8 +40,8 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "*": "t_open_air",
-      "K": "t_generator_broken",
-      "M": "t_machinery_heavy"
+      "K": "t_thconc_floor",
+      "M": "t_thconc_floor"
     },
     "furniture": {
       "a": "f_small_satelitte_dish",
@@ -57,6 +56,8 @@
       "h": [ [ "f_chair", 2 ], "f_null" ],
       "I": "f_floor_lamp",
       "j": "f_trashcan",
+      "K": "f_generator_broken",
+      "M": "f_machinery_heavy",
       "l": [ [ "f_stool", 2 ], "f_null" ],
       "n": "f_table",
       "o": "f_bookcase",
@@ -67,6 +68,7 @@
       "S": "f_sink",
       "t": "f_table",
       "u": "f_cupboard",
+      "x": "f_console_broken",
       "X": [ [ "f_wardrobe", 2 ], "f_dresser" ],
       "Y": "f_rack_coat",
       "1": "f_cupboard",
@@ -83,12 +85,19 @@
       "d": { "item": "dresser", "chance": 70, "repeat": [ 1, 3 ] },
       "e": { "item": "fridge", "chance": 70, "repeat": [ 1, 10 ] },
       "j": { "item": "trash", "chance": 65, "repeat": [ 1, 3 ] },
-      "o": [
-        { "item": "magazines", "chance": 30 },
-        { "item": "novels", "chance": 40 },
-        { "item": "alcohol", "chance": 30 },
-        { "item": "manuals", "chance": 20 }
-      ],
+      "o": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [
+            { "group": "magazines" },
+            { "group": "SUS_fiction_bookcase" },
+            {
+              "distribution": [ { "group": "SUS_tailoring_bookcase" }, { "group": "SUS_crafts_bookcase" }, { "group": "SUS_cooking_bookcase" } ]
+            }
+          ]
+        },
+        "chance": 75
+      },
       "O": { "item": "oven", "chance": 70 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
       "r": [ { "item": "dresser", "chance": 30 }, { "item": "jackets", "chance": 60 } ],
@@ -112,9 +121,9 @@
     "type": "palette",
     "id": "apartment_con_old",
     "terrain": {
-      " ": [ [ "t_grass", 3 ], "t_dirt" ],
+      " ": "t_region_groundcover_urban",
       "#": "t_rock",
-      "%": "t_shrub",
+      "%": "t_region_shrub_decorative",
       "+": "t_door_c",
       "-": "t_wall",
       "|": "t_wall",
@@ -125,11 +134,10 @@
       "E": "t_elevator",
       "G": "t_door_glass_c",
       "R": "t_railing_v",
-      "p": "t_grass",
+      "p": "t_region_groundcover_urban",
       "s": "t_sidewalk",
       "w": "t_window",
-      "X": "t_door_locked",
-      "x": "t_console_broken"
+      "X": "t_door_locked"
     },
     "furniture": {
       "A": "f_armchair",
@@ -150,6 +158,7 @@
       "t": "f_table",
       "T": "f_toilet",
       "u": "f_cupboard",
+      "x": "f_console_broken",
       "Y": "f_rack_coat",
       "1": "f_cupboard",
       "2": "f_cupboard",

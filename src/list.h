@@ -21,8 +21,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 
 #pragma once
-#ifndef LIST_H
-#define LIST_H
+#ifndef CATA_SRC_LIST_H
+#define CATA_SRC_LIST_H
 
 #define LIST_BLOCK_MIN static_cast<group_size_type>((sizeof(node) * 8 > (sizeof(*this) + sizeof(group)) * 2) ? 8 : (((sizeof(*this) + sizeof(group)) * 2) / sizeof(node)) + 1)
 #define LIST_BLOCK_MAX 2048
@@ -51,7 +51,6 @@
 #define LIST_DEALLOCATE(the_allocator, allocator_instance, location, size)      std::allocator_traits<the_allocator>::deallocate(allocator_instance, location, size)
 
 #include <algorithm> // std::sort
-#include <cassert>  // assert
 #include <cstring>  // memmove, memcpy
 #include <initializer_list>
 #include <iterator>     // std::bidirectional_iterator_tag
@@ -59,6 +58,8 @@
 #include <memory>   // std::uninitialized_copy, std::allocator
 #include <type_traits> // std::is_trivially_destructible, etc
 #include <utility> // std::move
+
+#include "cata_assert.h"
 
 namespace cata
 {
@@ -203,7 +204,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 group_pointer_type last_endpoint_group, block_pointer, last_searched_group;
                 size_type size;
 
-                struct ebco_pair2 : allocator_type { // empty-base-class optimisation
+                struct ebco_pair2 : allocator_type { // empty-base-class optimization
                     size_type capacity; // Total element capacity of all initialized groups
                     explicit ebco_pair2( const size_type number_of_elements ) noexcept: capacity(
                             number_of_elements ) {}
@@ -371,7 +372,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
                     if LIST_CONSTEXPR( std::is_trivially_copyable<node_pointer_type>::value &&
                                        std::is_trivially_destructible<node_pointer_type>::value ) {
-                        // Dereferencing here in order to deal with smart pointer situations ie. obtaining the raw pointer from the smart pointer
+                        // Dereferencing here in order to deal with smart pointer situations i.e. obtaining the raw pointer from the smart pointer
                         // reinterpret_cast necessary to deal with GCC 8 warnings
                         std::memcpy( static_cast<void *>( &*block_pointer ), static_cast<void *>( &*old_block ),
                                      sizeof( group ) * size );
@@ -379,7 +380,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         std::uninitialized_copy( std::make_move_iterator( old_block ),
                                                  std::make_move_iterator( old_block + size ), block_pointer );
                     } else {
-                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overriden in C++03/98. The = operator for "group" has been overriden to make the following work:
+                        // If allocator supplies non-trivial pointers it becomes necessary to destroy the group. uninitialized_copy will not work in this context as the copy constructor for "group" is overridden in C++03/98. The = operator for "group" has been overridden to make the following work:
                         const group_pointer_type beyond_end = old_block + size;
                         group_pointer_type current_new_group = block_pointer;
 
@@ -781,7 +782,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -793,7 +794,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -885,7 +886,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialised list_reverse_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -897,7 +898,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr );
+                    cata_assert( node_pointer != nullptr );
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -962,11 +963,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         group_vector groups;
         node_base end_node;
         node_pointer_type
-        last_endpoint; // last_endpoint being NULL means no elements have been constructed, but there may still be groups available due to clear() or reservee()
+        last_endpoint; // last_endpoint being NULL means no elements have been constructed, but there may still be groups available due to clear() or reserve()
         iterator end_iterator; // end_iterator is always the last entry point in last group in list (or one past the end of group)
         iterator begin_iterator;
 
-        // Packaging the group allocator with least-used member variables, for empty-base-class optimisation
+        // Packaging the group allocator with least-used member variables, for empty-base-class optimization
         struct ebco_pair1 : node_pointer_allocator_type {
             size_type total_number_of_elements;
             explicit ebco_pair1( const size_type total_num_elements ) noexcept: total_number_of_elements(
@@ -1156,22 +1157,22 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         inline reference front() {
-            assert( begin_iterator.node_pointer != &end_node );
+            cata_assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
         inline const_reference front() const {
-            assert( begin_iterator.node_pointer != &end_node );
+            cata_assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
         inline reference back() {
-            assert( end_node.previous != &end_node );
+            cata_assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
 
         inline const_reference back() const {
-            assert( end_node.previous != &end_node );
+            cata_assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
 
@@ -1694,9 +1695,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         // Single erase:
         // if uninitialized/invalid iterator supplied, function could generate an exception, hence no noexcept
         iterator erase( const const_iterator it ) {
-            assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
-            assert( it.node_pointer != nullptr );
-            assert( it.node_pointer != end_iterator.node_pointer );
+            cata_assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
+            cata_assert( it.node_pointer != nullptr );
+            cata_assert( it.node_pointer != end_iterator.node_pointer );
 
             if LIST_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                 LIST_DESTROY( element_allocator_type, ( *this ),
@@ -1814,7 +1815,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         inline list &operator=( const list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             clear();
             reserve( source.node_pointer_allocator_pair.total_number_of_elements );
@@ -1825,7 +1826,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Move assignment
         list &operator=( list &&source ) LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             // Move source values across:
             groups.destroy_all_data( last_endpoint );
@@ -1848,7 +1849,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         bool operator==( const list &rh ) const noexcept {
-            assert( this != &rh );
+            cata_assert( this != &rh );
 
             if( node_pointer_allocator_pair.total_number_of_elements !=
                 rh.node_pointer_allocator_pair.total_number_of_elements ) {
@@ -2156,7 +2157,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
     public:
 
         void splice( iterator position, list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             if( source.node_pointer_allocator_pair.total_number_of_elements == 0 ) {
                 return;
@@ -2181,14 +2182,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         template <class comparison_function>
         void merge( list &source, comparison_function compare ) {
-            assert( &source != this );
+            cata_assert( &source != this );
             splice( ( source.node_pointer_allocator_pair.total_number_of_elements >=
                       node_pointer_allocator_pair.total_number_of_elements ) ? end_iterator : begin_iterator, source );
             sort( compare );
         }
 
         void merge( list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             if( source.node_pointer_allocator_pair.total_number_of_elements == 0 ) {
                 return;
@@ -2329,7 +2330,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                             if( current_node->next != nullptr && predicate( current_node->element ) ) {
                                 erase( current_node );
 
-                                // ie. group will be empty (and removed) now - nothing left to iterate over
+                                // i.e. group will be empty (and removed) now - nothing left to iterate over
                                 if( --num_elements == 0 ) {
                                     // As current group has been removed, subsequent groups have already shifted back by one, hence, the ++ to the current group in the for loop is unnecessary, and negated here
                                     --current_group;
@@ -2467,4 +2468,4 @@ inline void swap( list<swap_element_type, swap_element_allocator_type> &a,
 #undef LIST_ALLOCATE_INITIALIZATION
 #undef LIST_DEALLOCATE
 
-#endif // LIST_H
+#endif // CATA_SRC_LIST_H

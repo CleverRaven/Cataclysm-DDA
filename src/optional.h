@@ -1,11 +1,12 @@
 #pragma once
-#ifndef OPTIONAL_H
-#define OPTIONAL_H
+#ifndef CATA_SRC_OPTIONAL_H
+#define CATA_SRC_OPTIONAL_H
 
-#include <cassert>
 #include <initializer_list>
 #include <stdexcept>
 #include <type_traits>
+
+#include "cata_assert.h"
 
 namespace cata
 {
@@ -38,17 +39,17 @@ class optional
         bool full;
 
         T &get() {
-            assert( full );
+            cata_assert( full );
             return data;
         }
         const T &get() const {
-            assert( full );
+            cata_assert( full );
             return data;
         }
 
         template<typename... Args>
         void construct( Args &&... args ) {
-            assert( !full );
+            cata_assert( !full );
             new( &data )StoredType( std::forward<Args>( args )... );
             full = true;
         }
@@ -65,7 +66,7 @@ class optional
                 construct( other.get() );
             }
         }
-        optional( optional &&other ) : full( false ) {
+        optional( optional &&other ) noexcept : full( false ) {
             if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -173,7 +174,7 @@ class optional
             }
             return *this;
         }
-        optional &operator=( optional &&other ) {
+        optional &operator=( optional &&other ) noexcept {
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
@@ -254,4 +255,4 @@ constexpr bool operator!=( const optional<T> &lhs, const optional<U> &rhs )
 
 } // namespace cata
 
-#endif
+#endif // CATA_SRC_OPTIONAL_H

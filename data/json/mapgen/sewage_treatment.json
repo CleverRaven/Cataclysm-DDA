@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "sewage_treatment_palette",
     "terrain": {
-      " ": [ "t_dirt", "t_grass" ],
-      "?": "t_shrub",
+      " ": "t_region_groundcover",
+      "?": "t_region_shrub",
       ")": "t_water_pool_shallow",
       ".": "t_pavement",
       "_": "t_sidewalk",
@@ -30,25 +30,26 @@
       "b": "t_door_metal_pickable",
       "e": "t_door_metal_locked",
       "D": "t_door_glass_c",
-      "6": "t_console_broken",
       "+": "t_door_c",
       ",": "t_floor",
       "M": "t_metal_floor",
       "<": "t_ladder_up",
       ">": "t_stairs_down",
-      "%": "t_machinery_heavy",
-      "$": "t_machinery_light",
+      "%": "t_thconc_floor",
+      "$": "t_thconc_floor",
       "{": "t_thconc_floor",
       "R": "t_thconc_floor",
       "J": "t_current_trans",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "F": "t_potential_trans",
       "7": "t_metal_floor",
       "4": "t_metal_floor",
       "g": "t_metal_floor",
-      "Y": "t_switchgear_s"
-    }
+      "Y": "t_switchgear_s",
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
   },
   {
     "type": "palette",
@@ -86,7 +87,6 @@
       "H": "t_sconc_wall",
       "2": "t_sewage_pipe",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "Y": "t_switchgear_s",
       "&": "t_sewage_pump",
       "-": "t_wall_glass",
@@ -94,43 +94,51 @@
       "a": "t_railing_v",
       "|": "t_chainfence",
       "C": "t_chaingate_l",
-      "$": "t_machinery_light",
-      "@": "t_machinery_heavy",
-      "v": "t_machinery_old",
+      "$": "t_thconc_floor",
+      "@": "t_thconc_floor",
+      "v": "t_thconc_floor",
       "+": "t_door_c",
-      "6": "t_console_broken"
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": {
+      "$": "f_machinery_light",
+      "@": "f_machinery_heavy",
+      "v": "f_machinery_old",
+      "G": "f_generator_broken",
+      "6": "f_console_broken"
     }
   },
   {
     "id": "treatment_chemicals",
     "type": "item_group",
     "items": [
-      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 10, "charges-max": 126, "chance": 50 },
+      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 10, "charges-max": 126, "prob": 50 },
       {
         "item": "chem_sulphuric_acid",
         "container-item": "55gal_drum",
         "charges-min": 2,
         "charges-max": 50,
-        "chance": 20
+        "prob": 20
       },
       {
         "item": "material_quicklime",
         "container-item": "55gal_drum",
         "charges-min": 2,
         "charges-max": 50,
-        "chance": 20
+        "prob": 20
       },
-      { "item": "55gal_drum", "chance": 50 }
+      { "item": "55gal_drum", "prob": 50 }
     ]
   },
   {
     "id": "sewage_samples",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "chance": 50 },
-      { "item": "water", "container-item": "flask_glass", "charges": 1, "chance": 50 },
-      { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "chance": 30 },
-      { "item": "slime_scrap", "container-item": "flask_glass", "charges": 1, "chance": 10 }
+      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "prob": 30 },
+      { "item": "slime_scrap", "container-item": "flask_glass", "charges": 1, "prob": 10 }
     ]
   },
   {
@@ -497,7 +505,7 @@
         "=": [ { "item": "cannibal_corpse", "chance": 15 }, { "item": "human_remains", "chance": 15 } ],
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] }
       },
-      "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990, "chance": 40 } },
+      "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990 } },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.1 },
         { "monster": "GROUP_CHUD", "x": [ 4, 6 ], "y": [ 16, 18 ], "density": 0.2 }
@@ -539,7 +547,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "palettes": [ "sewage_treatment_sewer_palette" ],
-      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_yellow", "Q": "t_privacy_fence" },
+      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_metal_yellow", "Q": "t_privacy_fence" },
       "furniture": {
         "{": "f_utility_shelf",
         "w": "f_workbench",
@@ -566,7 +574,7 @@
         "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
-        { "item": "katana", "x": 2, "y": 11, "amount": 2 },
+        { "item": "katana", "x": 2, "y": 11, "repeat": 2 },
         { "item": "q_staff", "x": 3, "y": 12 },
         { "item": "television", "x": 1, "y": 15 },
         { "item": "judo_belt_orange", "x": 3, "y": 13 },
@@ -580,16 +588,16 @@
     "id": "cannibal_corpse",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "clothing_work_set", "chance": 40 }, { "group": "supplies_plumbing", "chance": 20 }, { "item": "corpse" } ]
+    "items": [ { "group": "clothing_work_set", "prob": 40 }, { "group": "supplies_plumbing", "prob": 20 }, { "item": "corpse" } ]
   },
   {
     "id": "human_remains",
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "human_flesh", "chance": 70, "count-min": 1, "count-max": 10 },
-      { "item": "hstomach_large", "chance": 60 },
-      { "item": "hstomach", "chance": 60 },
+      { "item": "human_flesh", "prob": 70, "count-min": 1, "count-max": 10 },
+      { "item": "hstomach_large", "prob": 60 },
+      { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
       { "item": "rag_bloody", "prob": 90, "count-min": 1, "count-max": 4 }
     ]

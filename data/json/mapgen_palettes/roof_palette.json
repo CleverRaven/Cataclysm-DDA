@@ -30,8 +30,10 @@
     },
     "furniture": {
       "&": "f_roof_turbine_vent",
+      "N": "f_TV_antenna",
       ":": "f_cellphone_booster",
       "X": "f_small_satelitte_dish",
+      "~": "f_chimney",
       "=": "f_vent_pipe",
       "A": "f_air_conditioner",
       "b": "f_bench",
@@ -45,8 +47,10 @@
       "S": "f_sink",
       "e": "f_oven",
       "F": "f_fridge",
+      "Я": "f_standing_tank",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
+    "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
     "toilets": { "T": {  } }
   }
 ]

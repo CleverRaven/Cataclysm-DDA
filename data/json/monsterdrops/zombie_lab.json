@@ -22,6 +22,7 @@
           { "group": "textbooks", "prob": 25 }
         ]
       },
+      { "item": "id_science", "prob": 5 },
       { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
     ]
   },
@@ -51,7 +52,7 @@
       [ "bio_int_enhancer", 10 ],
       [ "bio_night_vision", 1 ],
       [ "bio_infrared", 2 ],
-      [ "bio_scent_vision", 5 ],
+      [ "bio_synaptic_regen", 12 ],
       [ "bio_gills", 5 ],
       [ "bio_climate", 2 ],
       [ "bio_heatsink", 2 ],

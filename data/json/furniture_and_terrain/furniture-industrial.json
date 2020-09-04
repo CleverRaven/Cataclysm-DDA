@@ -1,0 +1,543 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_robotic_assembler",
+    "name": "robotic assembler",
+    "looks_like": "f_robotic_arm",
+    "description": "A durable and versatile robotic arm with a tool fitted to the end, for working on an assembly line.  Despite its specialized purpose being all but lost now, it could provide a plethora of useful parts if disassembled.",
+    "symbol": "3",
+    "color": "magenta_cyan",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 5, 8 ] },
+        { "item": "circuit", "count": [ 3, 5 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "count": [ 2, 4 ] },
+        { "item": "RAM", "count": [ 8, 16 ] },
+        { "item": "cable", "charges": [ 8, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chemical_mixer",
+    "looks_like": "f_machinery_light",
+    "description": "A large vat with a motorized mixing device for combining large quantities of chemicals.",
+    "name": "chemical mixer",
+    "symbol": "0",
+    "color": "red_green",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 16,
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "metal_tank_little", "count": [ 0, 2 ] },
+        { "item": "jerrycan", "count": [ 0, 2 ] },
+        { "item": "metal_tank", "count": [ 0, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "metal_tank_little", "count": [ 2, 4 ] },
+        { "item": "jerrycan", "count": [ 2, 4 ] },
+        { "item": "metal_tank", "count": [ 2, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_generator_broken",
+    "name": "broken generator",
+    "looks_like": "f_machinery_old",
+    "description": "This generator is broken and will not help you produce usable electricity.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKS_DOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] },
+        { "item": "jerrycan", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "pipe_fittings", "count": [ 0, 1 ] },
+        { "item": "frame", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_compact_ASRG_containment",
+    "name": "Compact Advanced Sterling Radioisotope Generator",
+    "looks_like": "t_plut_generator",
+    "description": "This hefty lump of steel and lead is the housing unit for a small nuclear reactor.  It is plastered with warning signs.  You could probably ignore those and salvage the steel and lead shielding, what could possibly go wrong?",
+    "symbol": "0",
+    "color": "green_white",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 70,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": {
+      "furn_set": "f_compact_ASRG",
+      "items": [
+        { "item": "lead", "count": [ 40, 80 ] },
+        { "item": "cable", "charges": [ 8, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "mil_plate", "count": [ 2, 4 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_compact_ASRG",
+    "name": "Compact Advanced Sterling Radioisotope Generator",
+    "looks_like": "f_compact_ASRG_containment",
+    "description": "Some insane fool has removed the outer containment on this small-scale nuclear reactor.  It is still fairly safe as it is: the reactor has considerable built-in containment as well.  Nevertheless, you probably don't want to stand too close for too long.",
+    "symbol": "0",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "emissions": [ "emit_rad_leak" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xedra_antenna",
+    "name": "mobile antenna",
+    "symbol": "1",
+    "looks_like": "f_small_satelitte_dish",
+    "description": "A stark black directional antenna, seemingly part of a monitoring setup.  A led mounted on its back lights up with a lazy and irregular rhythm.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 2,
+    "deployed_item": "xedra_antenna",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "MOUNTABLE", "CAN_SIT" ],
+    "max_volume": "600 L",
+    "deconstruct": { "items": [ { "item": "xedra_antenna", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_machinery_light",
+    "name": "light machinery",
+    "looks_like": "t_machinery_light",
+    "description": "Assorted light machinery.  You could scavenge it for parts.",
+    "symbol": "$",
+    "color": "dark_gray",
+    "move_cost_mod": 10,
+    "coverage": 65,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 40 },
+        { "item": "cu_pipe", "prob": 40 },
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "bearing", "charges": [ 4, 12 ] },
+        { "item": "frame", "prob": 50 },
+        { "item": "motor", "prob": 50 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": 2, "prob": 40 },
+        { "item": "chain", "prob": 20 },
+        { "item": "cu_pipe", "prob": 10 },
+        { "item": "scrap", "count": [ 3, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "bearing", "charges": [ 2, 8 ] },
+        { "item": "frame", "prob": 20 },
+        { "item": "motor", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_machinery_heavy",
+    "name": "heavy machinery",
+    "looks_like": "t_machinery_heavy",
+    "description": "Assorted heavy machinery.  You could scavenge it for parts.",
+    "symbol": "%",
+    "color": "light_gray",
+    "move_cost_mod": 10,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 60 },
+        { "item": "cu_pipe", "prob": 20 },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 4, 12 ] },
+        { "item": "frame", "prob": 60 },
+        { "item": "motor", "prob": 30 },
+        { "item": "metal_tank", "prob": 30 },
+        { "item": "motor_large", "prob": 10 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": 1 },
+        { "item": "chain", "prob": 20 },
+        { "item": "steel_lump", "count": 1 },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "bearing", "charges": [ 2, 8 ] },
+        { "item": "frame", "prob": 30 },
+        { "item": "motor", "prob": 10 },
+        { "item": "metal_tank", "prob": 20 },
+        { "item": "motor_large", "prob": 5 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_machinery_old",
+    "name": "old machinery",
+    "looks_like": "t_machinery_old",
+    "description": "Assorted old, rusty machinery.  You could scavenge it for parts.",
+    "symbol": "&",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 40 },
+        { "item": "cu_pipe", "prob": 60 },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 1, 5 ] },
+        { "item": "frame", "prob": 30 },
+        { "item": "motor", "prob": 30 },
+        { "item": "splinter", "count": 3, "prob": 30 },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 3, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "wire", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "chain", "prob": 20 },
+        { "item": "cu_pipe", "prob": 10 },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "motor", "prob": 10 },
+        { "item": "splinter", "count": [ 4, 8 ] },
+        { "item": "2x4", "count": 2 },
+        { "item": "nail", "charges": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_machinery_electronic",
+    "name": "electronic machinery",
+    "looks_like": "t_machinery_electronic",
+    "description": "Assorted electronic machinery.  You could scavenge it for parts.",
+    "symbol": "$",
+    "color": "yellow",
+    "move_cost_mod": 8,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "bearing", "charges": [ 2, 6 ] },
+        { "item": "motor", "prob": 40 },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "circuit", "count": [ 3, 8 ] },
+        { "item": "power_supply", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "wire", "prob": 40 },
+        { "item": "pipe", "prob": 40 },
+        { "item": "steel_chunk", "prob": 40 },
+        { "item": "bearing", "charges": [ 2, 4 ] },
+        { "item": "motor", "prob": 10 },
+        { "item": "processor", "prob": 40 },
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "small_lcd_screen", "prob": 40 },
+        { "item": "e_scrap", "count": [ 3, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "power_supply", "prob": 40 },
+        { "item": "amplifier", "prob": 40 },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_robotic_arm",
+    "name": "robotic arm",
+    "looks_like": "f_machinery_electronic",
+    "description": "An automated robotic arm used in assembly lines, which appears to be more general-purpose than specially designed assemblers.  Despite being functionless now, the parts could be useful.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "move_cost_mod": 3,
+    "required_str": 18,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "processor", "prob": 75 },
+        { "item": "RAM", "prob": 80 },
+        { "item": "power_supply", "prob": 70 },
+        { "item": "amplifier", "prob": 90 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "steel_lump", "prob": 60 },
+        { "item": "sheet_metal", "prob": 50 },
+        { "item": "motor", "prob": 60 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "processor", "prob": 15 },
+        { "item": "RAM", "prob": 30 },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "amplifier", "prob": 70 },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "spring", "prob": 80 },
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "sheet_metal", "prob": 30 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "motor", "prob": 30 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ground_cable",
+    "name": "ground cable",
+    "looks_like": "t_sewer_pipe",
+    "description": "A bunch of loose cables snake along the floor.",
+    "symbol": "}",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 100,
+      "sound": "shred!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "scrap_copper", "count": [ 1, 4 ] }, { "item": "cable", "count": [ 1, 4 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "cable", "count": 4 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_capacitor",
+    "name": "capacitor bank",
+    "looks_like": "f_machinery_electronic",
+    "description": "A bank of heavy metal cylinders connected by large wires.",
+    "symbol": "=",
+    "color": "light_blue",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 200,
+      "explosive": 15,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 8 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 0, 5 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
+        { "item": "amplifier", "count": [ 0, 4 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "metal_tank_little", "count": [ 0, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_control_station",
+    "name": "control station",
+    "description": "Assorted electronic interfaces and screens.  You could scavenge it for parts.",
+    "symbol": "$",
+    "color": "yellow",
+    "looks_like": "t_machinery_electronic",
+    "move_cost_mod": 8,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "wire", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "circuit", "count": [ 3, 8 ] },
+        { "item": "power_supply", "count": [ 1, 3 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [
+        { "item": "wire", "prob": 40 },
+        { "item": "pipe", "prob": 40 },
+        { "item": "steel_chunk", "prob": 40 },
+        { "item": "processor", "prob": 40 },
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "small_lcd_screen", "prob": 40 },
+        { "item": "e_scrap", "count": [ 3, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "power_supply", "prob": 40 },
+        { "item": "amplifier", "prob": 40 },
+        { "item": "plastic_chunk", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 3, 8 ] }
+      ]
+    }
+  }
+]

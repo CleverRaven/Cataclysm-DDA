@@ -1,0 +1,35 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "molasses",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "50 m",
+    "batch_time_factors": [ 20, 1 ],
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
+    "components": [ [ [ "beet_syrup", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "young_yeast",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "survival", 4 ],
+    "time": "20 m",
+    "batch_time_factors": [ 90, 1 ],
+    "charges": 1,
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "sugar", 10 ] ] ]
+  }
+]

@@ -1,12 +1,12 @@
 #pragma once
-#ifndef ITEM_STACK_H
-#define ITEM_STACK_H
+#ifndef CATA_SRC_ITEM_STACK_H
+#define CATA_SRC_ITEM_STACK_H
 
 #include <cstddef>
 
 #include "colony.h"
 #include "item.h" // IWYU pragma: keep
-#include "units.h"
+#include "units_fwd.h"
 
 // A wrapper class to bundle up the references needed for a caller to safely manipulate
 // items and obtain information about items at a particular map x/y location.
@@ -28,6 +28,7 @@ class item_stack
         using const_reverse_iterator = cata::colony<item>::const_reverse_iterator;
 
         item_stack( cata::colony<item> *items ) : items( items ) { }
+        virtual ~item_stack() = default;
 
         size_t size() const;
         bool empty() const;
@@ -72,4 +73,4 @@ class item_stack
         const item *stacks_with( const item &it ) const;
 };
 
-#endif
+#endif // CATA_SRC_ITEM_STACK_H

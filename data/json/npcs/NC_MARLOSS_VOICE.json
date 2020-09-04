@@ -2,7 +2,8 @@
   {
     "type": "item_group",
     "id": "NC_VOICE_weapon",
-    "items": [ [ "q_staff", 20 ], [ "stick_long", 80 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
   },
   {
     "type": "item_group",
@@ -29,6 +30,7 @@
   {
     "type": "item_group",
     "id": "NC_VOICE_armor",
-    "items": [ [ "armor_nomad", 20 ], [ "armor_nomad_light", 80 ] ]
+    "subtype": "distribution",
+    "entries": [ { "item": "armor_nomad", "prob": 20 }, { "item": "armor_nomad_light", "prob": 80 } ]
   }
 ]

@@ -1,0 +1,335 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_11",
+    "copy-from": "ranch_camp_11",
+    "sym": "\u00A9"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_12",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_13",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_14",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_15",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_16",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_17",
+    "copy-from": "ranch_camp_17",
+    "sym": "\u00DC"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_18",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_19",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_20",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_21",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_22",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_23",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_24",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_25",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_26",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_29",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_30",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_31",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_32",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_33",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_34",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_35",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_38",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_39",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_40",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_41",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_42",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_43",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_44",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_47",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_48",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_49",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_50",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_51",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_52",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_53",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_56",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57",
+    "copy-from": "ranch_camp_57",
+    "sym": "\u00F6",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_roof",
+    "copy-from": "ranch_camp_57_roof",
+    "sym": "\u00F6",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silo",
+    "copy-from": "ranch_camp_57_silo",
+    "sym": "\u00F6",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silocap",
+    "copy-from": "ranch_camp_57_silocap",
+    "sym": "\u00F6",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_58",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_59",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_60",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_61",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_62",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_65",
+    "copy-from": "ranch_camp_65",
+    "sym": "\u00A9"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_65_roof",
+    "copy-from": "ranch_camp_65_roof",
+    "name": "open air",
+    "sym": "\u00A6",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66",
+    "copy-from": "ranch_camp_66",
+    "sym": "\u00E9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66_roof",
+    "copy-from": "ranch_camp_66_roof",
+    "sym": "\u00E9",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67",
+    "copy-from": "ranch_camp_67",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67_roof",
+    "copy-from": "ranch_camp_67_roof",
+    "sym": "\u00E6",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68",
+    "copy-from": "ranch_camp_68",
+    "sym": "\u00E2",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68_roof",
+    "copy-from": "ranch_camp_68_roof",
+    "sym": "\u00E2",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_70",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_71",
+    "copy-from": "ranch_camp_11"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_74_roof",
+    "copy-from": "ranch_camp_74_roof",
+    "name": "open air",
+    "sym": "\u00A6",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_75_roof",
+    "copy-from": "ranch_camp_75_roof",
+    "name": "open air",
+    "sym": "\u00A6",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_76",
+    "copy-from": "ranch_camp_76",
+    "sym": "\u00D7"
+  }
+]

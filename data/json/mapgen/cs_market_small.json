@@ -48,16 +48,7 @@
   {
     "type": "item_group",
     "id": "m_merch_4",
-    "items": [
-      [ "many_years_old_newspaper", 20 ],
-      [ "years_old_newspaper", 20 ],
-      [ "one_year_old_newspaper", 20 ],
-      [ "months_old_newspaper", 20 ],
-      [ "weeks_old_newspaper", 20 ],
-      [ "newest_newspaper", 20 ],
-      [ "mag_news", 20 ],
-      [ "hat_newsboy", 20 ]
-    ]
+    "items": [ { "group": "newspaper", "prob": 80 }, [ "mag_news", 20 ], [ "hat_newsboy", 20 ] ]
   },
   {
     "type": "item_group",

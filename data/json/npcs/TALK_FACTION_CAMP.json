@@ -16,9 +16,15 @@
         "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "u_at_om_location": "field" },
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
         "switch": true,
         "default": true
+      },
+      {
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_DONE",
+        "effect": "abandon_camp"
       },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -34,9 +40,31 @@
   {
     "id": "TALK_CAMP_TUTORIAL_INTRO",
     "type": "talk_topic",
-    "dynamic_line": "The faction camp system is designed to give you greater control over your companions by allowing you to assign them to their own missions.  These missions can range from gathering and crafting to eventual combat patrols.",
+    "dynamic_line": "The faction camp system allows you to use friendly NPCs to take over existing buildings or construct new buildings and use them to extend the usefulness of your allies.  When you have a faction camp, you can order your companions to perform missions, such as crafting new items, building up the camp, hunting for food, or recruiting more allies.  Faction camps also simplify some aspects of managing your companions.",
     "responses": [
-      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
+      { "text": "Give me an overview of how camps work.", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
+      { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
+      { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_OVERVIEW",
+    "type": "talk_topic",
+    "dynamic_line": "Each faction camp starts with a bulletin board.  You can 'e'xamine the bulletin board to get a list of available missions with descriptions, and to assign an NPC to work on a mission.  The bulletin board is the primary way to access the camp.\n  If both you and a companion have two-way radios, you can assign missions to the companion remotely by talking on the radio.\n  When you ask a companion to start a camp, they'll build a bulletin board at the current location, and that will establish a faction camp at that overmap tile.  A faction camp has a central tile where the bulletin board is, and possibly one or more expansions that are in adjacent tiles.\n  All of your faction camps can be stocked with food, and your companions will eat from that food when performing camp missions, or even when they're just hungry and near the camp.\n  Currently, faction camps can be created in fields, in fire stations, and in some evac shelters.",
+    "responses": [
+      { "text": "Wait, we can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
+      { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
+      { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
+      { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
@@ -46,49 +74,91 @@
   {
     "id": "TALK_CAMP_TUTORIAL_FOOD",
     "type": "talk_topic",
-    "dynamic_line": "Food is required for or produced during every mission.  Missions that are for a fixed amount of time will require you to pay in advance while repeating missions, like gathering firewood, are paid upon completion.  Not having the food needed to pay a companion will result in a loss of reputation across the faction.  Which can lead to VERY bad things if it gets too low.",
+    "dynamic_line": "Faction camps require food, but simplify managing your companions.\n  When you activate a camp's bulletin board, you'll be required to make some zones if you haven't already.  One of those zones must be a camp food zone.  If you drop food in the camp food zone and select the 'Distribute Food' mission, then the food will disappear and be converted into stored kcalories.\n  When you send companions out on camp missions, they'll eat from the stored food when they return at the rate of 2,500 kcalories per day.  Some missions have variable length, and companions will become upset if there isn't enough food when they come back, so try to keep a healthy surplus of food on hand.\n  Companions who aren't on camp missions, but who are following you, will also eat from the camp food stores whenever they're hungry and within 2 overmap tiles of the camp.  This drastically simplifies keeping your followers fed, so it's worthwhile to build a minimal faction camp just for this feature.\n  You can upgrade a camp to include a water well.  If you do, your followers will also drink from the well when they're thirsty.",
     "responses": [
-      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_CONTROL" },
+      { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
+      { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "id": "TALK_CAMP_TUTORIAL_CONTROL",
+    "id": "TALK_CAMP_TUTORIAL_MISSIONS",
     "type": "talk_topic",
-    "dynamic_line": "Each faction camp has a bulletin board associated with it.  You can 'e'xamine the bulletin board to get a list of tasks that can be done and that are  currently complete at the camp.  You can select a task and choose an allied NPC to perform the task. \nThe task list shows tasks for the central camp.  If you have expansions, you can hit 'TAB' to move between the central camp and each expansion and see the tasks for the expansions. \nIf you have a two way radio, you can use it to assign tasks remotely to any friendly NPC who also has a two way radio.",
+    "dynamic_line": "When you assign an NPC to a faction camp mission, they'll disappear while they go do whatever you want them to do.  When the duration of the mission has elapsed, you'll see a new mission on the bulletin board to have them return and complete the mission by upgrading your camp, returning their hunting kills, dropping off whatever they were crafting, or whatever else the mission results are.\n  There are all kinds of faction camp missions: building up the camp, recruiting new allies, hunting and trapping game, scrounging for materials, farming, disassembling cars, and more.  Not all activities can be done at every camp - you may need to build some additional buildings, or expand the camp, to get access to some missions.\n  Some faction camp missions can be duplicated by companion activities, but building up the camp can only be done via faction camp missions.\n  You assign missions by interacting with the bulletin board.  You'll see a list of available missions for your central camp tile.  If your camp has expansions, you can tab through the expansions to see the available missions at each expansion.\n  Remember, companions on camp missions need to be fed, and will become angry if they complete a mission but there isn't any food in the larder.\n  There is one special mission called 'Emergency Recall'.  You can use this to retrieve any companion on a faction camp mission, but this cancels the mission and wastes any resources used on it.  Only use it to recover allies when something has gone really wrong with your camp and you can't get them to come back any other way.",
     "responses": [
-      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_SETUP" },
+      { "text": "What do you mean by angry?", "topic": "TALK_ALLY_TUTORIAL_MUTINY" },
+      { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
+      { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "id": "TALK_CAMP_TUTORIAL_SETUP",
+    "id": "TALK_CAMP_TUTORIAL_BUILDING",
     "type": "talk_topic",
-    "dynamic_line": "For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it.  Forests are your primary source of construction materials in the early game while fields can be used for farming.  You don't have to be too picky, you can build as many camps as you want.  You need a friendly NPC to perform tasks at the camp.",
+    "dynamic_line": "Currently, there are three types of camps that you can start building: modular field camps, fire station camps, and evac shelter camps.  There used to be a fourth called the primitive field camp, but you can't start those anymore, only upgrade them.\n  Modular field camps are the most flexible kind of camp since you can build them almost anywhere and can locate them to have plenty of space for expansions, but you start with nothing in a field and have to build every building, so they can require a lot of resources.  Fire station and evac shelter camps are faster to build since you start in an existing building, but you have to establish them in an existing building and there may not be any space for expansions.\n  Each camp location will have a variety of upgrade missions for it.  The various missions have descriptions.  In general, though, you'll need to establish housing if you want to expand, and some missions such as hunting or recruiting will require that you have some kind of kitchen or office that you can use to help schedule activities.",
     "responses": [
-      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_UPGRADES" },
+      { "text": "Tell me about modular field camps.", "topic": "TALK_CAMP_TUTORIAL_MFC" },
+      { "text": "Tell me about fire station camps.", "topic": "TALK_CAMP_TUTORIAL_FIRE_STATION" },
+      { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
+      { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "id": "TALK_CAMP_TUTORIAL_UPGRADES",
+    "id": "TALK_CAMP_TUTORIAL_MFC",
     "type": "talk_topic",
-    "dynamic_line": "After you pick a site you will need to find or make materials to upgrade the camp further to access new missions.  The first new missions are focused on gathering materials to upgrade the camp so you don't have to.  After two or three upgrades you will have access to the <color_yellow>[Menial Labor]</color> mission which will allow you to task companions with sorting all of the items around your camp into categories.  Later upgrades allow you to send companions to recruit new members, build overmap fortifications, or even conduct combat patrols",
+    "dynamic_line": "Modular field camps are the most flexible kind of camp, but they require a lot of time and resources to build.  You start with an empty field - and it has to be a real empty field, not a field on a ranch or farm - and build up from nothing.  You can build from wattle-and-dab if you're feeling primitive, wood panels if you have a lot of nails, metal plate if you're a welder, or tents if you're in a hurry.\n  You start by building a lean-to and a bed in the northeast corner of the central camp, and then add a fire place, and expand out until you have a small shelter for two people.  When that is complete, you can expand the camp in a variety of ways:\n  1.  You can build up to 5 more rooms or shacks, 3 on each side of the camp.\n  2.  You can build a central building in the south half of the camp, between the rooms.  The central building will act as a command center, allowing your camp to perform hunting, recruiting, and combat patrol missions.\n  3.  You can dig trenches on all sides of the camp, which can possibly connect to the rooms on the sides to minimize the amount of trenching you need to do.\n  4.  You can build various small features such as root cellars to preserve food or a radio tower to make it easier to recruit more companions.\n  Each new construction in a modular camp can be made from a different material, so you aren't constrained by what you start with.  Tents are fast to put up, but fragile and likely to get destroyed by zombies.  The central building has to be made from wattle-and-daub, wood, or metal, and requires more materials if the side rooms are made from tents.",
     "responses": [
-      { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_FIRE_STATION",
+    "type": "talk_topic",
+    "dynamic_line": "Fire stations make good basecamps.  You start with a brick building with secure metal doors, so you're not going to see your efforts destroyed by zombies.  On the downside, there may not be many fields around, so you may not be able to expand much.\n  Fire station camps are also very compact.  There isn't much living space, but you can build a small pottery or blacksmithy, a chop shop in one of the garage bays, and even tear up some of the pavement to create a garden.  The existing kitchen makes it easy to cook from the start, though you may need to spruce it up a bit.",
+    "responses": [
+      { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_EVAC_SHELTER",
+    "type": "talk_topic",
+    "dynamic_line": "You can build a faction camp in the common evac shelter - the basic design with a single, wide open room.  Evac shelters are everywhere and often have fields surrounding them, so they're a little more flexible than a modular field camp but still make it easy to add expansions.\n  Evac center camps can be built up in several ways.  You basically need to decide between building more bedrooms or adding for crafting and cooking space.",
+    "responses": [
+      { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
@@ -97,10 +167,29 @@
   {
     "id": "TALK_CAMP_TUTORIAL_EXPANSIONS",
     "type": "talk_topic",
-    "dynamic_line": "When you upgrade your first tent all the way you will unlock the ability to construct expansions.  Expansions allow you to specialize each camp you build by focusing on the industries that you need.  A <color_light_green>[Farm]</color> is recommended for players that want to pursue a large faction while a <color_light_green>[Kitchen]</color> is better for players that just want the quality of life improvement of having an NPC do all of their cooking.  A <color_light_green>[Garage]</color> is useful for chop shop type missions that let you trade vehicles for large amounts of parts and resources.  All those resources can be turning into valuable equipment in the <color_light_green>[Blacksmith Shop]</color>. You can build an additional expansion every other level after the first is unlocked and when one camp is full you can just as easily build another.",
+    "dynamic_line": "Each camp can have up to 8 expansions, one in each adjacent overmap tile.  Expansions add to the capabilities of your camp, such as adding a farm field or a manufactory for crafting all kinds of things.\n  You need two beds in a room in your central camp for each expansion, and currently, expansions can only be built in fields and have to be built up from scratch.\n  Expansion missions show up in separate tabs in the bulletin board, one set of missions per location, and you'll need to hit 'tab' to see them.  The currently available expansions are:\n  -- Farm: This is a full tile of plowed fields that you can maintain or send companions on missions to maintain.  Plants grow here normally.\n  -- Garage: This is a large building.  Companions can be sent on missions here to disassemble vehicles.  Of course, you can also assign companions to disassemble vehicles without a garage, so this expansion is not very useful.\n  -- Canteen: This is an expanded kitchen, dining area, and pantry.\n  --Livestock Area: This is a modular set of buildings for holding livestock such as cows, horses, or chickens.  Animals are not included!\n  Saltworks Area: This is a small expansion for processing salt.\n  Fabrication Workshop: This is a large expansion for doing all kinds of crafts.  Companions can use some of the furniture in this expansion to craft some items much faster than you can do by yourself by hand.\n  Central Storage Building: This is a large building for storing goods.",
     "responses": [
-      { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Wait, repeat what you said.", "topic": "TALK_NONE" },
+      { "text": "Got it.  Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
+      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
+      { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_CAMP_TUTORIAL_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "Starting a camp doesn't take much time, and you can use a faction camp to keep your companions fed without needing to regularly give them food, so it's a good idea to establish a minimal camp anywhere you intend to be for a while.\n  How much you want to expand your camps is up to you.  A modular field camp can be very resource intensive, but building one up allows you to send companions off to hunt and farm for you, so there's quite the pay-off.  If nothing else, you should consider upgrading the northeast tent to the point where you can build a water well, or if you started with a fire station or evac shelter camp, you should build a water well as soon as you can.\n  If you have access to a fire station or evac shelter, you may want to build your camp in them.  Both of those camps are are very compact, but have much of the same functionality as an upgraded field camp without requiring so many resources.\n  If you are adding expansions to your camp, consider starting with a farm or fabrication workshop.  The farm makes it easy to grow your own food, while the fabrication workshop can allow you to craft some of the resources you need to upgrade your camp.\n  The canteen, saltworks, livestock area, and storage area probably shouldn't be your first expansions, but they all have their uses.",
+    "responses": [
+      { "text": "Give me an overview of how camps work.", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Tell me about modular field camps.", "topic": "TALK_CAMP_TUTORIAL_MFC" },
+      { "text": "Tell me about fire station camps.", "topic": "TALK_CAMP_TUTORIAL_FIRE_STATION" },
+      { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
+      { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
+      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
@@ -109,9 +198,16 @@
   {
     "id": "TALK_CAMP_TUTORIAL_CHANGES",
     "type": "talk_topic",
-    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.",
+    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.\n5.  Friendly NPCs who are near a camp will feed themselves from the camp's food stores, and if the camp has a well, they'll use it to quench their thirst.\n6.  You can now set up faction camps in select buildings.  The list of available buildings is constantly growing, so you'll have to experiment.",
     "responses": [
-      { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_NONE" },
+      { "text": "Wait, let's go back over from the start.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
+      { "text": "Give me an overview of how camps work.", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
+      { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
+      { "text": "Tell me about modular field camps.", "topic": "TALK_CAMP_TUTORIAL_MFC" },
+      { "text": "Tell me about fire station camps.", "topic": "TALK_CAMP_TUTORIAL_FIRE_STATION" },
+      { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
+      { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
+      { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -119,7 +215,7 @@
   {
     "id": "TALK_CAMP_OVERSEER",
     "type": "talk_topic",
-    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  it's a cushy job, but I could do more. We could put up a bulletin board and you could write up what you want done there.  What do you say?",
+    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  It's a cushy job, but I could do more.  We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
       { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
       {

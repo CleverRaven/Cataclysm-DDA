@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "foldframe",
-    "name": "foldable-light frame",
+    "name": { "str": "foldable-light frame" },
     "description": "A small foldable lightweight frame made from pipework.",
     "weight": "5000 g",
     "to_hit": -3,
@@ -13,20 +13,22 @@
     "volume": "10 L",
     "bashing": 15,
     "category": "veh_parts",
-    "price": 4000
+    "price": 4000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
     "id": "xlframe",
-    "name": "extra-light frame",
+    "name": { "str": "extra-light frame" },
     "description": "A small lightweight frame made from pipework.  Useful for crafting.",
     "material": [ "aluminum" ],
+    "weight": "1677 g",
     "copy-from": "foldframe"
   },
   {
     "type": "GENERIC",
     "id": "frame",
-    "name": "steel frame",
+    "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
     "weight": "20000 g",
     "to_hit": -5,
@@ -34,12 +36,13 @@
     "volume": "15 L",
     "bashing": 20,
     "price": 5500,
+    "price_postapoc": 100,
     "copy-from": "foldframe"
   },
   {
     "type": "GENERIC",
     "id": "hdframe",
-    "name": "heavy duty frame",
+    "name": { "str": "heavy duty frame" },
     "description": "A large, reinforced steel frame, used in military vehicle construction.",
     "weight": "100000 g",
     "to_hit": -6,
@@ -48,13 +51,14 @@
     "volume": "20 L",
     "bashing": 25,
     "price": 12000,
+    "price_postapoc": 250,
     "qualities": [ [ "ANVIL", 1 ] ],
     "copy-from": "foldframe"
   },
   {
     "type": "GENERIC",
     "id": "frame_wood",
-    "name": "wooden frame",
+    "name": { "str": "wooden frame" },
     "description": "A large frame made of wood.  Useful for crafting.",
     "weight": "8000 g",
     "to_hit": -5,
@@ -64,12 +68,13 @@
     "bashing": 16,
     "cutting": 4,
     "price": 3500,
+    "price_postapoc": 100,
     "copy-from": "foldframe"
   },
   {
     "type": "GENERIC",
     "id": "foldwoodframe",
-    "name": "foldable wooden frame",
+    "name": { "str": "foldable wooden frame" },
     "description": "A small foldable frame made from scrap wood.",
     "weight": "4000 g",
     "color": "brown",
@@ -80,7 +85,7 @@
   {
     "type": "GENERIC",
     "id": "frame_wood_light",
-    "name": "light wooden frame",
+    "name": { "str": "light wooden frame" },
     "description": "A small frame made of few pieces of wood, held together by rope.  Useful for crafting.",
     "weight": "4000 g",
     "to_hit": -5,
@@ -90,6 +95,7 @@
     "bashing": 8,
     "cutting": 1,
     "price": 1000,
+    "price_postapoc": 50,
     "copy-from": "foldframe"
   }
 ]

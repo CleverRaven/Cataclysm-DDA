@@ -27,7 +27,7 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD2_NEW",
     "dynamic_line": "Yes of course.  Just don't bring any trouble and it's all fine by me.",
-    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD2" } ]
   },
   {
     "type": "talk_topic",
@@ -42,7 +42,7 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD2_RULES_BASEMENT",
     "dynamic_line": "In short, we had a problem when a sick refugee died and turned into a zombie.  We had to expel the refugees and most of our surviving group now stays to the basement to prevent it from happening again.  Unless you really prove your worth I don't foresee any exceptions to that rule.",
-    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD2" } ]
   },
   {
     "type": "talk_topic",
@@ -54,6 +54,6 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD2_TRADE",
     "dynamic_line": "You are asking the wrong person, should look for our merchant by the main entrance.  Perhaps one of the scavengers is also interested.",
-    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+    "responses": [ { "text": "…", "topic": "TALK_EVAC_GUARD2" } ]
   }
 ]

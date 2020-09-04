@@ -210,7 +210,7 @@ bool morale_type::is_valid() const
     return morale_data.is_valid( *this );
 }
 
-void morale_type_data::load_type( JsonObject &jo, const std::string &src )
+void morale_type_data::load_type( const JsonObject &jo, const std::string &src )
 {
     morale_data.load( jo, src );
 }
@@ -225,7 +225,7 @@ void morale_type_data::reset()
     morale_data.reset();
 }
 
-void morale_type_data::load( JsonObject &jo, const std::string & )
+void morale_type_data::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "text", text );

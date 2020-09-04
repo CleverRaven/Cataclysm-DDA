@@ -52,8 +52,8 @@
         { "chance": 5, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
       ],
       "place_furniture": [
-        { "chance": 20, "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
-        { "chance": 10, "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+        { "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
+        { "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
       ],
       "place_toilets": [ { "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 } ],
       "rows": [
@@ -215,7 +215,7 @@
         { "item": "amplifier_head", "x": 6, "y": 9 },
         { "chance": 5, "item": "amplifier_head", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] }
       ],
-      "place_furniture": [ { "chance": 10, "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
+      "place_furniture": [ { "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
       "place_toilets": [ { "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 } ],
       "rows": [
         ".......d.......sss......",

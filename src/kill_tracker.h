@@ -1,13 +1,20 @@
 #pragma once
-#ifndef CATA_KILL_TRACKER_H
-#define CATA_KILL_TRACKER_H
+#ifndef CATA_SRC_KILL_TRACKER_H
+#define CATA_SRC_KILL_TRACKER_H
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "type_id.h"
+
+class JsonIn;
+class JsonOut;
+namespace cata
+{
+class event;
+}  // namespace cata
 
 class kill_tracker : public event_subscriber
 {
@@ -24,7 +31,7 @@ class kill_tracker : public event_subscriber
         // returns player's "kill xp" for monsters via STK
         int kill_xp() const;
 
-        void disp_kills() const;
+        std::string get_kills_text() const;
 
         void clear();
 
@@ -37,4 +44,4 @@ class kill_tracker : public event_subscriber
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };
 
-#endif // CATA_KILL_TRACKER_H
+#endif // CATA_SRC_KILL_TRACKER_H

@@ -197,6 +197,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_w",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "_": "t_floor",
         "4": "t_tree_pine",
         "7": "t_tree_apple",
         "D": "t_door_c",

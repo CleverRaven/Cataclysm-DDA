@@ -1405,7 +1405,7 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "terrain", "id": "t_machinery_old", "x": 5, "y": 12 },
+        { "point": "furniture", "id": "f_machinery_old", "x": 5, "y": 12 },
         { "point": "furniture", "id": "f_wood_keg", "x": 14, "y": 12 },
         { "point": "terrain", "id": "t_dirt", "x": 18, "y": 16 },
         { "point": "furniture", "id": "f_kiln_empty", "x": 19, "y": 16 },

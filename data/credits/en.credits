@@ -1,18 +1,28 @@
 # Max length of a line is 78 characters; the following line is for reference
 # Longer lines will be automatically folded
 ##############################################################################
-Original author:    Project Manager:    Website/Forum:
-Whales (retired)    KevinGranade        GlyphGryph
+<color_white>Original author:</color>    <color_white>Project Manager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
 
-Current Main Developers/GitHub Managers:
-KevinGranade, Rivet-the-Zombie, BevapDin, Coolthulu, i2amroy
+<color_white>Current Main Developers:</color>
+<color_yellow>mlangsdorf</color> - Vehicles, boats, basecamps and modding guides.
+<color_yellow>I-am-Erk</color> - Ultica, dialogs, NPCs and clutter in the kitchens.
+<color_yellow>KorGgenT</color> - Magiclysm and stomach aches.
 
-Special thanks to:
-Narc - For setting up the automatic Jenkins build-bot.
-Acidia - For wonderful NPC, Quest and Location contributions.
-Wuzzy and VlasovVitaly - For herculean translation efforts.
-HuXTUS - For a huge amount of amazing content.
+<color_white>Special thanks to:</color>
+<color_yellow>Narc</color> - For maintaining the automatic Jenkins build-bot.
+<color_yellow>Rivet-the-Zombie</color> - For merging a PR a day.
+<color_yellow>BevapDin</color> - For code reviews and refactoring efforts.
+<color_yellow>BrettDong</color> - For translations.
+<color_yellow>curstwist</color> - For roofs, mapgens, NPCs and changelogs.
+<color_yellow>davidpwbrown</color> - For auto-travel and auto-driving.  Also horse-riding.
+<color_yellow>jbytheway</color> - For CI work and making his (tri)point.
+<color_yellow>Hymore246</color> - For martial arts overhaul.
+<color_yellow>Qrox</color> - For readable backtraces in Windows builds.
+<color_yellow>ZhilkinSerg</color> - For mergetesting.
 
-For a full list of contributors please see:
-https://github.com/CleverRaven/Cataclysm-DDA/contributors
-Cataclysm: Dark Days Ahead is released under CC-BY-SA 3.0.
+<color_white>For a full list of contributors please see:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

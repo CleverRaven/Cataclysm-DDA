@@ -1,0 +1,143 @@
+[
+  {
+    "type": "faction",
+    "id": "Prepnet_Phyle",
+    "name": "PrepNet Phyle",
+    "mon_faction": "PrepNet",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 15,
+    "power": 20,
+    "currency": "crypto_coin",
+    "food_supply": 115200,
+    "wealth": 75000,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A group of bionic preppers who had expected the collapse of the economy and global chaos, instead they were slightly more ready than others for the Cataclysm."
+  },
+  {
+    "type": "faction",
+    "id": "whately_family",
+    "name": "Whately Family",
+    "mon_faction": "whately",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 15,
+    "power": 20,
+    "food_supply": 1200,
+    "wealth": 7500,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "The Whately's are an old New England family of eccentrics.  Eccentrics being the kind words used about them."
+  }
+]

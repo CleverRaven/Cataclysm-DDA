@@ -1,13 +1,12 @@
 #pragma once
-#ifndef IEXAMINE_H
-#define IEXAMINE_H
+#ifndef CATA_SRC_IEXAMINE_H
+#define CATA_SRC_IEXAMINE_H
 
 #include <list>
 #include <string>
 #include <tuple>
 #include <vector>
 
-#include "itype.h"
 #include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
@@ -16,16 +15,11 @@
 class item;
 class player;
 class vpart_reference;
+
+struct itype;
 struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
-
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
-};
 
 namespace iexamine
 {
@@ -55,7 +49,6 @@ void pit( player &p, const tripoint &examp );
 void pit_covered( player &p, const tripoint &examp );
 void slot_machine( player &p, const tripoint &examp );
 void safe( player &p, const tripoint &examp );
-void gunsafe_ml( player &p, const tripoint &examp );
 void gunsafe_el( player &p, const tripoint &examp );
 void harvest_furn_nectar( player &p, const tripoint &examp );
 void harvest_furn( player &p, const tripoint &examp );
@@ -63,6 +56,7 @@ void harvest_ter_nectar( player &p, const tripoint &examp );
 void harvest_ter( player &p, const tripoint &examp );
 void harvested_plant( player &p, const tripoint &examp );
 void locked_object( player &p, const tripoint &examp );
+void locked_object_pickable( player &p, const tripoint &examp );
 void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void pedestal_wyrm( player &p, const tripoint &examp );
@@ -89,7 +83,6 @@ void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );
 void shrub_wildveggies( player &p, const tripoint &examp );
 void recycle_compactor( player &p, const tripoint &examp );
-void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
@@ -118,9 +111,13 @@ void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
 void workbench_internal( player &p, const tripoint &examp,
                          const cata::optional<vpart_reference> &part );
-hack_result hack_attempt( player &p );
+void workout( player &p, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
+cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
+bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
+cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+        const std::string &fuel_type );
 
 bool has_keg( const tripoint &pos );
 
@@ -144,4 +141,4 @@ void practice_survival_while_foraging( player *p );
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );
 
-#endif
+#endif // CATA_SRC_IEXAMINE_H

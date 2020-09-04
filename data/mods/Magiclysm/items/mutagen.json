@@ -1,0 +1,44 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "manatouched_serum",
+    "name": "concentrated mana serum",
+    "weight": "250 g",
+    "color": "light_blue",
+    "addiction_type": "mutagen",
+    "stim": -20,
+    "container": "flask_glass",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "healthy": -10,
+    "addiction_potential": 5,
+    "calories": 26,
+    "description": "A very concentrated form of mana potion.  You aren't quite sure of the effects this will have…",
+    "price": 1000,
+    "volume": "500 ml",
+    "phase": "liquid",
+    "charges": 2,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "MANATOUCHED" },
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "freezing_point": -22,
+    "fun": -15
+  },
+  {
+    "id": "mutagen_black_dragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "color": "black",
+    "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
+    "name": { "str": "black dragon mutagen" },
+    "use_action": { "type": "mutagen", "mutation_category": "DRAGON_BLACK" }
+  },
+  {
+    "id": "iv_black_dragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "black dragon serum",
+    "description": "A super-concentrated mutagen that seems swirl with the anger of a black dragon.  Do you dare leave you humanity behind and inject it?",
+    "color": "black",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "DRAGON_BLACK" }
+  }
+]

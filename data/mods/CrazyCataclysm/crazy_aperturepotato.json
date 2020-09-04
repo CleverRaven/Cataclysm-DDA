@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "aperture_potato",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -20,15 +21,15 @@
   {
     "id": "aperture_potato",
     "type": "TOOL",
-    "name": "companion potato",
+    "name": { "str": "companion potato", "str_pl": "companion potatoes" },
     "description": "Seems like some kind of Genetic Lifeform and Disk Operating System, attached to a potato.",
-    "weight": 900,
-    "volume": 2,
+    "weight": "900 g",
+    "volume": "500 ml",
     "price": 9000,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "%",
     "color": "light_gray",
-    "use_action": "DOLLCHAT"
+    "use_action": [ "DOLLCHAT" ]
   }
 ]

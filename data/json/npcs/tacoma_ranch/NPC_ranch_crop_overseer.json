@@ -17,12 +17,12 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_RANCH_CROP_OVERSEER_JOB" },
       {
-        "text": "I'm interested in investing in agriculture...",
+        "text": "I'm interested in investing in agriculture…",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "effect": { "companion_mission": "COMMUNE CROPS" }
       },
       { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
-      { "text": "I've got to go...", "topic": "TALK_DONE" }
+      { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
   },
   {

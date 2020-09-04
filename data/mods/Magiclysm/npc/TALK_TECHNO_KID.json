@@ -1,0 +1,51 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_TECHNO_KID",
+    "dynamic_line": {
+      "u_has_var": "talked_to_techno_kid",
+      "type": "dialogue",
+      "context": "techno_kid",
+      "value": "yes",
+      "no": "Do you seek power as well?",
+      "yes": "Ah, hello again."
+    },
+    "responses": [
+      {
+        "text": "Hey <name_g>.",
+        "topic": "TALK_TECHNO_KID_INTRO",
+        "effect": { "u_add_var": "talked_to_techno_kid", "type": "dialogue", "context": "techno_kid", "value": "yes" }
+      },
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let's trade items.", "topic": "TALK_TECHNO_KID", "effect": "start_trade" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
+      { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      {
+        "text": "About one of those missions…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TECHNO_KID_INTRO",
+    "dynamic_line": "Yes, yes… *electrical crackling* Isn't it beautiful?",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_TECHNO_KID_LEAVE" },
+      { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_TECHNO_KID" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TECHNO_KID_LEAVE",
+    "dynamic_line": "I must find more power before I can leave.",
+    "responses": [
+      { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "What can you sell me?", "topic": "TALK_TECHNO_KID", "effect": "start_trade" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  }
+]

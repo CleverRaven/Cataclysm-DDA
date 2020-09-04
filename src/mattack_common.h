@@ -1,9 +1,10 @@
 #pragma once
-#ifndef MATTACK_COMMON_H
-#define MATTACK_COMMON_H
+#ifndef CATA_SRC_MATTACK_COMMON_H
+#define CATA_SRC_MATTACK_COMMON_H
 
 #include <memory>
 #include <string>
+#include <utility>
 
 #include "clone_ptr.h"
 
@@ -25,12 +26,12 @@ class mattack_actor
 
         int cooldown = 0;
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
 
         virtual ~mattack_actor() = default;
         virtual bool call( monster & ) const = 0;
         virtual std::unique_ptr<mattack_actor> clone() const = 0;
-        virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;
+        virtual void load_internal( const JsonObject &jo, const std::string &src ) = 0;
 };
 
 struct mtype_special_attack {
@@ -56,4 +57,4 @@ struct mtype_special_attack {
         }
 };
 
-#endif
+#endif // CATA_SRC_MATTACK_COMMON_H

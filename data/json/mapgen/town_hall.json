@@ -5,8 +5,8 @@
     "terrain": {
       "*": "t_open_air",
       "~": "t_open_air_rooved",
-      ".": [ "t_grass_long", "t_grass", "t_grass", "t_dirt", "t_grass_long", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-      ",": [ "t_grass_long", "t_grass_long", "t_grass_long", "t_grass", "t_tree_young", "t_tree", "t_shrub", "t_dirt" ],
+      ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+      ",": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative", "t_region_shrub_fruit", "t_region_tree_shade" ],
       "-": "t_door_locked_interior",
       "<": "t_stairs_down",
       "+": "t_door_c",
@@ -26,7 +26,6 @@
       "O": "t_linoleum_white",
       "u": "t_linoleum_white",
       "s": "t_sidewalk",
-      "x": "t_console_broken",
       "|": "t_brick_wall",
       "!": "t_door_glass_c",
       "=": "t_wall_glass",
@@ -34,6 +33,7 @@
       "v": "t_window"
     },
     "furniture": {
+      "x": "f_console_broken",
       "3": "f_bench",
       "B": "f_bench",
       "S": "f_sink",

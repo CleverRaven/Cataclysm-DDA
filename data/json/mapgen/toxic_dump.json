@@ -3,18 +3,12 @@
     "id": "toxic_waste",
     "type": "item_group",
     "items": [
-      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "chance": 5 },
-      {
-        "item": "plut_slurry_dense",
-        "container-item": "55gal_drum",
-        "charges-min": 1,
-        "charges-max": 45,
-        "chance": 2
-      },
-      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "chance": 50 },
-      { "group": "sewer", "chance": 20 },
-      { "item": "55gal_drum", "chance": 50 },
-      { "item": "slime_scrap", "chance": 10 }
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 5 },
+      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 2 },
+      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
+      { "group": "sewer", "prob": 20 },
+      { "item": "55gal_drum", "prob": 50 },
+      { "item": "slime_scrap", "prob": 10 }
     ]
   },
   {

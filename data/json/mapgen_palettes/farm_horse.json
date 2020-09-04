@@ -9,10 +9,10 @@
       "H": "t_splitrail_fencegate_c",
       "K": "t_chickenwire_gate_o",
       "+": "t_door_c",
-      ",": [ [ "t_railroad_rubble", 20 ], [ "t_grass", 2 ], [ "t_dirt", 5 ] ],
+      ",": [ [ "t_railroad_rubble", 20 ], [ "t_region_groundcover", 7 ] ],
       "-": "t_wall_w",
-      ".": [ [ "t_dirt", 17 ], [ "t_grass_long", 10 ], [ "t_underbrush", 2 ], [ "t_grass", 28 ] ],
-      "/": "t_dirt",
+      ".": [ [ "t_region_groundcover", 45 ], [ "t_region_shrub", 2 ] ],
+      "/": "t_region_groundcover_barren",
       "5": "t_barndoor",
       ";": "t_dirtfloor",
       "A": "t_chickenwire_fence",
@@ -20,12 +20,12 @@
       "*": "t_reinforced_door_glass_c",
       "O": "t_reinforced_glass_shutter",
       "$": "t_wall_glass",
-      "C": "t_grass",
+      "C": "t_region_groundcover",
       "G": "t_door_metal_locked",
       "W": "t_wall_wood",
-      "X": "t_grass",
+      "X": "t_region_groundcover",
       "`": "t_water_dp",
-      "b": "t_dirt",
+      "b": "t_region_groundcover_barren",
       "7": "t_dirtfloor",
       "v": [ "t_window_domestic", "t_curtains" ],
       "|": "t_wall_w",
@@ -34,32 +34,7 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "#": "t_ladder_up",
-      "9": [
-        "t_tree_blackjack",
-        "t_tree_walnut",
-        "t_tree_chestnut",
-        "t_tree_beech",
-        "t_tree_hazelnut",
-        "t_tree_cottonwood",
-        "t_tree",
-        "t_tree_elm",
-        "t_tree_dead",
-        "t_tree_apple",
-        "t_tree_pear",
-        "t_tree_cherry",
-        "t_tree_peach",
-        "t_tree_apricot",
-        "t_tree_plum",
-        "t_tree_mulberry",
-        "t_tree_elderberry",
-        "t_tree_pine",
-        "t_tree_birch",
-        "t_tree_willow",
-        "t_tree_maple",
-        "t_tree_hickory",
-        "t_tree_almond",
-        "t_tree_pecan"
-      ]
+      "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ]
     },
     "furniture": {
       "@": "f_bed",
@@ -88,7 +63,7 @@
       "i": "f_beaded_door",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
-      "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
+      "p": [ "f_region_flower", "f_region_weed" ]
     }
   }
 ]

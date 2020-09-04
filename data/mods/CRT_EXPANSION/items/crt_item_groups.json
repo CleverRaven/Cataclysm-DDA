@@ -24,27 +24,27 @@
     "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
     "items": [
       { "group": "clothing_soldier_shirt" },
-      { "item": "crt_jacket" },
-      { "item": "crt_pants" },
-      { "item": "crt_boots", "prob": 5 },
-      { "item": "crt_helmet", "prob": 5 },
-      { "item": "crt_gloves", "prob": 5 }
+      { "item": "crt_jacket", "prob": 1 },
+      { "item": "crt_pants", "prob": 1 },
+      { "item": "crt_boots", "prob": 1 },
+      { "item": "crt_helmet", "prob": 1 },
+      { "item": "crt_gloves", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "id": "military",
     "items": [
-      [ "crt_belt", 20 ],
-      [ "crt_jacket", 40 ],
-      [ "crt_pants", 50 ],
-      [ "crt_boots", 10 ],
-      [ "crt_helmet", 10 ],
-      [ "crt_gloves", 10 ],
-      [ "crt_gasmask", 3 ],
-      [ "crt_em_vest", 3 ],
-      [ "flare_gmod", 10 ],
-      [ "crt_backpack", 8 ],
+      [ "crt_belt", 1 ],
+      [ "crt_jacket", 2 ],
+      [ "crt_pants", 2 ],
+      [ "crt_boots", 5 ],
+      [ "crt_helmet", 5 ],
+      [ "crt_gloves", 2 ],
+      [ "crt_gasmask", 1 ],
+      [ "crt_em_vest", 1 ],
+      [ "flare_gmod", 1 ],
+      [ "crt_backpack", 1 ],
       [ "crt_laser_pistol", 1 ]
     ]
   }

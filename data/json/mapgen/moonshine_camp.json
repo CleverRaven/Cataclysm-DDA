@@ -49,6 +49,7 @@
         "e": "t_tree_hickory",
         "s": "t_shrub",
         "t": "t_dirtfloor",
+        "_": "t_grass",
         "w": "t_grass",
         "|": "t_wall_wood"
       },
@@ -161,6 +162,7 @@
         "d": "t_dirtfloor",
         "s": "t_shrub",
         "t": "t_tree_maple",
+        "_": "t_grass",
         "|": "t_wall_wood"
       },
       "furniture": { "H": "f_wood_keg", "O": "f_fvat_empty", "^": "f_still", "a": "f_ash", "c": "f_chair" },

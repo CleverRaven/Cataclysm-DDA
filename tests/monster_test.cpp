@@ -1,33 +1,35 @@
-#include <math.h>
+#include "catch/catch.hpp"
+
+#include "monster.h"
+
+#include <cmath>
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <list>
 #include <map>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <utility>
+#include <vector>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "game.h"
+#include "game_constants.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "monster.h"
 #include "options.h"
-#include "player.h"
-#include "test_statistics.h"
-#include "game_constants.h"
-#include "item.h"
-#include "line.h"
+#include "options_helpers.h"
 #include "point.h"
+#include "test_statistics.h"
+
+class item;
 
 using move_statistics = statistics<int>;
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
-    clear_map();
+    clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
@@ -54,7 +56,6 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
-
 struct track {
     char participant;
     int moves;
@@ -73,7 +74,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( auto &track_instance : vec ) {
+    for( const auto &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;
@@ -86,12 +87,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 {
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
-    player &test_player = g->u;
+    Character &test_player = get_player_character();
     // Strip off any potentially encumbering clothing.
-    std::list<item> temp;
-    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
+    test_player.remove_worn_items_with( []( item & ) {
+        return true;
+    } );
 
-    test_player.setpos( { 65, 65, 0 } );
+    const tripoint center{ 65, 65, 0 };
+    test_player.setpos( center );
     test_player.set_moves( 0 );
     // Give the player a head start.
     const tripoint monster_start = { -10 * direction_of_flight + test_player.pos()
@@ -110,29 +113,24 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         test_player.mod_moves( target_speed );
         while( test_player.moves >= 0 ) {
             test_player.setpos( test_player.pos() + direction_of_flight );
-            if( test_player.pos().x < SEEX * int( MAPSIZE / 2 ) ||
-                test_player.pos().y < SEEY * int( MAPSIZE / 2 ) ||
-                test_player.pos().x >= SEEX * ( 1 + int( MAPSIZE / 2 ) ) ||
-                test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
-                g->update_map( test_player );
-                wipe_map_terrain();
-                clear_npcs();
-                for( monster &critter : g->all_monsters() ) {
-                    if( &critter != &test_monster ) {
-                        g->remove_zombie( critter );
-                    }
-                }
-                g->m.clear_traps();
+            if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
+                test_player.pos().x >= SEEX * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ||
+                test_player.pos().y >= SEEY * ( 1 + static_cast<int>( MAPSIZE / 2 ) ) ) {
+                tripoint offset = center - test_player.pos();
+                test_player.setpos( center );
+                test_monster.setpos( test_monster.pos() + offset );
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = g->m.combined_movecost(
+            const int move_cost = get_map().combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
         }
+        get_map().clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
@@ -155,7 +153,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         }
     }
     WARN( tracker );
-    clear_map();
     return -1000;
 }
 
@@ -240,7 +237,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
     }
     for( auto &stat_pair : turns_at_angle ) {
         std::stringstream sample_string;
-        for( auto sample : stat_pair.second.get_samples() ) {
+        for( int sample : stat_pair.second.get_samples() ) {
             sample_string << sample << ", ";
         }
         INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<
@@ -253,7 +250,7 @@ static void test_moves_to_squares( const std::string &monster_type, const bool w
         std::ofstream data;
         data.open( "slope_test_data_" + std::string( ( trigdist ? "trig_" : "square_" ) ) + monster_type );
         for( const auto &stat_pair : turns_at_angle ) {
-            data << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
+            data << stat_pair.first << " " << stat_pair.second.avg() << "\n";
         }
         data.close();
     }
@@ -302,7 +299,7 @@ static void monster_check()
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -311,7 +308,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
@@ -322,7 +319,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "false" );
+    override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
 }
@@ -330,7 +327,22 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
-    get_options().get_option( "CIRCLEDIST" ).setValue( "true" );
+    override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
+}
+
+TEST_CASE( "monster_extend_flags", "[monster]" )
+{
+    // mon_dog_zombie_brute is copy-from mon_dog_zombie_rot
+    // mon_dog_zombie_rot contains
+    // "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    // mon_dog_zombie_brute contains
+    // "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
+
+    // This test verifies that "extend" works on monster flags by checking both
+    // those take effect
+    const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
+    CHECK( m.has_flag( MF_SEES ) );
+    CHECK( m.has_flag( MF_PUSH_VEH ) );
 }

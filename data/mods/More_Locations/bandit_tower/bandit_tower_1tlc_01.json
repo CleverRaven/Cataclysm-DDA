@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "bandit_tower_1tlc",
-    "comment": "top left corner, ground floor",
+    "//": "top left corner, ground floor",
     "weight": 250,
     "method": "json",
     "object": {

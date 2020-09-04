@@ -317,17 +317,28 @@ Run the game. Should work.
  Support for language localizations. Also enable UTF support.
 
 
- * DYNAMIC_LINKING=`<boolean>`
-
- Use dynamic linking. Or use static to remove MinGW dependency instead.
-
-
  * LANGUAGES=`<str>`
 
  Compile localization files for specified languages. Example:
  ```
  -DLANGUAGES="cs;de;el;es_AR;es_ES"
  ```
+
+ Note that language files are only compiled automatically when building the
+ `RELEASE` build type. For other build types, you need to add the `translations_compile`
+ target to the `make` command, for example `make all translations_compile`.
+
+ Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006),
+ using English without a `.mo` file would cause significant slow down on MinGW targets.
+ In such case you can compile a `.mo` file for English by adding `en` to `-DLANGUAGES`.
+ If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition
+ to other languages.
+
+
+ * DYNAMIC_LINKING=`<boolean>`
+
+ Use dynamic linking. Or use static to remove MinGW dependency instead.
+
 
  * GIT_BINARY=`<str>`
 

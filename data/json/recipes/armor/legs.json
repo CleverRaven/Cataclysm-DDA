@@ -2,6 +2,7 @@
   {
     "result": "2byshin_guard",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -16,6 +17,7 @@
   {
     "result": "bikini_bottom",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -29,6 +31,7 @@
   {
     "result": "boy_shorts",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -41,8 +44,23 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboy_shorts",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "filament", 25 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
     "result": "boxer_briefs",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -54,8 +72,23 @@
     "components": [ [ [ "rag", 3 ] ] ]
   },
   {
+    "result": "xlboxer_briefs",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
     "result": "boxer_shorts",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -67,8 +100,23 @@
     "components": [ [ [ "rag", 5 ] ] ]
   },
   {
+    "result": "xlboxer_shorts",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
+  },
+  {
     "result": "breeches",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -81,6 +129,7 @@
   {
     "result": "briefs",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -94,6 +143,7 @@
   {
     "result": "chaps_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -106,6 +156,7 @@
   {
     "result": "hakama",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -118,6 +169,7 @@
   {
     "result": "hot_pants",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "//": "zero Encumbrance, without elastic, at skill 2? seems tricky",
@@ -131,6 +183,7 @@
   {
     "result": "hot_pants_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -143,6 +196,7 @@
   {
     "result": "hot_pants_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -155,6 +209,7 @@
   {
     "result": "jeans",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -167,18 +222,20 @@
   {
     "result": "kilt",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "90 m",
-    "book_learn": [ [ "scots_cookbook", 4 ] ],
+    "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "felt_patch", 18 ] ] ]
   },
   {
     "result": "knee_pads",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -192,6 +249,7 @@
   {
     "result": "leg_warmers",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -204,6 +262,7 @@
   {
     "result": "leg_warmers_xl",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -216,6 +275,7 @@
   {
     "result": "leg_warmers_xlf",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -226,8 +286,23 @@
     "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
+    "result": "leggings",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 10 ] ] ]
+  },
+  {
     "result": "legguard_hard",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -241,22 +316,22 @@
   {
     "result": "legguard_lightplate",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "190 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [
-      [ [ "steel_lump", 7 ], [ "steel_chunk", 28 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_metal",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -264,16 +339,14 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "legguard_paper",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "survival",
@@ -285,6 +358,7 @@
   {
     "result": "legguard_scrap",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -299,6 +373,7 @@
   {
     "result": "loincloth",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -310,6 +385,7 @@
   {
     "result": "loincloth_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -321,6 +397,7 @@
   {
     "result": "loincloth_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -332,6 +409,7 @@
   {
     "result": "loincloth_wool",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -343,6 +421,7 @@
   {
     "result": "long_underpants",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -356,6 +435,7 @@
   {
     "result": "lsurvivor_pants",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -378,12 +458,13 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 50 ] ],
-      [ [ "kevlar_plate", 8 ] ]
+      [ [ "sheet_kevlar_layered", 8 ] ]
     ]
   },
   {
     "result": "panties",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -397,6 +478,7 @@
   {
     "result": "pants_cargo",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -410,6 +492,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leg_warmers_f",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
@@ -423,6 +506,7 @@
   {
     "result": "pants_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -436,6 +520,7 @@
   {
     "result": "pants_faux_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -448,6 +533,7 @@
   {
     "result": "pants_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -460,6 +546,7 @@
   {
     "result": "pants_survivor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -470,10 +557,10 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "pants_army", 1 ], [ "pants_cargo", 1 ], [ "shorts_cargo", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar_layered", 12 ] ],
       [ [ "rag", 12 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -489,6 +576,7 @@
   {
     "result": "shorts",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -501,6 +589,7 @@
   {
     "result": "shorts_cargo",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -514,6 +603,7 @@
   {
     "result": "shorts_cargo",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_pants",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
@@ -526,6 +616,7 @@
   {
     "result": "shorts_denim",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_fabric",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
@@ -539,17 +630,20 @@
   {
     "result": "shorts_denim",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "time": "20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
+    "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {
     "result": "stockings_tent_legs",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_stockings",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
@@ -563,6 +657,7 @@
   {
     "result": "stockings_tent_legs",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -573,8 +668,23 @@
     "components": [ [ [ "rag", 30 ] ] ]
   },
   {
+    "result": "under_armor_shorts",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "lycra_patch", 5 ] ] ]
+  },
+  {
     "result": "chainmail_legs",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -587,6 +697,7 @@
   {
     "result": "legguard_bronze",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",

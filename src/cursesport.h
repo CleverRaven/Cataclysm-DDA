@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATACURSE_H
-#define CATACURSE_H
+#ifndef CATA_SRC_CURSESPORT_H
+#define CATA_SRC_CURSESPORT_H
 
 #include <utility>
 #if defined(TILES) || defined(_WIN32)
@@ -84,8 +84,9 @@ void clear_window_area( const catacurses::window &win );
 int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
+void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
 
 #endif
-#endif
+#endif // CATA_SRC_CURSESPORT_H
 

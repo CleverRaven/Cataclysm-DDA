@@ -58,7 +58,7 @@
   {
     "type": "npc",
     "id": "survivor_chef",
-    "//": "A chef hiding at their job since the cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
+    "//": "A chef hiding at their job since the Cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
     "name_suffix": "chef",
     "class": "NC_SURVIVOR_CHEF",
     "attitude": 0,
@@ -68,11 +68,22 @@
   },
   {
     "type": "npc",
+    "id": "farmer",
+    "//": "A farmer survivor, friendly but suspicious.",
+    "name_suffix": "farmer",
+    "class": "NC_FARMER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NC_FARMER",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "true_foodperson",
     "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
     "name_unique": "Foodperson",
     "class": "NC_TRUE_FOODPERSON",
-    "attitude": 7,
+    "attitude": 0,
     "mission": 7,
     "chat": "TALK_TRUE_FOODPERSON",
     "mission_offered": "MISSION_PROVE_YOUR_WORTH",
@@ -92,7 +103,7 @@
   {
     "type": "npc",
     "id": "survivor_cop",
-    "//": "A police officer who has taken over the station since the cataclysm.  They sell items out of the evidence locker.",
+    "//": "A police officer who has taken over the station since the Cataclysm.  They sell items out of the evidence locker.",
     "name_suffix": "officer",
     "class": "NC_CITY_COP",
     "attitude": 0,

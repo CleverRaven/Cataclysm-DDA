@@ -1,7 +1,6 @@
 [
   {
     "type": "region_overlay",
-    "id": "no_rail_yards",
     "regions": [ "all" ],
     "city": { "houses": { "railroad_city": 0 } }
   }

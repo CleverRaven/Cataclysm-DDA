@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_ute",
-    "comment": "underground, top edge. ",
+    "//": "underground, top edge. ",
     "weight": 99,
     "method": "json",
     "object": {

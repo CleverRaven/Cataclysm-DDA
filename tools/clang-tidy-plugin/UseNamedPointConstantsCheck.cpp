@@ -1,9 +1,27 @@
 #include "UseNamedPointConstantsCheck.h"
 
-#include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/Frontend/CompilerInstance.h"
+#include <cassert>
+#include <clang/AST/Decl.h>
+#include <clang/AST/DeclCXX.h>
+#include <clang/AST/Expr.h>
+#include <clang/AST/ExprCXX.h>
+#include <clang/ASTMatchers/ASTMatchFinder.h>
+#include <clang/ASTMatchers/ASTMatchers.h>
+#include <clang/ASTMatchers/ASTMatchersInternal.h>
+#include <clang/Basic/Diagnostic.h>
+#include <clang/Basic/LLVM.h>
+#include <clang/Basic/SourceLocation.h>
+#include <clang/Lex/Lexer.h>
+#include <llvm/ADT/APInt.h>
+#include <llvm/Support/Casting.h>
+#include <map>
+#include <string>
+#include <tuple>
+#include <utility>
 
 #include "Utils.h"
+#include "clang/AST/OperationKinds.h"
+#include "../../src/cata_assert.h"
 
 using namespace clang::ast_matchers;
 
@@ -25,16 +43,6 @@ static auto isInteger( const std::string &bind )
                    )
                )
            ).bind( bind );
-}
-
-static auto testWhetherParentIsVarDecl()
-{
-    return expr(
-               anyOf(
-                   hasParent( varDecl().bind( "parentVarDecl" ) ),
-                   anything()
-               )
-           );
 }
 
 void UseNamedPointConstantsCheck::registerMatchers( MatchFinder *Finder )
@@ -121,7 +129,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
                 Value = -Value;
             }
         } else {
-            assert( false );
+            cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
         }
         Args.insert( { Key, Value } );
     };

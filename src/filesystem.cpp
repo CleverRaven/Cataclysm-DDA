@@ -34,9 +34,8 @@ namespace
 {
 
 #if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int mode )
+bool do_mkdir( const std::string &path, const int /*mode*/ )
 {
-    ( void )mode; //not used on windows
 #if defined(_MSC_VER)
     return _mkdir( path.c_str() ) == 0;
 #else
@@ -117,11 +116,19 @@ bool remove_directory( const std::string &path )
 const char *cata_files::eol()
 {
 #if defined(_WIN32)
+    // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
     static const char local_eol[] = "\r\n";
 #else
     static const char local_eol[] = "\n";
 #endif
     return local_eol;
+}
+
+std::string read_entire_file( const std::string &path )
+{
+    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    return std::string( std::istreambuf_iterator<char>( infile ),
+                        std::istreambuf_iterator<char>() );
 }
 
 namespace
@@ -148,12 +155,12 @@ void for_each_dir_entry( const std::string &path, Function function )
 
     const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( const auto entry = readdir( root ) ) {
+    while( const dirent *entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
@@ -163,9 +170,9 @@ void for_each_dir_entry( const std::string &path, Function function )
 #if !defined(_WIN32)
 std::string resolve_path( const std::string &full_path )
 {
-    const auto result_str = realpath( full_path.c_str(), nullptr );
+    char *const result_str = realpath( full_path.c_str(), nullptr );
     if( !result_str ) {
-        const auto e_str = strerror( errno );
+        char *const e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
         return {};
     }
@@ -185,12 +192,13 @@ bool is_directory_stat( const std::string &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
 
     if( S_ISDIR( result.st_mode ) ) {
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
         return true;
     }
 
@@ -207,10 +215,9 @@ bool is_directory_stat( const std::string &full_path )
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
 #if defined(__MINGW32__)
-bool is_directory( const dirent &entry, const std::string &full_path )
+bool is_directory( const dirent &/*entry*/, const std::string &full_path )
 {
     // no dirent::d_type
-    ( void )entry; //not used for mingw
     return is_directory_stat( full_path );
 }
 #else
@@ -283,8 +290,8 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const auto path = std::move( directories.front() );
         directories.pop_front();
 
-        const auto n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
-        const auto n_results = static_cast<std::ptrdiff_t>( results.size() );
+        const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
+        const std::ptrdiff_t n_results = static_cast<std::ptrdiff_t>( results.size() );
 
         for_each_dir_entry( path, [&]( const dirent & entry ) {
             // exclude special directories.
@@ -300,7 +307,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
             }
 
             // add sub directories to recursive_search if requested
-            const auto is_dir = is_directory( entry, full_path );
+            const bool is_dir = is_directory( entry, full_path );
             if( recursive_search && is_dir ) {
                 directories.emplace_back( full_path );
             }
@@ -315,7 +322,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( directories ) + n_dirs,    std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( results )     + n_results, std::end( results ) );
     }
 

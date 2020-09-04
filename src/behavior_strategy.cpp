@@ -1,5 +1,6 @@
 #include "behavior_strategy.h"
 
+#include <algorithm>
 #include <unordered_map>
 
 #include "behavior.h"
@@ -26,11 +27,11 @@ behavior_return sequential_t::evaluate( const oracle_t *subject,
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );
-        if( outcome.result == running || outcome.result == failure ) {
+        if( outcome.result == status_t::running || outcome.result == status_t::failure ) {
             return outcome;
         }
     }
-    return { success, nullptr };
+    return { status_t::success, nullptr };
 }
 
 // A standard behavior strategy, execute runnable children in order until one succeeds.
@@ -39,11 +40,11 @@ behavior_return fallback_t::evaluate( const oracle_t *subject,
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );
-        if( outcome.result == running || outcome.result == success ) {
+        if( outcome.result == status_t::running || outcome.result == status_t::success ) {
             return outcome;
         }
     }
-    return { failure, nullptr };
+    return { status_t::failure, nullptr };
 }
 
 // A non-standard behavior strategy, execute runnable children in order unconditionally.
@@ -52,9 +53,9 @@ behavior_return sequential_until_done_t::evaluate( const oracle_t *subject,
 {
     for( const node_t *child : children ) {
         behavior_return outcome = child->tick( subject );
-        if( outcome.result == running ) {
+        if( outcome.result == status_t::running ) {
             return outcome;
         }
     }
-    return { success, nullptr };
+    return { status_t::success, nullptr };
 }

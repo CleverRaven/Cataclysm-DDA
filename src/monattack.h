@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONATTACK_H
-#define MONATTACK_H
+#ifndef CATA_SRC_MONATTACK_H
+#define CATA_SRC_MONATTACK_H
 
 class monster;
 class Creature;
@@ -63,10 +63,12 @@ bool fear_paralyze( monster *z );
 bool nurse_check_up( monster *z );
 bool nurse_assist( monster *z );
 bool nurse_operate( monster *z );
+bool check_money_left( monster *z );
 bool photograph( monster *z );
 bool tazer( monster *z );
 bool flamethrower( monster *z );
 bool searchlight( monster *z );
+bool speaker( monster *z );
 bool copbot( monster *z );
 bool chickenbot( monster *z );        // Pick from tazer, M4, MGL
 bool multi_robot( monster *z );       // Tazer, flame, M4, MGL, or 120mm!
@@ -83,8 +85,15 @@ bool parrot( monster *z );
 bool parrot_at_danger( monster *parrot );
 bool darkman( monster *z );
 bool slimespring( monster *z );
+bool evolve_kill_strike( monster *z );
+bool leech_spawner( monster *z );
+bool mon_leech_evolution( monster *z );
+bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
+bool bio_op_random_biojutsu( monster *z );
 bool bio_op_takedown( monster *z );
+bool bio_op_impale( monster *z );
+bool bio_op_disarm( monster *z );
 bool ranged_pull( monster *z );
 bool grab( monster *z );
 bool grab_drag( monster *z );
@@ -97,6 +106,7 @@ bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
+bool zombie_fuse( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4
@@ -107,4 +117,4 @@ void flame( monster *z, Creature *target );
 bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
-#endif
+#endif // CATA_SRC_MONATTACK_H

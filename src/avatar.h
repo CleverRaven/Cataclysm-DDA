@@ -1,32 +1,70 @@
 #pragma once
-#ifndef AVATAR_H
-#define AVATAR_H
+#ifndef CATA_SRC_AVATAR_H
+#define CATA_SRC_AVATAR_H
 
-#include <stddef.h>
-#include <iosfwd>
+#include <cstddef>
+#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "enums.h"
-#include "player.h"
-#include "magic_teleporter_list.h"
 #include "calendar.h"
-#include "item.h"
+#include "character.h"
+#include "coordinates.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "magic_teleporter_list.h"
 #include "map_memory.h"
-#include "pldata.h"
+#include "memory_fast.h"
+#include "player.h"
 #include "point.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
+class faction;
+class item;
+class item_location;
 class mission;
+class monster;
+class nc_color;
 class npc;
+class talker;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+enum class character_type : int;
+
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
+struct mtype;
 struct points_left;
+
+// Monster visible in different directions (safe mode & compass)
+struct monster_visible_info {
+    // New monsters visible from last update
+    std::vector<shared_ptr_fast<monster>> new_seen_mon;
+
+    // Unique monsters (and types of monsters) visible in different directions
+    // 7 0 1    unique_types uses these indices;
+    // 6 8 2    0-7 are provide by direction_from()
+    // 5 4 3    8 is used for local monsters (for when we explain them below)
+    std::vector<npc *> unique_types[9];
+    std::vector<const mtype *> unique_mons[9];
+
+    // If the moster visible in this direction is dangerous
+    bool dangerous[8] = {};
+};
 
 class avatar : public player
 {
@@ -34,7 +72,7 @@ class avatar : public player
         avatar();
 
         void store( JsonOut &json ) const;
-        void load( JsonObject &data );
+        void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
@@ -42,8 +80,10 @@ class avatar : public player
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        void add_profession_items();
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
+        void save_template( const std::string &name, const points_left &points );
 
         bool is_avatar() const override {
             return true;
@@ -70,16 +110,21 @@ class avatar : public player
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
+        nc_color basic_symbol_color() const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium() const;
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
         void update_mental_focus();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
+        /** Resets all missions before saving character to template */
+        void reset_all_misions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -92,7 +137,7 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint get_active_mission_target() const;
+        tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -106,6 +151,10 @@ class avatar : public player
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+
+        // Dialogue and bartering--see npctalk.cpp
+        void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
+                      bool radio_contact = false );
 
         /**
          * Helper function for player::read.
@@ -126,13 +175,11 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, bool continuous = false );
+        bool read( item &it, bool continuous = false );
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const override;
-
-        hint_rating rate_action_read( const item &it ) const;
+        bool has_identified( const itype_id &item_id ) const override;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -155,13 +202,92 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const Character::stat &stat_name );
+        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
 
         faction *get_faction() const override;
+        // Set in npc::talk_to_you for use in further NPC interactions
+        bool dialogue_by_radio = false;
+
+        void set_movement_mode( const move_mode_id &mode ) override;
+
+        // Cycles to the next move mode.
+        void cycle_move_mode();
+        // Resets to walking.
+        void reset_move_mode();
+        // Toggles running on/off.
+        void toggle_run_mode();
+        // Toggles crouching on/off.
+        void toggle_crouch_mode();
+
+        bool wield( item_location target );
+        bool wield( item &target ) override;
+        bool wield( item &target, int obtain_cost );
+
+        /** gets the inventory from the avatar that is interactible via advanced inventory management */
+        std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
+                advanced_inv_area &square );
+
+        using Character::invoke_item;
+        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item * ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string & ) override;
+
+        monster_visible_info &get_mon_visible() {
+            return mon_visible;
+        }
+
+        struct daily_calories {
+            int spent = 0;
+            int gained = 0;
+            int total() const {
+                return gained - spent;
+            }
+            std::map<float, int> activity_levels;
+
+            void serialize( JsonOut &json ) const {
+                json.start_object();
+
+                json.member( "spent", spent );
+                json.member( "gained", gained );
+                save_activity( json );
+
+                json.end_object();
+            }
+            void deserialize( JsonIn &jsin ) {
+                JsonObject data = jsin.get_object();
+
+                data.read( "spent", spent );
+                data.read( "gained", gained );
+                if( data.has_member( "activity" ) ) {
+                    read_activity( data );
+                }
+            }
+
+            daily_calories() {
+                activity_levels.emplace( NO_EXERCISE, 0 );
+                activity_levels.emplace( LIGHT_EXERCISE, 0 );
+                activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( BRISK_EXERCISE, 0 );
+                activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+                activity_levels.emplace( EXTRA_EXERCISE, 0 );
+            }
+
+            void save_activity( JsonOut &json ) const;
+            void read_activity( JsonObject &data );
+
+        };
+        // called once a day; adds a new daily_calories to the
+        // front of the list and pops off the back if there are more than 30
+        void advance_daily_calories();
+        void add_spent_calories( int cal ) override;
+        void add_gained_calories( int cal ) override;
+        void log_activity_level( float level ) override;
+        std::string total_daily_calories_string() const;
 
     private:
         map_memory player_map_memory;
@@ -188,9 +314,14 @@ class avatar : public player
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+        /**
+         * The amont of calories spent and gained per day for the last 30 days.
+         * the back is popped off and a new one added to the front at midnight each day
+         */
+        std::list<daily_calories> calorie_diary;
 
         // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
+        std::unordered_set<itype_id> items_identified;
 
         object_type grab_type;
 
@@ -200,6 +331,36 @@ class avatar : public player
         int dex_upgrade = 0;
         int int_upgrade = 0;
         int per_upgrade = 0;
+
+        monster_visible_info mon_visible;
 };
 
-#endif
+avatar &get_avatar();
+std::unique_ptr<talker> get_talker_for( avatar &me );
+std::unique_ptr<talker> get_talker_for( avatar *me );
+
+struct points_left {
+    int stat_points;
+    int trait_points;
+    int skill_points;
+
+    enum point_limit : int {
+        FREEFORM = 0,
+        ONE_POOL,
+        MULTI_POOL,
+        TRANSFER,
+    } limit;
+
+    points_left();
+    void init_from_options();
+    // Highest amount of points to spend on stats without points going invalid
+    int stat_points_left() const;
+    int trait_points_left() const;
+    int skill_points_left() const;
+    bool is_freeform();
+    bool is_valid();
+    bool has_spare();
+    std::string to_string();
+};
+
+#endif // CATA_SRC_AVATAR_H

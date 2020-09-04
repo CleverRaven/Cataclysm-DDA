@@ -48,7 +48,12 @@ void active_item_cache::add( item &it, point location )
 
 bool active_item_cache::empty() const
 {
-    return active_items.empty();
+    for( std::pair<int, std::list<item_reference>> active_queue : active_items ) {
+        if( !active_queue.second.empty() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 std::vector<item_reference> active_item_cache::get()
@@ -102,7 +107,7 @@ std::vector<item_reference> active_item_cache::get_special( special_item_type ty
 
 void active_item_cache::subtract_locations( const point &delta )
 {
-    for( auto &pair : active_items ) {
+    for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             ir.location -= delta;
         }
@@ -111,7 +116,7 @@ void active_item_cache::subtract_locations( const point &delta )
 
 void active_item_cache::rotate_locations( int turns, const point &dim )
 {
-    for( auto &pair : active_items ) {
+    for( std::pair<const int, std::list<item_reference>> &pair : active_items ) {
         for( item_reference &ir : pair.second ) {
             ir.location = ir.location.rotate( turns, dim );
         }

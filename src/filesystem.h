@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_FILE_SYSTEM_H
-#define CATA_FILE_SYSTEM_H
+#ifndef CATA_SRC_FILESYSTEM_H
+#define CATA_SRC_FILESYSTEM_H
 
 #include <string>
 #include <vector>
@@ -14,6 +14,8 @@ bool remove_file( const std::string &path );
 bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
+
+std::string read_entire_file( const std::string &path );
 
 namespace cata_files
 {
@@ -60,4 +62,4 @@ bool copy_file( const std::string &source_path, const std::string &dest_path );
  */
 std::string ensure_valid_file_name( const std::string &file_name );
 
-#endif //CATA_FILE_SYSTEM_H
+#endif // CATA_SRC_FILESYSTEM_H

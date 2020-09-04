@@ -1,32 +1,14 @@
 [
   {
     "type": "start_location",
-    "ident": "church_3rdfloor_1",
-    "name": "Church",
-    "target": "church_3rdfloor_1"
-  },
-  {
-    "type": "start_location",
-    "ident": "church_1",
-    "name": "Church",
-    "target": "church_1"
-  },
-  {
-    "type": "start_location",
-    "ident": "church_steeple_end",
-    "name": "Church",
-    "target": "church_steeple_end"
-  },
-  {
-    "type": "start_location",
-    "ident": "church",
-    "name": "Church",
-    "target": "church"
-  },
-  {
-    "type": "start_location",
-    "ident": "magic_basement",
+    "id": "sloc_magic_basement",
     "name": "Wizard's Secret Basement Study",
-    "target": "magic_basement"
+    "terrain": [ "magic_basement" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lake_retreat",
+    "name": "Wizard's lake retreat",
+    "terrain": [ "lake_retreat_ground" ]
   }
 ]

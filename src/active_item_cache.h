@@ -1,13 +1,14 @@
 #pragma once
-#ifndef ACTIVE_ITEM_CACHE_H
-#define ACTIVE_ITEM_CACHE_H
+#ifndef CATA_SRC_ACTIVE_ITEM_CACHE_H
+#define CATA_SRC_ACTIVE_ITEM_CACHE_H
 
+#include <iosfwd>
 #include <list>
 #include <unordered_map>
 #include <vector>
 
-#include "safe_reference.h"
 #include "point.h"
+#include "safe_reference.h"
 
 class item;
 
@@ -27,7 +28,7 @@ namespace std
 {
 template <>
 struct hash<special_item_type> {
-    std::size_t operator()( const special_item_type &k ) const {
+    std::size_t operator()( const special_item_type &k ) const noexcept {
         return static_cast<size_t>( k );
     }
 };
@@ -83,4 +84,4 @@ class active_item_cache
         void rotate_locations( int turns, const point &dim );
 };
 
-#endif
+#endif // CATA_SRC_ACTIVE_ITEM_CACHE_H

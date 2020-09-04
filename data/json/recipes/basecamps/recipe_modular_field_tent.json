@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_northeast",
     "description": "We need some shelter, so set up a tent on the northeast side of the camp.",
     "category": "CC_BUILDING",
@@ -14,10 +15,12 @@
     "blueprint_requires": [ { "id": "fbmh_0" } ],
     "blueprint_provides": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_tent_northeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_northeast" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_east",
     "description": "We should expand our housing by putting up a tent on the east side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -31,10 +34,12 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_east", "amount": 4 }, { "id": "fbmh_tent_east" } ],
     "blueprint_excludes": [ { "id": "fbmh_east" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_southeast",
     "description": "We should expand our housing by putting up a tent on the southeast side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -48,10 +53,12 @@
     "blueprint_requires": [ { "id": "fbmh_east", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southeast", "amount": 4 }, { "id": "fbmh_tent_southeast" } ],
     "blueprint_excludes": [ { "id": "fbmh_southeast" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_northwest",
     "description": "We should expand our housing by putting up a tent on the northwest side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -65,10 +72,12 @@
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_provides": [ { "id": "fbmh_northwest", "amount": 4 }, { "id": "fbmh_tent_northwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_northwest" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_west",
     "description": "We should expand our housing by putting up a tent on the west side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -82,10 +91,12 @@
     "blueprint_requires": [ { "id": "fbmh_northwest", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_west", "amount": 4 }, { "id": "fbmh_tent_west" } ],
     "blueprint_excludes": [ { "id": "fbmh_west" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_southwest",
     "description": "We should expand our housing by putting up a tent on the southwest side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -99,6 +110,7 @@
     "blueprint_requires": [ { "id": "fbmh_west", "amount": 4 } ],
     "blueprint_provides": [ { "id": "fbmh_southwest", "amount": 4 }, { "id": "fbmh_tent_southwest" } ],
     "blueprint_excludes": [ { "id": "fbmh_southwest" } ],
-    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ]
+    "components": [ [ [ "large_tent_kit", 1 ], [ "broketent", 4 ], [ "tent_kit", 3 ], [ "shelter_kit", 4 ] ] ],
+    "check_blueprint_needs": false
   }
 ]

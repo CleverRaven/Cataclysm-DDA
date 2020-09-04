@@ -23,14 +23,29 @@
     "verb": "reading",
     "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "constructing",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
+    "id": "ACT_MULTIPLE_MINE",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "mining",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_TIDY_UP",
@@ -42,37 +57,71 @@
   {
     "id": "ACT_VEHICLE_DECONSTRUCTION",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "deconstructing a vehicle",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
+    "id": "ACT_VEHICLE_REPAIR",
+    "type": "activity_type",
+    "activity_level": "BRISK_EXERCISE",
+    "verb": "repairing a vehicle",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_BUTCHER",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "butchering",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_CHOP_TREES",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping trees",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MULTIPLE_FISH",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "fishing",
-    "based_on": "neither"
+    "based_on": "neither",
+    "auto_needs": true
+  },
+  {
+    "id": "ACT_GENERIC_GAME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "playing",
+    "rooted": true,
+    "based_on": "time"
   },
   {
     "id": "ACT_GAME",
@@ -90,7 +139,8 @@
     "rooted": true,
     "based_on": "time",
     "no_resume": true,
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_CRAFT",
@@ -98,7 +148,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "crafting",
     "based_on": "neither",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -106,20 +157,22 @@
     "activity_level": "MODERATE_EXERCISE",
     "verb": "disassembly",
     "suspendable": false,
+    "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "butchering",
     "based_on": "speed"
   },
   {
     "id": "ACT_BUTCHER_FULL",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "butchering",
     "based_on": "speed"
   },
@@ -161,11 +214,12 @@
   {
     "id": "ACT_LONGSALVAGE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "salvaging",
     "based_on": "speed",
     "no_resume": true,
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FORAGE",
@@ -177,15 +231,16 @@
   {
     "id": "ACT_BUILD",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "based_on": "neither",
     "refuel_fires": true,
+    "auto_needs": true,
     "verb": "constructing"
   },
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
@@ -211,7 +266,8 @@
     "verb": "waiting",
     "rooted": true,
     "based_on": "time",
-    "no_resume": true
+    "no_resume": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FIRSTAID",
@@ -260,19 +316,18 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_HEATING",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "heating",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
     "verb": "de-stressing",
     "based_on": "time"
-  },
-  {
-    "id": "ACT_MAKE_ZLAVE",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "cutting tissues",
-    "suspendable": false,
-    "based_on": "speed"
   },
   {
     "id": "ACT_DROP",
@@ -323,7 +378,7 @@
     "id": "ACT_TRAVELLING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "travelling",
+    "verb": "traveling",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -333,18 +388,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "sorting out the loot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_TILL_PLOT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "tilling the farm plot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_FETCH_REQUIRED",
@@ -358,29 +402,13 @@
   {
     "id": "ACT_MULTIPLE_FARM",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "farming",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_PLANT_PLOT",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "planting seeds",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HARVEST_PLOT",
-    "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
-    "verb": "harvesting plots",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_FERTILIZE_PLOT",
@@ -389,7 +417,8 @@
     "verb": "fertilizing plots",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_ADV_INVENTORY",
@@ -436,6 +465,26 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MILK",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "milking an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_SHEAR",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "shearing an animal",
+    "suspendable": false,
+    "rooted": true,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -466,7 +515,6 @@
     "activity_level": "NO_EXERCISE",
     "verb": "trying to start the vehicle",
     "suspendable": false,
-    "rooted": true,
     "based_on": "time"
   },
   {
@@ -481,6 +529,17 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "cracking",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_LOCKPICK",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "picking lock",
+    "rooted": true,
+    "suspendable": false,
+    "no_resume": true,
     "based_on": "speed"
   },
   {
@@ -488,16 +547,20 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "repairing",
+    "rooted": true,
     "based_on": "neither",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "mending",
+    "rooted": true,
     "based_on": "speed",
-    "refuel_fires": true
+    "refuel_fires": true,
+    "auto_needs": true
   },
   {
     "id": "ACT_GUNMOD_ADD",
@@ -553,6 +616,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "washing",
+    "rooted": true,
     "based_on": "speed"
   },
   {
@@ -560,6 +624,13 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "cutting the metal",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_PRY_NAILS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "prying nails",
     "based_on": "speed"
   },
   {
@@ -599,6 +670,13 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_PLANT_SEED",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "planting seeds",
+    "based_on": "time"
+  },
+  {
     "id": "ACT_DIG",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
@@ -624,6 +702,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "shaving",
+    "rooted": true,
     "based_on": "speed"
   },
   {
@@ -631,6 +710,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "cutting your hair",
+    "rooted": true,
     "based_on": "speed"
   },
   {
@@ -655,6 +735,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "being operated on",
     "based_on": "time",
+    "interruptable": false,
     "suspendable": false
   },
   {
@@ -699,6 +780,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "eating",
     "suspendable": false,
+    "rooted": true,
     "based_on": "neither",
     "no_resume": true
   },
@@ -708,6 +790,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
     "suspendable": false,
+    "rooted": true,
     "based_on": "neither",
     "no_resume": true
   },
@@ -727,6 +810,7 @@
     "verb": "studying",
     "suspendable": false,
     "refuel_fires": true,
+    "auto_needs": true,
     "rooted": true,
     "based_on": "time",
     "no_resume": true
@@ -754,25 +838,61 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "using the mind splicer",
+    "rooted": true,
     "based_on": "speed",
     "no_resume": true
   },
   {
-    "id": "ACT_HACK_DOOR",
+    "id": "ACT_HACKING",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
+    "verb": "hacking",
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
   },
   {
-    "id": "ACT_HACK_SAFE",
+    "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
-    "verb": "hacking console",
+    "verb": "canceling activity serialized with legacy code",
     "suspendable": false,
-    "based_on": "time",
+    "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "consuming",
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_HARD",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_ACTIVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_MODERATE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_LIGHT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
   }
 ]

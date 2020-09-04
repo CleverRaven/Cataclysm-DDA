@@ -17,21 +17,27 @@ args = argparse.ArgumentParser(description="Confirm that every talk topic in eve
                                            "TALK_DONE and every topic is reachable from an NPC's"
                                            "starting topic.  Reports nothing on success.")
 args.add_argument("dialogue_json", nargs="+", action="store",
-                  help="specify json file or files to validate.  Use 'data/json/npcs/* "
-                  "data/json/npcs/*/* data/json/npcs/*/*/*' to validate the "
-                  "dialogue in the vanilla game.")
+                  help="specify json folder to validate.  The valdiator will walk the folder's "
+                  "tree and validate all JSON files in it.  Use 'data/json/npcs/ "
+                  "to validate the dialogue in the vanilla game.")
 argsDict = vars(args.parse_args())
+
 
 def get_dialogue_from_json():
     dialogue = []
 
-    for path in argsDict.get("dialogue_json", []):
-        if path == "data/json/npcs/TALK_TEST.json":
-           continue
-        if path.endswith(".json"):
-            with open(path) as dialogue_file:
-                dialogue += json.load(dialogue_file)
- 
+    for arg_path in argsDict.get("dialogue_json", []):
+        if arg_path.endswith("/"):
+            arg_path = arg_path[:-1]
+        for subdir_path, dirnames, filenames in os.walk(arg_path):
+            for filename in filenames:
+                path = subdir_path + "/" + filename
+                if path == "data/json/npcs/TALK_TEST.json":
+                    continue
+                if path.endswith(".json"):
+                    with open(path) as dialogue_file:
+                        dialogue += json.load(dialogue_file)
+
     return dialogue
 
 
@@ -83,7 +89,7 @@ def parse_response(topics, response, topic_branches=None, this_ids=None):
         failure_r = response.get("failure", {})
         add_topic_by_response(topics, failure_r, topic_branches, this_ids)
 
-    
+
 def validate(dialogue):
     topics = {}
     topic_branches = {
@@ -92,25 +98,25 @@ def validate(dialogue):
         "TALK_SEDATED": {"responses": ["TALK_DONE"], "ends": True, "parent": None},
     }
     # defined in src/npctalk.cpp
-    defined_ids = [ "TALK_NONE", "TALK_DONE", "TALK_TRAIN", "TALK_HOW_MUCH_FURTHER",
-                    "TALK_SEDATED" ]
+    defined_ids = ["TALK_NONE", "TALK_DONE", "TALK_TRAIN", "TALK_HOW_MUCH_FURTHER",
+                   "TALK_SEDATED"]
     for topic_id in defined_ids:
         add_topic_by_id(topics, topic_id)
 
     # referenced in src/npctalk.cpp
-    refered_ids = [ "TALK_WAKE_UP", "TALK_RADIO", "TALK_MISSION_DESCRIBE_URGENT",
-                    "TALK_MISSION_DESCRIBE", "TALK_SHELTER", "TALK_SIZE_UP", "TALK_LOOK_AT",
-                    "TALK_OPINION", "TALK_SHOUT", "TALK_STRANGER_AGGRESSIVE", "TALK_LEADER",
-                    "TALK_TRAIN_START", "TALK_STOLE_ITEM", "TALK_SEDATED" ]
+    refered_ids = ["TALK_WAKE_UP", "TALK_RADIO", "TALK_MISSION_DESCRIBE_URGENT",
+                   "TALK_MISSION_DESCRIBE", "TALK_SHELTER", "TALK_SIZE_UP", "TALK_LOOK_AT",
+                   "TALK_OPINION", "TALK_SHOUT", "TALK_STRANGER_AGGRESSIVE", "TALK_LEADER",
+                   "TALK_TRAIN_START", "TALK_STOLE_ITEM", "TALK_SEDATED"]
     for topic_id in refered_ids:
         add_topic_by_chat(topics, topic_id)
 
     # TALK_TRAIN_START is technically not a start id
-    start_topics = [ "TALK_RADIO", "TALK_LEADER", "TALK_FRIEND", "TALK_STOLE_ITEM",
-                     "TALK_MISSION_DESCRIBE_URGENT", "TALK_SEDATED", "TALK_WAKE_UP",
-                     "TALK_MUG", "TALK_STRANGER_AGGRESSIVE", "TALK_STRANGER_SCARED",
-                     "TALK_STRANGER_WARY", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL",
-                     "TALK_SHELTER", "TALK_CAMP_OVERSEER" ]
+    start_topics = ["TALK_RADIO", "TALK_LEADER", "TALK_FRIEND", "TALK_STOLE_ITEM",
+                    "TALK_MISSION_DESCRIBE_URGENT", "TALK_SEDATED", "TALK_WAKE_UP",
+                    "TALK_MUG", "TALK_STRANGER_AGGRESSIVE", "TALK_STRANGER_SCARED",
+                    "TALK_STRANGER_WARY", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_NEUTRAL",
+                    "TALK_SHELTER", "TALK_CAMP_OVERSEER"]
     for talk_topic in dialogue:
         if not isinstance(talk_topic, dict):
             continue
@@ -206,5 +212,6 @@ def validate(dialogue):
             print("{} does not reach TALK_DONE".format(topic_id))
         if not branch_record["parent"] in start_topics:
             print("no path from a start topic to {}".format(topic_id))
+
 
 validate(get_dialogue_from_json())

@@ -1,8 +1,9 @@
 #include "string_formatter.h"
 
-#include <cassert>
 #include <stdexcept>
 #include <exception>
+
+#include "cata_assert.h"
 
 char cata::string_formatter::consume_next_input()
 {
@@ -51,7 +52,7 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         // We already know this is true because of the `find_first_not_of` check above.
         const bool had_next = consume_next_input_if( '$' );
         ( void ) had_next;
-        assert( had_next );
+        cata_assert( had_next );
         return result;
     } else {
         return cata::nullopt;
@@ -78,7 +79,7 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
         if( !consume_next_input_if( '$' ) ) {
             throw_error( "expected '$' after field precision" );
         }
-        return index ;
+        return index;
     }
     while( has_digit() ) {
         current_format.push_back( consume_next_input() );

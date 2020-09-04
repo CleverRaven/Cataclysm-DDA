@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAP_TYPES_H
-#define OVERMAP_TYPES_H
+#ifndef CATA_SRC_OVERMAP_TYPES_H
+#define CATA_SRC_OVERMAP_TYPES_H
 
 #include "calendar.h"
 
@@ -16,4 +16,4 @@ class scent_trace
         int initial_strength; // Original strength, doesn't weaken, it's just adjusted by age.
 };
 
-#endif
+#endif // CATA_SRC_OVERMAP_TYPES_H

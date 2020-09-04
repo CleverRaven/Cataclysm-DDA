@@ -1,0 +1,44 @@
+[
+  {
+    "id": "marshmallow_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "marshmallow", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "armored_marshmallow_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "smores", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gummy_bear",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "candy3", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cracker_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "grahmcrackers", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cookie_beast",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "cookies", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gum_spider",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "gum", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "caff_gum_spider",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "caff_gum", "type": "flesh", "mass_ratio": 0.7 } ]
+  }
+]

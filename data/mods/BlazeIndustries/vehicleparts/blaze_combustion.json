@@ -1,0 +1,139 @@
+[
+  {
+    "id": "engine_steam_large",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_triple_large",
+    "durability": 200,
+    "epower": 0,
+    "power": 242450,
+    "energy_consumption": 485000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "id": "engine_steam_giant",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_triple_giant",
+    "durability": 200,
+    "epower": 0,
+    "power": 447600,
+    "energy_consumption": 895250,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "abstract": "steam_turbine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "coal_lump",
+    "looks_like": "diesel_engine_v12",
+    "m2c": 75,
+    "//": "45% energy efficiency",
+    "description": "A closed cycle, external combustion steam turbine.  Burns coal from a bunker in the vehicle to produce steam.",
+    "extend": { "flags": [ "E_COLD_START" ] }
+  },
+  {
+    "id": "engine_steam_turbine_small",
+    "copy-from": "steam_turbine",
+    "type": "vehicle_part",
+    "item": "steam_turbine_small",
+    "durability": 200,
+    "epower": 0,
+    "power": 93250,
+    "energy_consumption": 207250,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "id": "engine_steam_turbine_medium",
+    "copy-from": "steam_turbine",
+    "type": "vehicle_part",
+    "item": "steam_turbine_medium",
+    "durability": 200,
+    "epower": 0,
+    "power": 149200,
+    "energy_consumption": 331750,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "id": "engine_steam_turbine_large",
+    "copy-from": "steam_turbine",
+    "type": "vehicle_part",
+    "item": "steam_turbine_large",
+    "durability": 200,
+    "epower": 0,
+    "power": 242450,
+    "energy_consumption": 539000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  },
+  {
+    "id": "engine_steam_turbine_giant",
+    "copy-from": "steam_turbine",
+    "type": "vehicle_part",
+    "item": "steam_turbine_giant",
+    "durability": 200,
+    "epower": 0,
+    "power": 447600,
+    "energy_consumption": 994750,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 30, 60 ] },
+      { "item": "steel_chunk", "count": [ 30, 60 ] },
+      { "item": "scrap", "count": [ 30, 60 ] },
+      { "item": "water", "count": [ 50, 120 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    }
+  }
+]

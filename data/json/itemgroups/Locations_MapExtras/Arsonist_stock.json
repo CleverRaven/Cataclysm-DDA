@@ -1,0 +1,17 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_STOCK",
+    "subtype": "collection",
+    "items": [
+      { "item": "molotov", "count": 50 },
+      { "item": "improvised_pipebomb", "count": 50 },
+      { "item": "fuse", "count": 20 },
+      { "item": "FMCNote", "count": 3 },
+      { "item": "nail", "count": 5 },
+      { "item": "rebar_rail", "count": 5 },
+      { "item": "textbook_anarch", "count": 1 },
+      { "item": "fertilizer_commercial", "count": 1 }
+    ]
+  }
+]

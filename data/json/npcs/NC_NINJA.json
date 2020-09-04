@@ -2,20 +2,28 @@
   {
     "type": "item_group",
     "id": "NC_NINJA_shirt",
-    "items": [ [ "karate_gi", 10 ], [ "judo_gi", 10 ], [ "keikogi", 10 ], [ "zubon_gi", 10 ], [ "hakama_gi", 10 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "karate_gi", "prob": 10 },
+      { "item": "judo_gi", "prob": 10 },
+      { "item": "keikogi", "prob": 10 },
+      { "item": "zubon_gi", "prob": 10 },
+      { "item": "hakama_gi", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_NINJA_belt",
-    "items": [
-      [ "null", 50 ],
-      [ "judo_belt_black", 10 ],
-      [ "judo_belt_blue", 10 ],
-      [ "judo_belt_brown", 10 ],
-      [ "judo_belt_green", 40 ],
-      [ "judo_belt_orange", 40 ],
-      [ "judo_belt_white", 40 ],
-      [ "judo_belt_yellow", 40 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "item": "judo_belt_black", "prob": 10 },
+      { "item": "judo_belt_blue", "prob": 10 },
+      { "item": "judo_belt_brown", "prob": 10 },
+      { "item": "judo_belt_green", "prob": 40 },
+      { "item": "judo_belt_orange", "prob": 40 },
+      { "item": "judo_belt_white", "prob": 40 },
+      { "item": "judo_belt_yellow", "prob": 40 }
     ]
   }
 ]

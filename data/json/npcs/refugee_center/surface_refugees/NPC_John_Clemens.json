@@ -14,10 +14,10 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_John",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "John is a pseudonym.  This guy probably lived in a city before the cataclysm, but now he either thinks or pretends to be a cowboy..",
+    "//": "John is a pseudonym.  This guy probably lived in a city before the Cataclysm, but now he either thinks or pretends to be a cowboy..",
     "bonus_str": { "rng": [ -1, 2 ] },
     "bonus_dex": { "rng": [ -3, 2 ] },
     "bonus_int": { "rng": [ -2, 1 ] },
@@ -133,7 +133,7 @@
     "dynamic_line": "My story?  Just a wanderin' cowhand, eatin' dust on the trail.  I settled here for a spell after I came upon some hard times.",
     "responses": [
       {
-        "text": "You... you do know what's going on here, right?  With the evacuation and stuff?",
+        "text": "You… you do know what's going on here, right?  With the evacuation and stuff?",
         "topic": "TALK_REFUGEE_John_Background_cataclysm"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -152,7 +152,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Situation",
-    "dynamic_line": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn... we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here.",
+    "dynamic_line": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn… we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
