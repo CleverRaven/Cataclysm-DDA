@@ -1522,7 +1522,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void player::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
         remove_weapon();
     }
 
