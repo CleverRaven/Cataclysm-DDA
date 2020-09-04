@@ -119,7 +119,7 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle:: smart_controller_handle_turn( bool thrusting,
-        cata::optional<float> k_traction_cache )
+        const cata::optional<float> &k_traction_cache )
 {
 
     if( !engine_on || !has_enabled_smart_controller ) {

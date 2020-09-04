@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <map>
 #include <new>
 
-inline std::string urlDecode( std::string str )
+inline std::string urlDecode( const std::string &str )
 {
     std::string temp;
     int i;

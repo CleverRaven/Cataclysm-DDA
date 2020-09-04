@@ -567,7 +567,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static hack_type get_hack_type( const tripoint &examp )
 {
     hack_type type = hack_type::NONE;
     map &here = get_map();

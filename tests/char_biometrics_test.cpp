@@ -496,7 +496,7 @@ TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity
 }
 
 // Return a string with multiple consecutive spaces replaced with a single space
-static std::string condensed_spaces( const std::string text )
+static std::string condensed_spaces( const std::string &text )
 {
     std::regex spaces( " +" );
     return std::regex_replace( text, spaces, " " );
