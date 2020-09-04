@@ -6,8 +6,8 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 1, 1 ],
+    "city_sizes": [ -1, -1 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   }
 ]
