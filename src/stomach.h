@@ -167,7 +167,7 @@ class stomach_contents
         // volume of food in stomach_contents
         units::volume contents = 0_ml;
         // when did this stomach_contents call stomach_contents::ingest()
-        time_point last_ate = calendar::turn_zero;;
+        time_point last_ate = calendar::turn_zero;
 
         // Gets the rates at which this stomach will digest things.
         stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates,

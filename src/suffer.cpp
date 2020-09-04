@@ -810,7 +810,6 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     return bp_exposure;
 }
 
-
 void Character::suffer_from_sunburn()
 {
     if( !has_trait( trait_ALBINO ) && !has_effect( effect_datura ) && !has_trait( trait_SUNBURN ) ) {
