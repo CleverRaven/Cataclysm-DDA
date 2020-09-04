@@ -241,6 +241,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_bridge",
+    "name": "Bridge",
+    "terrain": [ "bridgehead_ground" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_desert_island",
     "name": "Desert Island",
     "terrain": [ "island_sand", "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],

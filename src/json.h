@@ -223,7 +223,7 @@ class JsonIn
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value() {
-            const auto old_offset = tell();
+            const int old_offset = tell();
             try {
                 return io::string_to_enum<E>( get_string() );
             } catch( const io::InvalidEnumString & ) {

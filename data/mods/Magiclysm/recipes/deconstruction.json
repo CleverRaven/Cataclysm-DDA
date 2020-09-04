@@ -2,6 +2,7 @@
   {
     "result": "broken_claygolem",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "spellcraft",
     "difficulty": 2,
     "time": "4 h",
@@ -11,6 +12,7 @@
   {
     "result": "broken_stonegolem",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "spellcraft",
     "difficulty": 4,
     "time": "4 h",
@@ -20,6 +22,7 @@
   {
     "result": "broken_irongolem",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "spellcraft",
     "difficulty": 6,
     "time": "6 h",
@@ -29,6 +32,7 @@
   {
     "result": "broken_forgeborn",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "spellcraft",
     "difficulty": 8,
     "time": "6 h",

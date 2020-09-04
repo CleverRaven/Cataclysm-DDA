@@ -327,6 +327,8 @@ class item : public visitable<item>
         bool ready_to_revive( const tripoint &pos ) const;
 
         bool is_money() const;
+        bool is_software() const;
+        bool is_software_storage() const;
 
         /**
          * Returns the default color of the item (e.g. @ref itype::color).
@@ -739,9 +741,11 @@ class item : public visitable<item>
          * ammo, magazines, weapons, etc.
          */
         units::volume get_total_capacity() const;
+        units::mass get_total_weight_capacity() const;
 
-        // recusive function that checks pockets for remaining free space
-        units::volume check_for_free_space( const item *it ) const;
+        // recursive function that checks pockets for remaining free space
+        units::volume check_for_free_space() const;
+        units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
         // checks if the item can have things placed in it
         bool has_pockets() const {
             // what has it gots in them, precious

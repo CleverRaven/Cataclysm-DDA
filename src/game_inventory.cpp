@@ -1588,7 +1588,7 @@ void game_menus::inv::swap_letters( player &p )
 
         inv_s.set_hint( invlets );
 
-        auto loc = inv_s.execute();
+        item_location loc = inv_s.execute();
 
         if( !loc ) {
             break;
@@ -1960,7 +1960,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            auto reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_id( "autoclave_item" );
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }

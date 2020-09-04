@@ -30,6 +30,7 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RELEASE ..
         cmake --build . -- -j3
         echo "::add-path::$PWD"
+    - uses: ammaraskar/gcc-problem-matcher@master
     - name: make
       run: |
         ClangBuildAnalyzer --start .

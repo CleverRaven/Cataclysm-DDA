@@ -216,9 +216,9 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
 {
     _field_type_list.erase( it );
     if( _field_type_list.empty() ) {
-        _displayed_field_type = fd_null;
+        _displayed_field_type = field_type_id( "fd_null" );
     } else {
-        _displayed_field_type = fd_null;
+        _displayed_field_type = field_type_id( "fd_null" );
         for( auto &fld : _field_type_list ) {
             if( fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
                 _displayed_field_type = fld.first;

@@ -6,7 +6,7 @@
     "description": "Blinds enemy for a short time.",
     "effect": "target_attack",
     "effect_str": "blind",
-    "affected_body_parts": [ "EYES" ],
+    "affected_body_parts": [ "eyes" ],
     "valid_targets": [ "hostile" ],
     "min_damage": 1,
     "max_damage": 2,

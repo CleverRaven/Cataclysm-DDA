@@ -617,5 +617,50 @@
         }
       ]
     }
+  },
+  {
+    "id": "aura_werewolf",
+    "type": "ARMOR",
+    "name": "werewolf aura",
+    "description": "You have become the werewolf.  Boys becoming men, men becoming wolves.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "light_healing", "hit_self": true } ] } ] }
+        },
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 3 },
+            { "value": "DEXTERITY", "add": 3 },
+            { "value": "INTELLIGENCE", "add": -6 },
+            { "value": "PERCEPTION", "add": 3 }
+          ],
+          "mutations": [
+            "LUPINE_FUR",
+            "CLAWS",
+            "ADRENALINE",
+            "PADDED_FEET",
+            "TAIL_FLUFFY",
+            "PRED4",
+            "LUPINE_EARS",
+            "MUZZLE",
+            "PAWS",
+            "SHOUT3",
+            "GOODCARDIO",
+            "ANIMALDISCORD2",
+            "MUTE",
+            "LARGE_OK"
+          ]
+        }
+      ]
+    }
   }
 ]

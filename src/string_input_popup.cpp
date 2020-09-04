@@ -533,7 +533,7 @@ void string_input_popup::edit( int &value )
 string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
-    const auto u8size = utf8_wrapper( _text ).size();
+    const size_t u8size = utf8_wrapper( _text ).size();
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }

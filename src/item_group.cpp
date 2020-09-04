@@ -106,6 +106,23 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
     return tmp;
 }
 
+static item_pocket::pocket_type guess_pocket_for( const item &container, const item &payload )
+{
+    if( ( container.is_gun() && payload.is_gunmod() ) || ( container.is_tool() &&
+            payload.is_toolmod() ) ) {
+        return item_pocket::pocket_type::MOD;
+    }
+    if( container.is_software_storage() && payload.is_software() ) {
+        return item_pocket::pocket_type::SOFTWARE;
+    }
+    if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
+        return item_pocket::pocket_type::MAGAZINE_WELL;
+    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+        return item_pocket::pocket_type::MAGAZINE;
+    }
+    return item_pocket::pocket_type::CONTAINER;
+}
+
 Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
         RecursionList &rec ) const
 {
@@ -118,7 +135,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
-            const auto itm = create_single( birthday, rec );
+            const item itm = create_single( birthday, rec );
             if( !itm.is_null() ) {
                 result.push_back( itm );
             }
@@ -151,7 +168,8 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     if( container_item ) {
         item ctr( *container_item, birthday );
         for( const item &it : result ) {
-            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
         }
         result = ItemList{ ctr };
     }
@@ -313,7 +331,12 @@ void Item_modifier::modify( item &new_item ) const
 
     if( max_capacity == -1 && !cont.is_null() && ( new_item.made_of( phase_id::LIQUID ) ||
             ( !new_item.is_tool() && !new_item.is_gun() && !new_item.is_magazine() ) ) ) {
-        max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        if( new_item.type->weight == 0_gram ) {
+            max_capacity = new_item.charges_per_volume( cont.get_total_capacity() );
+        } else {
+            max_capacity = std::min( new_item.charges_per_volume( cont.get_total_capacity() ),
+                                     new_item.charges_per_weight( cont.get_total_weight_capacity() ) );
+        }
     }
 
     const bool charges_not_set = charges.first == -1 && charges.second == -1;
@@ -364,20 +387,19 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-        if( ammo == nullptr ) {
-            // In case there is no explicit ammo item defined, use the default ammo
-            if( !new_item.ammo_types().empty() ) {
-                new_item.ammo_set( new_item.ammo_default(), ch );
-            }
+        itype_id ammo_id;
+        if( ammo ) {
+            ammo_id = ammo->create_single( new_item.birthday() ).typeId();
+        } else if( new_item.ammo_default() ) {
+            ammo_id = new_item.ammo_default();
+        } else if( new_item.magazine_default() && new_item.magazine_default()->magazine->default_ammo ) {
+            ammo_id = new_item.magazine_default()->magazine->default_ammo;
+        }
+        if( ammo_id ) {
+            new_item.ammo_set( ammo_id, ch );
         } else {
-            const item am = ammo->create_single( new_item.birthday() );
-            if( !new_item.magazine_default().is_null() ) {
-                item mag( new_item.magazine_default() );
-                mag.ammo_set( am.typeId(), ch );
-                new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-            } else {
-                new_item.ammo_set( am.typeId(), ch );
-            }
+            debugmsg( "tried to set ammo for %s which does not have ammo or a magazine",
+                      new_item.typeId().c_str() );
         }
         // Make sure the item is in valid state
         if( new_item.magazine_integral() ) {
@@ -412,7 +434,8 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+        const item_pocket::pocket_type pk_type = guess_pocket_for( cont, new_item );
+        cont.put_in( new_item, pk_type );
         new_item = cont;
         if( sealed ) {
             new_item.seal();
@@ -422,7 +445,8 @@ void Item_modifier::modify( item &new_item ) const
     if( contents != nullptr ) {
         Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         for( const item &it : contentitems ) {
-            new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
+            const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+            new_item.put_in( it, pk_type );
         }
         if( sealed ) {
             new_item.seal();
@@ -641,7 +665,8 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
     if( group->container_item ) {
         item ctr( *group->container_item, birthday );
         for( const item &it : created ) {
-            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+            const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
+            ctr.put_in( it, pk_type );
         }
         created = ItemList{ ctr };
     }

@@ -1005,15 +1005,15 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             add_msg( _( "Never mind." ) );
             return;
         }
+    }
 
-        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-            use_in_place = true;
-        } else {
-            loc = loc.obtain( you );
-            if( !loc ) {
-                debugmsg( "Failed to obtain target item" );
-                return;
-            }
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        use_in_place = true;
+    } else {
+        loc = loc.obtain( you );
+        if( !loc ) {
+            debugmsg( "Failed to obtain target item" );
+            return;
         }
     }
 

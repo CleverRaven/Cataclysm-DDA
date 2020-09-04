@@ -143,6 +143,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "monitoring_equipment_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "XEDRA document" },
+    "snippet_category": "monitoring_equipment"
+  },
+  {
+    "type": "GENERIC",
+    "id": "artifact_scp_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "ANOMALOUS ARTIFACT REPORT" },
+    "snippet_category": "artifact_scp"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",

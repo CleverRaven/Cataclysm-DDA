@@ -16,6 +16,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 class Character;
 class JsonIn;
@@ -73,6 +74,8 @@ class recipe
         itype_id result_ = itype_id::NULL_ID();
 
         int time = 0; // in movement points (100 per turn)
+
+        float exertion;
 
     public:
         recipe();
@@ -173,6 +176,9 @@ class recipe
         // The time malus due to proficiencies lacking
         float proficiency_maluses( const Character &guy ) const;
 
+        // How active of exercise this recipe is
+        float exertion_level() const;
+
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
 
@@ -229,6 +235,7 @@ class recipe
         bool hot_result() const;
 
     private:
+        void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
     private:
@@ -281,10 +288,12 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
 
-        /** Blueprint requirements to be checked in unit test */
-        bool has_blueprint_needs = false;
+        /** Blueprint requirements either autocalculcated or explicitly
+         * specified.  These members relate to resolving those blueprint
+         * requirements into the standard recipe requirements. */
+        bool bp_autocalc = false;
         bool check_blueprint_needs = false;
-        build_reqs blueprint_reqs;
+        cata::value_ptr<build_reqs> blueprint_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H

@@ -1314,7 +1314,7 @@ bool talk_function::scavenging_raid_return( npc &p )
         if( one_in( 8 ) ) {
             itemlist = "npc_weapon_random";
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1485,7 +1485,7 @@ bool talk_function::forage_return( npc &p )
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );

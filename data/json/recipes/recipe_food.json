@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cake2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -23,6 +24,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "donut_holes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -42,6 +44,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_clean",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -55,6 +58,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_clean",
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
@@ -67,6 +71,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salt",
     "id_suffix": "from_salt_water",
     "category": "CC_FOOD",
@@ -81,6 +86,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salt",
     "id_suffix": "from_mineral",
     "category": "CC_FOOD",
@@ -95,6 +101,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mushroom_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -108,6 +115,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooked_bell_pepper",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -121,6 +129,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -134,6 +143,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_scrap_cooked",
     "copy-from": "meat_cooked",
     "time": "45 s",
@@ -143,6 +153,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -156,6 +167,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_meat_scrap_cooked",
     "copy-from": "mutant_meat_cooked",
     "delete_flags": [ "BAD_TASTE" ],
@@ -166,6 +178,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_human_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -179,6 +192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -192,6 +206,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hstomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -205,6 +220,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "small_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -218,6 +234,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "small_hstomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -231,6 +248,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -244,6 +262,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -258,6 +277,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -273,6 +293,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_tallow",
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -281,6 +302,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_lard",
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -289,6 +311,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_human_tallow",
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -297,6 +320,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mutant_human_lard",
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -305,6 +329,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooking_oil",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -329,6 +354,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooking_oil2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -344,6 +370,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rehydrated_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -356,6 +383,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rehydrated_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -368,6 +396,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rehydrated_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -380,6 +409,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rehydrated_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -392,6 +422,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mayonnaise",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -418,6 +449,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -433,6 +465,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -448,6 +481,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -462,6 +496,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "onion_rings",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -476,6 +511,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sushi_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -495,6 +531,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "onigiri",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -524,6 +561,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sushi_veggyroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -562,6 +600,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tofu",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -576,6 +615,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tofu_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -589,6 +629,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tofu_stirfry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -618,6 +659,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sushi_fishroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -645,6 +687,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sushi_meatroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -671,6 +714,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sashimi",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -701,6 +745,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "protein_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -712,6 +757,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "protein_shake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -727,6 +773,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -753,6 +800,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bratwurst_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -779,6 +827,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -804,6 +853,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -818,6 +868,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bologna",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -836,6 +887,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "human_tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -850,6 +902,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "human_lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -865,6 +918,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "human_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -878,6 +932,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dogfood",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -895,6 +950,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "catfood",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -908,6 +964,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -920,6 +977,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_wild_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -933,6 +991,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooked_cattail_stalk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -949,6 +1008,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "morel_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -963,6 +1023,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "morel_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -977,6 +1038,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dahlia_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -996,6 +1058,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salsify_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1016,6 +1079,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dandelion_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1030,6 +1094,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dandelion_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1045,6 +1110,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "burdock_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1067,6 +1133,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "burdock_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1090,6 +1157,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dandelionburdock_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1113,6 +1181,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "acorns_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1128,6 +1197,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooked_dinner",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1139,6 +1209,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cooked_pumpkin",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1153,6 +1224,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "potato_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1166,6 +1238,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chips2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1184,6 +1257,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fried_seeds",
     "charges": 1,
     "category": "CC_FOOD",
@@ -1199,6 +1273,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachos",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1212,6 +1287,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachosc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1225,6 +1301,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachosm",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1238,6 +1315,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachosmc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1255,6 +1333,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachosv",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1268,6 +1347,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nachosvc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1285,6 +1365,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fresh_fries",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -1304,6 +1385,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cheese_fries",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1316,6 +1398,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "popcorn",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1329,6 +1412,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "popcorn2",
     "charges": 1,
     "category": "CC_FOOD",
@@ -1341,6 +1425,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "popcorn3",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1355,6 +1440,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1369,6 +1455,7 @@
   {
     "type": "recipe",
     "result": "tea_green",
+    "activity_level": "fake",
     "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
@@ -1377,6 +1464,7 @@
   {
     "type": "recipe",
     "result": "tea_fruit",
+    "activity_level": "fake",
     "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
@@ -1411,6 +1499,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "herbal_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1425,6 +1514,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pine_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1447,6 +1537,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dandelion_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1469,6 +1560,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dandelionburdock_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1491,6 +1583,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chicory_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1512,6 +1605,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chamomile_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1534,6 +1628,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lotus_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1556,6 +1651,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "spurge_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1578,6 +1674,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "kompot",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1593,6 +1690,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1607,6 +1705,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_raw_kentucky",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1623,6 +1722,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "roasted_coffee_bean",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1637,6 +1737,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1650,6 +1751,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "atomic_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1662,6 +1764,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_substitute",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1675,6 +1778,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "almond_milk",
     "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
@@ -1692,6 +1796,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "almond_milk",
     "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
@@ -1708,6 +1813,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soy_milk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1722,6 +1828,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1735,6 +1842,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_reconstituted",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -1746,6 +1854,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_reconstituted",
     "id_suffix": "from_condensed",
     "result_mult": 4,
@@ -1758,6 +1867,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "can_coconut",
     "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -1773,6 +1883,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1790,6 +1901,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "starch",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1802,6 +1914,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "starch",
     "id_suffix": "from_fibrous_stuff",
     "byproducts": [ [ "plant_fibre", 5 ] ],
@@ -1816,6 +1929,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oj",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1830,6 +1944,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cranberry_juice",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1844,6 +1959,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "apple_cider",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1858,6 +1974,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lemonade",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -1875,6 +1992,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lemonade",
     "id_suffix": "from_mix",
     "category": "CC_FOOD",
@@ -1886,6 +2004,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "spezi",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -1899,6 +2018,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crispycran",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -1912,6 +2032,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "irish_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1930,6 +2051,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "long_island",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1949,6 +2071,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_screwdriver",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1961,6 +2084,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_wild_apple",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1973,6 +2097,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_rumcola",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1985,6 +2110,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_aspic",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2015,6 +2141,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_aspic",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2030,6 +2157,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jerky",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2056,6 +2184,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salted_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2069,6 +2198,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cracklins",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2083,6 +2213,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pemmican",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2125,6 +2256,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "V8",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2142,6 +2274,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cheese_hard",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2161,6 +2294,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "broth",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2177,6 +2311,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "broth_bone",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2192,6 +2327,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2207,6 +2343,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2222,6 +2359,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2237,6 +2375,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2252,6 +2391,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_woods",
     "charges": 2,
     "category": "CC_FOOD",
@@ -2267,6 +2407,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "can_chowder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2297,6 +2438,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sponge_cake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2323,6 +2465,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "space_cake",
     "copy-from": "sponge_cake",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2344,6 +2487,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brownie",
     "copy-from": "sponge_cake",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2365,6 +2509,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brownie_weed",
     "copy-from": "brownie",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2387,6 +2532,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flatbread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2403,6 +2549,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2424,6 +2571,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2439,6 +2587,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "maple_candy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -2452,6 +2601,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "glazed_tenderloin",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2482,6 +2632,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sweet_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2509,6 +2660,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "beet_syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2523,6 +2675,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tortilla_corn",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2538,6 +2691,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cornbread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2553,6 +2707,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hardtack",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2572,6 +2727,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "biscuit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2592,6 +2748,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "johnnycake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2611,6 +2768,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "beans_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2624,6 +2782,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lentils_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2638,6 +2797,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2684,6 +2844,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_veggy_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2710,6 +2871,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rice_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2723,6 +2885,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2760,6 +2923,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tofu_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2773,6 +2937,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_veggy_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2786,6 +2951,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2804,6 +2970,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2843,6 +3010,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_veggy_beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2869,6 +3037,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oatmeal",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2881,6 +3050,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oatmeal_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2893,6 +3063,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oatmeal_deluxe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2941,6 +3112,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chilly-p",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2954,6 +3126,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "buckwheat_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2968,6 +3141,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2984,6 +3158,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soy_nuts",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3000,6 +3175,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "edamame_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3016,6 +3192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pecan_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3032,6 +3209,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pistachio_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3048,6 +3226,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "almond_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3064,6 +3243,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chestnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3080,6 +3260,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hazelnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3096,6 +3277,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "acorn_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3112,6 +3294,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hickory_nut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3128,6 +3311,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hickory_nut_ambrosia",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -3161,6 +3345,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "granola",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3194,6 +3379,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "scrambled_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3207,6 +3393,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "scrambled_eggs",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -3221,6 +3408,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "boiled_egg",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3235,6 +3423,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3276,6 +3465,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "deluxe_eggs",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -3319,6 +3509,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3339,6 +3530,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fruit_pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3360,6 +3552,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "choc_pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3381,6 +3574,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "frenchtoast",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3407,6 +3601,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3427,6 +3622,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fruit_waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3448,6 +3644,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "choc_waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3469,6 +3666,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fruit_leather",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3495,6 +3693,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cookies",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3525,6 +3724,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "choco_coffee_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3538,6 +3738,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chocpretzels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3552,6 +3753,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "seasoning_salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3593,6 +3795,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "seasoning_italian",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3607,6 +3810,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pie",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3625,6 +3829,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pie_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3639,6 +3844,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pie_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3666,6 +3872,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pie_maple",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3685,6 +3892,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "curry_meat",
     "charges": 1,
     "category": "CC_FOOD",
@@ -3720,6 +3928,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "curry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -3757,6 +3966,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chili",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3787,6 +3997,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pizza_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3822,6 +4033,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pizza_supreme",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3862,6 +4074,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "smores",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3875,6 +4088,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sauce_pesto",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3893,6 +4107,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pizza_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3911,6 +4126,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pizza_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3940,6 +4156,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3953,6 +4170,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salt",
     "id_suffix": "from_hickory",
     "category": "CC_FOOD",
@@ -3968,6 +4186,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sugar",
     "id_suffix": "from_sweets",
     "category": "CC_FOOD",
@@ -4004,6 +4223,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sugar",
     "id_suffix": "from_wood",
     "category": "CC_FOOD",
@@ -4020,6 +4240,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sugar",
     "id_suffix": "from_beets",
     "category": "CC_FOOD",
@@ -4040,6 +4261,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4057,6 +4279,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "salted_fish",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4074,6 +4297,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4091,6 +4315,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "apple_sugar",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4113,6 +4338,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fried_spam",
     "charges": 1,
     "category": "CC_FOOD",
@@ -4128,6 +4354,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flour",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4153,6 +4380,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cornmeal",
     "charges": 3,
     "category": "CC_FOOD",
@@ -4167,6 +4395,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_bone",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4181,6 +4410,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_bone_tainted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4195,6 +4425,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vodka",
     "id_suffix": "from_ethanol",
     "category": "CC_FOOD",
@@ -4207,6 +4438,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mixed_alcohol_strong",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4233,6 +4465,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mixed_alcohol_weak",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4257,6 +4490,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_strawberry_surprise",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4270,6 +4504,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_boozeberry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4283,6 +4518,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cola_meth",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4296,6 +4532,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cheeseburger",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4335,6 +4572,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_sandwich",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4370,6 +4608,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_bagel",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4390,6 +4629,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "lutefisk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4403,6 +4643,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_deluxe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4472,6 +4713,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hamburger",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4508,6 +4750,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "taco",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4526,6 +4769,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "quesadilla_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -4538,6 +4782,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hotdogs_campfire",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4552,6 +4797,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hotdogs_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4570,6 +4816,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chilidogs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4588,6 +4835,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausagegravy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4614,6 +4862,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "currywurst",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4631,6 +4880,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "corndogs_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4645,6 +4895,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "corndogs_homemade",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4665,6 +4916,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4683,6 +4935,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sloppyjoe",
     "charges": 2,
     "category": "CC_FOOD",
@@ -4701,6 +4954,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_t",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4712,6 +4966,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_pb",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4722,6 +4977,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_pbj",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4732,6 +4988,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_pbh",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4746,6 +5003,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_pbm",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4756,6 +5014,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_fairy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4766,6 +5025,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "toasterpastry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -4778,6 +5038,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "ketchup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4797,6 +5058,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -4841,6 +5103,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vinegar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4852,6 +5115,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sauerkraut_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4870,6 +5134,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pickles_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4889,6 +5154,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "eggs_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4908,6 +5174,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sauerkraut_onions",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4922,6 +5189,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -4944,6 +5212,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -4966,6 +5235,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fruit_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4978,6 +5248,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4993,6 +5264,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "juice",
     "byproducts": [ [ "juice_pulp" ] ],
     "category": "CC_FOOD",
@@ -5007,6 +5279,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "juice",
     "id_suffix": "fresh",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -5022,6 +5295,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brioche",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -5044,6 +5318,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_salad",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5101,6 +5376,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "insta_salad",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5113,6 +5389,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sweet_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5135,6 +5412,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sugar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5148,6 +5426,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sugar_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5162,6 +5441,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_tainted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5178,6 +5458,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "royal_beef",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5192,6 +5473,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wastebread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -5221,6 +5503,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5279,6 +5562,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_cucumber",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5294,6 +5578,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_sauce",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5307,6 +5592,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_jam",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5317,6 +5603,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_honey",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5327,6 +5614,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5338,6 +5626,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandwich_cheese_grilled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5350,6 +5639,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tea_bark",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5365,6 +5655,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5376,6 +5667,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5390,6 +5682,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chai_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5417,6 +5710,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_beeknees",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5428,6 +5722,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_wsour",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5440,6 +5735,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_martini",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5452,6 +5748,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_kalimotxo",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5467,6 +5764,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "drink_hobo",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5484,6 +5782,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "honey_gold",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5499,6 +5798,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pelmeni",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5512,6 +5812,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "honey_bottled",
     "charges": 6,
     "category": "CC_FOOD",
@@ -5526,6 +5827,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "honey_bottled",
     "id_suffix": "from_honey_glassed",
     "category": "CC_FOOD",
@@ -5542,6 +5844,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "haggis",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5566,6 +5869,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "haggis",
     "id_suffix": "large",
     "category": "CC_FOOD",
@@ -5589,6 +5893,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soup_cullenskink",
     "charges": 1,
     "category": "CC_FOOD",
@@ -5608,6 +5913,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cloutie_dumpling",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5638,6 +5944,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "honey_glassed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5650,6 +5957,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bee_balm_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5664,6 +5972,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "eggnog",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5684,6 +5993,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "eggnog_spiked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5706,6 +6016,7 @@
   {
     "result": "hot_chocolate",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -5725,6 +6036,7 @@
   {
     "result": "mex_chocolate",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -5746,6 +6058,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rehydration_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5760,6 +6073,7 @@
   {
     "result": "oatmeal",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5773,6 +6087,7 @@
   {
     "result": "cornmeal",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "charges": 3,
     "category": "CC_FOOD",
@@ -5788,6 +6103,7 @@
   {
     "result": "flour",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5813,6 +6129,7 @@
   {
     "result": "meal_bone",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5827,6 +6144,7 @@
   {
     "result": "meal_bone_tainted",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5841,6 +6159,7 @@
   {
     "result": "cattlefodder",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -5865,6 +6184,7 @@
   {
     "result": "birdfood",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -5949,6 +6269,7 @@
   {
     "result": "meal_chitin_piece",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5963,6 +6284,7 @@
   {
     "result": "chilly-p",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5976,6 +6298,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_wasteland",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6005,6 +6328,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_wasteland",
     "id_suffix": "smoke",
     "category": "CC_FOOD",
@@ -6021,6 +6345,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sausage_wasteland_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6049,6 +6374,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oatmeal",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6064,6 +6390,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flour",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6091,6 +6418,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cornmeal",
     "id_suffix": "mortar",
     "charges": 3,
@@ -6107,6 +6435,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_bone",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6123,6 +6452,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_bone_tainted",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6139,6 +6469,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "acorns_cooked",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6155,6 +6486,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "peanutbutter",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6172,6 +6504,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "peanutbutter_imitation",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6208,6 +6541,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6230,6 +6564,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meat_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6252,6 +6587,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "veggy_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6296,6 +6632,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sauce_red",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6310,6 +6647,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "con_milk",
     "charges": 10,
     "category": "CC_FOOD",
@@ -6325,6 +6663,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sourdough_young",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -6338,6 +6677,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sourdough_split",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -6351,6 +6691,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sourdough_bread",
     "byproducts": [ [ "sourdough_split", 1 ] ],
     "category": "CC_FOOD",
@@ -6372,6 +6713,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "nopalitos",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6386,6 +6728,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "homemade_burrito",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6424,6 +6767,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fiddlehead_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6439,6 +6783,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fiddlehead_sauteed",
     "id_suffix": "from_raw",
     "category": "CC_FOOD",
@@ -6456,6 +6801,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fiddlehead_sauteed",
     "id_suffix": "from_boiled",
     "category": "CC_FOOD",
@@ -6471,6 +6817,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "demihuman_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6484,6 +6831,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "demihuman_tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6498,6 +6846,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "demihuman_lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -6513,6 +6862,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "demihuman_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6526,6 +6876,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "small_demihuman_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6539,6 +6890,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hominy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6557,6 +6909,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "kernels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -6571,6 +6924,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "horseradish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6591,6 +6945,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mustard_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6604,6 +6959,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mustard_powder",
     "category": "CC_FOOD",
     "id_suffix": "with_from_food_processor",
@@ -6618,6 +6974,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mustard",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6638,6 +6995,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6663,6 +7021,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffee_substitute_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6688,6 +7047,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6711,6 +7071,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6736,6 +7097,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "milk_tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

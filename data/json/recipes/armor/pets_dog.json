@@ -2,6 +2,7 @@
   {
     "result": "acidchitin_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -13,6 +14,7 @@
   {
     "result": "chitin_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -25,6 +27,7 @@
   {
     "result": "chainmail_harness_dog",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -40,6 +43,7 @@
   {
     "result": "leather_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "vest_leather",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -52,6 +56,7 @@
   {
     "result": "leather_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -66,6 +71,7 @@
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "leather_harness_dog",
     "difficulty": 2,
     "time": "30 m",
@@ -75,6 +81,7 @@
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_leatherharness",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -88,6 +95,7 @@
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -102,6 +110,7 @@
   {
     "result": "rubber_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "skill_used": "tailor",
@@ -115,6 +124,7 @@
   {
     "result": "rubber_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",

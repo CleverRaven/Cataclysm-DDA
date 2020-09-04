@@ -1046,7 +1046,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                 const int ch = evt.get_first_input();
                 if( ch > ' ' && ch <= '~' ) {
                     const std::string key = utf32_to_utf8( ch );
-                    const auto pos = ci_find_substr( text, key );
+                    const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
                         return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
                     }
@@ -1078,7 +1078,7 @@ const std::string &input_context::handle_input()
 
 const std::string &input_context::handle_input( const int timeout )
 {
-    const auto old_timeout = inp_mngr.get_timeout();
+    const int old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     }

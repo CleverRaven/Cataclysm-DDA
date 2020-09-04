@@ -1464,6 +1464,31 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
+    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
+    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
+    mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
+
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 8, 2 ), hunger_pair.second, hunger_pair.first );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Rest :" ) );
+    mvwprintz( w, point( 8, 3 ), rest_pair.second, rest_pair.first );
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
+    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
+    wnoutrefresh( w );
+}
+
 static void draw_sound_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1920,7 +1945,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     const std::string style = u.martial_arts_data->selected_style_name( u );
 
     if( !style.empty() ) {
-        const auto style_color = u.is_armed() ? c_red : c_blue;
+        const nc_color style_color = u.is_armed() ? c_red : c_blue;
         mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 
@@ -2123,6 +2148,8 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
+    ret.emplace_back( window_panel( draw_needs_labels_alt, translate_marker( "Needs_Alt" ), 5, 44,
+                                    true ) );
     ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
     ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
@@ -2319,7 +2346,7 @@ void panel_manager::show_adm()
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( 20, 75,
+        w = catacurses::newwin( 21, 75,
                                 point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
 
         ui.position_from_window( w );
@@ -2362,8 +2389,8 @@ void panel_manager::show_adm()
             col_offset += column_widths[i];
         }
         mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
-        mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
+        mvwvline( w, point( column_widths[0], 1 ), 0, 19 );
+        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 19 );
 
         col_offset = column_widths[0] + 2;
         int col_width = column_widths[1] - 4;

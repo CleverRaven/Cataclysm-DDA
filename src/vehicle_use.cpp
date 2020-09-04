@@ -740,7 +740,7 @@ void vehicle::use_controls( const tripoint &pos )
                 smart_controller_cfg = smart_controller_config();
             }
 
-            auto cfg_view = smart_controller_settings( has_enabled_smart_controller,
+            smart_controller_settings cfg_view = smart_controller_settings( has_enabled_smart_controller,
                     smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
             smart_controller_ui( cfg_view ).control();
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
@@ -1068,7 +1068,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 
     // if no engines enabled then enable all before trying to start the vehicle
     if( !has_engine ) {
-        for( auto idx : engines ) {
+        for( int idx : engines ) {
             if( !parts[ idx ].is_broken() ) {
                 parts[ idx ].enabled = true;
             }
@@ -1546,7 +1546,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 
 void vehicle::use_autoclave( int p )
 {
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1603,7 +1603,7 @@ void vehicle::use_washing_machine( int p )
         return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
     } );
 
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
@@ -1684,7 +1684,7 @@ void vehicle::use_dishwasher( int p )
 {
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
@@ -1921,7 +1921,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_items_on_ground = here.sees_some_items( pos, player_character );
     const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
-    auto turret = turret_query( pos );
+    turret_data turret = turret_query( pos );
 
     const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;

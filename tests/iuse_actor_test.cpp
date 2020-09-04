@@ -17,18 +17,6 @@
 #include "point.h"
 #include "type_id.h"
 
-static player &get_sanitized_player( )
-{
-    avatar &player_character = get_avatar();
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( player_character.takeoff( player_character.i_at( -2 ), &temp ) ) {}
-    player_character.inv->clear();
-    player_character.remove_weapon();
-
-    return player_character;
-}
-
 static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
@@ -47,7 +35,8 @@ static monster *find_adjacent_monster( const tripoint &pos )
 
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
-    player &player_character = get_sanitized_player();
+    clear_avatar();
+    player &player_character = get_avatar();
 
     g->clear_zombies();
     item &test_item = player_character.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
