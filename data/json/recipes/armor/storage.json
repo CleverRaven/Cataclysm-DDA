@@ -989,5 +989,80 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 70 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "rag", 15 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [
+      [ [ "leather", 15 ], [ "tanned_hide", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 1 ] ]
+    ]
+  },
+  {
+    "result": "rifle_case_soft_2",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [ [ [ "rag", 30 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 3 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft_leather_2",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [
+      [ [ "leather", 30 ], [ "tanned_hide", 2 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 3 ] ]
+    ]
+  },
+  {
+    "result": "rifle_case_xl_soft_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [
+      [ [ "leather", 20 ], [ "tanned_hide", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 1 ] ]
+    ]
   }
 ]
