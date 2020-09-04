@@ -1472,7 +1472,7 @@
   },
   {
     "type": "recipe",
-    "result": "herbal_tea", 
+    "result": "herbal_tea",
     "id_suffix": "from_tea_bag",
     "copy-from": "tea",
     "activity_level": "fake",
