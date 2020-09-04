@@ -1084,7 +1084,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
                 guy->mutate_towards( trait_id( sp.effect_data() ) );
             } else {
-                guy->mutate_category( sp.effect_data() );
+                guy->mutate_category( mutation_category_id( sp.effect_data() ) );
             }
         }
         sp.make_sound( potential_target );
