@@ -957,7 +957,7 @@
     "time": "24 h",
     "construction_blueprint": "fbmh_radio_console_north",
     "blueprint_name": "north radio console",
-    "blueprint_provides": [ { "id": "fbmh_radio_console_north" }, { "id": "radio" } ],
+    "blueprint_provides": [ { "id": "fbmh_radio_console_north" }, { "id": "recruiting" }, { "id": "radio" } ],
     "blueprint_requires": [ { "id": "fbmh_radio_tower_north" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
