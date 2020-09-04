@@ -144,13 +144,11 @@
         "max_contains_volume": "400 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "25 cm",
-        "moves": 30,
-        "use_action": { "type": "holster" }
+        "moves": 30
       },
       {
         "pocket_type": "CONTAINER",
         "holster": false,
-        "min_item_volume": "0 ml",
         "rigid": true,
         "ammo_restriction": {
           "32": 18,
@@ -175,7 +173,8 @@
         },
         "moves": 20
       }
-    ]
+    ],
+    "use_action": { "type": "holster" }
   },
   {
     "id": "sholster",
