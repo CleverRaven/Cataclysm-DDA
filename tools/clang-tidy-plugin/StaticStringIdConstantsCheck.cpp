@@ -66,6 +66,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
         { "morale_type_data", "" },
         { "mtype", "" },
         { "mutation_branch", "trait_" },
+        { "mutation_category_trait", "mutation_category_" },
         { "npc_class", "" },
         { "quality", "qual_" },
         { "Skill", "skill_" },
