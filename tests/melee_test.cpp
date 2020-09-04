@@ -238,7 +238,8 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
     }
 }
 
-TEST_CASE( "Charcter can dodge" ) {
+TEST_CASE( "Charcter can dodge" )
+{
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mtype_id( "mon_zombie" ) );
 
@@ -255,7 +256,8 @@ TEST_CASE( "Charcter can dodge" ) {
     }
 }
 
-TEST_CASE( "Incapacited character can't dodge" ) {
+TEST_CASE( "Incapacited character can't dodge" )
+{
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
     monster zed( mtype_id( "mon_zombie" ) );
 
