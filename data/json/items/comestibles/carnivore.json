@@ -216,6 +216,22 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "fatty_meat_cooked",
+    "copy-from": "flesh",
+    "weight": "351 g",
+    "volume": "300 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": "fatty cooked meat",
+    "description": "A fatty cutlet of meat, combines protein and high density calories of fat. It's filling and nutritious, but despite the rich taste of fat, still quite bland otherwise.",
+    "price": 750,
+    "price_postapoc": 100,
+    "parasites": 0,
+    "calories": 880,
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
