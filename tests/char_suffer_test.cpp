@@ -276,7 +276,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
                     } else if( bp.id().str() == "arm_l" || bp.id().str() == "arm_r" ) {
                         // Arms have 10% chance of losing 1 HP, 3x per minute (6 in 10m)
                         // But hands are exposed, and still lose 1 HP, 3x per minute (30 in 10m)
-                        CHECK( bp_hp_lost[bp] == Approx( 36 ).margin( 20 ) );
+                        CHECK( bp_hp_lost[bp] == Approx( 36 ).margin( 30 ) );
                     } else {
                         // All other parts lose 1 HP, 3x per minute (30 in 10m)
                         // but legs+feet combine, and head+mouth combine (60 in 10m)
