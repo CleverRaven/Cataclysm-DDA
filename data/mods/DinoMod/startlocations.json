@@ -1,7 +1,7 @@
 [
   {
     "type": "start_location",
-    "id": "dinoexhibit",
+    "id": "sloc_dinoexhibit",
     "name": "Dinosaur exhibit",
     "target": "dinoexhibit"
   }
