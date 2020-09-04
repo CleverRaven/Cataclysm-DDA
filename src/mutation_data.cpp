@@ -289,6 +289,14 @@ namespace io
         case trigger_type::STAMINA: return "STAMINA";
         case trigger_type::MOON: return "MOON";
         case trigger_type::TIME: return "TIME";
+        case trigger_type::TORSO_COVER: return "TORSO_COVER";
+        case trigger_type::HEAD_COVER: return "HEAD_COVER";
+        case trigger_type::EYE_COVER: return "EYE_COVER";
+        case trigger_type::MOUTH_COVER: return "MOUTH_COVER";
+        case trigger_type::ARM_COVER: return "ARM_COVER";
+        case trigger_type::HAND_COVER: return "HAND_COVER";
+        case trigger_type::LEG_COVER: return "LEG_COVER";
+        case trigger_type::FOOT_COVER: return "FOOT_COVER";
         case trigger_type::num_trigger: return "undefined trigger";
         }
         debugmsg("Invalid trigger_type %d", trigger_num);

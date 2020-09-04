@@ -105,6 +105,14 @@ enum trigger_type {
     STAMINA,
     MOON,
     TIME,
+    TORSO_COVER,
+    HEAD_COVER,
+    EYE_COVER,
+    MOUTH_COVER,
+    ARM_COVER,
+    HAND_COVER,
+    LEG_COVER,
+    FOOT_COVER,
     num_trigger
 };
 template<>

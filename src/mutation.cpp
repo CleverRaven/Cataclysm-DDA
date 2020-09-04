@@ -286,11 +286,38 @@ bool reflex_activation_data::is_trigger_true( const Character &guy ) const
         case TIME:
             var = to_hours<int>( time_past_midnight( calendar::turn ) );
             break;
+        case TORSO_COVER:
+            var = guy.encumb( bodypart_id( bp_torso ) );
+            break;
+        case HEAD_COVER:
+            var = guy.encumb( bodypart_id( bp_head ) );
+            break;
+        case EYE_COVER:
+            var = guy.encumb( bodypart_id( bp_eyes ) );
+            break;
+        case MOUTH_COVER:
+            var = guy.encumb( bodypart_id( bp_mouth ) );
+            break;
+        case ARM_COVER:
+            var = guy.encumb( bodypart_id( bp_arm_l ) );
+            var += guy.encumb( bodypart_id( bp_arm_r ) );
+            break;
+        case HAND_COVER:
+            var = guy.encumb( bodypart_id( bp_hand_l ) );
+            var += guy.encumb( bodypart_id( bp_hand_r ) );
+            break;
+        case LEG_COVER:
+            var = guy.encumb( bodypart_id( bp_leg_l ) );
+            var += guy.encumb( bodypart_id( bp_leg_r ) );
+            break;
+        case FOOT_COVER:
+            var = guy.encumb( bodypart_id( bp_foot_l ) );
+            var += guy.encumb( bodypart_id( bp_foot_r ) );
+            break;
         default:
             debugmsg( "Invalid trigger" );
             return false;
     }
-
     if( threshold_low < threshold_high ) {
         if( var < threshold_high &&
             var > threshold_low ) {
