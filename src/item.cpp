@@ -4515,7 +4515,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
         case 0:
-            dirt_symbol = "";
+            dirt_symbol.clear();
             break;
         case 1:
             dirt_symbol = "<color_white>\u2581</color>";
@@ -4533,7 +4533,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             dirt_symbol = "<color_brown>\u2588</color>";
             break;
         default:
-            dirt_symbol = "";
+            dirt_symbol.clear();
     }
     std::string damtext;
 

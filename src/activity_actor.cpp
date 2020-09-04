@@ -1160,7 +1160,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
@@ -1170,7 +1170,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
