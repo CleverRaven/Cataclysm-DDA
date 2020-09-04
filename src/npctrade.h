@@ -38,10 +38,10 @@ class item_pricing
         void adjust_values( double adjust, const faction *fac );
 
         item_location loc;
-        int price;
+        int price = 0;
         // Whether this is selected for trading
         bool selected = false;
-        bool is_container;
+        bool is_container = false;
         int count = 0;
         int charges = 0;
         int u_has = 0;

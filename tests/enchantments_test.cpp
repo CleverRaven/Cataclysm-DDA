@@ -11,8 +11,6 @@
 #include "player_helpers.h"
 #include "item.h"
 
-
-
 static void test_generic_ench( avatar &p, int str_before )
 {
     // wait a turn for the effect to kick in

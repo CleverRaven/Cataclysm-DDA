@@ -120,7 +120,7 @@ std::string capture_debugmsg_during( const std::function<void()> &func )
 capture_debugmsg::capture_debugmsg()
 {
     capturing = true;
-    captured = "";
+    captured.clear();
 }
 
 std::string capture_debugmsg::dmsg()

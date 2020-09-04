@@ -38,7 +38,7 @@ struct expansion_data {
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
     // legacy camp level, replaced by provides map and set to -1
-    int cur_level;
+    int cur_level = 0;
 
 };
 

@@ -181,13 +181,13 @@ struct level_cache {
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
     std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
-    bool veh_in_active_range;
+    bool veh_in_active_range = false;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
 
-    int max_populated_zlev;
+    int max_populated_zlev = 0;
 };
 
 /**

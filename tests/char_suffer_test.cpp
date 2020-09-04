@@ -69,7 +69,6 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
     return pain_felt;
 }
 
-
 // Suffering from albinism (ALBINO trait)
 //
 // - Albinism suffering effects occur about once per minute (1/60 chance per turn)
@@ -172,7 +171,6 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
         }
     }
 }
-
 
 // Suffering from Solar Sensitivity (SUNBURN trait)
 //

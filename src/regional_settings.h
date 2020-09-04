@@ -188,7 +188,7 @@ struct overmap_forest_settings {
 
 struct shore_extendable_overmap_terrain_alias {
     std::string overmap_terrain;
-    ot_match_type match_type;
+    ot_match_type match_type = ot_match_type::exact;
     oter_str_id alias;
 };
 

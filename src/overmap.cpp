@@ -2791,7 +2791,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     connect_closest_points( road_points, 0, *local_road );
 }
 
-void overmap::place_river( point_om_omt pa, point_om_omt pb )
+void overmap::place_river( const point_om_omt &pa, const point_om_omt &pb )
 {
     const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
