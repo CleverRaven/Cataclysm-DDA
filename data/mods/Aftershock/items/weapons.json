@@ -264,7 +264,7 @@
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "140 cm",
-    "piercing": 12,
+    "stab": 12,
     "cutting": 18,
     "qualities": [ [ "COOK", 1 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
