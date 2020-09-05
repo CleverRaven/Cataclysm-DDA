@@ -583,13 +583,13 @@
     "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
-    "bindings": [ { "input_method": "keyboard", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" }, { "input_method": "keyboard", "key": "<" } ]
   },
   {
     "type": "keybinding",
     "id": "LEVEL_DOWN",
     "name": "Go Down",
-    "bindings": [ { "input_method": "keyboard", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" }, { "input_method": "keyboard", "key": ">" } ]
   },
   {
     "type": "keybinding",
