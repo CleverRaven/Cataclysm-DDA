@@ -42,6 +42,9 @@ template <typename T> class string_id;
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
 
+template <typename T>
+using trigger_set = std::vector<std::vector<T>>;
+
 struct dream {
     private:
         std::vector<std::string> raw_messages; // The messages that the dream will give
@@ -97,7 +100,7 @@ struct mut_transform {
     bool load( const JsonObject &jsobj, const std::string &member );
 };
 
-enum trigger_type {
+enum class reflex_trigger_type : int {
     PAIN,
     HUNGER,
     THRIST,
@@ -105,40 +108,65 @@ enum trigger_type {
     STAMINA,
     MOON,
     TIME,
-    TORSO_COVER,
-    HEAD_COVER,
-    EYE_COVER,
-    MOUTH_COVER,
-    ARM_COVER,
-    HAND_COVER,
-    LEG_COVER,
-    FOOT_COVER,
     num_trigger
 };
-template<>
-struct enum_traits<trigger_type> {
-    static constexpr trigger_type last = trigger_type::num_trigger;
+
+enum class clothing_trigger_type : int {
+    ENCUMBRANCE,
+    WEARING,
+    WARMTH,
+    num_trigger
 };
 
-struct reflex_activation_data {
+template<>
+struct enum_traits<reflex_trigger_type> {
+    static constexpr reflex_trigger_type last = reflex_trigger_type::num_trigger;
+};
 
-    /**What variable controls the activation*/
-    trigger_type trigger;
+template<>
+struct enum_traits<clothing_trigger_type> {
+    static constexpr clothing_trigger_type last = clothing_trigger_type::num_trigger;
+};
+
+struct base_trigger_data {
 
     /**Activates above that threshold and deactivates below it*/
     int threshold_low = INT_MIN;
     /**Activates below that threshold and deactivates above it*/
     int threshold_high = INT_MAX;
 
-    std::pair<translation, game_message_type> msg_on;
-    std::pair<translation, game_message_type> msg_off;
+    //trigger_type<T> trigger;
+    
+    std::pair<translation, game_message_type> msg_on{};
+    std::pair<translation, game_message_type> msg_off{};
 
-    bool is_trigger_true( const Character &guy ) const;
+    virtual bool is_trigger_true(const Character& guy) const = 0;
 
     bool was_loaded = false;
-    void load( const JsonObject &jsobj );
-    void deserialize( JsonIn &jsin );
+    virtual void load(const JsonObject& jsobj);
+    void deserialize(JsonIn& jsin);
 };
+
+struct reflex_trigger_data : base_trigger_data {
+    /**What variable controls the activation*/
+    reflex_trigger_type trigger {};
+
+    bool is_trigger_true(const Character& guy) const;
+
+    void load(const JsonObject& jsobj);
+};
+
+
+struct clothing_trigger_data : base_trigger_data {
+    /**What variable controls the activation*/
+    clothing_trigger_type trigger {};
+    /**For what body parts must the condition be true*/
+    std::vector<bodypart_id> bodyparts {};
+
+    bool is_trigger_true(const Character& guy) const;
+    void load(const JsonObject& jsobj);
+};
+
 
 struct mutation_branch {
         trait_id id;
@@ -220,8 +248,23 @@ struct mutation_branch {
 
         cata::value_ptr<mut_transform> transform;
 
-        std::vector<std::vector<reflex_activation_data>> triger_list;
+        /**Mutation's reflex triggers*/
+        trigger_set<reflex_trigger_data> reflex_triggers;
+        /**Mutation's clothing triggers*/
+        trigger_set<clothing_trigger_data> clothing_triggers;
+    public:
+        /**Getter for mutation tirggers (reflex_triggers,clothing_triggers.*/
+        template<typename T>
+        trigger_set<T> triggers() const {
+            debugmsg("Invalid trigger data type");
+            return trigger_set<T>();
+        }
+        template<>
+        trigger_set<clothing_trigger_data> triggers() const { return clothing_triggers; };
+        template<>
+        std::vector<std::vector<reflex_trigger_data>> triggers() const { return reflex_triggers; };
 
+    private:
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;
 

@@ -896,7 +896,14 @@ class Character : public Creature, public visitable<Character>
 
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );
+        /**Trigger encumbrance activation if the mutation has one*/
+        void mutation_clothing_trigger(const trait_id& mut);
 
+    protected:
+        template<typename T>
+        void mutation_trigger(const trait_id& mut);
+
+    public:
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
@@ -2553,6 +2560,10 @@ class Character : public Creature, public visitable<Character>
          * Pointers to mutation branches in @ref my_mutations.
          */
         std::vector<const mutation_branch *> cached_mutations;
+        /** Character's traits / mutations that have reflex triggers.*/
+        std::unordered_set<trait_id> my_reflex_mutations;
+        /** Character's traits / mutations that have clothing triggers.*/
+        std::unordered_set<trait_id> my_clothing_mutations;
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated

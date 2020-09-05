@@ -218,9 +218,20 @@ bool Character::can_power_mutation( const trait_id &mut )
     return !hunger && !fatigue && !thirst;
 }
 
-void Character::mutation_reflex_trigger( const trait_id &mut )
+void Character::mutation_clothing_trigger(const trait_id& mut)
 {
-    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+    mutation_trigger<clothing_trigger_data>(mut);
+}
+
+void Character::mutation_reflex_trigger(const trait_id& mut)
+{
+    mutation_trigger<reflex_trigger_data>(mut);
+}
+
+template<typename T>
+void Character::mutation_trigger( const trait_id &mut )
+{
+    if( mut->reflex_trigger_list.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -229,11 +240,11 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+    for( const std::vector<T> &vect_actdata : mut->triggers<T>() ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
-        for( const reflex_activation_data &rdata : vect_rdata ) {
-            if( rdata.is_trigger_true( *this ) ) {
+        for( const T &actdata : vect_actdata ) {
+            if( actdata.is_trigger_true( *this ) ) {
                 activate = true;
                 msg_on = rdata.msg_on;
                 break;
@@ -259,78 +270,94 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     }
 }
 
-bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+
+bool reflex_trigger_data::is_trigger_true(const Character& guy) const
 {
     bool activate = false;
 
     int var = 0;
-    switch( trigger ) {
-        case PAIN:
-            var = guy.get_pain();
-            break;
-        case HUNGER:
-            var = guy.get_hunger();
-            break;
-        case THRIST:
-            var = guy.get_thirst();
-            break;
-        case MOOD:
-            var = guy.get_morale_level();
-            break;
-        case STAMINA:
-            var = guy.get_stamina();
-            break;
-        case MOON:
-            var = static_cast<int>( get_moon_phase( calendar::turn ) );
-            break;
-        case TIME:
-            var = to_hours<int>( time_past_midnight( calendar::turn ) );
-            break;
-        case TORSO_COVER:
-            var = guy.encumb( bodypart_id( bp_torso ) );
-            break;
-        case HEAD_COVER:
-            var = guy.encumb( bodypart_id( bp_head ) );
-            break;
-        case EYE_COVER:
-            var = guy.encumb( bodypart_id( bp_eyes ) );
-            break;
-        case MOUTH_COVER:
-            var = guy.encumb( bodypart_id( bp_mouth ) );
-            break;
-        case ARM_COVER:
-            var = guy.encumb( bodypart_id( bp_arm_l ) );
-            var += guy.encumb( bodypart_id( bp_arm_r ) );
-            break;
-        case HAND_COVER:
-            var = guy.encumb( bodypart_id( bp_hand_l ) );
-            var += guy.encumb( bodypart_id( bp_hand_r ) );
-            break;
-        case LEG_COVER:
-            var = guy.encumb( bodypart_id( bp_leg_l ) );
-            var += guy.encumb( bodypart_id( bp_leg_r ) );
-            break;
-        case FOOT_COVER:
-            var = guy.encumb( bodypart_id( bp_foot_l ) );
-            var += guy.encumb( bodypart_id( bp_foot_r ) );
-            break;
-        default:
-            debugmsg( "Invalid trigger" );
-            return false;
+    switch (trigger) {
+    case reflex_trigger_type::PAIN:
+        var = guy.get_pain();
+        break;
+    case  reflex_trigger_type::HUNGER:
+        var = guy.get_hunger();
+        break;
+    case  reflex_trigger_type::THRIST:
+        var = guy.get_thirst();
+        break;
+    case  reflex_trigger_type::MOOD:
+        var = guy.get_morale_level();
+        break;
+    case  reflex_trigger_type::STAMINA:
+        var = guy.get_stamina();
+        break;
+    case  reflex_trigger_type::MOON:
+        var = static_cast<int>(get_moon_phase(calendar::turn));
+        break;
+    case  reflex_trigger_type::TIME:
+        var = to_hours<int>(time_past_midnight(calendar::turn));
+        break;
+    default:
+        debugmsg("Invalid trigger");
+        return false;
     }
-    if( threshold_low < threshold_high ) {
-        if( var < threshold_high &&
-            var > threshold_low ) {
+    if (threshold_low < threshold_high) {
+        if (var < threshold_high &&
+            var > threshold_low) {
             activate = true;
         }
-    } else {
-        if( var < threshold_high ||
-            var > threshold_low ) {
+    }
+    else {
+        if (var < threshold_high ||
+            var > threshold_low) {
             activate = true;
         }
     }
     return activate;
 }
+
+
+
+bool clothing_trigger_data::is_trigger_true(const Character& guy) const
+{
+    bool activate = false;
+
+    int var = 0;
+    switch (trigger) {
+    case clothing_trigger_type::ENCUMBRANCE:
+        for (bodypart_id bp : bodyparts) {
+            var += guy.encumb( bp );
+        }
+        break;
+    case clothing_trigger_type::WEARING:
+        for (bodypart_id bp : bodyparts) {
+            var = guy.wearing_something_on(bp) ? var : var++;
+        }
+        break;
+    case clothing_trigger_type::WARMTH:
+        for (bodypart_id bp : bodyparts) {
+            var += guy.warmth(bp);
+        }
+    default:
+        debugmsg("Invalid trigger");
+        return false;
+    }
+    if (threshold_low < threshold_high) {
+        if (var < threshold_high &&
+            var > threshold_low) {
+            activate = true;
+        }
+    }
+    else {
+        if (var < threshold_high ||
+            var > threshold_low) {
+            activate = true;
+        }
+    }
+    return activate;
+}  
+
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {

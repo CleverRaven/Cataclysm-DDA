@@ -268,114 +268,141 @@ bool mut_transform::load( const JsonObject &jsobj, const std::string &member )
     JsonObject j = jsobj.get_object( member );
 
     assign( j, "target", target );
-    assign( j, "msg_transform", msg_transform );
-    assign( j, "active", active );
-    assign( j, "moves", moves );
+assign(j, "msg_transform", msg_transform);
+assign(j, "active", active);
+assign(j, "moves", moves);
 
-    return true;
+return true;
 }
 
 namespace io
 {
     // *INDENT-OFF*
     template<>
-    std::string enum_to_string<trigger_type>(trigger_type trigger_num)
+    std::string enum_to_string<reflex_trigger_type>(reflex_trigger_type trigger_num)
     {
         switch (trigger_num) {
-        case trigger_type::PAIN: return "PAIN";
-        case trigger_type::HUNGER: return "HUNGER";
-        case trigger_type::THRIST: return "THIRST";
-        case trigger_type::MOOD: return "MOOD";
-        case trigger_type::STAMINA: return "STAMINA";
-        case trigger_type::MOON: return "MOON";
-        case trigger_type::TIME: return "TIME";
-        case trigger_type::TORSO_COVER: return "TORSO_COVER";
-        case trigger_type::HEAD_COVER: return "HEAD_COVER";
-        case trigger_type::EYE_COVER: return "EYE_COVER";
-        case trigger_type::MOUTH_COVER: return "MOUTH_COVER";
-        case trigger_type::ARM_COVER: return "ARM_COVER";
-        case trigger_type::HAND_COVER: return "HAND_COVER";
-        case trigger_type::LEG_COVER: return "LEG_COVER";
-        case trigger_type::FOOT_COVER: return "FOOT_COVER";
-        case trigger_type::num_trigger: return "undefined trigger";
+        case reflex_trigger_type::PAIN: return "PAIN";
+        case reflex_trigger_type::HUNGER: return "HUNGER";
+        case reflex_trigger_type::THRIST: return "THIRST";
+        case reflex_trigger_type::MOOD: return "MOOD";
+        case reflex_trigger_type::STAMINA: return "STAMINA";
+        case reflex_trigger_type::MOON: return "MOON";
+        case reflex_trigger_type::TIME: return "TIME";
+        case reflex_trigger_type::num_trigger: return "undefined trigger";
         }
-        debugmsg("Invalid trigger_type %d", trigger_num);
+        debugmsg("Invalid reflex_trigger_type %d", trigger_num);
+        abort();
+    }
+    template<>
+    std::string enum_to_string<clothing_trigger_type>(clothing_trigger_type trigger_num)
+    {
+        switch (trigger_num) {
+        case clothing_trigger_type::ENCUMBRANCE: return "ENCUMBRANCE";
+        case clothing_trigger_type::WEARING: return "WEARING";
+        case clothing_trigger_type::WARMTH: return "WARMTH";
+        case clothing_trigger_type::num_trigger: return "undefined trigger";
+        }
+        debugmsg("Invalid reflex_trigger_type %d", trigger_num);
         abort();
     }
     // *INDENT-ON*
 } // namespace io
 
-void reflex_activation_data::load( const JsonObject &jsobj )
+void base_trigger_data::load(const JsonObject& jsobj)
 {
+    optional(jsobj, was_loaded, "threshold_low", threshold_low, INT_MIN);
+    optional(jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX);
+
+    if (jsobj.has_object("msg_on")) {
+        JsonObject jo = jsobj.get_object("msg_on");
+        optional(jo, was_loaded, "text", msg_on.first);
+        std::string tmp_rating;
+        optional(jo, was_loaded, "rating", tmp_rating, "neutral");
+        msg_on.second = io::string_to_enum<game_message_type>(tmp_rating);
+    }
+    if (jsobj.has_object("msg_off")) {
+        JsonObject jo = jsobj.get_object("msg_off");
+        optional(jo, was_loaded, "text", msg_off.first);
+        std::string tmp_rating;
+        optional(jo, was_loaded, "rating", tmp_rating, "neutral");
+        msg_off.second = io::string_to_enum<game_message_type>(tmp_rating);
+    }
+}
+
+void reflex_trigger_data::load(const JsonObject& jsobj) {
     std::string tmp;
-    mandatory( jsobj, was_loaded, "trigger_type", tmp );
-    trigger = io::string_to_enum<trigger_type>( tmp );
-
-    optional( jsobj, was_loaded, "threshold_low",  threshold_low, INT_MIN );
-    optional( jsobj, was_loaded, "threshold_high", threshold_high, INT_MAX );
-
-    if( jsobj.has_object( "msg_on" ) ) {
-        JsonObject jo = jsobj.get_object( "msg_on" );
-        optional( jo, was_loaded, "text", msg_on.first );
-        std::string tmp_rating;
-        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
-        msg_on.second = io::string_to_enum<game_message_type>( tmp_rating );
-    }
-    if( jsobj.has_object( "msg_off" ) ) {
-        JsonObject jo = jsobj.get_object( "msg_off" );
-        optional( jo, was_loaded, "text", msg_off.first );
-        std::string tmp_rating;
-        optional( jo, was_loaded, "rating", tmp_rating, "neutral" );
-        msg_off.second = io::string_to_enum<game_message_type>( tmp_rating );
-    }
+    mandatory(jsobj, was_loaded, "reflex_trigger_type", tmp);
+    trigger = io::string_to_enum<reflex_trigger_type>(tmp);
+    base_trigger_data::load(jsobj);
 }
 
-void reflex_activation_data::deserialize( JsonIn &jsin )
-{
-    const JsonObject &jo = jsin.get_object();
-    load( jo );
+void clothing_trigger_data::load(const JsonObject& jsobj) {
+    std::string tmp;
+    mandatory(jsobj, was_loaded, "clothing_trigger_type", tmp);
+    trigger = io::string_to_enum<clothing_trigger_type>(tmp);
+    mandatory(jsobj, was_loaded, "bodyparts", bodyparts);
+    base_trigger_data::load(jsobj);
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string & )
+
+void base_trigger_data::deserialize(JsonIn& jsin)
 {
-    mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", raw_name );
-    mandatory( jo, was_loaded, "description", raw_desc );
-    mandatory( jo, was_loaded, "points", points );
+    const JsonObject& jo = jsin.get_object();
+    load(jo);
+}
 
-    optional( jo, was_loaded, "visibility", visibility, 0 );
-    optional( jo, was_loaded, "ugliness", ugliness, 0 );
-    optional( jo, was_loaded, "starting_trait", startingtrait, false );
-    optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
-    optional( jo, was_loaded, "active", activated, false );
-    optional( jo, was_loaded, "starts_active", starts_active, false );
-    optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
-    optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
-    optional( jo, was_loaded, "cost", cost, 0 );
-    optional( jo, was_loaded, "time", cooldown, 0 );
-    optional( jo, was_loaded, "hunger", hunger, false );
-    optional( jo, was_loaded, "thirst", thirst, false );
-    optional( jo, was_loaded, "fatigue", fatigue, false );
-    optional( jo, was_loaded, "valid", valid, true );
-    optional( jo, was_loaded, "purifiable", purifiable, true );
 
-    if( jo.has_object( "spawn_item" ) ) {
-        JsonObject si = jo.get_object( "spawn_item" );
-        optional( si, was_loaded, "type", spawn_item );
-        optional( si, was_loaded, "message", raw_spawn_item_message );
+void mutation_branch::load(const JsonObject& jo, const std::string&)
+{
+    mandatory(jo, was_loaded, "id", id);
+    mandatory(jo, was_loaded, "name", raw_name);
+    mandatory(jo, was_loaded, "description", raw_desc);
+    mandatory(jo, was_loaded, "points", points);
+
+    optional(jo, was_loaded, "visibility", visibility, 0);
+    optional(jo, was_loaded, "ugliness", ugliness, 0);
+    optional(jo, was_loaded, "starting_trait", startingtrait, false);
+    optional(jo, was_loaded, "mixed_effect", mixed_effect, false);
+    optional(jo, was_loaded, "active", activated, false);
+    optional(jo, was_loaded, "starts_active", starts_active, false);
+    optional(jo, was_loaded, "destroys_gear", destroys_gear, false);
+    optional(jo, was_loaded, "allow_soft_gear", allow_soft_gear, false);
+    optional(jo, was_loaded, "cost", cost, 0);
+    optional(jo, was_loaded, "time", cooldown, 0);
+    optional(jo, was_loaded, "hunger", hunger, false);
+    optional(jo, was_loaded, "thirst", thirst, false);
+    optional(jo, was_loaded, "fatigue", fatigue, false);
+    optional(jo, was_loaded, "valid", valid, true);
+    optional(jo, was_loaded, "purifiable", purifiable, true);
+
+    if (jo.has_object("spawn_item")) {
+        JsonObject si = jo.get_object("spawn_item");
+        optional(si, was_loaded, "type", spawn_item);
+        optional(si, was_loaded, "message", raw_spawn_item_message);
     }
-    if( jo.has_object( "ranged_mutation" ) ) {
-        JsonObject si = jo.get_object( "ranged_mutation" );
-        optional( si, was_loaded, "type", ranged_mutation );
-        optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    if (jo.has_object("ranged_mutation")) {
+        JsonObject si = jo.get_object("ranged_mutation");
+        optional(si, was_loaded, "type", ranged_mutation);
+        optional(si, was_loaded, "message", raw_ranged_mutation_message);
     }
-    if( jo.has_object( "transform" ) ) {
+    if (jo.has_object("transform")) {
         transform = cata::make_value<mut_transform>();
-        transform->load( jo, "transform" );
+        transform->load(jo, "transform");
     }
 
-    optional( jo, was_loaded, "triggers", triger_list );
-
+    if (jo.has_object("triggers")) {
+        if (jo.has_array("triggers")){
+            // Assume legacy format: "triggers": [ [...], [...],... ],
+            optional(jo, was_loaded, "triggers", reflex_triggers);
+        }
+        else {
+            JsonObject si = jo.get_object("triggers");
+            optional(si, was_loaded, "reflex", reflex_triggers);
+            optional(si, was_loaded, "clothing", clothing_triggers);
+        }
+    }
+   
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
     if( jo.has_array( "bodytemp_modifiers" ) ) {
