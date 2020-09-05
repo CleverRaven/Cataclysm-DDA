@@ -1,4 +1,4 @@
-# 0.F (2020-08-01)
+# 0.F (2020-09-01)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -35,6 +35,16 @@ Blood and blood loss overhaul.
 Artifact procgen - artifacts that spawn use the new relic data.
 Grappling hooks can be deployed for climbing, just like ladders.
 Add proficiencies, representing specific knowledge in a certain area not covered by normal skills.
+Add ability to learn proficiencies
+Enable mouse input for uilist and pickup, optimized some codes.
+New constructions to build split rail and privacy fences on preexisting fence posts
+Add activation abilities and charges to relics
+Tiles: improve furniture rotation and connections
+Finish jsonizing butchery requirements
+Added ability to conduct blood analysis to autodoc.
+Show which achievements have been completed in past games
+add solar artifact recharge type
+Artifacts regenerate ammo option
 
 ## Content:
 Gun volume and weight audit.
@@ -52,12 +62,86 @@ Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to p
 Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
 Feral Humans with blob psychosis.
 Allow plank and branch bundles to be made from cordage, vines, or wire.
+Audit Rivtech guns for volume, weight, and longest_side
+Audit 40x46mm guns for volume, weight, and longest_side
+A series of edits to recipes related to the production of explosive weapons, mainly dynamite, and the products associated.
+Convert Split Rail Fence to Privacy Fence without deconstructing
+Adds many 10mm Auto guns
+Moves and updates urban development house 8 to vanilla.
+Improve use of bones in recipes
+Removes unreasonable restriction on type of filament used, adds some basic tools
+Makes primitive shovel craft-able before blacksmithing.
+Moves and updates 6 urban development houses to vanilla.
+Moves and updates urban development house 18 to vanilla.
+Audit .380 caliber guns for volume, weight, and longest_side
+Adds a "functioning" (very likely to have a tow strap) tow truck vehicle.
+Audit Mark 19 grenade launcher
+Update 9mm guns for weight, volume, and longest_side
+Update M202A1 FLASH volume, and longest_side
+Update 84mm launchers with weight, volume, and longest side
+Update weight, volume, and longest_side for assorted improvised weapons
+Audit .50 BMG guns for weight, volume, and longest_side
+Fill out artifact procgen table in json
+Add profession versions of the burner and hazmat, restore mask cartridges on 2 profs
+Audit 7.62R guns for volume, and longest_side
+Major ultica update 12 Aug 2020
+Pockets were added, and recipe changed slightly for Survivor Harness
+Magiclysm: Add three new enchanted cloaks to the game
+Expands Brigitte LaCroix, adds a new NPC that complements her
+Adds another longer variant of the duffel bag into the game that can be used to haul longer items of up to 150CM for easier transport of long guns etc
+Microlabs can contain artifacts in containment.
+Add NPC_class and NPC json templates and instructions
+Add roach eggs to the powdered eggs recipes
+Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist)
+Update UltiCa and make it default
+Adds ashen brawlers - a smoker zombie evolution
+Add 2 hobo reels
+Add common sprites for overmap to RetroDays in preparation for overmap drawing feature
+Olights from Aftershock to Vanilla
+Adds flying zombie upgrades
+Rename Schizophrenic
+Add small bottle as alternative to plastic bag for mask cartridge recipes.
+Gives rural NPCs unique dialogue
+Small adjustments to Freshwater Research Station.
+Adjusts winged zombies to fit lore, adds new types
+Replace instances of "FoodPlace" with "Foodplace"
+Add 1 bullet armor to the Chitinous Plate and Furred Plate mutations
+made fallback tiles match retrodays+ style
+BrownLikeBears 31-8-2020 Update
+some more update and cleanup to retroplus
+Last flight scenario spawns you with an unfueled helicopter and a mission to refuel it.
+Add log and rock wall types for faction camp central building.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
 Crafting GUI - Highlight hidden recipe info.
 Overhaul target selection and aiming UI.
 Display missing and obsolete mods for current world.
+Add a sealed indicator to the eat menu.
+Moved 'convert split rail fence to privacy fence construction' to consolidate menu entries
+Add message limit option for saving log history
+Optional popup window when completing achievements
+Clarify statement about extra time and effort when lacking proficiencies
+Sort bodyparts more logically in interface elements
+Use keycode mode in main UI
+Require grenades and other explosives to be wielded before activation
+Don't print damaged part if no parts are damaged
+Add keycode support to vehicle interaction menu
+Add bigger mini-maps to all sidebar layouts
+Add percentage to vehicle interaction spinner
+Disable sidebar overmap by default
+Keycode mode consistency
+Add keycode mode support to npc dialogue window
+Support keycode mode in target UI
+Display pocket flag restrictions in item info
+Add keycode mode support to NPC trade menu
+Add keycode support to uilist
+Add more overmap sprites to retrodays
+Automatically use bionic lockpick when examining pickable terrain
+Fix text input in uilist filter handled as directional keys
+Another RetroDays overmap sprite update
+Added an external game option to automatically open Pickup Items menu when examining workbench-type furniture.
+Reformat the debug info exercise and calorie table
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -65,6 +149,26 @@ Add Dark Skies Above, a partial conversion mod based around an alien invasion ra
 Overhaul Blazemod and split into seperate mods.
 [MMA] Add Ki Strike trait.
 Polymorph spells to transform your foes.
+Spells using components system
+Adds Ankylosaurus upgrades
+Aftershock: Add autodoc tiers.
+Aftershock: Aeronautics bionic grants you the pilot proficiency while installed.
+Fix bird egg cooking
+Frakenstein NPCs
+Adds Camarasaurus and Pteranodon and more zombie dino upgrades
+Make the documentation on the use action of place_npc refer to npcs/npc.json instead of the wrong npcs/classes.json
+CRT Artifact to Relic
+Adds monster 'Mosasaurus'
+Aftershock : Migrate Artifact data to relic data
+Aftersock: Foamcrete for on the run building
+Plant eaters fight back against zombies
+Aftershock: Add augmentation Clinics to the world
+Update weapon stats for Magiclysm
+Dinos eat crops
+Werewolf relic, maybe some other werewolf stuff
+Add Black Dragon Mutagens
+Fix candy monsters dropping butchery refuse
+Adds monster Quetzalcoatlus
 
 ## Balance:
 Large item price audit.
@@ -74,6 +178,19 @@ Hide irradiated effect from the player, forces use of existing tools to detect r
 More complex satiety calculations.
 NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
 Antifungal drugs work over time.
+Slingshots now need two hands to fire
+Increase spawn locations for plastic sheets
+Give Backpacker profession Survival level 1
+Change uncrafting times to make more sense internally
+Changed vehicle beds to require a mattress
+Made lye recipe's primary skill Chemistry
+Make Charcoal Kiln constructable with digging 1 quality
+Add straw to Tinder recipe
+Npc's U_buy_item gives you loaded items
+Don't damage hands when smashing but use your most armored part instead
+Changes Scout to reflect the opposing trait Topographagnosia in a more consistent manner.
+Set length of makeshift knife to 7 cm, volume to 0.260L and weight to 0.550 kg
+Guarantee at least one transversable path in the collapsed tower basement.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -110,10 +227,119 @@ Blobs are slimes. name them such.
 Fix freezing to death when wet.
 Fix weapon techniques not triggering.
 Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses.
+Fix inconsistency of wielding cost
+Fix zero volume error produced by No_Fungi mod
+Optional third parameter in "book_learn" JSON entry can be used (again)
+Fix Languorous mutation giving movespeed bonus
+Fix disassembly time inconsistency in Butcher UI
+Parallel Bridge Generation All Bridgeheads
+Proofreading with LanguageTool, second batch
+Pickup messages always show the item you picked up
+Fix UPS power draw
+vehicles: make sure going in reverse isn't more efficient than going forward
+More sealed container fixes
+Allow fuel bunkers to be reloaded again
+Makes the correct CBM item drop after a successful CBM uninstallation by a monster
+Fix place npc iuse
+Fix removal of liquid fields during mopping
+Fix error when loading proficiencies from save
+Adds sheath entry to necromancer profession
+Fix doubled artifact effects on stats.
+Fix all containers unsealed even if dropping activity is interrupted
+Fix radio towers not emitting
+Fix Grab Break techniques not working
+Fix a comma splice for a butchery line
+Take contents into account when sorting by spoilage
+Clothing menu opens to category All
+Rocks thrown by feral human do not penetrate vehicle wall
+Fix error and unusable vehicle after driving into a tear in reality.
+Debug Fireball hammer change
+Containers can't hold too large items contained in other containers
+Prevent temperature being 0 after loading a save
+Fix fence smashing leftovers
+Fix debug message about turret having no arms
+Consume components in nested containers when crafting
+Don't dies on turn 0 with heli crash scenario
+Correct typos in some items
+Fix items with undefined temperature
+Fix json to stop inspecting headlamps raising runtime error
+Fix wrong message when attempting to ride up stairs
+Crafting can consume liquids in bathtubs
+More repairs_like flags
+Allow Scout trait to work with other traits
+Reset bionics when unloading
+Fix misleading pickup denial message for contained liquids
+Fix droping bionic weapon
+Fixes relic enchantments giving mutations
+Properly redraw activity wait popup when interrupting, resizing, etc
+Add weight and volume to Generic Guns grenade belt
+Fix segfault when loading save game activity backlog
+Fix fire extinguishers spawning empty
+Refilling menu will only show watertight containers when refilling tanks
+Fix fish traps acting as if unloaded
+vehicle interaction: correctly display chemical volumes
+Fix infinite loop on parsing spells on arm64.
+Fix stuck joystick on Android.
+Allow forest trails to be considered as forests for faction camp activities
+Fixes bug where sometimes the battery falls out and the mods get deleted when the item transforms
+Fix shooter earmuffs turning off
+Check hacking can be done before starting hacking activity
+Adjust sunlight casting to illuminate exterior walls.
+Hide menu activity progress messages
+Make if possible to complete the two missions associated with software items
+Fix NPCs deleting items in a couple of cases
+vehicle parts: delete extra seat definitions
+Fix item loaded with charges but cannot have any error
+map: only actualize after loading all submaps
+Smite deos damage again
+Fix typo in faction camp upgrade recipe json
+Fixed limb blocking not triggering
+Butchery menu displays required time depending on available tools
+Fix primitive rock drill recipe
+Make it harder to overflow fuel estimate
+vehicles: make shock absorbers actually absorb shock damage
+Fixes vehicles can't be constructed from all the frames.
+Deduplicating JSON objects that share same type and id
+Fix 'Attempted to fire zero or negative shots' for crossbows
+Restore walking sounds
+Color manager related fixes
+Changed coverage of police duty belt to 5%
+Jsonize butchery requirements update from https://github.com/CleverRaven/Cataclysm-DDA/pull/42372
+Fix NPC dying immediately on accepting inhaler mission
+Fix user keybindings get discarded on loading under some circumstances
+Updates the bionic torso/legs/head/arms alloy plating, protective lenses, and carbon filament bionics to add bullet protection equal to their cut protection.
+Fixed crash from consuming Mycus Fruit as Marloss Gateway
+Added '//~' as a known i18n key to table.py
+Fix crash when attempting to butcher a corpse
+Refresh container encumbrance when dropping items
+Set toolbox as a rigid container
+Option to craft fish mutagen with pickled fish
+Fix gear getting damaged when weather has no damaging effects
+Prevent players from taking more than one hub mercenary mission at a time.
+Crafting doesn't warn you if all your watertight containers are inside other containers
+Eating from sealed containers.
+Changes green tea and fruit tea recipe to be consistent with black tea recipe
+Fix a crash in multidrop menu
+Modified coilgun flechette ammo to have correct values
+Sandbox kit can contain liquids
+Remove reference to storage in the Shell mutation & add minor ballistic protection.
+Half empty liquid containers don't trick you into thinking you have inventory space
+Adjust shark suit spawn type
+Fix broken sky
+Fix environmental_protection values for chitin & biosil chitin armor
+Fix crash when activating an item in a wielded container
+Fix bionic toggled on and off repeatedly when auto start is on and fuel is low
+Fix analyze blood quest at centrifuge
+Don't trigger benign traps.
+Fix Aftershock Solar Panels CBM not charging
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
 Skip unnecessary weather calculations for root cellar.
+cache drop_invalid_inventory
+cache weight_carried
+Check for safemode emptiness before calling monster check
+Code optimizations reported by static code analysis
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -160,6 +386,43 @@ Dialogue: create an talker API for speakers in a dialogue.
 Make rectangle and cuboid generic with respect to point type.
 Configure GitHub build matrix to permit more C++ build testing to happen there.
 Check for zero weight items.
+Remove body_part from effect
+Prioritize resources from user directories.
+All .py scripts ported to Python 3 and checked with PEP8 on moderate settings
+table.py partial object-oriented redesign
+Script to list what IDs are present in a tileset
+Revamp vehicle parts shapes to allow chirality - left/right/front/rear
+adjust relic recharge code
+Add guide for making ASCII art to documentation
+Unify damage types
+itemgroup analyzer tool
+table.py --tileset option and --type option support for multiple inputs, backward compatible
+Use cata::optional for mutation value calculations
+Jsonize bonus warmth from fire
+Remove old artifact code
+Add IGNORE_TEMP flag to eyes
+Remove legacy code for save version before 27
+Decouple Font classes and Font rendering in SDL related code
+items: represent item to_hit as an object in JSON
+vehicles: simplify specifying directional variants of vehicle parts
+Script that generates a list of possible overlay ids
+Add error-checking of recipe (sub)categories
+Unblacklist most remaining blacklisted mods
+Prevent stale precompiled header after make clean
+Add regression test for broken battery mods
+Document that copy-from implies looks_like
+Refactor pocket functions with more logical names
+Fix wrong color tags in COLOR.md
+Report log messages for failed tests
+Prevent random test failures due to addictions
+Don't skip tests on CI jobs with mods
+Reinstate blueprint autocalc
+cata_variant validity checking
+Add check to enforce use of cata_assert
+Add a compiler error problem matcher
+Makes canvas/cloth wall/door furnitures connect to each other
+Clean up make_iso.py script for UltiCa conversion
+Fix bio_batteries failing tests
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -173,6 +436,14 @@ Automatic handling of vcpkg dependencies.
 Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
 Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
+Attempt to clean up pch rules
+gfx_tools: make classes importable with __main__
+Remove precompiled headers, and the Makefile dependency file at clean
+Fix RELEASE=1 LTO=1 error regarding local address returning
+Move Android.mk from src/ to android/app/jni/src
+Enable compiling an Android build under Windows.
+tools: add a Python script to reformat vehicles to use parts arrays
+Prevent unnecessarily rewriting version.h in build.gradle
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -181,6 +452,10 @@ Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
+Routine i18n updates on 9 Aug 2020
+Routine i18n updates on 14 Aug 2020
+Routine i18n updates on 21 Aug 2020
+Routine i18n updates on 29 Aug 2020
 
 # 0.E (Ellison)
 
