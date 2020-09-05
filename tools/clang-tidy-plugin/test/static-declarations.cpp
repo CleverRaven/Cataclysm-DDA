@@ -10,3 +10,8 @@ void f0();
 
 extern int i1;
 // CHECK-MESSAGES: warning: Prefer including a header to making a local extern declaration of 'i1'. [cata-static-declarations]
+
+// Make sure main isn't messed with
+int main()
+{
+}

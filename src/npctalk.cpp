@@ -94,11 +94,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const talk_topic &the_topic );
+static int topic_category( const talk_topic &the_topic );
 
-const talk_topic &special_talk( const std::string &action );
-
-std::string give_item_to( npc &p, bool allow_use );
+static const talk_topic &special_talk( const std::string &action );
 
 std::string talk_trial::name() const
 {

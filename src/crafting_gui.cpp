@@ -62,10 +62,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
-int related_menu_fill( uilist &rmenu,
-                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available );
+static std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+static int related_menu_fill( uilist &rmenu,
+                              const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                              const recipe_subset &available );
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {

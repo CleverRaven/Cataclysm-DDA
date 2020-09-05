@@ -436,7 +436,7 @@ static void WinDestroy()
 }
 
 /// Converts a color from colorscheme to SDL_Color.
-inline const SDL_Color &color_as_sdl( const unsigned char color )
+static inline const SDL_Color &color_as_sdl( const unsigned char color )
 {
     return windowsPalette[color];
 }

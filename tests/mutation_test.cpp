@@ -12,7 +12,7 @@
 #include "player_helpers.h"
 #include "type_id.h"
 
-std::string get_mutations_as_string( const player &p );
+static std::string get_mutations_as_string( const player &p );
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON

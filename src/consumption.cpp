@@ -170,20 +170,20 @@ static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
-const std::vector<std::string> carnivore_blacklist {{
+static const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
-const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
-const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+static const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
+static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3_liter );
+static const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
-const std::map<itype_id, int> plut_charges = {
+static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
     { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }

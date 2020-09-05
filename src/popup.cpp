@@ -147,7 +147,7 @@ void query_popup::invalidate_ui() const
     }
 }
 
-constexpr int border_width = 1;
+static constexpr int border_width = 1;
 
 void query_popup::init() const
 {

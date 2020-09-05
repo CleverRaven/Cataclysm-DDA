@@ -712,7 +712,7 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
 #else
-constexpr int bt_cnt = 20;
+static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 

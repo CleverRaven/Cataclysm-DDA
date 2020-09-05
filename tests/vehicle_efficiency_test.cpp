@@ -148,8 +148,8 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
     return left;
 }
 
-const float fuel_level = 0.1f;
-const int cycle_limit = 100;
+static const float fuel_level = 0.1f;
+static const int cycle_limit = 100;
 
 // Algorithm goes as follows:
 // Clear map
