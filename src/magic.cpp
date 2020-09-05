@@ -657,6 +657,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
+    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
                 return_true<item> ) ) {
