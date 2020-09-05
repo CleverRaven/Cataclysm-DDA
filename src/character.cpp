@@ -8126,8 +8126,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     const body_part bp_token = bp->token;
-    if(bp_token == num_bp) {
-        debugmsg("Wacky bodypart hit!");
+    if( bp_token == num_bp ) {
+        debugmsg( "Wacky bodypart hit!" );
         return dealt_damage_instance();
     }
 
