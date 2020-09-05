@@ -567,7 +567,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static hack_type get_hack_type( const tripoint &examp )
 {
     hack_type type = hack_type::NONE;
     map &here = get_map();
@@ -1155,22 +1155,22 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = player_character.will_eat( *consume_location, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = player_character.will_eat( consume_item, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
@@ -1196,14 +1196,15 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     std::vector<int> temp_selections = consume_menu_selections;
     const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
     const std::string temp_filter = consume_menu_filter;
+    item_location consume_loc = consume_location;
 
     avatar &player_character = get_avatar();
     if( !canceled ) {
-        if( consume_location ) {
-            trinary result = player_character.consume( consume_location, /*force=*/true );
+        if( consume_loc ) {
+            trinary result = player_character.consume( consume_loc, /*force=*/true );
             // Parent pockets need to be notified so they can be unsealed as well.
             if( result != trinary::NONE ) {
-                game::handle_contents_changed( consume_location );
+                game::handle_contents_changed( consume_loc );
             }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
@@ -1447,11 +1448,11 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
-
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1553,6 +1554,11 @@ void craft_activity_actor::finish( player_activity &act, Character & )
 std::string craft_activity_actor::get_progress_message( const player_activity & ) const
 {
     return craft_item.get_item()->tname();
+}
+
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
 }
 
 void craft_activity_actor::serialize( JsonOut &jsout ) const

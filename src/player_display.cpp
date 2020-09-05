@@ -603,7 +603,7 @@ static void draw_traits_tab( const catacurses::window &w_traits,
 
     for( size_t i = min; i < max; i++ ) {
         const auto &mdata = traitslist[i].obj();
-        const auto color = mdata.get_display_color();
+        const nc_color color = mdata.get_display_color();
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - min ) ), getmaxx( w_traits ) - 1,
                         is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
@@ -904,7 +904,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const auto player_local_temp = get_weather().get_temperature( you.pos() );
+        const int player_local_temp = get_weather().get_temperature( you.pos() );
         if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
@@ -1178,7 +1178,7 @@ void player::disp_info()
         }
     }
     if( get_perceived_pain() > 0 ) {
-        const auto ppen = get_pain_penalty();
+        const stat_mod ppen = get_pain_penalty();
         std::string pain_text;
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {

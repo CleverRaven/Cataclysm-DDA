@@ -253,7 +253,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     if( std::any_of( origins.begin(), origins.end(), []( mission_origin origin ) {
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
-        auto djo = jo.get_object( "dialogue" );
+        JsonObject djo = jo.get_object( "dialogue" );
         // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );

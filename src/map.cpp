@@ -1640,7 +1640,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
  */
 void map::examine( Character &p, const tripoint &pos )
 {
-    const auto furn_here = furn( pos ).obj();
+    const furn_t furn_here = furn( pos ).obj();
     if( furn_here.examine != iexamine::none ) {
         furn_here.examine( dynamic_cast<player &>( p ), pos );
     } else {
@@ -2683,7 +2683,7 @@ bool map::is_flammable( const tripoint &p )
         return true;
     }
 
-    if( get_field_intensity( p, fd_web ) > 0 ) {
+    if( get_field_intensity( p, field_type_id( "fd_web" ) ) > 0 ) {
         return true;
     }
 
@@ -2787,7 +2787,7 @@ bool map::has_adjacent_furniture_with( const tripoint &p,
 bool map::has_nearby_fire( const tripoint &p, int radius )
 {
     for( const tripoint &pt : points_in_radius( p, radius ) ) {
-        if( get_field( pt, fd_fire ) != nullptr ) {
+        if( get_field( pt, field_type_id( "fd_fire" ) ) != nullptr ) {
             return true;
         }
         if( has_flag_ter_or_furn( "USABLE_FIRE", p ) ) {
@@ -3035,7 +3035,8 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 item_was_damaged = true;
             }
         } else {
-            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
+            const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() :
+                                             field_type_id( "fd_null" );
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
                    i->damage() < i->max_damage() ) {
@@ -3770,7 +3771,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             ter_set( p, t_dirt );
         }
         if( inc ) {
-            add_field( p, fd_fire, 1 );
+            add_field( p, field_type_id( "fd_fire" ), 1 );
         }
     } else if( terrain == t_gas_pump ) {
         if( hit_items || one_in( 3 ) ) {
@@ -3831,7 +3832,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         for( const std::pair<const field_type_id, field_entry> &fd : fields_copy ) {
             if( fd.first->bash_info.str_min > 0 ) {
                 if( inc ) {
-                    add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
+                    add_field( p, field_type_id( "fd_fire" ), fd.second.get_field_intensity() - 1 );
                 } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
                            one_in( 5 - fd.second.get_field_intensity() ) ) {
                     dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
@@ -3916,7 +3917,7 @@ bool map::hit_with_fire( const tripoint &p )
 
     // non passable but flammable terrain, set it on fire
     if( has_flag( "FLAMMABLE", p ) || has_flag( "FLAMMABLE_ASH", p ) ) {
-        add_field( p, fd_fire, 3 );
+        add_field( p, field_type_id( "fd_fire" ), 3 );
     }
     return true;
 }
@@ -4453,7 +4454,7 @@ item &map::add_item( const tripoint &p, item new_item )
         return null_item_reference();
     }
 
-    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
+    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, field_type_id( "fd_fire" ) ) != nullptr ) {
         if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
@@ -4828,7 +4829,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
-        auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
+        vehicle_stack items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
         float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
         if( target.has_temperature() || target.is_food_container() ) {
@@ -5769,7 +5770,7 @@ void map::update_visibility_cache( const int zlev )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
                 const tripoint sm( gridx, gridy, 0 );
-                const auto abs_sm = map::abs_sub + sm;
+                const tripoint abs_sm = map::abs_sub + sm;
                 // TODO: fix point types
                 const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sm ) );
                 overmap_buffer.set_seen( abs_omt, true );
@@ -6379,7 +6380,7 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     if( const auto obstacle_f = furn( obstaclepos ) ) {
         return obstacle_f->coverage;
     }
-    if( const auto vp = veh_at( obstaclepos ) ) {
+    if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
         } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
@@ -6394,7 +6395,7 @@ int map::coverage( const tripoint &p ) const
     if( const auto obstacle_f = furn( p ) ) {
         return obstacle_f->coverage;
     }
-    if( const auto vp = veh_at( p ) ) {
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
         } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
@@ -8405,10 +8406,15 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
+    //Don't trigger benign traps like cots and funnels
+    if( tr.is_benign() ) {
+        return;
+    }
+
     if( may_avoid && c.avoid_trap( pos, tr ) ) {
         player *const pl = c.as_player();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
-            pl->add_msg_if_player( _( "You've spotted a %1$ss!" ), tr.name() );
+            pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
             pl->add_known_trap( pos, tr );
         }
         return;
@@ -8484,8 +8490,8 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
                           std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
                           const point &min, const point &max )
 {
-    auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_NO_SCENT;
+    ter_bitflags reduce = TFLAG_REDUCE_SCENT;
+    ter_bitflags block = TFLAG_NO_SCENT;
     auto fill_values = [&]( const tripoint & gp, const submap * sm, const point & lp ) {
         // We need to generate the x/y coordinates, because we can't get them "for free"
         const point p = lp + sm_to_ms_copy( gp.xy() );

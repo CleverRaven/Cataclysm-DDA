@@ -811,10 +811,41 @@
     "volume": "38 L",
     "weight": "50 kg",
     "hp": 40,
+    "aggression": 20,
+    "morale": 50,
     "speed": 200,
     "zombify_into": "mon_zteranodon",
     "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
-    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 },
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_quetzalcoatlus",
+    "name": { "str_sp": "Quetzalcoatlus" },
+    "copy-from": "mon_dimorphodon",
+    "volume": "190 L",
+    "weight": "250 kg",
+    "hp": 200,
+    "aggression": 50,
+    "morale": 80,
+    "speed": 150,
+    "zombify_into": "mon_zuetzalcoatlus",
+    "description": "A huge feathered flying reptile, with a long pointed toothless beak and a long stiff neck.",
+    "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "FLIES",
+      "HIT_AND_RUN",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "CATFOOD",
+      "ATTACKMON",
+      "PET_MOUNTABLE"
+    ],
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ]
   },
   {
     "type": "MONSTER",
@@ -1103,7 +1134,14 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_pteranodon" }
+    "upgrades": { "age_grow": 30, "into": "mon_pteranodon" }
+  },
+  {
+    "id": "mon_quetzalcoatlus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",

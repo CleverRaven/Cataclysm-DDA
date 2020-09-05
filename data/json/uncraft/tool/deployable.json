@@ -2,12 +2,14 @@
   {
     "result": "camp_chair",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
   },
   {
     "type": "uncraft",
+    "activity_level": "fake",
     "result": "tourist_table",
     "skill_used": "fabrication",
     "difficulty": 2,

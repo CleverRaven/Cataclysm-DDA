@@ -706,7 +706,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
+std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
@@ -718,6 +718,13 @@ std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
         }
     }
     return enumerate_as_string( values, conj );
+}
+
+template<typename Container, typename F>
+std::string enumerate_as_string( const Container &cont, F &&string_for,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+{
+    return enumerate_as_string( cont.begin(), cont.end(), std::forward<F>( string_for ), conj );
 }
 
 /**

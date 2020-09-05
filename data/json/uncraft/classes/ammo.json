@@ -2,6 +2,7 @@
   {
     "abstract": "ammo_cartridge",
     "type": "uncraft",
+    "activity_level": "fake",
     "//": "Disassemble a single ammo cartridge",
     "time": "6 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],

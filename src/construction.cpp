@@ -1798,13 +1798,14 @@ void finalize_constructions()
     finalized = true;
 }
 
-void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs )
+build_reqs get_build_reqs_for_furn_ter_ids(
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    build_reqs total_reqs;
+
     if( !finalized ) {
         debugmsg( "get_build_reqs_for_furn_ter_ids called before finalization" );
-        return;
+        return total_reqs;
     }
     std::map<construction_id, int> total_builds;
 
@@ -1878,6 +1879,8 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
             }
         }
     }
+
+    return total_reqs;
 }
 
 static const construction null_construction {};

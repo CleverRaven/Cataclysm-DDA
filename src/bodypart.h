@@ -40,7 +40,7 @@ enum body_part : int {
 
 template<>
 struct enum_traits<body_part> {
-    static constexpr auto last = body_part::num_bp;
+    static constexpr body_part last = body_part::num_bp;
 };
 
 enum class side : int {
@@ -52,7 +52,7 @@ enum class side : int {
 
 template<>
 struct enum_traits<side> {
-    static constexpr auto last = side::num_sides;
+    static constexpr side last = side::num_sides;
 };
 
 /**
@@ -140,7 +140,7 @@ struct body_part_type {
 
         bool is_limb = false;
 
-        int drench_max;
+        int drench_max = 0;
 
         cata::flat_set<std::string> flags;
         bool has_flag( const std::string &flag ) const;

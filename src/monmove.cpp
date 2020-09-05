@@ -79,13 +79,13 @@ bool monster::wander()
 
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
-    if( fid == fd_fungal_haze ) {
+    if( fid == field_type_id( "fd_fungal_haze" ) ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
     }
-    if( fid == fd_fungicidal_gas ) {
+    if( fid == field_type_id( "fd_fungicidal_gas" ) ) {
         return !type->in_species( species_FUNGUS );
     }
-    if( fid == fd_insecticidal_gas ) {
+    if( fid == field_type_id( "fd_insecticidal_gas" ) ) {
         return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
     }
     const field_type &ft = fid.obj();
@@ -214,10 +214,10 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+        if( avoid_fire && target_field.find_field( field_type_id( "fd_fire" ) ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+        if( avoid_simple && target_field.find_field( field_type_id( "fd_electricity" ) ) ) {
             return false;
         }
     }
@@ -272,7 +272,7 @@ void monster::wander_to( const tripoint &p, int f )
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
-    const auto d = rl_dist_fast( pos(), c.pos() );
+    const FastDistanceApproximation d = rl_dist_fast( pos(), c.pos() );
     if( d <= 0 ) {
         return FLT_MAX;
     }
@@ -325,7 +325,7 @@ void monster::plan()
 
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
-    auto mood = attitude();
+    monster_attitude mood = attitude();
     Character &player_character = get_player_character();
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
@@ -387,7 +387,7 @@ void monster::plan()
 
     int valid_targets = ( target == nullptr ) ? 1 : 0;
     for( npc &who : g->all_npcs() ) {
-        auto faction_att = faction.obj().attitude( who.get_monster_faction() );
+        mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
             continue;
         }
@@ -435,7 +435,7 @@ void monster::plan()
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 ) {
         for( const auto &fac : factions ) {
-            auto faction_att = faction.obj().attitude( fac.first );
+            mf_attitude faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
@@ -549,7 +549,7 @@ void monster::plan()
     } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
-        auto att_to_target = attitude_to( *target );
+        Creature::Attitude att_to_target = attitude_to( *target );
         if( att_to_target == Attitude::HOSTILE && !fleeing ) {
             set_dest( dest );
         } else if( fleeing ) {
@@ -754,7 +754,7 @@ void monster::move()
     }
 
     // don't move if a passenger in a moving vehicle
-    auto vp = here.veh_at( pos() );
+    optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
     if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
@@ -1431,7 +1431,7 @@ bool monster::attack_at( const tripoint &p )
             return false;
         }
 
-        auto attitude = attitude_to( mon );
+        Creature::Attitude attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
             melee_attack( mon );
@@ -1631,13 +1631,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        here.add_field( pos(), fd_acid, 3 );
+        here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( MF_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
-            here.add_field( pos(), fd_acid, 3 );
+            here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
         }
     }
 
@@ -1645,7 +1645,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                here.add_field( sludge_p, fd_sludge, fstr );
+                here.add_field( sludge_p, field_type_id( "fd_sludge" ), fstr );
             }
         }
     }
@@ -2003,7 +2003,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
 {
     map &here = get_map();
     if( this->has_flag( MF_PUSH_VEH ) ) {
-        auto vp = here.veh_at( nearby_destination );
+        optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();
             const units::mass veh_mass = veh.total_mass();

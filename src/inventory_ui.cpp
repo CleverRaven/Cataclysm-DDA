@@ -79,7 +79,7 @@ struct navigation_mode_data {
 
 struct inventory_input {
     std::string action;
-    int ch;
+    int ch = 0;
     inventory_entry *entry;
 };
 
@@ -1351,7 +1351,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
-    const auto check_components = this->preset.get_checking_components();
+    const bool check_components = this->preset.get_checking_components();
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );

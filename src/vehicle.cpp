@@ -3816,7 +3816,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_field( j, p, fd_smoke, bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
+                    spew_field( j, p, field_type_id( "fd_smoke" ),
+                                bad_filter ? field_type_id( "fd_smoke" )->get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3831,8 +3832,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     /// TODO: handle other engine types: muscle / animal / wind / coal / ...
 
     if( exhaust_part != -1 && engine_on ) {
-        spew_field( mufflesmoke, exhaust_part, fd_smoke,
-                    bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
+        spew_field( mufflesmoke, exhaust_part, field_type_id( "fd_smoke" ),
+                    bad_filter ? field_type_id( "fd_smoke" )->get_max_intensity() : 1 );
     }
     if( is_rotorcraft() ) {
         noise *= 2;

@@ -83,7 +83,7 @@ SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile
 SDL_Color get_map_color_at( const tripoint &p )
 {
     const map &here = get_map();
-    if( const auto vp = here.veh_at( p ) ) {
+    if( const optional_vpart_position vp = here.veh_at( p ) ) {
         return curses_color_to_SDL( vp->vehicle().part_color( vp->part_index() ) );
     }
 

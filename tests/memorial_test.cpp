@@ -136,7 +136,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_id( "URSINE" ) );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );

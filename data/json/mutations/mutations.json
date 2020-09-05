@@ -679,11 +679,11 @@
     "//": "Can't change the ID as that breaks save-compatibility.",
     "name": { "str": "Scout" },
     "points": 1,
-    "description": "You're an excellent navigator and your ability to spot distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
     "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
-    "cancels": [ "MYOPIC", "UNOBSERVANT" ],
+    "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
   },
   {
@@ -888,7 +888,7 @@
     "points": -2,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE", "EAGLEEYED" ],
+    "cancels": [ "URSINE_EYE" ],
     "category": [ "BEAST", "TROGLOBITE" ]
   },
   {

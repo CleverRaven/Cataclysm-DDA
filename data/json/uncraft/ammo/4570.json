@@ -2,6 +2,7 @@
   {
     "result": "4570_sp",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
@@ -16,6 +17,7 @@
   {
     "result": "4570_pen",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "copper", 7 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder_large_rifle", 17 ] ] ],
@@ -24,6 +26,7 @@
   {
     "result": "4570_low",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 9 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder_large_rifle", 12 ] ] ],

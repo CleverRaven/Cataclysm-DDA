@@ -193,7 +193,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "POOLWATER",                TERCONN_POOLWATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                     TERCONN_COUNTER },
+        { "COUNTER",                  TERCONN_COUNTER },
+        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
     }
 };
 
@@ -370,7 +371,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
         container.fill( load_func( jo.get_string( key ) ) );
 
     } else if( jo.has_array( key ) ) {
-        auto arr = jo.get_array( key );
+        JsonArray arr = jo.get_array( key );
         if( arr.size() == 1 ) {
             container.fill( load_func( arr.get_string( 0 ) ) );
 
@@ -681,7 +682,7 @@ void set_ter_ids()
     t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
     t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_laminated_glass = ter_id( "t_laminated_glass" );
-    t_ballistic_glass = ter_id( "t_ballistic_glass" ),
+    t_ballistic_glass = ter_id( "t_ballistic_glass" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );

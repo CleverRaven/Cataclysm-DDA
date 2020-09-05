@@ -1222,8 +1222,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
-                auto block_color = visibility ? windowsPalette[catacurses::green] :
-                                   SDL_Color{ 192, 192, 192, 255 };
+                SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
+                                        SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
                 color_blocks.second.emplace( player_to_screen( point( x, y ) ), block_color );
@@ -1248,10 +1248,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     float ambient = here.ambient_light_at( {x, y, center.z} );
                     float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
 
-                    auto tile_pos = player_to_screen( point( x, y ) );
+                    point tile_pos = player_to_screen( point( x, y ) );
 
                     // color overlay
-                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
+                    SDL_Color color = lighting_colors[static_cast<int>( lighting ) - 1];
                     color.a = 100;
                     color_blocks.first = SDL_BLENDMODE_BLEND;
                     color_blocks.second.emplace( tile_pos, color );
@@ -2595,7 +2595,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
             const auto it = field_override.find( q );
             return it != field_override.end() ? it->second :
-            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
+            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : field_type_id( "fd_null" );
         };
         // for rotation information
         const int neighborhood[4] = {
@@ -2832,7 +2832,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         attitude = Creature::Attitude::ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
-            const auto ent_category = C_MONSTER;
+            const TILE_CATEGORY ent_category = C_MONSTER;
             std::string ent_subcategory = empty_string;
             if( !m->type->species.empty() ) {
                 ent_subcategory = m->type->species.begin()->str();
@@ -3413,7 +3413,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const auto direction = iter->getDirecton();
+                const direction direction = iter->getDirecton();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *

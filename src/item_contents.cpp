@@ -384,7 +384,8 @@ struct item_contents::item_contents_helper {
         }
 
         if( failure_messages.empty() ) {
-            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "is not a container" ) );
+            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "pocket with type (%s) not found" ),
+                    io::enum_to_string( pk_type ) );
         }
         std::sort( failure_messages.begin(), failure_messages.end(), localized_compare );
         failure_messages.erase(
@@ -440,14 +441,14 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "Found no suitable pocket for item" );
+        return ret_val<bool>::make_failure( pocket.str() );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
         return ret_val<bool>::make_success();
     }
-    return ret_val<bool>::make_failure( "Failed to insert into pocket" );
+    return ret_val<bool>::make_failure( pocket.str() );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )

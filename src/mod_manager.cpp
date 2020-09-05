@@ -98,7 +98,7 @@ void mod_manager::load_replacement_mods( const std::string &path )
     read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            auto arr = jsin.get_array();
+            JsonArray arr = jsin.get_array();
             mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
