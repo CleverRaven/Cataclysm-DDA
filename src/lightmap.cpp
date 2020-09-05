@@ -653,8 +653,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
         return lit_level::BRIGHT;
     }
-    const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
-    if( fd_clairvoyant.is_valid() && field_at( p ).find_field( fd_clairvoyant ) ) {
+    if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
         return lit_level::BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
