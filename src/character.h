@@ -894,15 +894,15 @@ class Character : public Creature, public visitable<Character>
 
         bool can_power_mutation( const trait_id &mut );
 
+    protected:
         /**Check (and trigger) any mutation reflex triggers. */
         void check_mutation_reflex_triggers();
         /**Check (and trigger) any mutation clothing triggers. */
-        void check_mutation_clothing_triggers();
+        void check_mutation_clothing_triggers(std::map<bodypart_id, encumbrance_data> enc);
 
-    protected:
         /**Check (and trigger) mutation trigger of given trait */
-        template<typename T>
-        void check_mutation_trigger(const trait_id& mut);
+        template<typename T, typename U = nullptr_t>
+        void check_mutation_trigger(const trait_id& mut, const U &data = nullptr);
 
     public:
         // Trigger and disable mutations that can be so toggled.

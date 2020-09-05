@@ -170,7 +170,14 @@ void Character::set_mutation( const trait_id &trait )
         return;
     }
     my_mutations.emplace( trait, trait_data{} );
-    cached_mutations.push_back( &trait.obj() );
+    const mutation_branch &mut = trait.obj();
+    cached_mutations.push_back( &mut );
+    if (mut.has_reflex_triggers()) {
+        my_reflex_mutations.emplace(&mut);
+    }
+    if (mut.has_clothing_triggers()) {
+        my_clothing_mutations.emplace(&mut);
+    }
     mutation_effect( trait, false );
     recalc_sight_limits();
     calc_encumbrance();
@@ -195,6 +202,8 @@ void Character::unset_mutation( const trait_id &trait_ )
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
+    my_reflex_mutations.erase(trait);
+    my_clothing_mutations.erase(trait);
     mutation_loss_effect( trait );
     recalc_sight_limits();
     calc_encumbrance();
@@ -218,10 +227,10 @@ bool Character::can_power_mutation( const trait_id &mut )
     return !hunger && !fatigue && !thirst;
 }
 
-void Character::check_mutation_clothing_triggers()
+void Character::check_mutation_clothing_triggers(std::map<bodypart_id, encumbrance_data> enc)
 {
     for (const trait_id& trait : my_clothing_mutations) {
-        check_mutation_trigger<clothing_trigger_data>(trait);
+        check_mutation_trigger<clothing_trigger_data>(trait, enc);
     }
     
 }
@@ -233,10 +242,10 @@ void Character::check_mutation_reflex_triggers()
     }
 }
 
-template<typename T>
-void Character::check_mutation_trigger( const trait_id &mut )
+template<typename T, typename U>
+void Character::check_mutation_trigger( const trait_id &mut, const U &data )
 {
-    if( mut->reflex_trigger_list.empty() || !can_power_mutation( mut ) ) {
+    if( mut->triggers<T>.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -275,8 +284,8 @@ void Character::check_mutation_trigger( const trait_id &mut )
     }
 }
 
-
-bool reflex_trigger_data::is_trigger_true(const Character& guy) const
+template<typename U>
+bool reflex_trigger_data::is_trigger_true(const Character& guy, const U &) const
 {
     bool activate = false;
 
@@ -323,21 +332,22 @@ bool reflex_trigger_data::is_trigger_true(const Character& guy) const
 }
 
 
-
-bool clothing_trigger_data::is_trigger_true(const Character& guy) const
+template<typename U>
+bool clothing_trigger_data::is_trigger_true(const Character& guy, const U &data) const
 {
+    static_assert(instanceof<std::map<bodypart_id, encumbrance_data>>(&data), "Unexpected data type received.");
     bool activate = false;
 
     int var = 0;
     switch (trigger) {
     case clothing_trigger_type::ENCUMBRANCE:
         for (bodypart_id bp : bodyparts) {
-            var += guy.encumb( bp );
+            var += data.at( bp ).encumbrance;
         }
         break;
     case clothing_trigger_type::WEARING:
         for (bodypart_id bp : bodyparts) {
-            var = guy.wearing_something_on(bp) ? var : var++;
+            var += guy.wearing_something_on(bp) ? 1 : 0;
         }
         break;
     case clothing_trigger_type::WARMTH:

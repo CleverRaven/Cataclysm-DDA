@@ -135,12 +135,15 @@ struct base_trigger_data {
     /**Activates below that threshold and deactivates above it*/
     int threshold_high = INT_MAX;
 
-    //trigger_type<T> trigger;
-    
+    /*
+    template<typename T>
+    trigger_type<T> trigger;
+
+    template<typename U = nullptr_t>
+    bool is_trigger_true(const Character& guy, const U &data ) const;
+    */
     std::pair<translation, game_message_type> msg_on{};
     std::pair<translation, game_message_type> msg_off{};
-
-    virtual bool is_trigger_true(const Character& guy) const = 0;
 
     bool was_loaded = false;
     virtual void load(const JsonObject& jsobj);
@@ -151,7 +154,8 @@ struct reflex_trigger_data : base_trigger_data {
     /**What variable controls the activation*/
     reflex_trigger_type trigger {};
 
-    bool is_trigger_true(const Character& guy) const;
+    template<typename U = nullptr_t>
+    bool is_trigger_true(const Character& guy, const U &data) const;
 
     void load(const JsonObject& jsobj);
 };
@@ -163,7 +167,8 @@ struct clothing_trigger_data : base_trigger_data {
     /**For what body parts must the condition be true*/
     std::vector<bodypart_id> bodyparts {};
 
-    bool is_trigger_true(const Character& guy) const;
+    template<typename U = nullptr_t>
+    bool is_trigger_true(const Character& guy, const U &data) const;
     void load(const JsonObject& jsobj);
 };
 
@@ -262,7 +267,10 @@ struct mutation_branch {
         template<>
         trigger_set<clothing_trigger_data> triggers() const { return clothing_triggers; };
         template<>
-        std::vector<std::vector<reflex_trigger_data>> triggers() const { return reflex_triggers; };
+        trigger_set<reflex_trigger_data> triggers() const { return reflex_triggers; };
+
+        bool has_reflex_triggers() const { return !reflex_triggers.empty(); };
+        bool has_clothing_triggers() const { return !clothing_triggers.empty(); };
 
     private:
         /**Map of crafting skills modifiers, can be negative*/
