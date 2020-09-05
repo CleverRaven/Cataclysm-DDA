@@ -40,10 +40,8 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
     }
 
     bool IsStatic = false;
-    bool IsVar = false;
     if( const VarDecl *V = dyn_cast<VarDecl>( ThisDecl ) ) {
         IsStatic = V->getStorageClass() == SC_Static;
-        IsVar = true;
     } else if( const FunctionDecl *F = dyn_cast<FunctionDecl>( ThisDecl ) ) {
         IsStatic = F->getStorageClass() == SC_Static;
     }
@@ -52,8 +50,11 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
     if( IsStatic ) {
         return;
     }
-    bool IsExtern = ThisDecl->hasExternalFormalLinkage();
-    if( IsExtern && IsVar ) {
+
+    const char *DeclSource = SM.getCharacterData( ThisDecl->getSourceRange().getBegin() );
+    bool IsExtern = std::string( DeclSource, 7 ) == "extern ";
+
+    if( IsExtern ) {
         Check.diag(
             ThisDecl->getBeginLoc(),
             "Prefer including a header to making a local extern declaration of %0."
