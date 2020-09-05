@@ -1630,7 +1630,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 2,
-    "max_encumbrance": 7,
+    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1667,7 +1667,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "encumbrance": 2,
-    "max_encumbrance": 7,
+    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1705,7 +1705,7 @@
     "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 2,
-    "max_encumbrance": 19,
+    "max_encumbrance": 14,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1758,7 +1758,7 @@
     "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 2,
-    "max_encumbrance": 19,
+    "max_encumbrance": 14,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1812,7 +1812,7 @@
     "covers": [ "torso" ],
     "coverage": 15,
     "encumbrance": 2,
-    "max_encumbrance": 12,
+    "max_encumbrance": 6,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
