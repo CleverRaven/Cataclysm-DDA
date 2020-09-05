@@ -2552,19 +2552,19 @@ class Character : public Creature, public visitable<Character>
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<trait_id, trait_data> my_mutations;
+        std::unordered_map<trait_id, trait_data> my_mutations{};
         /**
          * Contains mutation ids of the base traits.
          */
-        std::unordered_set<trait_id> my_traits;
+        std::unordered_set<trait_id> my_traits{};
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */
-        std::vector<const mutation_branch *> cached_mutations;
+        std::vector<const mutation_branch*> cached_mutations{};
         /** Character's traits / mutations that have reflex triggers.*/
-        std::unordered_set<trait_id> my_reflex_mutations;
+        std::unordered_set<trait_id> my_reflex_mutations{};
         /** Character's traits / mutations that have clothing triggers.*/
-        std::unordered_set<trait_id> my_clothing_mutations;
+        std::unordered_set<trait_id> my_clothing_mutations{};
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated

@@ -257,7 +257,7 @@ struct mutation_branch {
         trigger_set<reflex_trigger_data> reflex_triggers;
         /**Mutation's clothing triggers*/
         trigger_set<clothing_trigger_data> clothing_triggers;
-    public:
+ 
         /**Getter for mutation tirggers (reflex_triggers,clothing_triggers.*/
         template<typename T>
         trigger_set<T> triggers() const {
@@ -272,7 +272,6 @@ struct mutation_branch {
         bool has_reflex_triggers() const { return !reflex_triggers.empty(); };
         bool has_clothing_triggers() const { return !clothing_triggers.empty(); };
 
-    private:
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;
 

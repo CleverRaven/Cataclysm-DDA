@@ -332,16 +332,18 @@ void base_trigger_data::load(const JsonObject& jsobj)
 
 void reflex_trigger_data::load(const JsonObject& jsobj) {
     std::string tmp;
-    mandatory(jsobj, was_loaded, "reflex_trigger_type", tmp);
+    mandatory(jsobj, was_loaded, "trigger_type", tmp);
     trigger = io::string_to_enum<reflex_trigger_type>(tmp);
     base_trigger_data::load(jsobj);
 }
 
 void clothing_trigger_data::load(const JsonObject& jsobj) {
     std::string tmp;
-    mandatory(jsobj, was_loaded, "clothing_trigger_type", tmp);
+    mandatory(jsobj, was_loaded, "trigger_type", tmp);
     trigger = io::string_to_enum<clothing_trigger_type>(tmp);
-    mandatory(jsobj, was_loaded, "bodyparts", bodyparts);
+    for (const std::string s : jsobj.get_array("bodyparts")) {
+        bodyparts.emplace_back(bodypart_str_id(s).id());
+    }
     base_trigger_data::load(jsobj);
 }
 

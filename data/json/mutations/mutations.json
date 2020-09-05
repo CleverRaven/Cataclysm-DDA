@@ -3042,15 +3042,17 @@
     "cancels": [ "ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE" ],
     "prereqs": [ "EYEBULGE" ],
     "category": [ "INSECT" ],
-    "triggers": [
-      [ 
-        {
-          "trigger_type": "EYE_COVER",
-          "threshold_low": 1,
-          "msg_on": { "text": "Your eyes are unencumbered.", "rating": "mixed" }
-        }
+    "triggers": {
+      "clothing": [
+        [ 
+          {
+            "trigger_type": "WEARING",
+            "bodyparts": [ "eyes" ],
+            "threshold_high": 1
+          }
+        ]
       ]
-    ],
+    },
     "transform": { "target": "COMPOUND_EYES_active", "msg_transform": "You can see in multiple directions at once.", "active": true }
   },
   {
@@ -3064,15 +3066,17 @@
     "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 so long as you aren't wearing eyewear.",
     "copy-from": "COMPOUND_EYES",
     "passive_mods": { "per_mod": 2 },
-    "triggers": [
-      [ 
-        {
-          "trigger_type": "EYE_COVER",
-          "threshold_high": 0,
-          "msg_off": { "text": "Your eyes are encumbered.", "rating": "mixed" } 
-        }
+    "triggers": {
+      "clothing": [
+        [ 
+          {
+            "trigger_type": "WEARING",
+            "bodyparts": [ "eyes" ],
+            "threshold_low": 1
+          }
+        ]
       ]
-    ],
+    },
     "transform": { "target": "COMPOUND_EYES", "msg_transform": "A number of your compound eyes' lenses are obstructed.", "active": false }
   },
   {

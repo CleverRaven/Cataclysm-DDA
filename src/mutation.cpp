@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
+#include <typeinfo>
 #include <unordered_set>
 
 #include "avatar_action.h"
@@ -170,13 +171,13 @@ void Character::set_mutation( const trait_id &trait )
         return;
     }
     my_mutations.emplace( trait, trait_data{} );
-    const mutation_branch &mut = trait.obj();
+    const mutation_branch mut = trait.obj();
     cached_mutations.push_back( &mut );
     if (mut.has_reflex_triggers()) {
-        my_reflex_mutations.emplace(&mut);
+        my_reflex_mutations.emplace(trait);
     }
     if (mut.has_clothing_triggers()) {
-        my_clothing_mutations.emplace(&mut);
+        my_clothing_mutations.emplace(trait);
     }
     mutation_effect( trait, false );
     recalc_sight_limits();
@@ -245,7 +246,8 @@ void Character::check_mutation_reflex_triggers()
 template<typename T, typename U>
 void Character::check_mutation_trigger( const trait_id &mut, const U &data )
 {
-    if( mut->triggers<T>.empty() || !can_power_mutation( mut ) ) {
+    const mutation_branch trait = mut.obj();
+    if( trait.triggers<T>().empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -254,16 +256,16 @@ void Character::check_mutation_trigger( const trait_id &mut, const U &data )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<T> &vect_actdata : mut->triggers<T>() ) {
+    for( const std::vector<T> &vect_actdata : trait.triggers<T>() ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
         for( const T &actdata : vect_actdata ) {
-            if( actdata.is_trigger_true( *this ) ) {
+            if( actdata.is_trigger_true( *this, data ) ) {
                 activate = true;
-                msg_on = rdata.msg_on;
+                msg_on = actdata.msg_on;
                 break;
             }
-            msg_off = rdata.msg_off;
+            msg_off = actdata.msg_off;
         }
         // AND conditions: if any OR condition is false then this is false
         if( !activate ) {
@@ -335,7 +337,7 @@ bool reflex_trigger_data::is_trigger_true(const Character& guy, const U &) const
 template<typename U>
 bool clothing_trigger_data::is_trigger_true(const Character& guy, const U &data) const
 {
-    static_assert(instanceof<std::map<bodypart_id, encumbrance_data>>(&data), "Unexpected data type received.");
+    //static_assert(typeid(std::map<bodypart_id, encumbrance_data>) == typeid(U), "Unexpected data type received.");
     bool activate = false;
 
     int var = 0;
