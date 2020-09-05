@@ -351,4 +351,6 @@
       { "item": "combat_wetsuit_cecalia", "prob": 20 },
       { "item": "wetsuit_cecalia", "prob": 70 },
       { "item": "trident", "prob": 70 }
+    ]
+  }
 ]

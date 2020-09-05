@@ -315,10 +315,6 @@
     ],
     "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
-    "items": {
-      "both": {
-        "items": [ "wetsuit_cecalia", "trident" "dive_bag" ]
-      }
-    }
+    "items": { "both": { "items": [ "wetsuit_cecalia", "trident", "dive_bag" ] } }
   }
 ]
