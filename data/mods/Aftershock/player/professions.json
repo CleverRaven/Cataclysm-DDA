@@ -317,17 +317,8 @@
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
     "items": {
       "both": {
-        "items": [ "spear_forked", "wetsuit_cecalia", "xlgloves_tactical", "badge_swat", "dive_bag" ],
-        "entries": [
-          { "group": "army_mags_usp9" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
-          { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
-          { "item": "eink_tablet_pc", "ammo-item": "battery", "charges": 50 },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
-          { "item": "baton", "container-item": "xlpolice_belt" }
-        ]
+        "items": [ "wetsuit_cecalia", "trident" "dive_bag" ]
       }
     }
-  },
+  }
 ]
