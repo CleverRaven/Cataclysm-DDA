@@ -1645,13 +1645,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     workout_query.text =
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
-    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+    workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
                                  _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
-    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+    workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
                                  _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
-    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+    workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
                                  _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
-    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+    workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
                                  _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
