@@ -894,14 +894,15 @@ class Character : public Creature, public visitable<Character>
 
         bool can_power_mutation( const trait_id &mut );
 
-        /**Trigger reflex activation if the mutation has one*/
-        void mutation_reflex_trigger( const trait_id &mut );
-        /**Trigger encumbrance activation if the mutation has one*/
-        void mutation_clothing_trigger(const trait_id& mut);
+        /**Check (and trigger) any mutation reflex triggers. */
+        void check_mutation_reflex_triggers();
+        /**Check (and trigger) any mutation clothing triggers. */
+        void check_mutation_clothing_triggers();
 
     protected:
+        /**Check (and trigger) mutation trigger of given trait */
         template<typename T>
-        void mutation_trigger(const trait_id& mut);
+        void check_mutation_trigger(const trait_id& mut);
 
     public:
         // Trigger and disable mutations that can be so toggled.

@@ -1849,9 +1849,7 @@ void Character::process_turn()
         }
     }
 
-    for( const trait_id &mut : get_mutations() ) {
-        mutation_reflex_trigger( mut );
-    }
+    check_mutation_reflex_triggers();
 
     Creature::process_turn();
 }
@@ -4045,6 +4043,7 @@ void Character::calc_encumbrance( const item &new_item )
 
     std::map<bodypart_id, encumbrance_data> enc;
     item_encumb( enc, new_item );
+    check_mutation_clothing_triggers();
     mut_cbm_encumb( enc );
 
     for( const std::pair<const bodypart_id, encumbrance_data> &elem : enc ) {

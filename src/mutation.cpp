@@ -218,18 +218,23 @@ bool Character::can_power_mutation( const trait_id &mut )
     return !hunger && !fatigue && !thirst;
 }
 
-void Character::mutation_clothing_trigger(const trait_id& mut)
+void Character::check_mutation_clothing_triggers()
 {
-    mutation_trigger<clothing_trigger_data>(mut);
+    for (const trait_id& trait : my_clothing_mutations) {
+        check_mutation_trigger<clothing_trigger_data>(trait);
+    }
+    
 }
 
-void Character::mutation_reflex_trigger(const trait_id& mut)
+void Character::check_mutation_reflex_triggers()
 {
-    mutation_trigger<reflex_trigger_data>(mut);
+    for (const trait_id& trait : my_reflex_mutations) {
+        check_mutation_trigger<reflex_trigger_data>(trait);
+    }
 }
 
 template<typename T>
-void Character::mutation_trigger( const trait_id &mut )
+void Character::check_mutation_trigger( const trait_id &mut )
 {
     if( mut->reflex_trigger_list.empty() || !can_power_mutation( mut ) ) {
         return;
