@@ -51,6 +51,11 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
         return;
     }
 
+    // Ignore main
+    if( ThisDecl->getNameAsString() == "main" ) {
+        return;
+    }
+
     const char *DeclSource = SM.getCharacterData( ThisDecl->getSourceRange().getBegin() );
     bool IsExtern = std::string( DeclSource, 7 ) == "extern ";
 
