@@ -40,14 +40,25 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
     }
 
     bool IsStatic = false;
+    bool IsVar = false;
     if( const VarDecl *V = dyn_cast<VarDecl>( ThisDecl ) ) {
         IsStatic = V->getStorageClass() == SC_Static;
+        IsVar = true;
     } else if( const FunctionDecl *F = dyn_cast<FunctionDecl>( ThisDecl ) ) {
         IsStatic = F->getStorageClass() == SC_Static;
     }
 
-    // Verify that it's static.
-    if( !IsStatic ) {
+    // Ignore if already static.
+    if( IsStatic ) {
+        return;
+    }
+    bool IsExtern = ThisDecl->hasExternalFormalLinkage();
+    if( IsExtern && IsVar ) {
+        Check.diag(
+            ThisDecl->getBeginLoc(),
+            "Prefer including a header to making a local extern declaration of %0."
+        ) << ThisDecl;
+    } else {
         Check.diag(
             ThisDecl->getBeginLoc(),
             "Global declaration of %0 in a cpp file should be static or have a previous "
