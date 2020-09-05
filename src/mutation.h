@@ -146,8 +146,8 @@ struct base_trigger_data {
     std::pair<translation, game_message_type> msg_off{};
 
     bool was_loaded = false;
-    virtual void load(const JsonObject& jsobj);
-    void deserialize(JsonIn& jsin);
+    virtual void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
 };
 
 struct reflex_trigger_data : base_trigger_data {
@@ -155,9 +155,9 @@ struct reflex_trigger_data : base_trigger_data {
     reflex_trigger_type trigger {};
 
     template<typename U = nullptr_t>
-    bool is_trigger_true(const Character& guy, const U &data) const;
+    bool is_trigger_true( const Character &guy, const U &data ) const;
 
-    void load(const JsonObject& jsobj);
+    void load( const JsonObject &jsobj );
 };
 
 
@@ -168,8 +168,8 @@ struct clothing_trigger_data : base_trigger_data {
     std::vector<bodypart_id> bodyparts {};
 
     template<typename U = nullptr_t>
-    bool is_trigger_true(const Character& guy, const U &data) const;
-    void load(const JsonObject& jsobj);
+    bool is_trigger_true( const Character &guy, const U &data ) const;
+    void load( const JsonObject &jsobj );
 };
 
 
@@ -257,20 +257,28 @@ struct mutation_branch {
         trigger_set<reflex_trigger_data> reflex_triggers;
         /**Mutation's clothing triggers*/
         trigger_set<clothing_trigger_data> clothing_triggers;
- 
+
         /**Getter for mutation tirggers (reflex_triggers,clothing_triggers.*/
         template<typename T>
         trigger_set<T> triggers() const {
-            debugmsg("Invalid trigger data type");
+            debugmsg( "Invalid trigger data type" );
             return trigger_set<T>();
         }
         template<>
-        trigger_set<clothing_trigger_data> triggers() const { return clothing_triggers; };
+        trigger_set<clothing_trigger_data> triggers() const {
+            return clothing_triggers;
+        };
         template<>
-        trigger_set<reflex_trigger_data> triggers() const { return reflex_triggers; };
+        trigger_set<reflex_trigger_data> triggers() const {
+            return reflex_triggers;
+        };
 
-        bool has_reflex_triggers() const { return !reflex_triggers.empty(); };
-        bool has_clothing_triggers() const { return !clothing_triggers.empty(); };
+        bool has_reflex_triggers() const {
+            return !reflex_triggers.empty();
+        };
+        bool has_clothing_triggers() const {
+            return !clothing_triggers.empty();
+        };
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

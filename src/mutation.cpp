@@ -173,11 +173,11 @@ void Character::set_mutation( const trait_id &trait )
     my_mutations.emplace( trait, trait_data{} );
     const mutation_branch mut = trait.obj();
     cached_mutations.push_back( &mut );
-    if (mut.has_reflex_triggers()) {
-        my_reflex_mutations.emplace(trait);
+    if( mut.has_reflex_triggers() ) {
+        my_reflex_mutations.emplace( trait );
     }
-    if (mut.has_clothing_triggers()) {
-        my_clothing_mutations.emplace(trait);
+    if( mut.has_clothing_triggers() ) {
+        my_clothing_mutations.emplace( trait );
     }
     mutation_effect( trait, false );
     recalc_sight_limits();
@@ -203,8 +203,8 @@ void Character::unset_mutation( const trait_id &trait_ )
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );
     my_mutations.erase( iter );
-    my_reflex_mutations.erase(trait);
-    my_clothing_mutations.erase(trait);
+    my_reflex_mutations.erase( trait );
+    my_clothing_mutations.erase( trait );
     mutation_loss_effect( trait );
     recalc_sight_limits();
     calc_encumbrance();
@@ -228,18 +228,18 @@ bool Character::can_power_mutation( const trait_id &mut )
     return !hunger && !fatigue && !thirst;
 }
 
-void Character::check_mutation_clothing_triggers(std::map<bodypart_id, encumbrance_data> enc)
+void Character::check_mutation_clothing_triggers( std::map<bodypart_id, encumbrance_data> enc )
 {
-    for (const trait_id& trait : my_clothing_mutations) {
-        check_mutation_trigger<clothing_trigger_data>(trait, enc);
+    for( const trait_id &trait : my_clothing_mutations ) {
+        check_mutation_trigger<clothing_trigger_data>( trait, enc );
     }
-    
+
 }
 
 void Character::check_mutation_reflex_triggers()
 {
-    for (const trait_id& trait : my_reflex_mutations) {
-        check_mutation_trigger<reflex_trigger_data>(trait);
+    for( const trait_id &trait : my_reflex_mutations ) {
+        check_mutation_trigger<reflex_trigger_data>( trait );
     }
 }
 
@@ -287,46 +287,45 @@ void Character::check_mutation_trigger( const trait_id &mut, const U &data )
 }
 
 template<typename U>
-bool reflex_trigger_data::is_trigger_true(const Character& guy, const U &) const
+bool reflex_trigger_data::is_trigger_true( const Character &guy, const U & ) const
 {
     bool activate = false;
 
     int var = 0;
-    switch (trigger) {
-    case reflex_trigger_type::PAIN:
-        var = guy.get_pain();
-        break;
-    case  reflex_trigger_type::HUNGER:
-        var = guy.get_hunger();
-        break;
-    case  reflex_trigger_type::THRIST:
-        var = guy.get_thirst();
-        break;
-    case  reflex_trigger_type::MOOD:
-        var = guy.get_morale_level();
-        break;
-    case  reflex_trigger_type::STAMINA:
-        var = guy.get_stamina();
-        break;
-    case  reflex_trigger_type::MOON:
-        var = static_cast<int>(get_moon_phase(calendar::turn));
-        break;
-    case  reflex_trigger_type::TIME:
-        var = to_hours<int>(time_past_midnight(calendar::turn));
-        break;
-    default:
-        debugmsg("Invalid trigger");
-        return false;
+    switch( trigger ) {
+        case reflex_trigger_type::PAIN:
+            var = guy.get_pain();
+            break;
+        case  reflex_trigger_type::HUNGER:
+            var = guy.get_hunger();
+            break;
+        case  reflex_trigger_type::THRIST:
+            var = guy.get_thirst();
+            break;
+        case  reflex_trigger_type::MOOD:
+            var = guy.get_morale_level();
+            break;
+        case  reflex_trigger_type::STAMINA:
+            var = guy.get_stamina();
+            break;
+        case  reflex_trigger_type::MOON:
+            var = static_cast<int>( get_moon_phase( calendar::turn ) );
+            break;
+        case  reflex_trigger_type::TIME:
+            var = to_hours<int>( time_past_midnight( calendar::turn ) );
+            break;
+        default:
+            debugmsg( "Invalid trigger" );
+            return false;
     }
-    if (threshold_low < threshold_high) {
-        if (var < threshold_high &&
-            var > threshold_low) {
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
             activate = true;
         }
-    }
-    else {
-        if (var < threshold_high ||
-            var > threshold_low) {
+    } else {
+        if( var < threshold_high ||
+            var > threshold_low ) {
             activate = true;
         }
     }
@@ -335,45 +334,44 @@ bool reflex_trigger_data::is_trigger_true(const Character& guy, const U &) const
 
 
 template<typename U>
-bool clothing_trigger_data::is_trigger_true(const Character& guy, const U &data) const
+bool clothing_trigger_data::is_trigger_true( const Character &guy, const U &data ) const
 {
     //static_assert(typeid(std::map<bodypart_id, encumbrance_data>) == typeid(U), "Unexpected data type received.");
     bool activate = false;
 
     int var = 0;
-    switch (trigger) {
-    case clothing_trigger_type::ENCUMBRANCE:
-        for (bodypart_id bp : bodyparts) {
-            var += data.at( bp ).encumbrance;
-        }
-        break;
-    case clothing_trigger_type::WEARING:
-        for (bodypart_id bp : bodyparts) {
-            var += guy.wearing_something_on(bp) ? 1 : 0;
-        }
-        break;
-    case clothing_trigger_type::WARMTH:
-        for (bodypart_id bp : bodyparts) {
-            var += guy.warmth(bp);
-        }
-    default:
-        debugmsg("Invalid trigger");
-        return false;
+    switch( trigger ) {
+        case clothing_trigger_type::ENCUMBRANCE:
+            for( bodypart_id bp : bodyparts ) {
+                var += data.at( bp ).encumbrance;
+            }
+            break;
+        case clothing_trigger_type::WEARING:
+            for( bodypart_id bp : bodyparts ) {
+                var += guy.wearing_something_on( bp ) ? 1 : 0;
+            }
+            break;
+        case clothing_trigger_type::WARMTH:
+            for( bodypart_id bp : bodyparts ) {
+                var += guy.warmth( bp );
+            }
+        default:
+            debugmsg( "Invalid trigger" );
+            return false;
     }
-    if (threshold_low < threshold_high) {
-        if (var < threshold_high &&
-            var > threshold_low) {
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
             activate = true;
         }
-    }
-    else {
-        if (var < threshold_high ||
-            var > threshold_low) {
+    } else {
+        if( var < threshold_high ||
+            var > threshold_low ) {
             activate = true;
         }
     }
     return activate;
-}  
+}
 
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const

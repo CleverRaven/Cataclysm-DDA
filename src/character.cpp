@@ -4043,7 +4043,7 @@ void Character::calc_encumbrance( const item &new_item )
 
     std::map<bodypart_id, encumbrance_data> enc;
     item_encumb( enc, new_item );
-    check_mutation_clothing_triggers(enc);
+    check_mutation_clothing_triggers( enc );
     mut_cbm_encumb( enc );
 
     for( const std::pair<const bodypart_id, encumbrance_data> &elem : enc ) {

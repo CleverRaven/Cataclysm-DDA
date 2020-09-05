@@ -898,11 +898,11 @@ class Character : public Creature, public visitable<Character>
         /**Check (and trigger) any mutation reflex triggers. */
         void check_mutation_reflex_triggers();
         /**Check (and trigger) any mutation clothing triggers. */
-        void check_mutation_clothing_triggers(std::map<bodypart_id, encumbrance_data> enc);
+        void check_mutation_clothing_triggers( std::map<bodypart_id, encumbrance_data> enc );
 
         /**Check (and trigger) mutation trigger of given trait */
         template<typename T, typename U = nullptr_t>
-        void check_mutation_trigger(const trait_id& mut, const U &data = nullptr);
+        void check_mutation_trigger( const trait_id &mut, const U &data = nullptr );
 
     public:
         // Trigger and disable mutations that can be so toggled.
@@ -2560,7 +2560,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */
-        std::vector<const mutation_branch*> cached_mutations{};
+        std::vector<const mutation_branch *> cached_mutations{};
         /** Character's traits / mutations that have reflex triggers.*/
         std::unordered_set<trait_id> my_reflex_mutations{};
         /** Character's traits / mutations that have clothing triggers.*/
