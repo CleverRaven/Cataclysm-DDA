@@ -774,8 +774,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhatten Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
+    "spells_learned": [ [ "shortwave", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
