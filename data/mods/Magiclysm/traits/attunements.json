@@ -1061,6 +1061,7 @@
     "valid": false,
     "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
     "prereqs": [ "DRUID", "KELVINIST" ],
+    "spells_learned": [ [ "cold_snap", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
