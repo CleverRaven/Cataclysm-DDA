@@ -311,7 +311,7 @@
       { "level": 3, "name": "computer" },
       { "level": 3, "name": "firstaid" },
       { "level": 2, "name": "melee" },
-      { "level": 2, "name": "piercing" }
+      { "level": 2, "name": "stabbing" }
     ],
     "traits": [ "PROF_MED", "UPLIFTED", "THRESH_CEPHALOPOD", "CEPH_EYES", "GILLS", "INT_UP_2", "LEG_TENTACLES", "SLIMY" ],
     "//": "Need to add underwater gear for this.  See extended leg_tentacles mutation.",
