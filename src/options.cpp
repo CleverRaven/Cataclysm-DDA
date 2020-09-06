@@ -50,11 +50,6 @@
 #include <sstream>
 #include <string>
 
-bool use_tiles;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
-
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 

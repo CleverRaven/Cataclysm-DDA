@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"

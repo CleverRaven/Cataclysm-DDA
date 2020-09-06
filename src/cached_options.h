@@ -6,11 +6,14 @@
 // They should be updated when the corresponding option is changed (in
 // options.cpp).
 
+extern bool fov_3d;
+extern int fov_3d_z_range;
 extern bool keycode_mode;
-// sidebar messages flow direction
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
+extern bool tile_iso;
+extern bool use_tiles;
 
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.

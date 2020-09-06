@@ -11,6 +11,7 @@
 
 #include "behavior.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
