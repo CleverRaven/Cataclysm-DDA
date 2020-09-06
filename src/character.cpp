@@ -2906,6 +2906,62 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
     return retval;
 }
 
+void Character::handle_contents_changed( const item_location &acted_item )
+{
+    if( acted_item.where() != item_location::type::container ) {
+        return;
+    }
+    item_location parent = acted_item;
+    item_pocket *pocket = nullptr;
+    map &m = get_map();
+    bool drop_unhandled = false;
+
+    auto drop_unhandled_func = [&]( item_location & loc ) {
+        add_msg_player_or_npc(
+            _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+            _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+            loc->display_name(), m.name( pos() )
+        );
+        item it_copy( *loc );
+        loc.remove_item();
+        m.add_item_or_charges( pos(), it_copy );
+    };
+
+    do {
+        item_location child = parent;
+        parent = parent.parent_item();
+        pocket = parent->contained_where( *child );
+
+        if( drop_unhandled ) {
+            drop_unhandled_func( child );
+            drop_unhandled = false;
+            // child item is invalidated and should not be used from now on
+        }
+
+        parent->on_contents_changed();
+        if( pocket == nullptr ) {
+            if( acted_item ) {
+                // if the item_location expired, the parent doesn't contain it, so we can't find the pocket it was in.
+                debugmsg( "ERROR: item_location parent does not contain child item" );
+            }
+            return;
+        }
+        pocket->on_contents_changed();
+
+        if( parent.where() != item_location::type::map && pocket->will_spill() ) {
+            pocket->handle_liquid_or_spill( *this );
+            if( !pocket->empty() ) {
+                drop_unhandled = true;
+            }
+        }
+    } while( parent.where() == item_location::type::container );
+
+    if( drop_unhandled ) {
+        drop_unhandled_func( parent );
+        // parent item is invalidated and should not be used from now on
+    }
+}
+
 std::list<item *> Character::get_dependent_worn_items( const item &it )
 {
     std::list<item *> dependent;

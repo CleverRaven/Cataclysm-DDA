@@ -1204,7 +1204,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             trinary result = player_character.consume( consume_loc, /*force=*/true );
             // Parent pockets need to be notified so they can be unsealed as well.
             if( result != trinary::NONE ) {
-                game::handle_contents_changed( consume_loc );
+                player_character.handle_contents_changed( consume_loc );
             }
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );

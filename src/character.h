@@ -1442,6 +1442,9 @@ class Character : public Creature, public visitable<Character>
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
+        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
+        void handle_contents_changed( const item_location &acted_item );
+
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
         std::bitset<std::numeric_limits<char>::max()> allocated_invlets() const;
