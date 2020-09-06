@@ -778,7 +778,7 @@
     "id": "guns_survival",
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
-      { "group": "guns_improvised", "prob": 150 },
+      { "group": "guns_improvised", "prob": 50 },
       { "item": "ar15", "prob": 13, "charges-min": 0, "charges-max": 30 },
       { "item": "ar_pistol", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_500", "prob": 10, "charges-min": 0, "charges-max": 6 },
