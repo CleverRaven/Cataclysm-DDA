@@ -61,7 +61,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Melee Optimization Unit CBM" },
-    "description": "An implanted AI executes the optimal followup for each of your melee strikes , allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "description": "An implanted AI executes the optimal followup for each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 10
