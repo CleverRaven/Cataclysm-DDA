@@ -222,7 +222,7 @@
     "volume": "300 ml",
     "spoils_in": "1 day",
     "type": "COMESTIBLE",
-    "name": "fatty cooked meat",
+    "name": "cooked fatty meat",
     "description": "A fatty cutlet of meat, combines protein and high density calories of fat. It's filling and nutritious, but despite the rich taste of fat, still quite bland otherwise.",
     "price": 750,
     "price_postapoc": 100,
