@@ -52,13 +52,14 @@
 #   endif
 
 #   define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
-#endif
 
-static weather_type_id previous_weather;
 static int prev_hostiles = 0;
 static int previous_speed = 0;
 static int previous_gear = 0;
 static bool audio_muted = false;
+#endif
+
+static weather_type_id previous_weather;
 static float g_sfx_volume_multiplier = 1.0f;
 static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
