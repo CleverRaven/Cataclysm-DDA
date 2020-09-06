@@ -2842,7 +2842,10 @@ static bool damage_item( player &pl, item_location &fix )
             pl.i_rem_keep_contents( fix.get_item() );
         } else {
             for( const item *it : fix->contents.all_items_top() ) {
-                put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, { *it }, fix.position() );
+                if( it->has_flag( "NO_DROP" ) ) {
+                    continue;
+                }
+                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, fix.position() );
             }
             fix.remove_item();
         }
