@@ -106,7 +106,6 @@ void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
 int get_auto_consume_moves( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
-bool warn_fuel_burn( const tripoint &pos );
 
 enum class item_drop_reason : int {
     deliberate,

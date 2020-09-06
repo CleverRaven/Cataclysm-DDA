@@ -3093,21 +3093,3 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         }
     }
 }
-
-bool warn_fuel_burn( const tripoint &pos )
-{
-    map &here = get_map();
-
-    if( here.tr_at( pos ).id == tr_firewood_source ) {
-        return true;
-    }
-
-    zone_manager &mgr = zone_manager::get_manager();
-    auto zones = mgr.get_zones( zone_type_SOURCE_FIREWOOD, here.getabs( pos ) );
-
-    if( !zones.empty() ) {
-        return true;
-    }
-
-    return false;
-}

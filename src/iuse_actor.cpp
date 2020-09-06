@@ -1182,7 +1182,17 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         return false;
     }
     // check if there's a fire fuel source spot
-    if( warn_fuel_burn( pos ) ) {
+    bool target_is_firewood = false;
+    if( here.tr_at( pos ).id == trap_str_id( "tr_firewood_source" ) ) {
+        target_is_firewood = true;
+    } else {
+        zone_manager &mgr = zone_manager::get_manager();
+        auto zones = mgr.get_zones( zone_type_id( "SOURCE_FIREWOOD" ), here.getabs( pos ) );
+        if( !zones.empty() ) {
+            target_is_firewood = true;
+        }
+    }
+    if( target_is_firewood ) {
         if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
             return false;
         }
