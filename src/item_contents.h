@@ -202,7 +202,9 @@ class item_contents
         // gets the first ammo in all magazine pockets
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
-        // spills all liquid from the container. removing liquid from a magazine requires unload logic.
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
