@@ -942,6 +942,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `iv_sleep_dur`     | The duration of the involuntary sleep.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
 | `junkie_message`   | The message to display if the character is addicted to the associated mutagen and takes some.
+| `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run  on it. See tests/mutation_test.cpp.
 
 ### Names
 

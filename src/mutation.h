@@ -514,6 +514,8 @@ struct mutation_category_trait {
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
+        // Meta-label indicating that the category isn't finished yet.
+        bool wip = false;
         // Determines if you make a sound when you inject mutagen
         bool iv_sound = false;
         // The amount of noise produced by the sound

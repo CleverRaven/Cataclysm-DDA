@@ -71,6 +71,10 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
         if( cat_id == mutation_category_id( "ANY" ) ) {
             continue;
         }
+        // Unfinished mutation category.
+        if( cur_cat.wip ) {
+            continue;
+        }
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id.str() ) {
             npc dummy;
@@ -104,6 +108,10 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
         const auto &cur_cat = cat.second;
         const auto &cat_id = cur_cat.id;
         if( cat_id == mutation_category_id( "ANY" ) ) {
+            continue;
+        }
+        // Unfinished mutation category.
+        if( cur_cat.wip ) {
             continue;
         }
 
