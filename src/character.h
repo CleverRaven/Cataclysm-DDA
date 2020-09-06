@@ -335,6 +335,32 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
+/**
+ * Secures the container and pocket of an item (if any), and calls
+ * `Character::handle_contents_changed` when `handle()` is called.
+ */
+class handle_contents_changed_helper
+{
+    public:
+        /**
+         * @param guy The guy who's manipulating the item.
+         * @param container The parent container of the manipulated item
+         * @param pocket The parent pocket of the manipulated item
+         */
+        handle_contents_changed_helper( Character &guy, const item_location &container,
+                                        item_pocket *pocket );
+        /**
+         * @param guy The guy who's manipulating the item.
+         * @param content The manipulated item.
+         */
+        handle_contents_changed_helper( Character &guy, const item_location &content );
+        void handle();
+    private:
+        Character *guy;
+        item_location parent;
+        item_pocket *pocket;
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -1442,8 +1468,16 @@ class Character : public Creature, public visitable<Character>
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
-        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
-        void handle_contents_changed( const item_location &acted_item );
+        /**
+         * Update `container` and its parent/ancestor items after its contents are changed.
+         * Specifically, unseal `container` and its parent/ancestor items and handle any content
+         * that would spill.
+         * @param container Item location of the innermost container to unseal.
+         * @param pocket Pocket of `container` to unseal (this value should be
+         *        secured before modifying the content, in case the content item
+         *        location is invalidated in the process of modifying).
+         */
+        void handle_contents_changed( const item_location &container, item_pocket *pocket );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
