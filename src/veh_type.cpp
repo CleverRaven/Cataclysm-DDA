@@ -781,7 +781,10 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+        if( flagid == "ALARMCLOCK"
+            || flagid == "WATCH"
+            || flagid == "ENABLED_DRAINS_EPOWER"
+            || flagid == "SOLAR_PANEL" ) {
             continue;
         }
         json_flag flag = json_flag::get( flagid );
@@ -797,14 +800,22 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip += "  " + _( nobelt.info() );
+        json_flag door = json_flag::get( "DOOR" );
+        long_descrip += "  " + _( door.info() );
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
+    }
+    if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
+        json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
+        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) + "W" );
+    }
+    if( has_flag( "SOLAR_PANEL" ) ) {
+        json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
+        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) + "W" );
     }
 
     if( !long_descrip.empty() ) {
