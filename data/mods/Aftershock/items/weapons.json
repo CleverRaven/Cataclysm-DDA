@@ -264,10 +264,10 @@
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "140 cm",
-    "stab": 12,
-    "cutting": 18,
+    "bashing": 5,
+    "cutting": 28,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
     "price": 7500,
     "price_postapoc": 1200
   }
