@@ -260,6 +260,7 @@
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": "283 g",
     "volume": "1 L",
+    "longest_side": "46 cm",
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -2,
