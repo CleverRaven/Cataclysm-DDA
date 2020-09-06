@@ -33,7 +33,7 @@
 
 class npc;
 
-std::unordered_map<vproto_id, vehicle_prototype> vtypes;
+static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 // GENERAL GUIDELINES
 // To determine mount position for parts (dx, dy), check this scheme:

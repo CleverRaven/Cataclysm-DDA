@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -2139,7 +2140,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-std::map<std::string, mapgen_palette> palettes;
+static std::map<std::string, mapgen_palette> palettes;
 
 mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {

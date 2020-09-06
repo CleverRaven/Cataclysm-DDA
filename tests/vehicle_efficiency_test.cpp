@@ -380,7 +380,7 @@ static void test_vehicle(
     }
 }
 
-std::vector<std::string> vehs_to_test = {{
+static std::vector<std::string> vehs_to_test = {{
         "beetle",
         "car",
         "car_sports",

@@ -23,8 +23,8 @@ using TraitGroupMap =
 using TraitSet = std::set<trait_id>;
 using trait_reader = auto_flags_reader<trait_id>;
 
-TraitSet trait_blacklist;
-TraitGroupMap trait_groups;
+static TraitSet trait_blacklist;
+static TraitGroupMap trait_groups;
 
 namespace
 {
@@ -33,7 +33,7 @@ generic_factory<mutation_branch> trait_factory( "trait" );
 
 std::vector<dream> dreams;
 std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
-std::map<mutation_category_id, mutation_category_trait> mutation_category_traits;
+static std::map<mutation_category_id, mutation_category_trait> mutation_category_traits;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const

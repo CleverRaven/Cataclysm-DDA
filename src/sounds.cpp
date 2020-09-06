@@ -54,17 +54,17 @@
 #   define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 #endif
 
-weather_type_id previous_weather;
-int prev_hostiles = 0;
-int previous_speed = 0;
-int previous_gear = 0;
-bool audio_muted = false;
-float g_sfx_volume_multiplier = 1.0f;
-auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
-auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
-activity_id act;
-std::pair<std::string, std::string> engine_external_id_and_variant;
+static weather_type_id previous_weather;
+static int prev_hostiles = 0;
+static int previous_speed = 0;
+static int previous_gear = 0;
+static bool audio_muted = false;
+static float g_sfx_volume_multiplier = 1.0f;
+static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+static activity_id act;
+static std::pair<std::string, std::string> engine_external_id_and_variant;
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_deaf( "deaf" );

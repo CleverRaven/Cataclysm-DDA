@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -36,8 +37,6 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
-
-extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 

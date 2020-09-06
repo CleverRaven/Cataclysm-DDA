@@ -132,8 +132,6 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
     }
 }
 
-std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
-
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
 {

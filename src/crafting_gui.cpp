@@ -49,9 +49,9 @@ enum TAB_MODE {
 };
 
 // TODO: Convert these globals to handling categories via generic_factory?
-std::vector<std::string> craft_cat_list;
-std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::string> normalized_names;
+static std::vector<std::string> craft_cat_list;
+static std::map<std::string, std::vector<std::string> > craft_subcat_list;
+static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );

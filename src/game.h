@@ -50,8 +50,6 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 

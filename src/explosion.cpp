@@ -84,9 +84,9 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001f;
+static float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001f;
+static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
 static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.

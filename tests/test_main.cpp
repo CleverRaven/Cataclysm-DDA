@@ -29,6 +29,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"

@@ -15,6 +15,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"

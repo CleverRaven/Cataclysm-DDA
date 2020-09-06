@@ -64,8 +64,6 @@ scrollingcombattext SCT;
 extern bool tile_iso;
 extern bool use_tiles;
 
-extern bool test_mode;
-
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {

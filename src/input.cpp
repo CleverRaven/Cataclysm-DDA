@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "action.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -78,8 +79,6 @@ bool is_mouse_enabled()
     return true;
 #endif
 }
-
-extern bool keycode_mode;
 
 bool is_keycode_mode_supported()
 {

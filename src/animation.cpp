@@ -3,6 +3,7 @@
 #include <ctime>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
 #include "creature.h"
 #include "cursesdef.h"

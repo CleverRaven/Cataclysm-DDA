@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -72,13 +73,13 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 ////////////////
-oter_id  ot_null,
-         ot_crater,
-         ot_field,
-         ot_forest,
-         ot_forest_thick,
-         ot_forest_water,
-         ot_river_center;
+static oter_id  ot_null,
+       ot_crater,
+       ot_field,
+       ot_forest,
+       ot_forest_thick,
+       ot_forest_water,
+       ot_river_center;
 
 const oter_type_t oter_type_t::null_type{};
 

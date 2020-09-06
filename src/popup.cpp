@@ -4,12 +4,11 @@
 #include <array>
 #include <memory>
 
+#include "cached_options.h"
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
-
-extern bool test_mode;
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),

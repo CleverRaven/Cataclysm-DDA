@@ -1317,7 +1317,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
@@ -1944,7 +1944,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
