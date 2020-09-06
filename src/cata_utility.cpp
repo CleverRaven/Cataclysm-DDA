@@ -21,6 +21,8 @@
 #include "rng.h"
 #include "translations.h"
 
+#include "gzstream.h"
+
 static double pow10( unsigned int n )
 {
     double ret = 1;
@@ -346,7 +348,17 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        unsigned char header[2];
+        fin.read(&header, 2);
+        if (header[0] == 0x1f) && (header[1] == 0x8b) {
+            igzstream fingz( path );
+            reader( fingz );
+        } else {
+            reader( fin );
+        }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
