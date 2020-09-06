@@ -240,7 +240,7 @@
   {
     "result": "wire",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "id_suffix": "debarbing barbed wire",
     "subcategory": "CSC_OTHER_MATERIALS",

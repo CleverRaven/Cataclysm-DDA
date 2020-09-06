@@ -662,7 +662,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -676,7 +676,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "combatnail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
