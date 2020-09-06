@@ -23,7 +23,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock 22 extended magazine" },
-    "description": "An extended 22-round magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
+    "description": "An extended 22-round magazine for use with Glock pistols chambered for .40 S&W.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": 5900,
@@ -31,18 +31,18 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "40", "357sig" ],
+    "ammo_type": [ "40" ],
     "capacity": 22,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 22, "357sig": 22 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 22 } } ]
   },
   {
     "id": "glock40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock 22 magazine" },
-    "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
+    "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .40 S&W.",
     "weight": "125 g",
     "volume": "250 ml",
     "price": 3200,
@@ -50,10 +50,10 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "40", "357sig" ],
+    "ammo_type": [ "40" ],
     "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 15, "357sig": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 15 } } ]
   },
   {
     "id": "px4_40mag",
