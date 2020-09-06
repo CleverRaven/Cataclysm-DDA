@@ -243,6 +243,17 @@
     "calories": 51
   },
   {
+    "id": "fatty_meat_scrap_cooked",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked, fatty scrap of meat", "str_pl": "cooked, fatty scraps of meat" },
+    "parasites": 0,
+    "fun": 0,
+    "healthy": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "calories": 243
+  },
+  {
     "id": "mutant_meat_cooked",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",

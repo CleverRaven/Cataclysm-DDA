@@ -153,7 +153,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fatty_meat_cooked",
     "copy-from": "meat_cooked",
     "time": "45 s",
@@ -161,6 +161,17 @@
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "meat", 4 ] ], [ [ "fat", 1 ] ] ],
     "charges": 4
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fatty_meat_scrap_cooked",
+    "copy-from": "meat_cooked",
+    "time": "45 s",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "meat_scrap", 10 ] ], [ [ "fat", 1 ] ] ],
+    "charges": 10
   },
   {
     "type": "recipe",
