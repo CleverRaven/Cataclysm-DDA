@@ -90,6 +90,7 @@ void harvest_list::load( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
               butchery_requirements_id( "default" ) );
     optional( obj, was_loaded, "message", message_ );
+    optional( obj, was_loaded, "leftovers", leftovers, itype_id( "ruined_chunks" ) );
 }
 
 void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )
@@ -137,9 +138,8 @@ void harvest_list::check_consistency()
         if( !errors.empty() ) {
             debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
-        if( !pr.first->leftovers.is_valid() ) {
-            debugmsg( "Harvest id %s has invalid leftovers: %s", pr.first.c_str(),
-                      pr.first->leftovers.c_str() );
+        if( !hl.leftovers.is_valid() ) {
+            debugmsg( "Harvest id %s has invalid leftovers: %s", hl.id.c_str(), hl.leftovers.c_str() );
         }
     }
 }
