@@ -802,6 +802,16 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
+        if( base.ammo_required() && !base.ammo_remaining() ) {
+            itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
+            if( !default_ammo.is_null() ) {
+                base.ammo_set( default_ammo );
+            } else if( !base.magazine_default().is_null() ) {
+                class::item tmp_mag( base.magazine_default() );
+                tmp_mag.ammo_set( tmp_mag.ammo_default() );
+                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            }
+        }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
