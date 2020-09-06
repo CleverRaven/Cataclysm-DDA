@@ -316,7 +316,6 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
-        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
