@@ -88,27 +88,20 @@ struct weariness_events {
             transitions.insert( transitions.end(), added );
         }
 
-        bool is_transition_at( const time_duration when, const int from, const int to,
-                               const time_duration approx = 0_minutes ) const {
-            int low = to_minutes<int>( when ) - to_minutes<int>( approx );
-            int high = to_minutes<int>( when ) + to_minutes<int>( approx );
-            for( const weary_transition &change : transitions ) {
-                const bool correct_time = change.minutes <= high && change.minutes >= low;
-                if( correct_time && change.from == from && change.to == to ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         // Return the first time a transition between `from` and `to` occurs, in minutes
-        int transition_minutes( const int from, const int to ) const {
+        // if around = 0_seconds or equivalent, otherwise return the time closest to around
+        int transition_minutes( const int from, const int to,
+                                const time_duration around ) const {
+            int around_mins = to_minutes<int>( around );
+            // first = change.minutes, second = difference from around_mins
+            std::pair<int, int> ret = {INT_MAX, INT_MAX};
             for( const weary_transition &change : transitions ) {
-                if( change.from == from && change.to == to ) {
-                    return change.minutes;
+                int diff = std::abs( change.minutes - around_mins );
+                if( change.from == from && change.to == to && ret.second > diff ) {
+                    ret = { change.minutes, diff };
                 }
             }
-            return 0;
+            return ret.first;
         }
 
         std::string summarize() const {
