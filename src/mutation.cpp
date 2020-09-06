@@ -174,10 +174,10 @@ void Character::set_mutation( const trait_id &trait )
     const mutation_branch mut = trait.obj();
     cached_mutations.push_back( &mut );
     if( mut.has_reflex_triggers() ) {
-        my_reflex_mutations.emplace( trait );
+        my_reflex_mutations.emplace( trait, mut.reflex_triggers() );
     }
     if( mut.has_clothing_triggers() ) {
-        my_clothing_mutations.emplace( trait );
+        my_clothing_mutations.emplace( trait, mut.clothing_triggers() );
     }
     mutation_effect( trait, false );
     recalc_sight_limits();
@@ -230,24 +230,25 @@ bool Character::can_power_mutation( const trait_id &mut )
 
 void Character::check_mutation_clothing_triggers( std::map<bodypart_id, encumbrance_data> enc )
 {
-    for( const trait_id &trait : my_clothing_mutations ) {
-        check_mutation_trigger<clothing_trigger_data>( trait, enc );
+    for( const std::pair<trait_id, trigger_set<clothing_trigger_data>> mut : my_clothing_mutations ) {
+        check_mutation_trigger<clothing_trigger_data>( mut, enc );
     }
 
 }
 
 void Character::check_mutation_reflex_triggers()
 {
-    for( const trait_id &trait : my_reflex_mutations ) {
-        check_mutation_trigger<reflex_trigger_data>( trait );
+    for( const std::pair<trait_id, trigger_set<reflex_trigger_data>> mut : my_reflex_mutations ) {
+        check_mutation_trigger<reflex_trigger_data>( mut );
     }
 }
 
 template<typename T, typename U>
-void Character::check_mutation_trigger( const trait_id &mut, const U &data )
+void Character::check_mutation_trigger( const std::pair<trait_id, trigger_set<T>> mut,
+                                        const U &data )
 {
-    const mutation_branch trait = mut.obj();
-    if( trait.triggers<T>().empty() || !can_power_mutation( mut ) ) {
+
+    if( mut.second < T.empty() || !can_power_mutation( mut.first ) ) {
         return;
     }
 
@@ -256,7 +257,7 @@ void Character::check_mutation_trigger( const trait_id &mut, const U &data )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<T> &vect_actdata : trait.triggers<T>() ) {
+    for( const std::vector<T> &vect_actdata : mut.second ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
         for( const T &actdata : vect_actdata ) {

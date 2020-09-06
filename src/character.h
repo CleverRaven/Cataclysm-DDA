@@ -91,7 +91,8 @@ struct tool_comp;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
-
+struct reflex_trigger_data;
+struct clothing_trigger_data;
 enum npc_attitude : int;
 enum action_id : int;
 
@@ -105,6 +106,9 @@ enum class mutation_filter : int {
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
+
+template <typename T>
+using trigger_set = std::vector<std::vector<T>>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
@@ -902,7 +906,7 @@ class Character : public Creature, public visitable<Character>
 
         /**Check (and trigger) mutation trigger of given trait */
         template<typename T, typename U = nullptr_t>
-        void check_mutation_trigger( const trait_id &mut, const U &data = nullptr );
+        void check_mutation_trigger( const std::pair<trait_id, trigger_set<T>>, const U &data = nullptr );
 
     public:
         // Trigger and disable mutations that can be so toggled.
@@ -2562,9 +2566,9 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const mutation_branch *> cached_mutations{};
         /** Character's traits / mutations that have reflex triggers.*/
-        std::unordered_set<trait_id> my_reflex_mutations{};
+        std::unordered_map<trait_id, trigger_set<reflex_trigger_data>> my_reflex_mutations{};
         /** Character's traits / mutations that have clothing triggers.*/
-        std::unordered_set<trait_id> my_clothing_mutations{};
+        std::unordered_map<trait_id, trigger_set<clothing_trigger_data>> my_clothing_mutations{};
         /**
          * The amount of weight the Character is carrying.
          * If it is nullopt, needs to be recalculated

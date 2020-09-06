@@ -42,8 +42,8 @@ template <typename T> class string_id;
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
 
-template <typename T>
-using trigger_set = std::vector<std::vector<T>>;
+
+
 
 struct dream {
     private:
@@ -258,18 +258,12 @@ struct mutation_branch {
         /**Mutation's clothing triggers*/
         trigger_set<clothing_trigger_data> clothing_triggers;
 
-        /**Getter for mutation tirggers (reflex_triggers,clothing_triggers.*/
-        template<typename T>
-        trigger_set<T> triggers() const {
-            debugmsg( "Invalid trigger data type" );
-            return trigger_set<T>();
-        }
-        template<>
-        trigger_set<clothing_trigger_data> triggers() const {
+        /**Getter for clothing mutation tirggers*/
+        trigger_set<clothing_trigger_data> clothing_triggers() const {
             return clothing_triggers;
         };
-        template<>
-        trigger_set<reflex_trigger_data> triggers() const {
+        /**Getter for reflex mutation tirggers*/
+        trigger_set<reflex_trigger_data> reflex_triggers() const {
             return reflex_triggers;
         };
 
