@@ -173,7 +173,7 @@ Use the `Home` key to return to the top.
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Catacysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
 
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
@@ -947,7 +947,6 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
-// NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
 
 ### Profession item substitution
