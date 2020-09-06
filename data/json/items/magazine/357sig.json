@@ -35,5 +35,42 @@
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357sig": 13 } } ]
+  },
+  {
+    "id": "glock357bigmag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 31 extended magazine" },
+    "description": "An extended 22-round magazine for use with Glock pistols chambered for .357 SIG.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 5900,
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "357sig" ],
+    "capacity": 22,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357sig": 22 } } ]
+  },
+  {
+    "id": "glock357mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 31 magazine" },
+    "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .357 SIG.",
+    "weight": "125 g",
+    "volume": "250 ml",
+    "price": 3200,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "357sig" ],
+    "capacity": 15,
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357sig": 15 } } ]
   }
 ]
