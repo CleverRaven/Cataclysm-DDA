@@ -101,6 +101,16 @@ struct weariness_events {
             return false;
         }
 
+        // Return the first time a transition between `from` and `to` occurs, in minutes
+        int transition_minutes( const int from, const int to ) const {
+            for( const weary_transition &change : transitions ) {
+                if( change.from == from && change.to == to ) {
+                    return change.minutes;
+                }
+            }
+            return 0;
+        }
+
         std::string summarize() const {
             std::string buffer;
             for( const weary_transition &change : transitions ) {
