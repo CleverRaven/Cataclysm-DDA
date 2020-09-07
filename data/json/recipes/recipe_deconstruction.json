@@ -1869,7 +1869,7 @@
   {
     "result": "cantilever_small",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
@@ -3365,7 +3365,7 @@
   {
     "result": "vehicle_controls",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": "15 m",
@@ -4102,7 +4102,7 @@
   {
     "result": "washing_machine",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -4121,7 +4121,7 @@
   {
     "result": "dishwasher",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -4141,7 +4141,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -4303,7 +4303,7 @@
   {
     "result": "pot_canning",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
