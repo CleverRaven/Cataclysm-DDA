@@ -1478,6 +1478,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     const int half_width = TERMX / 2;
     const int height = TERMY;
     const int offset_y = confirm_message.empty() ? 0 : 3;
+    const int page_size = TERMY - offset_y - 2;
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
@@ -1511,12 +1512,18 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
 
         action = ctxt.handle_input();
 
-        if( action == "UP" || action == "PAGE_UP" ) {
-            iScrollPos--;
-            iScrollPosLast--;
-        } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
-            iScrollPos++;
-            iScrollPosLast++;
+        if( action == "UP" ) {
+            scroll_pos_first--;
+            scroll_pos_second--;
+        } else if( action == "DOWN" ) {
+            scroll_pos_first++;
+            scroll_pos_second++;
+        } else if( action == "PAGE_UP" ) {
+            scroll_pos_first  -= page_size;
+            scroll_pos_second -= page_size;
+        } else if( action == "PAGE_DOWN" ) {
+            scroll_pos_first += page_size;
+            scroll_pos_second += page_size;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
 
