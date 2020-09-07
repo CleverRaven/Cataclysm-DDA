@@ -1439,6 +1439,96 @@ drop_locations game_menus::inv::multidrop( player &p )
     return inv_s.execute();
 }
 
+bool game_menus::inv::compare_items( const item &first, const item &second,
+                                     const std::string &confirm_message )
+{
+    std::vector<iteminfo> vItemLastCh;
+    std::vector<iteminfo> vItemCh;
+    std::string sItemLastCh;
+    std::string sItemCh;
+    std::string sItemLastTn;
+    std::string sItemTn;
+
+    first.info( true, vItemCh );
+    sItemCh = first.tname();
+    sItemTn = first.type_name();
+
+    second.info( true, vItemLastCh );
+    sItemLastCh = second.tname();
+    sItemLastTn = second.type_name();
+
+    int iScrollPos = 0;
+    int iScrollPosLast = 0;
+
+    item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+    last_item_info.without_getch = true;
+
+    item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+    cur_item_info.without_getch = true;
+
+    input_context ctxt;
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( !confirm_message.empty() ) {
+        ctxt.register_action( "CONFIRM" );
+    }
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+
+    catacurses::window w_message;
+    catacurses::window w_last_item_info;
+    catacurses::window w_cur_item_info;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int half_width = TERMX / 2;
+        const int height = TERMY;
+        const int offset_y = confirm_message.empty() ? 0 : 3;
+
+        w_last_item_info = catacurses::newwin( height - offset_y, half_width, point_zero );
+        w_cur_item_info = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+
+        if( !confirm_message.empty() ) {
+            w_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+        }
+
+        ui.position( point_zero, point( half_width * 2, height ) );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( !confirm_message.empty() ) {
+            draw_border( w_message );
+            mvwputch( w_message, point( 3, 1 ), c_white, confirm_message
+                      + ctxt.describe_key_and_name( "CONFIRM" )
+                      + ctxt.describe_key_and_name( "QUIT" ) );
+            wnoutrefresh( w_message );
+        }
+
+        draw_item_info( w_last_item_info, last_item_info );
+        draw_item_info( w_cur_item_info, cur_item_info );
+    } );
+
+    std::string action;
+
+    do {
+        ui_manager::redraw();
+
+        action = ctxt.handle_input();
+
+        if( action == "UP" || action == "PAGE_UP" ) {
+            iScrollPos--;
+            iScrollPosLast--;
+        } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+            iScrollPos++;
+            iScrollPosLast++;
+        }
+    } while( action != "QUIT" && action != "CONFIRM" );
+
+    return action == "CONFIRM";
+}
+
 void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
     p.inv->restack( p );
@@ -1461,15 +1551,6 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         return;
     }
 
-    std::string action;
-    input_context ctxt;
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
-
     do {
         const auto to_compare = inv_s.execute();
 
@@ -1477,61 +1558,7 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
             break;
         }
 
-        std::vector<iteminfo> vItemLastCh;
-        std::vector<iteminfo> vItemCh;
-        std::string sItemLastCh;
-        std::string sItemCh;
-        std::string sItemLastTn;
-        std::string sItemTn;
-
-        to_compare.first->info( true, vItemCh );
-        sItemCh = to_compare.first->tname();
-        sItemTn = to_compare.first->type_name();
-
-        to_compare.second->info( true, vItemLastCh );
-        sItemLastCh = to_compare.second->tname();
-        sItemLastTn = to_compare.second->type_name();
-
-        int iScrollPos = 0;
-        int iScrollPosLast = 0;
-
-        item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-        last_item_info.without_getch = true;
-
-        item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-        cur_item_info.without_getch = true;
-
-        catacurses::window w_last_item_info;
-        catacurses::window w_cur_item_info;
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            const int half_width = TERMX / 2;
-            const int height = TERMY;
-            w_last_item_info = catacurses::newwin( height, half_width, point_zero );
-            w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
-            ui.position( point_zero, point( half_width * 2, height ) );
-        } );
-        ui.mark_resize();
-
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_item_info( w_last_item_info, last_item_info );
-            draw_item_info( w_cur_item_info, cur_item_info );
-        } );
-
-        do {
-            ui_manager::redraw();
-
-            action = ctxt.handle_input();
-
-            if( action == "UP" || action == "PAGE_UP" ) {
-                iScrollPos--;
-                iScrollPosLast--;
-            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
-                iScrollPos++;
-                iScrollPosLast++;
-            }
-
-        } while( action != "QUIT" );
+        compare_items( *to_compare.first, *to_compare.second );
     } while( true );
 }
 
