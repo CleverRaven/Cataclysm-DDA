@@ -1581,7 +1581,7 @@ class map
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        void build_sunlight_cache( int zlev );
+        void build_sunlight_cache( int zlev_min, int zlev_max );
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.

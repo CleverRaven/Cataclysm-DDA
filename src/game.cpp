@@ -3724,12 +3724,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 {
     ter_view_p = center;
 
-    // TODO: Make it not rebuild the cache all the time (cache point+moves?)
-    if( !looking ) {
-        // If we're looking, the cache is built at start (entering looking mode)
-        m.build_map_cache( center.z );
-    }
-
     m.draw( w_terrain, center );
 
     if( draw_sounds ) {
