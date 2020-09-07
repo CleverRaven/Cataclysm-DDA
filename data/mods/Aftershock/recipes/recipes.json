@@ -220,6 +220,15 @@
     "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
   },
   {
+    "result": "afs_titanium_foldable_frame",
+    "type": "recipe",
+    "copy-from": "afs_titanium_frame",
+    "activity_level": "BRISK_EXERCISE",
+    "difficulty": 4,
+    "time": "60m",
+    "components": [ [ [ "afs_scrap_titanium", 2 ], [ "afs_titanium_frame", 1 ] ] ]
+  },
+  {
     "result": "afs_metal_rig",
     "type": "recipe",
     "activity_level": "fake",
