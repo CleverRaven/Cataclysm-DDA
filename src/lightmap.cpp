@@ -253,34 +253,30 @@ void map::build_sunlight_cache( int zlev_min, int zlev_max )
 
         // all light was blocked before
         if( fully_inside ) {
-            for( auto &lm_col : lm ) {
-                for( four_quadrants &lm_entry : lm_col ) {
-                    lm_entry.fill( inside_light_level );
-                }
-            }
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
             continue;
         }
 
         // If there were no obstacles before this level, just apply weather illumination since there's no opportunity
         // for light to be blocked.
         if( fully_outside ) {
+            //fill with full light
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( outside_light_level ) );
+
             const auto &this_floor_cache = map_cache.floor_cache;
             const auto &this_transparency_cache = map_cache.transparency_cache;
             fully_inside = true; // recalculate
 
             for( int x = 0; x < MAPSIZE_X; ++x ) {
                 for( int y = 0; y < MAPSIZE_Y; ++y ) {
-                    //fill with full light
-                    lm[x][y].fill( outside_light_level );
+                    // && semantics below is important, we want to skip the evaluation if possible, do not replace with &=
 
-                    // if tile is fully transparent
-                    bool transparent = this_transparency_cache[x][y] >= LIGHT_TRANSPARENCY_OPEN_AIR
-                                       && !this_floor_cache[x][y];
-                    // if tile is fully opaque
-                    bool opaque = this_transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID ||
-                                  this_floor_cache[x][y];
-                    fully_outside &= transparent;
-                    fully_inside &= opaque;
+                    // fully_outside stays true if tile is transparent and there is no floor
+                    fully_outside = fully_outside && this_transparency_cache[x][y] >= LIGHT_TRANSPARENCY_OPEN_AIR
+                                    && !this_floor_cache[x][y];
+                    // fully_inside stays true if tile is opaque OR there is floor
+                    fully_inside = fully_inside && ( this_transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID ||
+                                                     this_floor_cache[x][y] );
                 }
             }
             continue;
@@ -311,10 +307,11 @@ void map::build_sunlight_cache( int zlev_min, int zlev_max )
 
         fully_inside = true; // recalculate
 
+        // Fall back to minimal light level if we don't find anything.
+        std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
+
         for( int x = 0; x < MAPSIZE_X; ++x ) {
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
-                // Fall back to minimal light level if we don't find anything.
-                lm[x][y].fill( inside_light_level );
                 // Check center, then four adjacent cardinals.
                 for( int i = 0; i < 5; ++i ) {
                     int prev_x = x + offset.x + cardinals[i].x;
