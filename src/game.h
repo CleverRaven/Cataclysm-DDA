@@ -1104,9 +1104,6 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
-
-        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
-        static void handle_contents_changed( const item_location &acted_item );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

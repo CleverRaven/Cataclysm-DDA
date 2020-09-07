@@ -2016,34 +2016,6 @@ void game::handle_key_blocking_activity()
     }
 }
 
-void game::handle_contents_changed( const item_location &acted_item )
-{
-    if( acted_item.where() != item_location::type::container ) {
-        return;
-    }
-    item_location parent = acted_item;
-    item_pocket *pocket = nullptr;
-    Character &player_character = get_player_character();
-    do {
-        item_location child = parent;
-        parent = parent.parent_item();
-        pocket = parent->contained_where( *child );
-        parent->on_contents_changed();
-        if( pocket == nullptr ) {
-            if( acted_item ) {
-                // if the item_location expired, the parent doesn't contain it, so we can't find the pocket it was in.
-                debugmsg( "ERROR: item_location parent does not contain child item" );
-            }
-            return;
-        }
-        pocket->on_contents_changed();
-
-        if( pocket->will_spill() ) {
-            pocket->handle_liquid_or_spill( player_character );
-        }
-    } while( parent.where() == item_location::type::container );
-}
-
 static hint_rating rate_action_change_side( const avatar &you, const item &it )
 {
     if( !it.is_sided() ) {
@@ -2307,25 +2279,26 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
+            handle_contents_changed_helper handler( u, locThisItem );
             switch( cMenu ) {
                 case 'a':
                     avatar_action::use_item( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'E':
                     avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
                     u.wear( oThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'w':
                     wield( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 't':
                     avatar_action::plthrow( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'c':
                     u.change_side( locThisItem );
@@ -2335,31 +2308,31 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'U':
                     u.unload( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'r':
                     reload( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'p':
                     reload( locThisItem, true );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'm':
                     avatar_action::mend( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'R':
                     u.read( oThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
@@ -2378,7 +2351,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, oThisItem );

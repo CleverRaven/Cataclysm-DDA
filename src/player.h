@@ -254,7 +254,7 @@ class player : public Character
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
+        trinary consume( item &target, bool force = false );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;

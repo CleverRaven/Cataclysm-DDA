@@ -594,9 +594,12 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            item liquid( *iter );
-            iter = contents.erase( iter );
-            liquid_handler::handle_all_liquid( liquid, 1, avoid );
+            liquid_handler::handle_liquid( *iter, avoid, 1 );
+            if( iter->charges == 0 ) {
+                iter = contents.erase( iter );
+            } else {
+                return;
+            }
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
@@ -1209,7 +1212,9 @@ void item_pocket::overflow( const tripoint &pos )
 void item_pocket::on_pickup( Character &guy )
 {
     if( will_spill() ) {
-        handle_liquid_or_spill( guy );
+        while( !empty() ) {
+            handle_liquid_or_spill( guy );
+        }
         restack();
     }
 }

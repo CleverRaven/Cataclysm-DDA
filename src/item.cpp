@@ -7099,7 +7099,7 @@ bool item::spill_contents( Character &c )
     contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
-    return true;
+    return is_container_empty();
 }
 
 bool item::spill_contents( const tripoint &pos )

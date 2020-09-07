@@ -169,6 +169,29 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
+// See also handle_contents_changed_helper and Character::handle_contents_changed
+// for contents handling of item_location.
+static bool handle_spillable_contents( Character &c, item &it, map &m )
+{
+    if( it.is_bucket_nonempty() ) {
+        it.contents.spill_open_pockets( c, /*avoid=*/&it );
+
+        // If bucket is still not empty then player opted not to handle the
+        // rest of the contents
+        if( !it.contents.empty() ) {
+            c.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name(), m.name( c.pos() )
+            );
+            m.add_item_or_charges( c.pos(), it );
+            return true;
+        }
+    }
+
+    return false;
+}
+
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               vehicle &veh, int part )
 {
@@ -184,7 +207,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 
     // can't use constant reference here because of the spill_contents()
     for( item it : items ) {
-        if( Pickup::handle_spillable_contents( c, it, here ) ) {
+        if( handle_spillable_contents( c, it, here ) ) {
             continue;
         }
         if( veh.add_item( part, it ) ) {
