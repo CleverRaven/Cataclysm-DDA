@@ -42,7 +42,7 @@
   {
     "result": "shears",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
@@ -50,7 +50,7 @@
   {
     "result": "elec_shears",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
@@ -3387,7 +3387,7 @@
   {
     "result": "sewing_kit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -4027,7 +4027,7 @@
   {
     "result": "hinge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ] ]

@@ -1162,6 +1162,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "curtain_transform", curtain_transform );
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
