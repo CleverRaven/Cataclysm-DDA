@@ -33,6 +33,7 @@ Use the `Home` key to return to the top.
       - [Monster definition](#monster-definition)
     + [Monster Factions](#monster-factions)
     + [Monsters](#monsters)
+    + [Mutation Categories](#mutation-categories)
     + [Names](#names)
     + [Profession item substitution](#profession-item-substitution)
       - [`description`](#-description-)
@@ -172,7 +173,7 @@ Use the `Home` key to return to the top.
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Catacysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
 
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
@@ -906,11 +907,47 @@ Note that the above example gives floats, not integers, for the vitamins values.
 
 See MONSTERS.md
 
+### Mutation Categories
+
+A Mutation Category identifies a set of interrelated mutations that as a whole establish an entirely new identity for a mutant character. Categories can and usually do have their own "flavor" of mutagen, the properties of which are defined in the category definition itself. A second kind of mutagen, called a "mutagen serum" or "IV mutagen" is necessary to trigger "threshold mutations" which cause irrevocable changes to the character.
+
+| Identifier         | Description
+|---                 |---
+| `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
+| `name`             | Human readable name for the category of mutations.
+| `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
+| `mutagen_message`  | A message displayed to the player when they take a mutagen of the matching type.
+| `mutagen_hunger`   | The amount of hunger (unit?) caused by taking the matching mutagen.
+| `mutagen_thirst`   | The amount of thirst (unit?) caused by taking the matching mutagen.
+| `mutagen_pain`     | The amount of pain (unit?) caused by taking the matching mutagen.
+| `mutagen_fatigue`  | The amount of fatigue (unit?) caused by taking the matching mutagen.
+| `mutagen_morale`   | The amount of morale (unit?) caused by taking the matching mutagen.
+| `iv_message`       | The amount of thirst (unit?) caused by taking the matching mutagen.
+| `iv_min_mutations` | The amount of thirst (unit?) caused by taking the matching mutagen.
+| `iv_additional_mutations`  | The amount of thirst (unit?) caused by taking the matching mutagen.
+| `iv_additional_mutations_chance`  | The amount of thirst (unit?) caused by taking the matching mutagen.
+| `iv_hunger`        | The amount of hunger (unit?) caused by taking the matching mutagen serum.
+| `iv_thirst`        | The amount of thirst (unit?) caused by taking the matching mutagen serum.
+| `iv_pain`          | The amount of pain (unit?) caused by taking the matching mutagen serum.
+| `iv_fatigue`       | The amount of fatigue (unit?) caused by taking the matching mutagen serum.
+| `iv_morale`        | The minimum(?) amount of morale (unit?) caused by taking the matching mutagen serum.
+| `iv_morale_max`    | The maximum(?) amount of morale (unit?) caused by taking the matching mutagen serum.
+| `iv_sound`         | A flag indicating that taking the matching mutagen serum causes the character to make noise.
+| `iv_sound_message` | The message describing the noise made by the character.
+| `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
+| `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
+| `iv_noise`         | The volume of the noise the character makes.
+| `iv_sleep`         | A flag indicating that the player will involuntarally sleep after taking the matching mutation serum.
+| `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
+| `iv_sleep_dur`     | The duration of the involuntary sleep.
+| `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
+| `junkie_message`   | The message to display if the character is addicted to the associated mutagen and takes some.
+| `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
+
 ### Names
 
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
-// NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
 
 ### Profession item substitution
