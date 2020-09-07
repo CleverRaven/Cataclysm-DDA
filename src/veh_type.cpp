@@ -811,11 +811,11 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
         json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
-        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) + "W" );
+        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) );
     }
     if( has_flag( "SOLAR_PANEL" ) ) {
         json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
-        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) + "W" );
+        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) );
     }
 
     if( !long_descrip.empty() ) {
