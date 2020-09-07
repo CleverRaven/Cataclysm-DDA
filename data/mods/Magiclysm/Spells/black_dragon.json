@@ -180,7 +180,7 @@
     "effect": "recover_energy",
     "effect_str": "STAMINA",
     "min_damage": 0,
-    "max_damage": -10,
+    "max_damage": 500,
     "flags": [ "SILENT", "RANDOM_DAMAGE" ]
   },
   {
