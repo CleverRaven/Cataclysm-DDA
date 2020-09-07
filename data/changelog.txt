@@ -60,7 +60,7 @@ Allow plank and branch bundles to be made from cordage, vines, or wire.
 Microlabs can contain artifacts in containment.
 Add NPC_class and NPC json templates and instructions.
 Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
-Update UltiCa and make it default.
+Update UltiCa tileset and make it default.
 Add a number of flying zombies.
 
 ## Interface:
@@ -126,7 +126,7 @@ Blobs are slimes. name them such.
 Fix freezing to death when wet.
 Fix weapon techniques not triggering.
 Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses.
-vehicles: make sure going in reverse isn't more efficient than going forward.
+Vehicles: make sure going in reverse isn't more efficient than going forward.
 Fix doubled artifact effects on stats.
 Containers can't hold too large items contained in other containers.
 Prevent temperature being 0 after loading a save.
@@ -134,7 +134,7 @@ Consume components in nested containers when crafting.
 Fix stuck joystick on Android.
 Adjust sunlight casting to illuminate exterior walls.
 Fixed limb blocking not triggering.
-vehicles: make shock absorbers actually absorb shock damage.
+Vehicles: make shock absorbers actually absorb shock damage.
 Fix NPC dying immediately on accepting inhaler mission
 Fix crash when attempting to butcher a corpse.
 Fix gear getting damaged when weather has no damaging effects.
@@ -216,7 +216,7 @@ Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
 Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
 Enable compiling an Android build under Windows.
-tools: add a Python script to reformat vehicles to use parts arrays.
+Tools: add a Python script to reformat vehicles to use parts arrays.
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
