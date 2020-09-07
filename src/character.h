@@ -51,6 +51,7 @@
 #include "visitable.h"
 #include "weighted_list.h"
 
+class dispersion_sources;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -779,6 +780,17 @@ class Character : public Creature, public visitable<Character>
         int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
+
+        /** NPC-related item rating functions */
+        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
+        double melee_value( const item &weap ) const; // As above, but only as melee
+        double unarmed_value() const; // Evaluate yourself!
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param obj Weapon to check dispersion on
+         */
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */

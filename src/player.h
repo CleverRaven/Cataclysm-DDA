@@ -161,12 +161,6 @@ class player : public Character
 
         // melee.cpp
 
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
-
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
 
@@ -198,12 +192,6 @@ class player : public Character
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
-
-        /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
-        double melee_value( const item &weap ) const; // As above, but only as melee
-        double unarmed_value() const; // Evaluate yourself!
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
