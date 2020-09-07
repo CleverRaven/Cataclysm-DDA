@@ -500,7 +500,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items
+        // TODO: Make it work for charge-less items (update makes amount)
         newit.charges *= result_mult;
     }
 
@@ -932,6 +932,18 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+int recipe::makes_amount() const
+{
+    int makes;
+    if( charges.has_value() ) {
+        makes = charges.value();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
+    }
+    // return either charges * mult or 1
+    return makes ? makes * result_mult : 1 ;
 }
 
 void recipe::incorporate_build_reqs()

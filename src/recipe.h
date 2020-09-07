@@ -234,6 +234,9 @@ class recipe
 
         bool hot_result() const;
 
+        // Returns the ammount or charges recipe will produce.
+        int makes_amount() const;
+
     private:
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
