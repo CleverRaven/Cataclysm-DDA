@@ -1,5 +1,6 @@
 [
   {
+    "//": "These groups are called by the exhibit, zoo, and science basements, and NPC missions",
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR",
     "default": "mon_null",
