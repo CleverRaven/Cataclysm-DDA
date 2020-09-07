@@ -4195,7 +4195,7 @@ map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterat
     if( current_submap == nullptr ) {
         debugmsg( "Tried to remove items at (%d,%d) but the submap is not loaded", l.x, l.y );
         nulitems.clear();
-        return map_stack{ &nulitems, p, this }.begin();
+        return map_stack{ &nulitems, p, this } .begin();
     }
 
     // remove from the active items cache (if it isn't there does nothing)
@@ -5536,15 +5536,12 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
         return false;
     }
 
-    if( intensity == INT_MAX ) {
-        intensity = type.obj().get_max_intensity();
-    }
-    intensity = std::min( intensity, type.obj().get_max_intensity() );
-    if( intensity <= 0 ) {
+    if( !type ) {
         return false;
     }
 
-    if( !type.id() ) {
+    intensity = std::min( intensity, type.obj().get_max_intensity() );
+    if( intensity <= 0 ) {
         return false;
     }
 

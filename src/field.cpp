@@ -190,13 +190,14 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
                        const time_duration &new_age )
 {
     auto it = _field_type_list.find( field_type_to_add );
-    if( field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
-        _displayed_field_type = field_type_to_add;
-    }
+
     if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
         it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
         return false;
+    }
+    if( field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
+        _displayed_field_type = field_type_to_add;
     }
     _field_type_list[field_type_to_add] = field_entry( field_type_to_add, new_intensity, new_age );
     return true;
@@ -215,10 +216,10 @@ bool field::remove_field( const field_type_id &field_to_remove )
 void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
 {
     _field_type_list.erase( it );
-    if( _field_type_list.empty() ) {
-        _displayed_field_type = field_type_id( "fd_null" );
-    } else {
-        _displayed_field_type = field_type_id( "fd_null" );
+    _displayed_field_type = fd_null;
+
+    if( !_field_type_list.empty() ) {
+        _displayed_field_type = fd_null;
         for( auto &fld : _field_type_list ) {
             if( fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
                 _displayed_field_type = fld.first;
