@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "color.h"
 #include "enums.h"
 #include "input.h"
@@ -67,13 +68,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
     wnoutrefresh( window );
 }
 
-void player::power_mutations()
+void avatar::power_mutations()
 {
-    if( !is_player() ) {
-        // TODO: Implement NPCs activating mutations
-        return;
-    }
-
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
