@@ -2066,7 +2066,13 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
-    float range = get_per() / 3.0f - encumb( bodypart_id( "eyes" ) ) / 10.0f;
+    int eyes_encumb = 0;
+    const bodypart_id eyes( "eyes" );
+    if( has_part( eyes ) ) {
+        eyes_encumb = encumb( eyes );
+    }
+
+    float range = get_per() / 3.0f - eyes_encumb / 10.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
