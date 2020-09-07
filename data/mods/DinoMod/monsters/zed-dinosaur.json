@@ -1,5 +1,6 @@
 [
   {
+    "//": "All dinos over 23 kg should have a zombie version to zombify into",
     "type": "MONSTER",
     "id": "mon_zallimimus",
     "name": { "str": "Gallimimus zombie" },
