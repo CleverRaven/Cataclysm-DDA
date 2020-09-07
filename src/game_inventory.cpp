@@ -1442,29 +1442,23 @@ drop_locations game_menus::inv::multidrop( player &p )
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {
-    std::vector<iteminfo> vItemLastCh;
-    std::vector<iteminfo> vItemCh;
-    std::string sItemLastCh;
-    std::string sItemCh;
-    std::string sItemLastTn;
-    std::string sItemTn;
+    std::vector<iteminfo> v_item_first;
+    std::vector<iteminfo> v_item_second;
 
-    first.info( true, vItemCh );
-    sItemCh = first.tname();
-    sItemTn = first.type_name();
+    first.info( true, v_item_first );
+    second.info( true, v_item_second );
 
-    second.info( true, vItemLastCh );
-    sItemLastCh = second.tname();
-    sItemLastTn = second.type_name();
+    int scroll_pos_first = 0;
+    int scroll_pos_second = 0;
 
-    int iScrollPos = 0;
-    int iScrollPosLast = 0;
+    item_info_data item_info_first( first.tname(), first.type_name(),
+                                    v_item_first, v_item_second, scroll_pos_first );
 
-    item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-    last_item_info.without_getch = true;
+    item_info_data item_info_second( second.tname(), second.type_name(),
+                                     v_item_second, v_item_first, scroll_pos_second );
 
-    item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-    cur_item_info.without_getch = true;
+    item_info_first.without_getch = true;
+    item_info_second.without_getch = true;
 
     input_context ctxt;
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1477,37 +1471,37 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
-    catacurses::window w_message;
-    catacurses::window w_last_item_info;
-    catacurses::window w_cur_item_info;
+    catacurses::window wnd_first;
+    catacurses::window wnd_second;
+    catacurses::window wnd_message;
+
+    const int half_width = TERMX / 2;
+    const int height = TERMY;
+    const int offset_y = confirm_message.empty() ? 0 : 3;
+
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int half_width = TERMX / 2;
-        const int height = TERMY;
-        const int offset_y = confirm_message.empty() ? 0 : 3;
-
-        w_last_item_info = catacurses::newwin( height - offset_y, half_width, point_zero );
-        w_cur_item_info = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
+        wnd_first = catacurses::newwin( height - offset_y, half_width, point_zero );
+        wnd_second = catacurses::newwin( height - offset_y, half_width, point( half_width, 0 ) );
 
         if( !confirm_message.empty() ) {
-            w_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
+            wnd_message = catacurses::newwin( offset_y, TERMX, point( 0, height - offset_y ) );
         }
 
         ui.position( point_zero, point( half_width * 2, height ) );
     } );
     ui.mark_resize();
-
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( !confirm_message.empty() ) {
-            draw_border( w_message );
-            mvwputch( w_message, point( 3, 1 ), c_white, confirm_message
-                      + ctxt.describe_key_and_name( "CONFIRM" )
-                      + ctxt.describe_key_and_name( "QUIT" ) );
-            wnoutrefresh( w_message );
+            draw_border( wnd_message );
+            mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
+                      + " " + ctxt.describe_key_and_name( "CONFIRM" )
+                      + " " + ctxt.describe_key_and_name( "QUIT" ) );
+            wnoutrefresh( wnd_message );
         }
 
-        draw_item_info( w_last_item_info, last_item_info );
-        draw_item_info( w_cur_item_info, cur_item_info );
+        draw_item_info( wnd_first, item_info_first );
+        draw_item_info( wnd_second, item_info_second );
     } );
 
     std::string action;
