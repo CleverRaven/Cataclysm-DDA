@@ -5750,6 +5750,11 @@ void map::update_visibility_cache( const int zlev )
     visibility_variables_cache.u_clairvoyance = player_character.clairvoyance();
     visibility_variables_cache.u_sight_impaired = player_character.sight_impaired();
     visibility_variables_cache.u_is_boomered = player_character.has_effect( effect_boomered );
+    visibility_variables_cache.clairvoyance_field.reset();
+    const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
+    if( fd_clairvoyant.is_valid() ) {
+        visibility_variables_cache.clairvoyance_field = fd_clairvoyant;
+    }
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset( sm_squares_seen, 0, sizeof( sm_squares_seen ) );

@@ -124,6 +124,7 @@ struct visibility_variables {
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
+    cata::optional<field_type_str_id> clairvoyance_field;
 };
 
 struct bash_params {
