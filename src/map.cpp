@@ -1389,6 +1389,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     }
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
+        set_seen_cache_dirty( p );
     }
 
     if( old_t.has_flag( TFLAG_INDOORS ) != new_t.has_flag( TFLAG_INDOORS ) ) {
@@ -1397,6 +1398,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
     if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
+        set_seen_cache_dirty( p );
     }
     set_memory_seen_cache_dirty( p );
 
@@ -1695,6 +1697,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
 
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
+        set_seen_cache_dirty( p );
     }
 
     if( old_t.has_flag( TFLAG_INDOORS ) != new_t.has_flag( TFLAG_INDOORS ) ) {
@@ -1705,6 +1708,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
+        set_seen_cache_dirty( p );
     }
     set_memory_seen_cache_dirty( p );
 
@@ -5573,6 +5577,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
     // Dirty the transparency cache now that field processing doesn't always do it
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
+    set_seen_cache_dirty( p );
 
     if( type.obj().is_dangerous() ) {
         set_pathfinding_cache_dirty( p.z );
@@ -5608,6 +5613,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
         const auto &fdata = field_to_remove.obj();
         if( !fdata.is_transparent() ) {
             set_transparency_cache_dirty( p.z );
+            set_seen_cache_dirty( p );
         }
         if( fdata.is_dangerous() ) {
             set_pathfinding_cache_dirty( p.z );
@@ -7038,6 +7044,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty( grid.z );
+    set_seen_cache_dirty( tripoint_zero );
     set_outside_cache_dirty( grid.z );
     set_floor_cache_dirty( grid.z );
     set_pathfinding_cache_dirty( grid.z );
@@ -8147,8 +8154,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
-        seen_cache_dirty |= build_transparency_cache( z );
+        build_transparency_cache( z );
         seen_cache_dirty |= build_floor_cache( z );
+        seen_cache_dirty |= get_cache( z ).seen_cache_dirty;
         do_vehicle_caching( z );
     }
     seen_cache_dirty |= build_vision_transparency_cache( zlev );
@@ -8273,6 +8281,7 @@ void map::draw_fill_background( const ter_id &type )
 {
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
+    set_seen_cache_dirty( tripoint_zero );
     set_outside_cache_dirty( abs_sub.z );
     set_pathfinding_cache_dirty( abs_sub.z );
 
