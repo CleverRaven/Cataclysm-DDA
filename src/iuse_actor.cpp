@@ -899,8 +899,10 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     p.moves -= moves;
+
+    newmon.ammo = newmon.type->starting_ammo;
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
-        for( auto &amdef : newmon.ammo ) {
+        for( std::pair<const itype_id, int> &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, 0 );
             const int available = p.charges_of( amdef.first );
             if( available == 0 ) {
@@ -920,8 +922,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
                                  newmon.name() );
             amdef.second = ammo_item.charges;
         }
-    } else {
-        newmon.ammo = newmon.type->starting_ammo;
     }
 
     int skill_offset = 0;
