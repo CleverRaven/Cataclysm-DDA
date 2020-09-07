@@ -333,7 +333,6 @@ bool reflex_trigger_data::is_trigger_true( const Character &guy, const U & ) con
     return activate;
 }
 
-
 template<typename U>
 bool clothing_trigger_data::is_trigger_true( const Character &guy, const U &data ) const
 {
@@ -343,17 +342,17 @@ bool clothing_trigger_data::is_trigger_true( const Character &guy, const U &data
     int var = 0;
     switch( trigger ) {
         case clothing_trigger_type::ENCUMBRANCE:
-            for( bodypart_id bp : bodyparts ) {
+            for( const bodypart_id &bp : bodyparts ) {
                 var += data.at( bp ).encumbrance;
             }
             break;
         case clothing_trigger_type::WEARING:
-            for( bodypart_id bp : bodyparts ) {
+            for( const bodypart_id &bp : bodyparts ) {
                 var += guy.wearing_something_on( bp ) ? 1 : 0;
             }
             break;
         case clothing_trigger_type::WARMTH:
-            for( bodypart_id bp : bodyparts ) {
+            for( const bodypart_id &bp : bodyparts ) {
                 var += guy.warmth( bp );
             }
         default:
@@ -373,7 +372,6 @@ bool clothing_trigger_data::is_trigger_true( const Character &guy, const U &data
     }
     return activate;
 }
-
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
