@@ -793,6 +793,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
 
         ui_manager::redraw();
+        const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
@@ -807,9 +808,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
         } else if( action == "SCROLL_UP" ) {
-            item_info_scroll--;
+            item_info_scroll -= scroll_item_info_lines;
         } else if( action == "SCROLL_DOWN" ) {
-            item_info_scroll++;
+            item_info_scroll += scroll_item_info_lines;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
             // Default ALL

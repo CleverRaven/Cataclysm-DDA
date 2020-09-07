@@ -7918,6 +7918,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = static_cast<int>( filtered_items.size() ) + iCatSortNum;
         }
 
+        const int item_info_scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
+
         if( action == "UP" ) {
             do {
                 iActive--;
@@ -7947,9 +7949,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
         } else if( action == "PAGE_UP" ) {
-            iScrollPos--;
+            iScrollPos -= item_info_scroll_lines;
         } else if( action == "PAGE_DOWN" ) {
-            iScrollPos++;
+            iScrollPos += item_info_scroll_lines;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
