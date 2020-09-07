@@ -396,7 +396,7 @@ If you need to insert a new field behavior per unit time add a case statement in
 bool map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint &submap )
 {
-    // create all ids ids once before the loop
+    // create all ids once before the loop
     const field_type_id fd_acid( "fd_acid" );
     const field_type_id fd_extinguisher( "fd_extinguisher" );
     const field_type_id fd_fire( "fd_fire" );
