@@ -114,6 +114,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_acrocanthosaurus",
+    "name": "acrocanthosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_acrocanthosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_eoraptor",
     "name": "eoraptor egg",
     "copy-from": "egg_dino",

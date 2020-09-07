@@ -29,6 +29,7 @@
         [ "egg_camarasaurus", 1 ],
         [ "egg_apatosaurus", 1 ],
         [ "egg_allosaurus", 1 ],
+        [ "egg_acrocanthosaurus", 1 ],
         [ "egg_eoraptor", 1 ],
         [ "egg_velociraptor", 1 ],
         [ "egg_deinonychus", 1 ],

@@ -209,6 +209,9 @@
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 2160 },
+      { "monster": "mon_acrocanthosaurus", "freq": 2, "cost_multiplier": 40 },
+      { "monster": "mon_zacrocanthosaurus", "freq": 1, "cost_multiplier": 45, "starts": 72 },
+      { "monster": "mon_zacrocanthosaurus", "freq": 1, "cost_multiplier": 45, "starts": 672 },
       { "monster": "mon_pteranodon", "freq": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       {
         "monster": "mon_dilophosaurus",
@@ -351,6 +354,9 @@
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zallosaurus", "freq": 2, "cost_multiplier": 35, "starts": 2160 },
+      { "monster": "mon_acrocanthosaurus", "freq": 2, "cost_multiplier": 40 },
+      { "monster": "mon_zacrocanthosaurus", "freq": 1, "cost_multiplier": 45, "starts": 72 },
+      { "monster": "mon_zacrocanthosaurus", "freq": 1, "cost_multiplier": 45, "starts": 672 },
       { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 72 },
       { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 35, "starts": 168 },
@@ -391,7 +397,8 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_gallimimus", "freq": 50, "cost_multiplier": 0, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] }
+      { "monster": "mon_eoraptor", "freq": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_dimorphodon", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
     ]
   },
   {
@@ -426,6 +433,7 @@
       { "monster": "mon_ankylosaurus", "freq": 80, "cost_multiplier": 20 },
       { "monster": "mon_ceratosaurus", "freq": 50, "cost_multiplier": 30 },
       { "monster": "mon_allosaurus", "freq": 400, "cost_multiplier": 30 },
+      { "monster": "mon_acrocanthosaurus", "freq": 100, "cost_multiplier": 40 },
       { "monster": "mon_eoraptor", "freq": 200, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       { "monster": "mon_velociraptor", "freq": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_deinonychus", "freq": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },

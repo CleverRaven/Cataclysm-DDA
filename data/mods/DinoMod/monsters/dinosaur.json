@@ -59,7 +59,7 @@
     "id": "mon_gallimimus",
     "name": { "str_sp": "Gallimimus" },
     "species": "DINOSAUR",
-    "default_faction": "gallimimus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "440 L",
@@ -107,7 +107,7 @@
     "id": "mon_pachycephalosaurus",
     "name": { "str_sp": "Pachycephalosaurus" },
     "species": "DINOSAUR",
-    "default_faction": "pachycephalosaurus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "450 L",
@@ -432,6 +432,7 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 2,
+    "vision_day": 100,
     "hp": 1000,
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zapatosaurus",
@@ -465,7 +466,7 @@
     "aggression": 80,
     "morale": 80,
     "speed": 110,
-    "melee_skill": 10,
+    "melee_skill": 9,
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_cut": 6,
@@ -485,6 +486,24 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_acrocanthosaurus",
+    "name": { "str_sp": "Acrocanthosaurus" },
+    "copy-from": "mon_allosaurus",
+    "default_faction": "acrocanthosaurus",
+    "weight": "6000 kg",
+    "speed": 75,
+    "melee_cut": 8,
+    "armor_bash": 5,
+    "armor_cut": 3,
+    "hp": 960,
+    "zombify_into": "mon_zacrocanthosaurus",
+    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "ATTACKMON", "WARM", "KEENNOSE" ]
   },
   {
     "type": "MONSTER",
@@ -661,7 +680,7 @@
     "name": { "str_sp": "Camptosaurus" },
     "looks_like": "mon_parasaurolophus",
     "species": "DINOSAUR",
-    "default_faction": "camptosaurus",
+    "default_faction": "herbivore_dino",
     "symbol": "D",
     "color": "light_green_yellow",
     "volume": "850 L",
@@ -808,6 +827,7 @@
     "id": "mon_pteranodon",
     "name": { "str_sp": "Pteranodon" },
     "copy-from": "mon_dimorphodon",
+    "default_faction": "pteranodon",
     "volume": "38 L",
     "weight": "50 kg",
     "hp": 40,
@@ -817,13 +837,15 @@
     "zombify_into": "mon_zteranodon",
     "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
     "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 },
-    "fear_triggers": [ "FIRE", "FRIEND_DIED" ]
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "harvest": "dino_feather_leather"
   },
   {
     "type": "MONSTER",
     "id": "mon_quetzalcoatlus",
     "name": { "str_sp": "Quetzalcoatlus" },
     "copy-from": "mon_dimorphodon",
+    "default_faction": "quetzalcoatlus",
     "volume": "190 L",
     "weight": "250 kg",
     "hp": 200,
@@ -845,7 +867,8 @@
       "ATTACKMON",
       "PET_MOUNTABLE"
     ],
-    "fear_triggers": [ "FIRE", "FRIEND_DIED" ]
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "harvest": "dino_feather_leather"
   },
   {
     "type": "MONSTER",
@@ -979,7 +1002,19 @@
     "dodge": 1,
     "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATFOOD", "GUILT", "STUMBLES", "NO_BREED" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ],
     "harvest": "mammal_tiny"
   },
   {
@@ -987,97 +1022,216 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_gallimimus" }
+    "default_faction": "herbivore_dino",
+    "color": "light_green_yellow",
+    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_pachycephalosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 20, "into": "mon_pachycephalosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_spinosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_spinosaurus" }
+    "default_faction": "spinosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_spinosaurus_juvenile" }
   },
   {
     "id": "mon_tyrannosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus" }
+    "default_faction": "tyrannosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
   },
   {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus" }
+    "default_faction": "albertosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
   },
   {
     "id": "mon_triceratops_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_triceratops" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_triceratops_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_stegosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_stegosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_ankylosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_ankylosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_diplodocus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_diplodocus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_camarasaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_apatosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_apatosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_allosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_allosaurus" }
+    "default_faction": "allosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_allosaurus_juvenile" }
   },
   {
-    "id": "mon_eoraptor_hatchling",
+    "id": "mon_acrocanthosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
-    "name": "dark gray and yellow hatchling",
-    "upgrades": { "age_grow": 10, "into": "mon_eoraptor" }
+    "name": "brown and white hatchling",
+    "default_faction": "acrocanthosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_acrocanthosaurus_juvenile" }
   },
   {
     "id": "mon_velociraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
+    "default_faction": "velociraptor",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
   {
@@ -1085,48 +1239,107 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and green hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_deinonychus" }
+    "default_faction": "deinonychus",
+    "upgrades": { "age_grow": 20, "into": "mon_deinonychus_juvenile" }
   },
   {
     "id": "mon_utahraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and white hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_utahraptor" }
+    "default_faction": "utahraptor",
+    "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
   },
   {
     "id": "mon_camptosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_camptosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_parasaurolophus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_corythosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_edmontosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and magenta hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus" }
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_dimorphodon_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
+    "default_faction": "dimorphodon",
     "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
   },
   {
@@ -1134,34 +1347,476 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_pteranodon" }
+    "default_faction": "pteranodon",
+    "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
   },
   {
     "id": "mon_quetzalcoatlus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" }
+    "default_faction": "quetzalcoatlus",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
+  },
+  {
+    "id": "mon_eoraptor_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and yellow hatchling",
+    "default_faction": "eoraptor",
+    "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "magenta and green hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus" }
+    "default_faction": "dilophosaurus",
+    "upgrades": { "age_grow": 20, "into": "mon_dilophosaurus_juvenile" }
   },
   {
     "id": "mon_ceratosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "brown and white hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus" }
+    "default_faction": "ceratosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_ceratosaurus_juvenile" }
   },
   {
     "id": "mon_mosasaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "red and white hatchling",
-    "upgrades": { "age_grow": 20, "into": "mon_mosasaurus" }
+    "default_faction": "mosasaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "SWIMS",
+      "AQUATIC"
+    ]
+  },
+  {
+    "id": "mon_gallimimus_juvenile",
+    "type": "MONSTER",
+    "name": "greenish yellow two-legged juvenile",
+    "description": "A small two-legged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "herbivore_dino",
+    "categories": [ "DINOSAUR" ],
+    "species": [ "DINOSAUR" ],
+    "diff": 10,
+    "volume": "10 L",
+    "weight": "10 kg",
+    "hp": 10,
+    "speed": 60,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "light_green_yellow",
+    "looks_like": "mon_eoraptor",
+    "aggression": -99,
+    "morale": 5,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 1,
+    "dodge": 2,
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 70, "into": "mon_gallimimus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ],
+    "harvest": "bird_small"
+  },
+  {
+    "id": "mon_pachycephalosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 70, "into": "mon_pachycephalosaurus" }
+  },
+  {
+    "id": "mon_spinosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "spinosaurus juvenile",
+    "description": "A small four-legged dinosaur juvenile with huge shiny eyes and a large fan on its back.",
+    "default_faction": "spinosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "red_white",
+    "upgrades": { "age_grow": 365, "into": "mon_spinosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "SWIMS"
+    ]
+  },
+  {
+    "id": "mon_tyrannosaurus_juvenile",
+    "type": "MONSTER",
+    "default_faction": "tyrannosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "red_white",
+    "upgrades": { "age_grow": 365, "into": "mon_tyrannosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_albertosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "red and white two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "albertosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_red_white",
+    "upgrades": { "age_grow": 365, "into": "mon_albertosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_triceratops_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_triceratops" }
+  },
+  {
+    "id": "mon_stegosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
+  },
+  {
+    "id": "mon_ankylosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_diplodocus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_diplodocus" }
+  },
+  {
+    "id": "mon_camarasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
+  },
+  {
+    "id": "mon_apatosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_apatosaurus" }
+  },
+  {
+    "id": "mon_allosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and white two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "allosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_white",
+    "upgrades": { "age_grow": 150, "into": "mon_allosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_acrocanthosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "brown and white two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "acrocanthosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "brown_white",
+    "upgrades": { "age_grow": 365, "into": "mon_acrocanthosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_deinonychus_juvenile",
+    "type": "MONSTER",
+    "name": "red and green two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "deinonychus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "red_green",
+    "upgrades": { "age_grow": 14, "into": "mon_deinonychus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_utahraptor_juvenile",
+    "type": "MONSTER",
+    "name": "gray and white two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "utahraptor",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_white",
+    "upgrades": { "age_grow": 80, "into": "mon_utahraptor" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_camptosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and yellow four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_green_yellow",
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
+  },
+  {
+    "id": "mon_parasaurolophus_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
+  },
+  {
+    "id": "mon_corythosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
+  },
+  {
+    "id": "mon_edmontosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
+  },
+  {
+    "id": "mon_pteranodon_juvenile",
+    "type": "MONSTER",
+    "name": "winged juvenile",
+    "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "pteranodon",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_gray_yellow",
+    "upgrades": { "age_grow": 14, "into": "mon_pteranodon" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_quetzalcoatlus_juvenile",
+    "type": "MONSTER",
+    "name": "winged juvenile",
+    "description": "A small winged dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "quetzalcoatlus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "light_gray_yellow",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_dilophosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "magenta and green two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "dilophosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "magenta_green",
+    "upgrades": { "age_grow": 65, "into": "mon_dilophosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_ceratosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "magenta and green two-legged juvenile",
+    "description": "A small bipedal meat-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "ceratosaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "magenta_green",
+    "upgrades": { "age_grow": 90, "into": "mon_ceratosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_mosasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "mosasaurus juvenile",
+    "description": "A juvenile mosasaurus with huge shiny eyes.",
+    "default_faction": "mosasaurus",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "red_white",
+    "upgrades": { "age_grow": 365, "into": "mon_mosasaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "SWIMS",
+      "AQUATIC"
+    ]
   }
 ]
