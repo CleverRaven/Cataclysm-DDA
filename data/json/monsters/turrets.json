@@ -131,7 +131,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
-    "starting_ammo": { "50bmg": 75 },
+    "starting_ammo": { "50bmg": 90 },
     "special_attacks": [
       {
         "type": "gun",
@@ -189,7 +189,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_rifleturret",
-    "starting_ammo": { "556": 100 },
+    "starting_ammo": { "556": 120 },
     "special_attacks": [
       {
         "type": "gun",
@@ -247,7 +247,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_crows_m240",
-    "starting_ammo": { "762_51": 100 },
+    "starting_ammo": { "762_51": 120 },
     "special_attacks": [
       {
         "type": "gun",
