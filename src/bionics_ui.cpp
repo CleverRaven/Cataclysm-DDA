@@ -539,11 +539,6 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
     return type;
 }
 
-void Character::power_bionics()
-{
-    return;
-}
-
 void avatar::power_bionics()
 {
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );

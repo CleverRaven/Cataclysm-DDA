@@ -68,12 +68,6 @@ static void show_mutations_titlebar( const catacurses::window &window,
     wnoutrefresh( window );
 }
 
-void Character::power_mutations()
-{
-    // TODO: Implement NPCs activating mutations
-    return;
-}
-
 void avatar::power_mutations()
 {
     std::vector<trait_id> passive;
