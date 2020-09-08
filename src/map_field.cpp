@@ -430,7 +430,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     maptile map_tile( current_submap, point_zero );
     int &locx = map_tile.pos_.x;
     int &locy = map_tile.pos_.y;
-    const point sm_offset( submap.x * SEEX, submap.y * SEEY );
+    const point sm_offset = sm_to_ms_copy( submap.xy() );
     // Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
