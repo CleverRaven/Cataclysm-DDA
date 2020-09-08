@@ -4467,12 +4467,6 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
-    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
-        cruise_velocity = 0;
-        if( velocity == 0 ) {
-            stop();
-        }
-    }
     // we want this to update the activity level whenever the engine is running
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         //do this as a function of current load
