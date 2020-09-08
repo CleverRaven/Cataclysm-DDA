@@ -113,8 +113,7 @@ namespace
 std::string get_ascii_tile_id( const uint32_t sym, const int FG, const int BG )
 {
     return std::string( { 'A', 'S', 'C', 'I', 'I', '_', static_cast<char>( sym ),
-                          static_cast<char>( FG ), static_cast<char>( BG )
-                        } );
+                          static_cast<char>( FG ), static_cast<char>( BG ) } );
 }
 
 pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
@@ -1021,6 +1020,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
+    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
