@@ -725,7 +725,7 @@ void Character::suffer_in_sunlight()
                            has_trait( trait_LEAVES3 );
         if( leafy ) {
             const bool leafier = has_trait( trait_LEAVES2 );
-            const bool leafiest = leafier || has_trait( trait_LEAVES3 );
+            const bool leafiest = has_trait( trait_LEAVES3 );
             const double sleeve_factor = armwear_factor();
             const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
             const float weather_factor = ( get_weather().weather_id->sun_intensity >=
