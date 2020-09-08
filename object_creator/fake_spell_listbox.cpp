@@ -30,11 +30,22 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
     add_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row ) );
     add_spell_button.show();
     QObject::connect( &add_spell_button, &QPushButton::clicked,
-        [&]() {
+    [&]() {
+        const int index = windows.size();
         windows.push_back( new fake_spell_window() );
         windows.back()->hide();
-        QObject::connect( windows.back(), &fake_spell_window::modified, this, &fake_spell_listbox::modified );
+        windows.back()->index = index;
+        QObject::connect( windows.back(), &fake_spell_window::modified, this,
+                          &fake_spell_listbox::modified );
         fake_spell_list_box.addItem( QString( "NEW (edit)" ) );
+        QObject::connect( windows.back(), &fake_spell_window::modified,
+        [&]() {
+            const fake_spell_window *win = windows.back();
+            const fake_spell &sp = win->get_fake_spell();
+            if( !sp.id.is_empty() ) {
+                fake_spell_list_box.setItemText( win->index, sp.id.c_str() );
+            }
+        } );
     } );
 
     // =========================================================================================
@@ -48,7 +59,7 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
     fake_spell_list_box.move( QPoint( default_text_box_width * col, default_text_box_height * row ) );
     fake_spell_list_box.show();
     QObject::connect( &fake_spell_list_box, qOverload<int>( &QComboBox::currentIndexChanged ),
-        [&]() {
+    [&]() {
         for( fake_spell_window *win : windows ) {
             win->hide();
         }

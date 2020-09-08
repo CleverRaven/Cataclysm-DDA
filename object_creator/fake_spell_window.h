@@ -3,15 +3,17 @@
 
 #include "magic.h"
 
+#include <QtWidgets/qcombobox.h>
 #include <QtWidgets/qlineedit.h>
 #include <QtWidgets/qlistwidget.h>
 #include <QtWidgets/qmainwindow.h>
+#include <QtWidgets/qspinbox.h>
 
 namespace creator
 {
 class fake_spell_window : public QMainWindow
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         fake_spell_window( QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags() );
 
@@ -31,10 +33,12 @@ class fake_spell_window : public QMainWindow
             editable_spell = sp;
         }
 
-        void set_update_func( const std::function<void( void )> &func )
-        {
+        void set_update_func( const std::function<void( void )> &func ) {
             update_func = func;
         }
+
+        // the index of this window in the windows vector in fake_spell_listbox
+        int index = 0;
     signals:
         // emits a signal if any attached data is modified
         void modified();
@@ -46,7 +50,15 @@ class fake_spell_window : public QMainWindow
         QLineEdit error_window;
 
         QLineEdit id_label;
+        QLineEdit max_level_label;
+        QLineEdit min_level_label;
+        QLineEdit once_in_label;
+
         QLineEdit id_box;
+        QSpinBox max_level_box;
+        QSpinBox min_level_box;
+        QSpinBox once_in_duration_box;
+        QComboBox once_in_units_box;
 };
 }
 
