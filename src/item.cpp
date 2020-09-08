@@ -3906,6 +3906,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         []( const itype * e ) {
             return e->nname( 1 );
         } ) );
+        info.back().sName += ".";
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
