@@ -723,8 +723,7 @@ class JsonOut
         template <typename T> void member( const std::string &name, const T &value,
                                            const T &value_default ) {
             if( value != value_default ) {
-                member( name );
-                write( value );
+                member( name, value );
             }
         }
         template <typename T> void member_as_string( const std::string &name, const T &value ) {
