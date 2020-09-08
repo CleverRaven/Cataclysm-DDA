@@ -273,7 +273,7 @@
     "copy-from": "mon_duck_chick",
     "upgrades": { "age_grow": 16, "into": "mon_goose_canadian" }
   },
-    {
+  {
     "id": "mon_crow_mutant_small",
     "type": "MONSTER",
     "name": { "str": "oversized crow" },
