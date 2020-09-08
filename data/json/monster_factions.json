@@ -69,7 +69,7 @@
     "type": "MONSTER_FACTION",
     "name": "military",
     "base_faction": "bot",
-    "neutral": [ "bot", "small_animal" ]
+    "neutral": [ "bot", "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
