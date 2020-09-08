@@ -50,9 +50,9 @@ enum TAB_MODE {
 };
 
 // TODO: Convert these globals to handling categories via generic_factory?
-std::vector<std::string> craft_cat_list;
-std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::string> normalized_names;
+static std::vector<std::string> craft_cat_list;
+static std::map<std::string, std::vector<std::string> > craft_subcat_list;
+static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
@@ -63,10 +63,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
-int related_menu_fill( uilist &rmenu,
-                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available );
+static std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+static int related_menu_fill( uilist &rmenu,
+                              const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                              const recipe_subset &available );
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {

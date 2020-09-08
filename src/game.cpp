@@ -38,6 +38,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
@@ -189,9 +190,6 @@ class inventory;
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
-
-/** Will be set to true when running unit tests */
-bool test_mode = false;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 

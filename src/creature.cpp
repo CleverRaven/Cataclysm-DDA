@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "anatomy.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"

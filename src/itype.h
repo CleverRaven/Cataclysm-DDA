@@ -1125,4 +1125,6 @@ struct itype {
         virtual ~itype() = default;
 };
 
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
+
 #endif // CATA_SRC_ITYPE_H

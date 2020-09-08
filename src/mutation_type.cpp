@@ -7,7 +7,7 @@ struct mutation_type {
     std::string id;
 };
 
-std::map<std::string, mutation_type> mutation_types;
+static std::map<std::string, mutation_type> mutation_types;
 
 void load_mutation_type( const JsonObject &jsobj )
 {

@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
@@ -49,7 +50,7 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const half_open_rectangle<point> lightmap_boundaries(
+static const half_open_rectangle<point> lightmap_boundaries(
     lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const

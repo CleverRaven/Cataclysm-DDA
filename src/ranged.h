@@ -10,6 +10,7 @@ class avatar;
 class gun_mode;
 class item;
 class map;
+class player;
 class spell;
 class turret_data;
 class vehicle;
@@ -60,5 +61,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
  */
 bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
                             const gun_mode &gmode );
+
+int throw_cost( const player &c, const item &to_throw );
 
 #endif // CATA_SRC_RANGED_H

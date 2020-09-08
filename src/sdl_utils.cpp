@@ -11,7 +11,7 @@
 #include "debug.h"
 #include "sdltiles.h"
 
-color_pixel_function_map builtin_color_pixel_functions = {
+static color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_none", nullptr },
     { "color_pixel_darken", color_pixel_darken },
     { "color_pixel_sepia_light", color_pixel_sepia_light },

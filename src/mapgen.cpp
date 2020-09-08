@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -2139,7 +2140,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-std::map<std::string, mapgen_palette> palettes;
+static std::map<std::string, mapgen_palette> palettes;
 
 mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {
@@ -2904,8 +2905,8 @@ void map::draw_map( mapgendata &dat )
     draw_connections( dat );
 }
 
-const int SOUTH_EDGE = 2 * SEEY - 1;
-const int EAST_EDGE = 2 * SEEX  - 1;
+static const int SOUTH_EDGE = 2 * SEEY - 1;
+static const int EAST_EDGE = 2 * SEEX  - 1;
 
 void map::draw_office_tower( const mapgendata &dat )
 {

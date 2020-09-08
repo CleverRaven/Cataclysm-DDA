@@ -50,7 +50,7 @@ static std::string full_attack_details( const player &dude )
     return ss.str();
 }
 
-inline std::string percent_string( const float f )
+static inline std::string percent_string( const float f )
 {
     // Using stringstream for prettier precision printing
     std::stringstream ss;

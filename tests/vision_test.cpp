@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "field.h"

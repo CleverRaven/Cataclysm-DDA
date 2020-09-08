@@ -16,6 +16,7 @@
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -122,9 +123,9 @@ static const std::string flag_VEHICLE( "VEHICLE" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_attack( const Character &p, const itype &firing );
+static int time_to_attack( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
-void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
 class target_ui
 {
@@ -864,9 +865,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     return curshot;
 }
 
-// TODO: Method
-// Silence warning about missing prototype.
-int throw_cost( const player &c, const item &to_throw );
 int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_speed

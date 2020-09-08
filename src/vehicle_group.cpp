@@ -17,8 +17,8 @@
 using vplacement_id = string_id<VehiclePlacement>;
 
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
-std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
-std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
+static std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
+static std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
 
 /** @relates string_id */
 template<>
