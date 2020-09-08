@@ -430,28 +430,39 @@ bool map::process_fields_in_submap( submap *const current_submap,
     maptile map_tile( current_submap, point_zero );
     int &locx = map_tile.pos_.x;
     int &locy = map_tile.pos_.y;
+    const int sm_offset_x = submap.x * SEEX;
+    const int sm_offset_y = submap.y * SEEY;
+
     // Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
-            // This is a translation from local coordinates to submap coordinates.
-            // All submaps are in one long 1d array.
-            thep.x = locx + submap.x * SEEX;
-            thep.y = locy + submap.y * SEEY;
-            // A const reference to the tripoint above, so that the code below doesn't accidentally change it
-            const tripoint &p = thep;
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
             field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
+
+            // when displayed_field_type == fd_null it means that `curfield` has no fields inside
+            // avoids instantiating (relatively) expensive map iterator
+            if( !curfield.displayed_field_type() ) {
+                continue;
+            }
+
+            // This is a translation from local coordinates to submap coordinates.
+            // All submaps are in one long 1d array.
+            thep.x = locx + sm_offset_x;
+            thep.y = locy + sm_offset_y;
+            // A const reference to the tripoint above, so that the code below doesn't accidentally change it
+            const tripoint &p = thep;
+
             for( auto it = curfield.begin(); it != curfield.end(); ) {
                 // Iterating through all field effects in the submap's field.
                 field_entry &cur = it->second;
 
                 // Holds cur.get_field_type() as that is what the old system used before rewrite.
-                field_type_id curtype = cur.get_field_type();
+                field_type_id cur_fd_type_id = cur.get_field_type();
 
                 // The field might have been killed by processing a neighbor field
                 if( !cur.is_field_alive() ) {
-                    if( !curtype.obj().get_transparent( cur.get_field_intensity() - 1 ) ) {
+                    if( !cur_fd_type_id->get_transparent( cur.get_field_intensity() - 1 ) ) {
                         dirty_transparency_cache = true;
                     }
                     --current_submap->field_count;
@@ -465,14 +476,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     debugmsg( "Whoooooa intensity of %d", cur.get_field_intensity() );
                 }
 
-                dirty_transparency_cache = curtype.obj().dirty_transparency_cache;
+                dirty_transparency_cache = cur_fd_type_id->dirty_transparency_cache;
 
                 // Don't process "newborn" fields. This gives the player time to run if they need to.
                 if( cur.get_field_age() == 0_turns ) {
-                    curtype = fd_null;
+                    cur_fd_type_id = fd_null;
                 }
 
-                const field_type &curtype_obj = curtype.obj();
+                const field_type &cur_fd_type = *cur_fd_type_id;
 
                 // Upgrade field intensity
                 if( cur.intensity_upgrade_chance() > 0 &&
@@ -487,7 +498,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                     cur.mod_field_age( cur.get_underwater_age_speedup() );
                 }
-                if( curtype == fd_acid ) {
+                if( cur_fd_type_id == fd_acid ) {
                     // Try to fall by a z-level
                     if( zlevels && p.z > -OVERMAP_DEPTH ) {
                         tripoint dst{ p.xy(), p.z - 1 };
@@ -516,7 +527,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
 
-                if( curtype == fd_extinguisher ) {
+                if( cur_fd_type_id == fd_extinguisher ) {
                     field_entry *fire_here = maptile_at_internal( p ).find_field( fd_fire );
                     if( fire_here != nullptr ) {
                         // extinguisher fights fire in 1:1 ratio
@@ -524,10 +535,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.set_field_intensity( cur.get_field_intensity() - fire_here->get_field_intensity() );
                     }
                 }
-                if( curtype_obj.apply_slime_factor > 0 ) {
-                    sblk.apply_slime( p, cur.get_field_intensity() * curtype_obj.apply_slime_factor );
+                if( cur_fd_type.apply_slime_factor > 0 ) {
+                    sblk.apply_slime( p, cur.get_field_intensity() * cur_fd_type.apply_slime_factor );
                 }
-                if( curtype == fd_fire ) {
+                if( cur_fd_type_id == fd_fire ) {
                     if( process_fire_field_in_submap( map_tile, p, cur, dirty_transparency_cache ) ) {
                         break;
                     }
@@ -535,14 +546,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 // Spread gaseous fields
                 if( cur.gas_can_spread() ) {
-                    const int gas_percent_spread = curtype_obj.percent_spread;
+                    const int gas_percent_spread = cur_fd_type.percent_spread;
                     if( gas_percent_spread > 0 ) {
-                        const time_duration outdoor_age_speedup = curtype_obj.outdoor_age_speedup;
+                        const time_duration outdoor_age_speedup = cur_fd_type.outdoor_age_speedup;
                         spread_gas( cur, p, gas_percent_spread, outdoor_age_speedup, sblk );
                     }
                 }
 
-                if( curtype == fd_fungal_haze ) {
+                if( cur_fd_type_id == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
                         fungal_effects( *g, here ).spread_fungus( p );
@@ -551,7 +562,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                 // Process npc complaints
                 const std::tuple<int, std::string, time_duration, std::string> &npc_complain_data =
-                    curtype_obj.npc_complain_data;
+                    cur_fd_type.npc_complain_data;
                 const int chance = std::get<0>( npc_complain_data );
                 if( chance > 0 && one_in( chance ) ) {
                     if( npc *const np = g->critter_at<npc>( p, false ) ) {
@@ -568,7 +579,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 // Apply wandering fields from vents
-                field_type_id wandering_field_type = curtype_obj.wandering_field;
+                field_type_id wandering_field_type = cur_fd_type.wandering_field;
                 // note: is_valid is true for fd_null
                 if( wandering_field_type && wandering_field_type.is_valid() ) {
                     for( const tripoint &pnt : points_in_radius( p, cur.get_field_intensity() - 1 ) ) {
@@ -582,7 +593,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                if( curtype == fd_fire_vent ) {
+                if( cur_fd_type_id == fd_fire_vent ) {
 
                     if( cur.get_field_intensity() > 1 ) {
                         if( one_in( 3 ) ) {
@@ -595,7 +606,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.set_field_intensity( 0 );
                     }
                 }
-                if( curtype == fd_flame_burst ) {
+                if( cur_fd_type_id == fd_flame_burst ) {
                     if( cur.get_field_intensity() > 1 ) {
                         cur.set_field_intensity( cur.get_field_intensity() - 1 );
                         create_hot_air( p, cur.get_field_intensity() );
@@ -605,7 +616,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.set_field_intensity( 0 );
                     }
                 }
-                if( curtype == fd_electricity ) {
+                if( cur_fd_type_id == fd_electricity ) {
                     // 4 in 5 chance to spread
                     if( !one_in( 5 ) ) {
                         std::vector<tripoint> valid;
@@ -674,7 +685,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                if( curtype == fd_push_items ) {
+                if( cur_fd_type_id == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
                         if( pushee->typeId() != itype_rock ||
@@ -716,7 +727,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_shock_vent ) {
+                if( cur_fd_type_id == fd_shock_vent ) {
                     if( cur.get_field_intensity() > 1 ) {
                         if( one_in( 5 ) ) {
                             cur.set_field_intensity( cur.get_field_intensity() - 1 );
@@ -756,7 +767,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_acid_vent ) {
+                if( cur_fd_type_id == fd_acid_vent ) {
 
                     if( cur.get_field_intensity() > 1 ) {
                         if( cur.get_field_age() >= 1_minutes ) {
@@ -779,7 +790,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_bees ) {
+                if( cur_fd_type_id == fd_bees ) {
                     // Poor bees are vulnerable to so many other fields.
                     // TODO: maybe adjust effects based on different fields.
                     if( curfield.find_field( field_type_id( "fd_web" ) ) ||
@@ -830,7 +841,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                     }
                 }
-                if( curtype == fd_incendiary ) {
+                if( cur_fd_type_id == fd_incendiary ) {
                     // Needed for variable scope
                     tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                     if( has_flag( TFLAG_FLAMMABLE, dst ) ||
@@ -846,11 +857,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     create_hot_air( p, cur.get_field_intensity() );
                 }
-                if( curtype_obj.legacy_make_rubble ) {
+                if( cur_fd_type.legacy_make_rubble ) {
                     // Legacy Stuff
                     make_rubble( p );
                 }
-                if( curtype == fd_fungicidal_gas ) {
+                if( cur_fd_type_id == fd_fungicidal_gas ) {
                     // Check the terrain and replace it accordingly to simulate the fungus dieing off
                     const ter_t &ter = map_tile.get_ter_t();
                     const furn_t &frn = map_tile.get_furn_t();
@@ -864,7 +875,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 cur.set_field_age( cur.get_field_age() + 1_turns );
-                const auto &fdata = cur.get_field_type().obj();
+                const auto &fdata = *cur.get_field_type();
                 if( fdata.half_life > 0_turns && cur.get_field_age() > 0_turns &&
                     dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.half_life ) ) {
                     cur.set_field_age( 0_turns );
