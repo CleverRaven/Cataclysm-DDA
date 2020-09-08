@@ -2,6 +2,7 @@
   {
     "result": "arredondo_chute",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -16,6 +17,7 @@
   {
     "result": "bipod_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -29,6 +31,7 @@
   {
     "result": "grip_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -42,6 +45,7 @@
   {
     "result": "m203_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -55,6 +59,7 @@
   {
     "result": "m320_mod_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -68,6 +73,7 @@
   {
     "result": "masterkey_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -81,6 +87,7 @@
   {
     "result": "rm121aux_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -94,6 +101,7 @@
   {
     "result": "u_shotgun_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -107,6 +115,7 @@
   {
     "result": "knife_combat_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -120,6 +129,7 @@
   {
     "result": "sword_bayonet_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -133,6 +143,7 @@
   {
     "result": "offset_sight_rail_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -146,6 +157,7 @@
   {
     "result": "stabilizer_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -159,6 +171,7 @@
   {
     "result": "muzzle_brake_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -172,6 +185,7 @@
   {
     "result": "rifle_scope_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -185,6 +199,7 @@
   {
     "result": "acog_scope_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -198,6 +213,7 @@
   {
     "result": "improve_sights",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -224,6 +240,7 @@
   {
     "result": "offset_sights",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -250,6 +267,7 @@
   {
     "result": "offset_sights_mod",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -263,6 +281,7 @@
   {
     "result": "sights_mount",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -289,6 +308,7 @@
   {
     "result": "sights_mount_launcher",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -315,6 +335,7 @@
   {
     "result": "sights_mount_pistol",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -341,6 +362,7 @@
   {
     "result": "rail_mount",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -367,6 +389,7 @@
   {
     "result": "underbarrel_mount",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -393,6 +416,7 @@
   {
     "result": "stock_mount",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -419,6 +443,7 @@
   {
     "result": "grip_mount",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -444,6 +469,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tele_sight",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -464,6 +490,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tele_sight_pistol",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -484,6 +511,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pistol_stock",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -500,6 +528,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bow_sight_pin",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -515,6 +544,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bow_scope",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -529,6 +559,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bow_stabilizer_set",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -548,6 +579,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "filter_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -561,6 +593,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bottle_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -573,6 +606,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bow_silencer",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",

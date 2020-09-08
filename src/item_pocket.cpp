@@ -594,9 +594,12 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            item liquid( *iter );
-            iter = contents.erase( iter );
-            liquid_handler::handle_all_liquid( liquid, 1, avoid );
+            liquid_handler::handle_liquid( *iter, avoid, 1 );
+            if( iter->charges == 0 ) {
+                iter = contents.erase( iter );
+            } else {
+                return;
+            }
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
@@ -964,38 +967,12 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         }
     }
 
-    if( it.made_of( phase_id::LIQUID ) ) {
-        if( !data->watertight ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
-        }
-        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
-        }
-    } else if( size() == 1 && contents.front().made_of( phase_id::LIQUID ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
-    }
-    if( it.made_of( phase_id::GAS ) ) {
-        if( !data->airtight ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_GAS, _( "can't contain gas" ) );
-        }
-        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
-        }
-    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
-    }
     if( !data->flag_restriction.empty() && !it.has_any_flag( data->flag_restriction ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_FLAG, _( "item does not have correct flag" ) );
     }
 
-    // ammo restriction overrides item volume and weight data
+    // ammo restriction overrides item volume/weight and watertight/airtight data
     if( !data->ammo_restriction.empty() ) {
         if( !it.is_ammo() ) {
             return ret_val<item_pocket::contain_code>::make_failure(
@@ -1030,12 +1007,40 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
+    if( it.made_of( phase_id::LIQUID ) ) {
+        if( !data->watertight ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
+        }
+        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
+        }
+    } else if( size() == 1 && contents.front().made_of( phase_id::LIQUID ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
+    }
+    if( it.made_of( phase_id::GAS ) ) {
+        if( !data->airtight ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_GAS, _( "can't contain gas" ) );
+        }
+        if( size() != 0 && !item( contents.front() ).combine( it ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_GAS, _( "can't mix gas with contained item" ) );
+        }
+    } else if( size() == 1 && contents.front().made_of( phase_id::GAS ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_LIQUID, _( "can't put non gas into pocket with gas" ) );
+    }
+
     // liquids and gases avoid the size limit altogether
     // soft items also avoid the size limit
+    // count_by_charges items check volume of single charge
     if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
         !it.is_frozen_liquid() &&
         !it.is_soft() && data->max_item_volume &&
-        it.volume() > *data->max_item_volume ) {
+        !it.charges_per_volume( *data->max_item_volume ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
@@ -1077,6 +1082,11 @@ bool item_pocket::can_contain_liquid( bool held_or_ground ) const
         }
         return data->watertight;
     }
+}
+
+bool item_pocket::contains_phase( phase_id phase ) const
+{
+    return !empty() && contents.front().made_of( phase );
 }
 
 cata::optional<item> item_pocket::remove_item( const item &it )
@@ -1202,7 +1212,9 @@ void item_pocket::overflow( const tripoint &pos )
 void item_pocket::on_pickup( Character &guy )
 {
     if( will_spill() ) {
-        handle_liquid_or_spill( guy );
+        while( !empty() ) {
+            handle_liquid_or_spill( guy );
+        }
         restack();
     }
 }

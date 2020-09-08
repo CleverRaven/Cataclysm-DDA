@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_magus_weapon",
     "//": "Forging and water included for glass heat-tempering process",
     "category": "CC_ENCHANTED",
@@ -22,6 +23,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_biomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -42,6 +44,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_animist_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -62,6 +65,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_druid_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -75,6 +79,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_technomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -95,6 +100,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_stormshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -115,6 +121,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rune_earthshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -129,6 +136,7 @@
   {
     "result": "rune_kelvinist_weapon",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -148,6 +156,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "animist_doll_zombie",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -173,6 +182,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "animist_doll_skeleton",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -203,6 +213,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "animist_doll_decayed_pouncer",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -229,6 +240,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shotcestus",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -252,6 +264,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mjolnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -273,6 +286,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gungnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -288,6 +302,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gram",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -303,6 +318,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "ichaival",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -323,6 +339,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "laevateinn",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -338,6 +355,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_odin",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",

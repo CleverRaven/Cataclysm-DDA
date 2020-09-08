@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_surface",
+    "weight": 250,
     "object": {
       "fill_ter": "t_metal_pontoon_dp",
       "rows": [
@@ -52,6 +53,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_-1",
+    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -87,6 +89,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_-2",
+    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -122,6 +125,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_-3",
+    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -191,6 +195,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_-4",
+    "weight": 250,
     "object": {
       "fill_ter": "t_bulkhead_floor",
       "rows": [
@@ -221,6 +226,7 @@
       ],
       "palettes": [ "underwater_structure" ],
       "place_loot": [
+        { "item": "shark_suit", "x": [ 9, 10 ], "y": 12, "chance": 60 },
         { "item": "fish", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] },
         { "item": "fish_bait", "x": 13, "y": 12, "chance": 100, "repeat": [ 2, 6 ] }
       ],
@@ -243,6 +249,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "sealab_small_-5",
+    "weight": 250,
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [

@@ -27,7 +27,7 @@ static void reset_time()
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
+    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
     }

@@ -2,6 +2,7 @@
   {
     "result": "chem_ethanol",
     "type": "recipe",
+    "activity_level": "fake",
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
@@ -24,6 +25,7 @@
   {
     "result": "denat_alcohol",
     "type": "recipe",
+    "activity_level": "fake",
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
@@ -46,6 +48,7 @@
   {
     "result": "biodiesel",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "byproducts": [ [ "chem_glycerol", 4 ] ],
@@ -76,6 +79,7 @@
   {
     "result": "lamp_oil",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "chemistry",

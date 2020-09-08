@@ -1940,6 +1940,7 @@
     "ammo": "battery",
     "use_action": [ "RADGLOVE" ],
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
@@ -3045,7 +3046,7 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "helmet_riot_raised",

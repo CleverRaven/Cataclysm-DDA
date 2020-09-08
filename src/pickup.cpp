@@ -893,7 +893,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 iScrollPos = 0;
             } else if( action == "SELECT_ALL" ) {
                 int count = 0;
-                for( auto i : matches ) {
+                for( int i : matches ) {
                     if( getitem[i].pick ) {
                         count++;
                     }
@@ -997,7 +997,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         bool item_selected = false;
         // Check if we have selected an item.
-        for( auto selection : getitem ) {
+        for( pickup_count selection : getitem ) {
             if( selection.pick ) {
                 item_selected = true;
             }
@@ -1073,27 +1073,6 @@ void show_pickup_message( const PickupMap &mapPickup )
                      entry.second.first.display_name( entry.second.second ) );
         }
     }
-}
-
-bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
-{
-    if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c, /*avoid=*/&it );
-
-        // If bucket is still not empty then player opted not to handle the
-        // rest of the contents
-        if( !it.contents.empty() ) {
-            c.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
-            );
-            m.add_item_or_charges( c.pos(), it );
-            return true;
-        }
-    }
-
-    return false;
 }
 
 int Pickup::cost_to_move_item( const Character &who, const item &it )

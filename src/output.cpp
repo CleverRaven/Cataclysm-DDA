@@ -265,7 +265,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
     const size_t wwidth = getmaxx( w );
     const auto text_lines = foldstring( text, wwidth );
     size_t wheight = getmaxy( w );
-    const auto print_scroll_msg = text_lines.size() > wheight;
+    const bool print_scroll_msg = text_lines.size() > wheight;
     if( print_scroll_msg && !scroll_msg.empty() ) {
         // keep the last line free for a message to the player
         wheight--;

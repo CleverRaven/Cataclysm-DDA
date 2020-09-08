@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "caltrops",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -15,6 +16,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "caltrops_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -28,6 +30,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "concrete",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -41,6 +44,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wood_smoother",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -53,6 +57,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "down_pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -65,6 +70,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "down_mattress",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -78,6 +84,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -90,6 +97,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wood_beam",
     "id_suffix": "from logs",
     "category": "CC_OTHER",
@@ -105,6 +113,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wood_panel",
     "id_suffix": "from wooden beams",
     "category": "CC_OTHER",
@@ -118,6 +127,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wood_panel",
     "id_suffix": "from wooden sheets",
     "category": "CC_OTHER",
@@ -130,6 +140,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wood_panel",
     "id_suffix": "from nailed planks",
     "category": "CC_OTHER",
@@ -141,6 +152,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "2x4",
     "id_suffix": "from wooden beams",
     "category": "CC_OTHER",
@@ -154,6 +166,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
@@ -178,6 +191,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
@@ -209,6 +223,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tent_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -223,6 +238,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "large_tent_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -237,6 +253,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "felt_patch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -249,6 +266,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "caltrops",
     "id_suffix": "from wire",
     "category": "CC_OTHER",
@@ -264,6 +282,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_chitin_piece",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -278,6 +297,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "meal_chitin_piece",
     "id_suffix": "mortar",
     "category": "CC_OTHER",
@@ -294,6 +314,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "reinforced_glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -309,6 +330,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chainsaw_off",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -324,6 +346,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "small_space_heater",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -344,6 +367,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "large_space_heater",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -364,6 +388,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "puller",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -378,6 +403,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "press",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -392,6 +418,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "press_dowel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -410,6 +437,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tailors_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -434,6 +462,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "anesthetic_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -447,6 +476,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wearable_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -464,6 +494,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "analytical_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -483,6 +514,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survivor_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -504,6 +536,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wearable_atomic_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -526,6 +559,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oil_lamp",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -543,6 +577,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gasoline_lantern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -560,6 +595,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "reinforced_glass_pane",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -573,6 +609,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "headlight_reinforced",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -586,6 +623,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wide_headlight_reinforced",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -599,6 +637,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "reinforced_solar_panel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -613,6 +652,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "reinforced_solar_panel_v2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -627,6 +667,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "telepad",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -643,6 +684,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "primitive_hammer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -662,6 +704,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "makeshift_hammer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -677,6 +720,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "needle_bone",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -689,6 +733,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "needle_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -702,6 +747,7 @@
   {
     "result": "bone_flute",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
@@ -714,6 +760,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "primitive_knife",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -736,6 +783,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "digging_stick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -748,6 +796,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "primitive_shovel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -769,6 +818,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "copper_ax",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -788,6 +838,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "primitive_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -809,6 +860,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "primitive_adze",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -826,6 +878,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fire_drill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -839,6 +892,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fire_drill_large",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -852,6 +906,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crude_firestarter",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -865,6 +920,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "knitting_needles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -877,6 +933,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "distaff_spindle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -889,6 +946,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "carding_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -901,6 +959,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "waterskin",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -914,6 +973,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "waterskin2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -927,6 +987,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "waterskin3",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -940,6 +1001,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "makeshift_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -952,6 +1014,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shelter_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -965,6 +1028,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shelter_kit",
     "id_suffix": "repair",
     "category": "CC_OTHER",
@@ -983,6 +1047,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fur_rollmat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -998,6 +1063,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_faucet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1011,6 +1077,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "cargo_rack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1025,6 +1092,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "w_table",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1039,6 +1107,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "workbench",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1053,6 +1122,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "muffler",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1067,6 +1137,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "seat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1080,6 +1151,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "seat_leather",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1099,6 +1171,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cotton_ball",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1111,6 +1184,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cotton_ball",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1123,6 +1197,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "thread",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1136,6 +1211,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rag",
     "id_suffix": "knitting",
     "category": "CC_OTHER",
@@ -1149,6 +1225,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rag",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1160,6 +1237,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1172,6 +1250,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sheet_kevlar_layered",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1184,6 +1263,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rigid_kevlar_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1194,6 +1274,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "vehicle_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1213,6 +1294,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "folding_bicycle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -1234,6 +1316,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rolling_paper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1246,6 +1329,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "string_6",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1257,6 +1341,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "string_36",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1268,6 +1353,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_6",
     "id_suffix": "from_string",
     "category": "CC_OTHER",
@@ -1280,6 +1366,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_6",
     "id_suffix": "from_cloth",
     "category": "CC_OTHER",
@@ -1294,6 +1381,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_30",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1305,6 +1393,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_makeshift_6",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1316,6 +1405,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_makeshift_30",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1336,6 +1426,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wire",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1350,6 +1441,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wire_barbed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1363,6 +1455,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wire_mesh",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1376,6 +1469,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -1388,6 +1482,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "holy_symbol_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -1400,6 +1495,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "spike",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1412,6 +1508,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "blade",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1423,6 +1520,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "screwdriver",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1435,6 +1533,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "screwdriver_set",
     "id_suffix": "forged",
     "category": "CC_OTHER",
@@ -1450,6 +1549,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "stepladder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1463,6 +1563,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1477,6 +1578,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tree_spile",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1489,6 +1591,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crude_picklock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1500,6 +1603,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crude_picklock",
     "id_suffix": "from wire",
     "category": "CC_OTHER",
@@ -1512,6 +1616,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tripwire",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1524,6 +1629,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "board_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1536,6 +1642,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "board_trap",
     "id_suffix": "use_nailboards",
     "category": "CC_OTHER",
@@ -1549,6 +1656,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "beartrap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1567,6 +1675,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crossbow_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1582,6 +1691,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "shotgun_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1597,6 +1707,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blade_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1612,6 +1723,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "boobytrap",
     "id_suffix": "closed_cans_such_as_drinks",
     "category": "CC_OTHER",
@@ -1626,6 +1738,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "landmine",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -1657,6 +1770,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brazier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1670,6 +1784,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "55gal_firebarrel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1683,6 +1798,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "30gal_firebarrel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1696,6 +1812,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "metal_tank",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1709,6 +1826,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "it_battery_mount",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1723,6 +1841,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "metal_tank_little",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1736,6 +1855,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arm_xlsplint",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -1752,6 +1872,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arm_splint",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -1768,6 +1889,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leg_splint",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -1784,6 +1906,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leg_xlsplint",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -1800,6 +1923,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "scrap_copper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1813,6 +1937,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jug_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1825,6 +1950,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jerrycan",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1838,6 +1964,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "jerrycan_big",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1851,6 +1978,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "jerrycan_big",
     "id_suffix": "welder",
     "category": "CC_OTHER",
@@ -1865,6 +1993,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "flask_hip",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1879,6 +2008,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bowl_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1891,6 +2021,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mold_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1903,6 +2034,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bottle_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1915,6 +2047,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bottle_plastic_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1927,6 +2060,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bottle_twoliter",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -1939,6 +2073,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chemistry_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1958,6 +2093,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chemistry_set",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1972,6 +2108,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "misc_repairkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1990,6 +2127,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "small_repairkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2019,6 +2157,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2040,6 +2179,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rock_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2064,6 +2204,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "welder_crude",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2085,6 +2226,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "popcan_stove",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2097,6 +2239,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "forge",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2129,6 +2272,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "anvil",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2142,6 +2286,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crucible_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2154,6 +2299,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tongs",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2167,6 +2313,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chisel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2187,6 +2334,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "swage",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2207,6 +2355,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2221,6 +2370,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hand_drill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2235,6 +2385,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2248,6 +2399,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "scissors",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2261,6 +2413,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "//": "Tin can be melted by fire, but you need something to contain and work with it. Hence the press.",
     "result": "pot_copper",
     "category": "CC_OTHER",
@@ -2275,6 +2428,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "//": "Alternative to the press explained above: this electroplates the tin using an electrolysis kit.",
     "result": "pot_copper",
     "category": "CC_OTHER",
@@ -2295,6 +2449,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2306,6 +2461,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "teapot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2318,6 +2474,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "blade",
     "id_suffix": "from steel",
     "category": "CC_OTHER",
@@ -2332,6 +2489,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wrench",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2345,6 +2503,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pliers",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2359,6 +2518,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hacksaw",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2374,6 +2534,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "boltcutters",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2389,6 +2550,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "shovel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2404,6 +2566,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "e_tool",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2418,6 +2581,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hoe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2433,6 +2597,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "ax",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2448,6 +2613,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "saw",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2463,6 +2629,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2478,6 +2645,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge_short",
     "id_suffix": "forged",
     "category": "CC_OTHER",
@@ -2494,6 +2662,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge_short",
     "id_suffix": "from_cutting",
     "category": "CC_OTHER",
@@ -2508,6 +2677,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge_heavy",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2523,6 +2693,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge_engineer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2538,6 +2709,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chain",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2551,6 +2723,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "canister_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2564,6 +2737,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "can_medium",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2577,6 +2751,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "jackhammer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2597,6 +2772,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "magnifying_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2611,6 +2787,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survivor_scope",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2625,6 +2802,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "crackpipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2636,6 +2814,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "quikclot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -2650,6 +2829,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bfipowder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -2664,6 +2844,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "char_forge",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2694,6 +2875,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "char_smoker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2715,6 +2897,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "waffleiron",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2728,6 +2911,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pastaextruder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2741,6 +2925,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "brick_kiln",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2760,6 +2945,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "kiln",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2788,6 +2974,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "con_mix",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2816,6 +3003,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "metal_smoother",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2829,6 +3017,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "char_kiln",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2853,6 +3042,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "kiln_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2867,6 +3057,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "char_purifier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2879,6 +3070,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wooden_barrel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2891,6 +3083,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "55gal_drum",
     "id_suffix": "from_scratch",
     "category": "CC_OTHER",
@@ -2905,6 +3098,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "30gal_drum",
     "id_suffix": "from_scratch",
     "category": "CC_OTHER",
@@ -2919,6 +3113,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "55gal_drum",
     "id_suffix": "welded",
     "category": "CC_OTHER",
@@ -2932,6 +3127,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "30gal_drum",
     "id_suffix": "welded",
     "category": "CC_OTHER",
@@ -2945,6 +3141,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "30gal_barrel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -2958,6 +3155,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mop",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2971,6 +3169,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "glass_shard",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2997,6 +3196,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jar_3l_glass_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3010,6 +3210,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bottle_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3023,6 +3224,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jar_glass_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3036,6 +3238,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flask_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3049,6 +3252,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "test_tube",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3063,6 +3267,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mirror",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3075,6 +3280,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mirror",
     "id_suffix": "from_steel",
     "category": "CC_OTHER",
@@ -3089,6 +3295,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pipe_glass",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3102,6 +3309,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3114,6 +3322,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "grapnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3127,6 +3336,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "well_pump",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -3147,6 +3357,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fishing_rod_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3160,6 +3371,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wearable_rx12",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3175,6 +3387,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fishing_hook_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3187,6 +3400,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fishing_hook_bone",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3200,6 +3414,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "skewer_bone",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3211,6 +3426,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fish_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3226,6 +3442,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bag_canvas_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3238,6 +3455,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bag_canvas",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3250,6 +3468,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "material_quicklime",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3265,6 +3484,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "material_cement",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3280,6 +3500,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cu_pipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3293,6 +3514,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pilot_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3306,6 +3528,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "paper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3320,6 +3543,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "toolbox_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3333,6 +3557,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "toolbox_workshop",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3359,6 +3584,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vacutainer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
@@ -3372,6 +3598,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "plastic_chunk",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3387,6 +3614,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3400,6 +3628,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survival_marker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3412,6 +3641,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "plastic_chunk",
     "id_suffix": "from_plastic_bags",
     "category": "CC_OTHER",
@@ -3445,6 +3675,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chitin_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3457,6 +3688,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "acidchitin_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3469,6 +3701,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "spring",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3482,6 +3715,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rebar",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3495,6 +3729,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "railroad_track_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3509,6 +3744,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jumper_cable",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3524,6 +3760,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jumper_cable_heavy",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -3539,6 +3776,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bucket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3553,6 +3791,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "metal_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3567,6 +3806,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tarp_raincatcher",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3580,6 +3820,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3592,6 +3833,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "jug_plastic",
     "id_suffix": "plastic-mod",
     "category": "CC_OTHER",
@@ -3605,6 +3847,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leather_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3618,6 +3861,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "birchbark_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3630,6 +3874,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chem_sulphur",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3644,6 +3889,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cured_hide",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3660,6 +3906,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cured_hide",
     "id_suffix": "scraped",
     "category": "CC_OTHER",
@@ -3673,6 +3920,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanning_hide",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3699,6 +3947,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cured_pelt",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3715,6 +3964,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanning_pelt",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3741,6 +3991,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanning_hide",
     "id_suffix": "modern",
     "category": "CC_OTHER",
@@ -3762,6 +4013,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanning_pelt",
     "id_suffix": "modern",
     "category": "CC_OTHER",
@@ -3783,6 +4035,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "lobotomizer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3797,6 +4050,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chipper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3809,6 +4063,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "paint_brush",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3821,6 +4076,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "clay_pot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3834,6 +4090,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "clay_pot_flower",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -3847,6 +4104,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3860,6 +4118,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "clay_teapot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3873,6 +4132,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3886,6 +4146,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fire_brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3904,6 +4165,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soft_adobe_brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3923,6 +4185,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "adobe_pallet_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3935,6 +4198,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mortar_adobe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3949,6 +4213,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mortar_build",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -3962,6 +4227,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survivor_mess_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3974,6 +4240,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "charcoal_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3987,6 +4254,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "oil_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3999,6 +4267,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gasoline_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4011,6 +4280,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chem_aluminium_powder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4027,6 +4297,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "canteen",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4040,6 +4311,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "2lcanteen",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4053,6 +4325,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bagpipes",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4071,6 +4344,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survivor_shavingkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4090,6 +4364,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "survivor_hairtrimmer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4103,6 +4378,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "plant_fibre",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4114,6 +4390,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "v_scoop_item",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -4128,6 +4405,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "v_planter_item",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -4142,6 +4420,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "v_reaper_item",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -4156,6 +4435,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "v_plow_item",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -4177,6 +4457,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "neoprene",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4198,6 +4479,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "needle_curved",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4213,6 +4495,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "washboard",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4225,6 +4508,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wash_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4236,6 +4520,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "ash",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4247,6 +4532,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -4260,6 +4546,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "link_sheet",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -4274,6 +4561,7 @@
   {
     "result": "bundle_rag",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4289,6 +4577,7 @@
   {
     "result": "bundle_leather",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4304,6 +4593,7 @@
   {
     "result": "bundle_wool",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4319,6 +4609,7 @@
   {
     "result": "bundle_plank",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4331,6 +4622,7 @@
   {
     "result": "bundle_branch",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4343,6 +4635,7 @@
   {
     "result": "bundle_branch_long",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4354,6 +4647,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "metal_butcher_rack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4381,6 +4675,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "metal_smoking_rack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4407,6 +4702,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tourist_table",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4420,6 +4716,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leather_tarp",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4433,6 +4730,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fiber_mat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4445,6 +4743,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "pot_canning",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4458,6 +4757,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "platinum_grille",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4477,6 +4777,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_grille",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4491,6 +4792,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wooden_bead",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4502,6 +4804,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sandbag",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4513,6 +4816,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "earthbag",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4525,6 +4829,7 @@
   {
     "result": "anvil_bronze",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -4539,6 +4844,7 @@
   {
     "result": "scrap_bronze",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -4552,6 +4858,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pet_carrier_wooden",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4565,6 +4872,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "razor_shaving",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4577,6 +4885,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "makeshift_stethoscope",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4600,6 +4909,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tempered_glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4612,6 +4922,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -4624,6 +4935,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "funnel_separation",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4640,6 +4952,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "stopcock",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

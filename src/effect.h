@@ -205,7 +205,7 @@ class effect
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
-        void set_bp( bodypart_str_id part );
+        void set_bp( const bodypart_str_id &part );
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;

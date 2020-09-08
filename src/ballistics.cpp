@@ -94,9 +94,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
-                ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( DT_STAB ) >
-                attack.dealt_dam.type_damage( DT_BASH ) +
+                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
+                attack.dealt_dam.type_damage( damage_type::STAB ) >
+                attack.dealt_dam.type_damage( damage_type::BASH ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 

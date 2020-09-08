@@ -210,7 +210,35 @@
         "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
       },
       { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
-      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" }
+      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" },
+      { "id": "mug17", "text": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side." },
+      {
+        "id": "mug18",
+        "text": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
+      },
+      {
+        "id": "mug19",
+        "text": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
+      },
+      {
+        "id": "mug20",
+        "text": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
+      },
+      { "id": "mug21", "text": "A white ceramic coffee mug.  On the side is a winking woman in lingerie." },
+      {
+        "id": "mug22",
+        "text": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
+      },
+      {
+        "id": "mug23",
+        "text": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
+      },
+      {
+        "id": "mug24",
+        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sat in a burning room, saying \"This is fine.\""
+      },
+      { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
+      { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
     ]
   },
   {

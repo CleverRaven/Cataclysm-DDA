@@ -751,7 +751,7 @@ bool veh_interact::can_install_part()
         }
     }
 
-    const auto reqs = sel_vpart_info->install_requirements();
+    const requirement_data reqs = sel_vpart_info->install_requirements();
 
     avatar &player_character = get_avatar();
     std::string nmsg;
@@ -1802,7 +1802,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                     sel_vehicle_part->name(), result_of_removal.display_name() );
     }
 
-    const auto reqs = sel_vpart_info->removal_requirements();
+    const requirement_data reqs = sel_vpart_info->removal_requirements();
     bool ok = format_reqs( nmsg, reqs, sel_vpart_info->removal_skills,
                            sel_vpart_info->removal_time( p ) );
 
@@ -2977,7 +2977,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const auto pt : p.activity.coord_set ) {
+            for( const tripoint pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
@@ -3004,7 +3004,7 @@ void veh_interact::complete_vehicle( player &p )
         case 'i': {
             const inventory &inv = p.crafting_inventory();
 
-            const auto reqs = vpinfo.install_requirements();
+            const requirement_data reqs = vpinfo.install_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 add_msg( m_info, _( "You don't meet the requirements to install the %s." ),
                          vpinfo.name() );
@@ -3138,7 +3138,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
 
             } else if( pt.is_fuel_store() ) {
-                auto qty = src->charges;
+                int qty = src->charges;
                 pt.base.reload( p, std::move( src ), qty );
 
                 //~ 1$s vehicle name, 2$s reactor name
@@ -3166,7 +3166,7 @@ void veh_interact::complete_vehicle( player &p )
                     return;
                 }
             }
-            const auto reqs = vpinfo.removal_requirements();
+            const requirement_data reqs = vpinfo.removal_requirements();
             if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 //~  1$s is the vehicle part name
                 add_msg( m_info, _( "You don't meet the requirements to remove the %1$s." ),

@@ -2,6 +2,7 @@
   {
     "result": "XL_holster",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -15,6 +16,7 @@
   {
     "result": "ammo_satchel",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -28,6 +30,7 @@
   {
     "result": "stone_pouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -41,6 +44,7 @@
   {
     "result": "chestrig",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -54,6 +58,7 @@
   {
     "result": "axe_ring",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -67,6 +72,7 @@
   {
     "result": "back_holster",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -80,6 +86,7 @@
   {
     "result": "backpack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -92,6 +99,7 @@
   {
     "result": "backpack_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -104,6 +112,7 @@
   {
     "result": "baldric",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -118,6 +127,7 @@
   {
     "result": "bandolier_pistol",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -131,6 +141,7 @@
   {
     "result": "bandolier_rifle",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -144,6 +155,7 @@
   {
     "result": "bandolier_shotgun",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -157,6 +169,7 @@
   {
     "result": "torso_bandolier_shotgun",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -170,6 +183,7 @@
   {
     "result": "bandolier_wrist",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -183,6 +197,7 @@
   {
     "result": "bholster",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -196,6 +211,7 @@
   {
     "result": "bindle",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -211,6 +227,7 @@
   {
     "result": "bootsheath",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -224,6 +241,7 @@
   {
     "result": "bootstrap",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -237,6 +255,7 @@
   {
     "result": "bow_sling",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -255,6 +274,7 @@
   {
     "result": "bscabbard",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -269,6 +289,7 @@
   {
     "result": "chestpouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -282,6 +303,7 @@
   {
     "result": "tacvest",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -301,6 +323,7 @@
   {
     "result": "duffelbag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -313,6 +336,7 @@
   {
     "result": "flintlock_pouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -326,6 +350,7 @@
   {
     "result": "grenade_pouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -340,6 +365,7 @@
   {
     "result": "hide_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -352,6 +378,7 @@
   {
     "result": "hide_tainted_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -364,6 +391,7 @@
   {
     "result": "holster",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -377,6 +405,7 @@
   {
     "result": "jerrypack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
@@ -390,6 +419,7 @@
   {
     "result": "boxpack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
@@ -402,6 +432,7 @@
   {
     "result": "leather_belt",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -413,6 +444,7 @@
   {
     "result": "leather_pouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -426,6 +458,7 @@
   {
     "result": "ammo_pouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -439,6 +472,7 @@
   {
     "result": "legpouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -452,6 +486,7 @@
   {
     "result": "legpouch_large",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -465,6 +500,7 @@
   {
     "result": "legrig",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -479,6 +515,7 @@
   {
     "result": "makeshift_knapsack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -502,6 +539,7 @@
   {
     "result": "makeshift_sling",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -514,6 +552,7 @@
   {
     "result": "plastic_shopping_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
@@ -527,6 +566,7 @@
   {
     "result": "quiver",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -543,6 +583,7 @@
   {
     "result": "quiver_birchbark",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -559,6 +600,7 @@
   {
     "result": "quiver_large",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -576,6 +618,7 @@
   {
     "result": "quiver_large_birchbark",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -592,6 +635,7 @@
   {
     "result": "ragpouch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -603,6 +647,7 @@
   {
     "result": "scabbard",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -617,6 +662,7 @@
   {
     "result": "sheath",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -630,6 +676,7 @@
   {
     "result": "sholster",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -643,6 +690,7 @@
   {
     "result": "spearsling",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -656,6 +704,7 @@
   {
     "result": "straw_basket",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -667,6 +716,7 @@
   {
     "result": "survivor_duffel_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -696,6 +746,7 @@
   {
     "result": "survivor_pack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -725,6 +776,7 @@
   {
     "result": "survivor_rucksack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -754,6 +806,7 @@
   {
     "result": "survivor_runner_pack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -783,6 +836,7 @@
   {
     "result": "survivor_vest",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -802,6 +856,7 @@
   {
     "result": "swag_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "survival",
@@ -814,6 +869,7 @@
   {
     "result": "tool_belt",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -826,6 +882,7 @@
   {
     "result": "javelin_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -839,6 +896,7 @@
   {
     "result": "grenadebandolier",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -852,6 +910,7 @@
   {
     "result": "bigback",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -870,6 +929,7 @@
   {
     "result": "travelpack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -882,6 +942,7 @@
   {
     "result": "petpack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -894,6 +955,7 @@
   {
     "result": "backpack_tactical_large",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -906,6 +968,7 @@
   {
     "result": "backpack_hiking",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
@@ -926,5 +989,80 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 70 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "rag", 15 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 1 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [
+      [ [ "leather", 15 ], [ "tanned_hide", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 1 ] ]
+    ]
+  },
+  {
+    "result": "rifle_case_soft_2",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [ [ [ "rag", 30 ] ], [ [ "zipper_long_plastic", 1 ] ], [ [ "zipper_short_plastic", 3 ] ] ]
+  },
+  {
+    "result": "rifle_case_soft_leather_2",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [
+      [ [ "leather", 30 ], [ "tanned_hide", 2 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 3 ] ]
+    ]
+  },
+  {
+    "result": "rifle_case_xl_soft_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [
+      [ [ "leather", 20 ], [ "tanned_hide", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "zipper_long_plastic", 1 ] ],
+      [ [ "zipper_short_plastic", 1 ] ]
+    ]
   }
 ]

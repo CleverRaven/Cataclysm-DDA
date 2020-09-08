@@ -13,6 +13,7 @@
 #include "clone_ptr.h"
 #include "item.h"
 #include "item_location.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "string_id.h"
@@ -21,6 +22,7 @@
 #include "units_fwd.h"
 
 class Character;
+class Creature;
 class JsonIn;
 class JsonOut;
 class avatar;
@@ -98,6 +100,15 @@ class activity_actor
         }
 
         /**
+         * Called every turn, in player_activity::do_turn
+         * (with some indirection through player_activity::exertion_level)
+         * How strenous this acitivty level is
+         */
+        virtual float exertion_level() const {
+            return get_type()->exertion_level();
+        }
+
+        /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_activity_actor {
@@ -138,6 +149,13 @@ class aim_activity_actor : public activity_actor
          * Implies aborted = true
          */
         bool reload_requested = false;
+        /**
+         * A friendly creature may enter line of fire during aim-and-shoot,
+         * and that generates a warning to proceed/abort. If player decides to
+         * proceed, that creature is saved in this vector to prevent the same warning
+         * from popping up on the following turn(s).
+         */
+        std::vector<weak_ptr_fast<Creature>> acceptable_losses;
 
         aim_activity_actor();
 
@@ -434,13 +452,6 @@ class lockpick_activity_actor : public activity_actor
         cata::optional<item> fake_lockpick;
         tripoint target;
 
-    public:
-        /**
-         * When assigning, set either 'lockpick' or 'fake_lockpick'
-         * @param lockpick Physical lockpick (if using one)
-         * @param fake_lockpick Fake item spawned by a bionic
-         * @param target lockpicking target (in global coords)
-         */
         lockpick_activity_actor(
             int moves_total,
             const cata::optional<item_location> &lockpick,
@@ -448,6 +459,19 @@ class lockpick_activity_actor : public activity_actor
             const tripoint &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
+
+    public:
+        /** Use regular lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_item(
+            int moves_total,
+            const item_location &lockpick,
+            const tripoint &target
+        );
+
+        /** Use bionic lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_bionic(
+            const tripoint &target
+        );
 
         activity_id get_type() const override {
             return activity_id( "ACT_LOCKPICK" );
@@ -639,6 +663,8 @@ class craft_activity_actor : public activity_actor
         item_location craft_item;
         bool is_long;
 
+        float activity_override = NO_EXERCISE;
+
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -655,6 +681,8 @@ class craft_activity_actor : public activity_actor
         }
 
         std::string get_progress_message( const player_activity & ) const override;
+
+        float exertion_level() const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );

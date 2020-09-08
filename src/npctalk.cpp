@@ -1507,7 +1507,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
             }
             d_win.handle_scrolling( action );
-            auto st = special_talk( action );
+            talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
@@ -1724,6 +1724,9 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
                 d.alpha->i_add( new_item );
             } else {
                 for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
+                    if( !new_item.ammo_default().is_null() ) {
+                        new_item.ammo_set( new_item.ammo_default() );
+                    }
                     d.alpha->i_add( new_item );
                 }
             }
@@ -2859,7 +2862,7 @@ bool npc::item_name_whitelisted( const std::string &to_match )
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto rule = wlist.check_item( to_match );
+    const rule_state rule = wlist.check_item( to_match );
     if( rule == rule_state::WHITELISTED ) {
         return true;
     }

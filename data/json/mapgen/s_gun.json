@@ -100,6 +100,7 @@
         { "group": "mags_pistol_rare", "x": 3, "y": [ 7, 10 ], "chance": 50 },
         { "group": "mags_rifle_rare", "x": 3, "y": [ 7, 10 ], "chance": 25 },
         { "group": "mags_shotgun_rare", "x": 3, "y": [ 7, 10 ], "chance": 10 },
+        { "group": "gun_cases", "x": 8, "y": [ 8, 9 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "book_gunmags", "x": 8, "y": [ 8, 9 ], "chance": 100, "repeat": [ 1, 8 ] },
         { "group": "book_gunmags", "x": 8, "y": [ 11, 12 ], "chance": 50, "repeat": [ 1, 8 ] },
         {
@@ -270,6 +271,7 @@
         { "group": "guns_shotgun_common_display", "x": 15, "y": [ 9, 10 ], "chance": 85, "repeat": [ 1, 3 ] },
         { "group": "guns_rifle_common_display", "x": 16, "y": [ 9, 10 ], "chance": 85, "repeat": [ 1, 3 ] },
         { "group": "mags_common", "x": [ 14, 16 ], "y": 12, "chance": 100, "repeat": [ 1, 8 ] },
+        { "group": "gun_cases", "x": [ 14, 16 ], "y": 12, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "mags_rare", "x": [ 14, 16 ], "y": 13, "chance": 75, "repeat": [ 1, 3 ] }
       ]
     }
@@ -526,6 +528,7 @@
         { "chance": 60, "item": "gunmod_common", "x": [ 12, 14 ], "y": 9 },
         { "chance": 95, "item": "ammo_common", "x": 6, "y": [ 5, 6 ] },
         { "chance": 85, "item": "guns_rifle_common_display", "x": [ 17, 18 ], "y": 5 },
+        { "chance": 85, "item": "gun_cases", "x": [ 17, 18 ], "y": 5, "repeat": [ 1, 2 ] },
         { "chance": 95, "item": "guns_common_display", "x": 9, "y": [ 6, 7 ] },
         { "chance": 95, "item": "guns_common_display", "x": 19, "y": [ 5, 7 ] },
         { "chance": 45, "item": "trash", "x": 13, "y": 12 },

@@ -234,9 +234,9 @@ class messages_impl
             }
 
             // current message turn.
-            const auto cm_turn = to_turn<int>( message.turn() );
+            const int cm_turn = to_turn<int>( message.turn() );
             // maximum range of the cooldown timer.
-            const auto max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
+            const int max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
             // If the current message is in the cooldown range then hide it.
             if( cm_turn <= max_cooldown_range ) {
                 message.cooldown_hidden = true;
@@ -271,10 +271,10 @@ class messages_impl
             }
 
             // housekeeping: remove any cooldown message with an expired cooldown time from the cooldown queue.
-            const auto now = calendar::turn;
+            const time_point now = calendar::turn;
             for( auto it = cooldown_templates.begin(); it != cooldown_templates.end(); ) {
                 // number of turns elapsed since the cooldown started.
-                const auto turns = to_turns<int>( now - it->turn() );
+                const int turns = to_turns<int>( now - it->turn() );
                 if( turns >= message_cooldown ) {
                     // time elapsed! remove it.
                     it = cooldown_templates.erase( it );

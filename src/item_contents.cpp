@@ -89,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
                         c_light_gray, format_item_info( info, {} ) );
     }
 
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 static std::string keys_text()
@@ -384,7 +384,8 @@ struct item_contents::item_contents_helper {
         }
 
         if( failure_messages.empty() ) {
-            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "is not a container" ) );
+            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "pocket with type (%s) not found" ),
+                    io::enum_to_string( pk_type ) );
         }
         std::sort( failure_messages.begin(), failure_messages.end(), localized_compare );
         failure_messages.erase(
@@ -440,14 +441,14 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "Found no suitable pocket for item" );
+        return ret_val<bool>::make_failure( pocket.str() );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
         return ret_val<bool>::make_success();
     }
-    return ret_val<bool>::make_failure( "Failed to insert into pocket" );
+    return ret_val<bool>::make_failure( pocket.str() );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -1011,7 +1012,8 @@ std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type p
 std::list<const item *> item_contents::all_items_ptr() const
 {
     std::list<const item *> all_items_internal;
-    for( int i = item_pocket::pocket_type::CONTAINER; i < item_pocket::pocket_type::LAST; i++ ) {
+    for( int i = static_cast<int>( item_pocket::pocket_type::CONTAINER );
+         i < static_cast<int>( item_pocket::pocket_type::LAST ); i++ ) {
         std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
         all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
     }
@@ -1225,21 +1227,21 @@ units::mass item_contents::total_container_weight_capacity() const
     return total_weight;
 }
 
-ret_val<std::vector<item_pocket>> item_contents::get_all_contained_pockets() const
+ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pockets() const
 {
-    std::vector<item_pocket> pockets;
+    std::vector<const item_pocket *> pockets;
     bool found = false;
 
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             found = true;
-            pockets.push_back( pocket );
+            pockets.push_back( &pocket );
         }
     }
     if( found ) {
-        return ret_val<std::vector<item_pocket>>::make_success( pockets );
+        return ret_val<std::vector<const item_pocket *>>::make_success( pockets );
     } else {
-        return ret_val<std::vector<item_pocket>>::make_failure( pockets );
+        return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
     }
 }
 
@@ -1285,6 +1287,65 @@ units::volume item_contents::total_contained_volume() const
         }
     }
     return total_vol;
+}
+
+units::volume item_contents::get_contents_volume_with_tweaks( const std::map<const item *, int>
+        &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( const item_pocket *pocket : get_all_contained_pockets().value() ) {
+        if( !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack == without.end() ) || ( stack->second != it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
+            for( const item *i : pocket->all_items_top() ) {
+                if( i->count_by_charges() ) {
+                    ret += i->volume() - i->get_selected_stack_volume( without );
+                } else if( !without.count( i ) ) {
+                    ret += i->volume();
+                    ret -= i->contents.get_nested_content_volume_recursive( without );
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
+units::volume item_contents::get_nested_content_volume_recursive( const
+        std::map<const item *, int> &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( const item_pocket *pocket : get_all_contained_pockets().value() ) {
+        if( pocket->rigid() && !pocket->empty() && !pocket->contains_phase( phase_id::SOLID ) ) {
+            const item *it = &pocket->front();
+            auto stack = without.find( it );
+            if( ( stack != without.end() ) && ( stack->second == it->charges ) ) {
+                ret += pocket->volume_capacity();
+            }
+        } else {
+            for( const item *i : pocket->all_items_top() ) {
+                if( i->count_by_charges() ) {
+                    ret += i->get_selected_stack_volume( without );
+                } else if( without.count( i ) ) {
+                    ret += i->volume();
+                } else {
+                    ret += i->contents.get_nested_content_volume_recursive( without );
+                }
+            }
+
+            if( pocket->rigid() ) {
+                ret += pocket->remaining_volume();
+            }
+        }
+    }
+
+    return ret;
 }
 
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,

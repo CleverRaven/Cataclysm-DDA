@@ -842,7 +842,7 @@ void avatar_action::eat( avatar &you, const item_location &loc )
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
-                         std::vector<int> consume_menu_selections,
+                         const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter )
 {
@@ -1005,15 +1005,15 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             add_msg( _( "Never mind." ) );
             return;
         }
+    }
 
-        if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-            use_in_place = true;
-        } else {
-            loc = loc.obtain( you );
-            if( !loc ) {
-                debugmsg( "Failed to obtain target item" );
-                return;
-            }
+    if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        use_in_place = true;
+    } else {
+        loc = loc.obtain( you );
+        if( !loc ) {
+            debugmsg( "Failed to obtain target item" );
+            return;
         }
     }
 

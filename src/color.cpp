@@ -57,13 +57,13 @@ void color_manager::finalize()
 
         if( !entry.name_custom.empty() ) {
             // Not using name_to_color because we want default color of this name
-            const auto id = name_to_id( entry.name_custom );
+            const color_id id = name_to_id( entry.name_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            const auto id = name_to_id( entry.name_invert_custom );
+            const color_id id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
             entry.invert_custom = other.color;
         }

@@ -207,7 +207,9 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    json.member( "favorite_settings", this->settings );
+    if( this->settings.priority() != 0 || !this->settings.is_null() ) {
+        json.member( "favorite_settings", this->settings );
+    }
     json.end_object();
 }
 
@@ -220,7 +222,11 @@ void item_pocket::deserialize( JsonIn &jsin )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
-    data.read( "favorite_settings", this->settings );
+    if( data.has_member( "favorite_settings" ) ) {
+        data.read( "favorite_settings", this->settings );
+    } else {
+        this->settings.clear();
+    }
 }
 
 void item_pocket::favorite_settings::serialize( JsonOut &json ) const

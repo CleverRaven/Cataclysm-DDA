@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "carver_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -25,6 +26,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cordless_drill",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -49,6 +51,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "reading_light",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -69,6 +72,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "trimmer_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -94,6 +98,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "circsaw_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -117,6 +122,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "antenna",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -128,6 +134,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "directional_antenna",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -142,6 +149,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "amplifier",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -157,6 +165,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "power_supply",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -170,6 +179,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "element",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -183,6 +193,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "receiver",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -198,6 +209,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "transponder",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -213,6 +225,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "electric_lantern",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -227,6 +240,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sheet_metal_lit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -244,6 +258,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flashlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -270,6 +285,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "floodlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -289,6 +305,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "directed_floodlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -308,6 +325,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "car_headlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -327,6 +345,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "car_wide_headlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -346,6 +365,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "soldering_iron",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -367,6 +387,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "noise_emitter",
     "id_suffix": "radio-mod",
     "category": "CC_ELECTRONIC",
@@ -393,6 +414,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "noise_emitter",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -407,6 +429,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "radio",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -421,6 +444,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_purifier",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -442,6 +466,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hotplate",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -470,6 +495,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "mess_kit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -491,6 +517,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "coffeemaker",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -521,6 +548,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tazer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -536,6 +564,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "beeper",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -551,6 +580,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "two_way_radio",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -572,6 +602,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "electrohack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -588,6 +619,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mp3",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -604,6 +636,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "portable_game",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -628,6 +661,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "geiger_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -643,6 +677,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rad_monitor",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -658,6 +693,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "UPS_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -674,6 +710,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "adv_UPS_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -690,6 +727,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "recharge_station",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -705,6 +743,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "battery_charger",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -721,6 +760,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "solarpack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -745,6 +785,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "solar_panel",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -761,6 +802,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "wind_turbine",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -784,6 +826,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "xl_wind_turbine",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -815,6 +858,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "water_wheel",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -844,6 +888,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "xl_water_wheel",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -881,6 +926,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "solar_panel_v2",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -902,6 +948,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "kitchen_unit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -925,6 +972,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "forgerig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -941,6 +989,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "kilnrig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -957,6 +1006,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "welding_components",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -972,6 +1022,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "weldrig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -988,6 +1039,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "craftrig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1012,6 +1064,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chemlab",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1035,6 +1088,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "medium_storage_battery",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1049,6 +1103,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "storage_battery",
     "id_suffix": "from_medium",
     "category": "CC_ELECTRONIC",
@@ -1070,6 +1125,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "storage_battery",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1084,6 +1140,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_manhack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1109,6 +1166,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_grenade_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1134,6 +1192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_mininuke_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1159,6 +1218,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_gasbomb_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1184,6 +1244,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_EMP_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1209,6 +1270,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_flashbang_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1234,6 +1296,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_c4_hack",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1259,6 +1322,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_turret",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1296,6 +1360,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_rifleturret",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1328,6 +1393,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_crows_m240",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1360,6 +1426,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_nursebot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1392,6 +1459,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_grocerybot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1424,6 +1492,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_dispatch",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1461,6 +1530,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_dispatch_military",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1498,6 +1568,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_hazmatbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1528,6 +1599,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_copbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1561,6 +1633,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_eyebot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1593,6 +1666,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_molebot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1622,6 +1696,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_riotbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1655,6 +1730,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_secubot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1689,6 +1765,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_talon_m202a1",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1723,6 +1800,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_skitterbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1755,6 +1833,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_science_bot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1790,6 +1869,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_antimateriel",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1822,6 +1902,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bot_turret_searchlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1852,6 +1933,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "dehydrator",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1875,6 +1957,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "atomic_light",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -1895,6 +1978,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "atomic_lamp",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -1914,6 +1998,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "atomic_coffeepot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1937,6 +2022,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "hand_crank_charger",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -1967,6 +2053,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "motor_micro",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -1983,6 +2070,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "motor_tiny",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1999,6 +2087,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "motor_small",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2015,6 +2104,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cable",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -2035,6 +2125,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vibrator",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2051,6 +2142,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "elec_jackhammer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2078,6 +2170,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "elec_chainsaw_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2098,6 +2191,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "remotevehcontrol",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2122,6 +2216,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "drive_by_wire_controls",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2149,6 +2244,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "electronics_controls",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2164,6 +2260,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "camera_control",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2179,6 +2276,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "omnicamera",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2194,6 +2292,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "omnicamera",
     "id_suffix": "from-cameras",
     "category": "CC_ELECTRONIC",
@@ -2213,6 +2312,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "makeshift_sealer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2236,6 +2336,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "radio_repeater_mod",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2262,6 +2363,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "elec_hairtrimmer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2283,6 +2385,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "radio_mod",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2305,6 +2408,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "electrolysis_kit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2319,6 +2423,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "condensor_coil",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -2337,6 +2442,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "evaporator_coil",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -2350,6 +2456,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "light_minus_disposable_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2371,6 +2478,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "light_disposable_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2392,6 +2500,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "medium_disposable_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -2413,6 +2522,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "heavy_disposable_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",

@@ -40,7 +40,7 @@ template <typename E> struct enum_traits;
 template <typename T> class string_id;
 
 extern std::vector<dream> dreams;
-extern std::map<std::string, std::vector<trait_id> > mutations_category;
+extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
 
 struct dream {
     private:
@@ -49,7 +49,7 @@ struct dream {
     public:
         std::vector<std::string> messages() const;
 
-        std::string category; // The category that will trigger the dream
+        mutation_category_id category; // The category that will trigger the dream
         int strength; // The category strength required for the dream
 
         dream() {
@@ -109,7 +109,7 @@ enum trigger_type {
 };
 template<>
 struct enum_traits<trigger_type> {
-    static constexpr auto last = trigger_type::num_trigger;
+    static constexpr trigger_type last = trigger_type::num_trigger;
 };
 
 struct reflex_activation_data {
@@ -287,7 +287,7 @@ struct mutation_branch {
         std::set<itype_id> can_heal_with;
 
         /**List of allowed mutatrion category*/
-        std::set<std::string> allowed_category;
+        std::set<mutation_category_id> allowed_category;
 
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
@@ -328,7 +328,7 @@ struct mutation_branch {
         std::vector<trait_id> cancels; // Mutations that conflict with this one
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
-        std::vector<std::string> category; // Mutation Categories
+        std::vector<mutation_category_id> category; // Mutation Categories
         std::set<std::string> flags; // Mutation flags
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
@@ -493,7 +493,7 @@ struct mutation_category_trait {
         std::string memorial_message_female() const;
 
         // Mutation category i.e "BIRD", "CHIMERA"
-        std::string id;
+        mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
 
@@ -514,6 +514,8 @@ struct mutation_category_trait {
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
+        // Meta-label indicating that the category isn't finished yet.
+        bool wip = false;
         // Determines if you make a sound when you inject mutagen
         bool iv_sound = false;
         // The amount of noise produced by the sound
@@ -522,8 +524,9 @@ struct mutation_category_trait {
         bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
-        static const std::map<std::string, mutation_category_trait> &get_all();
-        static const mutation_category_trait &get_category( const std::string &category_id );
+        static const std::map<mutation_category_id, mutation_category_trait> &get_all();
+        static const mutation_category_trait &get_category(
+            const mutation_category_id &category_id );
         static void reset();
         static void check_consistency();
 
@@ -531,7 +534,7 @@ struct mutation_category_trait {
 };
 
 void load_mutation_type( const JsonObject &jsobj );
-bool mutation_category_is_valid( const std::string &cat );
+bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );

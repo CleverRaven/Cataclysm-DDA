@@ -1178,15 +1178,15 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, pgettext( "Shot as damage", "SHOT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_BASH ) );
+                return get_damage_string( loc->damage_melee( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_CUT ) );
+                return get_damage_string( loc->damage_melee( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_damage_string( loc->damage_melee( DT_STAB ) );
+                return get_damage_string( loc->damage_melee( damage_type::STAB ) );
             }, _( "STAB" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -1222,7 +1222,8 @@ class weapon_inventory_preset: public inventory_selector_preset
 
     private:
         bool deals_melee_damage( const item &it ) const {
-            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+            return it.damage_melee( damage_type::BASH ) || it.damage_melee( damage_type::CUT ) ||
+                   it.damage_melee( damage_type::STAB );
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
@@ -1587,7 +1588,7 @@ void game_menus::inv::swap_letters( player &p )
 
         inv_s.set_hint( invlets );
 
-        auto loc = inv_s.execute();
+        item_location loc = inv_s.execute();
 
         if( !loc ) {
             break;
@@ -1959,7 +1960,7 @@ class bionic_sterilize_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            auto reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_id( "autoclave_item" );
             if( loc.get_item()->has_flag( flag_FILTHY ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }

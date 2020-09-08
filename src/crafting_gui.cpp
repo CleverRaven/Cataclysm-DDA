@@ -19,6 +19,7 @@
 #include "crafting.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -233,14 +234,14 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
-
     struct availability {
         availability( const recipe *r, int batch_size = 1 ) {
-            const inventory &inv = get_player_character().crafting_inventory();
+            Character &player = get_player_character();
+            const inventory &inv = player.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
-            has_proficiencies = r->character_has_required_proficiencies( get_player_character() );
+            has_proficiencies = r->character_has_required_proficiencies( player );
             can_craft = req.can_make_with_inventory(
                             inv, all_items_filter, batch_size, craft_flags::start_only ) && has_proficiencies;
             can_craft_non_rotten = req.can_make_with_inventory(
@@ -248,23 +249,43 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
-            proficiency_maluses = r->proficiency_maluses( get_player_character() );
+            proficiency_maluses = r->proficiency_maluses( player );
+            has_all_skills = r->skill_used.is_null() ||
+                             player.get_skill_level( r->skill_used ) >= r->difficulty;
+            for( const std::pair<const skill_id, int> &e : r->required_skills ) {
+                if( player.get_skill_level( e.first ) < e.second ) {
+                    has_all_skills = false;
+                    break;
+                }
+            }
         }
         bool can_craft;
         bool can_craft_non_rotten;
         bool apparently_craftable;
         bool has_proficiencies;
+        bool has_all_skills;
         float proficiency_maluses;
 
         nc_color selected_color() const {
-            return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
+            if( !can_craft ) {
+                return h_dark_gray;
+            } else if( !can_craft_non_rotten ) {
+                return has_all_skills ? h_brown : h_red;
+            } else {
+                return has_all_skills ? h_white : h_yellow;
+            }
         }
 
-        nc_color color() const {
-            return can_craft ? can_craft_non_rotten ? c_white : c_brown : c_dark_gray;
+        nc_color color( bool ignore_missing_skills = false ) const {
+            if( !can_craft ) {
+                return c_dark_gray;
+            } else if( !can_craft_non_rotten ) {
+                return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+            } else {
+                return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
+            }
         }
     };
-
     std::vector<availability> available;
     //preserves component color printout between mode rotations
     nc_color rotated_color = c_white;
@@ -433,7 +454,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         const int count = batch ? line + 1 : 1; // batch size
         if( !current.empty() ) {
             int pane = FULL_SCREEN_WIDTH - 30 - 1;
-            nc_color col = available[line].color();
+            nc_color col = available[line].color( true );
 
             const auto &req = current[line]->simple_requirements();
 
@@ -513,12 +534,34 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Batch time savings: <color_cyan>%s</color>" ),
                                         current[line]->batch_savings_string() );
 
+                const int makes = current[line]->makes_amount();
+                if( makes > 1 ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Recipe makes: <color_cyan>%d</color>" ),
+                                            makes );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
+
+                std::string nearby_string;
+                const int nearby_amount = crafting_inv.count_item( current[line]->result() );
+
+                if( nearby_amount == 0 ) {
+                    nearby_string = "<color_light_gray>0</color>";
+                } else if( nearby_amount > 9000 ) {
+                    // at some point you get too many to count at a glance and just know you have a lot
+                    nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+                } else {
+                    nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+                }
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                        _( "Nearby: %s" ), nearby_string );
+
                 const bool can_craft_this = available[line].can_craft;
                 if( can_craft_this && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
@@ -847,7 +890,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             {
                 std::string example_name = _( "shirt" );
-                auto padding = max_example_length - utf8_width( example_name );
+                int padding = max_example_length - utf8_width( example_name );
                 description += string_format(
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
                                    example_name, padding, spaces,
@@ -855,7 +898,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             for( const auto &prefix : prefixes ) {
-                auto padding = max_example_length - utf8_width( prefix.example );
+                int padding = max_example_length - utf8_width( prefix.example );
                 description += string_format(
                                    _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
                                    prefix.key, prefix.example, padding, spaces, prefix.description );

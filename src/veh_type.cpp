@@ -201,7 +201,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     }
     JsonObject src = obj.get_object( key );
 
-    auto sk = src.get_array( "skills" );
+    JsonArray sk = src.get_array( "skills" );
     if( !sk.empty() ) {
         skills.clear();
     }
@@ -249,14 +249,14 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     assign( jo, "damaged_power_factor", e_info.damaged_power_factor );
     assign( jo, "m2c", e_info.m2c );
     assign( jo, "muscle_power_factor", e_info.muscle_power_factor );
-    auto excludes = jo.get_array( "exclusions" );
+    JsonArray excludes = jo.get_array( "exclusions" );
     if( !excludes.empty() ) {
         e_info.exclusions.clear();
         for( const std::string line : excludes ) {
             e_info.exclusions.push_back( line );
         }
     }
-    auto fuel_opts = jo.get_array( "fuel_options" );
+    JsonArray fuel_opts = jo.get_array( "fuel_options" );
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
@@ -418,7 +418,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "requirements" ) ) {
-        auto reqs = jo.get_object( "requirements" );
+        JsonObject reqs = jo.get_object( "requirements" );
 
         parse_vp_reqs( reqs, def.id.str(), "install", def.install_reqs, def.install_skills,
                        def.install_moves );
@@ -467,7 +467,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.breaks_into_group = item_group::load_item_group( jo.get_member( "breaks_into" ), "collection" );
     }
 
-    auto qual = jo.get_array( "qualities" );
+    JsonArray qual = jo.get_array( "qualities" );
     if( !qual.empty() ) {
         def.qualities.clear();
         for( JsonArray pair : qual ) {
@@ -781,7 +781,10 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += description.translated();
     }
     for( const auto &flagid : flags ) {
-        if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
+        if( flagid == "ALARMCLOCK"
+            || flagid == "WATCH"
+            || flagid == "ENABLED_DRAINS_EPOWER"
+            || flagid == "SOLAR_PANEL" ) {
             continue;
         }
         json_flag flag = json_flag::get( flagid );
@@ -797,14 +800,22 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
-        json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip += "  " + _( nobelt.info() );
+        json_flag door = json_flag::get( "DOOR" );
+        long_descrip += "  " + _( door.info() );
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
+    }
+    if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
+        json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
+        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) );
+    }
+    if( has_flag( "SOLAR_PANEL" ) ) {
+        json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
+        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) );
     }
 
     if( !long_descrip.empty() ) {

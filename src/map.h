@@ -124,6 +124,7 @@ struct visibility_variables {
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
+    cata::optional<field_type_str_id> clairvoyance_field;
 };
 
 struct bash_params {
@@ -181,13 +182,13 @@ struct level_cache {
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
     std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
-    bool veh_in_active_range;
+    bool veh_in_active_range = false;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
 
-    int max_populated_zlev;
+    int max_populated_zlev = 0;
 };
 
 /**
@@ -1580,7 +1581,7 @@ class map
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        void build_sunlight_cache( int zlev );
+        void build_sunlight_cache( int zlev_min, int zlev_max );
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.

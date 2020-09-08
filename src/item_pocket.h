@@ -38,7 +38,7 @@ template <typename E> struct enum_traits;
 class item_pocket
 {
     public:
-        enum pocket_type {
+        enum class pocket_type : int {
             CONTAINER,
             MAGAZINE,
             MAGAZINE_WELL, //holds magazines
@@ -145,6 +145,7 @@ class item_pocket
 
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        bool contains_phase( phase_id phase ) const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -309,7 +310,7 @@ class item_pocket
  */
 struct sealable_data {
     // required for generic_factory
-    bool was_loaded;
+    bool was_loaded = false;
     /** multiplier for spoilage rate of contained items when sealed */
     float spoil_multiplier = 1.0f;
 
@@ -389,7 +390,7 @@ class pocket_data
 
 template<>
 struct enum_traits<item_pocket::pocket_type> {
-    static constexpr auto last = item_pocket::pocket_type::LAST;
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

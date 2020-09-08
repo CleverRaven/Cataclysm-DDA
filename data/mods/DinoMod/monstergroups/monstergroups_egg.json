@@ -17,6 +17,7 @@
       { "monster": "mon_camarasaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_apatosaurus_hatchling", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 1 },
+      { "monster": "mon_acrocanthosaurus_hatchling", "freq": 2, "cost_multiplier": 1 },
       { "monster": "mon_eoraptor_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 1 },
       { "monster": "mon_deinonychus_hatchling", "freq": 10, "cost_multiplier": 1 },
@@ -27,6 +28,7 @@
       { "monster": "mon_edmontosaurus_hatchling", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_dimorphodon_hatchling", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_pteranodon_hatchling", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_quetzalcoatlus_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_dilophosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_mosasaurus_hatchling", "freq": 5, "cost_multiplier": 1 }
@@ -111,6 +113,12 @@
     "monsters": [ { "monster": "mon_allosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_acrocanthosaurus",
+    "type": "monstergroup",
+    "default": "mon_acrocanthosaurus_hatchling",
+    "monsters": [ { "monster": "mon_acrocanthosaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_eoraptor",
     "type": "monstergroup",
     "default": "mon_eoraptor_hatchling",
@@ -169,6 +177,12 @@
     "type": "monstergroup",
     "default": "mon_pteranodon_hatchling",
     "monsters": [ { "monster": "mon_pteranodon_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_quetzalcoatlus",
+    "type": "monstergroup",
+    "default": "mon_quetzalcoatlus_hatchling",
+    "monsters": [ { "monster": "mon_quetzalcoatlus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_dilophosaurus",
