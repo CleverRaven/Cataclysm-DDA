@@ -134,6 +134,8 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
+        bool highlight_as_parent = false;
+        bool highlight_as_child = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -716,6 +718,9 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( p, preset ) {}
 
         item_location execute();
+        /** Highlight parent and contents of selected item.
+        */
+        void highlight();
 };
 
 class inventory_multiselector : public inventory_selector
