@@ -48,6 +48,7 @@ enum class event_type : int {
     character_melee_attacks_monster,
     character_ranged_attacks_character,
     character_ranged_attacks_monster,
+    character_smashes_tile,
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
@@ -166,7 +167,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 82,
+static_assert( static_cast<int>( event_type::num_event_types ) == 83,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -359,6 +360,16 @@ struct event_spec<event_type::character_ranged_attacks_monster> {
             { "attacker", cata_variant_type::character_id },
             { "weapon", cata_variant_type::itype_id },
             { "victim_type", cata_variant_type::mtype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_smashes_tile> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "terrain", cata_variant_type::ter_str_id },
+            { "furniture", cata_variant_type::furn_str_id },
         }
     };
 };
