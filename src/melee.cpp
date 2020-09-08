@@ -24,6 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -458,8 +459,18 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     int move_cost = attack_speed( *cur_weapon );
 
+    const bool hits = hit_spread >= 0;
+
+    if( monster *m = t.as_monster() ) {
+        get_event_bus().send<event_type::character_melee_attacks_monster>(
+            getID(), cur_weapon->typeId(), hits, m->type->id );
+    } else if( Character *c = t.as_character() ) {
+        get_event_bus().send<event_type::character_melee_attacks_character>(
+            getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
+    }
+
     Character &player_character = get_player_character();
-    if( hit_spread < 0 ) {
+    if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -640,7 +651,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int mod_sta = get_standard_stamina_cost();
 
     const int melee = get_skill_level( skill_melee );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
     add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
