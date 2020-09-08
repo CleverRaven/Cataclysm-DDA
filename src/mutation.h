@@ -259,20 +259,20 @@ struct mutation_branch {
         trigger_set<clothing_trigger_data> clothing_triggers;
 
         /**Getter for clothing mutation tirggers*/
-        trigger_set<clothing_trigger_data> clothing_triggers() const {
+        trigger_set<clothing_trigger_data> get_clothing_triggers() const {
             return clothing_triggers;
-        };
+        }
         /**Getter for reflex mutation tirggers*/
-        trigger_set<reflex_trigger_data> reflex_triggers() const {
+        trigger_set<reflex_trigger_data> get_reflex_triggers() const {
             return reflex_triggers;
-        };
+        }
 
         bool has_reflex_triggers() const {
             return !reflex_triggers.empty();
-        };
+        }
         bool has_clothing_triggers() const {
             return !clothing_triggers.empty();
-        };
+        }
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;

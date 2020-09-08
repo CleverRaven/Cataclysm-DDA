@@ -174,10 +174,10 @@ void Character::set_mutation( const trait_id &trait )
     const mutation_branch mut = trait.obj();
     cached_mutations.push_back( &mut );
     if( mut.has_reflex_triggers() ) {
-        my_reflex_mutations.emplace( trait, mut.reflex_triggers() );
+        my_reflex_mutations.emplace( trait, mut.get_reflex_triggers() );
     }
     if( mut.has_clothing_triggers() ) {
-        my_clothing_mutations.emplace( trait, mut.clothing_triggers() );
+        my_clothing_mutations.emplace( trait, mut.get_clothing_triggers() );
     }
     mutation_effect( trait, false );
     recalc_sight_limits();
@@ -248,7 +248,7 @@ void Character::check_mutation_trigger( const std::pair<trait_id, trigger_set<T>
                                         const U &data )
 {
 
-    if( mut.second < T.empty() || !can_power_mutation( mut.first ) ) {
+    if( mut.second.empty() || !can_power_mutation( mut.first ) ) {
         return;
     }
 
@@ -274,13 +274,13 @@ void Character::check_mutation_trigger( const std::pair<trait_id, trigger_set<T>
         }
     }
 
-    if( activate && !has_active_mutation( mut ) ) {
-        activate_mutation( mut );
+    if( activate && !has_active_mutation( mut.first ) ) {
+        activate_mutation( mut.first );
         if( !msg_on.first.empty() ) {
             add_msg_if_player( msg_on.second, msg_on.first );
         }
-    } else if( !activate && has_active_mutation( mut ) ) {
-        deactivate_mutation( mut );
+    } else if( !activate && has_active_mutation( mut.first ) ) {
+        deactivate_mutation( mut.first );
         if( !msg_off.first.empty() ) {
             add_msg_if_player( msg_off.second, msg_off.first );
         }
@@ -336,7 +336,6 @@ bool reflex_trigger_data::is_trigger_true( const Character &guy, const U & ) con
 template<typename U>
 bool clothing_trigger_data::is_trigger_true( const Character &guy, const U &data ) const
 {
-    //static_assert(typeid(std::map<bodypart_id, encumbrance_data>) == typeid(U), "Unexpected data type received.");
     bool activate = false;
 
     int var = 0;
