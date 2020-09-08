@@ -1422,21 +1422,9 @@ void player::process_effects()
 
 double player::vomit_mod()
 {
-    double mod = 1;
+    double mod = mutation_value( "vomit_multiplier" );
     if( has_effect( effect_weed_high ) ) {
         mod *= .1;
-    }
-    if( has_trait( trait_STRONGSTOMACH ) ) {
-        mod *= .5;
-    }
-    if( has_trait( trait_WEAKSTOMACH ) ) {
-        mod *= 2;
-    }
-    if( has_trait( trait_NAUSEA ) ) {
-        mod *= 3;
-    }
-    if( has_trait( trait_VOMITOUS ) ) {
-        mod *= 3;
     }
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
