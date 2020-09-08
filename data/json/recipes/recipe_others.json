@@ -2149,6 +2149,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2.5 } ],
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -2979,6 +2980,7 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 4 } ],
     "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
@@ -3004,6 +3006,7 @@
     "difficulty": 7,
     "time": "1 h 30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
     "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 5 ], [ "test_tube", 10 ], [ "marble", 125 ] ] ]
@@ -3017,6 +3020,7 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
@@ -3030,6 +3034,7 @@
     "difficulty": 5,
     "time": "40 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
@@ -3043,6 +3048,7 @@
     "difficulty": 4,
     "time": "20 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ]
@@ -3056,6 +3062,7 @@
     "difficulty": 4,
     "time": "4 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "result_mult": 2,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
@@ -3070,6 +3077,7 @@
     "difficulty": 5,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 10 ] ] ]
   },
@@ -3096,6 +3104,7 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
@@ -3109,6 +3118,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 182 ], [ "jar_glass_sealed", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
   },
@@ -3829,6 +3839,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -3842,6 +3853,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
@@ -3855,6 +3867,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 4 } ],
     "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
@@ -3866,8 +3879,9 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 6 } ],
     "using": [ [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
@@ -4607,6 +4621,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass_sealed", 42 ] ] ]
   },
@@ -4631,6 +4646,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [
