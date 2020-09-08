@@ -794,7 +794,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
 
     // Initially, all parts are assumed to be fully exposed
     for( const bodypart_id &bp : all_body_parts ) {
-        bp_exposure[bp] = 1.0;
+        bp_exposure[bp] = 1.0f;
     }
     // For every item worn, for every body part, adjust coverage
     for( const item &it : worn ) {
@@ -805,9 +805,9 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it.get_coverage( bp ) / 100.0f;
+            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            bp_exposure[bp] = bp_exposure[bp] * part_exposure;
+            bp_exposure[bp] *= part_exposure;
         }
     }
     return bp_exposure;
