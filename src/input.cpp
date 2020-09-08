@@ -1010,13 +1010,14 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
+    const std::string separator = _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         rval += inputs_to_show[i].long_description();
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval += _( " or " );
+            rval += separator;
         } else if( i + 1 < inputs_to_show.size() ) {
             rval += ", ";
         }
@@ -1667,12 +1668,13 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
+    const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
         keyed += events[j].long_description();
 
         if( j + 1 < events.size() ) {
-            keyed += _( " or " );
+            keyed += separator;
         }
     }
     keyed += key_bound_suf;
