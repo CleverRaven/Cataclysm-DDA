@@ -79,10 +79,7 @@
     "vision_day": 7,
     "vision_night": 7,
     "harvest": "exempt",
-    "special_attacks": [
-      { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
-      [ "GRAB", 1 ]
-    ],
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 4, "min_consider_range": 2 }, [ "GRAB", 1 ] ],
     "death_function": [ "ACID", "MELT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "POISON", "GRABS", "NO_BREATHE", "FILTHY" ]
   },
