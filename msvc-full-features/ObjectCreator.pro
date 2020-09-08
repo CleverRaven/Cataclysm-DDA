@@ -5,9 +5,8 @@
 TEMPLATE = app
 TARGET = ObjectCreator
 DESTDIR = ../
-QT += core widgets
+QT += core gui widgets
 CONFIG += debug console
-DEFINES += _SCL_SECURE_NO_WARNINGS _CRT_SECURE_NO_WARNINGS WIN32_LEAN_AND_MEAN _CONSOLE SDL_SOUND TILES SDL_MAIN_HANDLED LOCALIZE USE_VCPKG
 LIBS += -L"../../../../Programs/Qt/5.15.0/msvc2019/lib" \
     -lwinmm \
     -limm32 \
@@ -24,7 +23,11 @@ LIBS += -L"../../../../Programs/Qt/5.15.0/msvc2019/lib" \
     -luuid \
     -lodbc32 \
     -lodbccp32 \
-    -lsetupapi
+    -lsetupapi \
+    -lNetapi32 \
+    -luserenv \
+    -lWs2_32
+PRECOMPILED_HEADER = stdafx.h
 DEPENDPATH += .
 MOC_DIR += ./GeneratedFiles/$(ConfigurationName)
 OBJECTS_DIR += release

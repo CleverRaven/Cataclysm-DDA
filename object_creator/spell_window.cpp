@@ -561,6 +561,17 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     affected_bps_label.show();
     row += 4;
 
+    additional_spells_box.setParent( this );
+    additional_spells_box.setText( QString( "Additional Spells" ) );
+    additional_spells_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
+    additional_spells_box.set_spells( editable_spell.additional_spells );
+    QObject::connect( &additional_spells_box, &fake_spell_listbox::modified,
+        [&]() {
+        editable_spell.additional_spells = additional_spells_box.get_spells();
+        write_json();
+    } );
+    row += 4;
+
     // =========================================================================================
     // sixth column of boxes
     max_row = std::max( max_row, row );

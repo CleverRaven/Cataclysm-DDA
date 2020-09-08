@@ -1,6 +1,7 @@
 #ifndef CATA_OBJECT_CREATOR_SPELL_WINDOW_H
 #define CATA_OBJECT_CREATOR_SPELL_WINDOW_H
 
+#include "fake_spell_listbox.h"
 #include "magic.h"
 
 #include <QtWidgets/qcombobox.h>
@@ -97,6 +98,8 @@ class spell_window : public QMainWindow
 
         QLineEdit effect_str_label;
         QLineEdit effect_str_box;
+
+        fake_spell_listbox additional_spells_box;
 };
 }
 
