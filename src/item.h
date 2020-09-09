@@ -462,9 +462,10 @@ class item : public visitable<item>
         /** Burns the item. Returns true if the item was destroyed. */
         bool burn( fire_data &frd );
 
-        // Returns the category of this item.
-        const item_category &get_category() const;
-        // Returns the category of item inside this item. I.e. "can of meat" would be food, instead of container.
+        // Returns the category of this item, regardless of contents.
+        const item_category &get_category_shallow() const;
+        // Returns the category of item inside this item.
+        // "can of meat" would be food, instead of container.
         // If there are multiple items/stacks or none then it defaults to category of this item.
         const item_category &get_category_of_contents() const;
 
