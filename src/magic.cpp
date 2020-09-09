@@ -110,6 +110,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 
 } // namespace io
 
+const cata::optional<int> fake_spell::max_level_default = cata::nullopt;
+
 // LOADING
 // spell_type
 
@@ -2094,12 +2096,10 @@ void spellbook_callback::refresh( uilist *menu )
 
 void fake_spell::load( const JsonObject &jo )
 {
-    std::string temp_id;
-    mandatory( jo, false, "id", temp_id );
-    id = spell_id( temp_id );
-    optional( jo, false, "hit_self", self, false );
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "hit_self", self, self_default );
 
-    optional( jo, false, "once_in", trigger_once_in, 1 );
+    optional( jo, false, "once_in", trigger_once_in, trigger_once_in_default );
     optional( jo, false, "message", trigger_message );
     optional( jo, false, "npc_message", npc_trigger_message );
     int max_level_int;
@@ -2109,9 +2109,9 @@ void fake_spell::load( const JsonObject &jo )
     } else {
         max_level = max_level_int;
     }
-    optional( jo, false, "min_level", level, 0 );
+    optional( jo, false, "min_level", level, level_default );
     if( jo.has_string( "level" ) ) {
-        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s", temp_id );
+        debugmsg( "level member for fake_spell was renamed to min_level.  id: %s", id.c_str() );
     }
 }
 
@@ -2119,15 +2119,10 @@ void fake_spell::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "id", id );
-    json.member( "hit_self", self );
-    json.member( "once_in", trigger_once_in );
-
-    if( !max_level ) {
-        json.member( "max_level", -1 );
-    } else {
-        json.member( "max_level", *max_level );
-    }
-    json.member( "min_level", level );
+    json.member( "hit_self", self, self_default );
+    json.member( "once_in", trigger_once_in, trigger_once_in_default );
+    json.member( "max_level", max_level, max_level_default );
+    json.member( "min_level", level, level_default );
     json.end_object();
 }
 
