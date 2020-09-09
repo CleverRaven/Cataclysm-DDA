@@ -718,24 +718,27 @@ void Character::suffer_from_asthma( const int current_stim )
 
 void Character::suffer_in_sunlight()
 {
-    double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
-    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
-                       has_trait( trait_LEAVES3 );
-    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( pos() );
-        int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
-        }
-        if( leafier ) {
-            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
+    if( get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const bool leafy = has_trait( trait_LEAVES ) ||
+                           has_trait( trait_LEAVES2 ) ||
+                           has_trait( trait_LEAVES3 );
+        if( leafy ) {
+            const bool leafier = has_trait( trait_LEAVES2 );
+            const bool leafiest = has_trait( trait_LEAVES3 );
+            const double sleeve_factor = armwear_factor();
+            const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
+            const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                           sun_intensity_type::normal ) ? 1.0 : 0.5;
+            const int player_local_temp = get_weather().get_temperature( pos() );
+            const int flux = ( player_local_temp - 65 ) / 2;
+            if( !has_hat ) {
+                sunlight_nutrition += ( 100 + flux ) * weather_factor;
+            }
+            if( leafier ) {
+                const int rate = ( 100 * sleeve_factor + flux ) * 2;
+                sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            }
         }
     }
 
