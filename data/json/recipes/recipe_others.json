@@ -1273,9 +1273,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-    "time": "7 m 30 s",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
     "components": [ [ [ "string_36", 6 ], [ "string_6", 36 ] ] ]
   },
   {
@@ -1290,6 +1291,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
     "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ], [ "tanned_hide", 5 ] ] ]
   },
   {
@@ -1298,10 +1300,26 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-    "time": "7 m 30 s",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
     "components": [ [ [ "rope_6", 5 ], [ "string_36", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rope_30",
+    "id_suffix": "from_cloth",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "5 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
+    "components": [ [ [ "rag", 150 ], [ "leather", 150 ], [ "felt_patch", 150 ], [ "tanned_hide", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -1309,9 +1327,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "time": "7 m 30 s",
+    "time": "1 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
     "components": [ [ [ "cordage_36", 6 ], [ "withered", 36 ], [ "straw_pile", 36 ], [ "tanbark", 36 ], [ "willowbark", 36 ] ] ]
   },
   {
@@ -1320,9 +1339,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "time": "7 m 30 s",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }, { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 } ],
     "components": [
       [
         [ "rope_makeshift_6", 5 ],
