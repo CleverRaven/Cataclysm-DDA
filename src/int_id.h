@@ -142,7 +142,7 @@ template<typename T>
 class int_id_cache
 {
     private:
-        static const int LOCAL_OBJ_CACHE_SIZE = 16;
+        static constexpr int LOCAL_OBJ_CACHE_SIZE = 16;
         int ids[LOCAL_OBJ_CACHE_SIZE] = { -1 };
         T const *objs[LOCAL_OBJ_CACHE_SIZE];
 
