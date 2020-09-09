@@ -4008,7 +4008,7 @@
   {
     "result": "vibrator",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 2 ],
@@ -4067,7 +4067,7 @@
   {
     "result": "food_processor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "15 m",
@@ -4468,7 +4468,7 @@
   {
     "result": "medium_storage_battery",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "40 m",
@@ -4480,7 +4480,7 @@
   {
     "result": "storage_battery",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "1 h 30 m",

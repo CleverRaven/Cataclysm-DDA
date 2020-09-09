@@ -192,7 +192,7 @@
   {
     "result": "programmable_autopilot",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "computer",
@@ -299,7 +299,7 @@
   {
     "result": "vh_autoclave",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -544,7 +544,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "turret_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -890,7 +890,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_bicycle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -907,7 +907,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_motorbike",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

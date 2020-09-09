@@ -451,7 +451,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "exploding_arrow_warhead",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -477,7 +477,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_explosive",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",

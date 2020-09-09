@@ -1220,7 +1220,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pistol_grip",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1281,7 +1281,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "waterproof_gunmod",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1351,7 +1351,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bow_sight",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1367,7 +1367,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bow_stabilizer",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1383,7 +1383,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arrowrest",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1933,7 +1933,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shocktonfa_off",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -2160,7 +2160,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shock_foil",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -2182,7 +2182,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shock_epee",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -2204,7 +2204,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shock_sabre",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -2512,7 +2512,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "shock_staff",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -2757,7 +2757,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "survivor_machete",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -2909,7 +2909,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coilgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
