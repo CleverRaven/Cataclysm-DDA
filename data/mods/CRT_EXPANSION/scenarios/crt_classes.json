@@ -572,7 +572,7 @@
           "knife_swissarmy",
           "pellet"
         ],
-        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
+        "entries": [ { "item": "water_clean", "container-item": "canteen" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
