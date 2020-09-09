@@ -4839,45 +4839,45 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
         hydration_color = c_light_red;
-        hydration_string = _( "Parched" );
+        hydration_string = translate_marker( "Parched" );
     } else if( thirst > 240 ) {
         hydration_color = c_light_red;
-        hydration_string = _( "Dehydrated" );
+        hydration_string = translate_marker( "Dehydrated" );
     } else if( thirst > 80 ) {
         hydration_color = c_yellow;
-        hydration_string = _( "Very thirsty" );
+        hydration_string = translate_marker( "Very thirsty" );
     } else if( thirst > 40 ) {
         hydration_color = c_yellow;
-        hydration_string = _( "Thirsty" );
+        hydration_string = translate_marker( "Thirsty" );
     } else if( thirst < -60 ) {
         hydration_color = c_green;
-        hydration_string = _( "Turgid" );
+        hydration_string = translate_marker( "Turgid" );
     } else if( thirst < -20 ) {
         hydration_color = c_green;
-        hydration_string = _( "Hydrated" );
+        hydration_string = translate_marker( "Hydrated" );
     } else if( thirst < 0 ) {
         hydration_color = c_green;
-        hydration_string = _( "Slaked" );
+        hydration_string = translate_marker( "Slaked" );
     }
-    return std::make_pair( hydration_string, hydration_color );
+    return std::make_pair( _( hydration_string ), hydration_color );
 }
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
-        { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
-        { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
-        { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
+        { effect_hunger_engorged, std::make_pair( translate_marker( "Engorged" ), c_red ) },
+        { effect_hunger_full, std::make_pair( translate_marker( "Full" ), c_yellow ) },
+        { effect_hunger_satisfied, std::make_pair( translate_marker( "Satisfied" ), c_green ) },
         { effect_hunger_blank, std::make_pair( "", c_white ) },
-        { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
-        { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
-        { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
-        { effect_hunger_starving, std::make_pair( _( "Starving!" ), c_red ) },
-        { effect_hunger_famished, std::make_pair( _( "Famished" ), c_light_red ) }
+        { effect_hunger_hungry, std::make_pair( translate_marker( "Hungry" ), c_yellow ) },
+        { effect_hunger_very_hungry, std::make_pair( translate_marker( "Very Hungry" ), c_yellow ) },
+        { effect_hunger_near_starving, std::make_pair( translate_marker( "Near starving" ), c_red ) },
+        { effect_hunger_starving, std::make_pair( translate_marker( "Starving!" ), c_red ) },
+        { effect_hunger_famished, std::make_pair( translate_marker( "Famished" ), c_light_red ) }
     };
     for( auto &hunger_state : hunger_states ) {
         if( has_effect( hunger_state.first ) ) {
-            return hunger_state.second;
+            return std::make_pair( _( hunger_state.second.first ), hunger_state.second.second );
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );
@@ -4890,15 +4890,15 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
     nc_color fatigue_color = c_white;
     if( fatigue > fatigue_levels::EXHAUSTED ) {
         fatigue_color = c_red;
-        fatigue_string = _( "Exhausted" );
+        fatigue_string = translate_marker( "Exhausted" );
     } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
         fatigue_color = c_light_red;
-        fatigue_string = _( "Dead Tired" );
+        fatigue_string = translate_marker( "Dead Tired" );
     } else if( fatigue > fatigue_levels::TIRED ) {
         fatigue_color = c_yellow;
-        fatigue_string = _( "Tired" );
+        fatigue_string = translate_marker( "Tired" );
     }
-    return std::make_pair( fatigue_string, fatigue_color );
+    return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
 void Character::mod_thirst( int nthirst )
