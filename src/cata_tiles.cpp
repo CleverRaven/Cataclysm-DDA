@@ -1020,7 +1020,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
-    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
