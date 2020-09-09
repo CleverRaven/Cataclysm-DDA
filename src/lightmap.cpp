@@ -391,7 +391,6 @@ void map::generate_lightmap( const int zlev )
         }
     };
 
-
     const float natural_light = g->natural_light_level( zlev );
 
     build_sunlight_cache( zlev );

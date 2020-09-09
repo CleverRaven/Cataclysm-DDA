@@ -1807,7 +1807,6 @@ class map
         cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
 
     public:
-
         const level_cache &get_cache_ref( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
