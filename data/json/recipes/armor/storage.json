@@ -290,14 +290,11 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 25 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
+    "using": [ [ "sewing_standard", 25 ], [ "plastic_molding", 2 ] ],
     "components": [
       [ [ "rag", 20 ] ],
       [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ]
     ]
   },
   {
@@ -336,9 +333,8 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "using": [ [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
   },
   {
     "result": "hide_bag",
@@ -475,10 +471,8 @@
     "skills_required": [ "fabrication", 2 ],
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "using": [ [ "sewing_standard", 15 ], [ "plastic_molding", 2 ] ],
+    "components": [ [ [ "rag", 10 ] ] ]
   },
   {
     "result": "makeshift_knapsack",
