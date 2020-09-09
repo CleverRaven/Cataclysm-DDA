@@ -607,7 +607,11 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
-    "components": [ [ [ "gunpowder", 16000 ], [ "chem_black_powder", 24 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "components": [
+      [ [ "gunpowder", 16000 ], [ "chem_black_powder", 24 ] ],
+      [ [ "lead", 24 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
