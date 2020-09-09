@@ -188,7 +188,6 @@ struct level_cache {
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
 
-    int max_populated_zlev = 0;
 };
 
 /**
@@ -1581,7 +1580,8 @@ class map
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        void build_sunlight_cache( int zlev_min, int zlev_max );
+        // fills lm with sunlight. pzlev is current player's zlevel
+        void build_sunlight_cache( int pzlev );
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
@@ -1662,8 +1662,18 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
-        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
-        void calc_max_populated_zlev();
+        /** Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+         * fills the map::max_populated_zlev and returns it
+         * @return max_populated_zlev value
+         */
+        int calc_max_populated_zlev();
+        /**
+         * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
+         *  max_pupulated_zlev value
+         * @param zlev zlevel where uniformity change occured
+         */
+        void invalidate_max_populated_zlev( int zlev );
+
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
@@ -1791,6 +1801,10 @@ class map
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
+
+        // caches the highest zlevel above which all zlevels are uniform
+        // !value || value->first != map::abs_sub means cache is invalid
+        cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {

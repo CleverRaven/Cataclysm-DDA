@@ -211,11 +211,16 @@ void map::apply_character_light( Character &p )
 // toward the lower limit. Since it's sunlight, the rays are parallel.
 // Each layer consults the next layer up to determine the intensity of the light that reaches it.
 // Once this is complete, additional operations add more dynamic lighting.
-void map::build_sunlight_cache( int zlev_min, int zlev_max )
+void map::build_sunlight_cache( int pzlev )
 {
+    const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
+    // Start at the topmost populated zlevel to avoid unnecessary raycasting
+    // Plus one zlevel to prevent clipping inside structures
+    const int zlev_max = zlevels ? std::min( std::max( calc_max_populated_zlev() + 1, pzlev + 1 ),
+                         OVERMAP_HEIGHT ) : pzlev;
+
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
-    bool fully_outside = zlev_max >= std::min( get_cache( zlev_max ).max_populated_zlev + 1,
-                         OVERMAP_HEIGHT );
+    bool fully_outside = true;
 
     // true if no light reaches this level, i.e. there were no lit tiles on the above level (light level <= inside_light_level)
     bool fully_inside = false;
@@ -387,12 +392,8 @@ void map::generate_lightmap( const int zlev )
     };
 
     const float natural_light = g->natural_light_level( zlev );
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    // Start at the topmost populated zlevel to avoid unnecessary raycasting
-    // Plus one zlevel to prevent clipping inside structures
-    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
 
-    build_sunlight_cache( minz, maxz );
+    build_sunlight_cache( zlev );
 
     apply_character_light( get_player_character() );
     for( npc &guy : g->all_npcs() ) {
