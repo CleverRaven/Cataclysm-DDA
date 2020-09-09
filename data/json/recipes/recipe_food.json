@@ -149,7 +149,7 @@
     "time": "45 s",
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "meat_red_fatty", 1 , "LIST" ] ], [ [ "edible_fat", 1, "LIST" ] ] ],
+    "components": [ [ [ "meat_red_fatty", 1, "LIST" ] ], [ [ "edible_fat", 1, "LIST" ] ] ],
     "charges": 4
   },
   {
