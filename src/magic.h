@@ -102,23 +102,15 @@ struct enum_traits<spell_flag> {
 
 struct fake_spell {
     spell_id id;
-
-    static const cata::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
-
-    static const int level_default = 0;
     // level for things that need it
-    int level = level_default;
-
-    static const bool self_default = false;
+    int level = 0;
     // target tripoint is source (true) or target (false)
-    bool self = self_default;
-
-    static const int trigger_once_in_default = 1;
+    bool self = false;
     // a chance to trigger the enchantment spells
-    int trigger_once_in = trigger_once_in_default;
+    int trigger_once_in = 1;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
