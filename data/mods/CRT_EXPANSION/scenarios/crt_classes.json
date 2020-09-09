@@ -54,12 +54,10 @@
           "socks",
           "crt_dress_shoes",
           "id_military",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "cell_phone"
         ],
-        "entries": [
-          { "item": "water_clean", "container-item": "thermos" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -186,7 +184,7 @@
           "ifak",
           "bandages",
           "crt_backpack",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "UPS_off"
         ],
         "entries": [
@@ -319,7 +317,7 @@
           "two_way_radio",
           "crt_nstick",
           "badge_marshal",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "lighter"
         ],
         "entries": [
@@ -390,7 +388,7 @@
           "two_way_radio",
           "crt_nstick",
           "badge_marshal",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "lighter"
         ],
         "entries": [
@@ -459,20 +457,17 @@
           "crt_mess_kit",
           "lighter",
           "badge_marshal",
-         "knife_swissarmy",
-         "beam_difractor",
-         "bthk_stock",
-         "flare_gmod",
+          "knife_swissarmy",
+          "beam_difractor",
+          "bthk_stock",
+          "flare_gmod",
           "crt_etool"
         ],
         "entries": [
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_crt", "container-item": "crt_belt" },
-          {
-            "item": "crt_laser_pistol",
-            "container-item": "holster"
-          },
+          { "item": "crt_laser_pistol", "container-item": "holster" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
           { "item": "battery", "ammo-item": "battery", "count": 25 }
         ]
@@ -526,7 +521,7 @@
           "lighter",
           "pellet",
           "pelletgun",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "crt_etool"
         ],
         "entries": [
@@ -574,12 +569,10 @@
           "crt_mess_kit",
           "id_military",
           "pelletgun",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "pellet"
         ],
-        "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" }
-        ]
+        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -616,12 +609,10 @@
           "crt_dress_shoes",
           "lighter",
           "thorazine",
-         "knife_swissarmy",
+          "knife_swissarmy",
           "id_military"
         ],
-        "entries": [
-          { "item": "water_clean", "container-item": "thermos" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
