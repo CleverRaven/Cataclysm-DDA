@@ -618,8 +618,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
                               required.water );
         act->set_to_null();
         return;
-    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+    }
+    if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
+        !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         act->set_to_null();
@@ -772,7 +773,8 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
         // so just bail out, as we don't know if the next shifted part is suitable for repair.
         if( type == 'r' ) {
             return false;
-        } else if( type == 'o' ) {
+        }
+        if( type == 'o' ) {
             vpindex = veh->get_next_shifted_index( vpindex, p );
             if( vpindex == -1 ) {
                 return false;
@@ -938,7 +940,8 @@ static activity_reason_info find_base_construction(
     // so we need to potentially fetch components
     if( build.pre_terrain.empty() && build.pre_special( loc ) ) {
         return activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, idx );
-    } else if( !build.pre_special( loc ) ) {
+    }
+    if( !build.pre_special( loc ) ) {
         return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, idx );
     }
 
@@ -1219,9 +1222,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_VEH_DECONST );
-                } else {
-                    return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_DECONST );
                 }
+                return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_DECONST );
             }
         } else if( act == ACT_VEHICLE_REPAIR ) {
             // find out if there is a vehicle part here we can repair.
@@ -1254,9 +1256,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 p.activity_vehicle_part_index = vpindex;
                 if( !can_make ) {
                     return activity_reason_info::fail( do_activity_reason::NEEDS_VEH_REPAIR );
-                } else {
-                    return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_REPAIR );
                 }
+                return activity_reason_info::ok( do_activity_reason::NEEDS_VEH_REPAIR );
             }
         }
         p.activity_vehicle_part_index = -1;
@@ -1272,9 +1273,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         } );
         if( mining_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
-        } else {
-            return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
         }
+        return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
     }
     if( act == ACT_MULTIPLE_FISH ) {
         if( !here.has_flag( flag_FISHABLE, src_loc ) ) {
@@ -1285,21 +1285,18 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         } );
         if( rod_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_FISHING );
-        } else {
-            return activity_reason_info::ok( do_activity_reason::NEEDS_FISHING );
         }
+        return activity_reason_info::ok( do_activity_reason::NEEDS_FISHING );
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
         if( here.has_flag( flag_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
             here.ter( src_loc ) == t_stump ) {
             if( p.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
-            } else {
-                return activity_reason_info::fail( do_activity_reason::NEEDS_TREE_CHOPPING );
             }
-        } else {
-            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+            return activity_reason_info::fail( do_activity_reason::NEEDS_TREE_CHOPPING );
         }
+        return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_BUTCHER ) {
         std::vector<item> corpses;
@@ -1331,17 +1328,15 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( p.has_quality( quality_id( qual_BUTCHER ), 1 ) && ( p.has_quality( qual_SAW_W ) ||
                         p.has_quality( qual_SAW_M ) ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_BIG_BUTCHERING );
-                } else {
-                    return activity_reason_info::fail( do_activity_reason::NEEDS_BIG_BUTCHERING );
                 }
+                return activity_reason_info::fail( do_activity_reason::NEEDS_BIG_BUTCHERING );
             }
             if( ( big_count > 0 && small_count > 0 ) || ( big_count == 0 ) ) {
                 // there are small corpses here, so we can ignore any big corpses here for the moment.
                 if( p.has_quality( qual_BUTCHER, 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_BUTCHERING );
-                } else {
-                    return activity_reason_info::fail( do_activity_reason::NEEDS_BUTCHERING );
                 }
+                return activity_reason_info::fail( do_activity_reason::NEEDS_BUTCHERING );
             }
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1353,9 +1348,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 // do we have an axe?
                 if( p.has_quality( qual_AXE, 1 ) ) {
                     return activity_reason_info::ok( do_activity_reason::NEEDS_CHOPPING );
-                } else {
-                    return activity_reason_info::fail( do_activity_reason::NEEDS_CHOPPING );
                 }
+                return activity_reason_info::fail( do_activity_reason::NEEDS_CHOPPING );
             }
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1398,45 +1392,43 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             if( here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
                 // simple work, pulling up plants, nothing else required.
                 return activity_reason_info::ok( do_activity_reason::NEEDS_HARVESTING );
-            } else if( here.has_flag( flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
+            }
+            if( here.has_flag( flag_PLOWABLE, src_loc ) && !here.has_furn( src_loc ) ) {
                 if( p.has_quality( qual_DIG, 1 ) ) {
                     // we have a shovel/hoe already, great
                     return activity_reason_info::ok( do_activity_reason::NEEDS_TILLING );
-                } else {
-                    // we need a shovel/hoe
-                    return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
-                       warm_enough_to_plant( src_loc ) ) {
+                // we need a shovel/hoe
+                return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
+            }
+            if( here.has_flag_ter_or_furn( flag_PLANTABLE, src_loc ) &&
+                warm_enough_to_plant( src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
-                } else {
-                    // do we have the required seed on our person?
-                    const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
-                    const itype_id seed = options.get_seed();
-                    // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
-                    // then it means no further work can be done here
-                    if( seed.is_empty() ) {
-                        return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
-                    }
-                    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
-                        return itm.is_seed();
-                    } );
-                    for( const item *elem : seed_inv ) {
-                        if( elem->typeId() == itype_id( seed ) ) {
-                            return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
-                        }
-                    }
-                    // didn't find the seed, but maybe there are overlapping farm zones
-                    // and another of the zones is for a seed that we have
-                    // so loop again, and return false once all zones done.
                 }
-
+                // do we have the required seed on our person?
+                const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
+                const itype_id seed = options.get_seed();
+                // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
+                // then it means no further work can be done here
+                if( seed.is_empty() ) {
+                    return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
+                }
+                std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+                    return itm.is_seed();
+                } );
+                for( const item *elem : seed_inv ) {
+                    if( elem->typeId() == itype_id( seed ) ) {
+                        return activity_reason_info::ok( do_activity_reason::NEEDS_PLANTING );
+                    }
+                }
+                // didn't find the seed, but maybe there are overlapping farm zones
+                // and another of the zones is for a seed that we have
+                // so loop again, and return false once all zones done.
             } else {
                 // can't plant, till or harvest
                 return activity_reason_info::fail( do_activity_reason::ALREADY_DONE );
             }
-
         }
         // looped through all zones, and only got here if its plantable, but have no seeds.
         return activity_reason_info::fail( do_activity_reason::NEEDS_PLANTING );
@@ -1514,7 +1506,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             if( pickup_task ) {
                 loot_spots.push_back( elem );
             } else {
-                continue;
             }
         } else {
             loot_spots.push_back( elem );
@@ -1629,9 +1620,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
                     }
+                    remainder = quantity_required - quantity_here;
                     break;
                 }
                 it++;
@@ -1687,9 +1677,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
-                    } else {
-                        remainder = quantity_required - quantity_here;
                     }
+                    remainder = quantity_required - quantity_here;
                     break;
                 }
                 it++;
@@ -1884,14 +1873,15 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                                here.getlocal( p.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
                     return true;
                     // other tasks want the tool picked up
-                } else if( !p.backlog.empty() && ( p.backlog.front().id() == ACT_MULTIPLE_FARM ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
-                                                   p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
-                                                   p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
+                }
+                if( !p.backlog.empty() && ( p.backlog.front().id() == ACT_MULTIPLE_FARM ||
+                                            p.backlog.front().id() == ACT_MULTIPLE_CHOP_PLANKS ||
+                                            p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
+                                            p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
+                                            p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
+                                            p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
+                                            p.backlog.front().id() == ACT_MULTIPLE_FISH ||
+                                            p.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         continue;
                     }
@@ -2300,7 +2290,8 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
         p.activity.placement = here.getabs( src_loc );
         return true;
-    } else if( ter == t_trunk || ter == t_stump ) {
+    }
+    if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( ACT_CHOP_LOGS, moves, -1, p.get_item_position( best_qual ) );
         p.activity.placement = here.getabs( src_loc );
         return true;
@@ -2523,18 +2514,19 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
         }
         return requirement_check_result::SKIP_LOCATION;
-    } else if( reason == do_activity_reason::NO_COMPONENTS ||
-               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
-               reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
-               reason == do_activity_reason::NEEDS_PLANTING ||
-               reason == do_activity_reason::NEEDS_TILLING ||
-               reason == do_activity_reason::NEEDS_CHOPPING ||
-               reason == do_activity_reason::NEEDS_BUTCHERING ||
-               reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
-               reason == do_activity_reason::NEEDS_VEH_DECONST ||
-               reason == do_activity_reason::NEEDS_VEH_REPAIR ||
-               reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ) {
+    }
+    if( reason == do_activity_reason::NO_COMPONENTS ||
+        reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
+        reason == do_activity_reason::NO_COMPONENTS_PREREQ_2 ||
+        reason == do_activity_reason::NEEDS_PLANTING ||
+        reason == do_activity_reason::NEEDS_TILLING ||
+        reason == do_activity_reason::NEEDS_CHOPPING ||
+        reason == do_activity_reason::NEEDS_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
+        reason == do_activity_reason::NEEDS_VEH_DECONST ||
+        reason == do_activity_reason::NEEDS_VEH_REPAIR ||
+        reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
+        reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         requirement_id what_we_need;
@@ -2638,41 +2630,40 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 p.activity_vehicle_part_index = -1;
             }
             return requirement_check_result::SKIP_LOCATION;
-        } else {
-            if( !check_only ) {
-                p.backlog.push_front( act_id );
-                p.assign_activity( ACT_FETCH_REQUIRED );
-                player_activity &act_prev = p.backlog.front();
-                act_prev.str_values.push_back( what_we_need.str() );
-                act_prev.values.push_back( static_cast<int>( reason ) );
-                // come back here after successfully fetching your stuff
-                if( act_prev.coords.empty() ) {
-                    std::vector<tripoint> local_src_set;
-                    for( const tripoint &elem : src_set ) {
-                        local_src_set.push_back( here.getlocal( elem ) );
-                    }
-                    std::vector<tripoint> candidates;
-                    for( const tripoint &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                        // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
-                        if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
-                                                       point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
-                            continue;
-                        }
-                        candidates.push_back( point_elem );
-                    }
-                    if( candidates.empty() ) {
-                        p.activity = player_activity();
-                        p.backlog.clear();
-                        check_npc_revert( p );
-                        return requirement_check_result::SKIP_LOCATION;
-                    }
-                    act_prev.coords.push_back( here.getabs( candidates[std::max( 0,
-                                                                      static_cast<int>( candidates.size() / 2 ) )] ) );
-                }
-                act_prev.placement = src;
-            }
-            return requirement_check_result::RETURN_EARLY;
         }
+        if( !check_only ) {
+            p.backlog.push_front( act_id );
+            p.assign_activity( ACT_FETCH_REQUIRED );
+            player_activity &act_prev = p.backlog.front();
+            act_prev.str_values.push_back( what_we_need.str() );
+            act_prev.values.push_back( static_cast<int>( reason ) );
+            // come back here after successfully fetching your stuff
+            if( act_prev.coords.empty() ) {
+                std::vector<tripoint> local_src_set;
+                for( const tripoint &elem : src_set ) {
+                    local_src_set.push_back( here.getlocal( elem ) );
+                }
+                std::vector<tripoint> candidates;
+                for( const tripoint &point_elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
+                    // we don't want to place the components where they could interfere with our ( or someone else's ) construction spots
+                    if( !p.sees( point_elem ) || ( std::find( local_src_set.begin(), local_src_set.end(),
+                                                   point_elem ) != local_src_set.end() ) || !here.can_put_items_ter_furn( point_elem ) ) {
+                        continue;
+                    }
+                    candidates.push_back( point_elem );
+                }
+                if( candidates.empty() ) {
+                    p.activity = player_activity();
+                    p.backlog.clear();
+                    check_npc_revert( p );
+                    return requirement_check_result::SKIP_LOCATION;
+                }
+                act_prev.coords.push_back( here.getabs( candidates[std::max( 0,
+                                                                  static_cast<int>( candidates.size() / 2 ) )] ) );
+            }
+            act_prev.placement = src;
+        }
+        return requirement_check_result::RETURN_EARLY;
     }
     return requirement_check_result::SKIP_LOCATION;
 }
@@ -2836,7 +2827,8 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
                 activity_to_restore, act_info, src, src_loc, src_set, check_only );
         if( req_res == requirement_check_result::SKIP_LOCATION ) {
             continue;
-        } else if( req_res == requirement_check_result::RETURN_EARLY ) {
+        }
+        if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
 

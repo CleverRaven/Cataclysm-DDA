@@ -784,10 +784,9 @@ void draw(
                             // Hordes show as +
                             ter_sym = "+";
                             break;
-                        } else {
-                            // Regular groups show as -
-                            ter_sym = "-";
                         }
+                        // Regular groups show as -
+                        ter_sym = "-";
                     }
                     // Set the color only if we encountered an eligible group.
                     if( ter_sym == "+" || ter_sym == "-" ) {
@@ -1159,7 +1158,8 @@ void create_note( const tripoint_abs_omt &curs )
             new_note = old_note;
             esc_pressed = true;
             break;
-        } else if( input_popup.confirmed() ) {
+        }
+        if( input_popup.confirmed() ) {
             break;
         }
     } while( true );

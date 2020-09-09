@@ -762,11 +762,13 @@ void monster::move()
         moves = 0;
         return;
         // Don't move if harnessed, even if vehicle is stationary
-    } else if( vp && has_effect( effect_harnessed ) ) {
+    }
+    if( vp && has_effect( effect_harnessed ) ) {
         moves = 0;
         return;
         // If harnessed monster finds itself moved from the harness point, the harness probably broke!
-    } else if( !harness_part && has_effect( effect_harnessed ) ) {
+    }
+    if( !harness_part && has_effect( effect_harnessed ) ) {
         remove_effect( effect_harnessed );
     }
     // Set attitude to attitude to our current target
@@ -924,12 +926,14 @@ void monster::move()
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
-                           target->has_flag( MF_QUEEN ) ) ) {
+                }
+                if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
+                                                   target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
-                } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                }
+                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
                 }
@@ -1763,9 +1767,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                 // pushed another creature, just reduce moves
                 critter->moves -= dest_movecost_from;
                 return true;
-            } else {
-                return false;
             }
+            return false;
         }
 
         critter_recur = g->critter_at( dest );
@@ -1989,7 +1992,8 @@ int monster::turns_to_reach( const point &p )
             // No bashing through, it looks stupid when you go back and find
             // the doors intact.
             return 999;
-        } else if( i == 0 ) {
+        }
+        if( i == 0 ) {
             turns += static_cast<double>( calc_movecost( pos(), next ) ) / get_speed();
         } else {
             turns += static_cast<double>( calc_movecost( path[i - 1], next ) ) / get_speed();

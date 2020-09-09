@@ -130,9 +130,8 @@ int vehicle_part::hp() const
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
         return dur - dur * base.damage() / base.max_damage();
-    } else {
-        return dur;
     }
+    return dur;
 }
 
 int vehicle_part::damage() const
@@ -181,9 +180,8 @@ itype_id vehicle_part::fuel_current() const
     if( is_engine() ) {
         if( ammo_pref.is_null() ) {
             return info().fuel_type != itype_muscle ? info().fuel_type : itype_id::NULL_ID();
-        } else {
-            return ammo_pref;
         }
+        return ammo_pref;
     }
 
     return itype_id::NULL_ID();
@@ -268,7 +266,8 @@ int vehicle_part::ammo_set( const itype_id &ammo, int qty )
     if( is_turret() ) {
         if( base.is_magazine() ) {
             return base.ammo_set( ammo, qty ).ammo_remaining();
-        } else if( !base.magazine_default().is_null() ) {
+        }
+        if( !base.magazine_default().is_null() ) {
             item mag( base.magazine_default() );
             mag.ammo_set( ammo, qty );
             base.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
@@ -353,7 +352,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
+        if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
@@ -571,9 +570,8 @@ bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
 {
     if( pt.info().durability > 0 ) {
         return pt.base.mod_damage( -( pt.base.max_damage() * qty / pt.info().durability ), dt );
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const

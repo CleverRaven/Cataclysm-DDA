@@ -47,9 +47,8 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
 {
     if( static_cast<size_t>( id ) < monsters_list.size() ) {
         return monsters_list[id];
-    } else {
-        return nullptr;
     }
+    return nullptr;
 }
 
 bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
@@ -138,17 +137,16 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         monsters_by_location.erase( critter.pos() );
         monsters_by_location[new_pos] = *iter;
         return true;
-    } else {
-        const tripoint &old_pos = critter.pos();
-        // We're changing the x/y/z coordinates of a zombie that hasn't been added
-        // to the game yet. `add` will update monsters_by_location for us.
-        debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
-                  critter.disp_name(),
-                  old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
-        // Rebuild cache in case the monster actually IS in the game, just bugged
-        rebuild_cache();
-        return false;
     }
+    const tripoint &old_pos = critter.pos();
+    // We're changing the x/y/z coordinates of a zombie that hasn't been added
+    // to the game yet. `add` will update monsters_by_location for us.
+    debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
+              critter.disp_name(),
+              old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
+    // Rebuild cache in case the monster actually IS in the game, just bugged
+    rebuild_cache();
+    return false;
 }
 
 void Creature_tracker::remove_from_location_map( const monster &critter )

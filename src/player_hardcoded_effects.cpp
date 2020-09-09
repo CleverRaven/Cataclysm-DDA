@@ -985,16 +985,16 @@ void player::hardcoded_effects( effect &it )
                         warning = _( "You huff and puff.  Your breath is rapid and shallow." );
                         mod_stamina( -500 * intense );
                         break;
-                    case 6:
+                    case 6: {
                         if( one_in( 2 ) ) {
                             warning = _( "You drop to the ground, fighting to keep yourself conscious." );
                             add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
                             break;
-                        } else {
-                            warning = _( "Your mind slips away." );
-                            fall_asleep( rng( 2_minutes, 5_minutes ) );
-                            break;
                         }
+                        warning = _( "Your mind slips away." );
+                        fall_asleep( rng( 2_minutes, 5_minutes ) );
+                        break;
+                    }
                 }
                 add_msg_if_player( m_bad, warning );
             }

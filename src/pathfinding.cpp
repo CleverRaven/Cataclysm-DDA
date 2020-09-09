@@ -357,7 +357,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                 // Threshold damage thing means we just can't bash this down
                                 layer.state[index] = ASL_CLOSED;
                                 continue;
-                            } else if( hp / 10 > bash ) {
+                            }
+                            if( hp / 10 > bash ) {
                                 // Threshold damage thing means we will fail to deal damage pretty often
                                 hp *= 2;
                             }

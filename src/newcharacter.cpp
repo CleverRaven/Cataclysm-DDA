@@ -1326,16 +1326,16 @@ static struct {
         const profession *gen = profession::generic();
         if( &b.obj() == gen ) {
             return false;
-        } else if( &a.obj() == gen ) {
+        }
+        if( &a.obj() == gen ) {
             return true;
         }
 
         if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
-        } else {
-            return localized_compare( a->gender_appropriate_name( male ),
-                                      b->gender_appropriate_name( male ) );
         }
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
     }
 } profession_sorter;
 
@@ -1955,19 +1955,20 @@ static struct {
             const scenario *gen = scenario::generic();
             if( b == gen ) {
                 return false;
-            } else if( a == gen ) {
+            }
+            if( a == gen ) {
                 return true;
             }
         }
 
         if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
             return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
-        } else if( sort_by_points ) {
-            return a->point_cost() < b->point_cost();
-        } else {
-            return localized_compare( a->gender_appropriate_name( male ),
-                                      b->gender_appropriate_name( male ) );
         }
+        if( sort_by_points ) {
+            return a->point_cost() < b->point_cost();
+        }
+        return localized_compare( a->gender_appropriate_name( male ),
+                                  b->gender_appropriate_name( male ) );
     }
 } scenario_sorter;
 
@@ -2672,15 +2673,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 } else {
                     popup( _( "Too many points allocated, change some features and try again." ) );
                 }
-                continue;
             } else if( points.has_spare() &&
                        !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
-                continue;
             } else if( you.name.empty() ) {
                 no_name_entered = true;
                 ui_manager::redraw();
                 if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
-                    continue;
                 } else {
                     you.pick_name();
                     return tab_direction::FORWARD;
@@ -2688,7 +2686,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
                 return tab_direction::FORWARD;
             } else {
-                continue;
             }
         } else if( action == "PREV_TAB" ) {
             return tab_direction::BACKWARD;
@@ -3030,9 +3027,8 @@ cata::optional<std::string> query_for_template_name()
     spop.query_string( true );
     if( spop.canceled() ) {
         return cata::nullopt;
-    } else {
-        return spop.text();
     }
+    return spop.text();
 }
 
 void avatar::save_template( const std::string &name, const points_left &points )

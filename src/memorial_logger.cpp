@@ -106,9 +106,8 @@ std::string memorial_log_entry::to_string() const
 {
     if( preformatted_ ) {
         return *preformatted_;
-    } else {
-        return "| " + ::to_string( time_ ) + " | " + oter_name_ + " | " + message_;
     }
+    return "| " + ::to_string( time_ ) + " | " + oter_name_ + " | " + message_;
 }
 
 void memorial_log_entry::deserialize( JsonIn &jsin )

@@ -410,9 +410,8 @@ void player::process_turn()
                     // We can stop tracking this tile if there's no longer any time recorded there.
                     it = overmap_time.erase( it );
                     continue;
-                } else {
-                    it->second = updated_value;
                 }
+                it->second = updated_value;
             }
             it++;
         }
@@ -430,9 +429,8 @@ int player::kcal_speed_penalty() const
     };
     if( get_kcal_percent() > 0.95f ) {
         return 0;
-    } else {
-        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
     }
+    return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
 }
 
 int player::thirst_speed_penalty( int thirst )
@@ -1508,8 +1506,6 @@ void player::process_items()
     for( const auto &it : inv_use_ups ) {
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
-            // Bionic power costs are handled elsewhere
-            continue;
             //this is for UPS-modded items with no battery well
         } else if( it->active && !it->ammo_sufficient() &&
                    ( ch_UPS_used >= ch_UPS ||
@@ -1627,19 +1623,18 @@ item::reload_option player::select_ammo( const item &base,
                 //~ battery storage (charges)
                 return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_remaining() );
-            } else {
-                //~ magazine with ammo (count)
-                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
-                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
-        } else if( e.ammo->is_watertight_container() ||
-                   ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
+            //~ magazine with ammo (count)
+            return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
+                                  e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
+        }
+        if( e.ammo->is_watertight_container() ||
+            ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their ammo contents with their location also updated below
             return e.ammo->contents.first_ammo().display_name();
 
-        } else {
-            return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
         }
+        return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
     } );
 
     // Get location descriptions
@@ -2120,13 +2115,11 @@ void player::mend_item( item_location &&obj, bool interactive )
                                                         //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
                                                         "<color_cyan>%1$s</color> <color_green>(%2$d/%3$d)</color>" ),
                                               sk.first->name(), get_skill_level( sk.first ), sk.second );
-                    } else
-                    {
-                        return string_format( pgettext( "skill requirement",
-                                                        //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
-                                                        "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
-                                              sk.first->name(), get_skill_level( sk.first ), sk.second );
                     }
+                    return string_format( pgettext( "skill requirement",
+                                                    //~ %1$s: skill name, %2$s: current skill level, %3$s: required skill level
+                                                    "<color_cyan>%1$s</color> <color_yellow>(%2$d/%3$d)</color>" ),
+                                          sk.first->name(), get_skill_level( sk.first ), sk.second );
                 } ) );
             }
 
@@ -2520,7 +2513,8 @@ bool player::unload( item_location &loc, bool bypass_activity )
         }
         return true;
 
-    } else if( target->magazine_current() ) {
+    }
+    if( target->magazine_current() ) {
         if( !this->add_or_drop_with_msg( *target->magazine_current(), true ) ) {
             return false;
         }
@@ -2878,11 +2872,11 @@ bool player::fun_to_read( const item &book ) const
           has_trait( trait_SAPIOVORE ) ) &&
         book.typeId() == itype_cookbook_human ) {
         return true;
-    } else if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        return true;
-    } else {
-        return book_fun_for( book, *this ) > 0;
     }
+    if( has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        return true;
+    }
+    return book_fun_for( book, *this ) > 0;
 }
 
 int player::book_fun_for( const item &book, const player &p ) const

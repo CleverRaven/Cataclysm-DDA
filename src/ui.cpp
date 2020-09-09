@@ -44,17 +44,18 @@ static cata::optional<input_event> hotkey_from_char( const int ch )
 {
     if( ch == MENU_AUTOASSIGN ) {
         return cata::nullopt;
-    } else if( ch <= 0 || ch == ' ' ) {
+    }
+    if( ch <= 0 || ch == ' ' ) {
         return input_event();
     }
     switch( input_manager::actual_keyboard_mode( keyboard_mode::keycode ) ) {
-        case keyboard_mode::keycode:
+        case keyboard_mode::keycode: {
             if( ch >= 'A' && ch <= 'Z' ) {
                 return input_event( std::set<keymod_t>( { keymod_t::shift } ),
                                     ch - 'A' + 'a', input_event_t::keyboard_code );
-            } else {
-                return input_event( ch, input_event_t::keyboard_code );
             }
+            return input_event( ch, input_event_t::keyboard_code );
+        }
         case keyboard_mode::keychar:
             return input_event( ch, input_event_t::keyboard_char );
     }
@@ -768,19 +769,23 @@ int uilist::scroll_amount_from_action( const std::string &action )
 {
     if( action == "UP" ) {
         return -1;
-    } else if( action == "PAGE_UP" ) {
-        return ( -vmax + 1 );
-    } else if( action == "SCROLL_UP" ) {
-        return -3;
-    } else if( action == "DOWN" ) {
-        return 1;
-    } else if( action == "PAGE_DOWN" ) {
-        return vmax - 1;
-    } else if( action == "SCROLL_DOWN" ) {
-        return +3;
-    } else {
-        return 0;
     }
+    if( action == "PAGE_UP" ) {
+        return ( -vmax + 1 );
+    }
+    if( action == "SCROLL_UP" ) {
+        return -3;
+    }
+    if( action == "DOWN" ) {
+        return 1;
+    }
+    if( action == "PAGE_DOWN" ) {
+        return vmax - 1;
+    }
+    if( action == "SCROLL_DOWN" ) {
+        return +3;
+    }
+    return 0;
 }
 
 /**

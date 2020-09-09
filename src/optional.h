@@ -240,11 +240,11 @@ constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )
 {
     if( lhs.has_value() != rhs.has_value() ) {
         return false;
-    } else if( !lhs ) {
-        return true;
-    } else {
-        return *lhs == *rhs;
     }
+    if( !lhs ) {
+        return true;
+    }
+    return *lhs == *rhs;
 }
 
 template< class T, class U >

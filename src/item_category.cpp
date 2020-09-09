@@ -99,9 +99,8 @@ cata::optional<zone_type_id> item_category::priority_zone( const item &it ) cons
             if( it.is_filthy() ) {
                 return zone_dat.id;
 
-            } else {
-                continue;
             }
+            continue;
         }
         for( const std::string &flag : zone_dat.flags ) {
             if( it.has_flag( flag ) ) {

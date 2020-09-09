@@ -303,7 +303,8 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 }
                 elem.push_back( newit );
                 return elem.back();
-            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
+            }
+            if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
                 assign_empty_invlet( *it_ref, player_character );
             }

@@ -612,8 +612,6 @@ bool talk_function::display_and_choose_opts(
         } else if( action == "CONFIRM" ) {
             if( mission_key.cur_key.possible ) {
                 break;
-            } else {
-                continue;
             }
         }
     }
@@ -1614,7 +1612,8 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
                 popup( _( "%s forces retreat from combat!" ), yours->name );
             }
             return false;
-        } else if( attack * 3 < defense ) {
+        }
+        if( attack * 3 < defense ) {
             attack_random( remaining_def, remaining_mon );
             if( attack == 0 || ( remaining_mon.size() == 1 && remaining_mon[0]->get_hp() == 0 ) ) {
                 popup( _( "The monsters are destroyed!" ) );
@@ -1622,15 +1621,14 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
                 popup( _( "The monsters disengage!" ) );
             }
             return true;
-        } else {
-            def_init = rng( 1, 6 ) + advantage;
-            att_init = rng( 1, 6 );
-            if( def_init >= att_init ) {
-                attack_random( remaining_mon, remaining_def );
-            }
-            if( def_init <= att_init ) {
-                attack_random( remaining_def, remaining_mon );
-            }
+        }
+        def_init = rng( 1, 6 ) + advantage;
+        att_init = rng( 1, 6 );
+        if( def_init >= att_init ) {
+            attack_random( remaining_mon, remaining_def );
+        }
+        if( def_init <= att_init ) {
+            attack_random( remaining_def, remaining_mon );
         }
     }
 }
@@ -1678,7 +1676,8 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
                 popup( _( "%s forces retreat from combat!" ), defender[0]->get_faction()->name );
             }
             return;
-        } else if( attack * 3 < defense ) {
+        }
+        if( attack * 3 < defense ) {
             attack_random( remaining_def, remaining_att );
             if( attack == 0 || ( remaining_att.size() == 1 &&
                                  remaining_att[0]->get_part_hp_cur( bodypart_id( "torso" ) ) == 0 ) ) {
@@ -1687,15 +1686,14 @@ void talk_function::force_on_force( const std::vector<npc_ptr> &defender,
                 popup( _( "%s forces retreat from combat!" ), attacker[0]->get_faction()->name );
             }
             return;
-        } else {
-            def_init = rng( 1, 6 ) + advantage;
-            att_init = rng( 1, 6 );
-            if( def_init >= att_init ) {
-                attack_random( remaining_att, remaining_def );
-            }
-            if( def_init <= att_init ) {
-                attack_random( remaining_def, remaining_att );
-            }
+        }
+        def_init = rng( 1, 6 ) + advantage;
+        att_init = rng( 1, 6 );
+        if( def_init >= att_init ) {
+            attack_random( remaining_att, remaining_def );
+        }
+        if( def_init <= att_init ) {
+            attack_random( remaining_def, remaining_att );
         }
     }
 }

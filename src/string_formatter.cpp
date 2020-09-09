@@ -20,9 +20,8 @@ bool cata::string_formatter::consume_next_input_if( const char c )
     if( c == get_current_input() ) {
         consume_next_input();
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 void cata::string_formatter::read_flags()
@@ -54,9 +53,8 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         ( void ) had_next;
         cata_assert( had_next );
         return result;
-    } else {
-        return cata::nullopt;
     }
+    return cata::nullopt;
 }
 
 int cata::string_formatter::parse_integer( )

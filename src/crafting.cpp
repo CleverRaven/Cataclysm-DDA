@@ -715,21 +715,20 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
 
         return set_item_map( loc, newit );
 
-    } else {
-        if( here.has_furn( loc ) ) {
-            const furn_t &workbench = here.furn( loc ).obj();
-            p.add_msg_player_or_npc(
-                pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
-                pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
-                newit.tname(), workbench.name() );
-        } else {
-            p.add_msg_player_or_npc(
-                pgettext( "item", "You put the %s on the ground." ),
-                pgettext( "item", "<npcname> puts the %s on the ground." ),
-                newit.tname() );
-        }
-        return set_item_map( loc, newit );
     }
+    if( here.has_furn( loc ) ) {
+        const furn_t &workbench = here.furn( loc ).obj();
+        p.add_msg_player_or_npc(
+            pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+            pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
+            newit.tname(), workbench.name() );
+    } else {
+        p.add_msg_player_or_npc(
+            pgettext( "item", "You put the %s on the ground." ),
+            pgettext( "item", "<npcname> puts the %s on the ground." ),
+            newit.tname() );
+    }
+    return set_item_map( loc, newit );
 }
 
 void Character::start_craft( craft_command &command, const tripoint &loc )
@@ -2029,13 +2028,12 @@ ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv 
             if( tool_required.count <= 0 ) {
                 return ret_val<bool>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
-            } else {
-                //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
-                                                    "You need a %1$s with %2$d charges.", tool_required.count ),
-                                                    item::nname( tool_required.type ),
-                                                    tool_required.count );
             }
+            //~ %1$s: tool name, %2$d: needed charges
+            return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                                                "You need a %1$s with %2$d charges.", tool_required.count ),
+                                                item::nname( tool_required.type ),
+                                                tool_required.count );
         }
     }
 
@@ -2070,22 +2068,21 @@ bool Character::disassemble( item_location target, bool interactive )
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
             return false;
-        } else {
-            if( obj.get_owner() ) {
-                std::vector<npc *> witnesses;
-                for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
-                        elem.say( "<witnessed_thievery>", 7 );
-                        npc *npc_to_add = &elem;
-                        witnesses.push_back( npc_to_add );
-                    }
+        }
+        if( obj.get_owner() ) {
+            std::vector<npc *> witnesses;
+            for( npc &elem : g->all_npcs() ) {
+                if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                    obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
+                    elem.say( "<witnessed_thievery>", 7 );
+                    npc *npc_to_add = &elem;
+                    witnesses.push_back( npc_to_add );
                 }
-                if( !witnesses.empty() ) {
-                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
-                        for( npc *elem : witnesses ) {
-                            elem->make_angry();
-                        }
+            }
+            if( !witnesses.empty() ) {
+                if( player_character.add_faction_warning( obj.get_owner() ) ) {
+                    for( npc *elem : witnesses ) {
+                        elem->make_angry();
                     }
                 }
             }
@@ -2201,11 +2198,10 @@ void Character::complete_disassemble()
         if( activity.index ) {
             disassemble_all( false );
             return;
-        } else {
-            // No more targets
-            activity.set_to_null();
-            return;
         }
+        // No more targets
+        activity.set_to_null();
+        return;
     }
 
     // Set get and set duration of next uncraft

@@ -150,17 +150,16 @@ const std::vector<clothing_mod> &clothing_mods::get_all_with( clothing_mod_type 
     const auto iter = clothing_mods_by_type.find( type );
     if( iter != clothing_mods_by_type.end() ) {
         return iter->second;
-    } else {
-        // Build cache
-        std::vector<clothing_mod> list;
-        for( const clothing_mod &cm : get_all() ) {
-            if( cm.has_mod_type( type ) ) {
-                list.push_back( cm );
-            }
-        }
-        clothing_mods_by_type.emplace( type, std::move( list ) );
-        return clothing_mods_by_type[type];
     }
+    // Build cache
+    std::vector<clothing_mod> list;
+    for( const clothing_mod &cm : get_all() ) {
+        if( cm.has_mod_type( type ) ) {
+            list.push_back( cm );
+        }
+    }
+    clothing_mods_by_type.emplace( type, std::move( list ) );
+    return clothing_mods_by_type[type];
 }
 
 std::string clothing_mods::string_from_clothing_mod_type( clothing_mod_type type )

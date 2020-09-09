@@ -199,29 +199,35 @@ itype_id mtype::get_meat_itype() const
     if( has_flag( MF_POISON ) ) {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             return itype_meat_tainted;
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+        }
+        if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return itype_meat_tainted;
-        } else if( made_of( material_id( "veggy" ) ) ) {
+        }
+        if( made_of( material_id( "veggy" ) ) ) {
             return itype_veggy_tainted;
-        } else if( made_of( material_id( "bone" ) ) ) {
+        }
+        if( made_of( material_id( "bone" ) ) ) {
             return itype_bone_tainted;
         }
     } else {
         if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
             if( has_flag( MF_HUMAN ) ) {
                 return itype_human_flesh;
-            } else if( has_flag( MF_AQUATIC ) ) {
-                return itype_fish;
-            } else {
-                return itype_meat;
             }
-        } else if( made_of( material_id( "iflesh" ) ) ) {
+            if( has_flag( MF_AQUATIC ) ) {
+                return itype_fish;
+            }
+            return itype_meat;
+        }
+        if( made_of( material_id( "iflesh" ) ) ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return itype_meat;
-        } else if( made_of( material_id( "veggy" ) ) ) {
+        }
+        if( made_of( material_id( "veggy" ) ) ) {
             return itype_veggy;
-        } else if( made_of( material_id( "bone" ) ) ) {
+        }
+        if( made_of( material_id( "bone" ) ) ) {
             return itype_bone;
         }
     }

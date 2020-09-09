@@ -91,9 +91,8 @@ template <typename W, typename T> struct weighted_list {
         const T *pick( unsigned int randi ) const {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
-            } else {
-                return nullptr;
             }
+            return nullptr;
         }
         const T *pick() const {
             return pick( rng_bits() );
@@ -108,9 +107,8 @@ template <typename W, typename T> struct weighted_list {
         T *pick( unsigned int randi ) {
             if( total_weight > 0 ) {
                 return &( objects[pick_ent( randi )].obj );
-            } else {
-                return nullptr;
             }
+            return nullptr;
         }
         T *pick() {
             return pick( rng_bits() );

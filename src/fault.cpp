@@ -72,9 +72,8 @@ void fault::load_fault( const JsonObject &jo )
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
-    } else {
-        faults_all[f.id_] = f;
     }
+    faults_all[f.id_] = f;
 }
 
 const std::map<fault_id, fault> &fault::all()

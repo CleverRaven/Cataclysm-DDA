@@ -443,9 +443,8 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
         return std::min( { it.charges,
                            item_copy.charges_per_volume( remaining_volume() ),
                            item_copy.charges_per_weight( remaining_weight() ) } );
-    } else {
-        return 1;
     }
+    return 1;
 }
 
 units::volume item_pocket::item_size_modifier() const
@@ -479,18 +478,16 @@ float item_pocket::spoil_multiplier() const
 {
     if( sealed() ) {
         return data->sealed_data->spoil_multiplier;
-    } else {
-        return data->spoil_multiplier;
     }
+    return data->spoil_multiplier;
 }
 
 int item_pocket::moves() const
 {
     if( data ) {
         return data->moves;
-    } else {
-        return -1;
     }
+    return -1;
 }
 
 std::vector<item *> item_pocket::gunmods()
@@ -560,9 +557,8 @@ int item_pocket::ammo_capacity( const ammotype &ammo ) const
     const auto found_ammo = data->ammo_restriction.find( ammo );
     if( found_ammo == data->ammo_restriction.end() ) {
         return 0;
-    } else {
-        return found_ammo->second;
     }
+    return found_ammo->second;
 }
 
 std::set<ammotype> item_pocket::ammo_types() const
@@ -637,9 +633,8 @@ bool item_pocket::will_spill() const
 {
     if( sealed() ) {
         return false;
-    } else {
-        return data->open_container;
     }
+    return data->open_container;
 }
 
 bool item_pocket::seal()
@@ -660,9 +655,8 @@ bool item_pocket::sealed() const
 {
     if( !sealable() ) {
         return false;
-    } else {
-        return _sealed;
     }
+    return _sealed;
 }
 bool item_pocket::sealable() const
 {
@@ -676,9 +670,8 @@ std::string item_pocket::translated_sealed_prefix() const
 {
     if( sealed() ) {
         return _( "sealed" );
-    } else {
-        return _( "open" );
     }
+    return _( "open" );
 }
 
 bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
@@ -945,10 +938,9 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     if( data->type == item_pocket::pocket_type::MOD ) {
         if( it.is_toolmod() || it.is_gunmod() ) {
             return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
         }
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
     }
 
     if( !data->item_id_restriction.empty() &&
@@ -961,10 +953,9 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         item item_copy( contents.front() );
         if( item_copy.combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
         }
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
     }
 
     if( !data->flag_restriction.empty() && !it.has_any_flag( data->flag_restriction ) ) {
@@ -994,9 +985,8 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
             if( it_ammo != contents.front().ammo_type() ) {
                 return ret_val<item_pocket::contain_code>::make_failure(
                            contain_code::ERR_AMMO, _( "item is not the correct ammo type" ) );
-            } else {
-                internal_count = contents.front().count();
             }
+            internal_count = contents.front().count();
         }
 
         if( it.count() + internal_count > ammo_restriction_iter->second ) {
@@ -1076,12 +1066,11 @@ bool item_pocket::can_contain_liquid( bool held_or_ground ) const
 {
     if( held_or_ground ) {
         return data->watertight;
-    } else {
-        if( will_spill() ) {
-            return false;
-        }
-        return data->watertight;
     }
+    if( will_spill() ) {
+        return false;
+    }
+    return data->watertight;
 }
 
 bool item_pocket::contains_phase( phase_id phase ) const
@@ -1098,9 +1087,8 @@ cata::optional<item> item_pocket::remove_item( const item &it )
     } );
     if( sz == contents.size() ) {
         return cata::nullopt;
-    } else {
-        return ret;
     }
+    return ret;
 }
 
 bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,

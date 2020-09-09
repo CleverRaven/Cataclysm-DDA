@@ -1178,9 +1178,8 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
     if( diag_mode == "mode1" ) {
         if( keysym.mod & KMOD_CTRL && sdl_keycode_is_arrow( keysym.sym ) ) {
             return handle_arrow_combo( keysym.sym );
-        } else {
-            end_arrow_combo();
         }
+        end_arrow_combo();
     }
 
     if( diag_mode == "mode2" ) {
@@ -2527,7 +2526,8 @@ static void CheckMessages()
                     if( lc <= 0 ) {
                         // a key we don't know in curses and won't handle.
                         break;
-                    } else if( add_alt_code( lc ) ) {
+                    }
+                    if( add_alt_code( lc ) ) {
                         // key was handled
                     } else {
                         last_input = input_event( lc, input_event_t::keyboard_char );

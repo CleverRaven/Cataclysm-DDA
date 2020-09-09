@@ -130,7 +130,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
+            }
+            if( you.weapon.type->can_use( "PICKAXE" ) ) {
                 you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
@@ -266,10 +267,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
-            } else {
-                // fighting is hard work!
-                you.increase_activity_level( EXTRA_EXERCISE );
             }
+            // fighting is hard work!
+            you.increase_activity_level( EXTRA_EXERCISE );
             if( you.has_effect( effect_relax_gas ) ) {
                 if( one_in( 8 ) ) {
                     add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -285,8 +285,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
-                   critter.has_effect( effect_ridden ) ) {
+        }
+        if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
+            critter.has_effect( effect_ridden ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -334,10 +335,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 g->moving_vehicle_dismount( dest_loc );
             }
             return false;
-        } else if( veh1 != veh0 ) {
+        }
+        if( veh1 != veh0 ) {
             add_msg( m_info, _( "There is another vehicle in the way." ) );
             return false;
-        } else if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
+        }
+        if( !vp1.part_with_feature( "BOARDABLE", true ) ) {
             add_msg( m_info, _( "That part of the vehicle is currently unsafe." ) );
             return false;
         }
@@ -402,14 +405,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
             return true;
+        }
+        if( outside_vehicle ) {
+            veh1->open_all_at( dpart );
         } else {
-            if( outside_vehicle ) {
-                veh1->open_all_at( dpart );
-            } else {
-                veh1->open( dpart );
-                add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
-                         veh1->part_info( dpart ).name() );
-            }
+            veh1->open( dpart );
+            add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
+                     veh1->part_info( dpart ).name() );
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -723,10 +725,12 @@ void avatar_action::fire_wielded_weapon( avatar &you )
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
                  weapon.tname() );
         return;
-    } else if( !weapon.is_gun() ) {
+    }
+    if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+    }
+    if( weapon.ammo_data() && weapon.type->gun &&
+        !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -785,41 +789,41 @@ bool avatar_action::eat_here( avatar &you )
         if( you.get_hunger() < 20 ) {
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
-        } else {
-            here.ter_set( you.pos(), t_grass );
-            add_msg( _( "You eat the underbrush." ) );
-            item food( "underbrush", calendar::turn, 1 );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
-            return true;
         }
+        here.ter_set( you.pos(), t_grass );
+        add_msg( _( "You eat the underbrush." ) );
+        item food( "underbrush", calendar::turn, 1 );
+        you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+        return true;
     }
     if( you.has_active_mutation( trait_GRAZER ) && ( here.ter( you.pos() ) == t_grass ||
             here.ter( you.pos() ) == t_grass_long || here.ter( you.pos() ) == t_grass_tall ) ) {
         if( you.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
             return true;
-        } else {
-            add_msg( _( "You eat the grass." ) );
-            item food( item( "grass", calendar::turn, 1 ) );
-            you.assign_activity( player_activity( consume_activity_actor( food ) ) );
-            if( here.ter( you.pos() ) == t_grass_tall ) {
-                here.ter_set( you.pos(), t_grass_long );
-            } else if( here.ter( you.pos() ) == t_grass_long ) {
-                here.ter_set( you.pos(), t_grass );
-            } else {
-                here.ter_set( you.pos(), t_dirt );
-            }
-            return true;
         }
+        add_msg( _( "You eat the grass." ) );
+        item food( item( "grass", calendar::turn, 1 ) );
+        you.assign_activity( player_activity( consume_activity_actor( food ) ) );
+        if( here.ter( you.pos() ) == t_grass_tall ) {
+            here.ter_set( you.pos(), t_grass_long );
+        } else if( here.ter( you.pos() ) == t_grass_long ) {
+            here.ter_set( you.pos(), t_grass );
+        } else {
+            here.ter_set( you.pos(), t_dirt );
+        }
+        return true;
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
         if( here.ter( you.pos() ) == t_grass_golf ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
-        } else if( here.ter( you.pos() ) == t_grass_dead ) {
+        }
+        if( here.ter( you.pos() ) == t_grass_dead ) {
             add_msg( _( "This grass is dead and too mangled for you to graze." ) );
             return true;
-        } else if( here.ter( you.pos() ) == t_grass_white ) {
+        }
+        if( here.ter( you.pos() ) == t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return true;
         }
@@ -862,7 +866,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
-    } else if( you.has_effect( effect_incorporeal ) ) {
+    }
+    if( you.has_effect( effect_incorporeal ) ) {
         add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return;
     }
@@ -895,7 +900,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
         return;
-    } else if( range == 0 ) {
+    }
+    if( range == 0 ) {
         add_msg( m_info, _( "That is too heavy to throw." ) );
         return;
     }

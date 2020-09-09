@@ -342,11 +342,10 @@ void map::build_sunlight_cache( int zlev_min, int zlev_max )
                             lm[x][y].fill( light_level );
                             fully_inside &= light_level <= inside_light_level;
                             break;
-                        } else {
-                            fully_inside &= light_level <= inside_light_level;
-                            lm[x][y][dir_quadrants[i][0]] = light_level;
-                            lm[x][y][dir_quadrants[i][1]] = light_level;
                         }
+                        fully_inside &= light_level <= inside_light_level;
+                        lm[x][y][dir_quadrants[i][0]] = light_level;
+                        lm[x][y][dir_quadrants[i][1]] = light_level;
                     }
                 }
             }
@@ -706,9 +705,8 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( dist > player_character.unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
-        } else {
-            return lit_level::DARK;
         }
+        return lit_level::DARK;
     }
     if( a.obstructed ) {
         if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
@@ -716,13 +714,11 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return lit_level::LOW;
             }
-        } else {
-            return lit_level::BLANK;
+            // If it's not brighter than the surroundings, it just ends up shadowy.
+            return lit_level::LOW;
         }
+        return lit_level::BLANK;
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
@@ -733,9 +729,8 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
     if( a.apparent_light > cache.vision_threshold ) {
         return lit_level::LOW;
-    } else {
-        return lit_level::BLANK;
     }
+    return lit_level::BLANK;
 }
 
 bool map::pl_sees( const tripoint &t, const int max_range ) const
@@ -839,9 +834,11 @@ void cast_zlight_segment(
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
             if( current.z > max_z || current.z < min_z ) {
                 continue;
-            } else if( start_major > leading_edge_major ) {
+            }
+            if( start_major > leading_edge_major ) {
                 continue;
-            } else if( end_major < trailing_edge_major ) {
+            }
+            if( end_major < trailing_edge_major ) {
                 break;
             }
 
@@ -857,7 +854,8 @@ void cast_zlight_segment(
                        current.x < MAPSIZE_X &&
                        current.y < MAPSIZE_Y ) || start_minor > leading_edge_minor ) {
                     continue;
-                } else if( end_minor < trailing_edge_minor ) {
+                }
+                if( end_minor < trailing_edge_minor ) {
                     break;
                 }
 
@@ -1107,7 +1105,8 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
             if( !( current.x >= 0 && current.y >= 0 && current.x < MAPSIZE_X &&
                    current.y < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
-            } else if( end > trailingEdge ) {
+            }
+            if( end > trailingEdge ) {
                 break;
             }
             if( !started_row ) {
@@ -1274,7 +1273,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
-            continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
@@ -1360,7 +1358,8 @@ void map::apply_light_source( const tripoint &p, float luminance )
     }
     if( luminance <= lit_level::LOW ) {
         return;
-    } else if( luminance <= lit_level::BRIGHT_ONLY ) {
+    }
+    if( luminance <= lit_level::BRIGHT_ONLY ) {
         luminance = 1.49f;
     }
 

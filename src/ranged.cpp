@@ -584,7 +584,8 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
+    }
+    if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( flag_NEVER_JAMS ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
@@ -592,7 +593,8 @@ bool player::handle_gun_damage( item &it )
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
         // player-made ammunition have this effect.
-    } else if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
+    }
+    if( curammo_effects.count( "RECYCLED" ) && one_in( 256 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
@@ -602,8 +604,9 @@ bool player::handle_gun_damage( item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( "LASER" ) &&
-               !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
+    }
+    if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( "LASER" ) &&
+        !curammo_effects.count( "PLASMA" ) && !curammo_effects.count( "EMP" ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
@@ -839,7 +842,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( gun.gun_skill() == skill_launcher ) {
-            continue; // skip retargeting for launchers
         }
     }
     // apply shot counter to gun and its mods.
@@ -1640,17 +1642,21 @@ item::sound_data item::gun_noise( const bool burst ) const
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
+    }
+    if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    }
+    if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
+        ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+    }
+    if( ammo_current() == itype_arrow ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    }
+    if( ammo_current() == itype_bolt ) {
         return { noise, _( "thonk!" ) };
     }
 
@@ -1659,38 +1665,42 @@ item::sound_data item::gun_noise( const bool burst ) const
     if( fx.count( "LASER" ) || fx.count( "PLASMA" ) ) {
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
-        } else if( noise < 40 ) {
-            return { noise, _( "Pew!" ) };
-        } else if( noise < 60 ) {
-            return { noise, _( "Tsewww!" ) };
-        } else {
-            return { noise, _( "Kra-kow!" ) };
         }
-
-    } else if( fx.count( "LIGHTNING" ) ) {
+        if( noise < 40 ) {
+            return { noise, _( "Pew!" ) };
+        }
+        if( noise < 60 ) {
+            return { noise, _( "Tsewww!" ) };
+        }
+        return { noise, _( "Kra-kow!" ) };
+    }
+    if( fx.count( "LIGHTNING" ) ) {
         if( noise < 20 ) {
             return { noise, _( "Bzzt!" ) };
-        } else if( noise < 40 ) {
-            return { noise, _( "Bzap!" ) };
-        } else if( noise < 60 ) {
-            return { noise, _( "Bzaapp!" ) };
-        } else {
-            return { noise, _( "Kra-koom!" ) };
         }
-
-    } else if( fx.count( "WHIP" ) ) {
+        if( noise < 40 ) {
+            return { noise, _( "Bzap!" ) };
+        }
+        if( noise < 60 ) {
+            return { noise, _( "Bzaapp!" ) };
+        }
+        return { noise, _( "Kra-koom!" ) };
+    }
+    if( fx.count( "WHIP" ) ) {
         return { noise, _( "Crack!" ) };
 
-    } else if( noise > 0 ) {
+    }
+    if( noise > 0 ) {
         if( noise < 10 ) {
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
-        } else if( noise < 150 ) {
-            return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
-        } else if( noise < 175 ) {
-            return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
-        } else {
-            return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
         }
+        if( noise < 150 ) {
+            return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
+        }
+        if( noise < 175 ) {
+            return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
+        }
+        return { noise, burst ? _( "Kaboom!" ) : _( "kerblam!" ) };
     }
 
     return { 0, "" }; // silent weapons
@@ -2009,7 +2019,6 @@ target_handler::trajectory target_ui::run()
 
         // Handle received input
         if( handle_cursor_movement( action, skip_redraw ) ) {
-            continue;
         } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             toggle_snap_to_target();
         } else if( action == "TOGGLE_TURRET_LINES" ) {
@@ -2311,7 +2320,8 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     if( valid_pos == dst ) {
         // We don't need to move the cursor after all
         return false;
-    } else if( new_pos == valid_pos ) {
+    }
+    if( new_pos == valid_pos ) {
         // We can reuse new_traj
         dst = valid_pos;
         traj = new_traj;
@@ -2915,13 +2925,14 @@ std::string target_ui::uitext_fire()
 {
     if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
         return to_translation( "[Hotkey] to throw", "to throw" ).translated();
-    } else if( mode == TargetMode::Reach ) {
-        return to_translation( "[Hotkey] to attack", "to attack" ).translated();
-    } else if( mode == TargetMode::Spell ) {
-        return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
-    } else {
-        return to_translation( "[Hotkey] to fire", "to fire" ).translated();
     }
+    if( mode == TargetMode::Reach ) {
+        return to_translation( "[Hotkey] to attack", "to attack" ).translated();
+    }
+    if( mode == TargetMode::Spell ) {
+        return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
+    }
+    return to_translation( "[Hotkey] to fire", "to fire" ).translated();
 }
 
 void target_ui::draw_window_title()
@@ -2963,9 +2974,8 @@ void target_ui::draw_controls_list( int text_y )
         if( color == col_enabled ) {
             // col_enabled is the default one when printing
             return s;
-        } else {
-            return colorize( s, color );
         }
+        return colorize( s, color );
     };
 
     struct line {

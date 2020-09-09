@@ -259,9 +259,8 @@ std::vector<skill_id> talker_npc::skills_offered_to( const talker &student ) con
 {
     if( student.get_character() ) {
         return me_npc->skills_offered_to( *student.get_character() );
-    } else {
-        return {};
     }
+    return {};
 }
 
 std::string talker_npc::skill_training_text( const talker &student,
@@ -291,9 +290,8 @@ std::vector<proficiency_id> talker_npc::proficiencies_offered_to( const talker &
 {
     if( student.get_character() ) {
         return me_npc->proficiencies_offered_to( *student.get_character() );
-    } else {
-        return {};
     }
+    return {};
 }
 
 std::string talker_npc::proficiency_training_text( const talker &student,
@@ -325,9 +323,8 @@ std::vector<matype_id> talker_npc::styles_offered_to( const talker &student ) co
 {
     if( student.get_character() ) {
         return me_npc->styles_offered_to( *student.get_character() );
-    } else {
-        return {};
     }
+    return {};
 }
 
 std::string talker_npc::style_training_text( const talker &student,
@@ -335,20 +332,19 @@ std::string talker_npc::style_training_text( const talker &student,
 {
     if( !student.get_character() ) {
         return "";
-    } else if( me_npc->is_ally( *student.get_character() ) ) {
-        return string_format( "%s", style.obj().name );
-    } else {
-        return string_format( _( "%s ( cost $%d )" ), style.obj().name, 8 );
     }
+    if( me_npc->is_ally( *student.get_character() ) ) {
+        return string_format( "%s", style.obj().name );
+    }
+    return string_format( _( "%s ( cost $%d )" ), style.obj().name, 8 );
 }
 
 std::vector<spell_id> talker_npc::spells_offered_to( talker &student )
 {
     if( student.get_character() ) {
         return me_npc->spells_offered_to( *student.get_character() );
-    } else {
-        return {};
     }
+    return {};
 }
 
 std::string talker_npc::spell_training_text( talker &student, const spell_id &sp )
@@ -426,13 +422,11 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
         if( !p.can_consume( to_eat ) ) {
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
-        } else {
-            const time_duration &consume_time = p.get_consume_time( to_eat );
-            p.moves -= to_moves<int>( consume_time );
-            p.consume( to_eat );
-            reason = _( "Thanks, that hit the spot." );
-
         }
+        const time_duration &consume_time = p.get_consume_time( to_eat );
+        p.moves -= to_moves<int>( consume_time );
+        p.consume( to_eat );
+        reason = _( "Thanks, that hit the spot." );
     } else if( to_eat.is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );

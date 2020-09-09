@@ -46,20 +46,18 @@ char vehicle::part_sym( const int p, const bool exact ) const
     if( part_flag( displayed_part, VPFLAG_OPENABLE ) && vp.open ) {
         // open door
         return '\'';
-    } else {
-        if( vp.is_broken() ) {
-            return vp_info.sym_broken;
-        } else if( vp.variant.empty() ) {
-            return vp_info.sym;
-        } else {
-            const auto vp_symbol = vp_info.symbols.find( vp.variant );
-            if( vp_symbol == vp_info.symbols.end() ) {
-                return vp_info.sym;
-            } else {
-                return vp_symbol->second;
-            }
-        }
     }
+    if( vp.is_broken() ) {
+        return vp_info.sym_broken;
+    }
+    if( vp.variant.empty() ) {
+        return vp_info.sym;
+    }
+    const auto vp_symbol = vp_info.symbols.find( vp.variant );
+    if( vp_symbol == vp_info.symbols.end() ) {
+        return vp_info.sym;
+    }
+    return vp_symbol->second;
 }
 
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
@@ -142,9 +140,8 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     int cargo_part = part_with_feature( p, VPFLAG_CARGO, true );
     if( cargo_part > 0 && !get_items( cargo_part ).empty() ) {
         return invert_color( col );
-    } else {
-        return col;
     }
+    return col;
 }
 
 /**

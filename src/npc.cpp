@@ -1077,10 +1077,9 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             if( !!wear_item( it, false ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return true;
-            } else {
-                reason = _( "I tried but couldn't wear it." );
-                return false;
             }
+            reason = _( "I tried but couldn't wear it." );
+            return false;
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1996,8 +1995,9 @@ bool npc::is_ally( const Character &p ) const
             Character &player_character = get_player_character();
             if( is_ally( player_character ) && guy.is_ally( player_character ) ) {
                 return true;
-            } else if( get_attitude_group( get_attitude() ) ==
-                       guy.get_attitude_group( guy.get_attitude() ) ) {
+            }
+            if( get_attitude_group( get_attitude() ) ==
+                guy.get_attitude_group( guy.get_attitude() ) ) {
                 return true;
             }
         }
@@ -2102,7 +2102,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
             return Attitude::HOSTILE;
-        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+        }
+        if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             return Attitude::FRIENDLY;
         }
     }
@@ -2120,7 +2121,8 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         }
 
         return Attitude::NEUTRAL;
-    } else if( other.is_player() ) {
+    }
+    if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
     }
@@ -2244,7 +2246,8 @@ nc_color npc::basic_symbol_color() const
 {
     if( attitude == NPCATT_KILL ) {
         return c_red;
-    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
+    }
+    if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
         return c_light_red;
     } else if( is_player_ally() ) {
         return c_green;

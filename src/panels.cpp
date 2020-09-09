@@ -173,17 +173,20 @@ static nc_color focus_color( int focus )
 {
     if( focus < 25 ) {
         return c_red;
-    } else if( focus < 50 ) {
-        return c_light_red;
-    } else if( focus < 75 ) {
-        return c_yellow;
-    } else if( focus < 100 ) {
-        return c_light_gray;
-    } else if( focus < 125 ) {
-        return c_white;
-    } else {
-        return c_green;
     }
+    if( focus < 50 ) {
+        return c_light_red;
+    }
+    if( focus < 75 ) {
+        return c_yellow;
+    }
+    if( focus < 100 ) {
+        return c_light_gray;
+    }
+    if( focus < 125 ) {
+        return c_white;
+    }
+    return c_green;
 }
 
 int window_panel::get_height() const
@@ -193,9 +196,8 @@ int window_panel::get_height() const
             return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
                     get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
                     width / 2;
-        } else {
-            return 0;
         }
+        return 0;
     }
     return height;
 }
@@ -501,21 +503,29 @@ static std::string time_approx()
     const int iHour = hour_of_day<int>( calendar::turn );
     if( iHour >= 23 || iHour <= 1 ) {
         return _( "Around midnight" );
-    } else if( iHour <= 4 ) {
+    }
+    if( iHour <= 4 ) {
         return _( "Dead of night" );
-    } else if( iHour <= 6 ) {
+    }
+    if( iHour <= 6 ) {
         return _( "Around dawn" );
-    } else if( iHour <= 8 ) {
+    }
+    if( iHour <= 8 ) {
         return _( "Early morning" );
-    } else if( iHour <= 10 ) {
+    }
+    if( iHour <= 10 ) {
         return _( "Morning" );
-    } else if( iHour <= 13 ) {
+    }
+    if( iHour <= 13 ) {
         return _( "Around noon" );
-    } else if( iHour <= 16 ) {
+    }
+    if( iHour <= 16 ) {
         return _( "Afternoon" );
-    } else if( iHour <= 18 ) {
+    }
+    if( iHour <= 18 ) {
         return _( "Early evening" );
-    } else if( iHour <= 20 ) {
+    }
+    if( iHour <= 20 ) {
         return _( "Around dusk" );
     }
     return _( "Night" );
@@ -570,15 +580,20 @@ static int define_temp_level( const int lvl )
 {
     if( lvl > BODYTEMP_SCORCHING ) {
         return 7;
-    } else if( lvl > BODYTEMP_VERY_HOT ) {
+    }
+    if( lvl > BODYTEMP_VERY_HOT ) {
         return 6;
-    } else if( lvl > BODYTEMP_HOT ) {
+    }
+    if( lvl > BODYTEMP_HOT ) {
         return 5;
-    } else if( lvl > BODYTEMP_COLD ) {
+    }
+    if( lvl > BODYTEMP_COLD ) {
         return 4;
-    } else if( lvl > BODYTEMP_VERY_COLD ) {
+    }
+    if( lvl > BODYTEMP_VERY_COLD ) {
         return 3;
-    } else if( lvl > BODYTEMP_FREEZING ) {
+    }
+    if( lvl > BODYTEMP_FREEZING ) {
         return 2;
     }
     return 1;
@@ -715,79 +730,105 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
         if( face == face_bear || face == face_cat ) {
             if( morale_cur >= 200 ) {
                 return "@W@";
-            } else if( morale_cur >= 100 ) {
-                return "OWO";
-            } else if( morale_cur >= 50 ) {
-                return "owo";
-            } else if( morale_cur >= 10 ) {
-                return "^w^";
-            } else if( morale_cur >= -10 ) {
-                return "-w-";
-            } else if( morale_cur >= -50 ) {
-                return "-m-";
-            } else if( morale_cur >= -100 ) {
-                return "TmT";
-            } else if( morale_cur >= -200 ) {
-                return "XmX";
-            } else {
-                return "@m@";
             }
-        } else if( face == face_bird ) {
+            if( morale_cur >= 100 ) {
+                return "OWO";
+            }
+            if( morale_cur >= 50 ) {
+                return "owo";
+            }
+            if( morale_cur >= 10 ) {
+                return "^w^";
+            }
+            if( morale_cur >= -10 ) {
+                return "-w-";
+            }
+            if( morale_cur >= -50 ) {
+                return "-m-";
+            }
+            if( morale_cur >= -100 ) {
+                return "TmT";
+            }
+            if( morale_cur >= -200 ) {
+                return "XmX";
+            }
+            return "@m@";
+        }
+        if( face == face_bird ) {
             if( morale_cur >= 200 ) {
                 return "@v@";
-            } else if( morale_cur >= 100 ) {
-                return "OvO";
-            } else if( morale_cur >= 50 ) {
-                return "ovo";
-            } else if( morale_cur >= 10 ) {
-                return "^v^";
-            } else if( morale_cur >= -10 ) {
-                return "-v-";
-            } else if( morale_cur >= -50 ) {
-                return ".v.";
-            } else if( morale_cur >= -100 ) {
-                return "TvT";
-            } else if( morale_cur >= -200 ) {
-                return "XvX";
-            } else {
-                return "@v@";
             }
-        } else if( morale_cur >= 200 ) {
-            return "@U@";
-        } else if( morale_cur >= 100 ) {
-            return "OuO";
-        } else if( morale_cur >= 50 ) {
-            return "^u^";
-        } else if( morale_cur >= 10 ) {
-            return "n_n";
-        } else if( morale_cur >= -10 ) {
-            return "-_-";
-        } else if( morale_cur >= -50 ) {
-            return "-n-";
-        } else if( morale_cur >= -100 ) {
-            return "TnT";
-        } else if( morale_cur >= -200 ) {
-            return "XnX";
-        } else {
-            return "@n@";
+            if( morale_cur >= 100 ) {
+                return "OvO";
+            }
+            if( morale_cur >= 50 ) {
+                return "ovo";
+            }
+            if( morale_cur >= 10 ) {
+                return "^v^";
+            }
+            if( morale_cur >= -10 ) {
+                return "-v-";
+            }
+            if( morale_cur >= -50 ) {
+                return ".v.";
+            }
+            if( morale_cur >= -100 ) {
+                return "TvT";
+            }
+            if( morale_cur >= -200 ) {
+                return "XvX";
+            }
+            return "@v@";
         }
-    } else if( morale_cur >= 100 ) {
-        return "8D";
-    } else if( morale_cur >= 50 ) {
-        return ":D";
-    } else if( face == face_cat && morale_cur >= 10 ) {
-        return ":3";
-    } else if( face != face_cat && morale_cur >= 10 ) {
-        return ":)";
-    } else if( morale_cur >= -10 ) {
-        return ":|";
-    } else if( morale_cur >= -50 ) {
-        return "):";
-    } else if( morale_cur >= -100 ) {
-        return "D:";
-    } else {
-        return "D8";
+        if( morale_cur >= 200 ) {
+            return "@U@";
+        }
+        if( morale_cur >= 100 ) {
+            return "OuO";
+        }
+        if( morale_cur >= 50 ) {
+            return "^u^";
+        }
+        if( morale_cur >= 10 ) {
+            return "n_n";
+        }
+        if( morale_cur >= -10 ) {
+            return "-_-";
+        }
+        if( morale_cur >= -50 ) {
+            return "-n-";
+        }
+        if( morale_cur >= -100 ) {
+            return "TnT";
+        }
+        if( morale_cur >= -200 ) {
+            return "XnX";
+        }
+        return "@n@";
     }
+    if( morale_cur >= 100 ) {
+        return "8D";
+    }
+    if( morale_cur >= 50 ) {
+        return ":D";
+    }
+    if( face == face_cat && morale_cur >= 10 ) {
+        return ":3";
+    }
+    if( face != face_cat && morale_cur >= 10 ) {
+        return ":)";
+    }
+    if( morale_cur >= -10 ) {
+        return ":|";
+    }
+    if( morale_cur >= -50 ) {
+        return "):";
+    }
+    if( morale_cur >= -100 ) {
+        return "D:";
+    }
+    return "D8";
 }
 
 static std::pair<nc_color, std::string> power_stat( const avatar &u )
@@ -862,7 +903,8 @@ static int get_int_digits( const int &digits )
     int temp = std::abs( digits );
     if( digits > 0 ) {
         return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 1;
-    } else if( digits < 0 ) {
+    }
+    if( digits < 0 ) {
         return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 2;
     }
     return 1;

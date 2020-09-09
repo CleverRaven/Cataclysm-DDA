@@ -315,15 +315,17 @@ nc_color faction::food_supply_color()
     int val = food_supply / ( size * 288 );
     if( val >= 30 ) {
         return c_green;
-    } else if( val >= 14 ) {
-        return c_light_green;
-    } else if( val >= 6 ) {
-        return c_yellow;
-    } else if( val >= 3 ) {
-        return c_light_red;
-    } else {
-        return c_red;
     }
+    if( val >= 14 ) {
+        return c_light_green;
+    }
+    if( val >= 6 ) {
+        return c_yellow;
+    }
+    if( val >= 3 ) {
+        return c_light_red;
+    }
+    return c_red;
 }
 
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
@@ -759,9 +761,8 @@ void faction_manager::display() const
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                     }
                     break;
-                } else {
-                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
                 }
+                mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_camp );
             }
             break;
             case tab_mode::TAB_FOLLOWERS: {
@@ -785,9 +786,8 @@ void faction_manager::display() const
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                     }
                     break;
-                } else {
-                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
                 }
+                mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_ally );
             }
             break;
             case tab_mode::TAB_OTHERFACTIONS: {
@@ -806,9 +806,8 @@ void faction_manager::display() const
                         mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );
                     }
                     break;
-                } else {
-                    mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );
                 }
+                mvwprintz( w_missions, point( 31, 4 ), c_light_red, no_fac );
             }
             break;
             default:

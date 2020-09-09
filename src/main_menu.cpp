@@ -269,19 +269,21 @@ holiday main_menu::get_holiday_from_time()
             return holiday::new_year;
         }
         // only run easter date calculation if currently March or April
-        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+        if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
             return holiday::easter;
-        } else if( month == 7 && day == 4 ) {
+        }
+        if( month == 7 && day == 4 ) {
             return holiday::independence_day;
         }
         // 13 days seems appropriate for Halloween
-        else if( month == 10 && day >= 19 ) {
+        if( month == 10 && day >= 19 ) {
             return holiday::halloween;
-        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+        }
+        if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
             return holiday::thanksgiving;
         }
         // For the 12 days of Christmas, my true love gave to me...
-        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+        if( month == 12 && ( day >= 14 && day <= 25 ) ) {
             return holiday::christmas;
         }
     }

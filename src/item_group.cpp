@@ -117,7 +117,8 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
     }
     if( ( container.is_gun() || container.is_tool() ) && payload.is_magazine() ) {
         return item_pocket::pocket_type::MAGAZINE_WELL;
-    } else if( ( container.is_magazine() ) && payload.is_ammo() ) {
+    }
+    if( ( container.is_magazine() ) && payload.is_ammo() ) {
         return item_pocket::pocket_type::MAGAZINE;
     }
     return item_pocket::pocket_type::CONTAINER;
@@ -742,7 +743,8 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
 {
     if( value.test_string() ) {
         return value.get_string();
-    } else if( value.test_object() ) {
+    }
+    if( value.test_object() ) {
         const Group_tag group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
@@ -750,7 +752,8 @@ Group_tag item_group::load_item_group( const JsonValue &value, const std::string
         item_controller->load_item_group( jo, group, subtype );
 
         return group;
-    } else if( value.test_array() ) {
+    }
+    if( value.test_array() ) {
         const Group_tag group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();

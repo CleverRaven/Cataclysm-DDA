@@ -102,7 +102,8 @@ static void save_font_list()
             const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
             if( dir_len == 0 ) {
                 throw std::runtime_error( "GetSystemWindowsDirectory failed" );
-            } else if( dir_len >= max_dir_len ) {
+            }
+            if( dir_len >= max_dir_len ) {
                 throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
             }
             font_folder_list( fout, buf + std::string( "\\fonts" ), bitmap_fonts );

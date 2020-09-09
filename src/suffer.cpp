@@ -292,10 +292,9 @@ void Character::suffer_from_addictions()
             if( cur_addiction.intensity <= 2 ) {
                 rem_addiction( cur_addiction.type );
                 break;
-            } else {
-                cur_addiction.intensity--;
-                cur_addiction.sated = 0_turns;
             }
+            cur_addiction.intensity--;
+            cur_addiction.sated = 0_turns;
         }
     }
 }
@@ -608,7 +607,6 @@ void Character::suffer_from_schizophrenia()
         }
         if( does_talk ) {
             add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
-            return;
         }
     }
 }

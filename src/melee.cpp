@@ -700,11 +700,12 @@ void player::reach_attack( const tripoint &p )
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( here.impassable( path_point ) &&
-                   // Fences etc. Spears can stab through those
-                   !( weapon.has_flag( "SPEAR" ) &&
-                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
-                      x_in_y( skill, 10 ) ) ) {
+        }
+        if( here.impassable( path_point ) &&
+            // Fences etc. Spears can stab through those
+            !( weapon.has_flag( "SPEAR" ) &&
+               here.has_flag( "THIN_OBSTACLE", path_point ) &&
+               x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( weapon );
@@ -2187,9 +2188,11 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
     if( dominant_type == damage_type::STAB ) {
         return npc ? _( npc_stab[index] ) : _( player_stab[index] );
-    } else if( dominant_type == damage_type::CUT ) {
+    }
+    if( dominant_type == damage_type::CUT ) {
         return npc ? _( npc_cut[index] ) : _( player_cut[index] );
-    } else if( dominant_type == damage_type::BASH ) {
+    }
+    if( dominant_type == damage_type::BASH ) {
         return npc ? _( npc_bash[index] ) : _( player_bash[index] );
     }
 

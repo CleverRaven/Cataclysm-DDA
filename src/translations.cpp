@@ -79,9 +79,8 @@ const char *pgettext( const char *context, const char *msgid )
 #endif
     if( translation == msg_ctxt_id ) {
         return msgid;
-    } else {
-        return translation;
     }
+    return translation;
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
@@ -96,9 +95,8 @@ const char *npgettext( const char *const context, const char *const msgid,
 #endif
     if( translation == msg_ctxt_id ) {
         return n == 1 ? msgid : msgid_plural;
-    } else {
-        return translation;
     }
+    return translation;
 }
 
 bool isValidLanguage( const std::string &lang )
@@ -518,9 +516,8 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     if( jsobj.has_member( "str" ) ) {
                         jsobj.get_raw( "str" )->error( msg, offset );
-                    } else {
-                        jsobj.get_raw( "str_sp" )->error( msg, offset );
                     }
+                    jsobj.get_raw( "str_sp" )->error( msg, offset );
                 } catch( const JsonError &e ) {
                     debugmsg( "\n%s", e.what() );
                 }
@@ -590,19 +587,17 @@ std::string translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
-    } else if( !ctxt ) {
+    }
+    if( !ctxt ) {
         if( !raw_pl ) {
             return _( raw );
-        } else {
-            return ngettext( raw.c_str(), raw_pl->c_str(), num );
         }
-    } else {
-        if( !raw_pl ) {
-            return pgettext( ctxt->c_str(), raw.c_str() );
-        } else {
-            return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
-        }
+        return ngettext( raw.c_str(), raw_pl->c_str(), num );
     }
+    if( !raw_pl ) {
+        return pgettext( ctxt->c_str(), raw.c_str() );
+    }
+    return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
 }
 
 bool translation::empty() const

@@ -1047,17 +1047,23 @@ struct itype {
         std::string get_item_type_string() const {
             if( tool ) {
                 return "TOOL";
-            } else if( comestible ) {
+            }
+            if( comestible ) {
                 return "FOOD";
-            } else if( armor ) {
+            }
+            if( armor ) {
                 return "ARMOR";
-            } else if( book ) {
+            }
+            if( book ) {
                 return "BOOK";
-            } else if( gun ) {
+            }
+            if( gun ) {
                 return "GUN";
-            } else if( bionic ) {
+            }
+            if( bionic ) {
                 return "BIONIC";
-            } else if( ammo ) {
+            }
+            if( ammo ) {
                 return "AMMO";
             }
             return "misc";
@@ -1079,9 +1085,11 @@ struct itype {
         int charges_default() const {
             if( tool ) {
                 return tool->def_charges;
-            } else if( comestible ) {
+            }
+            if( comestible ) {
                 return comestible->def_charges;
-            } else if( ammo ) {
+            }
+            if( ammo ) {
                 return ammo->def_charges;
             }
             return count_by_charges() ? 1 : 0;

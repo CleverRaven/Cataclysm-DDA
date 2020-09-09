@@ -158,10 +158,9 @@ static bool has_pre_terrain( const construction &con, const tripoint &p )
     if( con.pre_is_furniture ) {
         furn_id f = furn_id( con.pre_terrain );
         return here.furn( p ) == f;
-    } else {
-        ter_id t = ter_id( con.pre_terrain );
-        return here.ter( p ) == t;
     }
+    ter_id t = ter_id( con.pre_terrain );
+    return here.ter( p ) == t;
 }
 
 static bool has_pre_terrain( const construction &con )
@@ -1528,7 +1527,8 @@ void load_construction( const JsonObject &jo )
     con.str_id = construction_str_id( jo.get_string( "id" ) );
     if( con.str_id.is_null() ) {
         jo.throw_error( "Null construction id specified", "id" );
-    } else if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
+    }
+    if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
         jo.throw_error( "Duplicate construction id", "id" );
     }
 
@@ -1707,9 +1707,8 @@ float construction::time_scale() const
     //incorporate construction time scaling
     if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
-    } else {
-        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
+    return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
 }
 
 int construction::adjusted_time() const
@@ -1891,14 +1890,14 @@ const construction_str_id &construction_id::id() const
     if( !finalized ) {
         debugmsg( "construction_id::id called before finalization" );
         return construction_str_id::NULL_ID();
-    } else if( is_valid() ) {
-        return constructions[to_i()].str_id;
-    } else {
-        if( to_i() != -1 ) {
-            debugmsg( "Invalid construction id %d", to_i() );
-        }
-        return construction_str_id::NULL_ID();
     }
+    if( is_valid() ) {
+        return constructions[to_i()].str_id;
+    }
+    if( to_i() != -1 ) {
+        debugmsg( "Invalid construction id %d", to_i() );
+    }
+    return construction_str_id::NULL_ID();
 }
 
 template <>
@@ -1907,12 +1906,12 @@ const construction &construction_id::obj() const
     if( !finalized ) {
         debugmsg( "construction_id::obj called before finalization" );
         return null_construction;
-    } else if( is_valid() ) {
-        return constructions[to_i()];
-    } else {
-        debugmsg( "Invalid construction id %d", to_i() );
-        return null_construction;
     }
+    if( is_valid() ) {
+        return constructions[to_i()];
+    }
+    debugmsg( "Invalid construction id %d", to_i() );
+    return null_construction;
 }
 
 template <>
@@ -1935,12 +1934,11 @@ construction_id construction_str_id::id() const
     auto it = construction_id_map.find( *this );
     if( it != construction_id_map.end() ) {
         return it->second;
-    } else {
-        if( !is_null() ) {
-            debugmsg( "Invalid construction str id %s", str() );
-        }
-        return construction_id( -1 );
     }
+    if( !is_null() ) {
+        debugmsg( "Invalid construction str id %s", str() );
+    }
+    return construction_id( -1 );
 }
 
 template <>
@@ -1953,10 +1951,9 @@ const construction &construction_str_id::obj() const
     auto it = construction_id_map.find( *this );
     if( it != construction_id_map.end() ) {
         return it->second.obj();
-    } else {
-        debugmsg( "Invalid construction str id %s", str() );
-        return null_construction;
     }
+    debugmsg( "Invalid construction str id %s", str() );
+    return null_construction;
 }
 
 template <>

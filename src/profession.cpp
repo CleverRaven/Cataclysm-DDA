@@ -340,18 +340,16 @@ std::string profession::gender_appropriate_name( bool male ) const
 {
     if( male ) {
         return _name_male.translated();
-    } else {
-        return _name_female.translated();
     }
+    return _name_female.translated();
 }
 
 std::string profession::description( bool male ) const
 {
     if( male ) {
         return _description_male.translated();
-    } else {
-        return _description_female.translated();
     }
+    return _description_female.translated();
 }
 
 static time_point advanced_spawn_time()

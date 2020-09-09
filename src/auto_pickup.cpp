@@ -588,7 +588,8 @@ bool check_special_rule( const std::vector<material_id> &materials, const std::s
             } );
         } );
 
-    } else if( type == 'M' ) {
+    }
+    if( type == 'M' ) {
         return std::all_of( materials.begin(), materials.end(), [&filter]( const material_id & mat ) {
             return std::any_of( filter.begin(), filter.end(), [&mat]( const std::string & search ) {
                 return lcmatch( mat->name(), search );
@@ -630,8 +631,9 @@ void rule_list::create_rule( cache &map_items, const item &it )
     for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
-                   !wildcard_match( to_match, elem.sRule ) ) {
+        }
+        if( !check_special_rule( it.made_of(), elem.sRule ) &&
+            !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
 

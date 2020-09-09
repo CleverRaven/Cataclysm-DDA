@@ -586,12 +586,11 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
             return capitalize_first ? _( "You" ) : _( "you" );
         }
         return name;
-    } else {
-        if( is_player() ) {
-            return capitalize_first ? _( "Your" ) : _( "your" );
-        }
-        return string_format( _( "%s's" ), name );
     }
+    if( is_player() ) {
+        return capitalize_first ? _( "Your" ) : _( "your" );
+    }
+    return string_format( _( "%s's" ), name );
 }
 
 std::string Character::skin_name() const
@@ -1612,11 +1611,10 @@ bool Character::try_remove_grab()
                 !one_in( 4 ) ) {
                 add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
                 return false;
-            } else {
-                add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
-                remove_effect( effect_grabbed );
-                mon->remove_effect( effect_grabbed );
             }
+            add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+            remove_effect( effect_grabbed );
+            mon->remove_effect( effect_grabbed );
         } else {
             if( one_in( 4 ) ) {
                 add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
@@ -1744,11 +1742,10 @@ bool Character::move_effects( bool attacking )
         if( rng( 0, 40 ) > get_str() + get_dex() / 2 ) {
             add_msg_if_player( m_bad, _( "You try to escape the pit, but slip back in." ) );
             return false;
-        } else {
-            add_msg_player_or_npc( m_good, _( "You escape the pit!" ),
-                                   _( "<npcname> escapes the pit!" ) );
-            remove_effect( effect_in_pit );
         }
+        add_msg_player_or_npc( m_good, _( "You escape the pit!" ),
+                               _( "<npcname> escapes the pit!" ) );
+        remove_effect( effect_in_pit );
     }
     return !has_effect( effect_grabbed ) || attacking || try_remove_grab();
 }
@@ -1780,7 +1777,6 @@ void Character::wait_effects( bool attacking )
         return;
     }
     if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {
-        return;
     }
 }
 
@@ -2180,7 +2176,8 @@ bool Character::can_fuel_bionic_with( const item &it ) const
         for( const itype_id &fuel : bid->fuel_opts ) {
             if( fuel == it.typeId() ) {
                 return true;
-            } else if( it.type->magazine && fuel == it.ammo_current() ) {
+            }
+            if( it.type->magazine && fuel == it.ammo_current() ) {
                 return true;
             }
         }
@@ -2748,15 +2745,12 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
                 return get_map().add_item_or_charges( pos(), it );
-            } else {
-                return null_item_reference();
             }
-        } else {
-            return weapon;
+            return null_item_reference();
         }
-    } else {
-        return *added;
+        return weapon;
     }
+    return *added;
 }
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
@@ -3430,9 +3424,8 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
         // Character can carry up to four times their maximum weight
         return ( weight_carried() + it.weight() <= ( has_trait( trait_DEBUG_STORAGE ) ?
                  units::mass_max : weight_capacity() * 4 ) );
-    } else {
-        return ( weight_carried() + it.weight() <= weight_capacity() );
     }
+    return ( weight_carried() + it.weight() <= weight_capacity() );
 }
 
 bool Character::can_use( const item &it, const item &context ) const
@@ -6757,9 +6750,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
         return parts[bmenu.ret].bp;
-    } else {
-        return bodypart_id( "bp_null" );
     }
+    return bodypart_id( "bp_null" );
 }
 
 nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const
@@ -6823,9 +6815,8 @@ std::vector<std::string> Character::get_grammatical_genders() const
 {
     if( male ) {
         return { "m" };
-    } else {
-        return { "f" };
     }
+    return { "f" };
 }
 
 nc_color Character::symbol_color() const
@@ -6834,7 +6825,8 @@ nc_color Character::symbol_color() const
 
     if( has_effect( effect_downed ) ) {
         return hilite( basic );
-    } else if( has_effect( effect_grabbed ) ) {
+    }
+    if( has_effect( effect_grabbed ) ) {
         return cyan_background( basic );
     }
 
@@ -6919,16 +6911,20 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
-    } else if( eff == effect_onfire ) {
+    }
+    if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
-    } else if( eff == effect_deaf ) {
+    }
+    if( eff == effect_deaf ) {
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
                is_wearing( itype_rm13_armor_on );
-    } else if( eff == effect_corroding ) {
+    }
+    if( eff == effect_corroding ) {
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
-    } else if( eff == effect_nausea ) {
+    }
+    if( eff == effect_nausea ) {
         return has_trait( trait_STRONGSTOMACH );
     }
 
@@ -7509,9 +7505,8 @@ float Character::mutation_value( const std::string &val ) const
     if( found == mutation_value_map.end() ) {
         debugmsg( "Invalid mutation value name %s", val );
         return 0.0f;
-    } else {
-        return found->second( cached_mutations );
     }
+    return found->second( cached_mutations );
 }
 
 float Character::healing_rate( float at_rest_quality ) const
@@ -7611,44 +7606,55 @@ std::string Character::get_weight_string() const
     if( get_option<bool>( "CRAZY" ) ) {
         if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
             return _( "AW HELL NAH" );
-        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
+        }
+        if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
             return _( "DAYUM" );
-        } else if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Fluffy" );
-        } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Husky" );
-        } else if( bmi > character_weight_category::obese ) {
-            return _( "Healthy" );
-        } else if( bmi > character_weight_category::overweight ) {
-            return _( "Big" );
-        } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
-        } else if( bmi > character_weight_category::underweight ) {
-            return _( "Bean Pole" );
-        } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
-        } else {
-            return _( "Spooky Scary Skeleton" );
         }
-    } else {
         if( bmi > character_weight_category::morbidly_obese ) {
-            return _( "Morbidly Obese" );
-        } else if( bmi > character_weight_category::very_obese ) {
-            return _( "Very Obese" );
-        } else if( bmi > character_weight_category::obese ) {
-            return _( "Obese" );
-        } else if( bmi > character_weight_category::overweight ) {
-            return _( "Overweight" );
-        } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
-        } else if( bmi > character_weight_category::underweight ) {
-            return _( "Underweight" );
-        } else if( bmi > character_weight_category::emaciated ) {
-            return _( "Emaciated" );
-        } else {
-            return _( "Skeletal" );
+            return _( "Fluffy" );
         }
+        if( bmi > character_weight_category::very_obese ) {
+            return _( "Husky" );
+        }
+        if( bmi > character_weight_category::obese ) {
+            return _( "Healthy" );
+        }
+        if( bmi > character_weight_category::overweight ) {
+            return _( "Big" );
+        }
+        if( bmi > character_weight_category::normal ) {
+            return _( "Normal" );
+        }
+        if( bmi > character_weight_category::underweight ) {
+            return _( "Bean Pole" );
+        }
+        if( bmi > character_weight_category::emaciated ) {
+            return _( "Emaciated" );
+        }
+        return _( "Spooky Scary Skeleton" );
     }
+    if( bmi > character_weight_category::morbidly_obese ) {
+        return _( "Morbidly Obese" );
+    }
+    if( bmi > character_weight_category::very_obese ) {
+        return _( "Very Obese" );
+    }
+    if( bmi > character_weight_category::obese ) {
+        return _( "Obese" );
+    }
+    if( bmi > character_weight_category::overweight ) {
+        return _( "Overweight" );
+    }
+    if( bmi > character_weight_category::normal ) {
+        return _( "Normal" );
+    }
+    if( bmi > character_weight_category::underweight ) {
+        return _( "Underweight" );
+    }
+    if( bmi > character_weight_category::emaciated ) {
+        return _( "Emaciated" );
+    }
+    return _( "Skeletal" );
 }
 
 std::string Character::get_weight_description() const
@@ -7656,21 +7662,26 @@ std::string Character::get_weight_description() const
     const float bmi = get_bmi();
     if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
-    } else if( bmi > character_weight_category::very_obese ) {
-        return _( "You have too much fat.  It impacts your day to day health and wellness." );
-    } else if( bmi > character_weight_category::obese ) {
-        return _( "You've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
-    } else if( bmi > character_weight_category::overweight ) {
-        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
-    } else if( bmi > character_weight_category::normal ) {
-        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
-    } else if( bmi > character_weight_category::underweight ) {
-        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
-    } else if( bmi > character_weight_category::emaciated ) {
-        return _( "You are very unhealthily underweight, nearing starvation." );
-    } else {
-        return _( "You have very little meat left on your bones.  You appear to be starving." );
     }
+    if( bmi > character_weight_category::very_obese ) {
+        return _( "You have too much fat.  It impacts your day to day health and wellness." );
+    }
+    if( bmi > character_weight_category::obese ) {
+        return _( "You've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
+    }
+    if( bmi > character_weight_category::overweight ) {
+        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
+    }
+    if( bmi > character_weight_category::normal ) {
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
+    }
+    if( bmi > character_weight_category::underweight ) {
+        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
+    }
+    if( bmi > character_weight_category::emaciated ) {
+        return _( "You are very unhealthily underweight, nearing starvation." );
+    }
+    return _( "You have very little meat left on your bones.  You appear to be starving." );
 }
 
 units::mass Character::bodyweight() const
@@ -7810,17 +7821,20 @@ std::string Character::activity_level_str() const
 {
     if( activity_level <= NO_EXERCISE ) {
         return _( "NO_EXERCISE" );
-    } else if( activity_level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( activity_level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( activity_level <= BRISK_EXERCISE ) {
-        return _( "BRISK_EXERCISE" );
-    } else if( activity_level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
     }
+    if( activity_level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    }
+    if( activity_level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    }
+    if( activity_level <= BRISK_EXERCISE ) {
+        return _( "BRISK_EXERCISE" );
+    }
+    if( activity_level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    }
+    return _( "EXTRA_EXERCISE" );
 }
 
 int Character::get_armor_bash( bodypart_id bp ) const
@@ -8160,10 +8174,12 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
     if( used->is_tool() || actually_used->is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
+    }
+    if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
-    } else if( used->is_comestible() ) {
+    }
+    if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
         consume_charges( *used, charges_used );
         return ret;
@@ -8284,7 +8300,8 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
                                it.tname(), it.ammo_required() );
         }
         return false;
-    } else if( !it.ammo_sufficient() ) {
+    }
+    if( !it.ammo_sufficient() ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
                                ngettext( "Your %s has %d charge but needs %d.",
@@ -9173,13 +9190,13 @@ ret_val<bool> Character::can_wield( const item &it ) const
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
-        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
+        }
+        if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
             return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ),
                                                 it.tname() );
-        } else {
-            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
-                                                it.tname() );
         }
+        return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
+                                            it.tname() );
     }
 
     return ret_val<bool>::make_success();
@@ -9234,12 +9251,12 @@ std::string Character::weapname() const
 
         return string_format( "%s%s%s", gunmode, weapon.display_name(), mag_ammo );
 
-    } else if( !is_armed() ) {
+    }
+    if( !is_armed() ) {
         return _( "fists" );
 
-    } else {
-        return weapon.tname();
     }
+    return weapon.tname();
 }
 
 void Character::on_hit( Creature *source, bodypart_id bp_hit,
@@ -10356,7 +10373,6 @@ std::string Character::is_snuggling() const
 
     for( auto candidate = begin; candidate != end; ++candidate ) {
         if( !candidate->is_armor() ) {
-            continue;
         } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
                    ( candidate->covers( bodypart_id( "torso" ) ) || candidate->covers( bodypart_id( "leg_l" ) ) ||
                      candidate->covers( bodypart_id( "leg_r" ) ) ) ) {
@@ -10367,9 +10383,11 @@ std::string Character::is_snuggling() const
 
     if( ticker == 0 ) {
         return "nothing";
-    } else if( ticker == 1 ) {
+    }
+    if( ticker == 1 ) {
         return floor_armor->type_name();
-    } else if( ticker > 1 ) {
+    }
+    if( ticker > 1 ) {
         return "many";
     }
 
@@ -10638,15 +10656,18 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     if( qty <= 0 ) {
         return res;
 
-    } else if( what == itype_toolset ) {
+    }
+    if( what == itype_toolset ) {
         mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
-    } else if( what == itype_fire ) {
+    }
+    if( what == itype_fire ) {
         use_fire( qty );
         return res;
 
-    } else if( what == itype_UPS ) {
+    }
+    if( what == itype_UPS ) {
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
             mounted_creature.get()->battery_item ) {
             auto *mons = mounted_creature.get();
@@ -10707,9 +10728,11 @@ bool Character::has_fire( const int quantity ) const
 
     if( get_map().has_nearby_fire( pos() ) ) {
         return true;
-    } else if( has_item_with_flag( "FIRE" ) ) {
+    }
+    if( has_item_with_flag( "FIRE" ) ) {
         return true;
-    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+    }
+    if( has_item_with_flag( "FIRESTARTER" ) ) {
         auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
             if( has_charges( i->typeId(), quantity ) ) {
@@ -10765,9 +10788,7 @@ void Character::use_fire( const int quantity )
     // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
     if( get_map().has_nearby_fire( pos() ) ) {
-        return;
     } else if( has_item_with_flag( "FIRE" ) ) {
-        return;
     } else if( has_item_with_flag( "FIRESTARTER" ) ) {
         auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
@@ -10778,13 +10799,10 @@ void Character::use_fire( const int quantity )
         }
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
-        return;
     } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
-        return;
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
-        return;
     }
 }
 
@@ -11500,12 +11518,13 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     if( p != nullptr ) {
         if( p->is_enemy() ) {
             return Attitude::HOSTILE;
-        } else if( p->is_player_ally() ) {
-            return Attitude::FRIENDLY;
-        } else {
-            return Attitude::NEUTRAL;
         }
-    } else if( &other == this ) {
+        if( p->is_player_ally() ) {
+            return Attitude::FRIENDLY;
+        }
+        return Attitude::NEUTRAL;
+    }
+    if( &other == this ) {
         return Attitude::FRIENDLY;
     }
 

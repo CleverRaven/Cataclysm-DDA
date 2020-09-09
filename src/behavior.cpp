@@ -43,21 +43,19 @@ behavior_return node_t::tick( const oracle_t *subject ) const
             }
         }
         return { result, this };
-    } else {
-        cata_assert( strategy != nullptr );
-        status_t result = status_t::running;
-        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
-            result = predicate_pair.first( subject, predicate_pair.second );
-            if( result != status_t::running ) {
-                break;
-            }
-        }
-        if( result == status_t::running ) {
-            return strategy->evaluate( subject, children );
-        } else {
-            return { result, nullptr };
+    }
+    cata_assert( strategy != nullptr );
+    status_t result = status_t::running;
+    for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
+        result = predicate_pair.first( subject, predicate_pair.second );
+        if( result != status_t::running ) {
+            break;
         }
     }
+    if( result == status_t::running ) {
+        return strategy->evaluate( subject, children );
+    }
+    return { result, nullptr };
 }
 
 std::string node_t::goal() const

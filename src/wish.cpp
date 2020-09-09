@@ -327,13 +327,16 @@ class wish_monster_callback: public uilist_callback
                 lastent = -2;
                 // Tell menu we handled keypress
                 return true;
-            } else if( event.get_first_input() == 'i' ) {
+            }
+            if( event.get_first_input() == 'i' ) {
                 group++;
                 return true;
-            } else if( event.get_first_input() == 'h' ) {
+            }
+            if( event.get_first_input() == 'h' ) {
                 hallucination = !hallucination;
                 return true;
-            } else if( event.get_first_input() == 'd' && group != 0 ) {
+            }
+            if( event.get_first_input() == 'd' && group != 0 ) {
                 group--;
                 return true;
             }

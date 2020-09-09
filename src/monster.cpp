@@ -351,9 +351,8 @@ int monster::next_upgrade_time()
         if( one_in( 2 ) ) {
             day += rng( 0, scaled_half_life );
             return day;
-        } else {
-            day += scaled_half_life;
         }
+        day += scaled_half_life;
     }
     // didn't manage to upgrade, shouldn't ever then
     upgrades = false;
@@ -592,9 +591,8 @@ std::string monster::disp_name( bool possessive, bool capitalize_first ) const
 {
     if( !possessive ) {
         return string_format( capitalize_first ? _( "The %s" ) : _( "the %s" ), name() );
-    } else {
-        return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
     }
+    return string_format( capitalize_first ? _( "The %s's" ) : _( "the %s's" ), name() );
 }
 
 std::string monster::skin_name() const
@@ -928,7 +926,8 @@ int monster::sight_range( const int light_level ) const
     static const int default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
-    } else if( light_level == default_daylight ) {
+    }
+    if( light_level == default_daylight ) {
         return type->vision_day;
     }
     int range = light_level * type->vision_day + ( default_daylight - light_level ) *
@@ -1015,17 +1014,19 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
+        }
+        if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
-                   morale < 0 || anger < 10 ) {
+        }
+        if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
+            morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return Attitude::NEUTRAL;
-        } else {
-            return Attitude::HOSTILE;
         }
-    } else if( p != nullptr ) {
+        return Attitude::HOSTILE;
+    }
+    if( p != nullptr ) {
         switch( attitude( p ) ) {
             case MATT_FRIEND:
                 return Attitude::FRIENDLY;
@@ -1079,7 +1080,8 @@ monster_attitude monster::attitude( const Character *u ) const
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
-            } else if( u->has_trait( trait_FLOWERS ) ) {
+            }
+            if( u->has_trait( trait_FLOWERS ) ) {
                 effective_anger -= 10;
             }
         }
@@ -1154,9 +1156,8 @@ monster_attitude monster::attitude( const Character *u ) const
     if( effective_anger <= 0 ) {
         if( get_hp() != get_hp_max() ) {
             return MATT_FLEE;
-        } else {
-            return MATT_IGNORE;
         }
+        return MATT_IGNORE;
     }
 
     if( effective_anger < 10 ) {
@@ -1769,23 +1770,21 @@ bool monster::move_effects( bool )
     if( has_effect( effect_in_pit ) ) {
         if( rng( 0, 40 ) > type->melee_dice * type->melee_sides ) {
             return false;
-        } else {
-            if( u_see_me ) {
-                add_msg( _( "The %s escapes the pit!" ), name() );
-            }
-            remove_effect( effect_in_pit );
         }
+        if( u_see_me ) {
+            add_msg( _( "The %s escapes the pit!" ), name() );
+        }
+        remove_effect( effect_in_pit );
     }
     if( has_effect( effect_grabbed ) ) {
         if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
             !one_in( 4 ) ) {
             return false;
-        } else {
-            if( u_see_me ) {
-                add_msg( _( "The %s breaks free from the grab!" ), name() );
-            }
-            remove_effect( effect_grabbed );
         }
+        if( u_see_me ) {
+            add_msg( _( "The %s breaks free from the grab!" ), name() );
+        }
+        remove_effect( effect_grabbed );
     }
     return true;
 }
@@ -2083,7 +2082,8 @@ void monster::process_turn()
             if( emid == emit_id( "emit_shock_cloud" ) ) {
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
-                } else if( has_effect( effect_supercharged ) ) {
+                }
+                if( has_effect( effect_supercharged ) ) {
                     here.emit_field( pos(), emit_id( "emit_shock_cloud_big" ) );
                     continue;
                 }
@@ -2917,16 +2917,18 @@ bool monster::will_join_horde( int size )
     const monster_horde_attraction mha = get_horde_attraction();
     if( mha == MHA_NEVER ) {
         return false;
-    } else if( mha == MHA_ALWAYS ) {
-        return true;
-    } else if( get_map().has_flag( TFLAG_INDOORS, pos() ) && ( mha == MHA_OUTDOORS ||
-               mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else {
+    }
+    if( mha == MHA_ALWAYS ) {
         return true;
     }
+    if( get_map().has_flag( TFLAG_INDOORS, pos() ) && ( mha == MHA_OUTDOORS ||
+            mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    return true;
 }
 
 void monster::on_unload()

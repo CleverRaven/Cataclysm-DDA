@@ -58,7 +58,8 @@ void sokoban_game::parse_level( std::istream &fin )
         if( sLine.substr( 0, 3 ) == "; #" ) {
             iNumLevel++;
             continue;
-        } else if( sLine[0] == ';' ) {
+        }
+        if( sLine[0] == ';' ) {
             continue;
         }
 
@@ -126,34 +127,44 @@ int sokoban_game::get_wall_connection( const point &i )
     if( !bRight && !bLeft ) {
         return LINE_XOXO; //
 
-    } else if( !bTop && !bBottom ) {
+    }
+    if( !bTop && !bBottom ) {
         return LINE_OXOX;
 
-    } else if( bTop && bRight && !bBottom && !bLeft ) {
+    }
+    if( bTop && bRight && !bBottom && !bLeft ) {
         return LINE_XXOO;
 
-    } else if( !bTop && bRight && bBottom && !bLeft ) {
+    }
+    if( !bTop && bRight && bBottom && !bLeft ) {
         return LINE_OXXO;
 
-    } else if( !bTop && !bRight && bBottom && bLeft ) {
+    }
+    if( !bTop && !bRight && bBottom && bLeft ) {
         return LINE_OOXX;
 
-    } else if( bTop && !bRight && !bBottom && bLeft ) {
+    }
+    if( bTop && !bRight && !bBottom && bLeft ) {
         return LINE_XOOX;
 
-    } else if( bTop && bRight && bBottom && !bLeft ) {
+    }
+    if( bTop && bRight && bBottom && !bLeft ) {
         return LINE_XXXO;
 
-    } else if( bTop && bRight && !bBottom && bLeft ) {
+    }
+    if( bTop && bRight && !bBottom && bLeft ) {
         return LINE_XXOX;
 
-    } else if( bTop && !bRight && bBottom && bLeft ) {
+    }
+    if( bTop && !bRight && bBottom && bLeft ) {
         return LINE_XOXX;
 
-    } else if( !bTop && bRight && bBottom && bLeft ) {
+    }
+    if( !bTop && bRight && bBottom && bLeft ) {
         return LINE_OXXX;
 
-    } else if( bTop && bRight && bBottom && bLeft ) {
+    }
+    if( bTop && bRight && bBottom && bLeft ) {
         return LINE_XXXX;
     }
 

@@ -128,7 +128,8 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 10_minutes && one_in( 5 ) ) {
+    }
+    if( howhigh > 10_minutes && one_in( 5 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
@@ -177,7 +178,8 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 5_minutes && one_in( 3 ) ) {
+    }
+    if( howhigh > 5_minutes && one_in( 3 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
@@ -388,9 +390,8 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
 
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 effect_rating effect_type::get_rating() const
@@ -407,9 +408,8 @@ bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
         return static_cast<size_t>( max_intensity ) <= reduced_desc.size();
-    } else {
-        return static_cast<size_t>( max_intensity ) <= desc.size();
     }
+    return static_cast<size_t>( max_intensity ) <= desc.size();
 }
 
 game_message_type effect_type::gain_game_message_type() const
@@ -717,16 +717,13 @@ std::string effect::disp_short_desc( bool reduced ) const
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
             return eff_type->reduced_desc[intensity - 1];
-        } else {
-            return eff_type->desc[intensity - 1];
         }
-    } else {
-        if( reduced ) {
-            return eff_type->reduced_desc[0];
-        } else {
-            return eff_type->desc[0];
-        }
+        return eff_type->desc[intensity - 1];
     }
+    if( reduced ) {
+        return eff_type->reduced_desc[0];
+    }
+    return eff_type->desc[0];
 }
 
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,

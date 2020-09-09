@@ -296,15 +296,14 @@ static inline int add_sfx_path( const std::string &path )
     auto find_result = unique_paths.find( path );
     if( find_result != unique_paths.end() ) {
         return find_result->second;
-    } else {
-        int result = sfx_resources.resource.size();
-        sound_effect_resource new_resource;
-        new_resource.path = path;
-        new_resource.chunk.reset();
-        sfx_resources.resource.push_back( std::move( new_resource ) );
-        unique_paths[ path ] = result;
-        return result;
     }
+    int result = sfx_resources.resource.size();
+    sound_effect_resource new_resource;
+    new_resource.path = path;
+    new_resource.chunk.reset();
+    sfx_resources.resource.push_back( std::move( new_resource ) );
+    unique_paths[ path ] = result;
+    return result;
 }
 
 void sfx::load_sound_effects( const JsonObject &jsobj )

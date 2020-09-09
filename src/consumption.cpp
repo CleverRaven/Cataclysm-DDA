@@ -321,9 +321,8 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
             }
         }
         return tally / comest.recipe_charges;
-    } else {
-        return compute_default_effective_nutrients( comest, *this );
     }
+    return compute_default_effective_nutrients( comest, *this );
 }
 
 // Calculate range of nutrients obtainable for a given item when crafted via
@@ -660,7 +659,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     const rechargeable_cbm cbm = get_cbm_rechargeable_with( food );
     if( !food.is_comestible() && cbm == rechargeable_cbm::none ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( cbm != rechargeable_cbm::none ) {
+    }
+    if( cbm != rechargeable_cbm::none ) {
         std::string item_name = food.tname();
         itype_id item_type = food.typeId();
         if( food.type->magazine ) {
@@ -671,9 +671,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
         if( get_fuel_capacity( item_type ) <= 0 ) {
             return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        } else {
-            return ret_val<edible_rating>::make_success();
         }
+        return ret_val<edible_rating>::make_success();
     }
 
     const auto &comest = food.get_comestible();

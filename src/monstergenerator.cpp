@@ -270,11 +270,14 @@ static creature_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
         return creature_size::tiny;
-    } else if( vol <= 46250_ml ) {
+    }
+    if( vol <= 46250_ml ) {
         return creature_size::small;
-    } else if( vol <= 77500_ml ) {
+    }
+    if( vol <= 77500_ml ) {
         return creature_size::medium;
-    } else if( vol <= 483750_ml ) {
+    }
+    if( vol <= 483750_ml ) {
         return creature_size::large;
     }
     return creature_size::huge;

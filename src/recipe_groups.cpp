@@ -70,15 +70,14 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_bldg( const std::s
             all_rec.insert( gr.recipes.cbegin(), gr.recipes.cend() );
         }
         return all_rec;
-    } else {
-        for( const auto &gr : recipe_groups_data.get_all() ) {
-            if( gr.building_type != bldg ) {
-                continue;
-            }
-            all_rec.insert( gr.recipes.cbegin(), gr.recipes.cend() );
-        }
-        return all_rec;
     }
+    for( const auto &gr : recipe_groups_data.get_all() ) {
+        if( gr.building_type != bldg ) {
+            continue;
+        }
+        all_rec.insert( gr.recipes.cbegin(), gr.recipes.cend() );
+    }
+    return all_rec;
 }
 
 std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,

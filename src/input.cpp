@@ -650,20 +650,21 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
         const auto it = map->find( ch );
         if( it != map->end() ) {
             switch( inp_type ) {
-                case input_event_t::keyboard_char:
+                case input_event_t::keyboard_char: {
                     if( IS_F_KEY( ch ) ) {
                         // special case it since F<num> key names are generated using loop
                         // and not marked individually for translation
                         if( portable ) {
                             return it->second;
-                        } else {
-                            return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
                         }
-                    } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
+                        return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
+                    }
+                    if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
                         // character keys except space need no translation
                         return it->second;
                     }
-                    break;
+                }
+                break;
                 case input_event_t::keyboard_code:
                     if( ch >= char_key_beg && ch < char_key_end && ch != ' ' ) {
                         // character keys except space need no translation
@@ -678,9 +679,8 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
     }
     if( portable ) {
         return std::string( "UNKNOWN_" ) + int_to_str( ch );
-    } else {
-        return string_format( _( "unknown key %ld" ), ch );
     }
+    return string_format( _( "unknown key %ld" ), ch );
 }
 
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
@@ -746,9 +746,8 @@ translation input_manager::get_default_action_name( const std::string &action_id
     const t_actions::const_iterator default_action = default_action_context->second.find( action_id );
     if( default_action != default_action_context->second.end() ) {
         return default_action->second.name;
-    } else {
-        return no_translation( action_id );
     }
+    return no_translation( action_id );
 }
 
 input_manager::t_input_event_list &input_manager::get_or_create_event_list(
@@ -1058,11 +1057,10 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     if( na ) {
         //~ keybinding description for unbound or disabled keys
         return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
-    } else {
-        //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
-                              get_desc( action_descriptor, 1, evt_filter ), text );
     }
+    //~ keybinding description for bound keys
+    return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
+                          get_desc( action_descriptor, 1, evt_filter ), text );
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
@@ -1191,23 +1189,29 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 
     if( action == "UP" ) {
         return transform( tripoint_north );
-    } else if( action == "DOWN" ) {
-        return transform( tripoint_south );
-    } else if( action == "LEFT" ) {
-        return transform( tripoint_west );
-    } else if( action == "RIGHT" ) {
-        return transform( tripoint_east );
-    } else if( action == "LEFTUP" ) {
-        return transform( tripoint_north_west );
-    } else if( action == "RIGHTUP" ) {
-        return transform( tripoint_north_east );
-    } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint_south_west );
-    } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint_south_east );
-    } else {
-        return cata::nullopt;
     }
+    if( action == "DOWN" ) {
+        return transform( tripoint_south );
+    }
+    if( action == "LEFT" ) {
+        return transform( tripoint_west );
+    }
+    if( action == "RIGHT" ) {
+        return transform( tripoint_east );
+    }
+    if( action == "LEFTUP" ) {
+        return transform( tripoint_north_west );
+    }
+    if( action == "RIGHTUP" ) {
+        return transform( tripoint_north_east );
+    }
+    if( action == "LEFTDOWN" ) {
+        return transform( tripoint_south_west );
+    }
+    if( action == "RIGHTDOWN" ) {
+        return transform( tripoint_south_east );
+    }
+    return cata::nullopt;
 }
 
 // Custom set of hotkeys that explicitly don't include the hardcoded
@@ -1765,16 +1769,13 @@ input_event hotkey_queue::first( const input_context &ctxt ) const
     if( ctxt.is_event_type_enabled( input_event_t::keyboard_code ) ) {
         if( !codes_keycode.empty() && !modifiers_keycode.empty() ) {
             return input_event( modifiers_keycode[0], codes_keycode[0], input_event_t::keyboard_code );
-        } else {
-            return input_event();
         }
-    } else {
-        if( !codes_keychar.empty() ) {
-            return input_event( codes_keychar[0], input_event_t::keyboard_char );
-        } else {
-            return input_event();
-        }
+        return input_event();
     }
+    if( !codes_keychar.empty() ) {
+        return input_event( codes_keychar[0], input_event_t::keyboard_char );
+    }
+    return input_event();
 }
 
 input_event hotkey_queue::next( const input_event &prev ) const
@@ -1794,11 +1795,11 @@ input_event hotkey_queue::next( const input_event &prev ) const
             }
             if( std::next( code_it ) != codes_keycode.end() ) {
                 return input_event( prev.modifiers, *std::next( code_it ), prev.type );
-            } else if( std::next( mod_it ) != modifiers_keycode.end() ) {
-                return input_event( *std::next( mod_it ), codes_keycode[0], prev.type );
-            } else {
-                return input_event();
             }
+            if( std::next( mod_it ) != modifiers_keycode.end() ) {
+                return input_event( *std::next( mod_it ), codes_keycode[0], prev.type );
+            }
+            return input_event();
             break;
         }
         case input_event_t::keyboard_char: {
@@ -1812,9 +1813,8 @@ input_event hotkey_queue::next( const input_event &prev ) const
             }
             if( std::next( code_it ) != codes_keychar.end() ) {
                 return input_event( *std::next( code_it ), prev.type );
-            } else {
-                return input_event();
             }
+            return input_event();
             break;
         }
     }

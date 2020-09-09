@@ -207,11 +207,10 @@ class item_location::impl::item_on_map : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else {
-                item *inv = &ch.i_add( *target(), should_stack );
-                remove_item();
-                return item_location( ch, inv );
             }
+            item *inv = &ch.i_add( *target(), should_stack );
+            remove_item();
+            return item_location( ch, inv );
         }
 
         int obtain_cost( const Character &ch, int qty ) const override {
@@ -312,16 +311,14 @@ class item_location::impl::item_on_person : public item_location::impl
                 if( !parents.empty() && who->is_worn( *parents.back() ) ) {
                     return parents.back()->type_name();
 
-                } else if( who->is_worn( *target() ) ) {
+                }
+                if( who->is_worn( *target() ) ) {
                     return _( "worn" );
 
-                } else {
-                    return _( "inventory" );
                 }
-
-            } else {
-                return who->name;
+                return _( "inventory" );
             }
+            return who->name;
         }
 
         item_location obtain( Character &ch, int qty ) override {
@@ -336,11 +333,10 @@ class item_location::impl::item_on_person : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else {
-                item *inv = &ch.i_add( *target(), should_stack );
-                remove_item();  // This also takes off the item from whoever wears it.
-                return item_location( ch, inv );
             }
+            item *inv = &ch.i_add( *target(), should_stack );
+            remove_item();  // This also takes off the item from whoever wears it.
+            return item_location( ch, inv );
         }
 
         int obtain_cost( const Character &ch, int qty ) const override {
@@ -446,11 +442,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else {
-                item *inv = &ch.i_add( *target(), should_stack );
-                remove_item();
-                return item_location( ch, inv );
             }
+            item *inv = &ch.i_add( *target(), should_stack );
+            remove_item();
+            return item_location( ch, inv );
         }
 
         int obtain_cost( const Character &ch, int qty ) const override {
@@ -533,9 +528,8 @@ class item_location::impl::item_in_container : public item_location::impl
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
                 return const_cast<item *>( *iter );
-            } else {
-                return nullptr;
             }
+            return nullptr;
         }
 
         std::string describe( const Character * ) const override {
@@ -570,19 +564,19 @@ class item_location::impl::item_in_container : public item_location::impl
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else if( container.held_by( ch ) ) {
+            }
+            if( container.held_by( ch ) ) {
                 // we don't need to move it in this case, it's in a pocket
                 // we just charge the obtain cost and leave it in place. otherwise
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
-            } else {
-                item *inv = &ch.i_add( *target(), should_stack );
-                if( inv->is_null() ) {
-                    debugmsg( "failed to add item to character inventory while obtaining from container" );
-                }
-                remove_item();
-                return item_location( ch, inv );
             }
+            item *inv = &ch.i_add( *target(), should_stack );
+            if( inv->is_null() ) {
+                debugmsg( "failed to add item to character inventory while obtaining from container" );
+            }
+            remove_item();
+            return item_location( ch, inv );
         }
 
         int obtain_cost( const Character &ch, int qty ) const override {
@@ -829,7 +823,8 @@ bool item_location::held_by( Character &who ) const
 {
     if( where() == type::character && g->critter_at<Character>( position() ) == &who ) {
         return true;
-    } else if( has_parent() ) {
+    }
+    if( has_parent() ) {
         return parent_item().held_by( who );
     }
     return false;

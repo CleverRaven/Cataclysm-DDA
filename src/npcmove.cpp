@@ -233,7 +233,8 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
         Creature *inter = g->critter_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
-        } else if( get_map().impassable( p ) ) {
+        }
+        if( get_map().impassable( p ) ) {
             return false;
         }
     }
@@ -363,12 +364,12 @@ float npc::evaluate_enemy( const Creature &target ) const
         const monster &mon = dynamic_cast<const monster &>( target );
         float diff = static_cast<float>( mon.type->difficulty );
         return std::min( diff, NPC_DANGER_MAX );
-    } else if( target.is_npc() || target.is_player() ) {
+    }
+    if( target.is_npc() || target.is_player() ) {
         return std::min( character_danger( dynamic_cast<const player &>( target ) ),
                          NPC_DANGER_MAX );
-    } else {
-        return 0.0f;
     }
+    return 0.0f;
 }
 
 static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, const int def_radius )
@@ -1444,11 +1445,10 @@ npc_action npc::method_of_attack()
             add_msg_debug( "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
 
-        } else {
-            if( !dont_move_ff ) {
-                add_msg_debug( "%s is trying to avoid friendly fire", disp_name() );
-                return npc_avoid_friendly_fire;
-            }
+        }
+        if( !dont_move_ff ) {
+            add_msg_debug( "%s is trying to avoid friendly fire", disp_name() );
+            return npc_avoid_friendly_fire;
         }
     }
 
@@ -1624,9 +1624,8 @@ bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
-            } else {
-                return false;
             }
+            return false;
         }
         index += 1;
     }
@@ -1640,9 +1639,8 @@ bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
         if( i.id == cbm_id ) {
             if( !i.powered ) {
                 return activate_bionic( index, eff_only );
-            } else {
-                return true;
             }
+            return true;
         }
         index += 1;
     }
@@ -1656,9 +1654,8 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
         if( i.id == cbm_id ) {
             if( i.powered ) {
                 return deactivate_bionic( index, eff_only );
-            } else {
-                return false;
             }
+            return false;
         }
         index += 1;
     }
@@ -1717,35 +1714,33 @@ bool npc::recharge_cbm()
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
-        } else {
-            const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const itype_id &fid : bid->fuel_opts ) {
-                    return ( it.typeId() == fid ) || ( it.is_magazine() && it.ammo_current() == fid );
-                }
-                return false;
-            };
-
-            if( consume_cbm_items( fuel_filter ) ) {
-                use_bionic_by_id( bid );
-                return true;
-            } else {
-                const std::vector<itype_id> fuel_op = bid->fuel_opts;
-                const bool need_alcohol =
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
-                    fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
-                    fuel_op.end();
-
-                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
-                    complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
-                } else if( need_alcohol ) {
-                    complain_about( "need_booze", 3_hours, "<need_booze>", false );
-                } else {
-                    complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
-                }
+        }
+        const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
+            for( const itype_id &fid : bid->fuel_opts ) {
+                return ( it.typeId() == fid ) || ( it.is_magazine() && it.ammo_current() == fid );
             }
+            return false;
+        };
+
+        if( consume_cbm_items( fuel_filter ) ) {
+            use_bionic_by_id( bid );
+            return true;
+        }
+        const std::vector<itype_id> fuel_op = bid->fuel_opts;
+        const bool need_alcohol =
+            std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
+            fuel_op.end() ||
+            std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
+            fuel_op.end() ||
+            std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
+            fuel_op.end();
+
+        if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
+            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+        } else if( need_alcohol ) {
+            complain_about( "need_booze", 3_hours, "<need_booze>", false );
+        } else {
+            complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
         }
     }
 
@@ -1756,9 +1751,8 @@ bool npc::recharge_cbm()
         };
         if( consume_cbm_items( furnace_filter ) ) {
             return true;
-        } else {
-            complain_about( "need_junk", 3_hours, "<need_junk>", false );
         }
+        complain_about( "need_junk", 3_hours, "<need_junk>", false );
     }
 
     if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
@@ -1768,9 +1762,8 @@ bool npc::recharge_cbm()
         };
         if( consume_cbm_items( reactor_filter ) ) {
             return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
         }
+        complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
     }
 
     return false;
@@ -1931,8 +1924,9 @@ npc_action npc::address_needs( float danger )
         if( danger <= 0.01 ) {
             if( get_fatigue() >= fatigue_levels::TIRED ) {
                 return true;
-            } else if( is_walking_with() && player_character.in_sleep_state() &&
-                       get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
+            }
+            if( is_walking_with() && player_character.in_sleep_state() &&
+                get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -1948,7 +1942,8 @@ npc_action npc::address_needs( float danger )
 
         if( rules.has_flag( ally_rule::allow_sleep ) || get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
             return npc_sleep;
-        } else if( player_character.in_sleep_state() ) {
+        }
+        if( player_character.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
         }
@@ -1969,12 +1964,11 @@ npc_action npc::address_player()
         }
         if( rl_dist( pos(), player_character.pos() ) <= 6 ) {
             return npc_talk_to_player;    // Close enough to talk to you
-        } else {
-            if( one_in( 10 ) ) {
-                say( "<lets_talk>" );
-            }
-            return npc_follow_player;
         }
+        if( one_in( 10 ) ) {
+            say( "<lets_talk>" );
+        }
+        return npc_follow_player;
     }
 
     if( attitude == NPCATT_MUG && sees( player_character ) ) {
@@ -2005,16 +1999,16 @@ npc_action npc::address_player()
                 say( "<keep_up>" );
                 add_effect( effect_catch_up, 5_turns );
                 return npc_pause;
-            } else {
-                say( "<im_leaving_you>" );
-                set_attitude( NPCATT_NULL );
-                return npc_pause;
             }
-        } else if( has_omt_destination() ) {
-            return npc_goto_destination;
-        } else { // At goal. Now, waiting on nearby player
+            say( "<im_leaving_you>" );
+            set_attitude( NPCATT_NULL );
             return npc_pause;
         }
+        if( has_omt_destination() ) {
+            return npc_goto_destination;
+        }
+        // At goal. Now, waiting on nearby player
+        return npc_pause;
     }
     return npc_undecided;
 }
@@ -2631,9 +2625,8 @@ void npc::worker_downtime()
             }
             wander_pos = tripoint_min;
             return;
-        } else {
-            chair_pos = tripoint_min;
         }
+        chair_pos = tripoint_min;
     } else {
         // find a chair
         if( !is_mounted() ) {
@@ -3021,7 +3014,8 @@ void npc::pick_up_item()
 
         move_to_next();
         return;
-    } else if( dist_to_pickup > 1 && path.empty() ) {
+    }
+    if( dist_to_pickup > 1 && path.empty() ) {
         add_msg_debug( "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
@@ -3420,7 +3414,8 @@ bool npc::wield_better_weapon()
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
             return VisitResponse::SKIP;
-        } else if( node->get_use( "holster" ) && !node->contents.empty() ) {
+        }
+        if( node->get_use( "holster" ) && !node->contents.empty() ) {
             // we just recur to the next farther down
             return VisitResponse::NEXT;
         }
@@ -3448,10 +3443,9 @@ bool npc::scan_new_items()
     add_msg_debug( "%s scanning new items", name );
     if( wield_better_weapon() ) {
         return true;
-    } else {
-        // Stop "having new items" when you no longer do anything with them
-        has_new_items = false;
     }
+    // Stop "having new items" when you no longer do anything with them
+    has_new_items = false;
 
     return false;
     // TODO: Armor?
@@ -4364,13 +4358,14 @@ static std::string distance_string( int range )
 {
     if( range < 6 ) {
         return "<danger_close_distance>";
-    } else if( range < 11 ) {
-        return "<close_distance>";
-    } else if( range < 26 ) {
-        return "<medium_distance>";
-    } else {
-        return "<far_distance>";
     }
+    if( range < 11 ) {
+        return "<close_distance>";
+    }
+    if( range < 26 ) {
+        return "<medium_distance>";
+    }
+    return "<far_distance>";
 }
 
 void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name,

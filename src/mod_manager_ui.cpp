@@ -43,9 +43,8 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
             if( e.is_valid() ) {
                 return string_format( "[%s]", e->name() );
-            } else {
-                return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
+            return string_format( "[<color_red>%s</color>]", e.c_str() );
         } );
         info += colorize( ngettext( "Dependency", "Dependencies", deps.size() ),
                           c_light_blue ) + ": " + str + "\n";

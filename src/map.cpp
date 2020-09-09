@@ -141,7 +141,8 @@ units::volume map_stack::max_volume() const
 {
     if( !myorigin->inbounds( location ) ) {
         return 0_ml;
-    } else if( myorigin->has_furn( location ) ) {
+    }
+    if( myorigin->has_furn( location ) ) {
         return myorigin->furn( location ).obj().max_volume;
     }
     return myorigin->ter( location ).obj().max_volume;
@@ -480,7 +481,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     if( dp == tripoint_zero ) {
         debugmsg( "Empty displacement vector" );
         return &veh;
-    } else if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ) {
+    }
+    if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ) {
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
@@ -1450,9 +1452,8 @@ std::string map::furnname( const tripoint &p )
         }
         const std::string &plant = seed->get_plant_name();
         return string_format( "%s (%s)", f.name(), plant );
-    } else {
-        return f.name();
     }
+    return f.name();
 }
 
 /*
@@ -1766,11 +1767,11 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
         const vpart_position vp( const_cast<vehicle &>( *veh ), vpart );
         if( vp.obstacle_at_part() ) {
             return 0;
-        } else if( vp.part_with_feature( VPFLAG_AISLE, true ) ) {
-            return 2;
-        } else {
-            return 8;
         }
+        if( vp.part_with_feature( VPFLAG_AISLE, true ) ) {
+            return 2;
+        }
+        return 8;
     }
     int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
@@ -1894,7 +1895,8 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     if( from.z == to.z ) {
         // But here we need to, to prevent bashing critters
         return passable( to ) || ( bash && inbounds( to ) );
-    } else if( !zlevels ) {
+    }
+    if( !zlevels ) {
         return false;
     }
 
@@ -1999,8 +2001,9 @@ int map::climb_difficulty( const tripoint &p ) const
     if( has_flag( "LADDER", p ) ) {
         // Really easy, but you have to stand on the tile
         return 1;
-    } else if( has_flag( TFLAG_RAMP, p ) || has_flag( TFLAG_RAMP_UP, p ) ||
-               has_flag( TFLAG_RAMP_DOWN, p ) ) {
+    }
+    if( has_flag( TFLAG_RAMP, p ) || has_flag( TFLAG_RAMP_UP, p ) ||
+        has_flag( TFLAG_RAMP_DOWN, p ) ) {
         // We're on something stair-like, so halfway there already
         best_difficulty = 7;
     }
@@ -2429,7 +2432,8 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
     ///\EFFECT_STR increases smashing damage
     if( str < bash_min ) {
         return 0;
-    } else if( str >= bash_max ) {
+    }
+    if( str >= bash_max ) {
         return 10;
     }
 
@@ -3849,7 +3853,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     if( dam <= 0 ) {
         proj.impact.damage_units.clear();
         return;
-    } else if( dam < initial_damage ) {
+    }
+    if( dam < initial_damage ) {
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
     }
 
@@ -3948,7 +3953,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if( furn.open ) {
+    }
+    if( furn.open ) {
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
@@ -3960,7 +3966,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if( const optional_vpart_position vp = veh_at( p ) ) {
+    }
+    if( const optional_vpart_position vp = veh_at( p ) ) {
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
@@ -4035,7 +4042,8 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
             ter_set( p, ter.close );
         }
         return true;
-    } else if( furn.close ) {
+    }
+    if( furn.close ) {
         if( !check_only ) {
             sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
                            "close_door", furn.id.str() );
@@ -4393,7 +4401,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         // If tile can contain items place here...
         return place_item( pos );
 
-    } else if( overflow ) {
+    }
+    if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
         const int max_dist = 2;
         std::vector<tripoint> tiles = closest_points_first( pos, max_dist );
@@ -4816,7 +4825,8 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
     for( item_reference &active_item_ref : cur_veh.active_items.get_for_processing() ) {
         if( empty( cargo_parts ) ) {
             return;
-        } else if( !active_item_ref.item_ref ) {
+        }
+        if( !active_item_ref.item_ref ) {
             // The item was destroyed, so skip it.
             continue;
         }
@@ -5480,11 +5490,11 @@ int map::set_field_intensity( const tripoint &p, const field_type_id &type,
         if( adj > 0 ) {
             field_ptr->set_field_intensity( adj );
             return adj;
-        } else {
-            remove_field( p, type );
-            return 0;
         }
-    } else if( 0 + new_intensity > 0 ) {
+        remove_field( p, type );
+        return 0;
+    }
+    if( 0 + new_intensity > 0 ) {
         return add_field( p, type, new_intensity ) ? new_intensity : 0;
     }
 
@@ -5795,18 +5805,22 @@ visibility_type map::get_visibility( const lit_level ll,
     switch( ll ) {
         case lit_level::DARK:
             // can't see this square at all
+        {
+            // can't see this square at all
             if( cache.u_is_boomered ) {
                 return visibility_type::BOOMER_DARK;
-            } else {
-                return visibility_type::DARK;
             }
+            return visibility_type::DARK;
+        }
         case lit_level::BRIGHT_ONLY:
+            // can only tell that this square is bright
+        {
             // can only tell that this square is bright
             if( cache.u_is_boomered ) {
                 return visibility_type::BOOMER;
-            } else {
-                return visibility_type::LIT;
             }
+            return visibility_type::LIT;
+        }
 
         case lit_level::LOW:
         // low light, square visible in monochrome
@@ -6388,7 +6402,8 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
     if( const optional_vpart_position vp = veh_at( obstaclepos ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        }
+        if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
             return 45;
         }
     }
@@ -6403,7 +6418,8 @@ int map::coverage( const tripoint &p ) const
     if( const optional_vpart_position vp = veh_at( p ) ) {
         if( vp->obstacle_at_part() ) {
             return 60;
-        } else if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+        }
+        if( !vp->part_with_feature( VPFLAG_AISLE, true ) ) {
             return 45;
         }
     }
@@ -8208,7 +8224,8 @@ void map::setsubmap( const size_t grididx, submap *const smap )
     if( grididx >= grid.size() ) {
         debugmsg( "Tried to access invalid grid index %d", grididx );
         return;
-    } else if( smap == nullptr ) {
+    }
+    if( smap == nullptr ) {
         debugmsg( "Tried to set NULL submap pointer at index %d", grididx );
         return;
     }
@@ -8248,9 +8265,8 @@ size_t map::get_nonant( const tripoint &gridp ) const
     if( zlevels ) {
         const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
         return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
-    } else {
-        return gridp.x + gridp.y * my_MAPSIZE;
     }
+    return gridp.x + gridp.y * my_MAPSIZE;
 }
 
 tinymap::tinymap( int mapsize, bool zlevels )

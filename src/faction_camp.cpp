@@ -589,7 +589,8 @@ void talk_function::start_camp( npc &p )
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
+        }
+        if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
             forests++;
         } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
             waters++;
@@ -1871,7 +1872,8 @@ void basecamp::job_assignment_ui()
                     smenu.query();
                     if( smenu.ret == UILIST_CANCEL ) {
                         break;
-                    } else if( smenu.ret == 0 ) {
+                    }
+                    if( smenu.ret == 0 ) {
                         cur_npc->job.clear_all_priorities();
                     } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
                         activity_id sel_job = job_vec[smenu.ret - 1];
@@ -2175,8 +2177,9 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.deduped_requirements().can_make_with_inventory( _inv,
-                   making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
+        }
+        if( !making.deduped_requirements().can_make_with_inventory( _inv,
+                making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
             return;
         }
@@ -2278,7 +2281,6 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
                 comp->companion_mission_inv.add_item( results );
             }
         }
-        return;
     }
 }
 
@@ -3572,17 +3574,15 @@ bool basecamp::validate_sort_points()
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
-        } else {
-            return false;
         }
-    } else {
-        const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-        const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
-        // Find the nearest unsorted zone to dump objects at
-        for( const tripoint &src : src_sorted ) {
-            src_loc = here.getlocal( src );
-            break;
-        }
+        return false;
+    }
+    const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+    const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    // Find the nearest unsorted zone to dump objects at
+    for( const tripoint &src : src_sorted ) {
+        src_loc = here.getlocal( src );
+        break;
     }
     set_dumping_spot( here.getabs( src_loc ) );
     return true;
@@ -3897,11 +3897,11 @@ bool basecamp::distribute_food()
         const time_duration rots_in = ( it.get_shelf_life() - it.get_rot() ) / spoil_mod;
         if( rots_in >= 5_days ) {
             return 1.;
-        } else if( rots_in >= 2_days ) {
-            return slow_rot;
-        } else {
-            return quick_rot;
         }
+        if( rots_in >= 2_days ) {
+            return slow_rot;
+        }
+        return quick_rot;
     };
     const auto consume_non_recursive = [&]( item & it, item * const container ) {
         if( !it.is_comestible() ) {

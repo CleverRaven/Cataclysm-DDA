@@ -512,18 +512,16 @@ void handle_weather_effects( const weather_type_id &w )
             if( player_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
                 add_msg( _( "Your %s protects you from the weather." ), player_character.weapon.tname() );
                 continue;
-            } else {
-                if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
-                    add_msg( _( "Your clothing protects you from the weather." ) );
-                    continue;
-                } else {
-                    bool has_helmet = false;
-                    if( player_character.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
-                            one_in( chance * 2 ) ) ) {
-                        add_msg( _( "Your power armor protects you from the weather." ) );
-                        continue;
-                    }
-                }
+            }
+            if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                add_msg( _( "Your clothing protects you from the weather." ) );
+                continue;
+            }
+            bool has_helmet = false;
+            if( player_character.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
+                    one_in( chance * 2 ) ) ) {
+                add_msg( _( "Your power armor protects you from the weather." ) );
+                continue;
             }
         }
         if( player_character.get_pain() >= current_effect.pain_max ) {
@@ -741,12 +739,12 @@ std::string print_temperature( double fahrenheit, int decimals )
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
                               text( temp_to_celsius( fahrenheit ) ) );
-    } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+    }
+    if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
                               text( temp_to_kelvin( fahrenheit ) ) );
-    } else {
-        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
     }
+    return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
 }
 
 /**

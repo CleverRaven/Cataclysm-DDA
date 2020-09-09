@@ -536,20 +536,24 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
 {
     if( sType != rhs.sType ) {
         return false;
-    } else if( sType == "string_select" || sType == "string_input" ) {
-        return sSet == rhs.sSet;
-    } else if( sType == "bool" ) {
-        return bSet == rhs.bSet;
-    } else if( sType == "int" || sType == "int_map" ) {
-        return iSet == rhs.iSet;
-    } else if( sType == "float" ) {
-        return fSet == rhs.fSet;
-    } else if( sType == "VOID" ) {
-        return true;
-    } else {
-        debugmsg( "unknown option type %s", sType );
-        return false;
     }
+    if( sType == "string_select" || sType == "string_input" ) {
+        return sSet == rhs.sSet;
+    }
+    if( sType == "bool" ) {
+        return bSet == rhs.bSet;
+    }
+    if( sType == "int" || sType == "int_map" ) {
+        return iSet == rhs.iSet;
+    }
+    if( sType == "float" ) {
+        return fSet == rhs.fSet;
+    }
+    if( sType == "VOID" ) {
+        return true;
+    }
+    debugmsg( "unknown option type %s", sType );
+    return false;
 }
 
 std::string options_manager::cOpt::getValue( bool classis_locale ) const
@@ -557,13 +561,16 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
     if( sType == "string_select" || sType == "string_input" ) {
         return sSet;
 
-    } else if( sType == "bool" ) {
+    }
+    if( sType == "bool" ) {
         return bSet ? "true" : "false";
 
-    } else if( sType == "int" || sType == "int_map" ) {
+    }
+    if( sType == "int" || sType == "int_map" ) {
         return string_format( format, iSet );
 
-    } else if( sType == "float" ) {
+    }
+    if( sType == "float" ) {
         std::ostringstream ssTemp;
         ssTemp.imbue( classis_locale ? std::locale::classic() : std::locale() );
         ssTemp.precision( 2 );
@@ -629,9 +636,8 @@ std::string options_manager::cOpt::getValueName() const
         const std::string name = std::get<1>( *findInt( iSet ) );
         if( verbose ) {
             return string_format( _( "%d: %s" ), iSet, name );
-        } else {
-            return string_format( _( "%s" ), name );
         }
+        return string_format( _( "%s" ), name );
     }
 
     return getValue();
@@ -652,24 +658,27 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         }, enumeration_conjunction::none );
         return string_format( _( "Default: %s - Values: %s" ), defaultName, sItems );
 
-    } else if( sType == "string_input" ) {
+    }
+    if( sType == "string_input" ) {
         return string_format( _( "Default: %s" ), sDefault );
 
-    } else if( sType == "bool" ) {
+    }
+    if( sType == "bool" ) {
         return bDefault ? _( "Default: True" ) : _( "Default: False" );
 
-    } else if( sType == "int" ) {
+    }
+    if( sType == "int" ) {
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
-    } else if( sType == "int_map" ) {
+    }
+    if( sType == "int_map" ) {
         const std::string name = std::get<1>( *findInt( iDefault ) );
         if( verbose ) {
             return string_format( _( "Default: %d: %s" ), iDefault, name );
-        } else {
-            return string_format( _( "Default: %s" ), name );
         }
-
-    } else if( sType == "float" ) {
+        return string_format( _( "Default: %s" ), name );
+    }
+    if( sType == "float" ) {
         return string_format( _( "Default: %.2f - Min: %.2f, Max: %.2f" ), fDefault, fMin, fMax );
     }
 

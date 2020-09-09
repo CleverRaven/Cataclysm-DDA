@@ -85,7 +85,8 @@ item &item_stack::only_item()
     if( empty() ) {
         debugmsg( "Missing item at target location" );
         return null_item_reference();
-    } else if( size() > 1 ) {
+    }
+    if( size() > 1 ) {
         debugmsg( "More than one item at target location: %s", enumerate_as_string( begin(),
         end(), []( const item & it ) {
             return it.typeId();

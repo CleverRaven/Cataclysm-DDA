@@ -90,7 +90,8 @@ std::string good_bad_none( int value )
 {
     if( value > 0 ) {
         return string_format( "<good>+%d</good>", value );
-    } else if( value < 0 ) {
+    }
+    if( value < 0 ) {
         return string_format( "<bad>%d</bad>", value );
     }
     return std::string();
@@ -100,7 +101,8 @@ std::string highlight_good_bad_none( int value )
 {
     if( value > 0 ) {
         return string_format( "<color_yellow_green>+%d</color>", value );
-    } else if( value < 0 ) {
+    }
+    if( value < 0 ) {
         return string_format( "<color_yellow_red>%d</color>", value );
     }
     return string_format( "<color_yellow>%d</color>", value );
@@ -414,12 +416,13 @@ class pickup_inventory_preset : public inventory_selector_preset
                 if( loc->made_of_from_type( phase_id::LIQUID ) ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids" );
-                    } else {
-                        return _( "Can't pick up spilt liquids" );
                     }
-                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
+                    return _( "Can't pick up spilt liquids" );
+                }
+                if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
-                } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                }
+                if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
                     return _( "Too heavy to pick up" );
                 }
             }
@@ -507,9 +510,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = *loc;
                 if( it.has_flag( flag_MUSHY ) ) {
                     return highlight_good_bad_none( p.fun_for( *loc ).first );
-                } else {
-                    return good_bad_none( p.fun_for( *loc ).first );
                 }
+                return good_bad_none( p.fun_for( *loc ).first );
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
@@ -641,14 +643,13 @@ class comestible_inventory_preset : public inventory_selector_preset
             if( loc->rotten() ) {
                 if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
                     return 1;
-                } else {
-                    return 4;
                 }
-            } else if( time == 0_turns ) {
-                return 3;
-            } else {
-                return 2;
+                return 4;
             }
+            if( time == 0_turns ) {
+                return 3;
+            }
+            return 2;
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
@@ -694,19 +695,23 @@ class comestible_inventory_preset : public inventory_selector_preset
             const double rot_progress = it.get_relative_rot();
             if( it.is_fresh() ) {
                 return _( "fresh" );
-            } else if( rot_progress < 0.3 ) {
-                return _( "quite fresh" );
-            } else if( rot_progress < 0.5 ) {
-                return _( "near midlife" );
-            } else if( rot_progress < 0.7 ) {
-                return _( "past midlife" );
-            } else if( rot_progress < 0.9 ) {
-                return _( "getting older" );
-            } else if( !it.rotten() ) {
-                return _( "old" );
-            } else {
-                return _( "rotten" );
             }
+            if( rot_progress < 0.3 ) {
+                return _( "quite fresh" );
+            }
+            if( rot_progress < 0.5 ) {
+                return _( "near midlife" );
+            }
+            if( rot_progress < 0.7 ) {
+                return _( "past midlife" );
+            }
+            if( rot_progress < 0.9 ) {
+                return _( "getting older" );
+            }
+            if( !it.rotten() ) {
+                return _( "old" );
+            }
+            return _( "rotten" );
         }
 
     private:
@@ -855,7 +860,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else if( uses.size() > 1 ) {
+            }
+            if( uses.size() > 1 ) {
                 return _( "…" );
             }
 
@@ -1072,7 +1078,8 @@ class read_inventory_preset: public pickup_inventory_preset
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
-            } else if( !book_a.skill || !book_b.skill ) {
+            }
+            if( !book_a.skill || !book_b.skill ) {
                 return static_cast<bool>( book_a.skill );
             }
 
@@ -1163,18 +1170,16 @@ class weapon_inventory_preset: public inventory_selector_preset
                                               get_damage_string( ammo_mult, true ),
                                               get_damage_string( total_damage, true )
                                             );
-                    } else {
-                        const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
-
-                        return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
-                                              get_damage_string( basic_damage, true ),
-                                              get_damage_string( ammo_damage, true ),
-                                              get_damage_string( total_damage, true )
-                                            );
                     }
-                } else {
-                    return get_damage_string( total_damage );
+                    const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
+
+                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
+                                          get_damage_string( basic_damage, true ),
+                                          get_damage_string( ammo_damage, true ),
+                                          get_damage_string( total_damage, true )
+                                        );
                 }
+                return get_damage_string( total_damage );
             }, pgettext( "Shot as damage", "SHOT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -1543,7 +1548,8 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 
         if( invlet == KEY_ESCAPE ) {
             break;
-        } else if( invlet == ' ' ) {
+        }
+        if( invlet == ' ' ) {
             p.reassign_item( it, 0 );
             const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
             if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
@@ -1552,7 +1558,8 @@ void game_menus::inv::reassign_letter( player &p, item &it )
                        "If this is undesired, you may wish to change the setting in Options." ) );
             }
             break;
-        } else if( inv_chars.valid( invlet ) ) {
+        }
+        if( inv_chars.valid( invlet ) ) {
             p.reassign_item( it, invlet );
             break;
         }
@@ -1579,11 +1586,11 @@ void game_menus::inv::swap_letters( player &p )
         [ &p ]( const std::string::value_type & elem ) {
             if( p.inv->assigned_invlet.count( elem ) ) {
                 return c_yellow;
-            } else if( p.invlet_to_item( elem ) != nullptr ) {
-                return c_white;
-            } else {
-                return c_dark_gray;
             }
+            if( p.invlet_to_item( elem ) != nullptr ) {
+                return c_white;
+            }
+            return c_dark_gray;
         } );
 
         inv_s.set_hint( invlets );
@@ -1684,29 +1691,38 @@ class bionic_install_preset: public inventory_selector_preset
             if( it->has_flag( flag_FILTHY ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            }
+            if( it->has_flag( flag_NO_STERILE ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            }
+            if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
-            } else if( pa.has_bionic( bid ) ) {
+            }
+            if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
-            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+            }
+            if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
                 return _( "CBM not compatible with patient's body." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
+            }
+            if( bid->upgraded_bionic &&
+                !pa.has_bionic( bid->upgraded_bionic ) &&
+                it->is_upgrade() ) {
                 return _( "No base version installed" );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
+            }
+            if( std::any_of( bid->available_upgrades.begin(),
+                             bid->available_upgrades.end(),
+                             std::bind( &player::has_bionic, &pa,
+                                        std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
-            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
+            }
+            if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM not compatible with patient" );
-            } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
+            }
+            if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
-            } else if( !p.has_enough_anesth( *itemtype, pa ) ) {
+            }
+            if( !p.has_enough_anesth( *itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -1789,22 +1805,28 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
 
             if( it->has_flag( flag_FILTHY ) ) {
                 return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
+            }
+            if( it->has_flag( flag_NO_STERILE ) ) {
                 return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
+            }
+            if( it->has_fault( fault_bionic_salvaged ) ) {
                 return _( "CBM is already deployed." );
-            } else if( pa.has_bionic( bid ) ) {
+            }
+            if( pa.has_bionic( bid ) ) {
                 return _( "CBM is already installed." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
+            }
+            if( bid->upgraded_bionic &&
+                !pa.has_bionic( bid->upgraded_bionic ) &&
+                it->is_upgrade() ) {
                 return _( "No base version installed." );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
+            }
+            if( std::any_of( bid->available_upgrades.begin(),
+                             bid->available_upgrades.end(),
+                             std::bind( &player::has_bionic, &pa,
+                                        std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
+            }
+            if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
                 return _( "CBM is not compatible with patient." );
             }
 
@@ -1849,10 +1871,8 @@ item_location game_menus::inv::install_bionic( player &p, player &patient, bool 
     if( surgeon ) {
         return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, false,
                                  surgeon );
-    } else {
-        return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
     }
-
+    return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
 }
 // Menu used by autodoc when uninstalling a bionic
 class bionic_uninstall_preset : public inventory_selector_preset

@@ -231,17 +231,18 @@ float sunlight( const time_point &p, const bool vision )
 
     if( is_night( p ) ) {
         return moonlight;
-    } else if( is_dawn( p ) ) {
+    }
+    if( is_dawn( p ) ) {
         const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
         const double percent = ( now - sunrise ) / twilight_duration;
         return moonlight * ( 1. - percent ) + daylight * percent;
-    } else if( is_dusk( p ) ) {
+    }
+    if( is_dusk( p ) ) {
         const time_duration sunset = time_past_midnight( ::sunset( p ) );
         const double percent = ( now - sunset ) / twilight_duration;
         return daylight * ( 1. - percent ) + moonlight * percent;
-    } else {
-        return daylight;
     }
+    return daylight;
 }
 
 static std::string to_string_clipped( const int num, const clipped_unit type,
@@ -309,31 +310,35 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
     if( d < 1_minutes ) {
         const int sec = to_seconds<int>( d );
         return { sec, clipped_unit::second };
-    } else if( d < 1_hours ) {
+    }
+    if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
         return { min, clipped_unit::minute };
-    } else if( d < 1_days ) {
+    }
+    if( d < 1_days ) {
         const int hour = to_hours<int>( d );
         return { hour, clipped_unit::hour };
-    } else if( d < 7_days ) {
+    }
+    if( d < 7_days ) {
         const int day = to_days<int>( d );
         return { day, clipped_unit::day };
-    } else if( d < calendar::season_length() || calendar::eternal_season() ) {
+    }
+    if( d < calendar::season_length() || calendar::eternal_season() ) {
         // eternal seasons means one season is indistinguishable from the next,
         // therefore no way to count them
         const int week = to_weeks<int>( d );
         return { week, clipped_unit::week };
-    } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
+    }
+    if( d < calendar::year_length() && !calendar::eternal_season() ) {
         // TODO: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
         return { season, clipped_unit::season };
-    } else {
-        // TODO: consider a to_year function, but year length is variable, so
-        // this might be misleading
-        const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
-        return { year, clipped_unit::year };
     }
+    // TODO: consider a to_year function, but year length is variable, so
+    // this might be misleading
+    const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
+    return { year, clipped_unit::year };
 }
 
 std::string to_string_clipped( const time_duration &d,
@@ -406,10 +411,9 @@ std::string to_string_approx( const time_duration &dur, const bool verbose )
             if( remainder < divider / 2 ) {
                 //~ %s - time (e.g. 2 hours).
                 return make_result( d, _( "more than %s" ), ">%s" );
-            } else {
-                //~ %s - time (e.g. 2 hours).
-                return make_result( d + divider, _( "less than %s" ), "<%s" );
             }
+            //~ %s - time (e.g. 2 hours).
+            return make_result( d + divider, _( "less than %s" ), "<%s" );
         }
     }
     //~ %s - time (e.g. 2 hours).
@@ -425,22 +429,21 @@ std::string to_string_time_of_day( const time_point &p )
 
     if( format_type == "military" ) {
         return string_format( "%02d%02d.%02d", hour, minute, second );
-    } else if( format_type == "24h" ) {
+    }
+    if( format_type == "24h" ) {
         //~ hour:minute (24hr time display)
         return string_format( _( "%02d:%02d:%02d" ), hour, minute, second );
-    } else {
-        int hour_param = hour % 12;
-        if( hour_param == 0 ) {
-            hour_param = 12;
-        }
-        // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
-        const std::string padding = hour_param < 10 ? " " : "";
-        if( hour < 12 ) {
-            return string_format( _( "%d:%02d:%02d%sAM" ), hour_param, minute, second, padding );
-        } else {
-            return string_format( _( "%d:%02d:%02d%sPM" ), hour_param, minute, second, padding );
-        }
     }
+    int hour_param = hour % 12;
+    if( hour_param == 0 ) {
+        hour_param = 12;
+    }
+    // Padding is removed as necessary to prevent clipping with SAFE notification in wide sidebar mode
+    const std::string padding = hour_param < 10 ? " " : "";
+    if( hour < 12 ) {
+        return string_format( _( "%d:%02d:%02d%sAM" ), hour_param, minute, second, padding );
+    }
+    return string_format( _( "%d:%02d:%02d%sPM" ), hour_param, minute, second, padding );
 }
 
 weekdays day_of_week( const time_point &p )
@@ -594,12 +597,11 @@ std::string to_string( const time_point &p )
         const int day = to_days<int>( time_past_new_year( p ) );
         //~ 1 is the year, 2 is the day (of the *year*), 3 is the time of the day in its usual format
         return string_format( _( "Year %1$d, day %2$d %3$s" ), year, day, time );
-    } else {
-        const int day = day_of_season<int>( p ) + 1;
-        //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
-        return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
-                              calendar::name_season( season_of_year( p ) ), day, time );
     }
+    const int day = day_of_season<int>( p ) + 1;
+    //~ 1 is the year, 2 is the season name, 3 is the day (of the season), 4 is the time of the day in its usual format
+    return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
+                          calendar::name_season( season_of_year( p ) ), day, time );
 }
 
 time_point::time_point()

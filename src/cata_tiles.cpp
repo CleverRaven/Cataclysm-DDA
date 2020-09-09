@@ -120,9 +120,11 @@ pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
 {
     if( mode == "solid" ) {
         return pixel_minimap_mode::solid;
-    } else if( mode == "squares" ) {
+    }
+    if( mode == "squares" ) {
         return pixel_minimap_mode::squares;
-    } else if( mode == "dots" ) {
+    }
+    if( mode == "dots" ) {
         return pixel_minimap_mode::dots;
     }
 
@@ -1074,7 +1076,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             target_points.insert( here.getlocal( elem.v->get_autodrive_target().xy() ) );
         }
         if( elem.v->collision_check_points.empty() ) {
-            continue;
         } else {
             for( const point &pt_elem : elem.v->collision_check_points ) {
                 collision_checkpoints.insert( here.getlocal( pt_elem ) );
@@ -2886,9 +2887,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
                                         lit_level::LIT, false, height_3d );
-        } else {
-            return false;
         }
+        return false;
     }
 
     if( result && !is_player ) {

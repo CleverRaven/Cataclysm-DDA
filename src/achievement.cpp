@@ -293,26 +293,27 @@ achievement_completion achievement::time_bound::completed() const
 {
     time_point now = calendar::turn;
     switch( comparison_ ) {
-        case achievement_comparison::equal:
+        case achievement_comparison::equal: {
             if( now == target() ) {
                 return achievement_completion::completed;
-            } else if( now > target() ) {
-                return achievement_completion::failed;
-            } else {
-                return achievement_completion::pending;
             }
-        case achievement_comparison::less_equal:
+            if( now > target() ) {
+                return achievement_completion::failed;
+            }
+            return achievement_completion::pending;
+        }
+        case achievement_comparison::less_equal: {
             if( now <= target() ) {
                 return achievement_completion::completed;
-            } else {
-                return achievement_completion::failed;
             }
-        case achievement_comparison::greater_equal:
+            return achievement_completion::failed;
+        }
+        case achievement_comparison::greater_equal: {
             if( now >= target() ) {
                 return achievement_completion::completed;
-            } else {
-                return achievement_completion::pending;
             }
+            return achievement_completion::pending;
+        }
         case achievement_comparison::anything:
             return achievement_completion::completed;
         case achievement_comparison::last:

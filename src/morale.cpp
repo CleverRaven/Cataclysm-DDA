@@ -544,12 +544,12 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             int max_width() const {
                 if( sep_line ) {
                     return 0;
-                } else if( right.empty() ) {
-                    return left_padding + utf8_width( left ) + right_padding;
-                } else {
-                    return left_padding + utf8_width( left ) + middle_padding_max
-                           + utf8_width( right ) + right_padding;
                 }
+                if( right.empty() ) {
+                    return left_padding + utf8_width( left ) + right_padding;
+                }
+                return left_padding + utf8_width( left ) + middle_padding_max
+                       + utf8_width( right ) + right_padding;
             }
 
             void draw( catacurses::window &w, const int posy ) const {
@@ -796,13 +796,16 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     if( took_prozac != morale.took_prozac ) {
         debugmsg( "player_morale::took_prozac is inconsistent." );
         return false;
-    } else if( took_prozac_bad != morale.took_prozac_bad ) {
+    }
+    if( took_prozac_bad != morale.took_prozac_bad ) {
         debugmsg( "player_morale::took_prozac (bad) is inconsistent." );
         return false;
-    } else if( stylish != morale.stylish ) {
+    }
+    if( stylish != morale.stylish ) {
         debugmsg( "player_morale::stylish is inconsistent." );
         return false;
-    } else if( perceived_pain != morale.perceived_pain ) {
+    }
+    if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
     }

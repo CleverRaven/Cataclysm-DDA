@@ -652,7 +652,8 @@ void sfx::do_vehicle_engine_sfx()
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
-    } else if( player_character.in_sleep_state() && audio_muted ) {
+    }
+    if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
     optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos() );
@@ -774,7 +775,8 @@ void sfx::do_vehicle_exterior_engine_sfx()
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
-    } else if( player_character.in_sleep_state() && audio_muted ) {
+    }
+    if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
 
@@ -855,7 +857,8 @@ void sfx::do_ambient()
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
         return;
-    } else if( player_character.in_sleep_state() && audio_muted ) {
+    }
+    if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
     audio_muted = false;
@@ -1143,16 +1146,17 @@ void sfx::do_projectile_hit( const Creature &target )
         if( is_fleshy ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_id( "stone" ) ) ) {
+        }
+        if( mon.made_of( material_id( "stone" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_id( "steel" ) ) ) {
+        }
+        if( mon.made_of( material_id( "steel" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else {
-            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
-            return;
         }
+        play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
+        return;
     }
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
@@ -1179,8 +1183,9 @@ void sfx::do_danger_music()
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
         return;
-    } else if( ( player_character.in_sleep_state() && audio_muted ) ||
-               is_channel_playing( channel::chainsaw_theme ) ) {
+    }
+    if( ( player_character.in_sleep_state() && audio_muted ) ||
+        is_channel_playing( channel::chainsaw_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         return;
     }
@@ -1198,23 +1203,27 @@ void sfx::do_danger_music()
         fade_audio_group( group::context_themes, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 5 && hostiles <= 9 && !is_channel_playing( channel::danger_low_theme ) ) {
+    }
+    if( hostiles >= 5 && hostiles <= 9 && !is_channel_playing( channel::danger_low_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         play_ambient_variant_sound( "danger_low", "default", 100, channel::danger_low_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 10 && hostiles <= 14 &&
-               !is_channel_playing( channel::danger_medium_theme ) ) {
+    }
+    if( hostiles >= 10 && hostiles <= 14 &&
+        !is_channel_playing( channel::danger_medium_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         play_ambient_variant_sound( "danger_medium", "default", 100, channel::danger_medium_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 15 && hostiles <= 19 && !is_channel_playing( channel::danger_high_theme ) ) {
+    }
+    if( hostiles >= 15 && hostiles <= 19 && !is_channel_playing( channel::danger_high_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         play_ambient_variant_sound( "danger_high", "default", 100, channel::danger_high_theme, 1000 );
         prev_hostiles = hostiles;
         return;
-    } else if( hostiles >= 20 && !is_channel_playing( channel::danger_extreme_theme ) ) {
+    }
+    if( hostiles >= 20 && !is_channel_playing( channel::danger_extreme_theme ) ) {
         fade_audio_group( group::context_themes, 1000 );
         play_ambient_variant_sound( "danger_extreme", "default", 100, channel::danger_extreme_theme, 1000 );
         prev_hostiles = hostiles;
@@ -1231,43 +1240,36 @@ void sfx::do_fatigue()
     17: Stamina 25%*/
     if( player_character.get_stamina() >= player_character.get_stamina_max() * .75 ) {
         fade_audio_group( group::fatigue, 2000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_low", 100, channel::stamina_75, 1000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_med", 100, channel::stamina_50, 1000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_m_high", 100, channel::stamina_35, 1000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_low", 100, channel::stamina_75, 1000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_med", 100, channel::stamina_50, 1000 );
-        return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && !player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
         fade_audio_group( group::fatigue, 1000 );
         play_ambient_variant_sound( "plmove", "fatigue_f_high", 100, channel::stamina_35, 1000 );
-        return;
     }
 }
 
@@ -1401,35 +1403,27 @@ void sfx::do_footstep()
         if( !player_character.wearing_something_on( bodypart_id( "foot_l" ) ) ) {
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
             play_variant_sound( "plmove", terrain.str(), heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( grass.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "walk_grass", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( dirt.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "walk_dirt", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( metal.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "walk_metal", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( terrain->has_flag( TFLAG_DEEP_WATER ) || terrain->has_flag( TFLAG_SHALLOW_WATER ) ) {
             play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else if( chain_fence.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         } else {
             play_variant_sound( "plmove", "walk_tarmac", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-            return;
         }
     }
 }

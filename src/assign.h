@@ -581,7 +581,8 @@ read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T
         // JSON contained a raw number -> apply factor
         val = tmp * factor;
         return true;
-    } else if( jo.has_string( name ) ) {
+    }
+    if( jo.has_string( name ) ) {
         // JSON contained a time duration string -> no factor
         val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
         return true;

@@ -242,18 +242,20 @@ int weather_generator::get_wind_direction( const season_type season ) const
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
         return distribution( wind_dir_gen );
-    } else if( season == SUMMER ) {
+    }
+    if( season == SUMMER ) {
         std::discrete_distribution<int> distribution {3, 4, 4, 8, 8, 9, 8, 3, 7, 8, 10, 7, 7, 7, 5, 3};
         return distribution( wind_dir_gen );
-    } else if( season == AUTUMN ) {
+    }
+    if( season == AUTUMN ) {
         std::discrete_distribution<int> distribution {4, 6, 6, 7, 6, 5, 4, 3, 5, 6, 8, 8, 10, 10, 8, 5};
         return distribution( wind_dir_gen );
-    } else if( season == WINTER ) {
+    }
+    if( season == WINTER ) {
         std::discrete_distribution<int> distribution {5, 3, 2, 3, 2, 2, 2, 2, 4, 6, 10, 8, 12, 19, 13, 9};
         return distribution( wind_dir_gen );
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 int weather_generator::convert_winddir( const int inputdir ) const

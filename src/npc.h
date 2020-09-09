@@ -160,9 +160,8 @@ class job_data
             auto it = task_priorities.find( req_job );
             if( it != task_priorities.end() ) {
                 return it->second;
-            } else {
-                return 0;
             }
+            return 0;
         }
         std::vector<activity_id> get_prioritised_vector() const {
             std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );

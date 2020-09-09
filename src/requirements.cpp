@@ -137,9 +137,8 @@ std::string tool_comp::to_string( const int batch, const int ) const
         return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
                                          count * batch ),
                               item::nname( type ), count * batch );
-    } else {
-        return item::nname( type, std::abs( count ) );
     }
+    return item::nname( type, std::abs( count ) );
 }
 
 std::string item_comp::to_string( const int batch, const int avail ) const
@@ -153,31 +152,30 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                              "%1$s (%2$d of infinite)",
                                              c ),
                                   type_ptr->nname( 1 ), c );
-        } else if( avail > 0 ) {
+        }
+        if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
                                   type_ptr->nname( 1 ), c, avail );
-        } else {
-            //~ %1$s: item name, %2$d: charge requirement
-            return string_format( npgettext( "requirement", "%1$s (%2$d)", "%1$s (%2$d)", c ),
-                                  type_ptr->nname( 1 ), c );
         }
-    } else {
-        if( avail == item::INFINITE_CHARGES ) {
-            //~ %1$s: item name, %2$d: required count
-            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
-                                             c ),
-                                  type_ptr->nname( c ), c );
-        } else if( avail > 0 ) {
-            //~ %1$s: item name, %2$d: required count, %3%d: available count
-            return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
-                                  type_ptr->nname( c ), c, avail );
-        } else {
-            //~ %1$s: item name, %2$d: required count
-            return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
-                                  type_ptr->nname( c ), c );
-        }
+        //~ %1$s: item name, %2$d: charge requirement
+        return string_format( npgettext( "requirement", "%1$s (%2$d)", "%1$s (%2$d)", c ),
+                              type_ptr->nname( 1 ), c );
     }
+    if( avail == item::INFINITE_CHARGES ) {
+        //~ %1$s: item name, %2$d: required count
+        return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
+                                         c ),
+                              type_ptr->nname( c ), c );
+    }
+    if( avail > 0 ) {
+        //~ %1$s: item name, %2$d: required count, %3%d: available count
+        return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
+                              type_ptr->nname( c ), c, avail );
+    }
+    //~ %1$s: item name, %2$d: required count
+    return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
+                          type_ptr->nname( c ), c );
 }
 
 void quality_requirement::load( const JsonValue &value )
@@ -744,16 +742,15 @@ bool tool_comp::has(
     }
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
-    } else {
-        int charges_required = count * batch * item::find_type( type )->charge_factor();
-
-        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
-            charges_required = charges_required / 20 + charges_required % 20;
-        }
-
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
-        return charges_found == charges_required;
     }
+    int charges_required = count * batch * item::find_type( type )->charge_factor();
+
+    if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
+        charges_required = charges_required / 20 + charges_required % 20;
+    }
+
+    int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
+    return charges_found == charges_required;
 }
 
 nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
@@ -761,7 +758,8 @@ nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
 {
     if( available == available_status::a_insufficent ) {
         return c_brown;
-    } else if( has( crafting_inv, filter, batch ) ) {
+    }
+    if( has( crafting_inv, filter, batch ) ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
@@ -777,9 +775,8 @@ bool item_comp::has(
     const int cnt = std::abs( count ) * batch;
     if( item::count_by_charges( type ) ) {
         return crafting_inv.has_charges( type, cnt, filter );
-    } else {
-        return crafting_inv.has_components( type, cnt, filter );
     }
+    return crafting_inv.has_components( type, cnt, filter );
 }
 
 nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
@@ -787,7 +784,8 @@ nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
 {
     if( available == available_status::a_insufficent ) {
         return c_brown;
-    } else if( has( crafting_inv, filter, batch ) ) {
+    }
+    if( has( crafting_inv, filter, batch ) ) {
         return c_green;
     }
     return has_one ? c_dark_gray  : c_red;

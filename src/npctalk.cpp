@@ -219,19 +219,17 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
     const int npc_count = npc_list.size();
     if( npc_count == 1 ) {
         return 0;
-    } else {
-        uilist nmenu;
-        nmenu.text = prompt;
-        for( const npc *elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
-        }
-        if( npc_count > 1 && everyone ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
-        }
-        nmenu.query();
-        return nmenu.ret;
     }
-
+    uilist nmenu;
+    nmenu.text = prompt;
+    for( const npc *elem : npc_list ) {
+        nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
+    }
+    if( npc_count > 1 && everyone ) {
+        nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+    }
+    nmenu.query();
+    return nmenu.ret;
 }
 
 static void npc_batch_override_toggle(
@@ -666,8 +664,9 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
-        } else if( spriority < sounds::sound_t::destructive_activity &&
-                   get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
+        }
+        if( spriority < sounds::sound_t::destructive_activity &&
+            get_attitude_group( get_attitude() ) != attitude_group::hostile ) {
             return;
         }
     }
@@ -798,10 +797,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     if( topic == "TALK_NOFACE" ) {
         return _( "&You can't talk without your face." );
-    } else if( topic == "TALK_DEAF" ) {
+    }
+    if( topic == "TALK_DEAF" ) {
         return _( "&You are deaf and can't talk." );
 
-    } else if( topic == "TALK_DEAF_ANGRY" ) {
+    }
+    if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
@@ -855,34 +856,41 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
-    } else if( topic == "TALK_TRAIN" ) {
+    }
+    if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
-        } else if( beta->skills_offered_to( *alpha ).empty() &&
-                   beta->styles_offered_to( *alpha ).empty() &&
-                   beta->spells_offered_to( *alpha ).empty() ) {
-            return _( "Sorry, but it doesn't seem I have anything to teach you." );
-        } else {
-            return _( "Here's what I can teach you…" );
         }
-    } else if( topic == "TALK_HOW_MUCH_FURTHER" ) {
+        if( beta->skills_offered_to( *alpha ).empty() &&
+            beta->styles_offered_to( *alpha ).empty() &&
+            beta->spells_offered_to( *alpha ).empty() ) {
+            return _( "Sorry, but it doesn't seem I have anything to teach you." );
+        }
+        return _( "Here's what I can teach you…" );
+    }
+    if( topic == "TALK_HOW_MUCH_FURTHER" ) {
         return beta->distance_to_goal();
-    } else if( topic == "TALK_DESCRIBE_MISSION" ) {
+    }
+    if( topic == "TALK_DESCRIBE_MISSION" ) {
         return beta->get_job_description();
-    } else if( topic == "TALK_SHOUT" ) {
+    }
+    if( topic == "TALK_SHOUT" ) {
         alpha->shout();
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
-        } else {
-            return _( "&You yell." );
         }
-    } else if( topic == "TALK_SIZE_UP" ) {
+        return _( "&You yell." );
+    }
+    if( topic == "TALK_SIZE_UP" ) {
         return beta->evaluation_by( *alpha );
-    } else if( topic == "TALK_LOOK_AT" ) {
+    }
+    if( topic == "TALK_LOOK_AT" ) {
         return "&" + beta->short_description();
-    } else if( topic == "TALK_OPINION" ) {
+    }
+    if( topic == "TALK_OPINION" ) {
         return "&" + beta->opinion_text();
-    } else if( topic == "TALK_MIND_CONTROL" ) {
+    }
+    if( topic == "TALK_MIND_CONTROL" ) {
         if( beta->enslave_mind() ) {
             return _( "YES, MASTER!" );
         }
@@ -918,10 +926,9 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     if( first ) {
         responses.insert( responses.begin(), result );
         return responses.front();
-    } else {
-        responses.push_back( result );
-        return responses.back();
     }
+    responses.push_back( result );
+    return responses.back();
 }
 
 talk_response &dialogue::add_response_done( const std::string &text )
@@ -1375,7 +1382,8 @@ std::set<dialogue_consequence> talk_response::get_consequences( const dialogue &
     int chance = trial.calc_chance( d );
     if( chance >= 100 ) {
         return { success.get_consequence( d ) };
-    } else if( chance <= 0 ) {
+    }
+    if( chance <= 0 ) {
         return { failure.get_consequence( d ) };
     }
 
@@ -2363,7 +2371,6 @@ void talk_effect_t::load_effect( const JsonObject &jo )
     }
     static const std::string member_name( "effect" );
     if( !jo.has_member( member_name ) ) {
-        return;
     } else if( jo.has_string( member_name ) ) {
         const std::string type = jo.get_string( member_name );
         parse_string_effect( type, jo );
@@ -2548,15 +2555,16 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::str
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
-    } else if( jo.has_object( member_name ) ) {
+    }
+    if( jo.has_object( member_name ) ) {
         return dynamic_line_t( jo.get_object( member_name ) );
-    } else if( jo.has_string( member_name ) ) {
+    }
+    if( jo.has_string( member_name ) ) {
         translation line;
         jo.read( member_name, line );
         return dynamic_line_t( line );
-    } else {
-        return dynamic_line_t{};
     }
+    return dynamic_line_t{};
 }
 
 dynamic_line_t::dynamic_line_t( const translation &line )
@@ -2636,7 +2644,8 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
                     return ( dcondition( d ) ? yes : no )( d );
                 };
                 return;
-            } else if( jo.has_member( sub_member ) ) {
+            }
+            if( jo.has_member( sub_member ) ) {
                 dcondition = conditional_t<dialogue>( sub_member );
                 const dynamic_line_t yes_member = from_member( jo, sub_member );
                 function = [dcondition, yes_member, no]( const dialogue & d ) {

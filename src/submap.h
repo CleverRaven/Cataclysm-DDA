@@ -139,7 +139,8 @@ class submap : maptile_soa<SEEX, SEEY>
             is_uniform = false;
             if( !i.is_emissive() ) {
                 return;
-            } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+            }
+            if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
                 lum[p.x][p.y]--;
                 return;
             }

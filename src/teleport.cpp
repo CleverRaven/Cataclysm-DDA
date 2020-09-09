@@ -71,32 +71,32 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
-        } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-                                    poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+        }
+        if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+                             poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
-        } else {
-            const bool poor_soul_is_u = poor_soul->is_avatar();
-            if( poor_soul_is_u ) {
-                add_msg( m_bad, _( "…" ) );
-                add_msg( m_bad, _( "You explode into thousands of fragments." ) );
-            }
-            if( p ) {
-                p->add_msg_player_or_npc( m_warning,
-                                          _( "You teleport into %s, and they explode into thousands of fragments." ),
-                                          _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
-                                          poor_soul->disp_name() );
-                get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
-            } else {
-                if( get_player_view().sees( *poor_soul ) ) {
-                    add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
-                             critter.disp_name(), poor_soul->disp_name() );
-                }
-            }
-            //Splatter real nice.
-            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
-            poor_soul->check_dead_state();
         }
+        const bool poor_soul_is_u = poor_soul->is_avatar();
+        if( poor_soul_is_u ) {
+            add_msg( m_bad, _( "…" ) );
+            add_msg( m_bad, _( "You explode into thousands of fragments." ) );
+        }
+        if( p ) {
+            p->add_msg_player_or_npc( m_warning,
+                                      _( "You teleport into %s, and they explode into thousands of fragments." ),
+                                      _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
+                                      poor_soul->disp_name() );
+            get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
+        } else {
+            if( get_player_view().sees( *poor_soul ) ) {
+                add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
+                         critter.disp_name(), poor_soul->disp_name() );
+            }
+        }
+        //Splatter real nice.
+        poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
+        poor_soul->check_dead_state();
     }
 
     critter.setpos( new_pos );

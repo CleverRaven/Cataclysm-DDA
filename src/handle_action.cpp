@@ -382,7 +382,6 @@ inline static void rcdrive( const point &d )
         here.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
-        return;
     } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
         tripoint src( c );
         //~ Sound of moving a remote controlled car
@@ -392,7 +391,6 @@ inline static void rcdrive( const point &d )
         car_location_string.clear();
         car_location_string << dest.x << ' ' << dest.y << ' ' << dest.z;
         player_character.set_value( "remote_controlling", car_location_string.str() );
-        return;
     }
 }
 
@@ -429,7 +427,8 @@ static void pldrive( const tripoint &p )
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             player_character.controlling_vehicle = false;
             return;
-        } else if( !has_controls && has_animal_controls && !has_animal ) {
+        }
+        if( !has_controls && has_animal_controls && !has_animal ) {
             add_msg( m_info, _( "You can't drive this vehicle without an animal to pull it." ) );
             player_character.controlling_vehicle = false;
             return;
@@ -500,9 +499,8 @@ static void open()
                 if( !veh->handle_potential_theft( player_character ) ) {
                     player_character.moves += 100;
                     return;
-                } else {
-                    veh->open( openable );
                 }
+                veh->open( openable );
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -517,9 +515,8 @@ static void open()
                     if( !veh->handle_potential_theft( player_character ) ) {
                         player_character.moves += 100;
                         return;
-                    } else {
-                        veh->open_all_at( openable );
                     }
+                    veh->open_all_at( openable );
                 }
             }
         } else {
@@ -542,7 +539,8 @@ static void open()
         if( here.has_flag( flag_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
             return;
-        } else if( tid.obj().close ) {
+        }
+        if( tid.obj().close ) {
             // if the following message appears unexpectedly, the prior check was for t_door_o
             add_msg( m_info, _( "That door is already open." ) );
             player_character.moves += 100;
@@ -723,7 +721,8 @@ static void smash()
         if( smashskill < bash_info.str_min && one_in( 10 ) ) {
             add_msg( m_neutral, _( "You don't seem to be damaging the %s." ), fd_to_smsh.first->get_name() );
             return;
-        } else if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
+        }
+        if( smashskill >= rng( bash_info.str_min, bash_info.str_max ) ) {
             sounds::sound( smashp, bash_info.sound_vol, sounds::sound_t::combat, bash_info.sound, true, "smash",
                            "field" );
             here.remove_field( smashp, fd_to_smsh.first );
@@ -731,12 +730,11 @@ static void smash()
             player_character.mod_moves( - bash_info.fd_bash_move_cost );
             add_msg( m_info, bash_info.field_bash_msg_success.translated() );
             return;
-        } else {
-            sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
-                           true, "smash",
-                           "field" );
-            return;
         }
+        sounds::sound( smashp, bash_info.sound_fail_vol, sounds::sound_t::combat, bash_info.sound_fail,
+                       true, "smash",
+                       "field" );
+        return;
     }
 
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
@@ -1666,7 +1664,8 @@ bool game::handle_action()
             const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
-            } else if( !player_character.sees( *mouse_pos ) ) {
+            }
+            if( !player_character.sees( *mouse_pos ) ) {
                 // Not clicked in visible terrain
                 return false;
             }
@@ -2144,7 +2143,8 @@ bool game::handle_action()
                         item::reload_option opt = player_character.select_ammo( player_character.weapon, false );
                         if( !opt ) {
                             break;
-                        } else if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {
+                        }
+                        if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {
                             player_character.ammo_location = item_location();
                         } else {
                             player_character.ammo_location = opt.ammo;

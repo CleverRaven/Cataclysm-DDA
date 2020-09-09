@@ -126,10 +126,12 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
     if( input == 'w' ) {
         whitelist = true;
         return true;
-    } else if( input == 'b' ) {
+    }
+    if( input == 'b' ) {
         whitelist = false;
         return true;
-    } else if( input == 'p' ) {
+    }
+    if( input == 'p' ) {
         string_input_popup popup;
         popup.title( string_format( _( "Enter Priority (current priority %d)" ),
                                     selected_pocket->settings.priority() ) );
@@ -168,7 +170,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         return true;
-    } else if( cat_id ) {
+    }
+    if( cat_id ) {
         const std::vector<item_category> &all_cat = item_category::get_all();
         for( const item_category &cat : all_cat ) {
             selector_menu.addentry( cat.name() );
@@ -293,7 +296,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                         insert_item( *it, pocket.get_pocket_data()->type );
                     }
                     continue;
-                } else if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+                }
+                if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
                     // skipping mod type pocket because using combine this way requires mods to come first
                     // and to call update_mod_pockets
                     ++pocket_index;
@@ -304,8 +308,9 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                     // this is already handled in item_contents::read_mods
                     ++pocket_index;
                     continue;
-                } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
-                           pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
+                }
+                if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
+                    pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
                     for( const item *it : pocket.all_items_top() ) {
                         insert_item( *it, pocket.saved_type() );
                     }
@@ -378,9 +383,8 @@ struct item_contents::item_contents_helper {
             ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
             if( ret_contain.success() ) {
                 return ret_val<my_pocket_type *>::make_success( &pocket, ret_contain.str() );
-            } else {
-                failure_messages.push_back( ret_contain.str() );
             }
+            failure_messages.push_back( ret_contain.str() );
         }
 
         if( failure_messages.empty() ) {
@@ -427,9 +431,8 @@ int item_contents::insert_cost( const item &it ) const
     ret_val<const item_pocket *> pocket = find_pocket_for( it, item_pocket::pocket_type::CONTAINER );
     if( pocket.success() ) {
         return pocket.value()->moves();
-    } else {
-        return -1;
     }
+    return -1;
 }
 
 ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -819,12 +822,10 @@ item_contents::sealed_summary item_contents::get_sealed_summary() const
     if( any_sealed ) {
         if( any_unsealed ) {
             return sealed_summary::part_sealed;
-        } else {
-            return sealed_summary::all_sealed;
         }
-    } else {
-        return sealed_summary::unsealed;
+        return sealed_summary::all_sealed;
     }
+    return sealed_summary::unsealed;
 }
 
 bool item_contents::has_pocket_type( const item_pocket::pocket_type pk_type ) const
@@ -1149,9 +1150,8 @@ void item_contents::update_modified_pockets(
                     found = true;
                     // there will not be more than one pocket with the same pocket_data pointer, so exit early
                     break;
-                } else {
-                    ++container_pocket;
                 }
+                ++container_pocket;
             }
 
             if( !found ) {
@@ -1240,9 +1240,8 @@ ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pocke
     }
     if( found ) {
         return ret_val<std::vector<const item_pocket *>>::make_success( pockets );
-    } else {
-        return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
     }
+    return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
 }
 
 units::volume item_contents::total_container_capacity() const

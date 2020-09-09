@@ -433,8 +433,9 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( player_character.has_trait_flag( "PRED1" ) ) ||
-               ( player_character.has_trait_flag( "PRED2" ) ) ) {
+    }
+    if( ( player_character.has_trait_flag( "PRED1" ) ) ||
+        ( player_character.has_trait_flag( "PRED2" ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {

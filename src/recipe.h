@@ -132,9 +132,8 @@ class recipe
         requirement_data disassembly_requirements() const {
             if( reversible ) {
                 return simple_requirements().disassembly_requirements();
-            } else {
-                return {};
             }
+            return {};
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).

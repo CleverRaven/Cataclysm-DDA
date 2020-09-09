@@ -1594,9 +1594,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     const bool has_relic = used->is_relic();
     if( use_methods.empty() && !has_relic ) {
         return false;
-    } else if( num_methods == 1 && !has_relic ) {
+    }
+    if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt );
-    } else if( num_methods == 0 && has_relic ) {
+    }
+    if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
 
@@ -1841,11 +1843,12 @@ std::string points_left::to_string()
                    skill_points >= 0 ? '+' : '-',
                    skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
                    is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
     }
+    if( limit == ONE_POOL ) {
+        return string_format( _( "Points left: %4d" ), skill_points_left() );
+    }
+    if( limit == TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    }
+    return _( "Freeform" );
 }

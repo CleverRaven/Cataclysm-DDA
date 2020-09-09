@@ -231,12 +231,11 @@ item *aim_activity_actor::get_weapon()
     if( fake_weapon.has_value() ) {
         // TODO: check if the player lost relevant bionic/mutation
         return &fake_weapon.value();
-    } else {
-        // Check for lost gun (e.g. yanked by zombie technician)
-        // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = &get_player_character().weapon;
-        return weapon->is_null() ? nullptr : weapon;
     }
+    // Check for lost gun (e.g. yanked by zombie technician)
+    // TODO: check that this is the same gun that was used to start aiming
+    item *weapon = &get_player_character().weapon;
+    return weapon->is_null() ? nullptr : weapon;
 }
 
 void aim_activity_actor::restore_view()
@@ -560,11 +559,11 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
             }
         }
         return hack_result::FAIL;
-    } else if( success < 6 ) {
-        return hack_result::NOTHING;
-    } else {
-        return hack_result::SUCCESS;
     }
+    if( success < 6 ) {
+        return hack_result::NOTHING;
+    }
+    return hack_result::SUCCESS;
 }
 
 static hack_type get_hack_type( const tripoint &examp )

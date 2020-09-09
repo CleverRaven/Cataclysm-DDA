@@ -901,7 +901,6 @@ void avatar::power_bionics()
                     if( moves < 0 ) {
                         return;
                     }
-                    continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
                               "To read a description of %s, press '%s', then '%c'." ), bio_data.name,

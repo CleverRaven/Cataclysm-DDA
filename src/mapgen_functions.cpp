@@ -2648,9 +2648,8 @@ void mapgen_forest( mapgendata &dat )
         const ter_furn_id *feature = feature_pool.pick();
         if( feature == nullptr ) {
             return no_ter_furn;
-        } else {
-            return *feature;
         }
+        return *feature;
     };
 
     // Get the current biome def for this terrain.

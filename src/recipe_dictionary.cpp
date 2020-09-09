@@ -237,9 +237,11 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return uistate.favorite_recipes.empty();
-    } else if( subcat == "CSC_*_RECENT" ) {
+    }
+    if( subcat == "CSC_*_RECENT" ) {
         return uistate.recent_recipes.empty();
-    } else if( subcat == "CSC_*_HIDDEN" ) {
+    }
+    if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
     }
 
@@ -247,11 +249,10 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
     if( iter != category.end() ) {
         if( subcat.empty() ) {
             return false;
-        } else {
-            for( const recipe *e : iter->second ) {
-                if( e->subcategory == subcat ) {
-                    return false;
-                }
+        }
+        for( const recipe *e : iter->second ) {
+            if( e->subcategory == subcat ) {
+                return false;
             }
         }
     }

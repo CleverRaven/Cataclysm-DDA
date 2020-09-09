@@ -232,12 +232,13 @@ bool Creature::sees( const Creature &critter ) const
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
-    } else if( ( wanted_range > 1 && critter.digging() ) ||
-               ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
-               ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
-               ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
-                 !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
-                    std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
+    }
+    if( ( wanted_range > 1 && critter.digging() ) ||
+        ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
+        ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
+        ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
+          !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
+             std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
     if( ch != nullptr ) {
@@ -310,12 +311,10 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
             int adj_range = std::floor( range * player_visibility_factor );
             return adj_range >= wanted_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
-        } else {
-            return here.sees( pos(), t, range );
         }
-    } else {
-        return false;
+        return here.sees( pos(), t, range );
     }
+    return false;
 }
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
@@ -1121,9 +1120,8 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, permanent, intensity, true );
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, bool permanent, int intensity, bool force )
@@ -1184,16 +1182,15 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
     // num_bp means anything targeted or not
     if( bp == bodypart_str_id( "bp_null" ) ) {
         return effects->find( eff_id ) != effects->end();
-    } else {
-        auto got_outer = effects->find( eff_id );
-        if( got_outer != effects->end() ) {
-            auto got_inner = got_outer->second.find( bp );
-            if( got_inner != got_outer->second.end() ) {
-                return true;
-            }
-        }
-        return false;
     }
+    auto got_outer = effects->find( eff_id );
+    if( got_outer != effects->end() ) {
+        auto got_inner = got_outer->second.find( bp );
+        if( got_inner != got_outer->second.end() ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Creature::has_effect( const efftype_id &eff_id ) const
@@ -1587,12 +1584,11 @@ static T get_part_helper( const Creature &c, const bodypart_id &id,
     const bodypart *const part = c.get_part( id );
     if( part ) {
         return ( part->*get )();
-    } else {
-        // If the bodypart doesn't exist, return the appropriate accessor on the null bodypart.
-        // Static null bodypart variable, otherwise the compiler notes the possible return of local variable address (#42798).
-        static const bodypart bp_null;
-        return ( bp_null.*get )();
     }
+    // If the bodypart doesn't exist, return the appropriate accessor on the null bodypart.
+    // Static null bodypart variable, otherwise the compiler notes the possible return of local variable address (#42798).
+    static const bodypart bp_null;
+    return ( bp_null.*get )();
 }
 
 namespace

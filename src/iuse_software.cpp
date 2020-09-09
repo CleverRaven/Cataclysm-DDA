@@ -30,7 +30,8 @@ bool play_videogame( const std::string &function_name,
         }
 
         return foundkitten;
-    } else if( function_name == "snake_game" ) {
+    }
+    if( function_name == "snake_game" ) {
         snake_game sg;
         int iScore = sg.start_game();
 
@@ -43,7 +44,8 @@ bool play_videogame( const std::string &function_name,
         }
 
         return true;
-    } else if( function_name == "sokoban_game" ) {
+    }
+    if( function_name == "sokoban_game" ) {
         sokoban_game sg;
         int iScore = sg.start_game();
 
@@ -56,24 +58,25 @@ bool play_videogame( const std::string &function_name,
         }
 
         return true;
-    } else if( function_name == "minesweeper_game" ) {
+    }
+    if( function_name == "minesweeper_game" ) {
         minesweeper_game mg;
         score = mg.start_game();
 
         return true;
-    } else if( function_name == "lightson_game" ) {
+    }
+    if( function_name == "lightson_game" ) {
         lightson_game lg;
         int iScore = lg.start_game();
         score = std::min( 15, iScore * 3 );
 
         return true;
-    } else {
-        score = -5;
-        /* morale/activity workaround >.> */
-        game_data["end_message"] = string_format(
-                                       _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
-                                       function_name );
-        // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
-        return false;
     }
+    score = -5;
+    /* morale/activity workaround >.> */
+    game_data["end_message"] = string_format(
+                                   _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
+                                   function_name );
+    // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+    return false;
 }

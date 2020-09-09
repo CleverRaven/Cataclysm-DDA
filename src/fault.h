@@ -54,9 +54,8 @@ class fault
         const mending_method *find_mending_method( const std::string &id ) const {
             if( mending_methods_.find( id ) != mending_methods_.end() ) {
                 return &mending_methods_.at( id );
-            } else {
-                return nullptr;
             }
+            return nullptr;
         }
 
         bool has_flag( const std::string &flag ) const {

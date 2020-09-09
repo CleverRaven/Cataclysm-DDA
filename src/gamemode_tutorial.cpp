@@ -197,19 +197,24 @@ void tutorial_game::per_turn()
         if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == t_door_c ) {
+        }
+        if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == t_window ) {
+        }
+        if( here.ter( p ) == t_window ) {
             add_message( tut_lesson::LESSON_SMASH );
             break;
-        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
+        }
+        if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( here.ter( p ) == t_stairs_down ) {
+        }
+        if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == t_water_sh ) {
+        }
+        if( here.ter( p ) == t_water_sh ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         }

@@ -54,9 +54,8 @@ static cata::optional<input_event> key_bound_to( const input_context &ctxt,
     const std::vector<input_event> keys = ctxt.keys_bound_to( act, /*maximum_modifier_count=*/1 );
     if( keys.empty() ) {
         return cata::nullopt;
-    } else {
-        return keys.front();
     }
+    return keys.front();
 }
 
 class actmenu_cb : public uilist_callback
@@ -304,9 +303,8 @@ void game::item_action_menu()
         const use_function *method = elem.second->get_use( elem.first );
         if( method ) {
             return std::make_tuple( method->get_type(), method->get_name(), ss );
-        } else {
-            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
         }
+        return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
     } );
     // Sort mapped actions.
     sort_menu( menu_items.begin(), menu_items.end() );
@@ -361,9 +359,8 @@ std::string use_function::get_type() const
 {
     if( actor ) {
         return actor->type;
-    } else {
-        return errstring;
     }
+    return errstring;
 }
 
 ret_val<bool> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
@@ -385,8 +382,7 @@ std::string use_function::get_name() const
 {
     if( actor ) {
         return actor->get_name();
-    } else {
-        return errstring;
     }
+    return errstring;
 }
 

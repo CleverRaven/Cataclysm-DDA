@@ -851,7 +851,8 @@ void color_manager::show_gui()
 
         if( action == "QUIT" ) {
             break;
-        } else if( action == "UP" ) {
+        }
+        if( action == "UP" ) {
             iCurrentLine--;
             if( iCurrentLine < 0 ) {
                 iCurrentLine = iMaxColors - 1;

@@ -249,9 +249,8 @@ class string_formatter
         RT get_nth_arg_as( const unsigned int requested, T &&head, Args &&... args ) const {
             if( requested > current_index ) {
                 return get_nth_arg_as < RT, current_index + 1 > ( requested, std::forward<Args>( args )... );
-            } else {
-                return convert( static_cast<RT *>( nullptr ), *this, std::forward<T>( head ), 0 );
             }
+            return convert( static_cast<RT *>( nullptr ), *this, std::forward<T>( head ), 0 );
         }
         /**@}*/
 

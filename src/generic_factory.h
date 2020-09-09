@@ -527,9 +527,8 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
                 jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
-            } else {
-                jo.throw_error( "missing mandatory member \"" + name + "\"" );
             }
+            jo.throw_error( "missing mandatory member \"" + name + "\"" );
         }
     }
 }
@@ -541,9 +540,8 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
         if( !was_loaded ) {
             if( jo.has_member( name ) ) {
                 jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
-            } else {
-                jo.throw_error( "missing mandatory member \"" + name + "\"" );
             }
+            jo.throw_error( "missing mandatory member \"" + name + "\"" );
         }
     }
 }
@@ -634,9 +632,8 @@ inline bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
         // Legacy fallback to integer `sym`.
         if( !jo.read( member_name, sym_as_int ) ) {
             return false;
-        } else {
-            sym_as_string = string_from_int( sym_as_int );
         }
+        sym_as_string = string_from_int( sym_as_int );
     }
     uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
     if( mk_wcwidth( sym_as_codepoint ) != 1 ) {
@@ -827,21 +824,21 @@ class generic_typed_reader
                 reader_detail::handler<C>().clear( container );
                 derived.insert_values_from( jo, member_name, container );
                 return true;
-            } else if( !was_loaded ) {
-                return false;
-            } else {
-                if( jo.has_object( "extend" ) ) {
-                    JsonObject tmp = jo.get_object( "extend" );
-                    tmp.allow_omitted_members();
-                    derived.insert_values_from( tmp, member_name, container );
-                }
-                if( jo.has_object( "delete" ) ) {
-                    JsonObject tmp = jo.get_object( "delete" );
-                    tmp.allow_omitted_members();
-                    derived.erase_values_from( tmp, member_name, container );
-                }
-                return true;
             }
+            if( !was_loaded ) {
+                return false;
+            }
+            if( jo.has_object( "extend" ) ) {
+                JsonObject tmp = jo.get_object( "extend" );
+                tmp.allow_omitted_members();
+                derived.insert_values_from( tmp, member_name, container );
+            }
+            if( jo.has_object( "delete" ) ) {
+                JsonObject tmp = jo.get_object( "delete" );
+                tmp.allow_omitted_members();
+                derived.erase_values_from( tmp, member_name, container );
+            }
+            return true;
         }
 
         /**

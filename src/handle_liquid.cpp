@@ -321,15 +321,16 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( player_character.activity, *source_veh, part_num, liquid );
             return true;
-        } else if( source_pos != nullptr ) {
+        }
+        if( source_pos != nullptr ) {
             player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
-        } else if( source_mon != nullptr ) {
-            return false;
-        } else {
+        }
+        if( source_mon != nullptr ) {
             return false;
         }
+        return false;
     };
 
     map &here = get_map();

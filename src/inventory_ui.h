@@ -117,9 +117,8 @@ class inventory_entry
                 debugmsg( "inventory_entry::any_item called on a non-item entry.  "
                           "Test inventory_entry::is_item before calling this function." );
                 return item_location::nowhere;
-            } else {
-                return locations.front();
             }
+            return locations.front();
         }
 
         size_t get_stack_size() const {
@@ -375,9 +374,8 @@ class inventory_column
         bool indent_entries() const {
             if( indent_entries_override ) {
                 return *indent_entries_override;
-            } else {
-                return preset.indent_entries();
             }
+            return preset.indent_entries();
         }
 
         void set_indent_entries_override( bool entry_override ) {

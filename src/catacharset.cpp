@@ -175,9 +175,8 @@ std::string left_justify( const std::string &str, const int width, const bool ig
     int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
         return str;
-    } else {
-        return str + std::string( width - str_width, ' ' );
     }
+    return str + std::string( width - str_width, ' ' );
 }
 
 std::string right_justify( const std::string &str, const int width, const bool ignore_tags )
@@ -185,18 +184,16 @@ std::string right_justify( const std::string &str, const int width, const bool i
     int str_width = utf8_width( str, ignore_tags );
     if( str_width >= width ) {
         return str;
-    } else {
-        return std::string( width - str_width, ' ' ) + str;
     }
+    return std::string( width - str_width, ' ' ) + str;
 }
 
 std::string utf8_justify( const std::string &str, const int width, const bool ignore_tags )
 {
     if( width < 0 ) {
         return left_justify( str, -width, ignore_tags );
-    } else {
-        return right_justify( str, width, ignore_tags );
     }
+    return right_justify( str, width, ignore_tags );
 }
 
 //Convert cursor position to byte offset

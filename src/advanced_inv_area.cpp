@@ -40,15 +40,17 @@ int advanced_inv_area::get_item_count() const
     Character &player_character = get_player_character();
     if( id == AIM_INVENTORY ) {
         return player_character.inv->size();
-    } else if( id == AIM_WORN ) {
-        return player_character.worn.size();
-    } else if( id == AIM_ALL ) {
-        return 0;
-    } else if( id == AIM_DRAGGED ) {
-        return can_store_in_vehicle() ? veh->get_items( vstor ).size() : 0;
-    } else {
-        return get_map().i_at( pos ).size();
     }
+    if( id == AIM_WORN ) {
+        return player_character.worn.size();
+    }
+    if( id == AIM_ALL ) {
+        return 0;
+    }
+    if( id == AIM_DRAGGED ) {
+        return can_store_in_vehicle() ? veh->get_items( vstor ).size() : 0;
+    }
+    return get_map().i_at( pos ).size();
 }
 
 advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint off,

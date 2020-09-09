@@ -259,18 +259,17 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         return true;
-    } else {
-        if( atk.missed_by == 1 ) {
-            target->add_msg_if_player( m_good,
-                                       _( "The %s shoots a dart at you, but misses!" ),
-                                       z->name() );
-        } else {
-            target->add_msg_if_player( m_good,
-                                       _( "The %s shoots a dart but it bounces off your armor." ),
-                                       z->name() );
-        }
-        return false;
     }
+    if( atk.missed_by == 1 ) {
+        target->add_msg_if_player( m_good,
+                                   _( "The %s shoots a dart at you, but misses!" ),
+                                   z->name() );
+    } else {
+        target->add_msg_if_player( m_good,
+                                   _( "The %s shoots a dart but it bounces off your armor." ),
+                                   z->name() );
+    }
+    return false;
 }
 
 // Distance == 1 and on the same z-level or with a clear shot up/down.
@@ -1033,10 +1032,9 @@ bool mattack::resurrect( monster *z )
             z->anger = 5;
         }
         return false;
-    } else {
-        // We're reviving someone/could revive someone, calm down.
-        z->anger = 5;
     }
+    // We're reviving someone/could revive someone, calm down.
+    z->anger = 5;
 
     if( z->get_speed_base() <= z->type->speed / 2 ) {
         // We can only resurrect so many times in a time period
@@ -1724,9 +1722,8 @@ bool mattack::fungus_corporate( monster *z )
             get_map().add_item( z->pos(), item( "sporeos" ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
         return true;
-    } else {
-        return fungus( z );
     }
+    return fungus( z );
 }
 
 bool mattack::fungus_haze( monster *z )
@@ -1775,17 +1772,16 @@ bool mattack::fungus_big_blossom( monster *z )
         //~Sound of a giant fungal blossom blowing out the dangerous fire!
         sounds::sound( z->pos(), 20, sounds::sound_t::combat, _( "POUFF!" ), true, "misc", "exhale" );
         return true;
-    } else {
-        // No fire detected, routine haze-emission
-        //~ That spore sound, much louder
-        sounds::sound( z->pos(), 15, sounds::sound_t::combat, _( "POUF." ), true, "misc", "puff" );
-        if( u_see ) {
-            add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ), z->name() );
-        }
-        z->moves -= 150;
-        for( const tripoint &dest : here.points_in_radius( z->pos(), 12 ) ) {
-            here.add_field( dest, field_type_id( "fd_fungal_haze" ), rng( 1, 2 ) );
-        }
+    }
+    // No fire detected, routine haze-emission
+    //~ That spore sound, much louder
+    sounds::sound( z->pos(), 15, sounds::sound_t::combat, _( "POUF." ), true, "misc", "puff" );
+    if( u_see ) {
+        add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ), z->name() );
+    }
+    z->moves -= 150;
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 12 ) ) {
+        here.add_field( dest, field_type_id( "fd_fungal_haze" ), rng( 1, 2 ) );
     }
 
     return true;
@@ -1990,9 +1986,8 @@ bool mattack::fungus_fortify( monster *z )
                          //~ Beginning to hear the Mycus while conscious: this is it speaking
                          _( "assistance, on an arduous quest.  unity.  together we have reached the door.  now to pass through…" ) );
                 return true;
-            } else {
-                peaceful = false; // You declined the offer.  Fight!
             }
+            peaceful = false; // You declined the offer.  Fight!
         }
     } else {
         peaceful = false; // You weren't eligible.  Fight!
@@ -2248,13 +2243,12 @@ bool mattack::plant( monster *z )
         z->poly( mon_fungaloid_young );
         z->moves -= 1000; // It takes a while
         return false;
-    } else {
-        add_msg_if_player_sees( *z, _( "The %s falls to the ground and bursts!" ), z->name() );
-        z->set_hp( 0 );
-        // Try fungifying once again
-        fe.spread_fungus( monster_position );
-        return true;
     }
+    add_msg_if_player_sees( *z, _( "The %s falls to the ground and bursts!" ), z->name() );
+    z->set_hp( 0 );
+    // Try fungifying once again
+    fe.spread_fungus( monster_position );
+    return true;
 }
 
 bool mattack::disappear( monster *z )
@@ -3170,13 +3164,12 @@ bool mattack::photograph( monster *z )
                 z->no_extra_death_drops = true;
                 z->die( nullptr );
                 return false;
-            } else {
-                add_msg( m_info,
-                         _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Probably some now-obsolete Internal Affairs subroutine…" ) );
-                return true;
             }
+            add_msg( m_info,
+                     _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
+                     z->name() );
+            add_msg( m_info, _( "Probably some now-obsolete Internal Affairs subroutine…" ) );
+            return true;
         }
     }
 
@@ -3190,13 +3183,12 @@ bool mattack::photograph( monster *z )
                 z->no_extra_death_drops = true;
                 z->die( nullptr );
                 return false;
-            } else {
-                add_msg( m_info,
-                         _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Ops used to do that in case you needed backup…" ) );
-                return true;
             }
+            add_msg( m_info,
+                     _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
+                     z->name() );
+            add_msg( m_info, _( "Ops used to do that in case you needed backup…" ) );
+            return true;
         }
     } else if( player_character.has_trait( trait_PROF_SWAT ) ) {
         // And you're wearing your badge
@@ -3208,12 +3200,11 @@ bool mattack::photograph( monster *z )
                 z->no_extra_death_drops = true;
                 z->die( nullptr );
                 return false;
-            } else {
-                add_msg( m_info, _( "The %s acknowledges you as SWAT onsite, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Probably some now-obsolete Internal Affairs subroutine…" ) );
-                return true;
             }
+            add_msg( m_info, _( "The %s acknowledges you as SWAT onsite, but hangs around to watch." ),
+                     z->name() );
+            add_msg( m_info, _( "Probably some now-obsolete Internal Affairs subroutine…" ) );
+            return true;
         }
     } else if( player_character.has_trait( trait_PROF_CYBERCO ) ) {
         // And you're wearing your badge
@@ -3225,13 +3216,12 @@ bool mattack::photograph( monster *z )
                 z->no_extra_death_drops = true;
                 z->die( nullptr );
                 return false;
-            } else {
-                add_msg( m_info,
-                         _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Apparently yours aren't the only systems kept alive post-apocalypse." ) );
-                return true;
             }
+            add_msg( m_info,
+                     _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
+                     z->name() );
+            add_msg( m_info, _( "Apparently yours aren't the only systems kept alive post-apocalypse." ) );
+            return true;
         }
     }
 
@@ -4028,10 +4018,9 @@ bool mattack::upgrade( monster *z )
         // Nobody to upgrade, get MAD!
         z->anger = 100;
         return false;
-    } else {
-        // We've got zombies to upgrade now, calm down again
-        z->anger = 5;
     }
+    // We've got zombies to upgrade now, calm down again
+    z->anger = 5;
 
     // Takes one turn
     z->moves -= z->type->speed;
@@ -4505,7 +4494,8 @@ bool mattack::parrot( monster *z )
                        "wail" );
         z->moves -= 40;
         return false;
-    } else if( one_in( 20 ) ) {
+    }
+    if( one_in( 20 ) ) {
         parrot_common( z );
         return true;
     }
@@ -4683,9 +4673,8 @@ bool mattack::thrown_by_judo( monster *z )
             target->add_msg_if_player( _( "but you deftly spin out of its grasp!" ) );
         }
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool mattack::riotbot( monster *z )
@@ -4824,11 +4813,10 @@ bool mattack::riotbot( monster *z )
                 z->moves -= 300;
                 z->anger = -rng( 0, 50 );
                 return true;
-            } else {
-                add_msg( m_bad, _( "Your awkward movements do not fool the riotbot." ) );
-                foe->moves -= 100;
-                bad_trick = true;
             }
+            add_msg( m_bad, _( "Your awkward movements do not fool the riotbot." ) );
+            foe->moves -= 100;
+            bad_trick = true;
         }
 
         if( ( choice == ur_resist ) || bad_trick ) {
@@ -5789,7 +5777,6 @@ bool mattack::doot( monster *z )
             add_msg_if_player_sees( spookyscary, _( "A spooky skeleton rises from the ground!" ) );
             g->place_critter_at( mon_zombie_skeltal_minion, spookyscary );
             spooks++;
-            continue;
         }
     }
     sounds::sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",

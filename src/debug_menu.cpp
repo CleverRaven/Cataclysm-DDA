@@ -397,9 +397,8 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
         }
         if( action >= 0 ) {
             return static_cast<debug_menu_index>( action );
-        } else {
-            return cata::nullopt;
         }
+        return cata::nullopt;
     }
 }
 

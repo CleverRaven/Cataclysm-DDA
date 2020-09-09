@@ -134,7 +134,7 @@ void computer_session::use()
                 reset_terminal();
                 return;
 
-            case ynq::yes:
+            case ynq::yes: {
                 if( !hack_attempt( player_character ) ) {
                     if( comp.failures.empty() ) {
                         query_any( _( "Maximum login attempts exceeded.  Press any key…" ) );
@@ -144,11 +144,12 @@ void computer_session::use()
                     activate_random_failure();
                     reset_terminal();
                     return;
-                } else { // Successful hack attempt
-                    comp.security = 0;
-                    query_any( _( "Login successful.  Press any key…" ) );
-                    reset_terminal();
                 }
+                // Successful hack attempt
+                comp.security = 0;
+                query_any( _( "Login successful.  Press any key…" ) );
+                reset_terminal();
+            }
         }
     } else { // No security
         query_any( _( "Login successful.  Press any key…" ) );
@@ -191,11 +192,10 @@ void computer_session::use()
                     activate_random_failure();
                     reset_terminal();
                     return;
-                } else {
-                    // Successfully hacked function
-                    comp.options[sel].security = 0;
-                    activate_function( current.action );
                 }
+                // Successfully hacked function
+                comp.options[sel].security = 0;
+                activate_function( current.action );
             }
         } else { // No need to hack, just activate
             activate_function( current.action );
@@ -636,7 +636,6 @@ void computer_session::action_miss_disarm()
         activate_failure( COMPFAIL_SHUTDOWN );
     } else {
         add_msg( m_neutral, _( "Nuclear missile remains active." ) );
-        return;
     }
 }
 
@@ -1587,9 +1586,11 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
         if( allow_key( ctxt.get_raw_input() ) ) {
             if( action == "YES" ) {
                 return ynq::yes;
-            } else if( action == "NO" ) {
+            }
+            if( action == "NO" ) {
                 return ynq::no;
-            } else if( action == "QUIT" ) {
+            }
+            if( action == "QUIT" ) {
                 return ynq::quit;
             }
         }

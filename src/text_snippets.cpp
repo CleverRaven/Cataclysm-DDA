@@ -169,9 +169,8 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     const size_t index = dis( generator );
     if( index < it->second.ids.size() ) {
         return get_snippet_by_id( it->second.ids[index] );
-    } else {
-        return it->second.no_id[index - it->second.ids.size()];
     }
+    return it->second.no_id[index - it->second.ids.size()];
 }
 
 snippet_id snippet_library::migrate_hash_to_id( const int old_hash )

@@ -329,12 +329,12 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
             // legacy check
             const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
-        } else if( location == "FACTION_CAMP_START" ) {
+        }
+        if( location == "FACTION_CAMP_START" ) {
             return !recipe_group::get_recipes_by_id( "all_faction_base_types",
                     omt_ref.id().c_str() ).empty();
-        } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
         }
+        return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
     };
 }
 
@@ -370,19 +370,24 @@ void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string 
         if( op == "==" ) {
             return stored_value == value;
 
-        } else if( op == "!=" ) {
+        }
+        if( op == "!=" ) {
             return stored_value != value;
 
-        } else if( op == "<=" ) {
+        }
+        if( op == "<=" ) {
             return stored_value <= value;
 
-        } else if( op == ">=" ) {
+        }
+        if( op == ">=" ) {
             return stored_value >= value;
 
-        } else if( op == "<" ) {
+        }
+        if( op == "<" ) {
             return stored_value < value;
 
-        } else if( op == ">" ) {
+        }
+        if( op == ">" ) {
             return stored_value > value;
         }
 
@@ -403,28 +408,32 @@ void conditional_t<T>::set_compare_time_since_var( const JsonObject &jo, const s
         const std::string &var = d.actor( is_npc )->get_value( var_name );
         if( var.empty() ) {
             return false;
-        } else {
-            stored_value = std::stoi( var );
         }
+        stored_value = std::stoi( var );
         stored_value += value;
         int now = to_turn<int>( calendar::turn );
 
         if( op == "==" ) {
             return stored_value == now;
 
-        } else if( op == "!=" ) {
+        }
+        if( op == "!=" ) {
             return stored_value != now;
 
-        } else if( op == "<=" ) {
+        }
+        if( op == "<=" ) {
             return now <= stored_value;
 
-        } else if( op == ">=" ) {
+        }
+        if( op == ">=" ) {
             return now >= stored_value;
 
-        } else if( op == "<" ) {
+        }
+        if( op == "<" ) {
             return now < stored_value;
 
-        } else if( op == ">" ) {
+        }
+        if( op == ">" ) {
             return now > stored_value;
         }
 

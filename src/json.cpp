@@ -194,9 +194,8 @@ std::string JsonObject::str() const
 
     if( jsin && end_ >= start ) {
         return jsin->substr( start, end_ - start );
-    } else {
-        return "{}";
     }
+    return "{}";
 }
 
 void JsonObject::throw_error( const std::string &err, const std::string &name ) const
@@ -480,16 +479,16 @@ std::string JsonArray::str()
 {
     if( jsin ) {
         return jsin->substr( start, end_ - start );
-    } else {
-        return "[]";
     }
+    return "[]";
 }
 
 void JsonArray::verify_index( const size_t i ) const
 {
     if( !jsin ) {
         throw JsonError( "tried to access empty array." );
-    } else if( i >= positions.size() ) {
+    }
+    if( i >= positions.size() ) {
         jsin->seek( start );
         std::stringstream err;
         err << "bad index value: " << i;
@@ -799,7 +798,8 @@ void JsonIn::skip_pair_separator()
         std::stringstream err;
         err << "expected pair separator ':', not '" << ch << "'";
         error( err.str(), -1 );
-    } else if( ate_separator ) {
+    }
+    if( ate_separator ) {
         error( "duplicate separator not strictly allowed", -1 );
     }
     ate_separator = true;
@@ -819,7 +819,6 @@ void JsonIn::skip_string()
         stream->get( ch );
         if( ch == '\\' ) {
             stream->get( ch );
-            continue;
         } else if( ch == '"' ) {
             break;
         } else if( ch == '\r' || ch == '\n' ) {
@@ -966,7 +965,6 @@ std::string JsonIn::get_string()
                 backslash = false;
             } else {
                 backslash = true;
-                continue;
             }
         } else if( backslash ) {
             backslash = false;
@@ -1017,7 +1015,8 @@ std::string JsonIn::get_string()
         stream->clear();
         seek( startpos );
         error( "couldn't find end of string, reached EOF." );
-    } else if( stream->fail() ) {
+    }
+    if( stream->fail() ) {
         throw JsonError( "stream failure while reading string." );
     }
     throw JsonError( "something went wrong D:" );
@@ -1033,9 +1032,8 @@ constexpr static uint64_t neg_INT_MIN()
                    "neg_INT_MIN assumed INT_MIN + INT_MAX >= -INT_MAX" );
     if( x < 0 ) {
         return static_cast<uint64_t>( std::numeric_limits<int>::max() ) + static_cast<uint64_t>( -x );
-    } else {
-        return static_cast<uint64_t>( std::numeric_limits<int>::max() ) - static_cast<uint64_t>( x );
     }
+    return static_cast<uint64_t>( std::numeric_limits<int>::max() ) - static_cast<uint64_t>( x );
 }
 constexpr static uint64_t neg_INT64_MIN()
 {
@@ -1044,9 +1042,8 @@ constexpr static uint64_t neg_INT64_MIN()
                    "neg_INT64_MIN assumed INT64_MIN + INT64_MAX >= -INT64_MAX" );
     if( x < 0 ) {
         return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) + static_cast<uint64_t>( -x );
-    } else {
-        return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - static_cast<uint64_t>( x );
     }
+    return static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) - static_cast<uint64_t>( x );
 }
 
 number_sci_notation JsonIn::get_any_int()
@@ -1074,7 +1071,8 @@ int JsonIn::get_int()
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
-    } else if( n.negative && n.number > neg_INT_MIN() ) {
+    }
+    if( n.negative && n.number > neg_INT_MIN() ) {
         error( "Found a number less than " + std::to_string( std::numeric_limits<int>::min() ) +
                " which is unsupported in this context." );
     }
@@ -1086,12 +1084,10 @@ int JsonIn::get_int()
         if( n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
             const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int>::max() );
             return -std::numeric_limits<int>::max() - static_cast<int>( x );
-        } else {
-            return -static_cast<int>( n.number );
         }
-    } else {
-        return static_cast<int>( n.number );
+        return -static_cast<int>( n.number );
     }
+    return static_cast<int>( n.number );
 }
 
 unsigned int JsonIn::get_uint()
@@ -1114,7 +1110,8 @@ int64_t JsonIn::get_int64()
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
         error( "Signed integers greater than " +
                std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
-    } else if( n.negative && n.number > neg_INT64_MIN() ) {
+    }
+    if( n.negative && n.number > neg_INT64_MIN() ) {
         error( "Integers less than "
                + std::to_string( std::numeric_limits<int64_t>::min() ) + " not supported." );
     }
@@ -1126,12 +1123,10 @@ int64_t JsonIn::get_int64()
         if( n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
             const uint64_t x = n.number - static_cast<uint64_t>( std::numeric_limits<int64_t>::max() );
             return -std::numeric_limits<int64_t>::max() - static_cast<int64_t>( x );
-        } else {
-            return -static_cast<int64_t>( n.number );
         }
-    } else {
-        return static_cast<int64_t>( n.number );
+        return -static_cast<int64_t>( n.number );
     }
+    return static_cast<int64_t>( n.number );
 }
 
 uint64_t JsonIn::get_uint64()
@@ -1222,21 +1217,20 @@ bool JsonIn::get_bool()
         if( strcmp( text, "rue" ) == 0 ) {
             end_value();
             return true;
-        } else {
-            err << R"(not a boolean.  expected "true", but got ")";
-            err << ch << text << "\"";
-            error( err.str(), -4 );
         }
-    } else if( ch == 'f' ) {
+        err << R"(not a boolean.  expected "true", but got ")";
+        err << ch << text << "\"";
+        error( err.str(), -4 );
+    }
+    if( ch == 'f' ) {
         stream->get( text, 5 );
         if( strcmp( text, "alse" ) == 0 ) {
             end_value();
             return false;
-        } else {
-            err << R"(not a boolean.  expected "false", but got ")";
-            err << ch << text << "\"";
-            error( err.str(), -5 );
         }
+        err << R"(not a boolean.  expected "false", but got ")";
+        err << ch << text << "\"";
+        error( err.str(), -5 );
     }
     err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
@@ -1257,7 +1251,6 @@ void JsonIn::start_array()
     if( peek() == '[' ) {
         stream->get();
         ate_separator = false;
-        return;
     } else {
         // expecting an array, so this is an error
         std::stringstream err;
@@ -1278,10 +1271,9 @@ bool JsonIn::end_array()
         stream->get();
         end_value();
         return true;
-    } else {
-        // not the end yet, so just return false?
-        return false;
     }
+    // not the end yet, so just return false?
+    return false;
 }
 
 void JsonIn::start_object()
@@ -1290,7 +1282,6 @@ void JsonIn::start_object()
     if( peek() == '{' ) {
         stream->get();
         ate_separator = false; // not that we want to
-        return;
     } else {
         // expecting an object, so fail loudly
         std::stringstream err;
@@ -1311,10 +1302,9 @@ bool JsonIn::end_object()
         stream->get();
         end_value();
         return true;
-    } else {
-        // not the end yet, so just return false?
-        return false;
     }
+    // not the end yet, so just return false?
+    return false;
 }
 
 bool JsonIn::test_null()
@@ -1668,7 +1658,8 @@ void JsonIn::rewind( int max_lines, int max_chars )
         }
         if( tellpos == 0 ) {
             break;
-        } else if( lines_found == max_lines ) {
+        }
+        if( lines_found == max_lines ) {
             // don't include the last \n or \r
             stream->seekg( 1, std::istream::cur );
             break;

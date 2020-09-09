@@ -55,10 +55,8 @@ void help::deserialize( JsonIn &jsin )
         for( auto &line : messages ) {
             if( line == "<DRAW_NOTE_COLORS>" ) {
                 line = string_replace( line, "<DRAW_NOTE_COLORS>", note_colors );
-                continue;
             } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
                 line = string_replace( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
-                continue;
             }
         }
 

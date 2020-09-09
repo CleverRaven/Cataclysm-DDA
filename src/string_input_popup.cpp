@@ -176,7 +176,8 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     if( up ) {
         if( _hist_str_ind >= static_cast<int>( hist.size() ) ) {
             return;
-        } else if( _hist_str_ind == 0 ) {
+        }
+        if( _hist_str_ind == 0 ) {
             _session_str_entered = ret.str();
 
             //avoid showing the same result twice (after reopen filter window without reset)
@@ -191,7 +192,8 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
             //show initial string entered and 'return'
             _hist_str_ind = 0;
             return;
-        } else if( _hist_str_ind == 0 ) {
+        }
+        if( _hist_str_ind == 0 ) {
             return;
         }
     }
@@ -389,7 +391,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             _position = -1;
             _canceled = true;
             return _text;
-        } else if( ch == '\n' ) {
+        }
+        if( ch == '\n' ) {
             add_to_history( ret.str() );
             _confirmed = true;
             _text = ret.str();
@@ -398,7 +401,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 _session_str_entered.erase( 0 );
             }
             return _text;
-        } else if( ch == KEY_UP ) {
+        }
+        if( ch == KEY_UP ) {
             if( !_identifier.empty() ) {
                 if( _hist_use_uilist ) {
                     show_history( ret );

@@ -755,7 +755,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
         }
         if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ) {
             return pf::rejected;
-        } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+        }
+        if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
             if( ptype.only_air ) {
                 travel_cost += 1;
             } else {

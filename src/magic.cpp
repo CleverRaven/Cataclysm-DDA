@@ -144,29 +144,32 @@ static magic_energy_type energy_source_from_string( const std::string &str )
 {
     if( str == "MANA" ) {
         return magic_energy_type::mana;
-    } else if( str == "HP" ) {
+    }
+    if( str == "HP" ) {
         return magic_energy_type::hp;
-    } else if( str == "BIONIC" ) {
+    }
+    if( str == "BIONIC" ) {
         return magic_energy_type::bionic;
-    } else if( str == "STAMINA" ) {
+    }
+    if( str == "STAMINA" ) {
         return magic_energy_type::stamina;
-    } else if( str == "FATIGUE" ) {
+    }
+    if( str == "FATIGUE" ) {
         return magic_energy_type::fatigue;
-    } else if( str == "NONE" ) {
-        return magic_energy_type::none;
-    } else {
-        debugmsg( _( "ERROR: Invalid magic_energy_type string.  Defaulting to NONE" ) );
+    }
+    if( str == "NONE" ) {
         return magic_energy_type::none;
     }
+    debugmsg( _( "ERROR: Invalid magic_energy_type string.  Defaulting to NONE" ) );
+    return magic_energy_type::none;
 }
 
 static std::string moves_to_string( const int moves )
 {
     if( moves < to_moves<int>( 2_seconds ) ) {
         return string_format( _( "%d moves" ), moves );
-    } else {
-        return to_string( time_duration::from_turns( moves / 100 ) );
     }
+    return to_string( time_duration::from_turns( moves / 100 ) );
 }
 
 void spell_type::load( const JsonObject &jo, const std::string & )
@@ -450,13 +453,12 @@ int spell::damage() const
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_damage, type->max_damage ), std::max( leveled_damage,
                     type->max_damage ) );
-    } else {
-        if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
-            return std::min( leveled_damage, type->max_damage );
-        } else { // if it's negative, min and max work differently
-            return std::max( leveled_damage, type->max_damage );
-        }
     }
+    if( type->min_damage >= 0 || type->max_damage >= type->min_damage ) {
+        return std::min( leveled_damage, type->max_damage );
+    }
+    // if it's negative, min and max work differently
+    return std::max( leveled_damage, type->max_damage );
 }
 
 int spell::min_leveled_dot() const
@@ -469,9 +471,9 @@ int spell::damage_dot() const
     const int leveled_dot = min_leveled_dot();
     if( type->min_dot >= 0 || type->max_dot >= type->min_dot ) {
         return std::min( leveled_dot, type->max_dot );
-    } else { // if it's negative, min and max work differently
-        return std::max( leveled_dot, type->max_dot );
     }
+    // if it's negative, min and max work differently
+    return std::max( leveled_dot, type->max_dot );
 }
 
 damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps ) const
@@ -488,14 +490,12 @@ std::string spell::damage_string() const
 {
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
-    } else {
-        const int dmg = damage();
-        if( dmg >= 0 ) {
-            return string_format( "%d", dmg );
-        } else {
-            return string_format( "+%d", std::abs( dmg ) );
-        }
     }
+    const int dmg = damage();
+    if( dmg >= 0 ) {
+        return string_format( "%d", dmg );
+    }
+    return string_format( "+%d", std::abs( dmg ) );
 }
 
 int spell::min_leveled_aoe() const
@@ -509,31 +509,27 @@ int spell::aoe() const
 
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return rng( std::min( leveled_aoe, type->max_aoe ), std::max( leveled_aoe, type->max_aoe ) );
-    } else {
-        if( type->max_aoe >= type->min_aoe ) {
-            return std::min( leveled_aoe, type->max_aoe );
-        } else {
-            return std::max( leveled_aoe, type->max_aoe );
-        }
     }
+    if( type->max_aoe >= type->min_aoe ) {
+        return std::min( leveled_aoe, type->max_aoe );
+    }
+    return std::max( leveled_aoe, type->max_aoe );
 }
 
 bool spell::in_aoe( const tripoint &source, const tripoint &target ) const
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return rl_dist( source, target ) <= type->max_aoe;
-    } else {
-        return rl_dist( source, target ) <= aoe();
     }
+    return rl_dist( source, target ) <= aoe();
 }
 
 std::string spell::aoe_string() const
 {
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
         return string_format( "%d-%d", min_leveled_aoe(), type->max_aoe );
-    } else {
-        return string_format( "%d", aoe() );
     }
+    return string_format( "%d", aoe() );
 }
 
 int spell::range() const
@@ -541,9 +537,8 @@ int spell::range() const
     const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
     if( type->max_range >= type->min_range ) {
         return std::min( leveled_range, type->max_range );
-    } else {
-        return std::max( leveled_range, type->max_range );
     }
+    return std::max( leveled_range, type->max_range );
 }
 
 int spell::min_leveled_duration() const
@@ -558,13 +553,11 @@ int spell::duration() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return rng( std::min( leveled_duration, type->max_duration ), std::max( leveled_duration,
                     type->max_duration ) );
-    } else {
-        if( type->max_duration >= type->min_duration ) {
-            return std::min( leveled_duration, type->max_duration );
-        } else {
-            return std::max( leveled_duration, type->max_duration );
-        }
     }
+    if( type->max_duration >= type->min_duration ) {
+        return std::min( leveled_duration, type->max_duration );
+    }
+    return std::max( leveled_duration, type->max_duration );
 }
 
 std::string spell::duration_string() const
@@ -572,11 +565,11 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
-        return _( "Permanent" );
-    } else {
-        return moves_to_string( duration() );
     }
+    if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+        return _( "Permanent" );
+    }
+    return moves_to_string( duration() );
 }
 
 time_duration spell::duration_turns() const
@@ -781,7 +774,8 @@ float spell::spell_fail( const Character &guy ) const
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
-    } else if( effective_skill < 0.0f ) {
+    }
+    if( effective_skill < 0.0f ) {
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
@@ -1962,26 +1956,28 @@ static std::string color_number( const int num )
 {
     if( num > 0 ) {
         return colorize( to_string( num ), c_light_green );
-    } else if( num < 0 ) {
-        return colorize( to_string( num ), c_light_red );
-    } else {
-        return colorize( to_string( num ), c_white );
     }
+    if( num < 0 ) {
+        return colorize( to_string( num ), c_light_red );
+    }
+    return colorize( to_string( num ), c_white );
 }
 
 static std::string color_number( const float num )
 {
     if( num > 100 ) {
         return colorize( string_format( "+%.0f", num ), c_light_green );
-    } else if( num < -100 ) {
-        return colorize( string_format( "%.0f", num ), c_light_red );
-    } else if( num > 0 ) {
-        return colorize( string_format( "+%.2f", num ), c_light_green );
-    } else if( num < 0 ) {
-        return colorize( string_format( "%.2f", num ), c_light_red );
-    } else {
-        return colorize( "0", c_white );
     }
+    if( num < -100 ) {
+        return colorize( string_format( "%.0f", num ), c_light_red );
+    }
+    if( num > 0 ) {
+        return colorize( string_format( "+%.2f", num ), c_light_green );
+    }
+    if( num < 0 ) {
+        return colorize( string_format( "%.2f", num ), c_light_red );
+    }
+    return colorize( "0", c_white );
 }
 
 static void draw_spellbook_info( const spell_type &sp, uilist *menu )

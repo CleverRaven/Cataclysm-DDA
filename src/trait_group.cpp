@@ -56,7 +56,8 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
 {
     if( value.test_string() ) {
         return Trait_group_tag( value.get_string() );
-    } else if( value.test_object() ) {
+    }
+    if( value.test_object() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
         JsonObject jo = value.get_object();
@@ -65,7 +66,8 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
         mutation_branch::load_trait_group( jo, group, subtype );
 
         return group;
-    } else if( value.test_array() ) {
+    }
+    if( value.test_array() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
@@ -74,10 +76,9 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
 
         mutation_branch::load_trait_group( value.get_array(), group, default_subtype == "collection" );
         return group;
-    } else {
-        value.throw_error( "invalid trait group, must be string (group id) or object/array (the group data)" );
-        return Trait_group_tag{};
     }
+    value.throw_error( "invalid trait group, must be string (group id) or object/array (the group data)" );
+    return Trait_group_tag{};
 }
 
 // NOTE: This is largely based on item_group::debug_spawn()

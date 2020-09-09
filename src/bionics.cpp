@@ -673,7 +673,8 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             add_msg_if_player( m_bad, _( "There is not enough humidity in the air for your %s to function." ),
                                bio.info().name );
             return false;
-        } else if( water_available == 1 ) {
+        }
+        if( water_available == 1 ) {
             add_msg_if_player( m_mixed,
                                _( "Your %s issues a low humidity warning.  Efficiency will be reduced." ),
                                bio.info().name );
@@ -793,10 +794,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             add_msg_if_player( m_bad, _( "Safeguards kick in, and the bionic refuses to activate!" ) );
             refund_power();
             return false;
-        } else {
-            add_msg_activate();
-            add_effect( effect_adrenaline, 20_minutes );
         }
+        add_msg_activate();
+        add_effect( effect_adrenaline, 20_minutes );
     } else if( bio.id == bio_emp ) {
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();

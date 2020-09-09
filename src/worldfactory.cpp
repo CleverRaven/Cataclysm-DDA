@@ -375,11 +375,11 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         return get_world( world_names[0] );
     }
     // If there are no worlds to pick from, immediately try to make one.
-    else if( world_names.empty() ) {
+    if( world_names.empty() ) {
         return make_new_world( show_prompt );
     }
     // If we're skipping prompts, return the world with 0 save if there is one
-    else if( !show_prompt ) {
+    if( !show_prompt ) {
         for( const std::string &name : world_names ) {
             if( get_world( name )->world_saves.empty() ) {
                 return get_world( name );
@@ -528,7 +528,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         if( action == "QUIT" ) {
             break;
-        } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
+        }
+        if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
             if( sel >= world_pages[selpage].size() ) {
                 sel = 0;
@@ -619,10 +620,12 @@ int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPT
     if( action == "PREV_TAB" ) {
         return -1;
 
-    } else if( action == "NEXT_TAB" ) {
+    }
+    if( action == "NEXT_TAB" ) {
         return 1;
 
-    } else if( action == "QUIT" ) {
+    }
+    if( action == "QUIT" ) {
         return -999;
     }
 
@@ -958,10 +961,12 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( current_tab_mods.empty() )
         {
             return nullptr;
-        } else if( active_header == 0 )
+        }
+        if( active_header == 0 )
         {
             return &current_tab_mods[cursel[0]].obj();
-        } else if( !active_mod_order.empty() )
+        }
+        if( !active_mod_order.empty() )
         {
             return &active_mod_order[cursel[1]].obj();
         }
@@ -1100,11 +1105,11 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( fpopup->canceled() ) {
                 apply_filter( old_filter );
                 break;
-            } else if( fpopup->confirmed() ) {
-                break;
-            } else {
-                apply_filter( fpopup->text() );
             }
+            if( fpopup->confirmed() ) {
+                break;
+            }
+            apply_filter( fpopup->text() );
         }
 
         fpopup.reset();
@@ -1304,7 +1309,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 ui_manager::redraw();
                 if( !query_yn( _( "Are you SURE you're finished?  World name will be randomly generated." ) ) ) {
                     noname = false;
-                    continue;
                 } else {
                     noname = false;
                     world->world_name = pick_random_name();
@@ -1317,11 +1321,8 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
                 if( valid_worldname( worldname ) ) {
                     world->world_name = worldname;
                     return 1;
-                } else {
-                    continue;
                 }
             } else {
-                continue;
             }
         } else if( action == "PREV_TAB" ) {
             world->world_name = worldname;

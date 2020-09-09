@@ -540,10 +540,9 @@ item visitable<T>::remove_item( item &it )
     if( !obj.empty() ) {
         return obj.front();
 
-    } else {
-        debugmsg( "Tried removing item from object which did not contain it" );
-        return item();
     }
+    debugmsg( "Tried removing item from object which did not contain it" );
+    return item();
 }
 
 /** @relates visitable */
@@ -882,9 +881,8 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     if( what == itype_UPS ) {

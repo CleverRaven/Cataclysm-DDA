@@ -764,9 +764,8 @@ std::string vpart_info::name() const
 {
     if( name_.empty() ) {
         return item::nname( item );
-    } else {
-        return name_.translated();
     }
+    return name_.translated();
 }
 
 int vpart_info::format_description( std::string &msg, const nc_color &format_color,

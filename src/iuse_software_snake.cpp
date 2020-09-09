@@ -173,11 +173,10 @@ int snake_game::start_game()
             [vSnakeBody[vSnakeBody.size() - 1].second] ) {
             //We are dead :(
             break;
-        } else {
-            //Add new position to map
-            mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first]
-            [vSnakeBody[vSnakeBody.size() - 1].second] = true;
         }
+        //Add new position to map
+        mSnakeBody[vSnakeBody[vSnakeBody.size() - 1].first]
+        [vSnakeBody[vSnakeBody.size() - 1].second] = true;
 
         //Have we eaten the forbidden fruit?
         if( vSnakeBody[vSnakeBody.size() - 1].first == iFruitPosY &&

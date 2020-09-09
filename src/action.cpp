@@ -90,7 +90,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                     keymap_txt >> std::noskipws >> ch >> std::skipws;
                     if( ch == '\n' ) {
                         break;
-                    } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
+                    }
+                    if( ch != ' ' || keymap_txt.peek() == '\n' ) {
                         if( kmap.find( ch ) != kmap.end() ) {
                             debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
                                       "%s is being ignored.\n"
@@ -464,23 +465,32 @@ action_id look_up_action( const std::string &ident )
     // Temporarily for the interface with the input manager!
     if( ident == "move_nw" ) {
         return ACTION_MOVE_FORTH_LEFT;
-    } else if( ident == "move_sw" ) {
+    }
+    if( ident == "move_sw" ) {
         return ACTION_MOVE_BACK_LEFT;
-    } else if( ident == "move_ne" ) {
+    }
+    if( ident == "move_ne" ) {
         return ACTION_MOVE_FORTH_RIGHT;
-    } else if( ident == "move_se" ) {
+    }
+    if( ident == "move_se" ) {
         return ACTION_MOVE_BACK_RIGHT;
-    } else if( ident == "move_n" ) {
+    }
+    if( ident == "move_n" ) {
         return ACTION_MOVE_FORTH;
-    } else if( ident == "move_s" ) {
+    }
+    if( ident == "move_s" ) {
         return ACTION_MOVE_BACK;
-    } else if( ident == "move_w" ) {
+    }
+    if( ident == "move_w" ) {
         return ACTION_MOVE_LEFT;
-    } else if( ident == "move_e" ) {
+    }
+    if( ident == "move_e" ) {
         return ACTION_MOVE_RIGHT;
-    } else if( ident == "move_down" ) {
+    }
+    if( ident == "move_down" ) {
         return ACTION_MOVE_DOWN;
-    } else if( ident == "move_up" ) {
+    }
+    if( ident == "move_up" ) {
         return ACTION_MOVE_UP;
     }
     // ^^ Temporarily for the interface with the input manager!
@@ -525,28 +535,34 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
 {
     if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
-    } else if( d.z == 1 ) {
+    }
+    if( d.z == 1 ) {
         return ACTION_MOVE_UP;
     }
 
     const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
     if( d.xy() == point_north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
-    } else if( d.xy() == point_north_east ) {
-        return iso_mode ? ACTION_MOVE_FORTH : ACTION_MOVE_FORTH_RIGHT;
-    } else if( d.xy() == point_east ) {
-        return iso_mode ? ACTION_MOVE_FORTH_RIGHT : ACTION_MOVE_RIGHT;
-    } else if( d.xy() == point_south_east ) {
-        return iso_mode ? ACTION_MOVE_RIGHT : ACTION_MOVE_BACK_RIGHT;
-    } else if( d.xy() == point_south ) {
-        return iso_mode ? ACTION_MOVE_BACK_RIGHT : ACTION_MOVE_BACK;
-    } else if( d.xy() == point_south_west ) {
-        return iso_mode ? ACTION_MOVE_BACK : ACTION_MOVE_BACK_LEFT;
-    } else if( d.xy() == point_west ) {
-        return iso_mode ? ACTION_MOVE_BACK_LEFT : ACTION_MOVE_LEFT;
-    } else {
-        return iso_mode ? ACTION_MOVE_LEFT : ACTION_MOVE_FORTH_LEFT;
     }
+    if( d.xy() == point_north_east ) {
+        return iso_mode ? ACTION_MOVE_FORTH : ACTION_MOVE_FORTH_RIGHT;
+    }
+    if( d.xy() == point_east ) {
+        return iso_mode ? ACTION_MOVE_FORTH_RIGHT : ACTION_MOVE_RIGHT;
+    }
+    if( d.xy() == point_south_east ) {
+        return iso_mode ? ACTION_MOVE_RIGHT : ACTION_MOVE_BACK_RIGHT;
+    }
+    if( d.xy() == point_south ) {
+        return iso_mode ? ACTION_MOVE_BACK_RIGHT : ACTION_MOVE_BACK;
+    }
+    if( d.xy() == point_south_west ) {
+        return iso_mode ? ACTION_MOVE_BACK : ACTION_MOVE_BACK_LEFT;
+    }
+    if( d.xy() == point_west ) {
+        return iso_mode ? ACTION_MOVE_BACK_LEFT : ACTION_MOVE_LEFT;
+    }
+    return iso_mode ? ACTION_MOVE_LEFT : ACTION_MOVE_FORTH_LEFT;
 }
 
 point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
@@ -582,9 +598,8 @@ cata::optional<input_event> hotkey_for_action( const action_id action,
                                           restrict_to_printable );
     if( keys.empty() ) {
         return cata::nullopt;
-    } else {
-        return keys.front();
     }
+    return keys.front();
 }
 
 bool can_butcher_at( const tripoint &p )
@@ -618,17 +633,15 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
-        } else {
-            return player_character.swim_speed() < 500 ||
-                   player_character.is_wearing( itype_id( "swim_fins" ) );
         }
+        return player_character.swim_speed() < 500 ||
+               player_character.is_wearing( itype_id( "swim_fins" ) );
     }
 
     if( movez == -1 ) {
         return here.has_flag( flag_GOES_DOWN, p );
-    } else {
-        return here.has_flag( flag_GOES_UP, p );
     }
+    return here.has_flag( flag_GOES_UP, p );
 }
 
 bool can_examine_at( const tripoint &p )
@@ -648,7 +661,8 @@ bool can_examine_at( const tripoint &p )
 
     if( here.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
-    } else if( xter_t.examine != &iexamine::none ) {
+    }
+    if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
@@ -966,7 +980,8 @@ action_id handle_action_menu()
 
         if( selection < 0 || selection == NUM_ACTIONS ) {
             return ACTION_NULL;
-        } else if( selection == 2 * NUM_ACTIONS ) {
+        }
+        if( selection == 2 * NUM_ACTIONS ) {
             if( category != "back" ) {
                 category = "back";
             } else {
@@ -1014,9 +1029,8 @@ action_id handle_main_menu()
 
     if( selection < 0 || selection >= NUM_ACTIONS ) {
         return ACTION_NULL;
-    } else {
-        return static_cast<action_id>( selection );
     }
+    return static_cast<action_id>( selection );
 }
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
@@ -1049,11 +1063,14 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
                 facing = FacingDirection::LEFT;
             }
             return vec;
-        } else if( action == "pause" ) {
+        }
+        if( action == "pause" ) {
             return tripoint_zero;
-        } else if( action == "LEVEL_UP" ) {
+        }
+        if( action == "LEVEL_UP" ) {
             return tripoint_above;
-        } else if( action == "LEVEL_DOWN" ) {
+        }
+        if( action == "LEVEL_DOWN" ) {
             return tripoint_below;
         }
     } while( action != "QUIT" );
@@ -1096,7 +1113,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     if( valid.empty() && auto_select ) {
         add_msg( failure_message );
         return cata::nullopt;
-    } else if( valid.size() == 1 && auto_select ) {
+    }
+    if( valid.size() == 1 && auto_select ) {
         return valid.back();
     }
 

@@ -207,18 +207,16 @@ std::string scenario::gender_appropriate_name( bool male ) const
 {
     if( male ) {
         return _name_male.translated();
-    } else {
-        return _name_female.translated();
     }
+    return _name_female.translated();
 }
 
 std::string scenario::description( bool male ) const
 {
     if( male ) {
         return _description_male.translated();
-    } else {
-        return _description_female.translated();
     }
+    return _description_female.translated();
 }
 
 signed int scenario::point_cost() const

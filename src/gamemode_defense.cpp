@@ -1312,9 +1312,8 @@ void defense_game::spawn_wave()
                 add_msg( m_info,  special_wave_message( type.nname( 100 ) ) );
                 add_msg( m_info, "********" );
                 return;
-            } else {
-                themed_wave = false;    // No partially-themed waves
             }
+            themed_wave = false;    // No partially-themed waves
         }
         diff -= type.difficulty;
         spawn_wave_monster( type.id );

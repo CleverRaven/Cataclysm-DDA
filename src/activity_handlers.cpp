@@ -572,7 +572,8 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                                  _( "None of your cutting tools are suitable for butchering." ) );
             act.set_to_null();
             return;
-        } else if( factor < 0 && one_in( 3 ) ) {
+        }
+        if( factor < 0 && one_in( 3 ) ) {
             u.add_msg_if_player( m_bad,
                                  _( "You don't trust the quality of your tools, but carry on anyway." ) );
         }
@@ -1683,7 +1684,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     } catch( const std::runtime_error &err ) {
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
-        return;
     }
 }
 
@@ -2247,7 +2247,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 if( !resume_for_multi_activities( *p ) ) {
                     g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 }
-                return;
             } else {
                 dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
                 debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
@@ -3143,7 +3142,6 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
     if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
-        return;
     }
 }
 
@@ -3246,7 +3244,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
         } else {
             act->set_to_null();
             guy.revert_after_activity();
-            return;
         }
     } else {
         const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock()->pos() );
@@ -3254,7 +3251,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
             act->set_to_null();
             guy.revert_after_activity();
             mon->remove_effect( effect_controlled );
-            return;
         } else {
             p->activity = player_activity();
             mon->add_effect( effect_controlled, 40_turns );
@@ -4083,13 +4079,12 @@ static void perform_zone_activity_turn( player *p,
             p->set_destination( route, p->activity );
             p->activity.set_to_null();
             return;
-        } else {
-            // we are at destination already
-            /* Perform action */
-            tile_action( *p, tile_loc );
-            if( p->moves <= 0 ) {
-                return;
-            }
+        }
+        // we are at destination already
+        /* Perform action */
+        tile_action( *p, tile_loc );
+        if( p->moves <= 0 ) {
+            return;
         }
     }
     add_msg( m_info, finished_msg );
@@ -4160,7 +4155,6 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
         p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         act->set_to_null();
-        return;
     }
 
     // TODO: Add some kind of chance of getting the target's attention

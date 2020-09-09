@@ -15,7 +15,6 @@ void dialogue_window::open_dialogue( bool text_only )
 {
     if( text_only ) {
         this->text_only = true;
-        return;
     }
 }
 
@@ -125,7 +124,8 @@ bool dialogue_window::print_responses( const int yoffset, const std::vector<talk
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             if( curline < min_line ) {
                 continue;
-            } else if( curline > max_line ) {
+            }
+            if( curline > max_line ) {
                 break;
             }
             if( j == 0 ) {

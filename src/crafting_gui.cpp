@@ -269,21 +269,21 @@ const recipe *select_crafting_recipe( int &batch_size )
         nc_color selected_color() const {
             if( !can_craft ) {
                 return h_dark_gray;
-            } else if( !can_craft_non_rotten ) {
-                return has_all_skills ? h_brown : h_red;
-            } else {
-                return has_all_skills ? h_white : h_yellow;
             }
+            if( !can_craft_non_rotten ) {
+                return has_all_skills ? h_brown : h_red;
+            }
+            return has_all_skills ? h_white : h_yellow;
         }
 
         nc_color color( bool ignore_missing_skills = false ) const {
             if( !can_craft ) {
                 return c_dark_gray;
-            } else if( !can_craft_non_rotten ) {
-                return has_all_skills || ignore_missing_skills ? c_brown : c_red;
-            } else {
-                return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
             }
+            if( !can_craft_non_rotten ) {
+                return has_all_skills || ignore_missing_skills ? c_brown : c_red;
+            }
+            return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
         }
     };
     std::vector<availability> available;
@@ -1073,7 +1073,8 @@ int related_menu_fill( uilist &rmenu,
                     rmenu.addentry( ++np_last, false, -1, recipe_name );
                     defferent_recipes = true;
                     break;
-                } else if( recipe_n == current_part.size() - 1 ) {
+                }
+                if( recipe_n == current_part.size() - 1 ) {
                     // only one result
                     rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
                 }

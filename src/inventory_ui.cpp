@@ -123,7 +123,8 @@ class selection_column_preset : public inventory_selector_preset
             if( entry.is_item() ) {
                 if( &*entry.any_item() == &player_character.weapon ) {
                     return c_light_blue;
-                } else if( player_character.is_worn( *entry.any_item() ) ) {
+                }
+                if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
                 }
             }
@@ -157,9 +158,8 @@ size_t inventory_entry::get_available_count() const
 {
     if( locations.size() == 1 ) {
         return any_item()->count();
-    } else {
-        return locations.size();
     }
+    return locations.size();
 }
 
 int inventory_entry::get_invlet() const
@@ -177,11 +177,11 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
-        return c_yellow;
-    } else {
-        return c_white;
     }
+    if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
+        return c_yellow;
+    }
+    return c_white;
 }
 
 void inventory_entry::update_cache()
@@ -283,13 +283,14 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     }
     if( !entry ) {
         return std::string();
-    } else if( entry.is_item() ) {
-        return cells[cell_index].get_text( entry );
-    } else if( cell_index != 0 ) {
-        return replace_colors( cells[cell_index].title );
-    } else {
-        return entry.get_category_ptr()->name();
     }
+    if( entry.is_item() ) {
+        return cells[cell_index].get_text( entry );
+    }
+    if( cell_index != 0 ) {
+        return replace_colors( cells[cell_index].title );
+    }
+    return entry.get_category_ptr()->name();
 }
 
 bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry,
@@ -489,9 +490,8 @@ void inventory_column::set_width( const size_t new_width,
             }
             if( rhs.gap() <= min_cell_gap ) {
                 return lhs.current_width < rhs.current_width;
-            } else {
-                return lhs.gap() < rhs.gap();
             }
+            return lhs.gap() < rhs.gap();
         };
 
         const auto &cell = step > 0
@@ -2110,9 +2110,11 @@ item_location inventory_pick_selector::execute()
                 ui_manager::redraw();
             }
             return input.entry->any_item();
-        } else if( input.action == "QUIT" ) {
+        }
+        if( input.action == "QUIT" ) {
             return item_location();
-        } else if( input.action == "CONFIRM" ) {
+        }
+        if( input.action == "CONFIRM" ) {
             const inventory_entry &selected = get_active_column().get_selected();
             if( selected ) {
                 return selected.any_item();

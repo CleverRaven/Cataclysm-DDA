@@ -153,9 +153,11 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
         return make_shared_fast<plot_options>();
-    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
+    }
+    if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return make_shared_fast<blueprint_options>();
-    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
+    }
+    if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return make_shared_fast<loot_options>();
     }
 
@@ -166,9 +168,11 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
 {
     if( type == zone_type_id( "FARM_PLOT" ) ) {
         return dynamic_cast<const plot_options *>( &options ) != nullptr;
-    } else if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
+    }
+    if( type == zone_type_id( "CONSTRUCTION_BLUEPRINT" ) ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
-    } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
+    }
+    if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
@@ -220,12 +224,10 @@ blueprint_options::query_con_result blueprint_options::query_con()
             mark = chosen_mark;
             index = con_index;
             return changed;
-        } else {
-            return successful;
         }
-    } else {
-        return canceled;
+        return successful;
     }
+    return canceled;
 }
 
 loot_options::query_loot_result loot_options::query_loot()
@@ -287,21 +289,19 @@ plot_options::query_seed_result plot_options::query_seed()
             seed = new_seed;
             mark = new_mark;
             return changed;
-        } else {
-            return successful;
         }
-    } else if( seed_index == 0 ) {
+        return successful;
+    }
+    if( seed_index == 0 ) {
         // No seeds
         if( !seed.is_empty() || !mark.is_empty() ) {
             seed = itype_id();
             mark = itype_id();
             return changed;
-        } else {
-            return successful;
         }
-    } else {
-        return canceled;
+        return successful;
     }
+    return canceled;
 }
 
 bool loot_options::query_at_creation()
@@ -377,9 +377,8 @@ std::string plot_options::get_zone_name_suggestion() const
         item it = item( type );
         if( it.is_seed() ) {
             return it.type->seed->plant_name.translated();
-        } else {
-            return item::nname( type );
         }
+        return item::nname( type );
     }
 
     return _( "No seed" );
@@ -447,9 +446,8 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
     .query();
     if( popup.canceled() ) {
         return {};
-    } else {
-        return popup.text();
     }
+    return popup.text();
 }
 
 cata::optional<zone_type_id> zone_manager::query_type() const
@@ -843,7 +841,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
                 if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
-                } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
+                }
+                if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }

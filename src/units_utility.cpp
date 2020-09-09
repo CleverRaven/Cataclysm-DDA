@@ -15,11 +15,11 @@ const char *volume_units_abbr()
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
         return pgettext( "Volume unit", "c" );
-    } else if( vol_units == "l" ) {
-        return pgettext( "Volume unit", "L" );
-    } else {
-        return pgettext( "Volume unit", "qt" );
     }
+    if( vol_units == "l" ) {
+        return pgettext( "Volume unit", "L" );
+    }
+    return pgettext( "Volume unit", "qt" );
 }
 
 const char *volume_units_long()
@@ -27,11 +27,11 @@ const char *volume_units_long()
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
         return _( "cup" );
-    } else if( vol_units == "l" ) {
-        return _( "liter" );
-    } else {
-        return _( "quart" );
     }
+    if( vol_units == "l" ) {
+        return _( "liter" );
+    }
+    return _( "quart" );
 }
 
 double convert_velocity( int velocity, const units_type vel_units )
@@ -106,38 +106,39 @@ std::string length_units( const units::length &length )
         if( length_mm % 1'000'000 == 0 ) {
             //~ kilometers
             return _( "km" );
-        } else if( length_mm % 1'000 == 0 ) {
+        }
+        if( length_mm % 1'000 == 0 ) {
             //~ meters
             return _( "m" );
-        } else if( length_mm % 10 == 0 ) {
+        }
+        if( length_mm % 10 == 0 ) {
             //~ centimeters
             return _( "cm" );
-        } else {
-            //~ millimeters
-            return _( "mm" );
         }
-    } else {
-        // imperial's a doozy, we can only try to approximate
-        // so first we convert it to inches which are the smallest unit
-        length_mm /= 25.4;
-        if( length_mm == 0 ) {
-            //~ inches
-            return _( "in." );
-        }
-        if( length_mm % 63360 == 0 ) {
-            //~ miles
-            return _( "mi" );
-        } else if( length_mm % 36 == 0 ) {
-            //~ yards (length)
-            return _( "yd" );
-        } else if( length_mm % 12 == 0 ) {
-            //~ feet (length)
-            return _( "ft" );
-        } else {
-            //~ inches
-            return _( "in." );
-        }
+        //~ millimeters
+        return _( "mm" );
     }
+    // imperial's a doozy, we can only try to approximate
+    // so first we convert it to inches which are the smallest unit
+    length_mm /= 25.4;
+    if( length_mm == 0 ) {
+        //~ inches
+        return _( "in." );
+    }
+    if( length_mm % 63360 == 0 ) {
+        //~ miles
+        return _( "mi" );
+    }
+    if( length_mm % 36 == 0 ) {
+        //~ yards (length)
+        return _( "yd" );
+    }
+    if( length_mm % 12 == 0 ) {
+        //~ feet (length)
+        return _( "ft" );
+    }
+    //~ inches
+    return _( "in." );
 }
 
 std::string weight_to_string( const units::mass &weight )

@@ -199,22 +199,24 @@ bool Pickup::query_thief()
         u.set_value( "THIEF_MODE", "THIEF_STEAL" );
         u.set_value( "THIEF_MODE_KEEP", "NO" );
         return true;
-    } else if( answer == "NO" ) {
+    }
+    if( answer == "NO" ) {
         u.set_value( "THIEF_MODE", "THIEF_HONEST" );
         u.set_value( "THIEF_MODE_KEEP", "NO" );
         return false;
-    } else if( answer == "ALWAYS" ) {
+    }
+    if( answer == "ALWAYS" ) {
         u.set_value( "THIEF_MODE", "THIEF_STEAL" );
         u.set_value( "THIEF_MODE_KEEP", "YES" );
         return true;
-    } else if( answer == "NEVER" ) {
+    }
+    if( answer == "NEVER" ) {
         u.set_value( "THIEF_MODE", "THIEF_HONEST" );
         u.set_value( "THIEF_MODE_KEEP", "YES" );
         return false;
-    } else {
-        // error
-        debugmsg( "Not a valid option [ %s ]", answer );
     }
+    // error
+    debugmsg( "Not a valid option [ %s ]", answer );
     return false;
 }
 
@@ -334,11 +336,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             picked_up = it.spill_contents( player_character );
             if( !picked_up ) {
                 break;
-            } else {
-                const int invlet = newit.invlet;
-                newit = it;
-                newit.invlet = invlet;
             }
+            const int invlet = newit.invlet;
+            newit = it;
+            newit.invlet = invlet;
         // Intentional fallthrough
         case STASH: {
             item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false );
@@ -506,7 +507,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }

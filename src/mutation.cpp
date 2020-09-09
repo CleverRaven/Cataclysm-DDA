@@ -647,7 +647,6 @@ void Character::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
         invoke_item( &burrowing_item );
-        return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
         if( !slime ) {
@@ -671,28 +670,22 @@ void Character::activate_mutation( const trait_id &mut )
             add_msg_if_player( m_good, _( "we're a team, we've got this!" ) );
         }
         tdata.powered = false;
-        return;
     } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
         vomit();
         tdata.powered = false;
-        return;
     } else if( mut == trait_M_FERTILE ) {
         spores();
         tdata.powered = false;
-        return;
     } else if( mut == trait_M_BLOOM ) {
         blossoms();
         tdata.powered = false;
-        return;
     } else if( mut == trait_M_PROVENANCE ) {
         spores(); // double trouble!
         blossoms();
         tdata.powered = false;
-        return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
         tdata.powered = false;
-        return;
     } else if( mut == trait_TREE_COMMUNION ) {
         tdata.powered = false;
         if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
@@ -725,17 +718,14 @@ void Character::activate_mutation( const trait_id &mut )
             const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
                                                30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
-            return;
         } else {
             const time_duration startup_time = rng( 120_minutes, 180_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
-            return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
-        return;
     } else if( mut == trait_DEBUG_BIONIC_POWERGEN ) {
         int npower;
         if( query_int( npower, "Modify bionic power by how much?  (Values are in millijoules)" ) ) {
@@ -743,18 +733,15 @@ void Character::activate_mutation( const trait_id &mut )
             add_msg_if_player( m_good, "Bionic power increased by %dmJ.", npower );
             tdata.powered = false;
         }
-        return;
     } else if( !mdata.spawn_item.is_empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
-        return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
         avatar_action::fire_ranged_mutation( *this, item( mdata.ranged_mutation ) );
         tdata.powered = false;
-        return;
     }
 }
 
@@ -976,7 +963,6 @@ void Character::mutate()
     }
 
     if( mutate_towards( random_entry( valid ) ) ) {
-        return;
     } else {
         // if mutation failed (errors, post-threshold pick), try again once.
         mutate_towards( random_entry( valid ) );
@@ -1116,7 +1102,8 @@ bool Character::mutate_towards( const trait_id &mut )
     if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
         if( !prereq1 && !prereq.empty() ) {
             return mutate_towards( prereq );
-        } else if( !prereq2 && !prereqs2.empty() ) {
+        }
+        if( !prereq2 && !prereqs2.empty() ) {
             return mutate_towards( prereqs2 );
         }
     }
@@ -1499,7 +1486,8 @@ void Character::remove_child_flag( const trait_id &flag )
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;
-        } else if( has_child_flag( tmp ) ) {
+        }
+        if( has_child_flag( tmp ) ) {
             remove_child_flag( tmp );
             return;
         }
@@ -1537,11 +1525,10 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
             return mutagen_rejection::destroyed;
-        } else {
-            guy.add_msg_if_player( m_bad,
-                                   _( "We must eliminate this contaminant at the earliest opportunity." ) );
-            return mutagen_rejection::rejected;
         }
+        guy.add_msg_if_player( m_bad,
+                               _( "We must eliminate this contaminant at the earliest opportunity." ) );
+        return mutagen_rejection::rejected;
     }
 
     if( guy.has_trait( trait_THRESH_MARLOSS ) ) {

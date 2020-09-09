@@ -1126,11 +1126,13 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return 0;
-    } else if( get_map().get_abs_sub().z < 0 ) {
+    }
+    if( get_map().get_abs_sub().z < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;
-    } else if( p.fine_detail_vision_mod() > 4 ) {
+    }
+    if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
@@ -1765,9 +1767,8 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
         p.use_charges( itype_fire, 4 );
         return 0;
 
-    } else {
-        return cost >= 0 ? cost : it.ammo_required();
     }
+    return cost >= 0 ? cost : it.ammo_required();
 }
 
 ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
@@ -3415,7 +3416,8 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
         if( long_action && healer.activity.id() != ACT_FIRSTAID ) {
             // Cancel and wait for activity completion.
             return healed;
-        } else if( healer.activity.id() == ACT_FIRSTAID ) {
+        }
+        if( healer.activity.id() == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
             healed =  bodypart_id( healer.activity.str_values[0] );
         }
@@ -3767,9 +3769,8 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
             p.consume_anesth_requirment( *it.type, p );
         }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
@@ -3785,29 +3786,33 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
         if( bid->installation_requirement.is_empty() ) {
             return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
-        } else  if( it.has_flag( "FILTHY" ) ) {
+        }
+        if( it.has_flag( "FILTHY" ) ) {
             return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
-        } else if( it.has_flag( "NO_STERILE" ) ) {
+        }
+        if( it.has_flag( "NO_STERILE" ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
-        } else if( it.has_fault( fault_bionic_salvaged ) ) {
+        }
+        if( it.has_fault( fault_bionic_salvaged ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+        }
+        if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
 
     if( p.has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
-    } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
+    }
+    if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
-    } else {
-        const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+    }
+    const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+                                        std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
 
-        if( downgrade ) {
-            return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
-        }
+    if( downgrade ) {
+        return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
     }
 
     return ret_val<bool>::make_success();
@@ -4353,12 +4358,14 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             p.i_rem_keep_contents( &mod );
         }
         return thread_needed / 2;
-    } else if( rn <= 10 ) {
+    }
+    if( rn <= 10 ) {
         p.add_msg_if_player( m_bad,
                              _( "You fail to modify the clothing, and you waste thread and materials." ) );
         p.consume_items( comps, 1, is_crafting_component );
         return thread_needed;
-    } else if( rn <= 14 ) {
+    }
+    if( rn <= 14 ) {
         p.add_msg_if_player( m_mixed, _( "You modify your %s, but waste a lot of thread." ),
                              mod.tname() );
         p.consume_items( comps, 1, is_crafting_component );

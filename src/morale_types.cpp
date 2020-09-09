@@ -241,9 +241,8 @@ std::string morale_type_data::describe( const itype *it ) const
 {
     if( it ) {
         return string_format( text, it->nname( 1 ) );
-    } else {
-        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
-        // `string_format` will return an error message
-        return string_format( text );
     }
+    // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
+    // `string_format` will return an error message
+    return string_format( text );
 }

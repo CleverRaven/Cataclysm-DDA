@@ -1728,10 +1728,9 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
-        } else {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
-            return false;
         }
+        u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+        return false;
     }
     if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
         return false;
@@ -1777,10 +1776,9 @@ bool game::cancel_activity_query( const std::string &text )
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
-        } else {
-            u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
-            return false;
         }
+        u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
+        return false;
     }
     if( !u.activity ) {
         return false;
@@ -2028,13 +2026,13 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
     if( you.can_disassemble( it, you.crafting_inventory() ).success() ) {
         // Possible right now
         return hint_rating::good;
-    } else if( it.is_disassemblable() ) {
+    }
+    if( it.is_disassemblable() ) {
         // Potentially possible, but we currently lack requirements
         return hint_rating::iffy;
-    } else {
-        // Never possible
-        return hint_rating::cant;
     }
+    // Never possible
+    return hint_rating::cant;
 }
 
 static hint_rating rate_action_eat( const avatar &you, const item &it )
@@ -2046,7 +2044,8 @@ static hint_rating rate_action_eat( const avatar &you, const item &it )
     const auto rating = you.will_eat( it );
     if( rating.success() ) {
         return hint_rating::good;
-    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
+    }
+    if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
         return hint_rating::cant;
     }
 
@@ -2089,20 +2088,22 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
 {
     if( it.is_tool() ) {
         return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
-    } else if( it.is_gunmod() ) {
+    }
+    if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if( you.get_skill_level( skill_gun ) == 0 ) {
             return hint_rating::iffy;
-        } else {
-            return hint_rating::good;
         }
-    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
+        return hint_rating::good;
+    }
+    if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         if( it.is_medication() && !you.can_use_heal_item( it ) ) {
             return hint_rating::cant;
         }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
         return hint_rating::iffy;
-    } else if( it.type->has_use() ) {
+    }
+    if( it.type->has_use() ) {
         return hint_rating::good;
     }
 
@@ -2436,9 +2437,8 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     auto now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;
-    } else {
-        last_mouse_edge_scroll = now;
     }
+    last_mouse_edge_scroll = now;
     const input_event event = ctxt.get_raw_input();
     if( event.type == input_event_t::mouse ) {
         const point threshold( projected_window_width() / 100, projected_window_height() / 100 );
@@ -2982,10 +2982,9 @@ void game::load_world_modfiles( loading_ui &ui )
     mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
         if( found.count( e ) ) {
             return true;
-        } else {
-            found.insert( e );
-            return false;
         }
+        found.insert( e );
+        return false;
     } ), mods.end() );
 
     // require at least one core mod (saves before version 6 may implicitly require dda pack)
@@ -3172,10 +3171,9 @@ bool game::save()
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
             return false;
-        } else {
-            world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
-            return true;
         }
+        world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
+        return true;
     } catch( std::ios::failure & ) {
         popup( _( "Failed to save game data" ) );
         return false;
@@ -4712,7 +4710,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            }
+            if( critter_at( traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4784,7 +4783,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            }
+            if( critter_at( traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4858,7 +4858,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            }
+            if( critter_at( traj[i] ) ) {
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -5169,9 +5170,8 @@ bool game::spawn_hallucination( const tripoint &p )
             overmap_buffer.insert_npc( tmp );
             load_npcs();
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination() );
@@ -5191,9 +5191,8 @@ bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt )
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool game::swap_critters( Creature &a, Creature &b )
@@ -5501,7 +5500,8 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             if( elem.made_of( phase_id::LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() < 250_ml ) {
+            }
+            if( elem.volume() < 250_ml ) {
                 // Dito for small items, will be moved away
                 continue;
             }
@@ -5624,7 +5624,8 @@ void game::control_vehicle()
         if( num_valid_controls < 1 ) {
             add_msg( _( "No vehicle controls found." ) );
             return;
-        } else if( num_valid_controls > 1 ) {
+        }
+        if( num_valid_controls > 1 ) {
             vehicle_position = choose_adjacent( _( "Control vehicle where?" ) );
             if( !vehicle_position ) {
                 return;
@@ -5818,47 +5819,45 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 if( mod >= 4 ) { // = survival level 0-1
                     ss += _( "It's going to go out soon without extra fuel." );
                     return ss;
-                } else {
-                    fire_age = 30_minutes - fire_age;
-                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
-                            fire_age + fire_age * mod / 5 ) ) {
-                        ss += string_format(
-                                  _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
-                                  to_string_approx( fire_age - fire_age * mod / 5 ) );
-                    } else {
-                        ss += string_format(
-                                  _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
-                                  to_string_approx( fire_age - fire_age * mod / 5 ),
-                                  to_string_approx( fire_age + fire_age * mod / 5 ) );
-                    }
-                    return ss;
                 }
-            } else {
-                fire_age = fire_age * -1 + 30_minutes;
-                if( mod >= 4 ) { // = survival level 0-1
-                    if( fire_age <= 1_hours ) {
-                        ss += _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
-                        return ss;
-                    } else if( fire_age <= 3_hours ) {
-                        ss += _( "It looks solid, and will burn for a few hours without extra fuel." );
-                        return ss;
-                    } else {
-                        ss += _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
-                        return ss;
-                    }
+                fire_age = 30_minutes - fire_age;
+                if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                        fire_age + fire_age * mod / 5 ) ) {
+                    ss += string_format(
+                              _( "Without extra fuel it might burn yet for maybe %s, but might also go out sooner." ),
+                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                 } else {
-                    if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
-                            fire_age + fire_age * mod / 5 ) ) {
-                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
-                                             to_string_approx( fire_age - fire_age * mod / 5 ) );
-                    } else {
-                        ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
-                                             to_string_approx( fire_age - fire_age * mod / 5 ),
-                                             to_string_approx( fire_age + fire_age * mod / 5 ) );
-                    }
-                    return ss;
+                    ss += string_format(
+                              _( "Without extra fuel it might burn yet for between %s to %s, but might also go out sooner." ),
+                              to_string_approx( fire_age - fire_age * mod / 5 ),
+                              to_string_approx( fire_age + fire_age * mod / 5 ) );
                 }
+                return ss;
             }
+            fire_age = fire_age * -1 + 30_minutes;
+            if( mod >= 4 ) {
+                // = survival level 0-1
+                if( fire_age <= 1_hours ) {
+                    ss += _( "It's quite decent and looks like it'll burn for a bit without extra fuel." );
+                    return ss;
+                }
+                if( fire_age <= 3_hours ) {
+                    ss += _( "It looks solid, and will burn for a few hours without extra fuel." );
+                    return ss;
+                }
+                ss += _( "It's very well supplied and even without extra fuel might burn for at least a part of a day." );
+                return ss;
+            }
+            if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
+                    fire_age + fire_age * mod / 5 ) ) {
+                ss += string_format( _( "Without extra fuel it will burn for about %s." ),
+                                     to_string_approx( fire_age - fire_age * mod / 5 ) );
+            } else {
+                ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
+                                     to_string_approx( fire_age - fire_age * mod / 5 ),
+                                     to_string_approx( fire_age + fire_age * mod / 5 ) );
+            }
+            return ss;
         }
     }
     return {};
@@ -5914,7 +5913,8 @@ void game::examine( const tripoint &examp )
     if( m.has_flag( "CONSOLE", examp ) && !u.is_mounted() ) {
         use_computer( examp );
         return;
-    } else if( m.has_flag( "CONSOLE", examp ) && u.is_mounted() ) {
+    }
+    if( m.has_flag( "CONSOLE", examp ) && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot use a console while mounted." ) );
     }
     const furn_t &xfurn_t = m.furn( examp ).obj();
@@ -5977,7 +5977,6 @@ void game::examine( const tripoint &examp )
         } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
                      xfurn_t.examine == &iexamine::fireplace ) ||
                    xfurn_t.examine == &iexamine::workbench ) {
-            return;
         } else {
             sounds::process_sound_markers( &u );
             if( !u.is_mounted() ) {
@@ -6376,13 +6375,11 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
                              const int last_line )
 {
     if( !m.sees_some_items( lp, u ) ) {
-        return;
     } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
                    _( "There's something there, but you can't see what it is." ) );
-        return;
     } else {
         std::map<std::string, std::pair<int, nc_color>> item_names;
         for( item &item : m.i_at( lp ) ) {
@@ -7160,7 +7157,6 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 u.set_destination( route );
             } else {
                 add_msg( m_info, _( "You can't travel there." ) );
-                continue;
             }
         } else if( action == "debug_scent" || action == "debug_scent_type" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -7869,9 +7865,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 route.pop_back();
                 u.set_destination( route );
                 break;
-            } else {
-                add_msg( m_info, _( "You can't travel there." ) );
             }
+            add_msg( m_info, _( "You can't travel there." ) );
         }
         if( uistate.list_item_sort == 1 ) {
             ground_items = item_list;
@@ -8817,7 +8812,6 @@ void game::butcher()
                     break;
                 default:
                     debugmsg( "Invalid butchery type: %d", indexer_index );
-                    return;
             }
             break;
         case BUTCHER_CORPSE: {
@@ -8854,7 +8848,8 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         item::reload_option opt = u.select_ammo( *it, prompt );
         if( !opt ) {
             return;
-        } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+        }
+        if( u.ammo_location && opt.ammo == u.ammo_location ) {
             u.ammo_location = item_location();
         } else {
             u.ammo_location = opt.ammo;
@@ -9113,7 +9108,6 @@ void game::wield( item_location loc )
                 debugmsg( "Failed wield from invalid item location" );
                 break;
         }
-        return;
     }
 }
 
@@ -9438,20 +9432,23 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
             !prompt_dangerous_tile( dest_loc ) ) {
             return true;
-        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
-                   ( !u.is_running() || !prompt_dangerous_tile( dest_loc ) ) ) {
+        }
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "RUNNING" &&
+            ( !u.is_running() || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
-        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
-                   ( !u.is_crouching() || !prompt_dangerous_tile( dest_loc ) ) ) {
+        }
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "CROUCHING" &&
+            ( !u.is_crouching() || !prompt_dangerous_tile( dest_loc ) ) ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
             return true;
-        } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
-                   !u.is_running() ) {
+        }
+        if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "NEVER" &&
+            !u.is_running() ) {
             add_msg( m_warning,
                      _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ),
                      enumerate_as_string( harmful_stuff ) );
@@ -9475,7 +9472,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
                                            via_ramp ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
-    } else if( mcost == 0 ) {
+    }
+    if( mcost == 0 ) {
         return false;
     }
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
@@ -9798,7 +9796,6 @@ point game::place_player( const tripoint &dest_loc )
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
                 if( xter_t == &iexamine::none ) {
-                    return;
                 } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
                            ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
                            ( forage_bushes && xter_t == &iexamine::harvest_ter_nectar ) ||
@@ -11443,7 +11440,6 @@ void game::update_stair_monsters()
                 }
             }
             coming_to_stairs.erase( coming_to_stairs.begin() + i );
-            continue;
         } else if( u.pos() == dest ) {
             // Monster attempts to push player of stairs
             point push( point_north_west );

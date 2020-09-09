@@ -257,9 +257,8 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
         g.name = group;
         g.defaultMonster = mtype_id::NULL_ID();
         return g;
-    } else {
-        return it->second;
     }
+    return it->second;
 }
 
 void MonsterGroupManager::LoadMonsterBlacklist( const JsonObject &jo )
@@ -447,9 +446,8 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
     for( const auto &monster_type : group.monsters ) {
         if( monster_type.frequency >= spawn_chance ) {
             return monster_type.name;
-        } else {
-            spawn_chance -= monster_type.frequency;
         }
+        spawn_chance -= monster_type.frequency;
     }
 
     return group.defaultMonster;

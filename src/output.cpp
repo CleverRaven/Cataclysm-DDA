@@ -752,9 +752,8 @@ int popup( const std::string &text, PopupFlags flags )
     const auto &res = pop.query();
     if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
-    } else {
-        return UNKNOWN_UNICODE;
     }
+    return UNKNOWN_UNICODE;
 }
 
 //note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
@@ -2079,13 +2078,15 @@ std::string scrollingcombattext::cSCT::getText( const std::string &type ) const
             if( type == "first" ) {
                 return sText2 + " ";
 
-            } else if( type == "full" ) {
+            }
+            if( type == "full" ) {
                 return sText2 + " " + sText;
             }
         } else {
             if( type == "second" ) {
                 return " " + sText2;
-            } else if( type == "full" ) {
+            }
+            if( type == "full" ) {
                 return sText + " " + sText2;
             }
         }
@@ -2235,7 +2236,8 @@ bool wildcard_match( const std::string &text_in, const std::string &pattern_in )
 
     if( text.empty() ) {
         return false;
-    } else if( text == "*" ) {
+    }
+    if( text == "*" ) {
         return true;
     }
 
@@ -2319,9 +2321,8 @@ int ci_find_substr( const std::string &str1, const std::string &str2, const std:
     } );
     if( it != str1.end() ) {
         return it - str1.begin();
-    } else {
-        return -1;    // not found
     }
+    return -1;    // not found
 }
 
 /**
@@ -2357,13 +2358,13 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
     if( width < 0 ) {
         // left-justify the specified width
         return string_format( "%-*.*f", std::abs( width ), scale, value );
-    } else if( width > 0 ) {
+    }
+    if( width > 0 ) {
         // right-justify the specified width
         return string_format( "%*.*f", width, scale, value );
-    } else {
-        // no width
-        return string_format( "%.*f", scale, value );
     }
+    // no width
+    return string_format( "%.*f", scale, value );
 }
 
 // In non-SDL mode, width/height is just what's specified in the menu

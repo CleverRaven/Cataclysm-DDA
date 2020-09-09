@@ -115,13 +115,13 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
         }
         return true;
 
-    } else if( jo.has_string( key ) ) {
+    }
+    if( jo.has_string( key ) ) {
         parse( jo.get_string( key ) );
         return true;
 
-    } else {
-        return false;
     }
+    return false;
 }
 
 static bool is_physical( const itype &type )
@@ -350,11 +350,11 @@ void Item_factory::finalize_pre( itype &obj )
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
-                return translate_marker( "revolver" );
-            } else {
-                return translate_marker( "semi-auto" );
             }
+            if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                return translate_marker( "revolver" );
+            }
+            return translate_marker( "semi-auto" );
         };
 
         // if the gun doesn't have a DEFAULT mode then add one now
@@ -1514,7 +1514,8 @@ void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
 
     if( !jo.has_member( member ) ) {
         return;
-    } else if( !jo.has_array( member ) ) {
+    }
+    if( !jo.has_array( member ) ) {
         jo.throw_error( "expected array", member );
     }
 
@@ -3199,7 +3200,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
     auto get_array = [&obj, &name, &entries]( const std::string & arr_name, const bool isgroup ) {
         if( !obj.has_array( arr_name ) ) {
             return;
-        } else if( name != "contents" ) {
+        }
+        if( name != "contents" ) {
             obj.throw_error( string_format( "You can't use an array for '%s'", arr_name ) );
         }
         for( const std::string line : obj.get_array( arr_name ) ) {
@@ -3222,7 +3224,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
 
     if( entries.size() > 1 && name != "contents" ) {
         obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
-    } else if( entries.size() == 1 ) {
+    }
+    if( entries.size() == 1 ) {
         const Single_item_creator::Type type = entries.front().second ?
                                                Single_item_creator::Type::S_ITEM_GROUP :
                                                Single_item_creator::Type::S_ITEM;
@@ -3230,7 +3233,8 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         result->inherit_ammo_mag_chances( parent.with_ammo, parent.with_magazine );
         ptr.reset( result );
         return true;
-    } else if( entries.empty() ) {
+    }
+    if( entries.empty() ) {
         return false;
     }
     Item_group *result = new Item_group( Item_group::Type::G_COLLECTION, prob, parent.with_ammo,

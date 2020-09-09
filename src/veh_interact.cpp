@@ -563,9 +563,8 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = std::any_of( vpr.begin(), vpr.end(), [toggling]( const vpart_reference & pt ) {
                 if( toggling ) {
                     return pt.part().is_available() && !pt.part().faults_potential().empty();
-                } else {
-                    return pt.part().is_available() && !pt.part().faults().empty();
                 }
+                return pt.part().is_available() && !pt.part().faults().empty();
             } );
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             // checked later
@@ -697,7 +696,8 @@ bool veh_interact::can_install_part()
     if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !sel_vpart_info->has_flag( "SIMPLE_PART" ) ) {
         msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
-    } else if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
+    }
+    if( sel_vpart_info->has_flag( "NO_INSTALL_PLAYER" ) ) {
         msg = _( "This part cannot be installed.\n" );
         return false;
     }
@@ -863,14 +863,13 @@ static void sort_uilist_entries_by_line_drawing( std::vector<uilist_entry> &shap
         if( a_iter != symbol_order.end() ) {
             if( b_iter != symbol_order.end() ) {
                 return a_iter->second < b_iter->second;
-            } else {
-                return true;
             }
-        } else if( b_iter != symbol_order.end() ) {
-            return false;
-        } else {
-            return a.extratxt.sym < b.extratxt.sym;
+            return true;
         }
+        if( b_iter != symbol_order.end() ) {
+            return false;
+        }
+        return a.extratxt.sym < b.extratxt.sym;
     } );
 }
 
@@ -1125,9 +1124,8 @@ void veh_interact::do_install()
                             if( j == offset ) {
                                 sel_vpart_variant = vp_variant.first;
                                 break;
-                            } else {
-                                j += 1;
                             }
+                            j += 1;
                         }
                     }
                     sel_cmd = 'i';
@@ -1288,12 +1286,12 @@ void veh_interact::do_repair()
             sel_cmd = 'r';
             break;
 
-        } else if( action == "QUIT" ) {
+        }
+        if( action == "QUIT" ) {
             break;
 
-        } else {
-            move_in_list( pos, action, need_repair.size() );
         }
+        move_in_list( pos, action, need_repair.size() );
     }
 }
 
@@ -1324,9 +1322,8 @@ void veh_interact::do_mend()
     auto sel = [toggling]( const vehicle_part & pt ) {
         if( toggling ) {
             return !pt.faults_potential().empty();
-        } else {
-            return !pt.faults().empty();
         }
+        return !pt.faults().empty();
     };
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -1393,9 +1390,8 @@ void veh_interact::calc_overview()
             const input_event prev = evt;
             evt = main_context.next_unassigned_hotkey( hotkeys, evt );
             return prev;
-        } else {
-            return input_event();
         }
+        return input_event();
     };
 
     overview_opts.clear();
@@ -1703,10 +1699,12 @@ void veh_interact::overview( const overview_enable_t &enable,
             overview_action( *overview_opts[overview_pos].part );
             break;
 
-        } else if( input == "QUIT" ) {
+        }
+        if( input == "QUIT" ) {
             break;
 
-        } else if( input == "UP" ) {
+        }
+        if( input == "UP" ) {
             do {
                 move_overview_line( -1 );
                 if( --overview_pos < 0 ) {
@@ -1778,7 +1776,8 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         !smash_remove ) {
         msg = _( "This vehicle cannot be modified in this way.\n" );
         return false;
-    } else if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
+    }
+    if( sel_vpart_info->has_flag( "NO_UNINSTALL" ) ) {
         msg = _( "This part cannot be uninstalled.\n" );
         return false;
     }
@@ -1941,11 +1940,11 @@ void veh_interact::do_remove()
             }
             sel_cmd = 'o';
             break;
-        } else if( action == "QUIT" ) {
-            break;
-        } else {
-            move_in_list( pos, action, parts_here.size() );
         }
+        if( action == "QUIT" ) {
+            break;
+        }
+        move_in_list( pos, action, parts_here.size() );
     }
 }
 
@@ -3024,9 +3023,8 @@ void veh_interact::complete_vehicle( player &p )
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ),
                              vpinfo.name() );
                     break;
-                } else {
-                    base = item( vpinfo.item );
                 }
+                base = item( vpinfo.item );
             }
 
             for( const auto &e : reqs.get_tools() ) {

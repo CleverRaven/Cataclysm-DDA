@@ -185,9 +185,8 @@ aim_location advanced_inventory::screen_relative_location( aim_location area )
 {
     if( use_tiles && tile_iso ) {
         return squares[area].relative_location;
-    } else {
-        return area;
     }
+    return area;
 }
 
 inline std::string advanced_inventory::get_location_key( aim_location area )
@@ -494,7 +493,8 @@ struct advanced_inv_sorter {
                 const bool ammoish2 = !a2.empty() && a2 != "components" && a2 != "none" && a2 != "NULL";
                 if( ammoish1 != ammoish2 ) {
                     return ammoish1;
-                } else if( ammoish1 && ammoish2 ) {
+                }
+                if( ammoish1 && ammoish2 ) {
                     if( a1 == a2 ) {
                         // For items with the same ammo type, we sort:
                         // guns > tools > magazines > ammunition
@@ -835,7 +835,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
     if( dpane.get_area() == AIM_DRAGGED && sarea.pos == darea.pos &&
         spane.in_vehicle() == dpane.in_vehicle() ) {
         return false;
-    } else if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
+    }
+    if( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
         return false;
     }
 
@@ -858,11 +859,13 @@ bool advanced_inventory::move_all_items( bool nested_call )
         if( dpane.get_area() == AIM_INVENTORY ) {
             popup( _( "You try to put your bags into themselves, but physics won't let you." ) );
             return false;
-        } else if( dpane.get_area() == AIM_WORN ) {
+        }
+        if( dpane.get_area() == AIM_WORN ) {
             // TODO: implement this
             popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
-        } else if( dpane.get_area() == AIM_CONTAINER ) {
+        }
+        if( dpane.get_area() == AIM_CONTAINER ) {
             // TODO: implement this
             popup( _( "Putting everything into the container would be tricky." ) );
             return false;

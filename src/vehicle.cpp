@@ -800,19 +800,25 @@ static int get_turn_from_angle( const double angle, const tripoint &vehpos, cons
 {
     if( angle > 10.0 && angle <= 45.0 ) {
         return reverse ? 4 : 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
+    }
+    if( angle > 45.0 && angle <= 90.0 ) {
         return 3;
-    } else if( angle > 90.0 && angle < 180.0 ) {
+    }
+    if( angle > 90.0 && angle < 180.0 ) {
         return reverse ? 1 : 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
+    }
+    if( angle < -10.0 && angle >= -45.0 ) {
         return reverse ? -4 : -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
+    }
+    if( angle < -45.0 && angle >= -90.0 ) {
         return -3;
-    } else if( angle < -90.0 && angle > -180.0 ) {
+    }
+    if( angle < -90.0 && angle > -180.0 ) {
         return reverse ? -1 : -4;
         // edge case of being exactly on the button for the target.
         // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+    }
+    if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
         return 0;
     }
     return 0;
@@ -867,10 +873,9 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         if( elem == player_character.pos().xy() ) {
             if( follow_protocol || player_character.in_vehicle ) {
                 continue;
-            } else {
-                stop = true;
-                break;
             }
+            stop = true;
+            break;
         }
         bool its_a_pet = false;
         if( g->critter_at( tripoint( elem, sm_pos.z ) ) ) {
@@ -1590,7 +1595,8 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             if( next == target ) {
                 //Success!
                 return true;
-            } else if( next == excluded ) {
+            }
+            if( next == excluded ) {
                 //There might be a path, but we're not allowed to go that way
                 continue;
             }
@@ -1724,7 +1730,8 @@ bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &l
                 test_veh = veh_pointer_or_null( here.veh_at( search_pos ) );
                 if( test_veh == nullptr || test_veh == this ) {
                     continue;
-                } else if( test_veh != carry_vehs[ i ] ) {
+                }
+                if( test_veh != carry_vehs[ i ] ) {
                     carry_vehs[ i ] = test_veh;
                     partial_matches[ i ].clear();
                 }
@@ -2042,9 +2049,8 @@ void vehicle::part_removal_cleanup()
         if( parts.empty() ) {
             here.destroy_vehicle( this );
             return;
-        } else {
-            here.add_vehicle_to_cache( this );
         }
+        here.add_vehicle_to_cache( this );
     }
     shift_if_needed();
     refresh(); // Rebuild cached indices
@@ -2501,15 +2507,13 @@ std::vector<int> vehicle::parts_at_relative( const point &dp,
             }
         }
         return res;
-    } else {
-        const auto &iter = relative_parts.find( dp );
-        if( iter != relative_parts.end() ) {
-            return iter->second;
-        } else {
-            std::vector<int> res;
-            return res;
-        }
     }
+    const auto &iter = relative_parts.find( dp );
+    if( iter != relative_parts.end() ) {
+        return iter->second;
+    }
+    std::vector<int> res;
+    return res;
 }
 
 cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
@@ -2852,9 +2856,8 @@ int vehicle::get_next_shifted_index( int original_index, player &p )
         // if loads of npcs are all removing parts at the same time.
         // if that's the case, just bail out and give up, somebody else is probably doing the job right now anyway.
         return -1;
-    } else {
-        return ret_index;
     }
+    return ret_index;
 }
 
 /**
@@ -2955,18 +2958,16 @@ bool vehicle::part_flag( int part, const std::string &flag ) const
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) || parts[part].removed ) {
         return false;
-    } else {
-        return part_info( part ).has_flag( flag );
     }
+    return part_info( part ).has_flag( flag );
 }
 
 bool vehicle::part_flag( int part, const vpart_bitflags flag ) const
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) || parts[part].removed ) {
         return false;
-    } else {
-        return part_info( part ).has_flag( flag );
     }
+    return part_info( part ).has_flag( flag );
 }
 
 int vehicle::part_at( const point &dp ) const
@@ -3576,25 +3577,24 @@ static double simple_cubic_solution( double a, double b, double c, double d )
 
         if( imag( term_sum ) < 2 ) {
             return p + real( term_sum );
-        } else {
-            debugmsg( "cubic solution returned imaginary values" );
-            return 0;
         }
-    } else {
-        double tricky_final = std::sqrt( tricky_bit );
-        double term1_part = q + tricky_final;
-        double term2_part = q - tricky_final;
-        double term1 = std::cbrt( term1_part );
-        double term2 = std::cbrt( term2_part );
-        return p + term1 + term2;
+        debugmsg( "cubic solution returned imaginary values" );
+        return 0;
     }
+    double tricky_final = std::sqrt( tricky_bit );
+    double term1_part = q + tricky_final;
+    double term2_part = q - tricky_final;
+    double term1 = std::cbrt( term1_part );
+    double term2 = std::cbrt( term2_part );
+    return p + term1 + term2;
 }
 
 int vehicle::acceleration( const bool fueled, int at_vel_in_vmi ) const
 {
     if( is_watercraft() ) {
         return water_acceleration( fueled, at_vel_in_vmi );
-    } else if( is_rotorcraft() && is_flying ) {
+    }
+    if( is_rotorcraft() && is_flying ) {
         return rotor_acceleration( fueled, at_vel_in_vmi );
     }
     return ground_acceleration( fueled, at_vel_in_vmi );
@@ -3675,11 +3675,11 @@ int vehicle::max_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return max_rotor_velocity( fueled );
-    } else if( is_watercraft() ) {
-        return max_water_velocity( fueled );
-    } else {
-        return max_ground_velocity( fueled );
     }
+    if( is_watercraft() ) {
+        return max_water_velocity( fueled );
+    }
+    return max_ground_velocity( fueled );
 }
 
 int vehicle::max_reverse_velocity( const bool fueled ) const
@@ -3688,10 +3688,9 @@ int vehicle::max_reverse_velocity( const bool fueled ) const
     if( has_engine_type( fuel_type_battery, true ) ) {
         // Electric motors can go in reverse as well as forward
         return -max_vel;
-    } else {
-        // All other motive powers do poorly in reverse
-        return -max_vel / 4;
     }
+    // All other motive powers do poorly in reverse
+    return -max_vel / 4;
 }
 
 // the same physics as max_ground_velocity, but with a smaller engine power
@@ -3725,11 +3724,11 @@ int vehicle::safe_velocity( const bool fueled ) const
 {
     if( is_flying && is_rotorcraft() ) {
         return safe_rotor_velocity( fueled );
-    } else if( is_watercraft() ) {
-        return safe_water_velocity( fueled );
-    } else {
-        return safe_ground_velocity( fueled );
     }
+    if( is_watercraft() ) {
+        return safe_water_velocity( fueled );
+    }
+    return safe_ground_velocity( fueled );
 }
 
 bool vehicle::do_environmental_effects()
@@ -3880,11 +3879,11 @@ static double tile_to_width( int tiles )
 {
     if( tiles < 1 ) {
         return 0.1;
-    } else if( tiles < 6 ) {
-        return 0.5 + 0.4 * tiles;
-    } else {
-        return 2.5 + 0.15 * ( tiles - 5 );
     }
+    if( tiles < 6 ) {
+        return 0.5 + 0.4 * tiles;
+    }
+    return 2.5 + 0.15 * ( tiles - 5 );
 }
 
 static constexpr int minrow = -122;
@@ -3938,9 +3937,8 @@ double vehicle::coeff_air_drag() const
     const auto d_protrusion = [&]( std::vector<int> parts_at ) {
         if( parts_at.size() > 1 ) {
             return false;
-        } else {
-            return parts[ parts_at.front() ].info().has_flag( "PROTRUSION" );
         }
+        return parts[ parts_at.front() ].info().has_flag( "PROTRUSION" );
     };
     const auto d_check_min = [&]( int &value, const vehicle_part & p, bool test ) {
         value = std::min( value, test ? p.mount.x - mount_min.x : maxrow );
@@ -4269,9 +4267,8 @@ float vehicle::strain() const
     }
     if( velocity < sv && velocity > -sv ) {
         return 0;
-    } else {
-        return static_cast<float>( std::abs( velocity ) - sv ) / static_cast<float>( mv - sv );
     }
+    return static_cast<float>( std::abs( velocity ) - sv ) / static_cast<float>( mv - sv );
 }
 
 bool vehicle::sufficient_wheel_config() const
@@ -4279,7 +4276,8 @@ bool vehicle::sufficient_wheel_config() const
     if( wheelcache.empty() ) {
         // No wheels!
         return false;
-    } else if( wheelcache.size() == 1 ) {
+    }
+    if( wheelcache.size() == 1 ) {
         //Has to be a stable wheel, and one wheel can only support a 1-3 tile vehicle
         if( !part_info( wheelcache.front() ).has_flag( "STABLE" ) ||
             all_parts_at_location( part_location_structure ).size() > 3 ) {
@@ -4346,13 +4344,15 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         return true;
         // if There is no owner
         // handle transfer of ownership
-    } else if( !has_owner() ) {
+    }
+    if( !has_owner() ) {
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
-               calendar::turn - *theft_time > 15_minutes ) {
+    }
+    if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+        calendar::turn - *theft_time > 15_minutes ) {
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
@@ -4361,7 +4361,8 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
+    }
+    if( witnesses.empty() && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4841,7 +4842,6 @@ void vehicle::power_parts()
             // the amount of energy the reactor generates each turn
             const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
             if( parts[ elem ].is_unavailable() ) {
-                continue;
             } else if( parts[ elem ].info().has_flag( flag_PERPETUAL ) ) {
                 reactor_working = true;
                 delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
@@ -5145,9 +5145,8 @@ void vehicle::idle( bool on_map )
 
     if( !on_map ) {
         return;
-    } else {
-        update_time( calendar::turn );
     }
+    update_time( calendar::turn );
 
     if( has_part( "STEREO", true ) ) {
         play_music();
@@ -5305,9 +5304,8 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
             invalidate_mass();
             if( !here->merge_charges( itm ) ) {
                 return cata::nullopt;
-            } else {
-                return cata::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
             }
+            return cata::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
         }
     }
 
@@ -5511,9 +5509,8 @@ bool vehicle::decrement_summon_timer()
         add_msg_if_player_sees( global_pos3(), m_info, _( "Your %s winks out of existence." ), name );
         get_map().destroy_vehicle( this );
         return true;
-    } else {
-        *summon_time_limit -= 1_turns;
     }
+    *summon_time_limit -= 1_turns;
     return false;
 }
 
@@ -5951,13 +5948,12 @@ bool vehicle::is_towing() const
     bool ret = false;
     if( !tow_data.get_towed() ) {
         return ret;
-    } else {
-        if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
-            debugmsg( "vehicle %s is towing, but the towed vehicle has no tower defined", name );
-            return ret;
-        }
-        ret = true;
     }
+    if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
+        debugmsg( "vehicle %s is towing, but the towed vehicle has no tower defined", name );
+        return ret;
+    }
+    ret = true;
     return ret;
 }
 
@@ -5966,13 +5962,12 @@ bool vehicle::is_towed() const
     bool ret = false;
     if( !tow_data.get_towed_by() ) {
         return ret;
-    } else {
-        if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
-            debugmsg( "vehicle %s is marked as towed, but the tower vehicle has no towed defined", name );
-            return ret;
-        }
-        ret = true;
     }
+    if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
+        debugmsg( "vehicle %s is marked as towed, but the tower vehicle has no towed defined", name );
+        return ret;
+    }
+    ret = true;
     return ret;
 }
 
@@ -6231,7 +6226,8 @@ void vehicle::refresh_insides()
                 if( part_flag( j, "ROOF" ) && parts[ j ].is_available() ) {
                     cover = true;
                     break;
-                } else if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
+                }
+                if( part_flag( j, "OBSTACLE" ) && parts[ j ].is_available() ) {
                     // found an obstacle, like board or windshield or door
                     if( parts[j].inside || ( part_flag( j, "OPENABLE" ) && parts[j].open ) ) {
                         // door and it's open -- can't cover

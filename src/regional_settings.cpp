@@ -538,13 +538,12 @@ void load_region_settings( const JsonObject &jo )
         building_bin & dest ) {
             if( !cjo.has_object( type ) && strict ) {
                 jo.throw_error( "city: \"" + type + "\": { … } required for default" );
-            } else {
-                for( const JsonMember member : cjo.get_object( type ) ) {
-                    if( member.is_comment() ) {
-                        continue;
-                    }
-                    dest.add( overmap_special_id( member.name() ), member.get_int() );
+            }
+            for( const JsonMember member : cjo.get_object( type ) ) {
+                if( member.is_comment() ) {
+                    continue;
                 }
+                dest.add( overmap_special_id( member.name() ), member.get_int() );
             }
         };
         load_building_types( "houses", new_region.city_spec.houses );
@@ -599,9 +598,8 @@ void load_region_overlay( const JsonObject &jo )
                 auto itr = region_settings_map.find( regionid );
                 if( itr == region_settings_map.end() ) {
                     jo.throw_error( "region: " + regionid + " not found in region_settings_map" );
-                } else {
-                    apply_region_overlay( jo, itr->second );
                 }
+                apply_region_overlay( jo, itr->second );
             }
         }
     } else {
@@ -927,7 +925,6 @@ void overmap_lake_settings::finalize()
                        alias.alias ) == shore_extendable_overmap_terrain.end() ) {
             debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
                       alias.alias.c_str() );
-            continue;
         }
     }
 }
@@ -1067,9 +1064,8 @@ void building_bin::finalize()
                 debugmsg( "Tried to add city building %s, but it is neither a special nor a terrain type",
                           pr.first.c_str() );
                 continue;
-            } else {
-                all.emplace_back( pr.first.str() );
             }
+            all.emplace_back( pr.first.str() );
             current_id = overmap_specials::create_building_from( converted_id );
         }
         buildings.add( current_id, pr.second );

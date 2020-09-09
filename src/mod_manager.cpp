@@ -45,9 +45,8 @@ std::string MOD_INFORMATION::name() const
         // "No name" gets confusing if many mods have no name
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
-    } else {
-        return _( name_ );
     }
+    return _( name_ );
 }
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.

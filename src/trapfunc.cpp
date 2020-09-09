@@ -703,7 +703,8 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             n->check_dead_state();
         }
         return true;
-    } else if( z != nullptr ) {
+    }
+    if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             get_player_character().forced_dismount();
         }
@@ -1094,16 +1095,15 @@ static bool sinkhole_safety_roll( player &p, const itype_id &itemname, const int
         p.use_amount( itemname, 1 );
         here.spawn_item( random_neighbor( p.pos() ), itemname );
         return false;
-    } else {
-        p.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
-                                 _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-        p.setpos( random_entry( safe ) );
-        if( p.is_avatar() ) {
-            g->update_map( p );
-        }
-
-        return true;
     }
+    p.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
+                             _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
+    p.setpos( random_entry( safe ) );
+    if( p.is_avatar() ) {
+        g->update_map( p );
+    }
+
+    return true;
 }
 
 bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )

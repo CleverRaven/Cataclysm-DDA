@@ -78,13 +78,14 @@ int tileray::dir4() const
 {
     if( direction >= 45 && direction <= 135 ) {
         return 1;
-    } else if( direction > 135 && direction < 225 ) {
-        return 2;
-    } else if( direction >= 225 && direction <= 315 ) {
-        return 3;
-    } else {
-        return 0;
     }
+    if( direction > 135 && direction < 225 ) {
+        return 2;
+    }
+    if( direction >= 225 && direction <= 315 ) {
+        return 3;
+    }
+    return 0;
 }
 
 int tileray::dir8() const

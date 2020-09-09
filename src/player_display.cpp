@@ -306,18 +306,16 @@ static player_display_tab next_tab( const player_display_tab tab )
 {
     if( static_cast<int>( tab ) + 1 < static_cast<int>( player_display_tab::num_tabs ) ) {
         return static_cast<player_display_tab>( static_cast<int>( tab ) + 1 );
-    } else {
-        return static_cast<player_display_tab>( 0 );
     }
+    return static_cast<player_display_tab>( 0 );
 }
 
 static player_display_tab prev_tab( const player_display_tab tab )
 {
     if( static_cast<int>( tab ) > 0 ) {
         return static_cast<player_display_tab>( static_cast<int>( tab ) - 1 );
-    } else {
-        return static_cast<player_display_tab>( static_cast<int>( player_display_tab::num_tabs ) - 1 );
     }
+    return static_cast<player_display_tab>( static_cast<int>( player_display_tab::num_tabs ) - 1 );
 }
 
 static void draw_proficiencies_tab( const catacurses::window &win, const unsigned line,
@@ -400,9 +398,8 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     const auto line_color = [curtab, line]( const unsigned int line_to_draw ) {
         if( curtab == player_display_tab::stats && line == line_to_draw ) {
             return h_light_gray;
-        } else {
-            return c_light_gray;
         }
+        return c_light_gray;
     };
 
     // Stats

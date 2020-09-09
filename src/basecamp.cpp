@@ -245,9 +245,8 @@ std::string basecamp::next_upgrade( const point &dir, const int offset ) const
         const std::string candidate = base_camps::faction_encode_abs( e_data, i );
         if( e_data.provides.find( candidate ) == e_data.provides.end() ) {
             break;
-        } else {
-            cur_level = i;
         }
+        cur_level = i;
     }
     if( cur_level >= 0 ) {
         return base_camps::faction_encode_abs( e_data, cur_level + offset );
@@ -521,7 +520,6 @@ void basecamp::validate_assignees()
             continue;
         }
         if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
-            continue;
         } else {
             if( npc_to_add->assigned_camp && *npc_to_add->assigned_camp == omt_pos ) {
                 assigned_npcs.push_back( npc_to_add );

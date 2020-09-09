@@ -51,9 +51,8 @@ int divide_round_down( int a, int b )
     }
     if( a >= 0 ) {
         return a / b;
-    } else {
-        return -( ( -a + b - 1 ) / b );
     }
+    return -( ( -a + b - 1 ) / b );
 }
 
 int modulo( int v, int m )
@@ -156,7 +155,8 @@ double logarithmic_range( int min, int max, int pos )
     // Anything beyond (min,max) gets clamped.
     if( pos <= min ) {
         return 1.0;
-    } else if( pos >= max ) {
+    }
+    if( pos >= max ) {
         return 0.0;
     }
 
@@ -189,16 +189,16 @@ const char *velocity_units( const units_type vel_units )
 {
     if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "mph" ) {
         return _( "mph" );
-    } else if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
+    }
+    if( get_option<std::string>( "USE_METRIC_SPEEDS" ) == "t/t" ) {
         //~ vehicle speed tiles per turn
         return _( "t/t" );
-    } else {
-        switch( vel_units ) {
-            case VU_VEHICLE:
-                return _( "km/h" );
-            case VU_WIND:
-                return _( "m/s" );
-        }
+    }
+    switch( vel_units ) {
+        case VU_VEHICLE:
+            return _( "km/h" );
+        case VU_WIND:
+            return _( "m/s" );
     }
     return "error: unknown units!";
 }
@@ -261,7 +261,8 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 
     if( i == 0 ) {
         return points.front().second;
-    } else if( i >= points.size() ) {
+    }
+    if( i >= points.size() ) {
         return points.back().second;
     }
 
@@ -414,7 +415,6 @@ std::string obscure_message( const std::string &str, const std::function<char()>
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
         if( transformation[0] == -1 ) {
-            continue;
         } else if( transformation[0] == 0 ) {
             if( utf8_width( this_char ) == 1 ) {
                 w_str[i] = random_entry( w_gibberish_narrow );

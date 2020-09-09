@@ -237,7 +237,8 @@ static mut_attack load_mutation_attack( const JsonObject &jo )
 
     if( !ret.hardcoded_effect && ret.base_damage.empty() && ret.strength_damage.empty() ) {
         jo.throw_error( "Damage unset" );
-    } else if( ret.hardcoded_effect && ( !ret.base_damage.empty() || !ret.strength_damage.empty() ) ) {
+    }
+    if( ret.hardcoded_effect && ( !ret.base_damage.empty() || !ret.strength_damage.empty() ) ) {
         jo.throw_error( "Damage and hardcoded effect are both set (must be one, not both)" );
     }
 
@@ -634,17 +635,20 @@ nc_color mutation_branch::get_display_color() const
 {
     if( threshold || profession ) {
         return c_white;
-    } else if( debug ) {
-        return c_light_cyan;
-    } else if( mixed_effect ) {
-        return c_pink;
-    } else if( points > 0 ) {
-        return c_light_green;
-    } else if( points < 0 ) {
-        return c_light_red;
-    } else {
-        return c_yellow;
     }
+    if( debug ) {
+        return c_light_cyan;
+    }
+    if( mixed_effect ) {
+        return c_pink;
+    }
+    if( points > 0 ) {
+        return c_light_green;
+    }
+    if( points < 0 ) {
+        return c_light_red;
+    }
+    return c_yellow;
 }
 
 std::string mutation_branch::get_name( const trait_id &mutation_id )

@@ -697,9 +697,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
                     coll = rotor_coll;
                     if( just_detect ) {
                         break;
-                    } else {
-                        colls.push_back( rotor_coll );
                     }
+                    colls.push_back( rotor_coll );
                 }
             }
         }
@@ -1518,9 +1517,8 @@ float get_collision_factor( const float delta_v )
 {
     if( std::abs( delta_v ) <= 31 ) {
         return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );
-    } else {
-        return 0.1;
     }
+    return 0.1;
 }
 
 void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
@@ -1919,9 +1917,8 @@ bool vehicle::level_vehicle()
     if( adjust_level ) {
         here.displace_vehicle( *this, tripoint_below, center_drop, dropped_parts );
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 void vehicle::check_falling_or_floating()
@@ -2006,7 +2003,8 @@ float map::vehicle_wheel_traction( const vehicle &veh,
                 tr.has_flag( terrain_mod.first ) ) {
                 move_mod = terrain_mod.second.movecost;
                 break;
-            } else if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
+            }
+            if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
                 move_mod += terrain_mod.second.penalty;
                 break;
             }

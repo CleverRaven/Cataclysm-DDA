@@ -131,11 +131,11 @@ std::string character_martial_arts::selected_style_name( const Character &owner 
 {
     if( style_selected->force_unarmed || style_selected->weapon_valid( owner.weapon ) ) {
         return style_selected->name.translated();
-    } else if( owner.is_armed() ) {
-        return _( "Normal" );
-    } else {
-        return _( "No Style" );
     }
+    if( owner.is_armed() ) {
+        return _( "Normal" );
+    }
+    return _( "No Style" );
 }
 
 std::vector<matype_id> character_martial_arts::get_unknown_styles( const character_martial_arts

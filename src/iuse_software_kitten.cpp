@@ -225,9 +225,8 @@ std::string robot_finds_kitten::getmessage( int idx ) const
     };
     if( idx < 0 || idx >= nummessages ) {
         return std::string( _( "It is SOFTWARE BUG." ) );
-    } else {
-        return std::string( rfimessages[idx] );
     }
+    return std::string( rfimessages[idx] );
 }
 
 robot_finds_kitten::robot_finds_kitten()

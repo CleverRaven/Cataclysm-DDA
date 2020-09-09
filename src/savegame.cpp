@@ -240,7 +240,6 @@ void game::unserialize( std::istream &fin )
 
     } catch( const JsonError &jsonerr ) {
         debugmsg( "Bad save json\n%s", jsonerr.c_str() );
-        return;
     }
 }
 

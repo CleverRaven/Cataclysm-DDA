@@ -142,9 +142,11 @@ static size_t blood_trail_len( int damage )
 {
     if( damage > 50 ) {
         return 3;
-    } else if( damage > 20 ) {
+    }
+    if( damage > 20 ) {
         return 2;
-    } else if( damage > 0 ) {
+    }
+    if( damage > 0 ) {
         return 1;
     }
     return 0;

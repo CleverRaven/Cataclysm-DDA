@@ -851,7 +851,8 @@ void iexamine::vending( player &p, const tripoint &examp )
             if( item_list.empty() ) {
                 add_msg( _( "With a beep, the empty vending machine shuts down." ) );
                 return;
-            } else if( cur_pos == num_items - 1 ) {
+            }
+            if( cur_pos == num_items - 1 ) {
                 cur_pos--;
             }
         } else if( action == "QUIT" ) {
@@ -904,7 +905,6 @@ void iexamine::elevator( player &p, const tripoint &examp )
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
-            continue;
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
@@ -926,7 +926,6 @@ void iexamine::elevator( player &p, const tripoint &examp )
     // finally, bring along everyone who was in the elevator with the player
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
-            continue;
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
@@ -1416,18 +1415,15 @@ void iexamine::safe( player &p, const tripoint &examp )
             p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
-            return;
         }
+        p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+        return;
     }
 
     if( p.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-        return;
     } else if( p.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
-        return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
         // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
@@ -1504,10 +1500,9 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
             p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
             p.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
             return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
-                                 bio_lockpick->name );
         }
+        p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
+                             bio_lockpick->name );
     }
 
     std::vector<item *> picklocks = p.items_with( [&p]( const item & it ) {
@@ -1537,9 +1532,8 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         if( can_use.success() ) {
             iuse_fn->call( p, *it, false, examp );
             return;
-        } else {
-            p.add_msg_if_player( m_bad, can_use.str() );
         }
+        p.add_msg_if_player( m_bad, can_use.str() );
     }
 }
 
@@ -2070,7 +2064,6 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     if( one_in( 2 ) ) {
         for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
-                continue;
             } else if( g->place_critter_at( montype, nearby_pos ) ) {
                 monster_count++;
             }
@@ -2164,9 +2157,8 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 
     if( smenu.ret >= 0 ) {
         return smenu.ret;
-    } else {
-        return seed_entries.size();
     }
+    return seed_entries.size();
 }
 
 /**
@@ -2493,7 +2485,8 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
             add_msg( _( "This kiln already contains charcoal." ) );
             add_msg( _( "Remove it before firing the kiln again." ) );
             return;
-        } else if( i.made_of_any( kilnable ) ) {
+        }
+        if( i.made_of_any( kilnable ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This kiln contains %s, which can't be made into charcoal!" ), i.tname( 1,
@@ -2528,12 +2521,11 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
     if( !p.has_charges( itype_fire, 1 ) ) {
         add_msg( _( "This kiln is ready to be fired, but you have no fire source." ) );
         return;
-    } else {
-        add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Fire the kiln?" ) ) ) {
-            return;
-        }
+    }
+    add_msg( _( "This kiln contains %s %s of material, and is ready to be fired." ),
+             format_volume( total_volume ), volume_units_abbr() );
+    if( !query_yn( _( "Fire the kiln?" ) ) ) {
+        return;
     }
 
     p.use_charges( itype_fire, 1 );
@@ -2624,7 +2616,8 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
             add_msg( _( "This furnace already contains calcium carbide." ) );
             add_msg( _( "Remove it before activating the arc furnace again." ) );
             return;
-        } else if( i.made_of_any( arcfurnaceable ) ) {
+        }
+        if( i.made_of_any( arcfurnaceable ) ) {
             fuel_present = true;
         } else {
             add_msg( m_bad, _( "This furnace contains %s, which can't be made into calcium carbide!" ),
@@ -2659,12 +2652,11 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     if( !p.has_charges( itype_UPS, 1250 ) ) {
         add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
         return;
-    } else {
-        add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
-                 format_volume( total_volume ), volume_units_abbr() );
-        if( !query_yn( _( "Turn on the furnace?" ) ) ) {
-            return;
-        }
+    }
+    add_msg( _( "This furnace contains %s %s of material, and is ready to be turned on." ),
+             format_volume( total_volume ), volume_units_abbr() );
+    if( !query_yn( _( "Turn on the furnace?" ) ) ) {
+        return;
     }
 
     p.use_charges( itype_UPS, 1250 );
@@ -2913,9 +2905,8 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                     const int charges = actor->use( p, *it, false, examp );
                     p.use_charges( it->typeId(), charges );
                     return;
-                } else {
-                    p.add_msg_if_player( m_bad, can_use.str() );
                 }
+                p.add_msg_if_player( m_bad, can_use.str() );
             }
             p.add_msg_if_player( _( "You weren't able to start a fire." ) );
             return;
@@ -2952,7 +2943,6 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
         default:
             none( p, examp );
-            return;
     }
 }
 
@@ -3144,9 +3134,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         }
 
         return;
-    } else {
-        add_msg( _( "There's a vat of fermented %s there." ), brew_i.tname() );
     }
+    add_msg( _( "There's a vat of fermented %s there." ), brew_i.tname() );
 
     const std::string booze_name = brew_i.tname();
     if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
@@ -3278,7 +3267,6 @@ void iexamine::keg( player &p, const tripoint &examp )
         p.moves -= to_moves<int>( 10_seconds );
         here.i_clear( examp );
         here.add_item( examp, drink );
-        return;
     } else {
         // First empty the keg of foreign objects
         displace_items_except_one_liquid( examp );
@@ -3856,7 +3844,6 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        return;
     }
 }
 
@@ -4171,32 +4158,32 @@ static std::string str_to_illiterate_str( std::string s )
 {
     if( !get_player_character().has_trait( trait_ILLITERATE ) ) {
         return s;
-    } else {
-        for( auto &i : s ) {
-            i = i + rng( 0, 5 ) - rng( 0, 5 );
-            if( i < ' ' ) {
-                // some control character, most likely not handled correctly be the print functions
-                i = ' ';
-            } else if( i == '%' ) {
-                // avoid characters that trigger formatting in the various print functions
-                i++;
-            }
-        }
-        return s;
     }
+    for( auto &i : s ) {
+        i = i + rng( 0, 5 ) - rng( 0, 5 );
+        if( i < ' ' ) {
+            // some control character, most likely not handled correctly be the print functions
+            i = ' ';
+        } else if( i == '%' ) {
+            // avoid characters that trigger formatting in the various print functions
+            i++;
+        }
+    }
+    return s;
 }
 
 static std::string getGasDiscountName( int discount )
 {
     if( discount == 3 ) {
         return str_to_illiterate_str( _( "Platinum member" ) );
-    } else if( discount == 2 ) {
-        return str_to_illiterate_str( _( "Gold member" ) );
-    } else if( discount == 1 ) {
-        return str_to_illiterate_str( _( "Silver member" ) );
-    } else {
-        return str_to_illiterate_str( _( "Beloved customer" ) );
     }
+    if( discount == 2 ) {
+        return str_to_illiterate_str( _( "Gold member" ) );
+    }
+    if( discount == 1 ) {
+        return str_to_illiterate_str( _( "Silver member" ) );
+    }
+    return str_to_illiterate_str( _( "Beloved customer" ) );
 }
 
 static int getGasPricePerLiter( int discount )
@@ -4473,10 +4460,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             add_msg( m_info, _( "Your cash cards now hold %s." ),
                      format_money( p.charges_of( itype_cash_card ) ) );
             p.moves -= to_moves<int>( 5_seconds );
-            return;
         } else {
             popup( _( "Unable to refund, no fuel in pump." ) );
-            return;
         }
     }
 }
@@ -5106,7 +5091,6 @@ static void mill_activate( player &p, const tripoint &examp )
         if( it.type->milling_data ) {
             food_present = true;
             food_volume += it.volume();
-            continue;
         } else {
             add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), it.tname( 1, false ) );
             add_msg( _( "You remove the %s from the mill." ), it.tname() );

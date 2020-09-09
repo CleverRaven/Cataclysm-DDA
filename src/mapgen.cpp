@@ -2349,9 +2349,8 @@ void mapgen_function_json_base::setup_common()
     }
     if( mapgen_defer::defer ) {
         mapgen_defer::jsi.throw_error( mapgen_defer::message, mapgen_defer::member );
-    } else {
-        mapgen_defer::jsi = JsonObject();
     }
+    mapgen_defer::jsi = JsonObject();
 }
 
 bool mapgen_function_json_base::setup_common( const JsonObject &jo )
@@ -4657,11 +4656,10 @@ void map::draw_temple( const mapgendata &dat )
                             }
                             if( next.empty() ) {
                                 break;
-                            } else {
-                                const point p = random_entry( next );
-                                x = p.x;
-                                y = p.y;
                             }
+                            const point p = random_entry( next );
+                            x = p.x;
+                            y = p.y;
                         }
                     }
                     // Now go backwards through path (start to finish), toggling any tiles that need
@@ -4721,8 +4719,6 @@ void map::draw_temple( const mapgendata &dat )
                         relic_procgen_id( "cult" ) );
         spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ),
                         relic_procgen_id( "cult" ) );
-        return;
-
     }
 }
 
@@ -6008,7 +6004,8 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             add_vehicle_to_map( std::move( old_veh ), false );
             return nullptr;
 
-        } else if( impassable( p ) ) {
+        }
+        if( impassable( p ) ) {
             if( !merge_wrecks ) {
                 return nullptr;
             }

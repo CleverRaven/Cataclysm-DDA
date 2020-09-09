@@ -635,7 +635,8 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
     if( dir == om_direction::type::invalid ) {
         debugmsg( "Invalid rotation was asked from overmap terrain \"%s\".", id.c_str() );
         return ot_null;
-    } else if( dir == om_direction::type::none || !is_rotatable() ) {
+    }
+    if( dir == om_direction::type::none || !is_rotatable() ) {
         return directional_peers.front();
     }
     cata_assert( directional_peers.size() == om_direction::size );
@@ -1097,13 +1098,12 @@ oter_id overmap::get_default_terrain( int z ) const
 {
     if( z == 0 ) {
         return settings.default_oter.id();
-    } else {
-        // // TODO: Get rid of the hard-coded ids.
-        static const oter_str_id open_air( "open_air" );
-        static const oter_str_id empty_rock( "empty_rock" );
-
-        return z > 0 ? open_air.id() : empty_rock.id();
     }
+    // // TODO: Get rid of the hard-coded ids.
+    static const oter_str_id open_air( "open_air" );
+    static const oter_str_id empty_rock( "empty_rock" );
+
+    return z > 0 ? open_air.id() : empty_rock.id();
 }
 
 void overmap::init_layers()
@@ -1255,7 +1255,8 @@ bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
     for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( !i.dangerous ) {
             continue;
-        } else if( p.xy() == i.p ) {
+        }
+        if( p.xy() == i.p ) {
             return true;
         }
         const int radius = i.danger_radius;
@@ -2974,11 +2975,11 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
 
     if( shop_normal > town_dist ) {
         return settings.city_spec.pick_shop();
-    } else if( park_normal > town_dist ) {
-        return settings.city_spec.pick_park();
-    } else {
-        return settings.city_spec.pick_house();
     }
+    if( park_normal > town_dist ) {
+        return settings.city_spec.pick_park();
+    }
+    return settings.city_spec.pick_house();
 }
 
 void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town )
@@ -3975,9 +3976,8 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 
         if( rp.z() == 0 ) {
             return elem.can_be_placed_on( tid );
-        } else {
-            return tid == get_default_terrain( rp.z() );
         }
+        return tid == get_default_terrain( rp.z() );
     } );
 }
 
@@ -4562,14 +4562,16 @@ std::string oter_no_dir( const oter_id &oter )
     if( oter_len > 7 ) {
         if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
             return base_oter_id.substr( 0, oter_len - 6 );
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+        }
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
             return base_oter_id.substr( 0, oter_len - 6 );
         }
     }
     if( oter_len > 6 ) {
         if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
             return base_oter_id.substr( 0, oter_len - 5 );
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+        }
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
             return base_oter_id.substr( 0, oter_len - 5 );
         }
     }
@@ -4583,14 +4585,16 @@ int oter_get_rotation( const oter_id &oter )
     if( oter_len > 7 ) {
         if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
             return 2;
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+        }
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
             return 0;
         }
     }
     if( oter_len > 6 ) {
         if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
             return 1;
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+        }
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
             return 3;
         }
     }
@@ -4604,14 +4608,16 @@ std::string oter_get_rotation_string( const oter_id &oter )
     if( oter_len > 7 ) {
         if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
             return "_south";
-        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+        }
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
             return "_north";
         }
     }
     if( oter_len > 6 ) {
         if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
             return "_west";
-        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+        }
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
             return "_east";
         }
     }

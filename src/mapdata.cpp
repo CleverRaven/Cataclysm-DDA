@@ -404,9 +404,11 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     load_season_array( jo, "symbol", symbol_, [&jo]( const std::string & str ) {
         if( str == "LINE_XOXO" ) {
             return LINE_XOXO;
-        } else if( str == "LINE_OXOX" ) {
+        }
+        if( str == "LINE_OXOX" ) {
             return LINE_OXOX;
-        } else if( str.length() != 1 ) {
+        }
+        if( str.length() != 1 ) {
             jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
         }
         return static_cast<int>( str[0] );
@@ -416,7 +418,8 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     const bool has_bgcolor = jo.has_member( "bgcolor" );
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
-    } else if( has_color ) {
+    }
+    if( has_color ) {
         load_season_array( jo, "color", color_, color_from_string );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
