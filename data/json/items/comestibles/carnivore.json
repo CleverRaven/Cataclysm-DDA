@@ -260,7 +260,6 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
-
     "id": "mutant_meat_scrap_cooked",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",

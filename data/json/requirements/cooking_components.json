@@ -200,7 +200,7 @@
     "id": "meat_red_fatty",
     "type": "requirement",
     "//": "Anything you might consider a fatty cut of 'red' meat.  About 300mL of fatty meat.",
-    "components": [ [ [ "meat_red_raw", 4, "LIST" ] ], [ [ "fat", 1] ] ]
+    "components": [ [ [ "meat_red_raw", 4, "LIST" ] ], [ [ "fat", 1 ] ] ]
   },
   {
     "id": "meat_lung",
