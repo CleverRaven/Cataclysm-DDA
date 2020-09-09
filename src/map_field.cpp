@@ -430,9 +430,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     maptile map_tile( current_submap, point_zero );
     int &locx = map_tile.pos_.x;
     int &locy = map_tile.pos_.y;
-    const int sm_offset_x = submap.x * SEEX;
-    const int sm_offset_y = submap.y * SEEY;
-
+    const point sm_offset = sm_to_ms_copy( submap.xy() );
     // Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
@@ -448,8 +446,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
             // This is a translation from local coordinates to submap coordinates.
             // All submaps are in one long 1d array.
-            thep.x = locx + sm_offset_x;
-            thep.y = locy + sm_offset_y;
+            thep.x = locx + sm_offset.x;
+            thep.y = locy + sm_offset.y;
             // A const reference to the tripoint above, so that the code below doesn't accidentally change it
             const tripoint &p = thep;
 
