@@ -1525,7 +1525,7 @@ bool item_pocket::favorite_settings::is_better_favorite(
     const item &it, const item_pocket::favorite_settings &rhs ) const
 {
     const itype_id &id = it.typeId();
-    const item_category_id &cat = it.get_category().id;
+    const item_category_id &cat = it.get_category_of_contents().id;
 
     if( category_blacklist.count( cat ) || item_blacklist.count( id ) ||
         ( !category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
