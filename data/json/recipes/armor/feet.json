@@ -568,15 +568,9 @@
     "difficulty": 5,
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 6 ], [ "plastic_molding", 8 ],  ],
+    "using": [ [ "blacksmithing_standard", 6 ], [ "plastic_molding", 8 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "wheel_skate", 6 ] ],
-      [ [ "rag", 8 ] ],
-      [ [ "scrap", 10 ] ],
-      [ [ "bearing", 6 ] ]
-    ]
+    "components": [ [ [ "pipe", 1 ] ], [ [ "wheel_skate", 6 ] ], [ [ "rag", 8 ] ], [ [ "scrap", 10 ] ], [ [ "bearing", 6 ] ] ]
   },
   {
     "result": "rollerskates",
