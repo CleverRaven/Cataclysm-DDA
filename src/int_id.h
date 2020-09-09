@@ -153,7 +153,7 @@ class int_id_cache
             if( ids[i] == id_i ) {
                 return *objs[i];
             } else {
-                const T &obj = id.obj();
+                const T &obj = *id;
                 objs[i] = &obj;
                 ids[i] = id_i;
                 return obj;
