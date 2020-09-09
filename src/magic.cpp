@@ -106,6 +106,21 @@ std::string enum_to_string<spell_flag>( spell_flag data )
     debugmsg( "Invalid spell_flag" );
     abort();
 }
+template<>
+std::string enum_to_string<magic_energy_type>( magic_energy_type data )
+{
+    switch( data ) {
+    case magic_energy_type::bionic: return "BIONIC";
+    case magic_energy_type::fatigue: return "FATIGUE";
+    case magic_energy_type::hp: return "HP";
+    case magic_energy_type::mana: return "MANA";
+    case magic_energy_type::none: return "NONE";
+    case magic_energy_type::stamina: return "STAMINA";
+    case magic_energy_type::last: break;
+    }
+    debugmsg( "Invalid magic_energy_type" );
+    abort();
+}
 // *INDENT-ON*
 
 } // namespace io
@@ -114,6 +129,52 @@ const cata::optional<int> fake_spell::max_level_default = cata::nullopt;
 const int fake_spell::level_default = 0;
 const bool fake_spell::self_default = false;
 const int fake_spell::trigger_once_in_default = 1;
+
+const skill_id spell_type::skill_default = skill_id( "spellcraft" );
+// empty string
+const requirement_id spell_type::spell_components_default;
+const translation spell_type::message_default = to_translation( "You cast %s!" );
+const translation spell_type::sound_description_default = to_translation( "an explosion" );
+const sounds::sound_t spell_type::sound_type_default = sounds::sound_t::combat;
+const bool spell_type::sound_ambient_default = false;
+// empty string
+const std::string spell_type::sound_id_default;
+const std::string spell_type::sound_variant_default = "default";
+// empty string
+const std::string spell_type::effect_str_default;
+const cata::optional<field_type_id> spell_type::field_default = cata::nullopt;
+const int spell_type::field_chance_default = 1;
+const int spell_type::min_field_intensity_default = 0;
+const int spell_type::max_field_intensity_default = 0;
+const float spell_type::field_intensity_increment_default = 0.0f;
+const float spell_type::field_intensity_variance_default = 0.0f;
+const int spell_type::min_damage_default = 0;
+const float spell_type::damage_increment_default = 0.0f;
+const int spell_type::max_damage_default = 0;
+const int spell_type::min_range_default = 0;
+const float spell_type::range_increment_default = 0.0f;
+const int spell_type::max_range_default = 0;
+const int spell_type::min_aoe_default = 0;
+const float spell_type::aoe_increment_default = 0.0f;
+const int spell_type::max_aoe_default = 0;
+const int spell_type::min_dot_default = 0;
+const float spell_type::dot_increment_default = 0.0f;
+const int spell_type::max_dot_default = 0;
+const int spell_type::min_duration_default = 0;
+const float spell_type::duration_increment_default = 0.0f;
+const int spell_type::max_duration_default = 0;
+const int spell_type::min_pierce_default = 0;
+const float spell_type::pierce_increment_default = 0.0f;
+const int spell_type::max_pierce_default = 0;
+const int spell_type::base_energy_cost_default = 0;
+const float spell_type::energy_increment_default = 0.0f;
+const trait_id spell_type::spell_class_default = trait_id( "NONE" );
+const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
+const damage_type spell_type::dmg_type_default = damage_type::NONE;
+const int spell_type::difficulty_default = 0;
+const int spell_type::max_level_default = 0;
+const int spell_type::base_casting_time_default = 0;
+const float spell_type::casting_time_increment_default = 0.0f;
 
 // LOADING
 // spell_type
@@ -138,26 +199,6 @@ bool string_id<spell_type>::is_valid() const
 void spell_type::load_spell( const JsonObject &jo, const std::string &src )
 {
     spell_factory.load( jo, src );
-}
-
-static magic_energy_type energy_source_from_string( const std::string &str )
-{
-    if( str == "MANA" ) {
-        return magic_energy_type::mana;
-    } else if( str == "HP" ) {
-        return magic_energy_type::hp;
-    } else if( str == "BIONIC" ) {
-        return magic_energy_type::bionic;
-    } else if( str == "STAMINA" ) {
-        return magic_energy_type::stamina;
-    } else if( str == "FATIGUE" ) {
-        return magic_energy_type::fatigue;
-    } else if( str == "NONE" ) {
-        return magic_energy_type::none;
-    } else {
-        debugmsg( _( "ERROR: Invalid magic_energy_type string.  Defaulting to NONE" ) );
-        return magic_energy_type::none;
-    }
 }
 
 static std::string moves_to_string( const int moves )
@@ -206,15 +247,14 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
-    optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
-    optional( jo, was_loaded, "components", spell_components );
-    optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
-    optional( jo, was_loaded, "sound_description", sound_description,
-              to_translation( "an explosion" ) );
-    optional( jo, was_loaded, "sound_type", sound_type, sounds::sound_t::combat );
-    optional( jo, was_loaded, "sound_ambient", sound_ambient, false );
-    optional( jo, was_loaded, "sound_id", sound_id, "" );
-    optional( jo, was_loaded, "sound_variant", sound_variant, "default" );
+    optional( jo, was_loaded, "skill", skill, skill_default );
+    optional( jo, was_loaded, "components", spell_components, spell_components_default );
+    optional( jo, was_loaded, "message", message, message_default );
+    optional( jo, was_loaded, "sound_description", sound_description, sound_description_default );
+    optional( jo, was_loaded, "sound_type", sound_type, sound_type_default );
+    optional( jo, was_loaded, "sound_ambient", sound_ambient, sound_ambient_default );
+    optional( jo, was_loaded, "sound_id", sound_id, sound_id_default );
+    optional( jo, was_loaded, "sound_variant", sound_variant, sound_variant_default );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -246,59 +286,59 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
     optional( jo, was_loaded, "flags", spell_tags, flag_reader );
 
-    optional( jo, was_loaded, "effect_str", effect_str, "" );
+    optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
 
     std::string field_input;
     optional( jo, was_loaded, "field_id", field_input, "none" );
     if( field_input != "none" ) {
         field = field_type_id( field_input );
     }
-    optional( jo, was_loaded, "field_chance", field_chance, 1 );
-    optional( jo, was_loaded, "min_field_intensity", min_field_intensity, 0 );
-    optional( jo, was_loaded, "max_field_intensity", max_field_intensity, 0 );
-    optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment, 0.0f );
-    optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance, 0.0f );
+    optional( jo, was_loaded, "field_chance", field_chance, field_chance_default );
+    optional( jo, was_loaded, "min_field_intensity", min_field_intensity, min_field_intensity_default );
+    optional( jo, was_loaded, "max_field_intensity", max_field_intensity, max_field_intensity_default );
+    optional( jo, was_loaded, "field_intensity_increment", field_intensity_increment,
+              field_intensity_increment_default );
+    optional( jo, was_loaded, "field_intensity_variance", field_intensity_variance,
+              field_intensity_variance_default );
 
-    optional( jo, was_loaded, "min_damage", min_damage, 0 );
-    optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
-    optional( jo, was_loaded, "max_damage", max_damage, 0 );
+    optional( jo, was_loaded, "min_damage", min_damage, min_damage_default );
+    optional( jo, was_loaded, "damage_increment", damage_increment, damage_increment_default );
+    optional( jo, was_loaded, "max_damage", max_damage, max_damage_default );
 
-    optional( jo, was_loaded, "min_range", min_range, 0 );
-    optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
-    optional( jo, was_loaded, "max_range", max_range, 0 );
+    optional( jo, was_loaded, "min_range", min_range, min_range_default );
+    optional( jo, was_loaded, "range_increment", range_increment, range_increment_default );
+    optional( jo, was_loaded, "max_range", max_range, max_range_default );
 
-    optional( jo, was_loaded, "min_aoe", min_aoe, 0 );
-    optional( jo, was_loaded, "aoe_increment", aoe_increment, 0.0f );
-    optional( jo, was_loaded, "max_aoe", max_aoe, 0 );
+    optional( jo, was_loaded, "min_aoe", min_aoe, min_aoe_default );
+    optional( jo, was_loaded, "aoe_increment", aoe_increment, aoe_increment_default );
+    optional( jo, was_loaded, "max_aoe", max_aoe, max_aoe_default );
 
-    optional( jo, was_loaded, "min_dot", min_dot, 0 );
-    optional( jo, was_loaded, "dot_increment", dot_increment, 0.0f );
-    optional( jo, was_loaded, "max_dot", max_dot, 0 );
+    optional( jo, was_loaded, "min_dot", min_dot, min_dot_default );
+    optional( jo, was_loaded, "dot_increment", dot_increment, dot_increment_default );
+    optional( jo, was_loaded, "max_dot", max_dot, max_dot_default );
 
-    optional( jo, was_loaded, "min_duration", min_duration, 0 );
-    optional( jo, was_loaded, "duration_increment", duration_increment, 0.0f );
-    optional( jo, was_loaded, "max_duration", max_duration, 0 );
+    optional( jo, was_loaded, "min_duration", min_duration, min_duration_default );
+    optional( jo, was_loaded, "duration_increment", duration_increment, duration_increment_default );
+    optional( jo, was_loaded, "max_duration", max_duration, max_duration_default );
 
-    optional( jo, was_loaded, "min_pierce", min_pierce, 0 );
-    optional( jo, was_loaded, "pierce_increment", pierce_increment, 0.0f );
-    optional( jo, was_loaded, "max_pierce", max_pierce, 0 );
+    optional( jo, was_loaded, "min_pierce", min_pierce, min_pierce_default );
+    optional( jo, was_loaded, "pierce_increment", pierce_increment, pierce_increment_default );
+    optional( jo, was_loaded, "max_pierce", max_pierce, max_pierce_default );
 
-    optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
+    optional( jo, was_loaded, "base_energy_cost", base_energy_cost, base_energy_cost_default );
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
-    optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
+    optional( jo, was_loaded, "energy_increment", energy_increment, energy_increment_default );
 
-    std::string temp_string;
-    optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
-    spell_class = trait_id( temp_string );
-    optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
-    energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", dmg_type, damage_type::NONE );
-    optional( jo, was_loaded, "difficulty", difficulty, 0 );
-    optional( jo, was_loaded, "max_level", max_level, 0 );
+    optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
+    optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
+    optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
+    optional( jo, was_loaded, "difficulty", difficulty, difficulty_default );
+    optional( jo, was_loaded, "max_level", max_level, max_level_default );
 
-    optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
+    optional( jo, was_loaded, "base_casting_time", base_casting_time, base_casting_time_default );
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
-    optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
+    optional( jo, was_loaded, "casting_time_increment", casting_time_increment,
+              casting_time_increment_default );
 
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
