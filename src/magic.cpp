@@ -111,6 +111,9 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 } // namespace io
 
 const cata::optional<int> fake_spell::max_level_default = cata::nullopt;
+const int fake_spell::level_default = 0;
+const bool fake_spell::self_default = false;
+const int fake_spell::trigger_once_in_default = 1;
 
 // LOADING
 // spell_type
