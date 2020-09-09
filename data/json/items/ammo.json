@@ -578,9 +578,9 @@
     "material": [ "powder" ],
     "flags": [ "TINDER" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "1 mg",
     "ammo_type": "components",
-    "count": 454,
+    "count": 454000,
     "effects": [ "COOKOFF" ]
   },
   {

@@ -13,13 +13,14 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 12 ] ],
+    "//": "24 gram shot load according to wikipedia with 880 fps muzzle velocity, about 2/3rds of 12 gauge 00 buck. Used 7/8 oz 12 gauge load as basis for powder charge",
+    "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 8 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 186 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -44,7 +45,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 186 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -66,10 +67,11 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "Based on the 700 NX' 16 gram load, reduced a little due to lower penetration",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 15000 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -94,7 +96,7 @@
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 15000 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -115,11 +117,12 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "7x the charge of 12 gauge flechettes for 7x the payload.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 5250 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -144,7 +147,7 @@
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 5250 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]

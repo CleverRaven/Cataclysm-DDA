@@ -582,7 +582,7 @@
       [ "grip", 1 ],
       [ "gum", 8 ],
       [ "gun_crossbow", 1 ],
-      [ "gunpowder", 5 ],
+      [ "gunpowder", 5000 ],
       [ "g_shovel", 1 ],
       [ "hacksaw", 3 ],
       [ "hairpin", 4 ],

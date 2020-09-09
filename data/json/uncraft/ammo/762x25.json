@@ -6,7 +6,7 @@
     "activity_level": "fake",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 390 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "762_25hot",
@@ -15,7 +15,7 @@
     "activity_level": "fake",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 430 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "762_25typeP",
@@ -24,6 +24,6 @@
     "activity_level": "fake",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 300 ] ], [ [ "copper", 1 ] ] ]
   }
 ]
