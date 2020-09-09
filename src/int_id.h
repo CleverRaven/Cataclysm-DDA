@@ -128,4 +128,37 @@ struct hash< int_id<T> > {
 };
 } // namespace std
 
+/**
+ * A tiny fixed hashtable-based cache that speeds up `int_id::obj()` calls.
+ * Exploits the following facts:
+ * 1. same ids are usually clustered together (i.e. fields, furn, ter)
+ * 2. cache is tiny -> less CPU cache misses
+ * 3. if "obj" was stored in the cache, it's guaranteed to be valid
+ * Intended to be used locally in situations when `int_id::obj()` is called in a tight loop.
+ * Create the cache before the loop and then instead of `id.obj()` call `cache.obj(id)`.
+ * @tparam T type of the object of the corresponding int_id
+ */
+template<typename T>
+class int_id_cache
+{
+    private:
+        static const int LOCAL_OBJ_CACHE_SIZE = 16;
+        int ids[LOCAL_OBJ_CACHE_SIZE] = { -1 };
+        T const *objs[LOCAL_OBJ_CACHE_SIZE];
+
+    public:
+        const T &obj( const int_id<T> &id ) {
+            int id_i = id.to_i();
+            int i = id_i % LOCAL_OBJ_CACHE_SIZE;
+            if( ids[i] == id_i ) {
+                return *objs[i];
+            } else {
+                const T &obj = id.obj();
+                objs[i] = &obj;
+                ids[i] = id_i;
+                return obj;
+            }
+        }
+};
+
 #endif // CATA_SRC_INT_ID_H

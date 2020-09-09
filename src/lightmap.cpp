@@ -95,6 +95,9 @@ bool map::build_transparency_cache( const int zlev )
 
     const float sight_penalty = get_weather().weather_id->sight_penalty;
 
+    int_id_cache<ter_t> ter_cache;
+    int_id_cache<furn_t> furn_cache;
+
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -104,12 +107,13 @@ bool map::build_transparency_cache( const int zlev )
                           zlev );
                 continue;
             }
+            const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
 
             float zero_value = LIGHT_TRANSPARENCY_OPEN_AIR;
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
+                    const int x = sx + sm_offset.x;
+                    const int y = sy + sm_offset.y;
 
                     float &value = transparency_cache[x][y];
                     if( cur_submap->is_uniform && sx + sy > 0 ) {
@@ -117,8 +121,8 @@ bool map::build_transparency_cache( const int zlev )
                         continue;
                     }
 
-                    if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
-                           cur_submap->get_furn( {sx, sy } ).obj().transparent ) ) {
+                    if( !( ter_cache.obj( cur_submap->get_ter( { sx, sy } ) ).transparent &&
+                           furn_cache.obj( cur_submap->get_furn( {sx, sy } ) ).transparent ) ) {
                         value = LIGHT_TRANSPARENCY_SOLID;
                         zero_value = LIGHT_TRANSPARENCY_SOLID;
                         continue;
@@ -137,7 +141,13 @@ bool map::build_transparency_cache( const int zlev )
                         zero_value = value;
                         continue;
                     }
-                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
+
+                    field f = cur_submap->get_field( { sx, sy } );
+                    if( !f.displayed_field_type() ) {
+                        continue;
+                    }
+
+                    for( const auto &fld : f ) {
                         const field_entry &cur = fld.second;
                         if( cur.is_transparent() ) {
                             continue;
