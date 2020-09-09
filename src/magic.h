@@ -108,15 +108,15 @@ struct fake_spell {
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
 
-    static const int level_default = 0;
+    static const int level_default;
     // level for things that need it
     int level = level_default;
 
-    static const bool self_default = false;
+    static const bool self_default;
     // target tripoint is source (true) or target (false)
     bool self = self_default;
 
-    static const int trigger_once_in_default = 1;
+    static const int trigger_once_in_default;
     // a chance to trigger the enchantment spells
     int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
