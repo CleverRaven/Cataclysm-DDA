@@ -2,6 +2,7 @@
   {
     "result": "357mag_fmj",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_magnum_pistol", 5 ] ] ],
@@ -10,6 +11,7 @@
   {
     "result": "357mag_jhp",
     "type": "uncraft",
+    "activity_level": "fake",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_magnum_pistol", 5 ] ] ],

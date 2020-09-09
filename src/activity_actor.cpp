@@ -567,7 +567,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static hack_type get_hack_type( const tripoint &examp )
 {
     hack_type type = hack_type::NONE;
     map &here = get_map();
@@ -1160,7 +1160,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
@@ -1170,7 +1170,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
@@ -1201,11 +1201,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            trinary result = player_character.consume( consume_loc, /*force=*/true );
-            // Parent pockets need to be notified so they can be unsealed as well.
-            if( result != trinary::NONE ) {
-                game::handle_contents_changed( consume_loc );
-            }
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {
@@ -1448,11 +1444,11 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
-
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1556,6 +1552,11 @@ std::string craft_activity_actor::get_progress_message( const player_activity & 
     return craft_item.get_item()->tname();
 }
 
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
 void craft_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -1640,13 +1641,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     workout_query.text =
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
-    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+    workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
                                  _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
-    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+    workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
                                  _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
-    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+    workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
                                  _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
-    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+    workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
                                  _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {

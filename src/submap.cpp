@@ -59,8 +59,8 @@ static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 static const std::string STRING_EMPTY;
 
 struct cosmetic_find_result {
-    bool result;
-    int ndx;
+    bool result = false;
+    int ndx = 0;
 };
 static cosmetic_find_result make_result( bool b, int ndx )
 {

@@ -211,11 +211,11 @@ bool good_for_pickup( const item &it, npc &who )
 
 } // namespace
 
-std::string npc_action_name( npc_action action );
+static std::string npc_action_name( npc_action action );
 
-void print_action( const char *prepend, npc_action action );
+static void print_action( const char *prepend, npc_action action );
 
-bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
+static bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {

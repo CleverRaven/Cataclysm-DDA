@@ -17,12 +17,6 @@ class input_context;
 class item;
 struct advanced_inv_save_state;
 
-struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char l, char r ) const {
-        return toupper( static_cast< unsigned char >( l ) ) < toupper( static_cast< unsigned char >( r ) );
-    }
-};
-
 void create_advanced_inv();
 
 /**

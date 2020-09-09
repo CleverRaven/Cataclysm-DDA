@@ -1,7 +1,8 @@
-#include "cuboid_rectangle.h"
 #include "cursesdef.h" // IWYU pragma: associated
-#include "point.h"
 #include "sdltiles.h" // IWYU pragma: associated
+
+#include "cuboid_rectangle.h"
+#include "point.h"
 
 #if defined(TILES)
 
@@ -31,6 +32,7 @@
 #endif
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
@@ -128,8 +130,8 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
-bool fullscreen;
-int scaling_factor;
+static bool fullscreen;
+static int scaling_factor;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -436,7 +438,7 @@ static void WinDestroy()
 }
 
 /// Converts a color from colorscheme to SDL_Color.
-inline const SDL_Color &color_as_sdl( const unsigned char color )
+static inline const SDL_Color &color_as_sdl( const unsigned char color )
 {
     return windowsPalette[color];
 }

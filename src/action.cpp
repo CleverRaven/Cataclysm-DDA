@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
@@ -47,8 +48,8 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
-void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                   std::set<action_id> &unbound_keymap );
+static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
+                          std::set<action_id> &unbound_keymap );
 
 void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,

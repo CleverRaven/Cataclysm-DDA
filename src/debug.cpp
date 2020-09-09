@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
@@ -86,8 +87,6 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
-extern bool test_mode;
-
 /** Set to true when any error is logged. */
 static bool error_observed = false;
 
@@ -120,7 +119,7 @@ std::string capture_debugmsg_during( const std::function<void()> &func )
 capture_debugmsg::capture_debugmsg()
 {
     capturing = true;
-    captured = "";
+    captured.clear();
 }
 
 std::string capture_debugmsg::dmsg()
@@ -712,7 +711,7 @@ static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 static std::map<DWORD64, backtrace_state *> bt_states;
 #endif
 #else
-constexpr int bt_cnt = 20;
+static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cordage_6",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -12,6 +13,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cordage_36",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -23,6 +25,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "neoprene",
     "id_suffix": "from_sheet",
     "category": "CC_OTHER",
@@ -36,6 +39,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rag",
     "id_suffix": "from_sheet",
     "category": "CC_OTHER",
@@ -49,6 +53,7 @@
   {
     "result": "sheet_cotton",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -63,6 +68,7 @@
   {
     "result": "sheet_cotton_patchwork",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -75,6 +81,7 @@
   {
     "result": "sheet_neoprene_patchwork",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
@@ -86,6 +93,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanned_hide",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -98,6 +106,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tanned_hide",
     "id_suffix": "from_pieces",
     "category": "CC_OTHER",
@@ -110,6 +119,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "leather",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -123,6 +133,7 @@
   {
     "result": "steel_chunk",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -138,6 +149,7 @@
   {
     "result": "steel_lump",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -152,6 +164,7 @@
   {
     "result": "tin",
     "type": "recipe",
+    "activity_level": "fake",
     "byproducts": [ [ "steel_chunk" ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -169,6 +182,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vine_30",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -181,6 +195,7 @@
   {
     "result": "fuse",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
@@ -195,6 +210,7 @@
   {
     "result": "fuse",
     "type": "recipe",
+    "activity_level": "fake",
     "id_suffix": "with gunpowder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -209,6 +225,7 @@
   {
     "result": "fuse",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "id_suffix": "with paper & gunpowder",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -223,6 +240,7 @@
   {
     "result": "wire",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "id_suffix": "debarbing barbed wire",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -234,6 +252,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "glass_tinted",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

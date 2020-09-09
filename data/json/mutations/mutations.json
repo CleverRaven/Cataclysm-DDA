@@ -527,7 +527,8 @@
     "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "stomach_size_multiplier": 2.0
   },
   {
     "type": "mutation",
@@ -3160,6 +3161,7 @@
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 0.9,
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -3566,7 +3568,8 @@
     "threshreq": [ "THRESH_URSINE" ],
     "category": [ "URSINE" ],
     "active": true,
-    "cost": 0
+    "cost": 0,
+    "stomach_size_multiplier": 3.0
   },
   {
     "type": "mutation",
@@ -4131,6 +4134,7 @@
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4148,6 +4152,7 @@
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4169,6 +4174,7 @@
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4189,6 +4195,7 @@
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4486,6 +4493,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
     "weight_capacity_modifier": 0.8
@@ -4502,6 +4510,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.3,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
@@ -4520,6 +4529,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.25,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
@@ -5398,6 +5408,7 @@
     "description": "Your body is more or less one consistent whole: a single, giant, omni-cell that alters itself as needed.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 3,
     "prereqs": [ "INT_SLIME" ],
     "prereqs2": [ "PER_SLIME_OK" ],
     "threshreq": [ "THRESH_SLIME" ],

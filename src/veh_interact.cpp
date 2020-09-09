@@ -110,8 +110,7 @@ static auto can_refill = []( const vehicle_part &pt )
     return pt.can_reload();
 };
 
-void act_vehicle_siphon( vehicle *veh );
-void act_vehicle_unload_fuel( vehicle *veh );
+static void act_vehicle_unload_fuel( vehicle *veh );
 
 player_activity veh_interact::serialize_activity()
 {

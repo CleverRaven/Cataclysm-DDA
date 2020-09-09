@@ -7064,6 +7064,33 @@
       "//": "range 1 to 2192"
     },
     {
+      "file": "mods.png",
+      "tiles": [
+        { "id": "overlay_effect_gummed", "fg": 2193 },
+        { "id": "overlay_female_mutation_SUGAR", "fg": 2194, "rotates": false },
+        { "id": "overlay_male_mutation_SUGAR", "fg": 2195, "rotates": false },
+        { "id": "fd_gum_web", "bg": 2196, "rotates": false },
+        { "id": "ruined_candy", "fg": 2197 },
+        { "id": "mon_cookie", "fg": 2198 },
+        { "id": "mon_cracker", "fg": 2199 },
+        { "id": "mon_gummy", "fg": 2200 },
+        { "id": "mon_gummy_cub", "fg": 2201 },
+        { "id": "mon_gum_spider_wolf", "fg": 2202 },
+        { "id": "mon_marshmallow_buff", "fg": 2203 },
+        { "id": "mon_marshmallow_buff_armored", "fg": 2204 },
+        { "id": "mon_marshmallow_goliath", "fg": 2205 },
+        { "id": "mon_marshmallow_goliath_armored", "fg": 2206 },
+        { "id": "mon_marshmallow_guy", "fg": 2207 },
+        { "id": "mon_marshmallow_guy_armored", "fg": 2208 },
+        { "id": "mon_marshmallow_kid", "fg": 2209 },
+        { "id": "mon_marshmallow_kid_armored", "fg": 2210 },
+        { "id": "mon_necco", "fg": 2211 },
+        { "id": "mon_small_cracker", "fg": 2212 },
+        { "id": "mon_spider_gum", "fg": 2213 }
+      ],
+      "//": "range 2193 to 2224"
+    },
+    {
       "file": "fallback.png",
       "tiles": [  ],
       "ascii": [

@@ -407,7 +407,7 @@ class overmap
             const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
 
         // Overall terrain
-        void place_river( point_om_omt pa, point_om_omt pb );
+        void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
         void place_lakes();
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,

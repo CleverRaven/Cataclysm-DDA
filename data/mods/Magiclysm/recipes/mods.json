@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "magic_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -15,6 +16,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_dot_sight",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_MODS",
@@ -44,6 +46,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "mana_laser_under",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_MODS",

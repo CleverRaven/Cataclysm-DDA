@@ -48,6 +48,36 @@
     "value_constraints": { "species": { "equals": [ "species_id", "ZOMBIE" ] } }
   },
   {
+    "id": "avatar_cyborg_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "CYBORG" ] } }
+  },
+  {
+    "id": "avatar_nether_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "NETHER" ] } }
+  },
+  {
+    "id": "avatar_fungus_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "FUNGUS" ] } }
+  },
+  {
+    "id": "avatar_insect_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "INSECT" ] } }
+  },
+  {
+    "id": "avatar_robot_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "ROBOT" ] } }
+  },
+  {
     "id": "num_avatar_monster_kills",
     "type": "event_statistic",
     "stat_type": "count",
@@ -67,6 +97,111 @@
     "stat_type": "count",
     "event_transformation": "avatar_zombie_kills",
     "description": { "str": "zombie killed", "str_pl": "zombies killed" }
+  },
+  {
+    "id": "num_avatar_cyborg_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_cyborg_kills",
+    "description": { "str": "cyborg killed", "str_pl": "cyborgs killed" }
+  },
+  {
+    "id": "num_avatar_nether_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_nether_kills",
+    "description": { "str": "nether monster killed", "str_pl": "nether monsters killed" }
+  },
+  {
+    "id": "num_avatar_fungus_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_fungus_kills",
+    "description": { "str": "fungus monster killed", "str_pl": "fungus monsters killed" }
+  },
+  {
+    "id": "num_avatar_insect_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_insect_kills",
+    "description": { "str": "insect killed", "str_pl": "insects killed" }
+  },
+  {
+    "id": "num_avatar_robot_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_robot_kills",
+    "description": { "str": "robot killed", "str_pl": "robots killed" }
+  },
+  {
+    "id": "avatar_melee_attacks_monster",
+    "type": "event_transformation",
+    "event_type": "character_melee_attacks_monster",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_melee_attacks_monster",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_melee_attacks_monster",
+    "description": { "str": "melee attack made against monsters", "str_pl": "melee attacks made against monsters" }
+  },
+  {
+    "id": "avatar_melee_attacks_character",
+    "type": "event_transformation",
+    "event_type": "character_melee_attacks_character",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_melee_attacks_character",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_melee_attacks_character",
+    "description": { "str": "melee attack made against characters", "str_pl": "melee attacks made against characters" }
+  },
+  {
+    "id": "avatar_ranged_attacks_monster",
+    "type": "event_transformation",
+    "event_type": "character_ranged_attacks_monster",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_ranged_attacks_monster",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_ranged_attacks_monster",
+    "description": { "str": "ranged attack made against monsters", "str_pl": "ranged attacks made against monsters" }
+  },
+  {
+    "id": "avatar_ranged_attacks_character",
+    "type": "event_transformation",
+    "event_type": "character_ranged_attacks_character",
+    "value_constraints": { "attacker": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "attacker" ]
+  },
+  {
+    "id": "num_avatar_ranged_attacks_character",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_ranged_attacks_character",
+    "description": { "str": "ranged attack made against characters", "str_pl": "ranged attacks made against characters" }
+  },
+  {
+    "id": "avatar_smashes_tile",
+    "type": "event_transformation",
+    "event_type": "character_smashes_tile",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_smash",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_smashes_tile",
+    "description": { "str": "smash", "str_pl": "smashes" }
   },
   {
     "id": "avatar_takes_damage",
@@ -427,7 +562,14 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character", "category" ]
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_last_crosses_mutation_threshold",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_crosses_mutation_threshold",
+    "field": "category"
   },
   {
     "id": "num_crosses_mutation_threshold",

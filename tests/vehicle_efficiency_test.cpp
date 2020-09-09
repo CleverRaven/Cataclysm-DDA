@@ -148,8 +148,8 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
     return left;
 }
 
-const float fuel_level = 0.1f;
-const int cycle_limit = 100;
+static const float fuel_level = 0.1f;
+static const int cycle_limit = 100;
 
 // Algorithm goes as follows:
 // Clear map
@@ -380,7 +380,7 @@ static void test_vehicle(
     }
 }
 
-std::vector<std::string> vehs_to_test = {{
+static std::vector<std::string> vehs_to_test = {{
         "beetle",
         "car",
         "car_sports",
@@ -439,10 +439,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car_sports", 1155014, 352600, 267600, 36820, 22360 );
     test_vehicle( "electric_car", 1047135, 355300, 201600, 22400, 10780 );
     test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 31840 );
-    test_vehicle( "motorcycle", 163085, 120300, 100900, 63320, 50810 );
-    test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
-    test_vehicle( "scooter", 55941, 235900, 235900, 174700, 174700 );
-    test_vehicle( "superbike", 242085, 109800, 65300, 41780, 24070 );
+    test_vehicle( "motorcycle", 162585, 120300, 100900, 63320, 50810 );
+    test_vehicle( "quad_bike", 264845, 116100, 116100, 46770, 46770 );
+    test_vehicle( "scooter", 55441, 235900, 235900, 174700, 174700 );
+    test_vehicle( "superbike", 241585, 109800, 65300, 41780, 24070 );
     test_vehicle( "ambulance", 1850228, 623000, 511100, 77700, 57910 );
     test_vehicle( "fire_engine", 2606611, 1895000, 1585000, 337800, 261900 );
     test_vehicle( "fire_truck", 6441903, 420800, 79990, 19080, 4063 );
@@ -458,10 +458,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car_sports", 1155014, 353200, 268000, 35220, 19540, 0, 0, true );
     test_vehicle( "electric_car", 1047135, 356400, 202300, 22450, 10810, 0, 0, true );
     test_vehicle( "suv", 1320286, 112000, 111700, 66880, 31640, 0, 0, true );
-    test_vehicle( "motorcycle", 163085, 19980, 19030, 15490, 14890, 0, 0, true );
-    test_vehicle( "quad_bike", 265345, 19650, 19650, 15440, 15440, 0, 0, true );
-    test_vehicle( "scooter", 55941, 58790, 58790, 46320, 46320, 0, 0, true );
-    test_vehicle( "superbike", 242085, 18320, 10570, 13100, 8497, 0, 0, true );
+    test_vehicle( "motorcycle", 162585, 19980, 19030, 15490, 14890, 0, 0, true );
+    test_vehicle( "quad_bike", 264845, 19650, 19650, 15440, 15440, 0, 0, true );
+    test_vehicle( "scooter", 55441, 58790, 58790, 46320, 46320, 0, 0, true );
+    test_vehicle( "superbike", 241585, 18320, 10570, 13100, 8497, 0, 0, true );
     test_vehicle( "ambulance", 1850228, 58460, 57740, 42480, 39100, 0, 0, true );
     test_vehicle( "fire_engine", 2606611, 258000, 257800, 185600, 179400, 0, 0, true );
     test_vehicle( "fire_truck", 6441903, 58760, 59170, 18580, 3447, 0, 0, true );

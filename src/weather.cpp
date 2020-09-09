@@ -132,8 +132,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
 }
 
-inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                              const time_point &t, const time_duration &tick_size )
+static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                                     const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
@@ -1075,11 +1075,11 @@ void weather_manager::update_weather()
             player_character.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
-        if( weather_id->sight_penalty !=
-            old_weather->sight_penalty ) {
+        if( weather_id->sight_penalty != old_weather->sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
+            here.set_seen_cache_dirty( tripoint_zero );
         }
     }
 }

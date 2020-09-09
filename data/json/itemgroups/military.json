@@ -342,6 +342,7 @@
       { "item": "manual_brawl", "prob": 5 },
       { "item": "manual_melee", "prob": 5 },
       { "item": "manual_knives", "prob": 5 },
+      { "item": "manual_swords", "prob": 5 },
       { "item": "manual_gun", "prob": 5 },
       { "item": "manual_shotgun", "prob": 5 },
       { "item": "manual_rifle", "prob": 5 },
