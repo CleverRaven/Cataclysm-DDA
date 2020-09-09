@@ -161,6 +161,7 @@ bool map::process_fields()
             //       flag, otherwise only set the dirty flag if
             //       something actually changed
             set_transparency_cache_dirty( z );
+            set_seen_cache_dirty( tripoint_zero );
             dirty_transparency_cache = true;
         }
     }

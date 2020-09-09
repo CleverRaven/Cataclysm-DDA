@@ -127,16 +127,20 @@ class DefaultRemovePartHandler : public RemovePartHandler
             g->m.add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
-            g->m.set_transparency_cache_dirty( z );
+            map &here = get_map();
+            here.set_transparency_cache_dirty( z );
+            here.set_seen_cache_dirty( tripoint_zero );
         }
         void removed( vehicle &veh, const int part ) override {
+            avatar &player_character = get_avatar();
             // If the player is currently working on the removed part, stop them as it's futile now.
-            const player_activity &act = g->u.activity;
+            const player_activity &act = player_character.activity;
+            map &here = get_map();
             if( act.id() == ACT_VEHICLE && act.moves_left > 0 && act.values.size() > 6 ) {
-                if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
-                                                      g->u.posz() ) ) ) == &veh ) {
+                if( veh_pointer_or_null( here.veh_at( tripoint( act.values[0], act.values[1],
+                                                      player_character.posz() ) ) ) == &veh ) {
                     if( act.values[6] >= part ) {
-                        g->u.cancel_activity();
+                        player_character.cancel_activity();
                         add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
                     }
                 }
@@ -150,7 +154,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
                 }
             }
 
-            g->m.dirty_vehicle_list.insert( &veh );
+            here.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
             base.release_monster( loc, 1 );
@@ -1842,9 +1846,11 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
-        g->m.destroy_vehicle( carry_veh );
-        g->m.dirty_vehicle_list.insert( this );
-        g->m.set_transparency_cache_dirty( sm_pos.z );
+        map &here = get_map();
+        here.destroy_vehicle( carry_veh );
+        here.dirty_vehicle_list.insert( this );
+        here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_seen_cache_dirty( tripoint_zero );
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -2388,8 +2394,10 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         // time we interact with them
         new_vehicle->zones_dirty = true;
 
-        g->m.dirty_vehicle_list.insert( new_vehicle );
-        g->m.set_transparency_cache_dirty( sm_pos.z );
+        map &here = get_map();
+        here.dirty_vehicle_list.insert( new_vehicle );
+        here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_seen_cache_dirty( tripoint_zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }

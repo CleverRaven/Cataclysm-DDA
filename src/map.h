@@ -272,6 +272,7 @@ struct level_cache {
     bool transparency_cache_dirty;
     bool outside_cache_dirty;
     bool floor_cache_dirty;
+    bool seen_cache_dirty = false;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
@@ -345,6 +346,19 @@ class map
             }
         }
 
+        void set_seen_cache_dirty( const tripoint change_location ) {
+            if( inbounds_z( change_location.z ) ) {
+                level_cache cache = get_cache( change_location.z );
+                if( cache.seen_cache_dirty ) {
+                    return;
+                }
+                if( change_location == tripoint_zero ||
+                    cache.seen_cache[change_location.x][change_location.y] != 0.0 ) {
+                    cache.seen_cache_dirty = true;
+                }
+            }
+        }
+
         void set_outside_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).outside_cache_dirty = true;
@@ -372,6 +386,7 @@ class map
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
                 ch.transparency_cache_dirty = true;
+                ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
             }
         }

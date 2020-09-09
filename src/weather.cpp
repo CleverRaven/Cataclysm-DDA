@@ -1007,11 +1007,13 @@ void weather_manager::update_weather()
             g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
+        map &here = get_map();
         if( wdata.sight_penalty !=
             weather::sight_penalty( old_weather ) ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                g->m.set_transparency_cache_dirty( i );
+                here.set_transparency_cache_dirty( i );
             }
+            here.set_seen_cache_dirty( tripoint_zero );
         }
 
         water_temperature = weather_gen.get_water_temperature( g->u.global_square_location(),
