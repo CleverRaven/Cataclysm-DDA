@@ -197,6 +197,12 @@
     "components": [ [ [ "meat_red_raw", 1, "LIST" ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
   },
   {
+    "id": "meat_red_fatty",
+    "type": "requirement",
+    "//": "Anything you might consider a fatty cut of 'red' meat.  About 300mL of fatty meat.",
+    "components": [ [ [ "meat_red_raw", 4, "LIST" ] ], [ [ "fat", 1] ] ]
+  },
+  {
     "id": "meat_lung",
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
@@ -274,7 +280,6 @@
         [ "meat_cooked", 1 ],
         [ "meat_scrap_cooked", 10 ],
         [ "fatty_meat_cooked", 1 ],
-        [ "fatty_meat_scrap_cooked", 5 ],
         [ "mutant_meat_cooked", 1 ],
         [ "mutant_meat_scrap_cooked", 10 ],
         [ "human_cooked", 1 ],

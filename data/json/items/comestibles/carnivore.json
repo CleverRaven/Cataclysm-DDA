@@ -216,20 +216,23 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
-    "id": "fatty_meat_cooked",
-    "copy-from": "flesh",
-    "weight": "351 g",
-    "volume": "300 ml",
-    "spoils_in": "1 day",
     "type": "COMESTIBLE",
+    "id": "fatty_meat_cooked",
     "name": "cooked fatty meat",
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+    ],
+    "copy-from": "meat_cooked",
+    "weight": "351 g",
+    "color": "red",
+    "quench": -1,
     "description": "A fatty cutlet of meat, combines protein and high density calories of fat. It's filling and nutritious, but despite the rich taste of fat, still quite bland otherwise.",
-    "price": 750,
-    "price_postapoc": 100,
-    "parasites": 0,
-    "calories": 880,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "price": 900,
+    "price_postapoc": 300,
+    "volume": "300 ml",
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "meat_scrap_cooked",
@@ -241,18 +244,6 @@
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
-  },
-  {
-    "id": "fatty_meat_scrap_cooked",
-    "copy-from": "meat_scrap",
-    "type": "COMESTIBLE",
-    "name": { "str": "cooked fatty scrap of meat", "str_pl": "cooked fatty scraps of meat" },
-    "description": "A scrap of meat, enriched with fat trimmings to make it more substantial.",
-    "parasites": 0,
-    "fun": 0,
-    "healthy": 0,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "calories": 243
   },
   {
     "id": "mutant_meat_cooked",
@@ -269,6 +260,7 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
+
     "id": "mutant_meat_scrap_cooked",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat_scrap",
