@@ -6603,8 +6603,7 @@ bool item::operator<( const item &other ) const
         } else {
             std::string n1 = me->type->nname( 1 );
             std::string n2 = rhs->type->nname( 1 );
-            return std::lexicographical_compare( n1.begin(), n1.end(),
-                                                 n2.begin(), n2.end(), sort_case_insensitive_less() );
+            return localized_compare( n1, n2 );
         }
     }
 }
