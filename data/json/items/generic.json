@@ -3162,11 +3162,7 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [
-          "FMCNote",
-          "signed_chit",
-          "family_photo"
-        ]
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo" ]
       },
       {
         "//": "Card Sleeves",
@@ -3195,12 +3191,7 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [
-          "FMCNote",
-          "RobofacCoin",
-          "FlatCoin",
-          "coin_quarter"
-        ]
+        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter" ]
       }
     ]
   },
@@ -3236,10 +3227,7 @@
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
     "material": [ "leather" ],
-    "extend":
-    {
-      "flags": [ "FANCY" ]
-    }
+    "extend": { "flags": [ "FANCY" ] }
   },
   {
     "id": "wallet_travel",
@@ -3247,7 +3235,7 @@
     "category": "clothing",
     "symbol": ";",
     "color": "dark_gray",
-    "name": { "str": "travel wallet"},
+    "name": { "str": "travel wallet" },
     "description": "A flat case with neck strap used to carry items such as currency, identification documents, laminated cards, and other small items.",
     "price": 15000,
     "price_postapoc": 250,
