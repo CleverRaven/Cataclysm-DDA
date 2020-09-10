@@ -72,7 +72,7 @@ jobs:
       compiler: clang
       addons:
         homebrew:
-          packages: ["sdl2" "sdl2_image" "sdl2_ttf" "sdl2_mixer" "gettext" ccache"]
+          packages: ["sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "gettext", ccache"]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
