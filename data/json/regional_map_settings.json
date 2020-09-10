@@ -553,7 +553,7 @@
         }
       },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
-     "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 }
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
     },
     "city": {
       "shop_radius": 30,
@@ -669,7 +669,6 @@
         "urban_5_house": 50,
         "urban_6_house": 50,
         "urban_7_house_garden": 50,
-        "urban_8_house_brick_garden": 50,
         "urban_9_house_garage_loft": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
