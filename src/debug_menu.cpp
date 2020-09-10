@@ -440,10 +440,11 @@ void teleport_overmap( bool specific_coordinates )
             return;
         }
         const std::vector<std::string> coord_strings = string_split( text, ',' );
-        const int coord_x = coord_strings.size() >= 1 ? std::atoi( coord_strings[0].c_str() ) : 0;
-        const int coord_y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
-        const int coord_z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
-        where = tripoint_abs_omt( OMAPX * coord_x, OMAPY * coord_y, coord_z );
+        tripoint coord;
+        coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
+        coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
+        coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
         const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
