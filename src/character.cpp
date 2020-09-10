@@ -2786,12 +2786,10 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
 std::vector<item_location> Character::all_items_loc()
 {
     std::vector<item_location> ret;
-    if( has_weapon() ) {
-        item_location weap_loc( *this, &weapon );
-        std::vector<item_location> weapon_internal_items;
-        recur_internal_locations( weap_loc, weapon_internal_items );
-        ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
-    }
+    item_location weap_loc( *this, &weapon );
+    std::vector<item_location> weapon_internal_items;
+    recur_internal_locations( weap_loc, weapon_internal_items );
+    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
         std::vector<item_location> worn_internal_items;
