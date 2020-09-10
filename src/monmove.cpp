@@ -435,33 +435,36 @@ void monster::plan()
 
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 ) {
-        for( const auto &fac : factions ) {
-            mf_attitude faction_att = faction.obj().attitude( fac.first );
+        for( const auto &fac_list : factions ) {
+            mf_attitude faction_att = faction.obj().attitude( fac_list.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
 
-            for( const weak_ptr_fast<monster> &weak : fac.second ) {
-                const shared_ptr_fast<monster> shared = weak.lock();
-                if( !shared ) {
-                    continue;
-                }
-                monster &mon = *shared;
-                float rating = rate_target( mon, dist, smart_planning );
-                if( rating == dist ) {
-                    ++valid_targets;
-                    if( one_in( valid_targets ) ) {
-                        target = &mon;
+            // TODO: Limit this to levels the monster can see.
+            for( auto &fac : fac_list.second ) {
+                for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                    const shared_ptr_fast<monster> shared = weak.lock();
+                    if( !shared ) {
+                        continue;
                     }
-                }
-                if( rating < dist ) {
-                    target = &mon;
-                    dist = rating;
-                    valid_targets = 1;
-                }
-                if( rating <= 5 ) {
-                    anger += angers_hostile_near;
-                    morale -= fears_hostile_near;
+                    monster &mon = *shared;
+                    float rating = rate_target( mon, dist, smart_planning );
+                    if( rating == dist ) {
+                        ++valid_targets;
+                        if( one_in( valid_targets ) ) {
+                            target = &mon;
+                        }
+                    }
+                    if( rating < dist ) {
+                        target = &mon;
+                        dist = rating;
+                        valid_targets = 1;
+                    }
+                    if( rating <= 5 ) {
+                        anger += angers_hostile_near;
+                        morale -= fears_hostile_near;
+                    }
                 }
             }
         }
@@ -480,26 +483,28 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
-            const shared_ptr_fast<monster> shared = weak.lock();
-            if( !shared ) {
-                continue;
-            }
-            monster &mon = *shared;
-            float rating = rate_target( mon, dist, smart_planning );
-            if( group_morale && rating <= 10 ) {
-                morale += 10 - rating;
-            }
-            if( swarms ) {
-                if( rating < 5 ) { // Too crowded here
-                    wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
-                    wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
-                    wandf = 2;
-                    target = nullptr;
-                    // Swarm to the furthest ally you can see
-                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
-                    target = &mon;
-                    dist = rating;
+        for( auto &fac : myfaction_iter->second ) {
+            for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
+                float rating = rate_target( mon, dist, smart_planning );
+                if( group_morale && rating <= 10 ) {
+                    morale += 10 - rating;
+                }
+                if( swarms ) {
+                    if( rating < 5 ) { // Too crowded here
+                        wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
+                        wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
+                        wandf = 2;
+                        target = nullptr;
+                        // Swarm to the furthest ally you can see
+                    } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
+                        target = &mon;
+                        dist = rating;
+                    }
                 }
             }
         }
