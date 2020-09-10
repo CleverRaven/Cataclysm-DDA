@@ -527,9 +527,8 @@
           [ [ "sheet_metal", 2 ] ],
           [ [ "pipe", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 28 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 28 ] ],
+          [ [ "2x4", 24 ] ],
+          [ [ "nail", 20 ] ],
           [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
         ]
       }
