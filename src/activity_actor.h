@@ -319,13 +319,13 @@ class gunmod_remove_activity_actor : public activity_actor
     private:
         int moves_total;
         item_location gun;
-        size_t gunmod_idx;
+        int gunmod_idx;
 
     public:
         gunmod_remove_activity_actor(
             int moves_total,
             const item_location &gun,
-            size_t gunmod_idx
+            int gunmod_idx
         ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {};
 
         activity_id get_type() const override {

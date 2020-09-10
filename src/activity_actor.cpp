@@ -516,7 +516,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
     }
     item *it_mod = nullptr;
     std::vector<item *> mods = it_gun->gunmods();
-    if( mods.size() > gunmod_idx ) {
+    if( gunmod_idx >= 0 && mods.size() > static_cast<size_t>( gunmod_idx ) ) {
         it_mod = mods[gunmod_idx];
     } else {
         debugmsg( "ACT_GUNMOD_REMOVE lost target gunmod" );
