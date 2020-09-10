@@ -28,6 +28,26 @@
     "color": "light_gray"
   },
   {
+    "id": "office_letter_opener",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "letter opener" },
+    "description": "This sterling silver letter opener resembling a small dagger has a sharp point and no cutting edge.  It was used to open mail envelopes neatly and quickly.",
+    "weight": "23 g",
+    "volume": "90 ml",
+    "longest_side": "18 cm",
+    "price": 4800,
+    "price_postapoc": 100,
+    "material": [ "silver" ],
+    "symbol": ";",
+    "techniques": [ "PRECISE" ],
+    "flags": [ "STAB", "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE" ],
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 9,
+    "color": "light_gray"
+  },
+  {
     "id": "pen",
     "type": "GENERIC",
     "category": "tools",
@@ -56,6 +76,6 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
   }
 ]

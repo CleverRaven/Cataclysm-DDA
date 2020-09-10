@@ -49,8 +49,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "BLOB",
-    "description": "a blob",
+    "id": "SLIME",
+    "description": "a slime",
     "footsteps": "plop."
   },
   {

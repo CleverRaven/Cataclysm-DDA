@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
@@ -14,7 +15,6 @@
 class JsonObject;
 
 using Group_tag = std::string;
-using Mutation_category_tag = std::string;
 
 class Trait_group;
 
@@ -75,11 +75,12 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::map<Mutation_category_tag, distribution> mutation_rounds;
+        std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
+        std::vector<proficiency_id> _starting_proficiencies;
         npc_class();
 
         std::string get_name() const;

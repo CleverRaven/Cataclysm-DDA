@@ -85,6 +85,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "500 ml",
+    "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 5
   },
@@ -102,6 +103,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "500 ml",
+    "weight": "116 g",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 6
   },
@@ -433,7 +435,7 @@
     "weight": "240 g",
     "color": "brown",
     "spoils_in": "3 days",
-    "container": "box_small",
+    "container": "box_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

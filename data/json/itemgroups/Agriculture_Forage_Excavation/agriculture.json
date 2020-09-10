@@ -55,7 +55,7 @@
       [ "insecticide", 30 ],
       { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 },
       [ "sickle", 40 ],
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "bullwhip", 30 ],
       [ "distaff_spindle", 2 ],
       [ "carding_paddles", 2 ],

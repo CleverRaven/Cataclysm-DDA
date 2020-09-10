@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,6 +31,7 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "visitable.h"
 #include "vpart_position.h"
 
@@ -49,14 +49,10 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     const tripoint &pt = attack.end_point;
-    Character &player_character = get_player_character();
 
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
-        if( player_character.sees( pt ) ) {
-            add_msg( _( "The %s shatters!" ), drop_item.tname() );
-        }
-
+        add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
         drop_item.visit_items( [&pt]( const item * it ) {
             get_map().add_item_or_charges( pt, *it );
             return VisitResponse::NEXT;
@@ -71,9 +67,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
     if( effects.count( "BURST" ) ) {
         // Drop the contents, not the thrown item
-        if( player_character.sees( pt ) ) {
-            add_msg( _( "The %s bursts!" ), drop_item.tname() );
-        }
+        add_msg_if_player_sees( pt, _( "The %s bursts!" ), drop_item.tname() );
 
         // copies the drop item to spill the contents
         item( drop_item ).spill_contents( pt );
@@ -100,17 +94,16 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
-                ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
-                attack.dealt_dam.type_damage( DT_STAB ) >
-                attack.dealt_dam.type_damage( DT_BASH ) +
+                ( attack.dealt_dam.type_damage( damage_type::CUT ) / 2 ) +
+                attack.dealt_dam.type_damage( damage_type::STAB ) >
+                attack.dealt_dam.type_damage( damage_type::BASH ) +
                 vol * 3 / 250_ml + rng( 0, 5 );
     }
 
     if( embed ) {
         mon->add_item( dropped_item );
-        if( player_character.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
-        }
+        add_msg_if_player_sees( pt, _( "The %1$s embeds in %2$s!" ),
+                                dropped_item.tname(), mon->disp_name() );
     } else {
         bool do_drop = true;
         // monsters that are able to be tied up will store the item another way
@@ -271,10 +264,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
-             aim.missed_by_tiles, aim.missed_by,
-             target_arg.x, target_arg.y, target_arg.z,
-             target.x, target.y, target.z );
+    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+                   aim.missed_by_tiles, aim.missed_by,
+                   target_arg.x, target_arg.y, target_arg.z,
+                   target.x, target.y, target.z );
 
     // Trace the trajectory, doing damage in order
     tripoint &tp = attack.end_point;
@@ -302,7 +295,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         --traj_len;
     }
 
-    const float projectile_skip_multiplier = 0.1;
+    const float projectile_skip_multiplier = 0.1f;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );

@@ -19,6 +19,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -32,9 +33,12 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Character;
 class Creature_tracker;
 class item;
+class location;
 class spell_events;
+class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -46,17 +50,11 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -87,10 +85,7 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
-
-struct special_game;
 
 class achievements_tracker;
 class avatar;
@@ -105,20 +100,21 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 struct WORLD;
+struct special_game;
+template<typename Tripoint>
+class tripoint_range;
 
 using WORLDPTR = WORLD *;
 class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
-struct visibility_variables;
-
 class ui_adaptor;
+struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -149,10 +145,20 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend achievements_tracker &get_achievements();
+        friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
+        friend location &get_player_location();
+        friend viewer &get_player_view();
         friend weather_manager &get_weather();
+        friend const scenario *get_scenario();
+        friend void set_scenario( const scenario *new_scenario );
+        friend stats_tracker &get_stats();
+        friend scent_map &get_scent();
+        friend timed_event_manager &get_timed_events();
+        friend memorial_logger &get_memorial();
     public:
         game();
         ~game();
@@ -175,16 +181,6 @@ class game
 
         /** Loads core data and mods from the active world. May throw. */
         void load_world_modfiles( loading_ui &ui );
-        /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
@@ -567,10 +563,6 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
-
         void peek();
         void peek( const tripoint &p );
         cata::optional<tripoint> look_debug();
@@ -643,17 +635,10 @@ class game
         bool take_screenshot( const std::string &file_path ) const;
 
         /**
-         * The top left corner of the reality bubble (in submaps coordinates). This is the same
-         * as @ref map::abs_sub of the @ref m map.
-         */
-        int get_levx() const;
-        int get_levy() const;
-        int get_levz() const;
-        /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( const tripoint &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -769,8 +754,6 @@ class game
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
-        bool save_artifacts();
-        // returns false if saving failed for whatever reason
         bool save_maps();
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
@@ -779,8 +762,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // create vehicle nearby, for example; for a profession vehicle.
-        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
+        vehicle *place_vehicle_nearby(
+            const vproto_id &id, const point_abs_omt &origin, int min_distance,
+            int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
@@ -823,7 +807,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest );
 
         unsigned int get_seed() const;
 
@@ -972,15 +956,17 @@ class game
         pimpl<spell_events> spell_events_ptr;
 
         map &m;
-    public:
         avatar &u;
         scent_map &scent;
-        timed_event_manager &timed_events;
+        const scenario *scen = nullptr;
 
         event_bus &events();
         stats_tracker &stats();
+        timed_event_manager &timed_events;
         achievements_tracker &achievements();
         memorial_logger &memorial();
+    public:
+
         spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
@@ -991,7 +977,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 
@@ -1089,6 +1074,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.

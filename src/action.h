@@ -15,6 +15,7 @@ class optional;
 } // namespace cata
 struct tripoint;
 struct point;
+struct input_event;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -358,19 +359,31 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
  * given action then the returned vector is simply left empty.
  *
  * @param act Action ID to lookup in keymap
- * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
- * @returns all keys (as characters) currently bound to a give action ID
+ * @param maximum_modifier_count Maximum number of modifiers allowed for
+ *        the returned action. <0 means any number is allowed.
+ * @param restrict_to_printable If `true` the function returns the bound
+ *        keys only if they are printable (space counts as non-printable
+ *        here). If `false`, all keys (whether they are printable or not)
+ *        are returned.
+ * @returns all keys (as input events) currently bound to a give action ID
  */
-std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = true );
+std::vector<input_event> keys_bound_to( action_id act,
+                                        int maximum_modifier_count = -1,
+                                        bool restrict_to_printable = true );
 
 /**
  * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
  * @param action Action ID to lookup in keymap.
- * @param restrict_to_printable If `true` the function returns the bound key only if it is printable. If `false`, any key (whether they it is printable or not) is returned.
- * @returns the key code for the hotkey or -1 if no key is associated with the given action.
- * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
+ * @param maximum_modifier_count Maximum number of modifiers allowed for
+ *        the returned action. <0 means any number is allowed.
+ * @param restrict_to_printable If `true` the function returns the bound
+ *        keys only if they are printable (space counts as non-printable
+ *        here). If `false`, all keys (whether they are printable or not)
+ *        are returned.
+ * @returns the input event for the hotkey or cata::nullopt if no key is associated with the given action.
  */
-int hotkey_for_action( action_id action, bool restrict_to_printable = true );
+cata::optional<input_event> hotkey_for_action( action_id action,
+        int maximum_modifier_count = -1, bool restrict_to_printable = true );
 
 /**
  * Lookup an action ID by its unique string identifier
@@ -412,17 +425,6 @@ std::string action_ident( action_id act );
  * @returns true if action has potential to alter world state, otherwise returns false.
  */
 bool can_action_change_worldstate( action_id act );
-
-/**
- * Lookup the action ID assigned to a given key.
- *
- * Looks up a key by character and returns the @ref action_id currently mapped to that key.  If no
- * key is currently mapped then ACTION_NULL is returned instead
- *
- * @param ch The character corresponding to the key to look up
- * @returns The action id of the specified key
- */
-action_id action_from_key( char ch );
 
 /**
  * Request player input of adjacent tile, possibly including vertical tiles

@@ -1,24 +1,47 @@
+#include <algorithm>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
+
+#include "auto_pickup.h"
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "character_id.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "dialogue_chatbin.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "itype.h"
 #include "item_location.h"
-#include "line.h"
+#include "itype.h"
+#include "magic.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
-#include "player.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
+#include "output.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "proficiency.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "talker.h"
 #include "talker_npc.h"
-#include "talker_character.h"
-
-class Character;
+#include "translations.h"
+#include "units.h"
+#include "units_fwd.h"
+#include "units_utility.h"
+#include "value_ptr.h"
 
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -54,7 +77,7 @@ bool talker_npc::will_talk_to_u( const player &u, bool force )
         me_npc->set_attitude( NPCATT_NULL );
         return false;
     }
-    if( g->u.getID() == u.getID() ) {
+    if( get_player_character().getID() == u.getID() ) {
         if( me_npc->get_faction() ) {
             me_npc->get_faction()->known_by_u = true;
         }
@@ -76,9 +99,10 @@ bool talker_npc::will_talk_to_u( const player &u, bool force )
 
 std::vector<std::string> talker_npc::get_topics( bool radio_contact )
 {
+    avatar &player_character = get_avatar();
     std::vector<std::string> add_topics;
     // For each active mission we have, let the mission know we talked to this NPC.
-    for( auto &mission : g->u.get_active_missions() ) {
+    for( auto &mission : player_character.get_active_missions() ) {
         mission->on_talk_with_npc( me_npc->getID() );
     }
 
@@ -104,7 +128,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     most_difficult_mission = 0;
     bool chosen_urgent = false;
     for( auto &mission : me_npc->chatbin.missions_assigned ) {
-        if( mission->get_assigned_player_id() != g->u.getID() ) {
+        if( mission->get_assigned_player_id() != player_character.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
@@ -131,11 +155,11 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     }
 
     if( add_topics.back() == "TALK_NONE" ) {
-        add_topics.back() = me_npc->pick_talk_topic( g->u );
+        add_topics.back() = me_npc->pick_talk_topic( player_character );
     }
     me_npc->moves -= 100;
 
-    if( g->u.is_deaf() ) {
+    if( player_character.is_deaf() ) {
         if( add_topics.back() == "TALK_MUG" ||
             add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
             me_npc->make_angry();
@@ -263,6 +287,40 @@ std::string talker_npc::skill_training_text( const talker &student,
                           cur_level_exercise, next_level, next_level_exercise, cost / 100 );
 }
 
+std::vector<proficiency_id> talker_npc::proficiencies_offered_to( const talker &student ) const
+{
+    if( student.get_character() ) {
+        return me_npc->proficiencies_offered_to( *student.get_character() );
+    } else {
+        return {};
+    }
+}
+
+std::string talker_npc::proficiency_training_text( const talker &student,
+        const proficiency_id &proficiency ) const
+{
+    const Character *pupil = student.get_character();
+    if( !pupil ) {
+        return "";
+    }
+    const time_duration time_needed = proficiency->time_to_learn();
+    const time_duration current_time = time_needed - pupil->proficiency_training_needed( proficiency );
+
+    const int cost = calc_proficiency_training_cost( *me_npc, proficiency );
+    const std::string name = proficiency->name();
+    const float pct_before = current_time / time_needed * 100;
+    const float pct_after = ( current_time + 15_minutes ) / time_needed * 100;
+    const std::string after_str = pct_after >= 100.0f ? pgettext( "NPC training: proficiency learned",
+                                  "done" ) : string_format( "%2.0f%%", pct_after );
+
+    if( cost > 0 ) {
+        //~ Proficiency name: (current_practice) -> (next_practice) (cost in dollars)
+        return string_format( _( "%s: (%2.0f%%) -> (%s) (cost $%d)" ), name, pct_before, after_str, cost );
+    }
+    //~ Proficiency name: (current_practice) -> (next_practice)
+    return string_format( _( "%s: (%2.0f%%) -> (%s)" ), name, pct_before, after_str );
+}
+
 std::vector<matype_id> talker_npc::styles_offered_to( const talker &student ) const
 {
     if( student.get_character() ) {
@@ -299,8 +357,8 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
     if( !pupil ) {
         return "";
     }
-    const spell &temp_spell = me_npc->magic.get_spell( sp );
-    const bool knows = pupil->magic.knows_spell( sp );
+    const spell &temp_spell = me_npc->magic->get_spell( sp );
+    const bool knows = pupil->magic->knows_spell( sp );
     const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                      temp_spell.get_level() );
     std::string text;
@@ -315,21 +373,9 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
 }
 
 void talker_npc::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
-                                        const spell_id &c_spell )
+                                        const spell_id &c_spell, const proficiency_id &c_proficiency )
 {
-    if( c_skill ) {
-        me_npc->chatbin.skill = c_skill;
-        me_npc->chatbin.style = matype_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = spell_id();
-    } else if( c_style ) {
-        me_npc->chatbin.style = c_style;
-        me_npc->chatbin.skill = skill_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = spell_id();
-    } else if( c_spell != spell_id() ) {
-        me_npc->chatbin.style = matype_id::NULL_ID();
-        me_npc->chatbin.skill = skill_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = c_spell;
-    }
+    me_npc->chatbin.store_chosen_training( c_skill, c_style, c_spell, c_proficiency );
 }
 
 int talker_npc::debt() const
@@ -410,8 +456,8 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, I used it." );
         }
 
-        to_eat.charges -= amount_used;
         p.consume_effects( to_eat );
+        to_eat.charges -= amount_used;
         p.moves -= 250;
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
@@ -427,24 +473,24 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string talker_npc::give_item_to( const bool to_use )
 {
-    avatar &u = get_avatar();
+    avatar &player_character = get_avatar();
     if( me_npc->is_hallucination() ) {
         return _( "No thanks, I'm good." );
     }
-    item_location loc = game_menus::inv::titled_menu( g->u, _( "Offer what?" ),
+    item_location loc = game_menus::inv::titled_menu( player_character, _( "Offer what?" ),
                         _( "You have no items to offer." ) );
     if( !loc ) {
         return _( "Changed your mind?" );
     }
     item &given = *loc;
 
-    if( ( &given == &u.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( u.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
+        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
 
-    if( given.is_dangerous() && !u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( given.is_dangerous() && !player_character.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return _( "Are you <swear> insane!?" );
     }
 
@@ -454,19 +500,18 @@ std::string talker_npc::give_item_to( const bool to_use )
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
     const double cur_weapon_value = me_npc->weapon_value( me_npc->weapon, our_ammo );
-    add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-             me_npc->weapon.typeId().str(), our_ammo, cur_weapon_value );
-    add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-             given.typeId().str(), new_ammo, new_weapon_value );
+    add_msg_debug( "NPC evaluates own %s (%d ammo): %0.1f",
+                   me_npc->weapon.typeId().str(), our_ammo, cur_weapon_value );
+    add_msg_debug( "NPC evaluates your %s (%d ammo): %0.1f",
+                   given.typeId().str(), new_ammo, new_weapon_value );
     if( to_use ) {
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );
         if( consume_res != REFUSED ) {
+            player_character.moves -= 100;
             if( consume_res == CONSUMED_ALL ) {
-                u.i_rem( &given );
-            }
-            u.moves -= 100;
-            if( given.is_container() ) {
+                player_character.i_rem( &given );
+            } else if( given.is_container() ) {
                 given.on_contents_changed();
             }
         }// wield it if its a weapon
@@ -519,10 +564,9 @@ std::string talker_npc::give_item_to( const bool to_use )
         }
     }
 
-
     if( taken ) {
-        u.i_rem( &given );
-        u.moves -= 100;
+        player_character.i_rem( &given );
+        player_character.moves -= 100;
         me_npc->has_new_items = true;
     }
 
@@ -829,4 +873,9 @@ bool talker_npc::enslave_mind()
     me_npc->companion_mission_role_id.clear();
     talk_function::follow( *me_npc );
     return not_following;
+}
+
+void talker_npc::set_first_topic( const std::string &chat_topic )
+{
+    me_npc->chatbin.first_topic = chat_topic;
 }

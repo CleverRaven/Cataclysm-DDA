@@ -10,11 +10,13 @@
 #include "requirements.h"
 #include "type_id.h"
 
+class Character;
 class JsonIn;
 class JsonOut;
 class inventory;
 class item;
-class Character;
+struct item_comp;
+struct tool_comp;
 template<typename T> struct enum_traits;
 
 /**
@@ -32,13 +34,8 @@ enum class usage_from : int {
 template<>
 struct enum_traits<usage_from> {
     static constexpr usage_from last = usage_from::num_usages_from;
+    static constexpr bool is_flag_enum = true;
 };
-
-inline bool operator&( usage_from l, usage_from r )
-{
-    using I = std::underlying_type_t<usage_from>;
-    return static_cast<I>( l ) & static_cast<I>( r );
-}
 
 /**
 *   Struct that represents a selection of a component for crafting.

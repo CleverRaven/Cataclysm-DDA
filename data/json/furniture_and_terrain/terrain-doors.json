@@ -1803,7 +1803,7 @@
     "type": "terrain",
     "id": "t_door_boarded_damaged",
     "name": "boarded up damaged door",
-    "description": "A boarded up wooden door, except some of the planks are fractured or coming loose.  Without repairs, it could be broken down easily.",
+    "description": "A boarded up wooden door, except that some of the planks are fractured or coming loose.  Without repairs, it could be broken down easily.",
     "symbol": "#",
     "looks_like": "t_door_b",
     "color": "brown",
@@ -2420,5 +2420,49 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_glass_frosted_lab_c",
     "copy-from": "t_door_glass_lab_o"
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_bulkhead_c",
+    "name": "closed bulkhead door",
+    "description": "An extremely resilient door of cast metal, it is watertight and opened using the fly wheel.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_c",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "open": "t_door_metal_bulkhead_o",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_bulkhead_o",
+    "name": "open bulkhead door",
+    "description": "An extremely resilient door of cast metal, it is watertight and opened using the fly wheel.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_o",
+    "color": "light_gray",
+    "move_cost": 1,
+    "coverage": 95,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "close": "t_door_metal_bulkhead_c",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ]
+    }
   }
 ]

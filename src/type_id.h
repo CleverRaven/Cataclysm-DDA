@@ -2,8 +2,10 @@
 #ifndef CATA_SRC_TYPE_ID_H
 #define CATA_SRC_TYPE_ID_H
 
+// IWYU pragma: begin_exports
 #include "int_id.h"
 #include "string_id.h"
+// IWYU pragma: end_exports
 
 class achievement;
 using achievement_id = string_id<achievement>;
@@ -143,6 +145,9 @@ using start_location_id = string_id<start_location>;
 
 class move_mode;
 using move_mode_id = string_id<move_mode>;
+
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;

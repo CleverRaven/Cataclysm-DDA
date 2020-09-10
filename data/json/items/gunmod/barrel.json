@@ -14,7 +14,7 @@
     "mod_targets": [ "smg", "rifle", "shotgun" ],
     "dispersion_modifier": 75,
     "loudness_modifier": 2,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "ZERO_WEIGHT" ]
   },
   {
     "id": "upstest",

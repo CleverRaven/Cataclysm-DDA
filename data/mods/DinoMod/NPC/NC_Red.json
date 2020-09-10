@@ -1,0 +1,150 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_red",
+    "name_unique": "Red",
+    "class": "NC_HUNTER",
+    "attitude": 7,
+    "mission": 3,
+    "chat": "TALK_OLD_GUARD_RED",
+    "faction": "old_guard",
+    "mission_offered": [ "MISSION_OLD_GUARD_DINO_1" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_RED",
+    "dynamic_line": {
+      "u_has_var": "talked_to_red",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": "You there, wanderer.  You have the look of someone who hates dinosaurs.  Are you ready to take this country back?",
+      "yes": {
+        "u_has_var": "asked_about_kill_dinos",
+        "type": "dialogue",
+        "context": "dino",
+        "value": "yes",
+        "no": "You're back.  I knew you were a killer.  Are you ready to take this country back?",
+        "yes": "It's a good day to shoot some dinos."
+      }
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_red", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Dinosaurs?  What are you talking about?",
+        "topic": "TALK_RED_DINOSAURS",
+        "condition": { "not": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" } },
+        "effect": { "u_add_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+      },
+      {
+        "text": "So about hunting dinosaurs…",
+        "topic": "TALK_RED_DINOSAURS",
+        "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+      },
+      {
+        "text": "Would you like to join me on my travels?",
+        "topic": "TALK_SUGGEST_FOLLOW_RED",
+        "condition": { "not": "npc_following" }
+      },
+      { "text": "Let's trade items.", "topic": "TALK_OLD_GUARD_RED", "effect": "start_trade" },
+      {
+        "text": "How can I help?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+      },
+      { "text": "Anyway.  Take care, Red.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_RED_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
+    "responses": [
+      { "text": "Kill all dinosaurs, interesting…", "topic": "TALK_MISSION_LIST" },
+      { "text": "Probably not important.", "topic": "TALK_OLD_GUARD_RED" }
+    ]
+  },
+  {
+    "id": "MISSION_OLD_GUARD_DINO_1",
+    "type": "mission_definition",
+    "name": { "str": "Secure Area" },
+    "description": "We lost another trade caravan.  Whatever did the damage is still out there.  Investigate the trade route and eliminate the threat.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "update_mapgen": { "place_monster": [ { "group": "GROUP_DINOSAUR_DANGEROUS", "x": 12, "y": 12, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_DINO_2",
+    "end": { "opinion": { "trust": 1, "value": 1 } },
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "It sounds like you get it.  There is something out there scaring the merchants.  They got away safe but lost a grain shipment, you're welcome to it if you can haul it back.  Check out the area and report anything you find.",
+      "accepted": "Thanks, keeping the people safe is what we try and do.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Search the bushes for any trace?  I'm not an expert tracker but you should be able to find something.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_DINO_2",
+    "type": "mission_definition",
+    "name": { "str": "Lost in the Woods" },
+    "description": "We lost a scout searching the woods for a lost family.  Find the scout or take out what got them.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 7,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 5, "random": true, "search_range": 40 },
+      "update_mapgen": { "place_monster": [ { "group": "GROUP_DINOSAUR_MEGA_CARNIVORE", "x": 12, "y": 12, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_DINO_3",
+    "end": { "opinion": { "trust": 2, "value": 2 } },
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "Seems like the only news we get here is bad.  A weirdo family was staying outside the center, I don't know why.  They said something about germs.  Anyway, they're gone, vanished in the night.  We sent a scout out to find them but now they're gone too.  We have a pretty good idea of where in the woods the scout was searching.  Bring back anyone you can alive and end whatever is keeping them.",
+      "accepted": "Thanks, keeping the people safe is what we try and do.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Try not to make too much noise.  Visibility is bad in the woods so it's all about sound.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_DINO_3",
+    "type": "mission_definition",
+    "name": { "str": "Protect the cattle" },
+    "description": "Someone or something in the swamps is stealing cattle.  Stop it.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 9,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "swamp", "reveal_radius": 5, "random": true, "search_range": 50 },
+      "update_mapgen": { "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus", "count": 1, "name": "Betty" } ]
+    },
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "This is probably a waste of time, but a nearby farmer has been complaining that someone or something has been stealing a lot of their cattle.  We don't normally bother with little things like this, but our food supplies are getting low and the farmers are threatening to cut us off if we won't help.  I've marked on your map where the farmers think the cattle are going.",
+      "accepted": "Thanks, keeping the people safe is what we try and do.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Maybe bring a rope to bring the cattle back or something for them to eat.  They can be ornery cusses if you don't know how to treat them.",
+      "inquire": "How is the search going?",
+      "success": "Oh.  Oh no.  We didn't think the dinosaurs could raise and we've killed so many of them.  We might be in trouble here.  Here's one now, I'll rip it apart!",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  }
+]

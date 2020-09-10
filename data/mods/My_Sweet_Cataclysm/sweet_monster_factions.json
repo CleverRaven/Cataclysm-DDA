@@ -39,7 +39,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [
-      "blob",
+      "slime",
       "cult",
       "zombie_aquatic",
       "crackers",

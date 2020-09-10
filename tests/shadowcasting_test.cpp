@@ -1,23 +1,25 @@
+#include "catch/catch.hpp"
+#include "shadowcasting.h"
+
 #include <array>
 #include <chrono>
 #include <cstdio>
 #include <functional>
 #include <memory>
 #include <random>
+#include <type_traits>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "shadowcasting.h"
 
 // Constants setting the ratio of set to unset tiles.
-constexpr unsigned int NUMERATOR = 1;
-constexpr unsigned int DENOMINATOR = 10;
+static constexpr unsigned int NUMERATOR = 1;
+static constexpr unsigned int DENOMINATOR = 10;
 
 // NOLINTNEXTLINE(cata-xy)
 static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
@@ -405,7 +407,7 @@ static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
 static constexpr float V = LIGHT_TRANSPARENCY_CLEAR;
 static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
-const point ORIGIN( 65, 65 );
+static const point ORIGIN( 65, 65 );
 
 struct grid_overlay {
     std::vector<std::vector<float>> data;

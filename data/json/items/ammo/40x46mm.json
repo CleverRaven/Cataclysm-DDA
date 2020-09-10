@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str": "40x46mm grenade" },
     "volume": "129 ml",
+    "weight": "230 g",
     "longest_side": "99 mm",
     "price": 10000,
     "price_postapoc": 6000,
@@ -37,7 +38,6 @@
     "type": "AMMO",
     "name": { "str": "40x46mm M433" },
     "description": "A low velocity 40x46mm HEDP grenade.  It can penetrate 2 inches of steel armor and fragmentation of the projectile body also makes it suitable for use against infantry.",
-    "weight": "230 g",
     "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "EXPLOSIVE_m433" ] }

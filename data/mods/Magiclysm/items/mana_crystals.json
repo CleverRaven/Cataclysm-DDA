@@ -14,7 +14,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some crystallized mana.  This can be reloaded into rechargable mana crystals, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "volume": "100 ml",
     "ammo_type": "crystallized_mana",
     "count": 100,

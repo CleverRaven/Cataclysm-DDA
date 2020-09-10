@@ -1,6 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
-#include <cstdlib>
+#include <cmath>
 #include <list>
 #include <memory>
 #include <ostream>
@@ -11,23 +13,25 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player.h"
+#include "pimpl.h"
 #include "point.h"
+#include "ret_val.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -78,8 +82,9 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
                          const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
-    if( !shooter.is_wearing( itype_id( "backpack" ) ) ) {
-        shooter.worn.push_back( item( "backpack" ) );
+    // XL so arrows can fit.
+    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+        shooter.worn.push_back( item( "debug_backpack" ) );
     }
 
     const itype_id &gun_id{ itype_id( gun_type ) };
@@ -122,13 +127,11 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
-
-std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
@@ -232,7 +235,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
-    const float hit_rate_cap = hit_rate + 0.3;
+    const float hit_rate_cap = hit_rate + 0.3f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves );
     firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range,
                                    Threshold( accuracy_standard, hit_rate ) );
@@ -270,7 +273,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.push_back( item( "backpack" ) );
-    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {

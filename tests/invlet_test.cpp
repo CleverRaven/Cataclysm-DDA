@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <list>
 #include <map>
@@ -6,10 +8,9 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -17,6 +18,7 @@
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -227,8 +229,8 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( p.inv.assigned_invlet.find( invlet ) != p.inv.assigned_invlet.end() &&
-            p.inv.assigned_invlet[invlet] == it.typeId() ) {
+        if( p.inv->assigned_invlet.find( invlet ) != p.inv->assigned_invlet.end() &&
+            p.inv->assigned_invlet[invlet] == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
@@ -447,19 +449,20 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     // iterate through all permutations of test actions
     for( int id = 0; id < INVLET_STATE_NUM * INVLET_STATE_NUM * TEST_ACTION_NUM; ++id ) {
         // how to assign invlet to the first item
-        const invlet_state first_invlet_state = invlet_state( id % INVLET_STATE_NUM );
+        const invlet_state first_invlet_state = static_cast<invlet_state>( id % INVLET_STATE_NUM );
         // how to assign invlet to the second item
-        const invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM % INVLET_STATE_NUM );
+        const invlet_state second_invlet_state = static_cast<invlet_state>( id / INVLET_STATE_NUM %
+                INVLET_STATE_NUM );
         // the test steps
-        const test_action action = test_action( id / INVLET_STATE_NUM / INVLET_STATE_NUM %
-                                                TEST_ACTION_NUM );
+        const test_action action = static_cast<test_action>( id / INVLET_STATE_NUM / INVLET_STATE_NUM %
+                                   TEST_ACTION_NUM );
 
         // the final expected invlet state of the two items
         invlet_state expected_first_invlet_state = second_invlet_state == NONE ? first_invlet_state : NONE;
         invlet_state expected_second_invlet_state = second_invlet_state;
 
         // remove all items
-        dummy.inv.clear();
+        dummy.inv->clear();
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
@@ -541,7 +544,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     }
 
     // remove all items
-    dummy.inv.clear();
+    dummy.inv->clear();
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -593,7 +596,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     REQUIRE( loc != GROUND );
 
     // remove all items
-    dummy.inv.clear();
+    dummy.inv->clear();
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
@@ -667,9 +670,9 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
     for( int id = 0; id < INVLET_STATE_NUM * INVLET_STATE_NUM; ++id ) {
         // how to assign invlet to the first item
-        invlet_state first_invlet_state = invlet_state( id % INVLET_STATE_NUM );
+        invlet_state first_invlet_state = static_cast<invlet_state>( id % INVLET_STATE_NUM );
         // how to assign invlet to the second item
-        invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM );
+        invlet_state second_invlet_state = static_cast<invlet_state>( id / INVLET_STATE_NUM );
         // what the invlet should be for the merged stack
         invlet_state expected_merged_invlet_state = first_invlet_state != NONE ? first_invlet_state :
                 second_invlet_state;
@@ -677,7 +680,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
                                       invlet_2 : 0;
 
         // remove all items
-        dummy.inv.clear();
+        dummy.inv->clear();
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );

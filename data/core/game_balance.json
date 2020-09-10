@@ -1,0 +1,170 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISPERSION_PER_GUN_DAMAGE",
+    "info": "Value that adds to weapon dispersion per weapon damage value.",
+    "stype": "int",
+    "value": 30
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "GUN_DISPERSION_DIVIDER",
+    "info": "Value that divides total weapon dispersion. 15 means that weapons became 15 times more accurate than default.",
+    "stype": "float",
+    "value": 18
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_MAX_STAMINA",
+    "info": "Sets max stamina value of the player.",
+    "stype": "int",
+    "value": 10000
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
+    "info": "Sets base stamina regeneration per turn of the player. May be used as an offset in stamina draining effects.",
+    "stype": "float",
+    "value": 20
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_BASE_STAMINA_BURN_RATE",
+    "info": "Sets base stamina burn per 100 moves of the walking player.",
+    "stype": "int",
+    "value": 15
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HUNGER_RATE",
+    "info": "Set base hunger rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_THIRST_RATE",
+    "info": "Set base thirst rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_FATIGUE_RATE",
+    "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PLAYER_HEALING_RATE",
+    "info": "Set base player healing rate per turn. Default: 0.0001",
+    "stype": "float",
+    "value": 0.0001
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NPC_HEALING_RATE",
+    "info": "Set base NPC healing rate per turn. Default: 0.0001",
+    "stype": "float",
+    "value": 0.0001
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_FAULTS",
+    "info": "Disables vehicle part faults.  If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_NPC_FOOD",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "NO_VITAMINS",
+    "info": "Disables tracking vitamins in food items.  If true, disables vitamin tracking and vitamin disorders.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CBM_SLOTS_ENABLED",
+    "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPAWN_ANIMAL_DENSITY",
+    "info": "A scaling factor that determines density of wild, formerly domesticated and mutated animal spawns.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ANIMAL_CLASH",
+    "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_MIN_DEX",
+    "info": "The minimum dex required for speedydex mod to add speed",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_DEX_SPEED",
+    "info": "The amount of moves gained per dex above SPEEDYDEX_MIN_DEX",
+    "stype": "int",
+    "value": 0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ROBOT_RESPONSE",
+    "info": "Disables robot spawning from alerts and from being wanted.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CRAZY",
+    "info": "A boolean specifically for Crazy Cataclysm.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "STATS_THROUGH_KILLS",
+    "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_BASE_VALUE",
+    "info": "The amount of INT which is used as base point for focus adjustments",
+    "stype": "int",
+    "value": 8
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "INT_BASED_LEARNING_FOCUS_ADJUSTMENT",
+    "info": "The amount of focus gained per each INT point above INT_BASED_LEARNING_BASE_VALUE",
+    "stype": "int",
+    "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WORKBENCH_ALL_OPTIONS",
+    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
+    "stype": "bool",
+    "value": true
+  }
+]

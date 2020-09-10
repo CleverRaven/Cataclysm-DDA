@@ -6,7 +6,7 @@
     "description": "Blinds enemy for a short time.",
     "effect": "target_attack",
     "effect_str": "blind",
-    "affected_body_parts": [ "EYES" ],
+    "affected_body_parts": [ "eyes" ],
     "valid_targets": [ "hostile" ],
     "min_damage": 1,
     "max_damage": 2,
@@ -17,6 +17,6 @@
     "spell_class": "NONE",
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
     "energy_source": "NONE",
-    "damage_type": "bio"
+    "damage_type": "biological"
   }
 ]

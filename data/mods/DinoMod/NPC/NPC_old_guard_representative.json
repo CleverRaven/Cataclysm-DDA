@@ -1,0 +1,13 @@
+[
+  {
+    "id": "TALK_OLD_GUARD_REP",
+    "type": "talk_topic",
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_DINOSAURS",
+    "type": "talk_topic",
+    "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.  We have a forward base at the train station working on wiping them all out.  Talk to Red there.",
+    "responses": [ { "text": "Probably for the best.", "topic": "TALK_OLD_GUARD_REP" } ]
+  }
+]

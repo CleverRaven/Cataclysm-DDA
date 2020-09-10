@@ -1,15 +1,18 @@
 #include "catacharset.h"
 
+#include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <cstring>
-#include <array>
 
 #include "options.h"
 #include "output.h"
 #include "wcwidth.h"
 
 #if defined(_WIN32)
+#if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
 #include "platform_win.h"
+#endif
 #include "mmsystem.h"
 #endif
 

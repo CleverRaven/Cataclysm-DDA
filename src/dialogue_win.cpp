@@ -111,28 +111,50 @@ bool dialogue_window::print_responses( const int yoffset, const std::vector<talk
     // Bottom most line we can print to
     const int max_line = min_line + RESPONSE_AREA_HEIGHT( getmaxy( d_win ) ) - 1;
 
-    // Remaining width of the responses area, -2 for the border, -2 for indentation, -2 for spacing
-    const size_t fold_width = xoffset - 2 - 2 - 2;
-
     int curline = min_line - static_cast<int>( yoffset );
     for( size_t i = 0; i < responses.size() && curline <= max_line; i++ ) {
-        const std::vector<std::string> folded = foldstring( responses[i].second, fold_width );
-        const nc_color &color = responses[i].first;
+        //~ %s: hotkey description
+        const std::string hotkey_text = string_format( pgettext( "talk option", "%s: " ),
+                                        responses[i].hotkey_desc );
+        constexpr int indentation = 1;
+        constexpr int border_width = 1;
+        const int hotkey_width = utf8_width( hotkey_text );
+        const int fold_width = getmaxx( d_win ) - xoffset - indentation - hotkey_width - border_width;
+        const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
+        const nc_color &color = responses[i].color;
         for( size_t j = 0; j < folded.size(); j++, curline++ ) {
             if( curline < min_line ) {
                 continue;
             } else if( curline > max_line ) {
                 break;
             }
-            const int off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( d_win, point( xoffset + off, curline ), color, folded[j] );
+            if( j == 0 ) {
+                mvwprintz( d_win, point( xoffset + indentation, curline ), color, hotkey_text );
+            }
+            mvwprintz( d_win, point( xoffset + indentation + hotkey_width, curline ), color, folded[j] );
         }
     }
-    // Those are always available, their key bindings are fixed as well.
-    mvwprintz( d_win, point( xoffset, curline + 1 ), c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( d_win, point( xoffset, curline + 2 ), c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( d_win, point( xoffset, curline + 3 ), c_magenta, _( "Shift+Y: Yell" ) );
-    mvwprintz( d_win, point( xoffset, curline + 4 ), c_magenta, _( "Shift+O: Check opinion" ) );
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    ++curline;
+    if( curline >= min_line && curline <= max_line ) {
+        mvwprintz( d_win, point( xoffset + 1, curline ), c_magenta, _( "%s: Look at" ),
+                   ctxt.get_desc( "LOOK_AT", 1 ) );
+    }
+    ++curline;
+    if( curline >= min_line && curline <= max_line ) {
+        mvwprintz( d_win, point( xoffset + 1, curline ), c_magenta, _( "%s: Size up stats" ),
+                   ctxt.get_desc( "SIZE_UP_STATS", 1 ) );
+    }
+    ++curline;
+    if( curline >= min_line && curline <= max_line ) {
+        mvwprintz( d_win, point( xoffset + 1, curline ), c_magenta, _( "%s: Yell" ),
+                   ctxt.get_desc( "YELL", 1 ) );
+    }
+    ++curline;
+    if( curline >= min_line && curline <= max_line ) {
+        mvwprintz( d_win, point( xoffset + 1, curline ), c_magenta, _( "%s: Check opinion" ),
+                   ctxt.get_desc( "CHECK_OPINION", 1 ) );
+    }
     return curline > max_line; // whether there is more to print.
 }
 
@@ -143,28 +165,21 @@ void dialogue_window::refresh_response_display()
     can_scroll_up = false;
 }
 
-void dialogue_window::handle_scrolling( const int ch )
+void dialogue_window::handle_scrolling( const std::string &action )
 {
     if( text_only ) {
         return;
     }
     // adjust scrolling from the last key pressed
     const int win_maxy = getmaxy( d_win );
-    switch( ch ) {
-        case KEY_DOWN:
-        case KEY_NPAGE:
-            if( can_scroll_down ) {
-                yoffset += RESPONSE_AREA_HEIGHT( win_maxy );
-            }
-            break;
-        case KEY_UP:
-        case KEY_PPAGE:
-            if( can_scroll_up ) {
-                yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT( win_maxy ) );
-            }
-            break;
-        default:
-            break;
+    if( action == "DOWN" || action == "PAGE_DOWN" ) {
+        if( can_scroll_down ) {
+            yoffset += RESPONSE_AREA_HEIGHT( win_maxy );
+        }
+    } else if( action == "UP" || action == "PAGE_UP" ) {
+        if( can_scroll_up ) {
+            yoffset = std::max( 0, yoffset - RESPONSE_AREA_HEIGHT( win_maxy ) );
+        }
     }
 }
 

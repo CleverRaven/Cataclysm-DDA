@@ -15,7 +15,7 @@ namespace pf
 
 static const int rejected = std::numeric_limits<int>::min();
 
-template<typename Point = point>
+template<typename Point>
 struct node {
     Point pos;
     int dir;

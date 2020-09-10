@@ -3,7 +3,7 @@
     "id": "mon_alpha_razorclaw",
     "type": "MONSTER",
     "name": { "str": "alpha razorclaw" },
-    "description": "A blood red, gigantic razorclaw.  Its sword like pincers serve as the keepers of the nest.",
+    "description": "A blood-red, gigantic razorclaw.  Its sword like pincers serve as the keepers of the nest.",
     "default_faction": "razorclaw",
     "bodytype": "crab",
     "species": [ "MUTANT" ],
@@ -545,6 +545,7 @@
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 14, "into": "mon_crayfish_small" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
   },
   {
@@ -600,6 +601,17 @@
     "death_function": [ "NORMAL" ],
     "harvest": "fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
+  },
+  {
+    "id": "mon_crayfish_small",
+    "type": "MONSTER",
+    "name": { "str": "huge crayfish" },
+    "description": "A mutant crayfish the size of a dog with a brown carapace, claws, and long antennae.",
+    "copy-from": "mon_giant_crayfish",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_giant_crayfish" }
   },
   {
     "id": "mon_giant_crayfish",

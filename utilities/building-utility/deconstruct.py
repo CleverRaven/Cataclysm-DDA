@@ -1,11 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''Tool to combine ascii map cells with json templates.
 
 Original design and implementation: acidia (https://github.com/acidia)
 Current design and implementation: wormingdead (https://github.com/wormingdead)
 '''
-
-from __future__ import division
 
 import argparse
 import copy
@@ -267,6 +265,6 @@ def main(parser):
                                 file_name=json_template.name,
                                 json_err=str(val_err)))
 
+
 if __name__ == "__main__":
     main(cli_interface())
-
