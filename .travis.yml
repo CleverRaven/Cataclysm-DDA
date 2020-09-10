@@ -65,6 +65,15 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
+      name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
+      os: osx
+      osx_image: xcode10.2
+      compiler: clang
+      addons:
+        homebrew:
+          packages: ["sdl2" "sdl2_image" "sdl2_ttf" "sdl2_mixer" "gettext" ccache"]
+
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
       env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
