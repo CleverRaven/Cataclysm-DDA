@@ -498,14 +498,15 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
-    "flags": [ "WRITE_MESSAGE" ]
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "pheromone",
     "type": "TOOL",
     "name": { "str": "zombie pheromone" },
-    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
+    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently, the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
     "weight": "238 g",
     "volume": "250 ml",
     "price": 4000,
@@ -652,8 +653,9 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],
-    "flags": [ "WRITE_MESSAGE" ]
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "stepladder",
@@ -850,6 +852,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "watertight": true,
         "open_container": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg"

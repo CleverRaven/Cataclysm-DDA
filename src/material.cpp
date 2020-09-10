@@ -11,14 +11,13 @@
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "mapdata.h"
 #include "string_id.h"
 #include "translations.h"
 
 namespace
 {
 
-generic_factory<material_type> material_data( "material", "ident" );
+generic_factory<material_type> material_data( "material" );
 
 } // namespace
 

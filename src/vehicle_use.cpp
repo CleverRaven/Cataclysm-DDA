@@ -1,5 +1,3 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -10,9 +8,10 @@
 #include <tuple>
 
 #include "action.h"
+#include "activity_actor.h"
 #include "activity_handlers.h"
 #include "avatar.h"
-#include "bodypart.h"
+#include "character.h"
 #include "clzones.h"
 #include "color.h"
 #include "debug.h"
@@ -23,7 +22,8 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_factory.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
@@ -36,9 +36,9 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
-#include "player.h"
 #include "player_activity.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "smart_controller_ui.h"
 #include "sounds.h"
@@ -47,9 +47,11 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -92,14 +94,18 @@ enum change_types : int {
     CANCEL
 };
 
-char keybind( const std::string &opt, const std::string &context )
+static input_event keybind( const std::string &opt,
+                            const std::string &context = "VEHICLE" )
 {
-    const auto keys = input_context( context, keyboard_mode::keychar ).keys_bound_to( opt );
-    return keys.empty() ? ' ' : keys.front();
+    const std::vector<input_event> keys = input_context( context, keyboard_mode::keycode )
+                                          .keys_bound_to( opt, /*maximum_modifier_count=*/1 );
+    return keys.empty() ? input_event() : keys.front();
 }
 
 void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
+                                  std::vector<std::function<void()>> &actions,
+                                  const std::string &name,
+                                  const input_event &key,
                                   const std::string &flag )
 {
     // fetch matching parts and abort early if none found
@@ -238,7 +244,8 @@ void vehicle::control_doors()
 void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
         std::vector<std::function<void()>> &actions )
 {
-    auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
+    auto add_toggle = [&]( const std::string & name, const input_event & key,
+    const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
@@ -733,7 +740,7 @@ void vehicle::use_controls( const tripoint &pos )
                 smart_controller_cfg = smart_controller_config();
             }
 
-            auto cfg_view = smart_controller_settings( has_enabled_smart_controller,
+            smart_controller_settings cfg_view = smart_controller_settings( has_enabled_smart_controller,
                     smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
             smart_controller_ui( cfg_view ).control();
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
@@ -1061,7 +1068,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 
     // if no engines enabled then enable all before trying to start the vehicle
     if( !has_engine ) {
-        for( auto idx : engines ) {
+        for( int idx : engines ) {
             if( !parts[ idx ].is_broken() ) {
                 parts[ idx ].enabled = true;
             }
@@ -1293,7 +1300,7 @@ void vehicle::transform_terrain()
         } else {
             const int speed = std::abs( velocity );
             int v_damage = rng( 3, speed );
-            damage( vp.part_index(), v_damage, DT_BASH, false );
+            damage( vp.part_index(), v_damage, damage_type::BASH, false );
             sounds::sound( start_pos, v_damage, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1362,7 +1369,7 @@ void vehicle::operate_planter()
                     here.set( loc, t_dirt, f_plant_seed );
                 } else if( !here.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
-                    damage( planter_id, rng( 1, 10 ), DT_BASH, false );
+                    damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
                                    "hit_vehicle" );
                 }
@@ -1423,7 +1430,7 @@ void vehicle::operate_scoop()
             }
             if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->inc_damage( DT_BASH );
+                that_item_there->inc_damage( damage_type::BASH );
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
                                               that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
@@ -1520,9 +1527,11 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
-    get_map().set_transparency_cache_dirty( sm_pos.z );
-    const int dist = rl_dist( get_player_character().pos(),
-                              mount_to_tripoint( parts[part_index].mount ) );
+    map &here = get_map();
+    here.set_transparency_cache_dirty( sm_pos.z );
+    const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
+    here.set_seen_cache_dirty( part_location );
+    const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
@@ -1539,7 +1548,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 
 void vehicle::use_autoclave( int p )
 {
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1596,7 +1605,7 @@ void vehicle::use_washing_machine( int p )
         return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
     } );
 
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
@@ -1677,7 +1686,7 @@ void vehicle::use_dishwasher( int p )
 {
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
-    auto items = get_items( p );
+    vehicle_stack items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
@@ -1792,7 +1801,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
 
-    m.add_effect( effect_harnessed, 1_turns, num_bp, true );
+    m.add_effect( effect_harnessed, 1_turns, true );
     m.setpos( pos );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
@@ -1914,7 +1923,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool has_items_on_ground = here.sees_some_items( pos, player_character );
     const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
-    auto turret = turret_query( pos );
+    turret_data turret = turret_query( pos );
 
     const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
@@ -2038,8 +2047,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
     }
     if( has_workbench ) {
-        selectmenu.addentry( WORKBENCH, true, '&', string_format( _( "Craft at the %s" ),
-                             parts[workbench_part].name() ) );
+        selectmenu.addentry( WORKBENCH, true,
+                             hotkey_for_action( ACTION_CRAFT, /*maximum_modifier_count=*/1 ),
+                             string_format( _( "Craft at the %s" ),
+                                            parts[workbench_part].name() ) );
     }
 
     int choice;

@@ -260,33 +260,9 @@ std::string PATH_INFO::lastworld()
 {
     return config_dir_value + "lastworld.json";
 }
-std::string PATH_INFO::legacy_autopickup()
-{
-    return "data/auto_pickup.txt";
-}
-std::string PATH_INFO::legacy_autopickup2()
-{
-    return config_dir_value + "auto_pickup.txt";
-}
 std::string PATH_INFO::legacy_fontdata()
 {
     return datadir_value + "fontdata.json";
-}
-std::string PATH_INFO::legacy_keymap()
-{
-    return "data/keymap.txt";
-}
-std::string PATH_INFO::legacy_options()
-{
-    return "data/options.txt";
-}
-std::string PATH_INFO::legacy_options2()
-{
-    return config_dir_value + "options.txt";
-}
-std::string PATH_INFO::legacy_worldoptions()
-{
-    return "worldoptions.txt";
 }
 std::string PATH_INFO::memorialdir()
 {

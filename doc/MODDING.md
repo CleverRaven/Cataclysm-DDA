@@ -16,7 +16,7 @@ A barebones `modinfo.json` file looks like this:
 [
   {
     "type": "MOD_INFO",
-    "ident": "Mod_ID",
+    "id": "Mod_ID",
     "name": "Mod's Display Name",
     "authors": [ "Your name here", "Your friend's name if you want" ],
     "description": "Your description here",
@@ -38,7 +38,7 @@ The `category` attribute denotes where the mod will appear in the mod selection 
  - `monster_exclude` - A mod that stops certain monster varieties from spawning in the world (eg: No fungal monsters, No ants)
  - `graphical` - A mod that adjusts game graphics in some way (eg: Graphical overmap)
 
-The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `ident` attribute to the array causes Cataclysm to force that mod to load before yours.
+The `dependencies` attribute is used to tell Cataclysm that your mod is dependent on something present in another mod. If you have no dependencies outside of the core game, then just including `dda` in the list is good enough. If your mod depends on another one to work properly, adding that mod's `id` attribute to the array causes Cataclysm to force that mod to load before yours.
 
 ## Actually adding things to your mod
 Now that you have a basic mod, you can get around to actually putting some stuff into it!
@@ -55,7 +55,7 @@ Scenarios are what the game uses to determine your general situation when you cr
 [
   {
     "type": "scenario",
-    "ident": "largebuilding",
+    "id": "largebuilding",
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
@@ -88,7 +88,7 @@ Professions are what the game calls the character classes you can choose from wh
 [
   {
     "type": "profession",
-    "ident": "cop",
+    "id": "cop",
     "name": "Police Officer",
     "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
     "points": 2,
@@ -249,7 +249,7 @@ The entire mod can fit into fifteen lines of JSON, and it's presented below. Jus
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_reviving_zombies",
+    "id": "no_reviving_zombies",
     "name": "Prevent Zombie Revivication",
     "description": "Disables zombie revival.",
     "category": "rebalance",

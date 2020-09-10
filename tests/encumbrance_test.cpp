@@ -1,17 +1,13 @@
 #include "catch/catch.hpp"
 
-#include <array>
 #include <functional>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
 #include "character.h"
-#include "debug.h"
 #include "item.h"
-#include "material.h"
 #include "npc.h"
 #include "type_id.h"
 

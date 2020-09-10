@@ -1,21 +1,27 @@
 #include "catch/catch.hpp"
 
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
-#include "clothing_mod.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "player_helpers.h"
 #include "options_helpers.h"
 #include "output.h"
+#include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 // ITEM INFO
@@ -2070,14 +2076,14 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
 
         item candle( "candle" );
+        candle.ammo_set( itype_id( "candle_wax" ) );
         REQUIRE( candle.ammo_remaining() > 0 );
 
-        candle.charges = candle.type->maximum_charges();
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
                "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
 
-        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        candle.ammo_set( itype_id( "candle_wax" ), ( candle.type->maximum_charges() / 2 ) - 1 );
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
                "<color_c_white>Fuel</color>: More than half has burned away.\n" );
@@ -2262,7 +2268,7 @@ TEST_CASE( "item description flags", "[iteminfo][flags]" )
     REQUIRE( halligan.has_flag( "DURABLE_MELEE" ) );
     CHECK( item_info_str( halligan, flags ) ==
            "--\n"
-           "* This item can be clipped on to a <color_c_cyan>belt loop</color> of the appropriate size.\n"
+           "* This item can be <color_c_cyan>clipped onto a belt loop</color> of the appropriate size.\n"
            "* As a weapon, this item is <color_c_green>well-made</color> and will"
            " <color_c_cyan>withstand the punishment of combat</color>.\n" );
 
@@ -2345,8 +2351,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
                     CHECK( item_info_str( iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
-                           "<color_c_dark_gray>water purification tablet</color>"
-                           " and <color_c_dark_gray>antiseptic powder</color>\n" );
+                           "<color_c_dark_gray>antiseptic powder</color>"
+                           " and <color_c_dark_gray>water purification tablet</color>\n" );
                 }
             }
         }
@@ -2465,7 +2471,10 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
            "Maximum item length: <color_c_yellow>60</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
-           "Base moves to remove item: <color_c_yellow>50</color>\n" );
+           "Base moves to remove item: <color_c_yellow>50</color>\n"
+           "<color_c_white>Restrictions</color>:\n"
+           "* Item must clip onto a belt loop\n"
+           "* <color_c_white>or</color> Item must fit in a sheath\n" );
 }
 
 TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )

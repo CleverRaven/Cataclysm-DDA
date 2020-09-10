@@ -1,40 +1,41 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <set>
 #include <memory>
 #include <ostream>
+#include <set>
+#include <tuple>
 
 #include "avatar.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "veh_type.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
-#include "string_id.h"
-#include "enums.h"
-#include "int_id.h"
-#include "monster.h"
 #include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -107,8 +108,8 @@ int vehicle::slowdown( int at_velocity ) const
     if( slowdown < 0 ) {
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
-    add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
-             name, at_velocity, f_total_drag, slowdown, static_drag() );
+    add_msg_debug( "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
+                   name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
         slowdown -= static_drag();
@@ -118,7 +119,7 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle:: smart_controller_handle_turn( bool thrusting,
-        cata::optional<float> k_traction_cache )
+        const cata::optional<float> &k_traction_cache )
 {
 
     if( !engine_on || !has_enabled_smart_controller ) {
@@ -371,7 +372,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             smart_controller_state = cur_state;
 
             if( player_in_control( player_character ) ) {
-                add_msg( m_debug, _( "Smart controller optimizes engine state." ) );
+                add_msg_debug( _( "Smart controller optimizes engine state." ) );
             }
         }
     } else {
@@ -435,43 +436,41 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    int max_vel = traction * max_velocity();
-
-    // Get braking power
-    int brk = std::max( 1000, std::abs( max_vel ) * 3 / 10 );
-
+    const int max_vel = traction * max_velocity();
+    // maximum braking is 20 mph/s, assumes high friction tires
+    const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
-    int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
+    int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
     if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
-    //find power ratio used of engines max
+    //find ratio of used acceleration to maximum available, returned in tenths of a percent
+    //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
-            //find power ratio used of engines max
-            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
-            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        if( z != 0 ) {
-            // @TODO : actual engine strain / load for going up a z-level.
-            load = 1;
-            thrusting = true;
+        if( thrusting ) {
+            load = 1000 * std::abs( vel_inc ) / accel;
+        } else {
+            // brakes provide 20 mph/s of slowdown and the rest is engine braking
+            // TODO: braking depends on wheels, traction, driver skill
+            load = 1000 * std::max( 0, std::abs( vel_inc ) - max_brake ) / accel;
         }
     } else {
-        if( z != 0 ) {
-            load = 1;
-            thrusting = true;
-        } else {
-            load = ( thrusting ? 1000 : 0 );
-        }
+        load = ( thrusting ? 1000 : 0 );
+    }
+    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    if( is_rotorcraft() && is_flying_in_air() ) {
+        load = std::max( load, z > 0 ? 300 : 150 );
+        thrusting = true;
     }
 
     // only consume resources if engine accelerating
@@ -745,7 +744,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         colls.push_back( fake_coll );
         velocity = 0;
         vertical_velocity = 0;
-        add_msg( m_debug, "Collision check on a dirty vehicle %s", name );
+        add_msg_debug( "Collision check on a dirty vehicle %s", name );
         return true;
     }
 
@@ -971,7 +970,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             continue;
         }
 
-        add_msg( m_debug, "Deformation energy: %.2f", d_E );
+        add_msg_debug( "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
         dmg += d_E / 400;
@@ -979,7 +978,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100.0f;
-            add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
+            add_msg_debug( "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
         const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
@@ -1012,7 +1011,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.
-            assert( critter );
+            cata_assert( critter );
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
@@ -1038,7 +1037,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                add_msg( m_debug, "Critter collision damage: %d", dam );
+                add_msg_debug( "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -1493,7 +1492,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-inline rl_vec2d degree_to_vec( double degrees )
+static inline rl_vec2d degree_to_vec( double degrees )
 {
     return rl_vec2d( std::cos( degrees * M_PI / 180 ), std::sin( degrees * M_PI / 180 ) );
 }
@@ -2111,9 +2110,10 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
-            } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+            } else {
+                add_msg_if_player_sees( part_pos, m_bad,
+                                        _( "The %s is hurled from %s's by the power of the impact!" ),
+                                        pet->disp_name(), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng( 0, 60 ) - 30,

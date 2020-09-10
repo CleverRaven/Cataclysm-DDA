@@ -1,18 +1,18 @@
 #include "catch/catch.hpp"
 
-#include <memory>
 #include <string>
 #include <vector>
 
-#include "calendar.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"

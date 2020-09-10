@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -13,6 +14,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "pebble_clay",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -25,6 +27,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "marble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -39,6 +42,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bearing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -54,6 +58,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -72,6 +77,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -86,6 +92,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "arrow_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -107,6 +114,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "arrow_field_point_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -128,6 +136,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "arrow_heavy_field_point_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -149,6 +158,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_metal_sharpened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -167,6 +177,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_heavy_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -185,6 +196,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_wood_heavy",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -199,9 +211,7 @@
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
-        [ "bone", 5 ],
-        [ "bone_human", 5 ],
-        [ "bone_tainted", 10 ],
+        [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
@@ -213,6 +223,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bolt_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -234,6 +245,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bolt_wood_bodkin",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -255,6 +267,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bolt_wood_small_game",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -276,6 +289,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bolt_metal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -294,6 +308,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bolt_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -308,6 +323,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bolt_simple_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -326,6 +342,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bolt_simple_small_game",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -344,6 +361,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bolt_makeshift",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -358,9 +376,7 @@
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
-        [ "bone", 5 ],
-        [ "bone_human", 5 ],
-        [ "bone_tainted", 10 ],
+        [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
@@ -372,6 +388,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flamable_arrow",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -406,6 +423,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_exploding",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -433,6 +451,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "exploding_arrow_warhead",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -458,6 +477,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bolt_explosive",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -484,6 +504,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "fishspear",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
@@ -495,6 +516,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "m_fishspear",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
@@ -506,6 +528,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blun_shot",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -532,6 +555,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blun_shot",
     "id_suffix": "using_big_scrap",
     "category": "CC_AMMO",
@@ -551,6 +575,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blun_slug",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -569,6 +594,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blun_slug",
     "id_suffix": "using_lead",
     "category": "CC_AMMO",
@@ -585,6 +611,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "blun_flechette",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -603,6 +630,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "arrow_plastic",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -621,6 +649,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "rebar_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -633,6 +662,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -646,6 +676,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "combatnail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -660,6 +691,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "napalm",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -667,11 +699,11 @@
     "difficulty": 6,
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 8, "" ],
-      [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
-      [ "recipe_labchem", 6 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 8, "recipe_name": "" },
+      "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "recipe_labchem": { "skill_level": 6 }
+    },
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "gasoline", 125 ], [ "diesel", 125 ], [ "biodiesel", 125 ] ],
@@ -683,6 +715,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gelled_gasoline",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -691,11 +724,15 @@
     "time": "20 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" }
+    },
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flamethrower_fuel",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -704,15 +741,16 @@
     "time": "3 m",
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "book_learn": [
-      [ "textbook_gaswarfare", 2 ],
-      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
-      [ "manual_launcher", 2 ]
-    ],
+    "book_learn": {
+      "textbook_gaswarfare": { "skill_level": 2 },
+      "textbook_anarch": { "skill_level": 2, "recipe_name": "Stuff THE MAN doesn't want you to know" },
+      "manual_launcher": { "skill_level": 2 }
+    },
     "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ], [ "biodiesel", 125 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "spiked_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -734,6 +772,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "explosive_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -747,6 +786,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "incendiary_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -765,6 +805,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gas_fungicidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -779,6 +820,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gas_insecticidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -793,6 +835,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -813,6 +856,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "tinder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -835,12 +879,14 @@
         [ "withered", 2 ],
         [ "cattail_stalk", 1 ],
         [ "birchbark", 1 ],
-        [ "willowbark", 1 ]
+        [ "willowbark", 1 ],
+        [ "straw_pile", 1 ]
       ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "cac2powder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

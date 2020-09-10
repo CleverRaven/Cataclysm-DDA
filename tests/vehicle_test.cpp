@@ -1,9 +1,10 @@
 #include "catch/catch.hpp"
+#include "vehicle.h"
 
-#include <memory>
 #include <vector>
 
 #include "avatar.h"
+#include "character.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"
@@ -12,7 +13,6 @@
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
-#include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
@@ -69,7 +69,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     //Must not be broken yet
     REQUIRE( !cargo_part->is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), DT_BASH ) );
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail

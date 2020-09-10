@@ -1,7 +1,5 @@
 #pragma GCC diagnostic ignored "-Wunused-macros"
-#ifndef CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
 #define CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
-#endif
 #include "catch/catch.hpp"
 
 #include <algorithm>

@@ -14,7 +14,6 @@
 
 class JsonObject;
 class profession;
-
 template<typename T>
 class generic_factory;
 

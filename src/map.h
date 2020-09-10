@@ -33,8 +33,9 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -59,8 +60,6 @@ class optional_vpart_position;
 class player;
 class relic_procgen_data;
 class submap;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 class zone_data;
 struct fragment_cloud;
@@ -69,13 +68,15 @@ struct partial_con;
 struct rl_vec2d;
 struct spawn_data;
 struct trap;
+template<typename Tripoint>
+class tripoint_range;
 
 enum class special_item_type : int;
 class npc_template;
 class tileray;
 class vpart_reference;
-struct mongroup;
 struct MonsterGroupResult;
+struct mongroup;
 struct projectile;
 struct veh_collision;
 template<typename T>
@@ -123,6 +124,7 @@ struct visibility_variables {
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
+    cata::optional<field_type_str_id> clairvoyance_field;
 };
 
 struct bash_params {
@@ -164,6 +166,7 @@ struct level_cache {
     bool transparency_cache_dirty = false;
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
+    bool seen_cache_dirty = false;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
@@ -180,13 +183,12 @@ struct level_cache {
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
     std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
-    bool veh_in_active_range;
+    bool veh_in_active_range = false;
     bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
 
-    int max_populated_zlev;
 };
 
 /**
@@ -237,6 +239,19 @@ class map
             }
         }
 
+        void set_seen_cache_dirty( const tripoint change_location ) {
+            if( inbounds_z( change_location.z ) ) {
+                level_cache cache = get_cache( change_location.z );
+                if( cache.seen_cache_dirty ) {
+                    return;
+                }
+                if( change_location == tripoint_zero ||
+                    cache.seen_cache[change_location.x][change_location.y] != 0.0 ) {
+                    cache.seen_cache_dirty = true;
+                }
+            }
+        }
+
         void set_outside_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).outside_cache_dirty = true;
@@ -264,6 +279,7 @@ class map
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
                 ch.transparency_cache_dirty = true;
+                ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
             }
         }
@@ -395,7 +411,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst );
-        int burn_body_part( player &u, field_entry &cur, body_part bp, int scale );
+        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -549,7 +565,6 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void update_vehicle_cache( vehicle *, int old_zlevel );
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
@@ -664,6 +679,9 @@ class map
         // the map editor.
         uint8_t get_known_connections( const tripoint &p, int connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -1497,11 +1515,11 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles );
-        void loadn( const point &grid, bool update_vehicles ) {
+        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
+        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles );
+                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
                 }
 
                 // Note: we want it in a separate loop! It is a post-load cleanup
@@ -1510,7 +1528,7 @@ class map
                     add_roofs( tripoint( grid, gridz ) );
                 }
             } else {
-                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
             }
         }
         /**
@@ -1562,22 +1580,23 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( mapgendata &dat );
+        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
-        void draw_temple( mapgendata &dat );
+        void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( mapgendata &dat );
-        void draw_anthill( mapgendata &dat );
-        void draw_slimepit( mapgendata &dat );
-        void draw_spider_pit( mapgendata &dat );
-        void draw_triffid( mapgendata &dat );
-        void draw_connections( mapgendata &dat );
+        void draw_spiral( const mapgendata &dat );
+        void draw_anthill( const mapgendata &dat );
+        void draw_slimepit( const mapgendata &dat );
+        void draw_spider_pit( const mapgendata &dat );
+        void draw_triffid( const mapgendata &dat );
+        void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_transparency_cache( int zlev );
         bool build_vision_transparency_cache( int zlev );
-        void build_sunlight_cache( int zlev );
+        // fills lm with sunlight. pzlev is current player's zlevel
+        void build_sunlight_cache( int pzlev );
     public:
         void build_outside_cache( int zlev );
         // Builds a floor cache and returns true if the cache was invalidated.
@@ -1658,13 +1677,23 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
-        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
-        void calc_max_populated_zlev();
+        /** Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+         * fills the map::max_populated_zlev and returns it
+         * @return max_populated_zlev value
+         */
+        int calc_max_populated_zlev();
+        /**
+         * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
+         *  max_pupulated_zlev value
+         * @param zlev zlevel where uniformity change occured
+         */
+        void invalidate_max_populated_zlev( int zlev );
+
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
          */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
         int bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,
@@ -1787,6 +1816,10 @@ class map
         pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
         visibility_variables visibility_variables_cache;
+
+        // caches the highest zlevel above which all zlevels are uniform
+        // !value || value->first != map::abs_sub means cache is invalid
+        cata::optional<std::pair<tripoint, int>> max_populated_zlev = cata::nullopt;
 
     public:
         const level_cache &get_cache_ref( int zlev ) const {

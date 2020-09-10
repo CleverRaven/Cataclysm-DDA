@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -57,7 +58,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const auto u_pos = player_character.global_sm_location();
+            const tripoint u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 

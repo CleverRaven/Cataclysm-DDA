@@ -14,7 +14,6 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "value_ptr.h"

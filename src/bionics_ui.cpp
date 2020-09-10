@@ -1,12 +1,13 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
-#include <array>
 #include <cstddef>
 #include <memory>
 
+#include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
+#include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "compatibility.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -15,17 +16,21 @@
 #include "inventory.h"
 #include "options.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
-const invlet_wrapper
+static const invlet_wrapper
 bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
 namespace
@@ -155,7 +160,7 @@ std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
 }
 } // namespace io
 
-bionic *player::bionic_by_invlet( const int ch )
+bionic *avatar::bionic_by_invlet( const int ch )
 {
     // space is a special case for unassigned
     if( ch == ' ' ) {
@@ -170,17 +175,21 @@ bionic *player::bionic_by_invlet( const int ch )
     return nullptr;
 }
 
-char get_free_invlet( player &p )
+char get_free_invlet( Character &p )
 {
+    if( p.is_npc() ) {
+        // npcs don't need an invlet
+        return ' ';
+    }
     for( const char &inv_char : bionic_chars ) {
-        if( p.bionic_by_invlet( inv_char ) == nullptr ) {
+        if( p.as_avatar()->bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }
     }
     return ' ';
 }
 
-static void draw_bionics_titlebar( const catacurses::window &window, player *p,
+static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS", keyboard_mode::keychar );
@@ -530,7 +539,7 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
     return type;
 }
 
-void player::power_bionics()
+void avatar::power_bionics()
 {
     sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
     sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );

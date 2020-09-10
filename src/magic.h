@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <memory>
@@ -13,22 +14,25 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
-class Character;
 class spell;
 class time_duration;
+struct requirement_data;
+
 namespace cata
 {
 class event;
@@ -88,25 +92,33 @@ enum class spell_target : int {
 
 template<>
 struct enum_traits<spell_target> {
-    static constexpr auto last = spell_target::num_spell_targets;
+    static constexpr spell_target last = spell_target::num_spell_targets;
 };
 
 template<>
 struct enum_traits<spell_flag> {
-    static constexpr auto last = spell_flag::LAST;
+    static constexpr spell_flag last = spell_flag::LAST;
 };
 
 struct fake_spell {
     spell_id id;
+
+    static const cata::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+
+    static const int level_default;
     // level for things that need it
-    int level = 0;
+    int level = level_default;
+
+    static const bool self_default;
     // target tripoint is source (true) or target (false)
-    bool self = false;
+    bool self = self_default;
+
+    static const int trigger_once_in_default;
     // a chance to trigger the enchantment spells
-    int trigger_once_in = 1;
+    int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
@@ -247,8 +259,6 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
-        // If spell is to summon a vehicle, the vproto_id of the vehicle
-        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -260,7 +270,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NULL;
+        damage_type dmg_type = damage_type::NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;
@@ -271,7 +281,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
@@ -372,7 +382,7 @@ class spell
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input

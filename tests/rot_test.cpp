@@ -1,9 +1,10 @@
 #include "catch/catch.hpp"
 
-#include <cstdlib>
-#include <memory>
+#include <string>
 
 #include "calendar.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "item.h"
 #include "point.h"
 #include "weather.h"

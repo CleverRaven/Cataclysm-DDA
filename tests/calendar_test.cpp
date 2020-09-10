@@ -1,7 +1,7 @@
 #include "catch/catch.hpp"
-
 #include "calendar.h"
-#include "options_helpers.h"
+
+#include <string>
 
 TEST_CASE( "time_duration_to_string", "[calendar]" )
 {

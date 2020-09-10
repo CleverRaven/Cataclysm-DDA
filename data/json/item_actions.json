@@ -276,11 +276,6 @@
   },
   {
     "type": "item_action",
-    "id": "ARTIFACT",
-    "name": { "str": "Use" }
-  },
-  {
-    "type": "item_action",
     "id": "AUTOCLAVE",
     "name": { "str": "Sterilize" }
   },

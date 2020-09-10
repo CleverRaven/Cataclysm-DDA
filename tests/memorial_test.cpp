@@ -1,16 +1,21 @@
 #include "catch/catch.hpp"
 
 #include <algorithm>
-#include <cstddef>
+#include <chrono>
+#include <iterator>
 #include <memory>
+#include <numeric>
+#include <sstream>
 #include <string>
 #include <vector>
 
+#include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
@@ -18,9 +23,8 @@
 #include "player_helpers.h"
 #include "pldata.h"
 #include "profession.h"
+#include "stats_tracker.h"
 #include "type_id.h"
-
-class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -61,6 +65,8 @@ TEST_CASE( "memorials", "[memorial]" )
     memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
+    get_stats().clear();
+    get_achievements().clear();
 
     event_bus &b = get_event_bus();
 
@@ -96,10 +102,10 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Became wanted by the police!", ch );
 
     check_memorial<event_type::broken_bone>(
-        m, b, "Broke her right arm.", ch, bp_arm_r );
+        m, b, "Broke her right arm.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::broken_bone_mends>(
-        m, b, "Broken right arm began to mend.", ch, bp_arm_r );
+        m, b, "Broken right arm began to mend.", ch, bodypart_id( "arm_r" ) );
 
     check_memorial<event_type::buries_corpse>(
         m, b, "You buried monster_name.", ch, mon, "monster_name" );
@@ -130,7 +136,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_id( "URSINE" ) );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );

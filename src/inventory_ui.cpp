@@ -1,27 +1,36 @@
 #include "inventory_ui.h"
 
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
+#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
+#include "map_selector.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
@@ -70,7 +79,7 @@ struct navigation_mode_data {
 
 struct inventory_input {
     std::string action;
-    int ch;
+    int ch = 0;
     inventory_entry *entry;
 };
 
@@ -96,7 +105,7 @@ class selection_column_preset : public inventory_selector_preset
                 res += string_format( "%d ", available_count );
             }
             if( item->is_money() ) {
-                assert( available_count == entry.get_stack_size() );
+                cata_assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                     res += item->display_money( available_count, item->ammo_remaining(),
                                                 entry.get_selected_charges() );
@@ -135,7 +144,7 @@ int inventory_entry::get_total_charges() const
 
 int inventory_entry::get_selected_charges() const
 {
-    assert( chosen_count <= locations.size() );
+    cata_assert( chosen_count <= locations.size() );
     int result = 0;
     for( size_t i = 0; i < chosen_count; ++i ) {
         const item_location &location = locations[i];
@@ -168,7 +177,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -188,7 +197,7 @@ const item_category *inventory_entry::get_category_ptr() const
     if( !is_item() ) {
         return nullptr;
     }
-    return &any_item()->get_category();
+    return &any_item()->get_category_of_contents();
 }
 
 bool inventory_column::activatable() const
@@ -448,7 +457,7 @@ inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
 const inventory_column::entry_cell_cache_t &inventory_column::get_entry_cell_cache(
     size_t index ) const
 {
-    assert( index < entries.size() );
+    cata_assert( index < entries.size() );
 
     if( entries_cell_cache.size() < entries.size() ) {
         entries_cell_cache.resize( entries.size() );
@@ -553,7 +562,7 @@ void inventory_column::reset_width( const std::vector<inventory_column *> & )
 
 size_t inventory_column::page_of( size_t index ) const
 {
-    assert( entries_per_page ); // To appease static analysis
+    cata_assert( entries_per_page ); // To appease static analysis
     // NOLINTNEXTLINE(clang-analyzer-core.DivideZero)
     return index / entries_per_page;
 }
@@ -811,8 +820,8 @@ void inventory_column::prepare_paging( const std::string &filter )
                     Character &player_character = get_player_character();
                     // Place favorite items and items with an assigned inventory letter first,
                     // since the player cared enough to assign them
-                    const bool left_has_invlet = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
-                    const bool right_has_invlet = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
+                    const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
+                    const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
                     if( left_has_invlet != right_has_invlet ) {
                         return left_has_invlet;
                     }
@@ -919,12 +928,12 @@ static int num_parents( const item_location &loc )
     return 2 + num_parents( loc.parent_item() );
 }
 
-void inventory_column::draw( const catacurses::window &win, const point &p )
+void inventory_column::draw( const catacurses::window &win, const point &p,
+                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
     if( !visible() ) {
         return;
     }
-
     const auto available_cell_width = [ this ]( size_t index, size_t cell_index ) {
         const size_t displayed_width = cells[cell_index].current_width;
         const size_t real_width = get_entry_cell_width( index, cell_index );
@@ -954,10 +963,11 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
 
         const bool selected = active && is_selected( entry );
 
-        entry.drawn_info.text_x_start = x1;
         const int hx_max = p.x + get_width() + contained_offset;
-        entry.drawn_info.text_x_end = hx_max;
-        entry.drawn_info.y = yy;
+        inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
+                                          point( hx_max - 1, yy ) );
+        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
+                                  &entry ) );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -1254,7 +1264,7 @@ void inventory_selector::add_items( inventory_column &target_column,
         item_location const &loc = locations.front();
 
         if( custom_category == nullptr ) {
-            nat_category = &loc->get_category();
+            nat_category = &loc->get_category_of_contents();
         } else if( nat_category == nullptr && preset.is_shown( loc ) ) {
             nat_category = naturalize_category( *custom_category, loc.position() );
         }
@@ -1294,7 +1304,7 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( std::list<item> *elem : character.inv.slice() ) {
+    for( std::list<item> *elem : character.inv->slice() ) {
         add_items( own_inv_column, [&character]( item * it ) {
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
@@ -1341,7 +1351,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     const std::string name = to_upper_case( remove_color_tags( veh->part( part ).name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
-    const auto check_components = this->preset.get_checking_components();
+    const bool check_components = this->preset.get_checking_components();
 
     add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
@@ -1418,20 +1428,11 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate ) const
+inventory_entry *inventory_selector::find_entry_by_coordinate( const point &coordinate ) const
 {
-    std::vector<inventory_column *> columns = get_visible_columns();
-    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
-        return entry.is_selectable();
-    };
-    for( inventory_column *column : columns ) {
-        std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
-        for( inventory_entry *entry : entries ) {
-            if( entry->drawn_info.text_x_start <= coordinate.x &&
-                coordinate.x <= entry->drawn_info.text_x_end &&
-                entry->drawn_info.y == coordinate.y ) {
-                return entry;
-            }
+    for( auto pair : rect_entry_map ) {
+        if( pair.first.contains( coordinate ) ) {
+            return pair.second;
         }
     }
     return nullptr;
@@ -1681,7 +1682,7 @@ void inventory_selector::resize_window( int width, int height )
 
 void inventory_selector::refresh_window()
 {
-    assert( w_inv );
+    cata_assert( w_inv );
 
     werase( w_inv );
 
@@ -1759,21 +1760,20 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t y = get_header_height() + border + 1;
     size_t active_x = 0;
 
+    rect_entry_map.clear();
     for( const auto &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
-
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, point( x, y ) );
+            elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
-
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, point( active_x, y ) );
+    get_active_column().draw( w, point( active_x, y ), rect_entry_map );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
@@ -1887,12 +1887,14 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    std::pair<point, bool> ct_pair = ctxt.get_coordinates_text( w_inv );
-    if( ct_pair.second ) {
-        point p = ct_pair.first;
-        res.entry = find_entry_by_coordinate( p );
-        if( res.entry != nullptr ) {
-            return res;
+    cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
+    if( o_p ) {
+        point p = o_p.value();
+        if( window_contains_point_relative( w_inv, p ) ) {
+            res.entry = find_entry_by_coordinate( p );
+            if( res.entry != nullptr && res.entry->is_selectable() ) {
+                return res;
+            }
         }
     }
 
@@ -2092,14 +2094,7 @@ const navigation_mode_data &inventory_selector::get_navigation_data( navigation_
 
 std::string inventory_selector::action_bound_to_key( char key ) const
 {
-    for( const std::string &action_descriptor : ctxt.get_registered_actions_copy() ) {
-        for( char bound_key : ctxt.keys_bound_to( action_descriptor ) ) {
-            if( key == bound_key ) {
-                return action_descriptor;
-            }
-        }
-    }
-    return std::string();
+    return ctxt.input_to_action( input_event( key, input_event_t::keyboard_char ) );
 }
 
 item_location inventory_pick_selector::execute()
@@ -2537,13 +2532,23 @@ void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
+            auto iter = find_if( dropping.begin(), dropping.end(), [&it]( drop_location drop ) {
+                return drop.first == it;
+            } );
+            if( iter == dropping.end() ) {
+                dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
+            }
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                dropping.emplace_back( loc, 1 );
+                auto iter = find_if( dropping.begin(), dropping.end(), [&loc]( drop_location drop ) {
+                    return drop.first == loc;
+                } );
+                if( iter == dropping.end() ) {
+                    dropping.emplace_back( loc, 1 );
+                }
                 count--;
             }
         }

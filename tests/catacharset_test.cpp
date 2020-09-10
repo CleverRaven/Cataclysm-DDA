@@ -1,11 +1,14 @@
 #include "catch/catch.hpp"
+#include "catacharset.h"
 
 #include <clocale>
+#include <locale>
 #include <stdexcept>
 #include <string>
+#include <tuple>
+#include <utility>
 #include <vector>
 
-#include "catacharset.h"
 #include "translations.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )

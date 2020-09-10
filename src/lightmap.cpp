@@ -1,5 +1,4 @@
 #include "lightmap.h" // IWYU pragma: associated
-#include "shadowcasting.h" // IWYU pragma: associated
 
 #include <cmath>
 #include <cstdlib>
@@ -8,9 +7,12 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
+#include "cuboid_rectangle.h"
+#include "debug.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -21,13 +23,14 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "point.h"
+#include "shadowcasting.h" // IWYU pragma: associated
 #include "string_formatter.h"
+#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -36,6 +39,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_haslight( "haslight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -46,7 +50,7 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const half_open_rectangle<point> lightmap_boundaries(
+static const half_open_rectangle<point> lightmap_boundaries(
     lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
@@ -95,6 +99,11 @@ bool map::build_transparency_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev );
+                continue;
+            }
 
             float zero_value = LIGHT_TRANSPARENCY_OPEN_AIR;
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -202,74 +211,149 @@ void map::apply_character_light( Character &p )
 // toward the lower limit. Since it's sunlight, the rays are parallel.
 // Each layer consults the next layer up to determine the intensity of the light that reaches it.
 // Once this is complete, additional operations add more dynamic lighting.
-void map::build_sunlight_cache( int zlev )
+void map::build_sunlight_cache( int pzlev )
 {
-    level_cache &map_cache = get_cache( zlev );
-    auto &lm = map_cache.lm;
-    // Grab illumination at ground level.
-    const float outside_light_level = g->natural_light_level( 0 );
-    // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
-    const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
-                                     LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
-    // Handling when z-levels are disabled is based on whether a tile is considered "outside".
-    if( !zlevels ) {
-        const auto &outside_cache = map_cache.outside_cache;
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
-            for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                if( outside_cache[x][y] ) {
-                    lm[x][y].fill( outside_light_level );
-                } else {
-                    lm[x][y].fill( inside_light_level );
-                }
-            }
-        }
-        return;
-    }
-    // If uppermost level, just apply weather illumination since there's no opportunity
-    // for light to be blocked.
-    if( zlev == std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) ) {
-        for( auto &lm_col : lm ) {
-            for( four_quadrants &lm_entry : lm_col ) {
-                lm_entry.fill( outside_light_level );
-            }
-        }
-        return;
-    }
+    const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
+    // Start at the topmost populated zlevel to avoid unnecessary raycasting
+    // Plus one zlevel to prevent clipping inside structures
+    const int zlev_max = zlevels ? std::min( std::max( calc_max_populated_zlev() + 1, pzlev + 1 ),
+                         OVERMAP_HEIGHT ) : pzlev;
 
-    // Replace this with a calculated shift based on time of day and date.
-    // At first compress the angle such that it takes no more than one tile of shift per level.
-    // To exceed that, we'll have to handle casting light from the side instead of the top.
-    point offset;
-    const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
-    const auto &prev_lm = prev_map_cache.lm;
-    const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
-    const auto &prev_floor_cache = prev_map_cache.floor_cache;
-    const auto &outside_cache = map_cache.outside_cache;
-    const float sight_penalty = get_weather().weather_id->sight_penalty;
-    for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
-        bool x_inbounds = prev_x >= 0 && prev_x < MAPSIZE_X;
-        for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
-            bool inbounds = x_inbounds && prev_y >= 0 && prev_y < MAPSIZE_Y;
-            four_quadrants prev_light( outside_light_level );
-            float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
-            if( inbounds ) {
-                prev_light = prev_lm[ prev_x ][ prev_y ];
-                prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
-                // This is pretty gross, this cancels out the per-tile transparency effect
-                // derived from weather.
-                if( outside_cache[x][y] ) {
-                    prev_transparency /= sight_penalty;
+    // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
+    bool fully_outside = true;
+
+    // true if no light reaches this level, i.e. there were no lit tiles on the above level (light level <= inside_light_level)
+    bool fully_inside = false;
+
+    // fully_outside and fully_inside define following states:
+    // initially: fully_outside=true, fully_inside=false  (fast fill)
+    //    ↓
+    // when first obstacles occur: fully_outside=false, fully_inside=false  (slow quadrant logic)
+    //    ↓
+    // when fully below ground: fully_outside=false, fully_inside=true  (fast fill)
+
+    // Iterate top to bottom because sunlight cache needs to construct in that order.
+    for( int zlev = zlev_max; zlev >= zlev_min; zlev-- ) {
+
+        level_cache &map_cache = get_cache( zlev );
+        auto &lm = map_cache.lm;
+        // Grab illumination at ground level.
+        const float outside_light_level = g->natural_light_level( 0 );
+        // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
+        const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
+                                         LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
+        // Handling when z-levels are disabled is based on whether a tile is considered "outside".
+        if( !zlevels ) {
+            const auto &outside_cache = map_cache.outside_cache;
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
+                    if( outside_cache[x][y] ) {
+                        lm[x][y].fill( outside_light_level );
+                    } else {
+                        lm[x][y].fill( inside_light_level );
+                    }
                 }
             }
-            // The formula to apply transparency to the light rays doesn't handle full opacity,
-            // so handle that seperately.
-            if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                !prev_floor_cache[x][y] && prev_light.max() > 0.0 && outside_cache[x][y] ) {
-                lm[x][y].fill( std::max( inside_light_level,
-                                         prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
-                                         / prev_transparency ) );
-            } else {
-                lm[x][y].fill( inside_light_level );
+            continue;
+        }
+
+        // all light was blocked before
+        if( fully_inside ) {
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
+            continue;
+        }
+
+        // If there were no obstacles before this level, just apply weather illumination since there's no opportunity
+        // for light to be blocked.
+        if( fully_outside ) {
+            //fill with full light
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( outside_light_level ) );
+
+            const auto &this_floor_cache = map_cache.floor_cache;
+            const auto &this_transparency_cache = map_cache.transparency_cache;
+            fully_inside = true; // recalculate
+
+            for( int x = 0; x < MAPSIZE_X; ++x ) {
+                for( int y = 0; y < MAPSIZE_Y; ++y ) {
+                    // && semantics below is important, we want to skip the evaluation if possible, do not replace with &=
+
+                    // fully_outside stays true if tile is transparent and there is no floor
+                    fully_outside = fully_outside && this_transparency_cache[x][y] >= LIGHT_TRANSPARENCY_OPEN_AIR
+                                    && !this_floor_cache[x][y];
+                    // fully_inside stays true if tile is opaque OR there is floor
+                    fully_inside = fully_inside && ( this_transparency_cache[x][y] <= LIGHT_TRANSPARENCY_SOLID ||
+                                                     this_floor_cache[x][y] );
+                }
+            }
+            continue;
+        }
+
+        // Replace this with a calculated shift based on time of day and date.
+        // At first compress the angle such that it takes no more than one tile of shift per level.
+        // To exceed that, we'll have to handle casting light from the side instead of the top.
+        point offset;
+        const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
+        const auto &prev_lm = prev_map_cache.lm;
+        const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
+        const auto &prev_floor_cache = prev_map_cache.floor_cache;
+        const auto &outside_cache = map_cache.outside_cache;
+        const float sight_penalty = get_weather().weather_id->sight_penalty;
+        // TODO: Replace these with a lookup inside the four_quadrants class.
+        constexpr std::array<point, 5> cardinals = {
+            {point_zero, point_north, point_west, point_east, point_south}
+        };
+        constexpr std::array<std::array<quadrant, 2>, 5> dir_quadrants = {{
+                {{quadrant::NE, quadrant::NW}},
+                {{quadrant::NE, quadrant::NW}},
+                {{quadrant::SW, quadrant::NW}},
+                {{quadrant::SE, quadrant::NE}},
+                {{quadrant::SE, quadrant::SW}},
+            }
+        };
+
+        fully_inside = true; // recalculate
+
+        // Fall back to minimal light level if we don't find anything.
+        std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
+
+        for( int x = 0; x < MAPSIZE_X; ++x ) {
+            for( int y = 0; y < MAPSIZE_Y; ++y ) {
+                // Check center, then four adjacent cardinals.
+                for( int i = 0; i < 5; ++i ) {
+                    int prev_x = x + offset.x + cardinals[i].x;
+                    int prev_y = y + offset.y + cardinals[i].y;
+                    bool inbounds = prev_x >= 0 && prev_x < MAPSIZE_X &&
+                                    prev_y >= 0 && prev_y < MAPSIZE_Y;
+
+                    if( !inbounds ) {
+                        continue;
+                    }
+
+                    float prev_light_max;
+                    float prev_transparency = prev_transparency_cache[prev_x][prev_y];
+                    // This is pretty gross, this cancels out the per-tile transparency effect
+                    // derived from weather.
+                    if( outside_cache[x][y] ) {
+                        prev_transparency /= sight_penalty;
+                    }
+
+                    if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
+                        !prev_floor_cache[prev_x][prev_y] &&
+                        ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
+                        const float light_level = std::max( inside_light_level, prev_light_max *
+                                                            LIGHT_TRANSPARENCY_OPEN_AIR
+                                                            / prev_transparency );
+                        if( i == 0 ) {
+                            lm[x][y].fill( light_level );
+                            fully_inside &= light_level <= inside_light_level;
+                            break;
+                        } else {
+                            fully_inside &= light_level <= inside_light_level;
+                            lm[x][y][dir_quadrants[i][0]] = light_level;
+                            lm[x][y][dir_quadrants[i][1]] = light_level;
+                        }
+                    }
+                }
             }
         }
     }
@@ -308,15 +392,9 @@ void map::generate_lightmap( const int zlev )
     };
 
     const float natural_light = g->natural_light_level( zlev );
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    // Start at the topmost populated zlevel to avoid unnecessary raycasting
-    // Plus one zlevel to prevent clipping inside structures
-    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
 
-    // Iterate top to bottom because sunlight cache needs to construct in that order.
-    for( int z = maxz; z >= minz; z-- ) {
-        build_sunlight_cache( z );
-    }
+    build_sunlight_cache( zlev );
+
     apply_character_light( get_player_character() );
     for( npc &guy : g->all_npcs() ) {
         apply_character_light( guy );
@@ -327,6 +405,10 @@ void map::generate_lightmap( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -614,8 +696,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
         return lit_level::BRIGHT;
     }
-    const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
-    if( fd_clairvoyant.is_valid() && field_at( p ).find_field( fd_clairvoyant ) ) {
+    if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
         return lit_level::BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );

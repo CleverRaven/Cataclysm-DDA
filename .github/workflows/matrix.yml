@@ -46,6 +46,7 @@ jobs:
             libsdl2-mixer-dev libpulse-dev ccache gettext
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed

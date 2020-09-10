@@ -6,6 +6,8 @@
 
 #include "enum_traits.h"
 
+template <typename E> struct enum_traits;
+
 /// @brief types of proper noun tables
 enum class nameFlags : int {
     /// Masculine first names, also used for Unisex

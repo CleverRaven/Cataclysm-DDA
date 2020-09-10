@@ -1,5 +1,7 @@
 #include "catch/catch.hpp"
 
+#include <string>
+
 #include "calendar.h"
 #include "enum_conversions.h"
 

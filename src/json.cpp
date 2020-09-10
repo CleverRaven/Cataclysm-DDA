@@ -2,26 +2,25 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cmath> // pow
+#include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul
+#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
 #include <iterator>
 #include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
-#include <sstream>
+#include <sstream> // IWYU pragma: keep
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "string_formatter.h"
-
-extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -222,7 +221,7 @@ void JsonArray::throw_error( const std::string &err, int idx )
     if( !jsin ) {
         throw JsonError( err );
     }
-    if( idx >= 0 && size_t( idx ) < positions.size() ) {
+    if( idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error( err );
@@ -1935,7 +1934,7 @@ JsonValue JsonObject::get_member( const std::string &name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "requested non-existing member \"" + name + "\"" );
+        throw_error( "requested non-existing member \"" + name + "\" in " + str() );
     }
     mark_visited( name );
     return JsonValue( *jsin, iter->second );

@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+#include "bionics.h"
 
 #include <climits>
 #include <list>
@@ -6,12 +7,12 @@
 #include <string>
 
 #include "avatar.h"
-#include "bionics.h"
-#include "calendar.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -101,7 +102,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     clear_bionics( dummy );
 
     SECTION( "bio_batteries" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
+        dummy.add_bionic( bionic_id( "bio_batteries" ) );
 
         static const std::list<std::string> always = {
             "battery" // old-school

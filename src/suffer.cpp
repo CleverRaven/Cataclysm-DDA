@@ -25,11 +25,11 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -40,6 +40,7 @@
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
@@ -53,7 +54,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
@@ -76,7 +79,6 @@ static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_cig( "cig" );
@@ -303,20 +305,20 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
         suffer_from_chemimbalance();
     }
-    if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+    if( has_trait( trait_SCHIZOPHRENIC ) &&
         !has_effect( effect_took_thorazine ) ) {
         suffer_from_schizophrenia();
     }
 
-    if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+    if( has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
             add_msg( m_bad,
                      _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
@@ -455,7 +457,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = random_body_part( true );
+        const bodypart_id &bp = random_body_part( true );
         add_effect( effect_formication, 45_minutes, bp );
         add_msg_if_player( m_bad, "%s", snip );
         return;
@@ -716,24 +718,27 @@ void Character::suffer_from_asthma( const int current_stim )
 
 void Character::suffer_in_sunlight()
 {
-    double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
-    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
-                       has_trait( trait_LEAVES3 );
-    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( pos() );
-        int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
-        }
-        if( leafier ) {
-            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
+    if( get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const bool leafy = has_trait( trait_LEAVES ) ||
+                           has_trait( trait_LEAVES2 ) ||
+                           has_trait( trait_LEAVES3 );
+        if( leafy ) {
+            const bool leafier = has_trait( trait_LEAVES2 );
+            const bool leafiest = has_trait( trait_LEAVES3 );
+            const double sleeve_factor = armwear_factor();
+            const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
+            const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                           sun_intensity_type::normal ) ? 1.0 : 0.5;
+            const int player_local_temp = get_weather().get_temperature( pos() );
+            const int flux = ( player_local_temp - 65 ) / 2;
+            if( !has_hat ) {
+                sunlight_nutrition += ( 100 + flux ) * weather_factor;
+            }
+            if( leafier ) {
+                const int rate = ( 100 * sleeve_factor + flux ) * 2;
+                sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            }
         }
     }
 
@@ -753,19 +758,8 @@ void Character::suffer_in_sunlight()
         return;
     }
 
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
-        suffer_from_albinism();
-    }
-
-    if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
-        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) ) {
-                wake_up();
-            }
-            mod_pain( 1 );
-            hurtall( 1, nullptr );
-        }
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) || has_trait( trait_SUNBURN ) ) {
+        suffer_from_sunburn();
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
@@ -792,16 +786,60 @@ void Character::suffer_in_sunlight()
     }
 }
 
-void Character::suffer_from_albinism()
+std::map<bodypart_id, float> Character::bodypart_exposure()
 {
-    if( !one_turn_in( 1_minutes ) ) {
+    std::map<bodypart_id, float> bp_exposure;
+    // May need to iterate over all body parts several times, so make a copy
+    const std::vector<bodypart_id> all_body_parts = get_all_body_parts();
+
+    // Initially, all parts are assumed to be fully exposed
+    for( const bodypart_id &bp : all_body_parts ) {
+        bp_exposure[bp] = 1.0f;
+    }
+    // For every item worn, for every body part, adjust coverage
+    for( const item &it : worn ) {
+        // What body parts does this item cover?
+        body_part_set covered = it.get_covered_body_parts();
+        for( const bodypart_id &bp : all_body_parts )  {
+            if( !covered.test( bp.id() ) ) {
+                continue;
+            }
+            // How much exposure does this item leave on this part? (1.0 == naked)
+            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
+            // Coverage multiplies, so two layers with 50% coverage will together give 75%
+            bp_exposure[bp] *= part_exposure;
+        }
+    }
+    return bp_exposure;
+}
+
+void Character::suffer_from_sunburn()
+{
+    if( !has_trait( trait_ALBINO ) && !has_effect( effect_datura ) && !has_trait( trait_SUNBURN ) ) {
         return;
     }
+
+    std::string sunlight_effect;
+    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+        // Albinism and datura have the same effects, once per minute on average
+        if( !one_turn_in( 1_minutes ) ) {
+            return;
+        }
+        sunlight_effect = _( "The sunlight is really irritating" );
+    } else if( has_trait( trait_SUNBURN ) ) {
+        // Sunburn effects occur about 3 times per minute
+        if( !one_turn_in( 20_seconds ) ) {
+            return;
+        }
+        sunlight_effect = _( "The sunlight burns" );
+    }
+
     // Sunglasses can keep the sun off the eyes.
     if( !has_bionic( bio_sunglasses ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
+        add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
+        // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -812,71 +850,95 @@ void Character::suffer_from_albinism()
     if( weapon.has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
-    //calculate total coverage of skin
-    body_part_set affected_bp { {
-            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
-            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
-        }
-    };
-    //pecentage of "open skin" by body part
-    std::map<body_part, float> open_percent;
-    //initialize coverage
-    for( const bodypart_id  &bp : get_all_body_parts() ) {
-        if( affected_bp.test( bp.id() ) ) {
-            open_percent[bp->token] = 1.0;
-        }
-    }
-    //calculate coverage for every body part
-    for( const item &i : worn ) {
-        body_part_set covered = i.get_covered_body_parts();
-        for( const bodypart_id  &bp : get_all_body_parts() )  {
-            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
-                continue;
-            }
-            //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage( bp ) / 100.0f;
-            open_percent[bp->token] = open_percent[bp->token] * p;
-        }
-    }
 
-    const float COVERAGE_LIMIT = 0.01f;
-    body_part max_affected_bp = num_bp;
-    float max_affected_bp_percent = 0.0f;
+    std::map<bodypart_id, float> bp_exposure = bodypart_exposure();
+
+    // Minimum exposure threshold for pain
+    const float MIN_EXPOSURE = 0.01f;
+    // Count how many body parts are above the threshold
     int count_affected_bp = 0;
-    for( const std::pair<const body_part, float> &it : open_percent ) {
-        const body_part &bp = it.first;
-        const float &p = it.second;
-
-        if( p <= COVERAGE_LIMIT ) {
+    // Get the most exposed body part, and how exposed it is.  This is to tell the player what body
+    // part is most irritated by sun, so they know what needs to be covered up better.
+    bodypart_id most_exposed_bp;
+    float max_exposure = 0.0f;
+    // Check each bodypart with exposure above the minimum
+    for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+        const float exposure = bp_exp.second;
+        // Skip minimally-exposed parts, and skip the eyes (handled by sunglasses)
+        if( exposure <= MIN_EXPOSURE || bp_exp.first == bodypart_id( "eyes" ) ) {
             continue;
         }
         ++count_affected_bp;
-        if( max_affected_bp_percent < p ) {
-            max_affected_bp_percent = p;
-            max_affected_bp = bp;
+        if( exposure > max_exposure ) {
+            max_exposure = exposure;
+            most_exposed_bp = bp_exp.first;
         }
     }
-    if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
-        //Check if both arms/legs are affected
-        int parts_count = 1;
-        body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
-        body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
-        if( other_bp != other_bp_rev ) {
-            const auto found = open_percent.find( other_bp );
-            if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
-                ++parts_count;
+
+    // If all body parts are protected, there is no suffering
+    if( count_affected_bp == 0 || most_exposed_bp == bodypart_str_id( "bp_null" ) ) {
+        return;
+    }
+
+    // Check if both arms/legs are affected
+    int count_limbs = 1;
+    const bodypart_id &other_bp = most_exposed_bp->opposite_part;
+    const bodypart_id &other_bp_rev = other_bp->opposite_part;
+    // If these are different, we have a left/right part like a leg or arm.
+    // If same, it's a central body part with no opposite, like head or torso.
+    // Only used to generate a simpler message when both arms or both legs are affected.
+    if( other_bp != other_bp_rev ) {
+        const auto found = bp_exposure.find( other_bp );
+        // Is opposite part exposed?
+        if( found != bp_exposure.end() && found->second > MIN_EXPOSURE ) {
+            ++count_limbs;
+        }
+    }
+    // Get singular or plural body part name; append "and other body parts" if appropriate
+    std::string bp_name = body_part_name( most_exposed_bp, count_limbs );
+    if( count_affected_bp == count_limbs ) {
+        add_msg_if_player( m_bad, _( "%s your %s." ), sunlight_effect, bp_name );
+    } else {
+        add_msg_if_player( m_bad, _( "%s your %s and other body parts." ), sunlight_effect,
+                           bp_name );
+    }
+
+    // Wake up from skin irritation/burning
+    if( has_effect( effect_sleep ) ) {
+        wake_up();
+    }
+
+    // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
+    if( has_trait( trait_SUNBURN ) ) {
+        mod_pain( 1 );
+        // Check exposure of all body parts
+        for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
+            const bodypart_id &this_part = bp_exp.first;
+            const float exposure = bp_exp.second;
+            // Skip parts with adequate protection
+            if( exposure <= MIN_EXPOSURE ) {
+                continue;
+            }
+            // Don't damage eyes directly, since it takes from head HP (in other words, your head
+            // won't be destroyed if only your eyes are exposed).
+            if( this_part == bodypart_id( "eyes" ) ) {
+                continue;
+            }
+            // Exposure percentage determines likelihood of injury
+            // 10% exposure is 10% chance of injury, naked = 100% chance
+            if( x_in_y( exposure, 1.0 ) ) {
+                // Because hands and feet share an HP pool with arms and legs, and the mouth shares
+                // an HP pool with the head, those parts take an unfair share of damage in relation
+                // to the torso, which only has one part.  Increase torso damage to balance this.
+                if( this_part == bodypart_id( "torso" ) ) {
+                    apply_damage( nullptr, this_part, 2 );
+                } else {
+                    apply_damage( nullptr, this_part, 1 );
+                }
             }
         }
-        std::string bp_name = body_part_name( convert_bp( max_affected_bp ).id(), parts_count );
-        if( count_affected_bp > parts_count ) {
-            bp_name = string_format( _( "%s and other body parts" ), bp_name );
-        }
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
-
-        //apply effects
-        if( has_effect( effect_sleep ) ) {
-            wake_up();
-        }
+    } else {
+        // Albinism/datura causes pain (1/60) or focus loss (59/60)
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
@@ -896,7 +958,7 @@ void Character::suffer_from_item_dropping()
             }
         }
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
-        for( auto i : dump ) {
+        for( item *i : dump ) {
             i_rem( i );
         }
     }
@@ -953,7 +1015,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
 
     }
 
@@ -978,7 +1040,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1246,7 +1308,7 @@ void Character::suffer_from_bad_bionics()
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
+        add_effect( effect_downed, 1_turns, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
@@ -1264,7 +1326,7 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
+        const bodypart_id &bp = random_body_part( true );
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
@@ -1272,27 +1334,6 @@ void Character::suffer_from_bad_bionics()
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
         mod_power_level( -1_kJ );
-    }
-}
-
-void Character::suffer_from_artifacts()
-{
-    // Artifact effects
-    if( has_artifact_with( AEP_ATTENTION ) ) {
-        add_effect( effect_attention, 3_turns );
-    }
-
-    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        get_weather().weather_id->precip < precip_class::heavy ) {
-        get_weather().weather_override = get_bad_weather();
-        get_weather().set_nextweather( calendar::turn );
-    }
-
-    if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
-        mutate();
-    }
-    if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        teleport::teleport( *this );
     }
 }
 
@@ -1447,7 +1488,7 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
 
 void Character::suffer_from_tourniquet()
 {
-    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
             mod_pain( 1 );
             apply_damage( nullptr, bp, 1, true );
@@ -1467,8 +1508,8 @@ void Character::suffer()
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
-            add_effect( effect_disabled, 1_turns, elem.first->token, true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
+            add_effect( effect_disabled, 1_turns, elem.first.id(), true );
+            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1504,7 +1545,6 @@ void Character::suffer()
     suffer_in_sunlight();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
-    suffer_from_artifacts();
     suffer_from_radiation();
     suffer_from_bad_bionics();
     suffer_from_stimulants( current_stim );
@@ -1521,6 +1561,8 @@ void Character::suffer()
     suffer_without_sleep( sleep_deprivation );
     suffer_from_tourniquet();
     suffer_from_pain();
+    //Suffer from enchantments
+    enchantment_cache->activate_passive( *this );
 }
 
 bool Character::irradiate( float rads, bool bypass )
@@ -1572,7 +1614,7 @@ bool Character::irradiate( float rads, bool bypass )
             it->irradiation += delta;
 
             // If in inventory (not worn), don't print anything.
-            if( inv.has_item( *it ) ) {
+            if( inv->has_item( *it ) ) {
                 continue;
             }
 
@@ -1660,7 +1702,7 @@ void Character::mend( int rate_multiplier )
         needs_splint = false;
     }
 
-    add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );
+    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
         return;
@@ -1677,9 +1719,9 @@ void Character::mend( int rate_multiplier )
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, bp->token );
+        auto &eff = get_effect( effect_mending, bp );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, bp->token, true );
+            add_effect( effect_mending, dur_inc, bp, true );
             continue;
         }
 
@@ -1687,8 +1729,8 @@ void Character::mend( int rate_multiplier )
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
             set_part_hp_cur( bp, 1 );
-            remove_effect( effect_mending, bp->token );
-            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
+            remove_effect( effect_mending, bp );
+            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
                                body_part_name( bp ) );
@@ -1809,7 +1851,7 @@ void Character::apply_wetness_morale( int temperature )
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
 
     int total_morale = 0;
-    const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
+    const body_part_set wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
         const int part_drench = get_part_wetness( bp );
@@ -1909,18 +1951,18 @@ void Character::add_addiction( add_type type, int strength )
             i.intensity++;
         }
 
-        add_msg( m_debug, "Updating addiction: %d intensity, %d sated",
-                 i.intensity, to_turns<int>( i.sated ) );
+        add_msg_debug( "Updating addiction: %d intensity, %d sated",
+                       i.intensity, to_turns<int>( i.sated ) );
 
         return;
     }
 
     // Add a new addiction
     const int roll = rng( 0, 100 );
-    add_msg( m_debug, "Addiction: roll %d vs strength %d", roll, strength );
+    add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
         const std::string &type_name = addiction_type_name( type );
-        add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
+        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
         get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }
@@ -1959,6 +2001,6 @@ int Character::addiction_level( add_type type ) const
 int  Character::leak_level( const std::string &flag ) const
 {
     int leak_level = 0;
-    leak_level = inv.leak_level( flag );
+    leak_level = inv->leak_level( flag );
     return leak_level;
 }

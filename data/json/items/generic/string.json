@@ -46,7 +46,7 @@
     "type": "GENERIC",
     "name": { "str": "short rope" },
     "description": "A 6-foot (or about 180 cm) long piece of rope.  Too small to be of much use.",
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 3, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 3, "material_thickness": 2 },
     "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "extend": { "flags": [ "TIE_UP", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ] }
   },
@@ -56,7 +56,7 @@
     "type": "GENERIC",
     "name": { "str": "long rope" },
     "description": "A 30-foot (or about 9 m) long rope.  Useful for keeping yourself safe from falls.",
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
     "qualities": [ [ "ROPE", 2 ] ],
     "proportional": { "weight": 5, "volume": 5, "price": 5 }
   },

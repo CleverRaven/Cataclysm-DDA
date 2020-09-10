@@ -1,16 +1,19 @@
 #include "catch/catch.hpp"
+#include "line.h"
 
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <memory>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 #include "cata_generators.h"
 #include "coordinates.h"
-#include "line.h"
 #include "point.h"
 #include "rng.h"
 

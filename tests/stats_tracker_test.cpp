@@ -1,7 +1,13 @@
 #include "catch/catch.hpp"
+#include "stats_tracker.h"
 
-#include <memory>
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "achievement.h"
 #include "calendar.h"
@@ -11,12 +17,13 @@
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
+#include "event_subscriber.h"
+#include "game_constants.h"
+#include "json.h"
 #include "optional.h"
-#include "stats_tracker.h"
-#include "string_id.h"
-#include "stringmaker.h"
-#include "type_id.h"
 #include "options_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_run( "run" );
@@ -83,7 +90,6 @@ TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type min_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -111,7 +117,6 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type max_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -868,6 +873,7 @@ struct test_subscriber : public event_subscriber {
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
+    get_stats().clear();
     get_achievements().clear();
     test_subscriber sub;
     get_event_bus().subscribe( &sub );

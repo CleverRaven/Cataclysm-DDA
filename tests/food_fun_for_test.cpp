@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <string>

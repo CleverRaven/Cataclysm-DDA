@@ -1,6 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <sstream>
@@ -16,7 +15,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "veh_type.h"

@@ -1,7 +1,8 @@
 #include "scenario.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -10,13 +11,13 @@
 #include "mission.h"
 #include "mutation.h"
 #include "profession.h"
-#include "translations.h"
 #include "rng.h"
 #include "start_location.h"
+#include "translations.h"
 
 namespace
 {
-generic_factory<scenario> all_scenarios( "scenario", "ident" );
+generic_factory<scenario> all_scenarios( "scenario" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
@@ -34,7 +35,7 @@ bool string_id<scenario>::is_valid() const
     return all_scenarios.is_valid( *this );
 }
 
-scen_blacklist sc_blacklist;
+static scen_blacklist sc_blacklist;
 
 scenario::scenario()
     : id( "" ), _name_male( no_translation( "null" ) ),

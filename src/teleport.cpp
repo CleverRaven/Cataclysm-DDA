@@ -1,9 +1,7 @@
 #include "teleport.h"
 
-#include <cmath>
 #include <memory>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -18,6 +16,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "viewer.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -89,7 +88,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                                           poor_soul->disp_name() );
                 get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
             } else {
-                if( get_player_character().sees( *poor_soul ) ) {
+                if( get_player_view().sees( *poor_soul ) ) {
                     add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
                              critter.disp_name(), poor_soul->disp_name() );
                 }

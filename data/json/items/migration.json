@@ -1124,11 +1124,6 @@
     "replace": "44_speedloader6"
   },
   {
-    "id": "l_enforcer_45",
-    "type": "MIGRATION",
-    "replace": "sw629"
-  },
-  {
     "id": [ "mosin91_30_ebr", "mn_ebr_kit", "mn_classic_kit" ],
     "type": "MIGRATION",
     "replace": "mosin91_30"
@@ -1267,6 +1262,21 @@
     "id": "condiment_bottle_unsealed",
     "type": "MIGRATION",
     "replace": "condiment_bottle_sealed"
+  },
+  {
+    "id": "acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid",
+    "type": "MIGRATION",
+    "replace": "chem_sulphuric_acid"
+  },
+  {
+    "id": "water_acid_weak",
+    "type": "MIGRATION",
+    "replace": "chem_acetic_acid"
   },
   {
     "id": "four_winds_shotgun",

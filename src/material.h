@@ -12,11 +12,12 @@
 
 #include "fire.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class material_type;
 
-enum damage_type : int;
+enum class damage_type : int;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;

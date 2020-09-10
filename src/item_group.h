@@ -3,14 +3,16 @@
 #define CATA_SRC_ITEM_GROUP_H
 
 #include <memory>
-#include <string>
-#include <vector>
-#include <utility>
 #include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "optional.h"
 #include "item.h"
+#include "optional.h"
 #include "relic.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 struct itype;
 

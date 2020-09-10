@@ -16,6 +16,7 @@
     "ammo": [ "3006" ],
     "weight": "4200 g",
     "volume": "3 L",
+    "longest_side": "100 cm",
     "bashing": 12,
     "to_hit": -1,
     "durability": 8,

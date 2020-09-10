@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "type_id.h"
 
 class JsonIn;

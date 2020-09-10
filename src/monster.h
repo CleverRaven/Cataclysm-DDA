@@ -26,7 +26,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 class Character;
@@ -346,10 +346,7 @@ class monster : public Creature
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                         bool permanent = false,
-                         int intensity = 0, bool force = false, bool deferred = false ) override;
+
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -559,7 +556,7 @@ class monster : public Creature
         bool biosignatures = false;
         cata::optional<time_point> biosig_timer;
         time_point udder_timer;
-        monster_horde_attraction horde_attraction;
+        monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;

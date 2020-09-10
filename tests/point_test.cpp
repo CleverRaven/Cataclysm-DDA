@@ -1,11 +1,12 @@
 #include "catch/catch.hpp"
+#include "point.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
-#include "point.h"
 
 TEST_CASE( "rectangle_containment_raw", "[point]" )
 {

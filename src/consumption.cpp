@@ -1,7 +1,6 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -13,25 +12,31 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -41,7 +46,9 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
+#include "visitable.h"
 #include "vitamin.h"
 
 static const std::string comesttype_DRINK( "DRINK" );
@@ -79,6 +86,8 @@ static const item_category_id item_category_chems( "chems" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
+
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -161,20 +170,20 @@ static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
-const std::vector<std::string> carnivore_blacklist {{
+static const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
-const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
-const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+static const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
+static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3_liter );
+static const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
-const std::map<itype_id, int> plut_charges = {
+static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
     { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
@@ -859,7 +868,10 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-static bool eat( item &food, player &you, bool force = false )
+/** Eat a comestible.
+*   @return true if item consumed.
+*/
+static bool eat( item &food, player &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -951,7 +963,7 @@ static bool eat( item &food, player &you, bool force = false )
         you.add_msg_player_or_npc( _( "You assimilate your %s." ), _( "<npcname> assimilates a %s." ),
                                    food.tname() );
     } else if( drinkable ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
@@ -961,7 +973,7 @@ static bool eat( item &food, player &you, bool force = false )
                                        food.tname() );
         }
     } else if( chew ) {
-        if( ( you.has_trait( trait_SCHIZOPHRENIC ) || you.has_artifact_with( AEP_SCHIZO ) ) &&
+        if( you.has_trait( trait_SCHIZOPHRENIC ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
@@ -982,7 +994,7 @@ static bool eat( item &food, player &you, bool force = false )
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !you.has_trait( trait_M_IMMUNE ) ) {
-        you.add_effect( effect_fungus, 1_turns, num_bp, true );
+        you.add_effect( effect_fungus, 1_turns, true );
     }
 
     // The fun changes for these effects are applied in fun_for().
@@ -1006,19 +1018,19 @@ static bool eat( item &food, player &you, bool force = false )
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {
-                        you.add_effect( effect_tapeworm, 1_turns, num_bp, true );
+                        you.add_effect( effect_tapeworm, 1_turns, true );
                     }
                     break;
                 case 1:
                     if( !you.has_trait( trait_ACIDBLOOD ) ) {
-                        you.add_effect( effect_bloodworms, 1_turns, num_bp, true );
+                        you.add_effect( effect_bloodworms, 1_turns, true );
                     }
                     break;
                 case 2:
-                    you.add_effect( effect_brainworms, 1_turns, num_bp, true );
+                    you.add_effect( effect_brainworms, 1_turns, true );
                     break;
                 case 3:
-                    you.add_effect( effect_paincysts, 1_turns, num_bp, true );
+                    you.add_effect( effect_paincysts, 1_turns, true );
             }
         }
     }
@@ -1225,11 +1237,11 @@ void Character::modify_morale( item &food, const int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level["URSINE"] > 40 ) {
+        mutation_category_level[mutation_category_URSINE] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
-                        mutation_category_level["URSINE"] / 12;
+                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
+                        mutation_category_level[mutation_category_URSINE] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {
@@ -1267,11 +1279,11 @@ bool Character::consume_effects( item &food )
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
-        add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
+        add_msg_debug( "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
     // Used in hibernation messages.
-    const auto nutr = nutrition_for( food );
+    const int nutr = nutrition_for( food );
     const bool skip_health = has_trait( trait_PROJUNK2 ) && comest.healthy < 0;
     // We can handle junk just fine
     if( !skip_health ) {
@@ -1376,10 +1388,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg( m_debug,
-             "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
-             units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-             food_nutrients.kcal, units::to_gram( food_weight ) );
+    add_msg_debug(
+        "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+        units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+        food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
@@ -1726,7 +1738,7 @@ time_duration Character::get_consume_time( const item &it )
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
-    } else if( it.get_category().get_id() == item_category_chems ) {
+    } else if( it.get_category_shallow().get_id() == item_category_chems ) {
         time = time_duration::from_seconds( std::max( ( volume / 15 ),
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
@@ -1765,7 +1777,9 @@ static bool query_consume_ownership( item &target, player &p )
     return true;
 }
 
-// TODO: Properly split medications and food instead of hacking around
+/** Consume medication.
+*   @return true if item consumed.
+*/
 static bool consume_med( item &target, player &you )
 {
     if( !target.is_medication() ) {
@@ -1812,72 +1826,63 @@ static bool consume_med( item &target, player &you )
         you.consume_effects( target );
     }
 
-    target.charges -= amount_used;
-    return target.charges <= 0;
+    target.mod_charges( -amount_used );
+    return true;
 }
 
-bool player::consume( item &target, bool force )
+trinary player::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
+        return trinary::NONE;
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return trinary::NONE;
     }
 
-    // to try to reduce unecessary churn, this was left for now
-    item &comest = target;
-
-    if( comest.is_null() || target.is_craft() ) {
+    if( target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
         if( is_npc() ) {
             debugmsg( "%s tried to eat a %s", name, target.tname() );
         }
-        return false;
+        return trinary::NONE;
     }
     if( is_player() && !query_consume_ownership( target, *this ) ) {
-        return false;
+        return trinary::NONE;
     }
-    if( consume_med( comest, *this ) ||
-        eat( comest, *this, force ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
+    if( consume_med( target, *this ) ||
+        eat( target, *this, force ) ||
+        feed_reactor_with( target ) ||
+        feed_furnace_with( target ) ||
+        fuel_bionic_with( target ) ) {
 
-        if( &target != &comest ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
+        target.on_contents_changed();
+        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
-    return false;
+    return trinary::NONE;
 }
 
-bool player::consume( item_location loc, bool force )
+trinary player::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
-        return false;
+        return trinary::NONE;
     }
+    handle_contents_changed_helper handler( *this, loc );
     item &target = *loc;
-    bool wielding = is_wielding( target );
-    bool worn = is_worn( target );
-    const bool inv_item = !( wielding || worn );
-    if( consume( target, force ) ) {
+    trinary result = consume( target, force );
+    if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {
             loc.remove_item();
         }
 
-    } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, get_map() ) ) {
-            i_rem( &target );
-        }
-        inv.restack( *this );
-        inv.unsort();
     }
-
-    return true;
+    if( result != trinary::NONE ) {
+        handler.handle();
+    }
+    return result;
 }

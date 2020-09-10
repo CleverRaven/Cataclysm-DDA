@@ -2,6 +2,7 @@
   {
     "result": "acidchitin_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -13,6 +14,7 @@
   {
     "result": "chitin_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "armor_chitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -25,6 +27,7 @@
   {
     "result": "chainmail_harness_dog",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "chainmail_vest",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -40,6 +43,7 @@
   {
     "result": "leather_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "vest_leather",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -52,6 +56,7 @@
   {
     "result": "leather_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -66,15 +71,17 @@
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "leather_harness_dog",
     "difficulty": 2,
     "time": "30 m",
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "vest_leather", 1 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_demihuman", 13 ] ], [ [ "vest_leather", 1 ] ] ]
   },
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_leatherharness",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -83,11 +90,12 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather_harness_dog", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ], [ [ "leather_harness_dog", 1 ] ] ]
   },
   {
     "result": "leatherbone_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
@@ -97,11 +105,12 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ], [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "rubber_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
     "skill_used": "tailor",
@@ -115,6 +124,7 @@
   {
     "result": "rubber_harness_dog",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",

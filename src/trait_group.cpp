@@ -1,15 +1,14 @@
 #include "trait_group.h"
 
 #include <algorithm>
-#include <cassert>
 #include <cstddef>
 #include <map>
 #include <utility>
 
+#include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "json.h"
-#include "memory_fast.h"
 #include "mutation.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -268,7 +267,7 @@ Trait_list Trait_group_collection::create( RecursionList &rec ) const
 
 void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
-    assert( ptr.get() != nullptr );
+    cata_assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }
@@ -281,7 +280,7 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr
 
 void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
-    assert( ptr.get() != nullptr );
+    cata_assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
         return;
     }

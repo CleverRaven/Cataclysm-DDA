@@ -1,21 +1,21 @@
 #include "catch/catch.hpp"
 
-#include <climits>
+#include <list>
 #include <memory>
 #include <set>
-#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "calendar.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "player.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 

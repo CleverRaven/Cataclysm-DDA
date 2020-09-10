@@ -3,7 +3,6 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -11,8 +10,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "pimpl.h"
 #include "type_id.h"
 #include "visitable.h"
+
+struct itype;
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
@@ -33,7 +35,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 
     Character &player_character = get_player_character();
     player_character.worn.clear();
-    player_character.inv.clear();
+    player_character.inv->clear();
     player_character.remove_weapon();
     player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
 

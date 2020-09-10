@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>
@@ -14,15 +15,18 @@
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
+class avatar;
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class Character;
 class player;
 
 enum class character_stat : char;
@@ -88,6 +92,11 @@ struct bionic_data {
     std::vector<enchantment_id> enchantments;
 
     cata::value_ptr<fake_spell> spell_on_activate;
+
+    /**
+     * Proficiencies given on install (and removed on uninstall) of this bionic
+     */
+    std::vector<proficiency_id> proficiencies;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -206,7 +215,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
 void reset_bionics();
 
-char get_free_invlet( player &p );
+char get_free_invlet( Character &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

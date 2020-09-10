@@ -5,11 +5,12 @@
 #include <map>
 #include <string>
 
+#include "string_id.h"
 #include "type_id.h"
 
-struct tripoint;
 class JsonObject;
 class nc_color;
+struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;

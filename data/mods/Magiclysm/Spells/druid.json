@@ -304,7 +304,7 @@
     "flags": [ "SOMATIC" ],
     "effect": "projectile_attack",
     "effect_str": "tornskin_pain",
-    "affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ],
+    "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ],
     "min_dot": 1,
     "max_dot": 4,
     "dot_increment": 0.3,
@@ -330,5 +330,27 @@
     "max_pierce": 3,
     "pierce_increment": 0.3,
     "damage_type": "cut"
+  },
+  {
+    "id": "druid_feralform",
+    "type": "SPELL",
+    "name": "Feral Form",
+    "description": "This spell unleashs your inner beast, growing claws & fangs to rend your foes limb from limb.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_feral",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "components": "spell_components_feralform",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "base_casting_time": 400,
+    "base_energy_cost": 200,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 60000,
+    "max_duration": 150000,
+    "duration_increment": 6000
   }
 ]

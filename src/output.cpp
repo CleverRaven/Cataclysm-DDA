@@ -1,23 +1,24 @@
 #include "output.h"
 
-#include <cerrno>
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
 #include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <array>
-#include <memory>
 #include <type_traits>
-#include <cmath>
+#include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -28,13 +29,13 @@
 #include "line.h"
 #include "name.h"
 #include "options.h"
+#include "point.h"
 #include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
-#include "units.h"
-#include "point.h"
+#include "units_utility.h"
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
@@ -61,10 +62,6 @@ int OVERMAP_LEGEND_WIDTH;
 static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
 scrollingcombattext SCT;
-extern bool tile_iso;
-extern bool use_tiles;
-
-extern bool test_mode;
 
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
@@ -150,7 +147,7 @@ std::string remove_color_tags( const std::string &s )
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t next_pos = 0;
 
-    if( tag_positions.size() > 1 ) {
+    if( !tag_positions.empty() ) {
         for( size_t tag_position : tag_positions ) {
             ret += s.substr( next_pos, tag_position - next_pos );
             next_pos = s.find( ">", tag_position, 1 ) + 1;
@@ -265,7 +262,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
     const size_t wwidth = getmaxx( w );
     const auto text_lines = foldstring( text, wwidth );
     size_t wheight = getmaxy( w );
-    const auto print_scroll_msg = text_lines.size() > wheight;
+    const bool print_scroll_msg = text_lines.size() > wheight;
     if( print_scroll_msg && !scroll_msg.empty() ) {
         // keep the last line free for a message to the player
         wheight--;
@@ -685,13 +682,13 @@ int border_helper::border_connection::as_curses_line() const
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
     return query_popup()
-           .preferred_keyboard_mode( keyboard_mode::keychar )
+           .preferred_keyboard_mode( keyboard_mode::keycode )
            .context( "YESNO" )
-           .message( force_uc ?
+           .message( force_uc && !is_keycode_mode_supported() ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :
                      pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
@@ -1327,7 +1324,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
                 const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
-    assert( it != tab_texts.end() );
+    cata_assert( it != tab_texts.end() );
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
 }
 

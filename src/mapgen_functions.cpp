@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
@@ -12,13 +13,13 @@
 
 #include "calendar.h"
 #include "character_id.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -174,7 +175,7 @@ ter_id clay_or_sand()
 
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
 {
-    const auto dir = terrain_type->get_dir();
+    const om_direction::type dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
@@ -486,7 +487,7 @@ void mapgen_spider_pit( mapgendata &dat )
         }
         for( int x1 = p.x - 3; x1 <= p.x + 3; x1++ ) {
             for( int y1 = p.y - 3; y1 <= p.y + 3; y1++ ) {
-                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
+                madd_field( m, point( x1, y1 ), field_type_id( "fd_web" ), rng( 2, 3 ) );
                 if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }
@@ -500,7 +501,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
     int num_dirs = 0;
-    for( const auto dir : om_direction::all ) {
+    for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
     }
     return num_dirs;

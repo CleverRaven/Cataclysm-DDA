@@ -7,8 +7,8 @@
 #include <string>
 #include <tuple>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -25,9 +25,9 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -1207,7 +1207,7 @@ void zone_manager::zone_edited( zone_data &zone )
 void zone_manager::revert_vzones()
 {
     map &here = get_map();
-    for( auto zone : removed_vzones ) {
+    for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
         if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {

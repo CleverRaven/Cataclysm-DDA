@@ -5,26 +5,28 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
 #include "active_item_cache.h"
 #include "bionics.h"
-#include "mutation.h"
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "string_id.h"
 #include "submap.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -147,7 +149,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    auto pos = veh.cpart( part ).mount;
+    point pos = veh.cpart( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
@@ -241,7 +243,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    auto pos = veh.cpart( part ).mount;
+    point pos = veh.cpart( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
@@ -459,7 +461,7 @@ VisitResponse visitable<Character>::visit_items(
         }
     }
 
-    return ch->inv.visit_items( func );
+    return ch->inv->visit_items( func );
 }
 
 /** @relates visitable */
@@ -576,7 +578,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
         std::list<item> &istack = *stack;
-        const auto original_invlet = istack.front().invlet;
+        const char original_invlet = istack.front().invlet;
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( *istack_iter ) ) {
@@ -623,7 +625,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = ch->inv.remove_items_with( filter, count );
+    res = ch->inv->remove_items_with( filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;

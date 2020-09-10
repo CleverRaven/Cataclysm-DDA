@@ -104,11 +104,11 @@ class tileset
     private:
         std::string tileset_id;
 
-        int tile_width;
-        int tile_height;
+        int tile_width = 0;
+        int tile_height = 0;
 
         // multiplier for pixel-doubling tilesets
-        float tile_pixelscale;
+        float tile_pixelscale = 1.0f;
 
         std::vector<texture> tile_values;
         std::vector<texture> shadow_tile_values;
@@ -316,8 +316,14 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );

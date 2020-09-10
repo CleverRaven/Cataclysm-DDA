@@ -1,8 +1,6 @@
-#include "avatar.h" // IWYU pragma: associated
-
 #include <algorithm>
-#include <array>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
@@ -17,19 +15,24 @@
 #include <vector>
 
 #include "addiction.h"
+#include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
+#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "enum_conversions.h"
 #include "game_constants.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"
+#include "item.h"
 #include "json.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -41,7 +44,6 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "pldata.h"
-#include "popup.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -57,6 +59,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "worldfactory.h"
 
@@ -109,16 +112,16 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( avatar &u, points_left &points );
-tab_direction set_stats( avatar &u, points_left &points );
-tab_direction set_traits( avatar &u, points_left &points );
-tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_skills( avatar &u, points_left &points );
-tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
+static tab_direction set_points( avatar &u, points_left &points );
+static tab_direction set_stats( avatar &u, points_left &points );
+static tab_direction set_traits( avatar &u, points_left &points );
+static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_skills( avatar &u, points_left &points );
+static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-void reset_scenario( avatar &u, const scenario *scen );
+static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -139,7 +142,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
         return styles.front();
     }
 
-    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keychar );
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist menu;
@@ -381,19 +384,19 @@ void avatar::add_profession_items()
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
+            inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
-                inv.push_back( it );
+                inv->push_back( it );
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
         } else {
-            inv.push_back( it );
+            inv->push_back( it );
         }
         if( it.is_book() ) {
             items_identified.insert( it.typeId() );
@@ -597,14 +600,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
-            if( !martial_arts_data.has_martialart( s ) ) {
+            if( !martial_arts_data->has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             const matype_id ma_type = choose_ma_style( type, styles, *this );
-            martial_arts_data.add_martialart( ma_type );
-            martial_arts_data.set_style( ma_type );
+            martial_arts_data->add_martialart( ma_type );
+            martial_arts_data->set_style( ma_type );
         }
     }
 
@@ -664,7 +667,7 @@ template <class Compare>
 void draw_sorting_indicator( const catacurses::window &w_sorting, const input_context &ctxt,
                              Compare sorter )
 {
-    const auto sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
+    const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
     const auto sort_text = string_format(
                                _( "<color_white>Sort by:</color> %1$s "
                                   "(Press <color_light_green>%2$s</color> to change sorting.)" ),
@@ -1314,7 +1317,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
@@ -1417,7 +1420,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             // Draw header.
             draw_points( w, points, netPointCost );
-            std::string prof_msg_temp;
+            const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
                 prof_msg_temp = ngettext( "Profession %1$s earns %2$d point",
@@ -1431,7 +1434,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
 
             int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp.c_str(),
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp,
                        sorted_profs[cur_id]->gender_appropriate_name( u.male ),
                        pointsForProf );
 
@@ -1596,14 +1599,14 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             draw_sorting_indicator( w_sorting, ctxt, profession_sorter );
 
-            std::string g_switch_msg = u.male ?
+            const char *g_switch_msg = u.male ?
                                        //~ Gender switch message. 1s - change key name, 2s - profession name.
                                        _( "Press <color_light_green>%1$s</color> to switch "
                                           "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
                                        //~ Gender switch message. 1s - change key name, 2s - profession name.
                                        _( "Press <color_light_green>%1$s</color> to switch "
                                           "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
-            fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg.c_str(),
+            fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg,
                             ctxt.get_desc( "CHANGE_GENDER" ),
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
         }
@@ -1941,7 +1944,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
@@ -2052,7 +2055,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             // Draw header.
             draw_points( w, points, netPointCost );
 
-            std::string scen_msg_temp;
+            const char *scen_msg_temp;
             if( negativeScen ) {
                 //~ 1s - scenario name, 2d - current character points.
                 scen_msg_temp = ngettext( "Scenario %1$s earns %2$d point",
@@ -2066,7 +2069,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             }
 
             int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, scen_msg_temp.c_str(),
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, scen_msg_temp,
                        sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                        pointsForScen );
 
@@ -2885,15 +2888,36 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
+std::vector<trait_id> Character::get_mutations( bool include_hidden, mutation_filter filter ) const
 {
     std::vector<trait_id> result;
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
+            bool is_suitable = true;
+            switch( filter ) {
+                case mutation_filter::all:
+                    break;
+                case mutation_filter::debug:
+                    is_suitable = t.first.obj().debug;
+                    break;
+                case mutation_filter::anger_relations:
+                    is_suitable = !t.first.obj().anger_relations.empty();
+                    break;
+                case mutation_filter::social_mods:
+                    is_suitable = !t.first.obj().social_mods.empty();
+                    break;
+                case mutation_filter::ignored_by:
+                    is_suitable = !t.first.obj().ignored_by.empty();
+                    break;
+            }
+            if( !is_suitable ) {
+                continue;
+            }
             result.push_back( t.first );
         }
     }
-    for( const trait_id &ench_trait : enchantment_cache.get_mutations() ) {
+
+    for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;
             for( const trait_id &exist : result ) {
@@ -3113,7 +3137,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     set_scenario( scen );
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier != 0 ) {
+        if( t.obj().hp_modifier.has_value() ) {
             u.toggle_trait( t );
         }
     }

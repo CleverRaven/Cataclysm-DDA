@@ -43,6 +43,7 @@
       { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
       { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
       { "id": "starch", "description": " Cook: Starch" },
+      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
       { "id": "flatbread", "description": " Cook: Flatbread" },
       { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
     ]

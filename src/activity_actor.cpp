@@ -1,26 +1,38 @@
 #include "activity_actor.h"
 
+#include <array>
+#include <cmath>
+#include <functional>
 #include <list>
 #include <utility>
 
+#include "action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "character.h"
-#include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
+#include "flat_set.h"
 #include "game.h"
 #include "gates.h"
+#include "gun_mode.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "morale_types.h"
 #include "npc.h"
 #include "options.h"
@@ -30,23 +42,26 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "sounds.h"
 #include "timed_event.h"
+#include "translations.h"
+#include "ui.h"
 #include "uistate.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-static const bionic_id bio_fingerhack( "bio_fingerhack" );
 
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
-
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
 static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
@@ -93,7 +108,6 @@ void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
     // Time spent on aiming is determined on the go by the player
     act.moves_total = 1;
     act.moves_left = 1;
-    act.interruptable_with_kb = false;
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -137,6 +151,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
         // to simulate avatar not loading them in the first place
         first_turn = false;
+
+        // Allow interrupting activity only during 'aim and fire'.
+        // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
+        // in case of high input lag (curses, sdl sometimes...), but allows to interrupt aiming
+        // if a bug happens / stars align to cause an endless aiming loop.
+        act.interruptable_with_kb = action != "AIM";
     }
 }
 
@@ -370,6 +390,12 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+std::string dig_activity_actor::get_progress_message( const player_activity &act ) const
+{
+    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+    return string_format( "%d%%", pct );
+}
+
 void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -437,6 +463,12 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+std::string dig_channel_activity_actor::get_progress_message( const player_activity &act ) const
+{
+    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+    return string_format( "%d%%", pct );
+}
+
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -497,29 +529,12 @@ static int hack_level( const Character &who )
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
-static hack_result hack_attempt( Character &who )
+static hack_result hack_attempt( Character &who, const bool using_bionic )
 {
-    if( who.has_trait( trait_ILLITERATE ) ) {
-        return hack_result::UNABLE;
-    }
-    const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
-                                   query_yn( _( "Use electrohack?" ) );
-    const bool using_fingerhack = !using_electrohack && who.has_bionic( bio_fingerhack ) &&
-                                  who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        return hack_result::UNABLE;
-    }
-
     // TODO: Remove this once player -> Character migration is complete
     {
         player *p = dynamic_cast<player *>( &who );
         p->practice( skill_computer, 20 );
-    }
-    if( using_fingerhack ) {
-        who.mod_power_level( -25_kJ );
-    } else {
-        who.use_charges( itype_electrohack, 25 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -528,14 +543,14 @@ static hack_result hack_attempt( Character &who )
     int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
-        if( using_fingerhack ) {
+        if( using_bionic ) {
             who.mod_power_level( -25_kJ );
         } else {
             who.use_charges( itype_electrohack, 25 );
         }
 
         if( success <= -5 ) {
-            if( using_electrohack ) {
+            if( !using_bionic ) {
                 who.add_msg_if_player( m_bad, _( "Your electrohack is ruined!" ) );
                 who.use_amount( itype_electrohack, 1 );
             } else {
@@ -552,7 +567,7 @@ static hack_result hack_attempt( Character &who )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static hack_type get_hack_type( const tripoint &examp )
 {
     hack_type type = hack_type::NONE;
     map &here = get_map();
@@ -568,11 +583,16 @@ static hack_type get_hack_type( tripoint examp )
     return type;
 }
 
+hacking_activity_actor::hacking_activity_actor( use_bionic )
+    : using_bionic( true )
+{
+}
+
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
-    switch( hack_attempt( who ) ) {
+    switch( hack_attempt( who, using_bionic ) ) {
         case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
@@ -630,12 +650,24 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    jsout.member( "using_bionic", using_bionic );
+    jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
-    return hacking_activity_actor().clone();
+    hacking_activity_actor actor;
+    if( jsin.test_null() ) {
+        // Old saves might contain a null instead of an object.
+        // Since we do not know whether a bionic or an item was chosen we assume
+        // it was an item.
+        actor.using_bionic = false;
+    } else {
+        JsonObject jsobj = jsin.get_object();
+        jsobj.read( "using_bionic", actor.using_bionic );
+    }
+    return actor.clone();
 }
 
 void hotwire_car_activity_actor::start( player_activity &act, Character & )
@@ -857,6 +889,32 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
     data.read( "starting_pos", actor.starting_pos );
 
     return actor.clone();
+}
+
+lockpick_activity_actor lockpick_activity_actor::use_item(
+    int moves_total,
+    const item_location &lockpick,
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        moves_total,
+        lockpick,
+        cata::nullopt,
+        target
+    };
+}
+
+lockpick_activity_actor lockpick_activity_actor::use_bionic(
+    const tripoint &target
+)
+{
+    return lockpick_activity_actor {
+        to_moves<int>( 4_seconds ),
+        cata::nullopt,
+        item( itype_pseudo_bio_picklock ),
+        target
+    };
 }
 
 void lockpick_activity_actor::start( player_activity &act, Character & )
@@ -1097,22 +1155,22 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     int moves;
     Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = player_character.will_eat( *consume_location, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = player_character.will_eat( consume_item, true );
+        const ret_val<edible_rating> ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
@@ -1133,10 +1191,17 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
+    // Consuming an item may cause various effects, including cancelling our activity.
+    // Back up these values since this activity actor might be destroyed.
+    std::vector<int> temp_selections = consume_menu_selections;
+    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
+    const std::string temp_filter = consume_menu_filter;
+    item_location consume_loc = consume_location;
+
     avatar &player_character = get_avatar();
     if( !canceled ) {
-        if( consume_location ) {
-            player_character.consume( consume_location, /*force=*/true );
+        if( consume_loc ) {
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {
@@ -1146,10 +1211,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
             player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
         }
     }
-    //setting act to null clears these so back them up
-    std::vector<int> temp_selections = consume_menu_selections;
-    const std::vector<item_location> temp_selected_items = consume_menu_selected_items;
-    const std::string temp_filter = consume_menu_filter;
+
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
@@ -1352,6 +1414,174 @@ std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
+craft_activity_actor::craft_activity_actor( item_location &it, const bool is_long ) :
+    craft_item( it ), is_long( is_long )
+{
+}
+
+static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
+{
+    item *craft = craft_item.get_item();
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
+        crafter.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        return false;
+    }
+
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
+        return false;
+    }
+
+    return crafter.can_continue_craft( *craft );
+}
+
+void craft_activity_actor::start( player_activity &act, Character &crafter )
+{
+    if( !check_if_craft_okay( craft_item, crafter ) ) {
+        act.set_to_null();
+    }
+    act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
+}
+
+void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
+{
+    if( !check_if_craft_okay( craft_item, crafter ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    // We already checked if this is nullptr above
+    item &craft = *craft_item.get_item();
+
+    const tripoint location = craft_item.where() == item_location::type::character ? tripoint_zero :
+                              craft_item.position();
+    const recipe &rec = craft.get_making();
+    const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
+    const int assistants = crafter.available_assistant_count( craft.get_making() );
+
+    if( crafting_speed <= 0.0f ) {
+        crafter.cancel_activity();
+        return;
+    }
+
+    // item_counter represents the percent progress relative to the base batch time
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
+    const int old_counter = craft.item_counter;
+
+    // Base moves for batch size with no speed modifier or assistants
+    // Must ensure >= 1 so we don't divide by 0;
+    const double base_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+    // Current expected total moves, includes crafting speed modifiers and assistants
+    const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
+                                   assistants ) );
+    // Delta progress in moves adjusted for current crafting speed
+    const double delta_progress = crafter.get_moves() * base_total_moves / cur_total_moves;
+    // Current progress in moves
+    const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
+                                    delta_progress;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    crafter.set_moves( 0 );
+
+    // This is to ensure we don't over count skill steps
+    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+
+    // Skill and tools are gained/consumed after every 5% progress
+    int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
+    if( five_percent_steps > 0 ) {
+        crafter.craft_skill_gain( craft, five_percent_steps );
+        // Divide by 100 for seconds, 20 for 5%
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+    }
+
+    // Unlike skill, tools are consumed once at the start and should not be consumed at the end
+    if( craft.item_counter >= 10'000'000 ) {
+        --five_percent_steps;
+    }
+
+    if( five_percent_steps > 0 ) {
+        if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
+            // So we don't skip over any tool comsuption
+            craft.item_counter -= craft.item_counter % 500'000 + 1;
+            crafter.cancel_activity();
+            return;
+        }
+    }
+
+    // if item_counter has reached 100% or more
+    if( craft.item_counter >= 10'000'000 ) {
+        item craft_copy = craft;
+        craft_item.remove_item();
+        // We need to cache this before we cancel the activity else we risk Use After Free
+        bool will_continue = is_long;
+        crafter.cancel_activity();
+        crafter.complete_craft( craft_copy, location );
+        if( will_continue ) {
+            if( crafter.making_would_work( crafter.lastrecipe, craft_copy.charges ) ) {
+                crafter.last_craft->execute( location );
+            }
+        }
+    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+        bool destroy = craft.handle_craft_failure( crafter );
+        // If the craft needs to be destroyed, do it and stop crafting.
+        if( destroy ) {
+            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+            craft_item.remove_item();
+            crafter.cancel_activity();
+        }
+    }
+}
+
+void craft_activity_actor::finish( player_activity &act, Character & )
+{
+    act.set_to_null();
+}
+
+std::string craft_activity_actor::get_progress_message( const player_activity & ) const
+{
+    return craft_item.get_item()->tname();
+}
+
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
+void craft_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "craft_loc", craft_item );
+    jsout.member( "long", is_long );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
+{
+    item_location tmp_item_loc;
+    bool tmp_long;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "craft_loc", tmp_item_loc );
+    data.read( "long", tmp_long );
+
+    craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+
+    return actor.clone();
+}
+
 void workout_activity_actor::start( player_activity &act, Character &who )
 {
     if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
@@ -1411,13 +1641,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     workout_query.text =
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
-    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+    workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
                                  _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
-    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+    workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
                                  _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
-    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+    workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
                                  _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
-    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+    workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
                                  _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
@@ -1596,6 +1826,7 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
+    { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
