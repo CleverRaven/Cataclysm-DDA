@@ -392,7 +392,6 @@ void vehicle::control_engines()
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
     } else if( !g->u.controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
-        return;
     }
 
     if( engine_on ) {
