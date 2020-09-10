@@ -374,8 +374,7 @@
       "monster_id": "mon_skitterbot_rat",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -390,8 +389,7 @@
       "monster_id": "mon_skitterbot_grab",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -406,8 +404,7 @@
       "monster_id": "mon_skitterbot_hunter",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -439,8 +436,7 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
@@ -459,8 +455,7 @@
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
-      "skill1": "electronics",
-      "skill2": "computer"
+      "skills": [ "electronics", "computer" ]
     }
   },
   {
