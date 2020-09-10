@@ -554,13 +554,11 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 12 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 8 ] ],
-          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+          [ [ "pine_bough", 16 ], [ "straw_pile", 16 ], [ "withered", 16 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
@@ -585,13 +583,12 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
+          [ [ "2x4", 8 ] ],
+          [ [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ], [ "sheet", 4 ] ],
           [ [ "lock", 1 ] ],
-          [ [ "2x4", 12 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
-          [ [ "nail", 20 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "nail", 12 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
