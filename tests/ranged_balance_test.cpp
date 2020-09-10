@@ -82,8 +82,9 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
                          const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
-    if( !shooter.is_wearing( itype_id( "backpack" ) ) ) {
-        shooter.worn.push_back( item( "backpack" ) );
+    // XL so arrows can fit.
+    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+        shooter.worn.push_back( item( "debug_backpack" ) );
     }
 
     const itype_id &gun_id{ itype_id( gun_type ) };
