@@ -56,7 +56,6 @@
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
@@ -530,6 +529,10 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
+    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+        // Exclude brass catchers so that removing them wouldn't spill the casings
+        return true;
+    }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
     item_location loc = item_location( who, &gunmod );
     return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
@@ -542,13 +545,6 @@ void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, ite
     }
 
     gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
-
-    if( mod.typeId() == itype_brass_catcher ) {
-        gun.casings_handle( [&]( item & e ) {
-            return who.i_add_or_drop( e );
-        } );
-    }
-
     const itype *modtype = mod.type;
 
     who.i_add_or_drop( mod );
