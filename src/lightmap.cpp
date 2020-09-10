@@ -117,23 +117,21 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const int x, const int y ) {
-                const int sx = x - sm_offset.x;
-                const int sy = y - sm_offset.y;
-
+            auto calc_transp = [&]( const point & p ) {
+                const point sp = p - sm_offset;
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
-                if( !( cur_submap->get_ter( { sx, sy } ).obj().transparent &&
-                       cur_submap->get_furn( {sx, sy } ).obj().transparent ) ) {
+                if( !( cur_submap->get_ter( sp ).obj().transparent &&
+                       cur_submap->get_furn( sp ).obj().transparent ) ) {
                     return LIGHT_TRANSPARENCY_SOLID;
                 }
-                if( outside_cache[x][y] ) {
+                if( outside_cache[p.x][p.y] ) {
                     // FIXME: Places inside vehicles haven't been marked as
                     // inside yet so this is incorrectly penalising for
                     // weather in vehicles.
                     value *= sight_penalty;
                 }
-                for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
+                for( const auto &fld : cur_submap->get_field( sp ) ) {
                     const field_entry &cur = fld.second;
                     if( cur.is_transparent() ) {
                         continue;
@@ -146,7 +144,7 @@ bool map::build_transparency_cache( const int zlev )
             };
 
             if( cur_submap->is_uniform ) {
-                float value = calc_transp( sm_offset.x, sm_offset.y );
+                float value = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
                     for( int sx = 0; sx < SEEX; ++sx ) {
@@ -159,7 +157,7 @@ bool map::build_transparency_cache( const int zlev )
                     const int x = sx + sm_offset.x;
                     for( int sy = 0; sy < SEEY; ++sy ) {
                         const int y = sy + sm_offset.y;
-                        transparency_cache[x][y] = calc_transp( x, y );
+                        transparency_cache[x][y] = calc_transp( { x, y } );
                     }
                 }
             }
