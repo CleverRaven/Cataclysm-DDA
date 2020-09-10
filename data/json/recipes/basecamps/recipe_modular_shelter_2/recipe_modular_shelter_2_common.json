@@ -160,7 +160,23 @@
     "blueprint_name": "furnish the NW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_nw" }, { "id": "bed", "amount": 1 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ],
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 24 ] ],
+          [ [ "nail", 20 ] ],
+          [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -174,7 +190,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom2" }, { "id": "fbmc_shelter_2_bed_nw" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w1" }, { "id": "bed", "amount": 2 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ],
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 24 ] ],
+          [ [ "nail", 20 ] ],
+          [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -188,7 +220,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom3" }, { "id": "fbmc_shelter_2_bedroom_w1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w2" }, { "id": "bed", "amount": 3 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ],
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 24 ] ],
+          [ [ "nail", 20 ] ],
+          [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -202,7 +250,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w4" }, { "id": "bed", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ],
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 24 ] ],
+          [ [ "nail", 20 ] ],
+          [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -216,7 +280,22 @@
     "blueprint_name": "furnish the NW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_nw" }, { "id": "bed", "amount": 1 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ],
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -230,7 +309,22 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom2" }, { "id": "fbmc_shelter_2_bed_nw" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w1" }, { "id": "bed", "amount": 2 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ],
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -244,7 +338,22 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom3" }, { "id": "fbmc_shelter_2_bedroom_w1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w2" }, { "id": "bed", "amount": 3 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ],
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -258,7 +367,22 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w4" }, { "id": "bed", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ],
+    "blueprint_needs": {
+      "time": "2 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ], [ "stick", 8 ] ],
+          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -272,7 +396,23 @@
     "blueprint_name": "furnish the NW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_nw" }, { "id": "bed", "amount": 1 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_nw" } ],
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ] ],
+          [ [ "nail", 12 ] ],
+          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -286,7 +426,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom2" }, { "id": "fbmc_shelter_2_bed_nw" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w1" }, { "id": "bed", "amount": 2 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w1" } ],
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ] ],
+          [ [ "nail", 12 ] ],
+          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -300,7 +456,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom3" }, { "id": "fbmc_shelter_2_bedroom_w1" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w2" }, { "id": "bed", "amount": 3 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w2" } ],
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ] ],
+          [ [ "nail", 12 ] ],
+          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -314,7 +486,23 @@
     "blueprint_name": "furnish the W bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom4" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom_w4" }, { "id": "bed", "amount": 4 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom_w4" } ],
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 8 ] ],
+          [ [ "nail", 12 ] ],
+          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -328,7 +516,24 @@
     "blueprint_name": "furnish the SW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom5" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
+    "blueprint_needs": {
+      "time": "3 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 28 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 28 ] ],
+          [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -342,7 +547,24 @@
     "blueprint_name": "furnish the SW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom5" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
+    "blueprint_needs": {
+      "time": "2 h 30 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 12 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 8 ] ],
+          [ [ "straw_pile", 16 ], [ "withered", 16 ], [ "pine_bough", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -356,7 +578,24 @@
     "blueprint_name": "furnish the SW bedroom",
     "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom5" } ],
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ]
+    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
+    "blueprint_needs": {
+      "time": "3 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "pipe", 8 ] ],
+          [ [ "lock", 1 ] ],
+          [ [ "2x4", 12 ] ],
+          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [ [ "nail", 20 ] ],
+          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
