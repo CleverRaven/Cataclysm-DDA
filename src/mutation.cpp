@@ -169,6 +169,7 @@ void Character::set_mutation( const trait_id &trait )
     if( iter != my_mutations.end() ) {
         return;
     }
+    invalidate_weight_capacity_cache();
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait, false );
@@ -191,6 +192,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     if( iter == my_mutations.end() ) {
         return;
     }
+    invalidate_weight_capacity_cache();
     const mutation_branch &mut = *trait;
     cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut ),
                             cached_mutations.end() );

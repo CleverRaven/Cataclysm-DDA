@@ -486,13 +486,13 @@ class Creature : public location, public viewer
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
-        void add_effect( const effect &eff, bool force = false, bool deferred = false );
+        virtual void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
-                         bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
-                         int intensity = 0, bool force = false, bool deferred = false );
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                                 bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
+                                 int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
@@ -502,8 +502,8 @@ class Creature : public location, public viewer
         /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
-        bool remove_effect( const efftype_id &eff_id );
+        virtual bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
+        virtual bool remove_effect( const efftype_id &eff_id );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect

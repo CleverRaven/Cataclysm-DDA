@@ -1784,6 +1784,36 @@ void Character::wait_effects( bool attacking )
     }
 }
 
+void Character::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
+                eff.get_intensity(),
+                force, deferred );
+}
+
+void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                            bool permanent, int intensity, bool force, bool deferred )
+{
+    invalidate_weight_capacity_cache();
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
+}
+
+void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent,
+                            int intensity, bool force, bool deferred )
+{
+    add_effect( eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
+}
+
+bool Character::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
+{
+    invalidate_weight_capacity_cache();
+    return Creature::remove_effect( eff_id, bp );
+}
+bool Character::remove_effect( const efftype_id &eff_id )
+{
+    return remove_effect( eff_id, bodypart_id( "bp_null" ) );
+}
+
 move_mode_id Character::current_movement_mode() const
 {
     return move_mode;
@@ -3369,8 +3399,17 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     return ret;
 }
 
+void Character::invalidate_weight_capacity_cache()
+{
+    cached_weight_capacity = cata::nullopt;
+}
+
 units::mass Character::weight_capacity() const
 {
+    if( cached_weight_capacity ) {
+        return cached_weight_capacity.value();
+    }
+
     if( has_trait( trait_DEBUG_STORAGE ) ) {
         // Infinite enough
         return units::mass_max;
@@ -3408,6 +3447,7 @@ units::mass Character::weight_capacity() const
         // and being built entirely for that purpose with hydraulics etc.
         ret = mons->mech_str_addition() == 0 ? ret : ( mons->mech_str_addition() + 10 ) * 4_kilogram;
     }
+    cached_weight_capacity = ret;
     return ret;
 }
 
@@ -3668,6 +3708,7 @@ ret_val<bool> Character::can_drop( const item &it ) const
 void Character::invalidate_inventory_validity_cache()
 {
     cache_inventory_is_valid = false;
+    invalidate_weight_capacity_cache();
 }
 
 void Character::drop_invalid_inventory()
@@ -4044,6 +4085,8 @@ void Character::do_skill_rust()
 
 void Character::reset_stats()
 {
+    invalidate_weight_capacity_cache();
+
     // Bionic buffs
     if( has_active_bionic( bio_hydraulics ) ) {
         mod_str_bonus( 20 );
@@ -4098,6 +4141,7 @@ void Character::reset_stats()
 
 void Character::reset()
 {
+    invalidate_weight_capacity_cache();
     // TODO: Move reset_stats here, remove it from Creature
     Creature::reset();
 }

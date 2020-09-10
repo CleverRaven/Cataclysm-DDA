@@ -680,6 +680,15 @@ class Character : public Creature, public visitable<Character>
 
         void wait_effects( bool attacking = false );
 
+        void add_effect( const effect &eff, bool force = false, bool deferred = false ) override;
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
+                         bool permanent = false, int intensity = 0, bool force = false, bool deferred = false ) override;
+        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent = false,
+                         int intensity = 0, bool force = false, bool deferred = false ) override;
+
+        bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp ) override;
+        bool remove_effect( const efftype_id &eff_id ) override;
+
         /** Series of checks to remove effects for waiting or moving */
         bool try_remove_grab();
         void try_remove_downed();
@@ -1658,6 +1667,7 @@ class Character : public Creature, public visitable<Character>
         void invalidate_inventory_validity_cache();
 
         void invalidate_weight_carried_cache();
+        void invalidate_weight_capacity_cache();
         /** Returns all items that must be taken off before taking off this item */
         std::list<item *> get_dependent_worn_items( const item &it );
         /** Drops an item to the specified location */
@@ -2627,6 +2637,12 @@ class Character : public Creature, public visitable<Character>
          * If it is nullopt, needs to be recalculated
          */
         mutable cata::optional<units::mass> cached_weight_carried = cata::nullopt;
+
+        /**
+         * The Characters lifting/carrying capacity.
+         * If it is nullopt, needs to be recalculated
+         */
+        mutable cata::optional<units::mass> cached_weight_capacity = cata::nullopt;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );

@@ -1028,6 +1028,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
+    invalidate_weight_capacity_cache();
     calc_encumbrance();
     reset();
 
@@ -1101,6 +1102,8 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     if( bio.info().is_remote_fueled ) {
         reset_remote_fuel();
     }
+
+    invalidate_weight_capacity_cache();
 
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
@@ -2702,6 +2705,7 @@ void Character::add_bionic( const bionic_id &b )
         add_proficiency( learned );
     }
 
+    invalidate_weight_capacity_cache();
     calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -2743,6 +2747,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
+    invalidate_weight_capacity_cache();
     calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
