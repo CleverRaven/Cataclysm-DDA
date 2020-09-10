@@ -518,7 +518,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
     "blueprint_needs": {
-      "time": "3 h 30 m",
+      "time": "3 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
@@ -548,7 +548,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
     "blueprint_needs": {
-      "time": "2 h 30 m",
+      "time": "2 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
@@ -577,7 +577,7 @@
     "blueprint_provides": [ { "id": "fbmc_shelter_2_bed_sw" }, { "id": "bed", "amount": 5 } ],
     "blueprint_excludes": [ { "id": "fbmc_shelter_2_bed_sw" } ],
     "blueprint_needs": {
-      "time": "3 h",
+      "time": "2 h 30 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [  ],
