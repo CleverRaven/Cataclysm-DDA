@@ -3,7 +3,7 @@
     "id": "ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery.",
+    "info": "When mounted on an engine and the engine is on it will provide up to <color_green>%sW</color> of electrical power to the vehicle.",
     "requires_flag": "E_ALTERNATOR"
   },
   {

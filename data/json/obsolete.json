@@ -1156,7 +1156,7 @@
     "damage_reduction": { "all": 21 },
     "description": "A door.  Has a window so you can see out of it, even when closed.",
     "durability": 225,
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW" ],
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "DOOR" ],
     "item": "frame",
     "location": "center",
     "looks_like": "t_door_metal_c",
