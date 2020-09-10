@@ -895,9 +895,11 @@ void recipe::check_blueprint_requirements()
 
         jsout.end_object();
 
-        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
-                  "Specify \"check_blueprint_needs\": false to disable the check or "
-                  "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
+        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.\n"
+                  "Make one of the following changes to resolve this issue:\n"
+                  "- Specify \"check_blueprint_needs\": false to disable the check.\n"
+                  "- Remove \"blueprint_needs\" from the recipe json to have the requirements be autocalculated.\n"
+                  "- Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
