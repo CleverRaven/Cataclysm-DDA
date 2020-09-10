@@ -73,6 +73,7 @@ jobs:
       addons:
         homebrew:
           packages: ["sdl2", "sdl2_image", "sdl2_ttf", "sdl2_mixer", "gettext", ccache"]
+          update: true
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
