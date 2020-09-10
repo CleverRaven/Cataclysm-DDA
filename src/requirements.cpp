@@ -412,17 +412,19 @@ template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
+    std::string separator_and = _( "and " );
+    std::string separator_or = _( " or " );
     std::string buffer;
     for( const auto &list : objs ) {
         if( any_marked_available( list ) ) {
             continue;
         }
         if( !buffer.empty() ) {
-            buffer += std::string( "\n" ) + _( "and " );
+            buffer += std::string( "\n" ) + separator_and;
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer += _( " or " );
+                buffer += separator_or;
             }
             buffer += it->to_string();
         }

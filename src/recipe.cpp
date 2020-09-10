@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -36,8 +37,6 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
-
-extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -500,7 +499,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items
+        // TODO: Make it work for charge-less items (update makes amount)
         newit.charges *= result_mult;
     }
 
@@ -932,6 +931,18 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+int recipe::makes_amount() const
+{
+    int makes;
+    if( charges.has_value() ) {
+        makes = charges.value();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
+    }
+    // return either charges * mult or 1
+    return makes ? makes * result_mult : 1 ;
 }
 
 void recipe::incorporate_build_reqs()

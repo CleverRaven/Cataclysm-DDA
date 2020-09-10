@@ -200,8 +200,9 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
         // Sort items by category first, then name.
-        return localized_compare( std::make_pair( a.loc->get_category(), a.loc->display_name() ),
-                                  std::make_pair( b.loc->get_category(), b.loc->display_name() ) );
+        return localized_compare(
+                   std::make_pair( a.loc->get_category_of_contents(), a.loc->display_name() ),
+                   std::make_pair( b.loc->get_category_of_contents(), b.loc->display_name() ) );
     };
 
     std::sort( result.begin(), result.end(), cmp );

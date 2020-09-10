@@ -572,6 +572,7 @@
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "gun_cases", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
         ],
         "[": [
@@ -582,6 +583,7 @@
         ":": [
           { "item": "clothing_hunting", "chance": 40 },
           { "item": "tools_hunting", "chance": 20 },
+          { "item": "gun_cases", "chance": 30 },
           { "item": "camping", "chance": 5 }
         ],
         "±": { "item": "clothing_hunting", "chance": 20, "repeat": [ 1, 2 ] },
@@ -913,6 +915,7 @@
         "z": [
           { "item": "clothing_hunting", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "tools_hunting", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "gun_cases", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
         ],
         "[": [
@@ -923,6 +926,7 @@
         ":": [
           { "item": "clothing_hunting", "chance": 40 },
           { "item": "tools_hunting", "chance": 20 },
+          { "item": "gun_cases", "chance": 40 },
           { "item": "camping", "chance": 5 }
         ],
         "±": { "item": "clothing_hunting", "chance": 30, "repeat": [ 1, 2 ] },
@@ -931,7 +935,7 @@
         "Ʌ": { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] },
         "~": { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 1, 2 ] },
         "N": { "item": "SUS_tailoring_tool_drawer", "chance": 80, "repeat": [ 1, 2 ] },
-        "Ŧ": { "item": "camping", "chance": 20, "repeat": [ 1, 2 ] },
+        "Ŧ": [ { "item": "camping", "chance": 20, "repeat": [ 1, 2 ] }, { "item": "gun_cases", "chance": 20, "repeat": [ 1, 2 ] } ],
         "U": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],

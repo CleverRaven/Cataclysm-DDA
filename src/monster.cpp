@@ -1395,11 +1395,16 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
+        bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
         if( u_see_me && !target.in_sleep_state() ) {
             if( target.is_player() ) {
-                add_msg( _( "You dodge %s." ), disp_name() );
-            } else if( target.is_npc() ) {
+                if( target_dodging ) {
+                    add_msg( _( "You dodge %s." ), disp_name() );
+                } else {
+                    add_msg( _( "The %s misses you." ), disp_name() );
+                }
+            } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
                          target.disp_name(), name() );
             } else {

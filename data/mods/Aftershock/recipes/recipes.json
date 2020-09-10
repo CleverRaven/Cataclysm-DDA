@@ -220,6 +220,21 @@
     "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
   },
   {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "afs_titanium_foldable_frame",
+    "copy-from": "afs_titanium_frame",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "60m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "afs_scrap_titanium", 2 ], [ "afs_titanium_frame", 1 ] ] ]
+  },
+  {
     "result": "afs_metal_rig",
     "type": "recipe",
     "activity_level": "fake",

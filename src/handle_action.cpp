@@ -15,6 +15,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -26,6 +27,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -705,6 +707,8 @@ static void smash()
         smashp.z = player_character.posz();
         smash_floor = true;
     }
+    get_event_bus().send<event_type::character_smashes_tile>(
+        player_character.getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
     if( player_character.is_mounted() ) {
         monster *crit = player_character.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {

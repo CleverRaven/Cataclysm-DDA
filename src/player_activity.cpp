@@ -363,6 +363,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
+    if( id() != other.id() ) {
+        return false;
+    }
+
     // if actor XOR other.actor then id() != other.id() so
     // we will correctly return false based on final return statement
     if( actor && other.actor ) {
@@ -387,9 +391,13 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+        if( values != other.values || str_values != other.str_values ) {
+            return false;
+        }
     }
 
-    return !auto_resume && id() == other.id() && index == other.index &&
+    return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 

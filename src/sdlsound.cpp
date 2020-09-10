@@ -134,7 +134,7 @@ void shutdown_sound()
     Mix_CloseAudio();
 }
 
-void musicFinished();
+static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {

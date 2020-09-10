@@ -44,6 +44,11 @@ enum class event_type : int {
     character_kills_monster,
     character_learns_spell,
     character_loses_effect,
+    character_melee_attacks_character,
+    character_melee_attacks_monster,
+    character_ranged_attacks_character,
+    character_ranged_attacks_monster,
+    character_smashes_tile,
     character_takes_damage,
     character_triggers_trap,
     character_wakes_up,
@@ -162,7 +167,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 78,
+static_assert( static_cast<int>( event_type::num_event_types ) == 83,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -311,6 +316,60 @@ struct event_spec<event_type::character_loses_effect> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "effect", cata_variant_type::efftype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_melee_attacks_character> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
+            { "attacker", cata_variant_type::character_id },
+            { "weapon", cata_variant_type::itype_id },
+            { "hits", cata_variant_type::bool_ },
+            { "victim", cata_variant_type::character_id },
+            { "victim_name", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_melee_attacks_monster> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
+            { "attacker", cata_variant_type::character_id },
+            { "weapon", cata_variant_type::itype_id },
+            { "hits", cata_variant_type::bool_ },
+            { "victim_type", cata_variant_type::mtype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_ranged_attacks_character> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
+            { "attacker", cata_variant_type::character_id },
+            { "weapon", cata_variant_type::itype_id },
+            { "victim", cata_variant_type::character_id },
+            { "victim_name", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_ranged_attacks_monster> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "attacker", cata_variant_type::character_id },
+            { "weapon", cata_variant_type::itype_id },
+            { "victim_type", cata_variant_type::mtype_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_smashes_tile> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "terrain", cata_variant_type::ter_str_id },
+            { "furniture", cata_variant_type::furn_str_id },
         }
     };
 };

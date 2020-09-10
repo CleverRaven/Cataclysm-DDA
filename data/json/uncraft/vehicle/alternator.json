@@ -12,7 +12,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_motorbike",
     "skill_used": "mechanics",
     "difficulty": 2,

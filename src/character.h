@@ -51,6 +51,7 @@
 #include "visitable.h"
 #include "weighted_list.h"
 
+class dispersion_sources;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -333,6 +334,32 @@ enum class character_stat : char {
     INTELLIGENCE,
     PERCEPTION,
     DUMMY_STAT
+};
+
+/**
+ * Secures the container and pocket of an item (if any), and calls
+ * `Character::handle_contents_changed` when `handle()` is called.
+ */
+class handle_contents_changed_helper
+{
+    public:
+        /**
+         * @param guy The guy who's manipulating the item.
+         * @param container The parent container of the manipulated item
+         * @param pocket The parent pocket of the manipulated item
+         */
+        handle_contents_changed_helper( Character &guy, const item_location &container,
+                                        item_pocket *pocket );
+        /**
+         * @param guy The guy who's manipulating the item.
+         * @param content The manipulated item.
+         */
+        handle_contents_changed_helper( Character &guy, const item_location &content );
+        void handle();
+    private:
+        Character *guy;
+        item_location parent;
+        item_pocket *pocket;
 };
 
 class Character : public Creature, public visitable<Character>
@@ -780,6 +807,17 @@ class Character : public Creature, public visitable<Character>
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
 
+        /** NPC-related item rating functions */
+        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
+        double melee_value( const item &weap ) const; // As above, but only as melee
+        double unarmed_value() const; // Evaluate yourself!
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param obj Weapon to check dispersion on
+         */
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
+
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
@@ -875,6 +913,22 @@ class Character : public Creature, public visitable<Character>
         trait_id random_bad_trait();
 
         // In mutation.cpp
+        /** Returns true if the player has a conflicting trait to the entered trait
+         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
+         */
+        bool has_conflicting_trait( const trait_id &flag ) const;
+        /** Returns true if the player has a trait which upgrades into the entered trait */
+        bool has_lower_trait( const trait_id &flag ) const;
+        /** Returns true if the player has a trait which is an upgrade of the entered trait */
+        bool has_higher_trait( const trait_id &flag ) const;
+        /** Returns true if the player has a trait that shares a type with the entered trait */
+        bool has_same_type_trait( const trait_id &flag ) const;
+        /** Returns true if the entered trait may be purified away
+         *  Defaults to true
+         */
+        bool purifiable( const trait_id &flag ) const;
+        /** Returns a dream's description selected randomly from the player's highest mutation category */
+        std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
         /** Returns true if the player has the entered starting trait */
@@ -893,6 +947,10 @@ class Character : public Creature, public visitable<Character>
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
         bool can_power_mutation( const trait_id &mut );
+        /** Generates and handles the UI for player interaction with installed bionics */
+        virtual void power_bionics() {};
+        // TODO: Implement NPCs activating mutations
+        virtual void power_mutations() {};
 
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );
@@ -1441,6 +1499,17 @@ class Character : public Creature, public visitable<Character>
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
+
+        /**
+         * Update `container` and its parent/ancestor items after its contents are changed.
+         * Specifically, unseal `container` and its parent/ancestor items and handle any content
+         * that would spill.
+         * @param container Item location of the innermost container to unseal.
+         * @param pocket Pocket of `container` to unseal (this value should be
+         *        secured before modifying the content, in case the content item
+         *        location is invalidated in the process of modifying).
+         */
+        void handle_contents_changed( const item_location &container, item_pocket *pocket );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
@@ -2166,11 +2235,11 @@ class Character : public Creature, public visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it, item_pocket *parent_pocket );
+        bool feed_reactor_with( item &it );
         /** @return true if successful. */
-        bool feed_furnace_with( item &it, item_pocket *parent_pocket );
+        bool feed_furnace_with( item &it );
         /** @return true if successful and was not a magazine. */
-        bool fuel_bionic_with( item &it, item_pocket *parent_pocket );
+        bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply fatigue modifications from food and medication **/

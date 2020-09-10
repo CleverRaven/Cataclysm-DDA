@@ -112,16 +112,16 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( avatar &u, points_left &points );
-tab_direction set_stats( avatar &u, points_left &points );
-tab_direction set_traits( avatar &u, points_left &points );
-tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_skills( avatar &u, points_left &points );
-tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
+static tab_direction set_points( avatar &u, points_left &points );
+static tab_direction set_stats( avatar &u, points_left &points );
+static tab_direction set_traits( avatar &u, points_left &points );
+static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_skills( avatar &u, points_left &points );
+static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-void reset_scenario( avatar &u, const scenario *scen );
+static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -1317,7 +1317,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
@@ -1944,7 +1944,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;

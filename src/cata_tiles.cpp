@@ -15,6 +15,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -89,8 +90,6 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth;
-extern int fontheight;
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -1021,7 +1020,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
-    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;

@@ -1456,7 +1456,7 @@ static const double hits_by_accuracy[41] = {
     9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
-double item::effective_dps( const player &guy, monster &mon ) const
+double item::effective_dps( const Character &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
@@ -1491,7 +1491,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
-    const bool crit, const player & guy, monster & mon ) {
+    const bool crit, const Character & guy, monster & mon ) {
         monster temp_mon = mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
@@ -1560,7 +1560,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
-        const player &guy ) const
+        const Character &guy ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
@@ -1579,7 +1579,7 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
     return dps( for_display, for_calc, get_avatar() );
 }
 
-double item::average_dps( const player &guy ) const
+double item::average_dps( const Character &guy ) const
 {
     double dmg_count = 0.0;
     const std::map<std::string, double> &dps_data = dps( false, true, guy );
@@ -1622,7 +1622,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
-                                  "<header>" + get_category().name() + "</header>" ) );
+                                  "<header>" + get_category_shallow().name() + "</header>" ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -3906,9 +3906,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         []( const itype * e ) {
             return e->nname( 1 );
         } ) );
+        info.back().sName += ".";
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
+        insert_separation_line( info );
         for( const auto &u : type->use_methods ) {
             const delayed_transform_iuse *tt = dynamic_cast<const delayed_transform_iuse *>
                                                ( u.second.get_actor_ptr() );
@@ -5594,9 +5596,9 @@ int item::spoilage_sort_order()
     }
 
     if( get_comestible() ) {
-        if( get_category().get_id() == item_category_food ) {
+        if( get_category_shallow().get_id() == item_category_food ) {
             return bottom - 3;
-        } else if( get_category().get_id() == item_category_drugs ) {
+        } else if( get_category_shallow().get_id() == item_category_drugs ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -6788,7 +6790,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().get_id() == item_category_maps;
+    return get_category_shallow().get_id() == item_category_maps;
 }
 
 bool item::seal()
@@ -7099,7 +7101,7 @@ bool item::spill_contents( Character &c )
     contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
-    return true;
+    return is_container_empty();
 }
 
 bool item::spill_contents( const tripoint &pos )
@@ -7188,8 +7190,8 @@ const material_type &item::get_base_material() const
 
 bool item::operator<( const item &other ) const
 {
-    const item_category &cat_a = get_category();
-    const item_category &cat_b = other.get_category();
+    const item_category &cat_a = get_category_of_contents();
+    const item_category &cat_b = other.get_category_of_contents();
     if( cat_a != cat_b ) {
         return cat_a < cat_b;
     } else {
@@ -7202,8 +7204,7 @@ bool item::operator<( const item &other ) const
         } else {
             std::string n1 = this->type->nname( 1 );
             std::string n2 = other.type->nname( 1 );
-            return std::lexicographical_compare( n1.begin(), n1.end(),
-                                                 n2.begin(), n2.end(), sort_case_insensitive_less() );
+            return localized_compare( n1, n2 );
         }
     }
 }
@@ -7729,6 +7730,15 @@ item *item::gunmod_find( const itype_id &mod )
 const item *item::gunmod_find( const itype_id &mod ) const
 {
     return const_cast<item *>( this )->gunmod_find( mod );
+}
+
+item *item::gunmod_find_by_flag( const std::string &flag )
+{
+    std::vector<item *> mods = gunmods();
+    auto it = std::find_if( mods.begin(), mods.end(), [&flag]( item * e ) {
+        return e->has_flag( flag );
+    } );
+    return it != mods.end() ? *it : nullptr;
 }
 
 ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
@@ -8757,7 +8767,7 @@ void item::set_snippet( const snippet_id &id )
     snip_id = id;
 }
 
-const item_category &item::get_category() const
+const item_category &item::get_category_shallow() const
 {
     static item_category null_category;
     return type->category_force.is_valid() ? type->category_force.obj() : null_category;
@@ -8766,9 +8776,9 @@ const item_category &item::get_category() const
 const item_category &item::get_category_of_contents() const
 {
     if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
-        return contents.only_item().get_category();
+        return contents.only_item().get_category_of_contents();
     } else {
-        return this->get_category();
+        return this->get_category_shallow();
     }
 }
 

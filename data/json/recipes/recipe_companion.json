@@ -14,7 +14,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "sheet_metal",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",

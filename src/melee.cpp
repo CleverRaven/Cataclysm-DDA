@@ -24,6 +24,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -119,11 +120,11 @@ static const efftype_id effect_amigara( "amigara" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit = false );
-int  stumble( Character &u, const item &weap );
-std::string melee_message( const ma_technique &tec, Character &p,
-                           const dealt_damage_instance &ddi );
+static void player_hit_message( Character *attacker, const std::string &message,
+                                Creature &t, int dam, bool crit = false );
+static int  stumble( Character &u, const item &weap );
+static std::string melee_message( const ma_technique &tec, Character &p,
+                                  const dealt_damage_instance &ddi );
 
 /* Melee Functions!
  * These all belong to class player.
@@ -458,8 +459,18 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     int move_cost = attack_speed( *cur_weapon );
 
+    const bool hits = hit_spread >= 0;
+
+    if( monster *m = t.as_monster() ) {
+        get_event_bus().send<event_type::character_melee_attacks_monster>(
+            getID(), cur_weapon->typeId(), hits, m->type->id );
+    } else if( Character *c = t.as_character() ) {
+        get_event_bus().send<event_type::character_melee_attacks_character>(
+            getID(), cur_weapon->typeId(), hits, c->getID(), c->get_name() );
+    }
+
     Character &player_character = get_player_character();
-    if( hit_spread < 0 ) {
+    if( !hits ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
         if( is_player() ) { // Only display messages if this is the player
@@ -640,7 +651,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     const int mod_sta = get_standard_stamina_cost();
 
     const int melee = get_skill_level( skill_melee );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
     add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
@@ -741,7 +752,7 @@ bool Character::scored_crit( float target_dodge, const item &weap ) const
 /**
  * Limits a probability to be between 0.0 and 1.0
  */
-inline double limit_probability( double unbounded_probability )
+static inline double limit_probability( double unbounded_probability )
 {
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
@@ -2288,7 +2299,7 @@ int Character::attack_speed( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, int ammo ) const
+double Character::weapon_value( const item &weap, int ammo ) const
 {
     if( is_wielding( weap ) ) {
         auto cached_value = cached_info.find( "weapon_value" );
@@ -2310,7 +2321,7 @@ double player::weapon_value( const item &weap, int ammo ) const
     return my_val;
 }
 
-double player::melee_value( const item &weap ) const
+double Character::melee_value( const item &weap ) const
 {
     // start with average effective dps against a range of enemies
     double my_value = weap.average_dps( *this );
@@ -2335,7 +2346,7 @@ double player::melee_value( const item &weap ) const
     return std::max( 0.0, my_value );
 }
 
-double player::unarmed_value() const
+double Character::unarmed_value() const
 {
     // TODO: Martial arts
     return melee_value( item() );

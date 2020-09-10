@@ -585,8 +585,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     player &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category().get_id() == item_category_id( "books" ) ||
-               it.get_category().get_id() == item_category_id( "food" ) ||
+        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
+               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );

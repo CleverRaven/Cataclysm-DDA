@@ -127,8 +127,8 @@ static const std::string flag_NPC_SAFE( "NPC_SAFE" );
 
 class monfaction;
 
-void starting_clothes( npc &who, const npc_class_id &type, bool male );
-void starting_inv( npc &who, const npc_class_id &type );
+static void starting_clothes( npc &who, const npc_class_id &type, bool male );
+static void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
     : restock( calendar::turn_zero )

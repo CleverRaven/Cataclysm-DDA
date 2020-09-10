@@ -1492,7 +1492,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-inline rl_vec2d degree_to_vec( double degrees )
+static inline rl_vec2d degree_to_vec( double degrees )
 {
     return rl_vec2d( std::cos( degrees * M_PI / 180 ), std::sin( degrees * M_PI / 180 ) );
 }

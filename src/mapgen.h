@@ -478,4 +478,9 @@ void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
 
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
+        update_mapgen;
+
 #endif // CATA_SRC_MAPGEN_H

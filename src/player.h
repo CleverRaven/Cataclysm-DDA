@@ -154,42 +154,12 @@ class player : public Character
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
 
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait that shares a type with the entered trait */
-        bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable( const trait_id &flag ) const;
-        /** Returns a dream's description selected randomly from the player's highest mutation category */
-        std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
-
-        /** Generates and handles the UI for player interaction with installed bionics */
-        void power_bionics();
-        void power_mutations();
-
-        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( int ch );
-
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void pause(); // '.' command; pauses & resets recoil
 
         // melee.cpp
-
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
@@ -222,12 +192,6 @@ class player : public Character
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
-
-        /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
-        double melee_value( const item &weap ) const; // As above, but only as melee
-        double unarmed_value() const; // Evaluate yourself!
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
@@ -290,7 +254,7 @@ class player : public Character
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
+        trinary consume( item &target, bool force = false );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;

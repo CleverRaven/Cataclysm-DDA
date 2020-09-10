@@ -362,35 +362,29 @@ std::map<std::string, miss_data> miss_info = {{
 
 /**** Forward declaration of utility functions */
 /**
- * Counts or destroys and drops the bash items of all furniture that matches @ref f in the map tile
+ * Counts or destroys and drops the bash items of all terrain that matches @ref t in the map tile
  * @param comp NPC companion
  * @param omt_tgt the targeted OM tile
- * @param f furniture you are looking for
+ * @param t terrain you are looking for
  * @param chance chance of destruction, 0 to 100
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance = 100,
-                     bool estimate = false, bool bring_back = true );
-// om_harvest_furn helper function that counts the furniture instances
-int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
-                         int chance = 100 );
-int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
-                           int chance = 100 );
-/// Exact same as om_harvest_furn but functions on terrain
-int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance = 100,
-                    bool estimate = false, bool bring_back = true );
-// om_harvest_furn helper function that counts the furniture instances
-int om_harvest_ter_est( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
-                        int chance = 100 );
-int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
-                          int chance = 100 );
+static int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
+                           int chance = 100,
+                           bool estimate = false, bool bring_back = true );
+// om_harvest_ter helper function that counts the furniture instances
+static int om_harvest_ter_est( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
+                               int chance = 100 );
+static int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
+                                 int chance = 100 );
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance = 100,
-                            bool take = true );
-void apply_camp_ownership( const tripoint &camp_pos, int radius );
+static mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt,
+                                   int chance = 100,
+                                   bool take = true );
+static void apply_camp_ownership( const tripoint &camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -398,15 +392,17 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius );
  * @param estimate if true, non-destructive count of trees
  * @force_cut_trunk if true and estimate is false, chop tree trunks into logs
  */
-int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance = 100, bool estimate = false,
-                      bool force_cut_trunk = true );
-int om_cutdown_trees_est( const tripoint_abs_omt &omt_tgt, int chance = 100 );
-int om_cutdown_trees_logs( const tripoint_abs_omt &omt_tgt, int chance = 100 );
-int om_cutdown_trees_trunks( const tripoint_abs_omt &omt_tgt, int chance = 100 );
+static int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance = 100,
+                             bool estimate = false,
+                             bool force_cut_trunk = true );
+static int om_cutdown_trees_est( const tripoint_abs_omt &omt_tgt, int chance = 100 );
+static int om_cutdown_trees_logs( const tripoint_abs_omt &omt_tgt, int chance = 100 );
+static int om_cutdown_trees_trunks( const tripoint_abs_omt &omt_tgt, int chance = 100 );
 
 /// Creates an improvised shelter at @ref omt_tgt and dumps the @ref itms into the building
-bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt, const std::vector<item *> &itms,
-                       const std::vector<item *> &itms_rem = {} );
+static bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
+                              const std::vector<item *> &itms,
+                              const std::vector<item *> &itms_rem = {} );
 /**
  * Opens the overmap so that you can select points for missions or constructions.
  * @param omt_pos where your camp is, used for calculating travel distances
@@ -418,19 +414,19 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt, const std::ve
  * @param source if you are selecting multiple points this is where the OM is centered to start
  * @param bounce
  */
-tripoint_abs_omt om_target_tile(
+static tripoint_abs_omt om_target_tile(
     const tripoint_abs_omt &omt_pos, int min_range = 1, int range = 1,
     const std::vector<std::string> &possible_om_types = {}, ot_match_type match_type =
         ot_match_type::exact, bool must_see = true,
     bool popup_notice = true,
     const tripoint_abs_omt &source = tripoint_abs_omt( -999, -999, -999 ),
     bool bounce = false );
-void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
-                    const std::string &message = "Y;X: MAX RANGE" );
-void om_line_mark(
+static void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes = true,
+                           const std::string &message = "Y;X: MAX RANGE" );
+static void om_line_mark(
     const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes = true,
     const std::string &message = "R;X: PATH" );
-std::vector<tripoint_abs_omt> om_companion_path(
+static std::vector<tripoint_abs_omt> om_companion_path(
     const tripoint_abs_omt &start, int range_start = 90, bool bounce = true );
 /**
  * Can be used to calculate total trip time for an NPC mission or just the traveling portion.
@@ -440,40 +436,41 @@ std::vector<tripoint_abs_omt> om_companion_path(
  * @param work how much time the NPC will stay at the target
  * @param trips how many trips back and forth the NPC will make
  */
-time_duration companion_travel_time_calc( const tripoint_abs_omt &pos, const tripoint_abs_omt &tgt,
+static time_duration companion_travel_time_calc( const tripoint_abs_omt &pos,
+        const tripoint_abs_omt &tgt,
         time_duration work, int trips = 1, int haulage = 0 );
-time_duration companion_travel_time_calc(
+static time_duration companion_travel_time_calc(
     const std::vector<tripoint_abs_omt> &journey, time_duration work, int trips = 1,
     int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp = nullptr );
+static int om_carry_weight_to_trips( const std::vector<item *> &itms,
+                                     const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
-int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
-                              const units::mass &carry_mass, const units::volume &carry_volume );
+static int om_carry_weight_to_trips( const units::mass &mass, const units::volume &volume,
+                                     const units::mass &carry_mass, const units::volume &carry_volume );
 /// Formats the variables into a standard looking description to be displayed in a ynquery window
-std::string camp_trip_description( const time_duration &total_time,
-                                   const time_duration &working_time,
-                                   const time_duration &travel_time,
-                                   int distance, int trips, int need_food );
+static std::string camp_trip_description( const time_duration &total_time,
+        const time_duration &working_time,
+        const time_duration &travel_time,
+        int distance, int trips, int need_food );
 
 /// Returns a string for display of the selected car so you don't chop shop the wrong one
-std::string camp_car_description( vehicle *car );
-std::string camp_farm_act( const tripoint &omt_pos, size_t &plots_count, farm_ops operation );
+static std::string camp_car_description( vehicle *car );
 
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
 /// total food supply hurts morale
-int camp_food_supply( int change = 0, bool return_days = false );
+static int camp_food_supply( int change = 0, bool return_days = false );
 /// Same as above but takes a time_duration and consumes from faction food supply for that
 /// duration of work
-int camp_food_supply( time_duration work );
+static int camp_food_supply( time_duration work );
 /// Returns the total charges of food time_duration @ref work costs
-int time_to_food( time_duration work );
+static int time_to_food( time_duration work );
 /// Changes the faction respect for you by @ref change, returns repect
-int camp_discipline( int change = 0 );
+static int camp_discipline( int change = 0 );
 /// Changes the faction opinion for you by @ref change, returns opinion
-int camp_morale( int change = 0 );
+static int camp_morale( int change = 0 );
 /*
  * check if a companion survives a random encounter
  * @param comp the companion
@@ -482,7 +479,7 @@ int camp_morale( int change = 0 );
  * @param threat a number indicating how dangerous the encounter is
  * TODO: Convert to JSON basic on dynamic line type structure
  */
-bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
+static bool survive_random_encounter( npc &comp, std::string &situation, int favor, int threat );
 
 static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
@@ -3143,51 +3140,6 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
             }
         }
     }
-}
-
-int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance )
-{
-    return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
-}
-int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
-                           int chance )
-{
-    return om_harvest_furn( comp, omt_tgt, f, chance, false, false );
-}
-int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance,
-                     bool estimate, bool bring_back )
-{
-    const furn_t &furn_tgt = f.obj();
-    tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
-    int harvested = 0;
-    int total = 0;
-    // TODO: fix point types
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.furn( p ) == f && x_in_y( chance, 100 ) ) {
-            total++;
-            if( estimate ) {
-                continue;
-            }
-            if( bring_back ) {
-                for( const item &itm : item_group::items_from( furn_tgt.bash.drop_group,
-                        calendar::turn ) ) {
-                    comp.companion_mission_inv.push_back( itm );
-                }
-                harvested++;
-            }
-            if( bring_back || comp.str_cur > furn_tgt.bash.str_min + rng( -2, 2 ) ) {
-                target_bay.furn_set( p, furn_tgt.bash.furn_set );
-            }
-        }
-    }
-    target_bay.save();
-    if( bring_back ) {
-        return harvested;
-    }
-    return total;
 }
 
 int om_harvest_ter_est( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance )
