@@ -73,10 +73,6 @@ if [ -n "${MXE_TARGET}" ]; then
   sudo tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/../${PLATFORM}
 fi
 
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
-fi
-
 if [[ "$NATIVE" == "android" ]]; then
   yes | sdkmanager "ndk-bundle"
 fi
