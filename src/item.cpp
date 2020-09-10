@@ -7732,6 +7732,15 @@ const item *item::gunmod_find( const itype_id &mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
+item *item::gunmod_find_by_flag( const std::string &flag )
+{
+    std::vector<item *> mods = gunmods();
+    auto it = std::find_if( mods.begin(), mods.end(), [&flag]( item * e ) {
+        return e->has_flag( flag );
+    } );
+    return it != mods.end() ? *it : nullptr;
+}
+
 ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
 {
     if( !mod.is_gunmod() ) {

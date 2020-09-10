@@ -1846,6 +1846,8 @@ class item : public visitable<item>
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
+        /** Get first attached gunmod with flag or nullptr if no such mod or item is not a gun */
+        item *gunmod_find_by_flag( const std::string &flag );
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
