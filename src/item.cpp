@@ -174,7 +174,6 @@ static const std::string flag_DANGEROUS( "DANGEROUS" );
 static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_DIAMOND( "DIAMOND" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 static const std::string flag_FAKE_MILL( "FAKE_MILL" );
 static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
 static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
@@ -3800,6 +3799,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     armor_fit_info( info, parts, batch, debug );
 
+    if( ethereal ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "This item disappears as soon as its timer runs out, unless it is permanent or a comestible." ) );
+    }
+
     if( has_flag( flag_RADIO_ACTIVATION ) &&
         parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
         if( has_flag( flag_RADIO_MOD ) ) {
@@ -4638,7 +4642,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
-    if( has_flag( flag_ETHEREAL_ITEM ) ) {
+    if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
@@ -6956,7 +6960,7 @@ bool item::is_salvageable() const
 
 bool item::is_disassemblable() const
 {
-    return recipe_dictionary::get_uncraft( typeId() ) && !has_flag( flag_ETHEREAL_ITEM );
+    return !ethereal && recipe_dictionary::get_uncraft( typeId() );
 }
 
 bool item::is_craft() const
@@ -8994,7 +8998,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
-        if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
+        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -9868,7 +9872,7 @@ void item::set_last_temp_check( const time_point &pt )
 bool item::process_internal( player *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
-    if( has_flag( flag_ETHEREAL_ITEM ) ) {
+    if( ethereal ) {
         if( !has_var( "ethereal" ) ) {
             return true;
         }

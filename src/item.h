@@ -2262,6 +2262,7 @@ class item : public visitable<item>
         int temperature = 0;       // Temperature of the item (in 0.00001 K).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
+        bool ethereal = false;
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.
