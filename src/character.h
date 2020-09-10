@@ -96,14 +96,6 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 
-enum class mutation_filter : int {
-    all,
-    debug,
-    anger_relations,
-    social_mods,
-    ignored_by
-};
-
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
@@ -1828,8 +1820,7 @@ class Character : public Creature, public visitable<Character>
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true,
-                                             mutation_filter filter = mutation_filter::all ) const;
+        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
