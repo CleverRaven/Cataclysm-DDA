@@ -106,12 +106,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    for( const trait_id &mut : get_mutations() ) {
-        if( mut == b ) {
-            return true;
-        }
-    }
-    return false;
+    return my_mutations.count( b ) || enchantment_cache.get_mutations().count( b );
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
