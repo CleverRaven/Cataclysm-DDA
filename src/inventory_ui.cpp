@@ -1023,12 +1023,12 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
                 } else if( entry.is_item() && entry.highlight_as_parent ) {
-                    trim_and_print( win, point( text_x, yy ), text_width, c_white_white,
-                                    remove_color_tags( text ) );
+                    trim_and_print( win, point( text_x - 1, yy ), 1, h_white, "<" );
+                    trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                     entry.highlight_as_parent = false;
                 } else if( entry.is_item() && entry.highlight_as_child ) {
-                    trim_and_print( win, point( text_x, yy ), text_width, c_black_white,
-                                    remove_color_tags( text ) );
+                    trim_and_print( win, point( text_x - 1, yy ), 1, h_white, ">" );
+                    trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                     entry.highlight_as_child = false;
                 } else {
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
