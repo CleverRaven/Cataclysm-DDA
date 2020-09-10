@@ -3245,7 +3245,7 @@
     "volume": "500 ml",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "encumbrance": 2,
     "coverage": 10,
     "material_thickness": 2,
