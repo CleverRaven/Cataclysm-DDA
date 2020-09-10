@@ -71,6 +71,15 @@ void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
 /**
+* Compares two items, if confirm_message isn't empty then it will be printed
+* to the screen and function return value will be true if confirm button was
+* pressed, false for "quit" input.
+* @return False if confirm_message is empty or QUIT input was pressed.
+*/
+bool compare_items( const item &first, const item &second,
+                    const std::string &confirm_message = "" );
+
+/**
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
