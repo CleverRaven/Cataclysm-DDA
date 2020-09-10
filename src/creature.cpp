@@ -501,7 +501,8 @@ int Creature::size_melee_penalty() const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int hit_spread = hitroll - dodge_roll() - size_melee_penalty();
+    const float dodge = dodge_roll();
+    int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
@@ -511,7 +512,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     }
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
+    if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
 

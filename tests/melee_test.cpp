@@ -237,3 +237,37 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
         check_near( prob, 0.2f, 0.05f );
     }
 }
+
+TEST_CASE( "Charcter can dodge" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    monster zed( mtype_id( "mon_zombie" ) );
+
+    dude.clear_effects();
+    REQUIRE( dude.get_dodge() > 0.0 );
+
+    const int dodges_left = dude.dodges_left;
+    for( int i = 0; i < 10000; ++i ) {
+        dude.deal_melee_attack( &zed, 1 );
+        if( dodges_left < dude.dodges_left ) {
+            CHECK( dodges_left < dude.dodges_left );
+            break;
+        }
+    }
+}
+
+TEST_CASE( "Incapacited character can't dodge" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    monster zed( mtype_id( "mon_zombie" ) );
+
+    dude.clear_effects();
+    dude.add_effect( efftype_id( "sleep" ), 1_hours );
+    REQUIRE( dude.get_dodge() == 0.0 );
+
+    const int dodges_left = dude.dodges_left;
+    for( int i = 0; i < 10000; ++i ) {
+        dude.deal_melee_attack( &zed, 1 );
+        CHECK( dodges_left == dude.dodges_left );
+    }
+}
