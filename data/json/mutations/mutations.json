@@ -3078,7 +3078,7 @@
     "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
-    "points": -4,
+    "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
