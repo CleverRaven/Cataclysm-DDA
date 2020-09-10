@@ -3137,7 +3137,6 @@
     "name": "Naturalist",
     "description": "Over long years of self-imposed exile in the wilderness, you have come to an understanding with Mother Nature.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
     "points": 6,
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
     "skills": [
       { "level": 6, "name": "survival" },
       { "level": 4, "name": "fabrication" },
@@ -3150,7 +3149,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_knapping" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping" ],
     "items": {
       "both": {
         "items": [
