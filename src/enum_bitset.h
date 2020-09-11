@@ -74,7 +74,7 @@ class enum_bitset
         void serialize( JsonOut &json ) const {
             json.start_array();
 
-            for( int i = 0; i < static_cast<int>( size() ); i++ ) {
+            for( size_t i = 0; i < size(); i++ ) {
                 const E cast_num = static_cast<E>( i );
                 if( test( cast_num ) ) {
                     json.write_as_string( cast_num );
