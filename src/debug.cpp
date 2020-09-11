@@ -990,6 +990,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "(continued from above) " << lev << ": ";
         }
 #endif
 
