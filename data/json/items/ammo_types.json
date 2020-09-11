@@ -319,6 +319,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "scented_gel",
+    "name": "gel",
+    "default": "scented_gel"
+  },
+  {
+    "type": "ammunition_type",
     "id": "candle_wax",
     "name": "wax",
     "default": "candle_wax"

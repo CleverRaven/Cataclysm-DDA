@@ -60,6 +60,19 @@
   },
   {
     "type": "AMMO",
+    "id": "scented_gel",
+    "name": { "str_sp": "scented gel" },
+    "symbol": "~",
+    "description": "Scented gel, commonly used in deodorants and other cosmetic products designed to mask your scent.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
+    "ammo_type": "scented_gel"
+  },
+  {
+    "type": "AMMO",
     "id": "candle_wax",
     "name": { "str_sp": "candle wax" },
     "symbol": "~",

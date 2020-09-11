@@ -219,5 +219,37 @@
     "color": "yellow",
     "use_action": [ "WASH_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
+  },
+  {
+    "id": "deodorant",
+    "type": "TOOL",
+    "name": "deodarant",
+    "description": "A blue and white tube of deodorant.",
+    "symbol": ";",
+    "price_postapoc": 50,
+    "copy-from": "base_toiletries",
+    "snippet_category": [
+      { "id": "deodorant1", "text": "A blue and white tube of deodorant.  This one promises no skin irritation." },
+      { "id": "deodorant2", "text": "A tube of roll-on deodorant.  It has a female silhouette on the label." },
+      { "id": "deodorant3", "text": "A stick deodorant for men.  Quarduple odor defense with zero stains!" },
+      { "id": "deodorant4", "text": "A cheap-looking stick deodorant.  Smells of industrial cleaning products." },
+      {
+        "id": "deodorant5",
+        "text": "A well-designed tube of roll-on deodorant.  Its minimalistic label assures of cruelty-free production and testing."
+      }
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scented_gel": 10 }, "watertight": true, "rigid": true } ],
+    "initial_charges": 10,
+    "max_charges": 10,
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "change_scent",
+      "scent_typeid": "sc_human",
+      "moves": 200,
+      "duration": "8 h",
+      "charges_to_use": 1,
+      "scent_mod": 10
+    },
+    "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
   }
 ]
