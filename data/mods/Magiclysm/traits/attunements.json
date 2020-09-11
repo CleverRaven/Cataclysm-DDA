@@ -165,7 +165,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally. Boreal mages definitely know their way around cold spells, but their real strength is protection.",
+    "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
@@ -441,7 +441,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells. While they are skilled with cold spells, their greatest strength is in offense.",
+    "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -597,7 +597,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -637,7 +637,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions. An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
@@ -795,7 +795,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world. Shamans call upon the primeval spirits of nature for aid and advice. Be careful however, for ancient spirits are fickle and unknowable things.",
+    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world.  Shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
     "cancels": [
       "AURA_MAGE",
@@ -1031,7 +1031,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The barren cold of the world's far reaches flows through the Tundra Mage. They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
+    "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -1071,7 +1071,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Where there is nothing, there is still power, and the Void Mages embody that power. The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
+    "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
