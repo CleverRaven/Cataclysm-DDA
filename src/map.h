@@ -255,7 +255,8 @@ class map
                 if( cache.seen_cache_dirty ) {
                     return;
                 }
-                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ) {
+                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
+                    cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
                     cache.seen_cache_dirty = true;
                 }
             }
