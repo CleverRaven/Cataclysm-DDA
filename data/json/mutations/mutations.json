@@ -398,7 +398,7 @@
     "description": "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "ILLITERATE", "HATES_BOOKS" ]
+    "cancels": [ "ILLITERATE" ]
   },
   {
     "type": "mutation",
@@ -825,7 +825,7 @@
     "description": "You never learned to read!  Books and computers are off-limits to you.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS", "HATES_BOOKS" ]
+    "cancels": [ "FASTREADER", "SLOWREADER", "PROF_DICEMASTER", "LOVES_BOOKS" ]
   },
   {
     "type": "mutation",
@@ -902,16 +902,6 @@
     "valid": false,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "VEGETARIAN" ]
-  },
-  {
-    "type": "mutation",
-    "id": "HATES_BOOKS",
-    "name": { "str": "Hates Books" },
-    "points": -1,
-    "description": "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
-    "starting_trait": true,
-    "valid": false,
-    "cancels": [ "ILLITERATE", "LOVES_BOOKS" ]
   },
   {
     "type": "mutation",

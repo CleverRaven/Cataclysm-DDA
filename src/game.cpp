@@ -2205,7 +2205,7 @@ int game::inventory_item_menu( item_location locThisItem, int iStartX, int iWidt
                     avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
-                    u.read( oThisItem );
+                    u.read( locThisItem );
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );

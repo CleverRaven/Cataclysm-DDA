@@ -1270,7 +1270,7 @@ static void read()
             item spell_book = *loc.get_item();
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
-            u.read( *loc.obtain( u ) );
+            u.read( loc );
         }
     } else {
         add_msg( _( "Never mind." ) );

@@ -165,7 +165,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( craftbook );
+            dummy.do_read( item_location( dummy, &craftbook ) );
             dummy.set_skill_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
@@ -304,16 +304,6 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
 static time_point midnight = calendar::turn_zero + 0_hours;
 static time_point midday = calendar::turn_zero + 12_hours;
-
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = g->u.posz();
-    g->m.update_visibility_cache( z );
-    g->m.invalidate_map_cache( z );
-    g->m.build_map_cache( z );
-}
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow

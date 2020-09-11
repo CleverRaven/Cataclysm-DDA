@@ -3272,6 +3272,14 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
     } else {
         p->moves = 0;
     }
+
+    if( calendar::once_every( 1_minutes ) ) {
+        item_location loc = act->targets[0];
+        if( !loc || !loc->is_book() ) {
+            p->add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
+            act->set_to_null();
+        }
+    }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
@@ -3282,10 +3290,10 @@ void activity_handlers::read_finish( player_activity *act, player *p )
     }
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
-        guy->finish_read( * act->targets.front().get_item() );
+        guy->finish_read( act->targets.front() );
     } else {
         if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-            u->do_read( *act->targets.front().get_item() );
+            u->do_read( act->targets.front() );
         } else {
             act->set_to_null();
         }

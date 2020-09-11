@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
@@ -128,4 +129,14 @@ void build_test_map( const ter_id &terrain )
 
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
+}
+
+void set_time( const time_point &time )
+{
+    calendar::turn = time;
+    g->reset_light_level();
+    int z = g->u.posz();
+    g->m.update_visibility_cache( z );
+    g->m.invalidate_map_cache( z );
+    g->m.build_map_cache( z );
 }

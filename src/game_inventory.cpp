@@ -942,10 +942,10 @@ item_location game_menus::inv::gun_to_modify( player &p, const item &gunmod )
                          _( "You don't have any guns to modify." ) );
 }
 
-class read_inventory_preset: public pickup_inventory_preset
+class read_inventory_preset: public inventory_selector_preset
 {
     public:
-        read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+        read_inventory_preset( const player &p ) : p( p ) {
             const std::string unknown = _( "<color_dark_gray>?</color>" );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -1028,18 +1028,12 @@ class read_inventory_preset: public pickup_inventory_preset
                 !loc->type->can_use( "learn_spell" ) && u->has_identified( loc->typeId() ) ) {
                 return denials.front();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return std::string();
         }
 
         std::function<bool( const inventory_entry & )> get_filter( const std::string &filter ) const
         override {
-            auto base_filter = pickup_inventory_preset::get_filter( filter );
-
-            return [this, base_filter, filter]( const inventory_entry & e ) {
-                if( base_filter( e ) ) {
-                    return true;
-                }
-
+            return [this, filter]( const inventory_entry & e ) {
                 if( !is_known( e.any_item() ) ) {
                     return false;
                 }

@@ -383,12 +383,13 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item &it, const bool continuous )
+bool avatar::read( item_location loc, const bool continuous )
 {
-    if( it.is_null() ) {
+    if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
+    item &it = *loc;
     if( !has_identified( it.typeId() ) ) {
         // We insta-identify the book, then try to read it
         items_identified.insert( it.typeId() );
@@ -408,7 +409,7 @@ bool avatar::read( item &it, const bool continuous )
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
-    act.targets.emplace_back( item_location( *this, &it ) );
+    act.targets.emplace_back( loc );
 
     if( it.typeId() == "guidebook" ) {
         // special guidebook effect: print a misc. hint when read
@@ -728,8 +729,14 @@ static void skim_book_msg( const item &book, avatar &u )
     add_msg( _( "You note that you have a copy of %s in your possession." ), book.type_name() );
 }
 
-void avatar::do_read( item &book )
+void avatar::do_read( item_location loc )
 {
+    if( !loc ) {
+        activity.set_to_null();
+        return;
+    }
+
+    item &book = *loc;
     const auto &reading = book.type->book;
     if( !reading ) {
         activity.set_to_null();
@@ -925,7 +932,7 @@ void avatar::do_read( item &book )
 
     if( continuous ) {
         activity.set_to_null();
-        read( book, true );
+        read( loc, true );
         if( activity ) {
             return;
         }
@@ -1023,9 +1030,9 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        item_location loc = activity.targets[0];
+        if( loc && loc->is_book() ) {
+            auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt.skill );
             if( skill_level.can_train() && skill_level < bt.level ) {
@@ -1119,17 +1126,7 @@ int avatar::calc_focus_change() const
 
 void avatar::update_mental_focus()
 {
-
     focus_pool += calc_focus_change();
-
-    // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.id() == ACT_READ ) {
-        const item *book = activity.targets[0].get_item();
-        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
-            activity.set_to_null();
-        }
-    }
 }
 
 void avatar::reset_stats()

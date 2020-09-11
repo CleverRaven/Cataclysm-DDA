@@ -887,8 +887,14 @@ int npc::time_to_read( const item &book, const player &reader ) const
     return retval;
 }
 
-void npc::finish_read( item &book )
+void npc::finish_read( item_location loc )
 {
+    if( !loc ) {
+        revert_after_activity();
+        return;
+    }
+
+    item &book = *loc;
     const auto &reading = book.type->book;
     if( !reading ) {
         revert_after_activity();
@@ -976,7 +982,7 @@ void npc::finish_read( item &book )
         activity.set_to_null();
         player *pl = dynamic_cast<player *>( this );
         if( pl ) {
-            start_read( book, pl );
+            start_read( loc, pl );
         }
         if( activity ) {
             return;
@@ -986,12 +992,13 @@ void npc::finish_read( item &book )
     revert_after_activity();
 }
 
-void npc::start_read( item &chosen, player *pl )
+void npc::start_read( item_location loc, player *pl )
 {
+    item &chosen = *loc;
     const int time_taken = time_to_read( chosen, *pl );
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
-    act.targets.emplace_back( item_location( *this, &chosen ) );
+    act.targets.emplace_back( loc );
     act.str_values.push_back( to_string( penalty ) );
     // push an identifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
@@ -1016,12 +1023,11 @@ void npc::do_npc_read()
         if( !ch ) {
             return;
         }
-        item &chosen = *loc.obtain( *ch );
-        if( can_read( chosen, fail_reasons ) ) {
+        if( can_read( *loc, fail_reasons ) ) {
             if( g->u.sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );
             }
-            start_read( chosen, pl );
+            start_read( loc, pl );
         } else {
             for( const auto &elem : fail_reasons ) {
                 say( elem );

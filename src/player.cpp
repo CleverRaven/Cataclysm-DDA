@@ -135,7 +135,6 @@ static const trait_id trait_FASTLEARNER( "FASTLEARNER" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
-static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
@@ -3426,7 +3425,7 @@ void player::use( item_location loc )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( used );
+            u->read( loc );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );
@@ -3701,12 +3700,6 @@ int player::book_fun_for( const item &book, const player &p ) const
 
     if( has_trait( trait_LOVES_BOOKS ) ) {
         fun_bonus++;
-    } else if( has_trait( trait_HATES_BOOKS ) ) {
-        if( book.type->book->fun > 0 ) {
-            fun_bonus = 0;
-        } else {
-            fun_bonus--;
-        }
     }
 
     if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
