@@ -328,7 +328,10 @@
       },
       {
         "id": "flier_81",
-        "text": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa."
+        "text": {
+          "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   }
