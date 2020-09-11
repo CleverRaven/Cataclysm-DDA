@@ -325,7 +325,7 @@ void player::process_turn()
         }
 
         //mask from scent altering items;
-        norm_scent = std::floor( norm_scent * (100 - mask_intensity) / 100.0f );
+        norm_scent = std::floor( norm_scent * ( 100 - mask_intensity ) / 100.0f );
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
