@@ -40,8 +40,10 @@ TEST_CASE( "avoid_serializing_default_values", "[json]" )
 {
     std::ostringstream os;
     JsonOut jsout( os );
-    jsout.member( "foo", "foo", "foo" );
-    jsout.member( "bar", "foo", "bar" );
+    const std::string foo = "foo";
+    const std::string bar = "bar";
+    jsout.member( foo, foo, foo );
+    jsout.member( bar, foo, bar );
     REQUIRE( os.str() == "\"bar\":\"foo\"" );
 }
 
