@@ -313,7 +313,7 @@
       },
       {
         "id": "flier_78",
-        "text": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\""
+        "text": { "str": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\"", "//NOLINT(cata-text-style)": "intentional format" }
       },
       {
         "id": "flier_79",
