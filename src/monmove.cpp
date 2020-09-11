@@ -324,12 +324,15 @@ void monster::plan()
     const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
+    map &here = get_map();
+    std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( pos().z );
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+    if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
+        sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         dist = rate_target( player_character, dist, smart_planning );
         fleeing = fleeing || is_fleeing( player_character );
         target = &player_character;
@@ -368,7 +371,7 @@ void monster::plan()
         }
     } else if( friendly != 0 && !docile ) {
         for( monster &tmp : g->all_monsters() ) {
-            if( tmp.friendly == 0 ) {
+            if( tmp.friendly == 0 && seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
@@ -390,6 +393,9 @@ void monster::plan()
     for( npc &who : g->all_npcs() ) {
         mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
+            continue;
+        }
+        if( !seen_levels.test( who.pos().z + OVERMAP_DEPTH ) ) {
             continue;
         }
 
@@ -441,8 +447,10 @@ void monster::plan()
                 continue;
             }
 
-            // TODO: Limit this to levels the monster can see.
             for( auto &fac : fac_list.second ) {
+                if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
+                    continue;
+                }
                 for( const weak_ptr_fast<monster> &weak : fac.second ) {
                     const shared_ptr_fast<monster> shared = weak.lock();
                     if( !shared ) {
@@ -484,6 +492,9 @@ void monster::plan()
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
         for( auto &fac : myfaction_iter->second ) {
+            if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
+                continue;
+            }
             for( const weak_ptr_fast<monster> &weak : fac.second ) {
                 const shared_ptr_fast<monster> shared = weak.lock();
                 if( !shared ) {
@@ -510,7 +521,6 @@ void monster::plan()
         }
     }
 
-    map &here = get_map();
     // Operating monster keep you safe while they operate, how nice....
     if( type->has_special_attack( "OPERATE" ) ) {
         if( has_effect( effect_operating ) ) {
