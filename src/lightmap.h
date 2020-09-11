@@ -35,6 +35,9 @@ static constexpr float LIGHT_TRANSPARENCY_SOLID = 0.0f;
 // Bright sunlight should drop to LIGHT_AMBIENT_LOW over 60 squares.
 static constexpr float LIGHT_TRANSPARENCY_OPEN_AIR = 0.038376418216f;
 
+// indicates starting (full) visibility (for seen_cache)
+static constexpr float VISIBILITY_FULL = 1.0f;
+
 #define LIGHT_RANGE(b) static_cast<int>( -std::log(LIGHT_AMBIENT_LOW / static_cast<float>(b)) * (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR) )
 
 enum class lit_level : int {

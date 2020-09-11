@@ -631,7 +631,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
-        return map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
+        return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
+               map_cache.vision_transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID;
     };
 
     const bool p_opaque = is_opaque( p.xy() );
@@ -1066,7 +1067,7 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
 void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
-                T numerator = 1.0,
+                T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
                 T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
@@ -1231,7 +1232,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     if( !fov_3d ) {
         std::uninitialized_fill_n(
             &seen_cache[0][0], map_dimensions, light_transparency_solid );
-        seen_cache[origin.x][origin.y] = 1.0;
+        seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
 
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_cache, transparency_cache, origin.xy(), 0 );
@@ -1249,7 +1250,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
                 &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
         }
         if( origin.z == target_z ) {
-            get_cache( origin.z ).seen_cache[origin.x][origin.y] = 1.0;
+            get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
