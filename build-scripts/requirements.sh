@@ -16,8 +16,9 @@ function just_json
     return 0
 }
 
-# Enable GitHub actions problem matcher
+# Enable GitHub actions problem matchers
 # (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
+echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
 echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
 if which travis_retry &>/dev/null
