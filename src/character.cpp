@@ -6770,7 +6770,7 @@ bool Character::is_elec_immune() const
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && ground_factor() == 0 );
+        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
     } else if( eff == effect_onfire ) {
         return is_immune_damage( DT_HEAT );
     } else if( eff == effect_deaf ) {
@@ -9510,7 +9510,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = ground_factor() == 1.0;
+    bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
@@ -9521,7 +9521,7 @@ void Character::rooted_message() const
 void Character::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 {
-    double shoe_factor = ground_factor();
+    double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
@@ -9612,7 +9612,7 @@ double Character::armwear_factor() const
     return ret;
 }
 
-double Character::ground_factor() const
+double Character::footwear_factor() const
 {
     double ret = 0;
     for( const item &i : worn ) {
@@ -9626,18 +9626,6 @@ double Character::ground_factor() const
             ret += 0.5f;
             break;
         }
-    }
-    return ret;
-}
-
-double Character::footwear_factor() const
-{
-    double ret = 0;
-    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-        ret += .5;
-    }
-    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
-        ret += .5;
     }
     return ret;
 }
@@ -10865,7 +10853,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         if( flatground ) {
             movecost *= mutation_value( "movecost_flatground_modifier" );
         }
-        if( has_trait( trait_PADDED_FEET ) && !ground_factor() ) {
+        if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
@@ -10927,7 +10915,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         if( has_trait( trait_ROOTS3 ) && here.has_flag( "DIGGABLE", pos() ) ) {
-            movecost += 10 * ground_factor();
+            movecost += 10 * footwear_factor();
         }
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
