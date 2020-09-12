@@ -927,6 +927,7 @@ class game
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
             { ACTION_DISPLAY_RADIATION, false },
+            { ACTION_DISPLAY_TRANSPARENCY, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
@@ -934,6 +935,7 @@ class game
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
+        void display_transparency(); // Displays transparency map
 
         Creature *is_hostile_within( int distance );
 
