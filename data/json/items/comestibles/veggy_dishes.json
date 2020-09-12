@@ -53,7 +53,7 @@
     "color": "yellow",
 	"calories": 312,
     "spoils_in": "3 days",
-    "description": "Wild dandelion flowers that have been battered and fried.  Very tasty.",
+    "description": "Wild dandelion flowers that have been pan fried.  Very tasty and nutritious.",
     "price": 250,
     "price_postapoc": 50,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
