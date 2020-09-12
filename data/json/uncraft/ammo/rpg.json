@@ -59,12 +59,7 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "chem_compositionb", 200 ] ],
-      [ [ "gunpowder_artillery", 3000 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 3 ] ]
-    ],
+    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder_artillery", 3000 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]
