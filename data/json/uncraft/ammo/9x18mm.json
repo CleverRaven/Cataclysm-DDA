@@ -11,7 +11,7 @@
       [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 401 ] ],
+      [ [ "gunpowder_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -28,7 +28,7 @@
       [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 481 ] ],
+      [ [ "gunpowder_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -45,7 +45,7 @@
       [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 401 ] ],
+      [ [ "gunpowder_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

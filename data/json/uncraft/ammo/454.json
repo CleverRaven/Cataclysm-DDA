@@ -11,7 +11,7 @@
       [ [ "lead", 6 ] ],
       [ [ "454_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 1574 ] ],
+      [ [ "gunpowder_magnum_pistol", 16 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

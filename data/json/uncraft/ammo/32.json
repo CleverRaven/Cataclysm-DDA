@@ -11,7 +11,7 @@
       [ [ "lead", 2 ] ],
       [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 207 ] ],
+      [ [ "gunpowder_pistol", 2 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

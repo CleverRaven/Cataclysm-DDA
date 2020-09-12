@@ -9,7 +9,7 @@
       [ [ "lead", 4 ] ],
       [ [ "40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 320 ] ],
+      [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -24,7 +24,7 @@
       [ [ "lead", 4 ] ],
       [ [ "40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 576 ] ],
+      [ [ "gunpowder_pistol", 6 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

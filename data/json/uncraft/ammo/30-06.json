@@ -11,7 +11,7 @@
       [ [ "lead", 3 ] ],
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 3200 ] ],
+      [ [ "gunpowder_large_rifle", 32 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -29,7 +29,7 @@
       [ [ "lead", 4 ] ],
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 3300 ] ],
+      [ [ "gunpowder_large_rifle", 33 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -46,7 +46,7 @@
       [ [ "lead", 4 ] ],
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 3300 ] ],
+      [ [ "gunpowder_large_rifle", 33 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

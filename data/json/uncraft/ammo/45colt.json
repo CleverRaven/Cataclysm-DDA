@@ -9,7 +9,7 @@
       [ [ "lead", 5 ] ],
       [ [ "45colt_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 505 ] ],
+      [ [ "gunpowder_pistol", 5 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

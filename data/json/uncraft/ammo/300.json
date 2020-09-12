@@ -11,7 +11,7 @@
       [ [ "lead", 5 ] ],
       [ [ "300_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 4327 ] ],
+      [ [ "gunpowder_large_rifle", 43 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

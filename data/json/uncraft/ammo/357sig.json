@@ -9,7 +9,7 @@
       [ [ "lead", 7 ] ],
       [ [ "357sig_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 370 ] ],
+      [ [ "gunpowder_magnum_pistol", 4 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -24,7 +24,7 @@
       [ [ "lead", 8 ] ],
       [ [ "357sig_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 531 ] ],
+      [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

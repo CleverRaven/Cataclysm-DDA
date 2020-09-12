@@ -11,7 +11,7 @@
       [ [ "lead", 3 ] ],
       [ [ "762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 2851 ] ],
+      [ [ "gunpowder_large_rifle", 29 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

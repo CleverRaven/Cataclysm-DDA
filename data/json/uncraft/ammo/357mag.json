@@ -9,7 +9,7 @@
       [ [ "lead", 3 ] ],
       [ [ "357mag_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 520 ] ],
+      [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -24,7 +24,7 @@
       [ [ "lead", 4 ] ],
       [ [ "357mag_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder_magnum_pistol", 520 ] ],
+      [ [ "gunpowder_magnum_pistol", 5 ] ],
       [ [ "copper", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
