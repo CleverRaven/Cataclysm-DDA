@@ -214,8 +214,8 @@ void map::build_sunlight_cache( int pzlev )
     const int zlev_min = zlevels ? -OVERMAP_DEPTH : pzlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int zlev_max = zlevels ? std::min( std::max( calc_max_populated_zlev() + 1, pzlev + 1 ),
-                         OVERMAP_HEIGHT ) : pzlev;
+    const int zlev_max = zlevels ? clamp( calc_max_populated_zlev() + 1, pzlev + 1,
+                                          OVERMAP_HEIGHT ) : pzlev;
 
     // true if all previous z-levels are fully transparent to light (no floors, transparency >= air)
     bool fully_outside = true;
@@ -338,9 +338,9 @@ void map::build_sunlight_cache( int pzlev )
                     if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
                         !prev_floor_cache[prev_x][prev_y] &&
                         ( prev_light_max = prev_lm[prev_x][prev_y].max() ) > 0.0 ) {
-                        const float light_level = std::min( prev_light_max, std::max( inside_light_level, prev_light_max *
-                                                            LIGHT_TRANSPARENCY_OPEN_AIR
-                                                            / prev_transparency ) );
+                        const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
+                                                         inside_light_level, prev_light_max );
+
                         if( i == 0 ) {
                             lm[x][y].fill( light_level );
                             fully_inside &= light_level <= inside_light_level;
