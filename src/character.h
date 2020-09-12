@@ -2322,7 +2322,7 @@ class Character : public Creature, public visitable<Character>
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
-        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
+        /** Returns a value from 1.0 to 11.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed.
          * takes pos as a parameter so that remote spots can be judged
