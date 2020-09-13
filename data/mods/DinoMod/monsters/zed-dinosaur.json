@@ -461,6 +461,16 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zaiasaura",
+    "name": { "str": "Maiasaura zombie" },
+    "copy-from": "mon_zarasaurolophus",
+    "weight": "2500 kg",
+    "hp": 400,
+    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Has a flat beak, thick nose, and small spiky head crest.",
+    "upgrades": { "half_life": 14, "into": "mon_zaiasaura_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zarasaurolophus",
     "name": { "str": "Parasaurolophus zombie" },
     "copy-from": "mon_zamptosaurus",
