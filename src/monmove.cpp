@@ -1182,7 +1182,7 @@ tripoint monster::scent_move()
     if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
         right_scent = false;
     }
-    if( right_scent == false ) {
+    if( !right_scent ) {
         return { -1, -1, INT_MIN };
     }
 
