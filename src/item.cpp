@@ -1094,10 +1094,11 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
+                            bool print_error )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
-    if( !result.success() ) {
+    if( print_error && !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
     }
