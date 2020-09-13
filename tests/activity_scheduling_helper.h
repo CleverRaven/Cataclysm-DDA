@@ -1,7 +1,8 @@
-#ifndef CATA_TESTS_WEARY_TEST_H
-#define CATA_TESTS_WEARY_TEST_H
+#ifndef CATA_TESTS_ACTIVITY_SCHEDULING_H
+#define CATA_TESTS_ACTIVITY_SCHEDULING_H
 
 #include "activity_actor.h"
+#include "avatar.h"
 #include "clone_ptr.h"
 
 struct schedule {
@@ -120,4 +121,4 @@ struct weariness_events {
 
 weariness_events do_activity( tasklist tasks );
 
-#endif // CATA_TESTS_WEARY_TEST_H
+#endif // CATA_TESTS_ACTIVITY_SCHEDULING_H
