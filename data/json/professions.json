@@ -2127,7 +2127,7 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer", "wristwatch" ],
+        "items": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer" ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "briefs", "socks", "pants" ],
