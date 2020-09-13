@@ -351,12 +351,15 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
         // check if file is gzipped
         // (byte1 == 0x1f) && (byte2 == 0x8b)
-        unsigned char header[2];
-        fin.read(&header, 2);
-        if (header[0] == 0x1f) && (header[1] == 0x8b) {
-            igzstream fingz( path );
+        char header[2];
+        fin.read(header, 2);
+        if ( (header[0] == '\x1f') && (header[1] == '\x8b') ) {
+            const char *cstr_path = path.c_str();
+            igzstream fingz( cstr_path, std::ios::binary );
             reader( fingz );
         } else {
+            fin.clear();
+            fin.seekg(0, std::ios::beg); // reset read position
             reader( fin );
         }
         if( fin.bad() ) {
