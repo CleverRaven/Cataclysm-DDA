@@ -33,6 +33,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "morale_types.h"
 #include "npc.h"
 #include "optional.h"
@@ -54,6 +55,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -1819,6 +1821,174 @@ std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+// TODO: Display costs in the multidrop menu
+static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const drop_or_stash_item_info &it : items ) {
+        res += string_format( "Drop %d %s\n", it.count(), it.loc()->display_name( it.count() ) );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+// Return a list of items to be dropped by the given item-dropping activity in the current turn.
+static std::list<item> obtain_activity_items(
+    std::vector<drop_or_stash_item_info> &items, Character &who )
+{
+    std::list<item> res;
+
+    debug_drop_list( items );
+
+    auto it = items.begin();
+    for( ; it != items.end(); ++it ) {
+        item_location loc = it->loc();
+        cata_assert( loc );
+        cata_assert( loc.get_item() );
+
+        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
+            break;
+        }
+
+        who.mod_moves( -consumed_moves );
+
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
+        if( loc.has_parent() ) {
+            item_pocket *const parent_pocket = loc.parent_item()->contained_where( *loc );
+            if( parent_pocket ) {
+                parent_pocket->unseal();
+            }
+            // Update encumbrance on the parent item
+            loc.parent_item()->on_contents_changed();
+        }
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+    }
+
+    // Remove handled items from activity
+    items.erase( items.begin(), it );
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
+
+    return res;
+}
+
+void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "loc", _loc );
+    jsout.member( "count", _count );
+    jsout.end_object();
+}
+
+void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "loc", _loc );
+    jsobj.read( "count", _count );
+}
+
+void drop_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+    who.invalidate_weight_carried_cache();
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate, obtain_activity_items( items, who ),
+                              pos, force_ground );
+}
+
+void drop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "placement", placement );
+    jsout.member( "force_ground", force_ground );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+{
+    drop_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "placement", actor.placement );
+    jsobj.read( "force_ground", actor.force_ground );
+
+    return actor.clone();
+}
+
+static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
+{
+    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
+    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
+    map &here = get_map();
+
+    for( const item &it : items ) {
+        if( it.volume() > remaining_volume ) {
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else if( it.weight() > remaining_weight ) {
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else {
+            pet.add_item( it );
+            remaining_volume -= it.volume();
+            remaining_weight -= it.weight();
+        }
+        // TODO: if NPCs can have pets or move items onto pets
+        item( it ).handle_pickup_ownership( who );
+    }
+}
+
+
+void stash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+
+    monster *pet = g->critter_at<monster>( pos );
+    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+        stash_on_pet( obtain_activity_items( items, who ), *pet, who );
+    } else {
+        who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
+        who.cancel_activity();
+    }
+}
+
+void stash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "placement", placement );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+{
+    stash_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -1830,6 +2000,7 @@ deserialize_functions = {
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
+    { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
@@ -1837,6 +2008,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
