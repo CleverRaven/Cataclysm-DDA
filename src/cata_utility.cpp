@@ -354,7 +354,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         char header[2];
         fin.read( header, 2 );
         if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            const char *cstr_path = path.c_str();
+            const std::string cstr_path = path.c_str();
             igzstream fingz( cstr_path, std::ios::binary );
             reader( fingz );
         } else {
