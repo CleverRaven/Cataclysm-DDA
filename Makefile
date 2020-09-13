@@ -293,6 +293,8 @@ AR  = $(CROSS)ar
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
+LDFLAGS += -lgzstream
+
 ifneq ($(SANITIZE),)
   SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
   CXXFLAGS += $(SANITIZE_FLAGS)
