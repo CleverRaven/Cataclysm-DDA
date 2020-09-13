@@ -175,10 +175,25 @@ struct level_cache {
     float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // stores cached transparency of the tiles
+    // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
     float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // stores "adjusted transparency" of the tiles
+    // initial values derived from transparency_cache, uses same units
+    // examples of adjustment: changed transparency on player's tile and special case for crouching
     float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // stores "visibility" of the tiles to the player
+    // values range from 1 (fully visible to player) to 0 (not visible)
     float seen_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // same as `seen_cache` (same units) but contains values for cameras and mirrors
+    // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
     float camera_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // stores resulting apparent brightness to player, calculated by map::apparent_light_at
     lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
     std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
     std::bitset<MAPSIZE *MAPSIZE> field_cache;
