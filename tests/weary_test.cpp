@@ -5,20 +5,23 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 
+// Set up our scenarios ahead of time
+static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
+const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
+const activity_schedule task_dig( dig_actor, 5_minutes );
+const activity_schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
+const activity_schedule task_firstaid( activity_id( "ACT_FIRSTAID" ), 5_minutes );
+const activity_schedule task_plant( activity_id( "ACT_PLANT_SEED" ), 5_minutes );
+
 TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
-    static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
-    // Set up our scenarios ahead of time
-    const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
-    const schedule task_dig( dig_actor, 5_minutes );
-
     tasklist desk_8h;
-    desk_8h.enschedule( { activity_id( "ACT_FIRSTAID" ), 5_minutes }, 8_hours );
+    desk_8h.enschedule( task_firstaid, 8_hours );
 
     tasklist moderate_8h;
-    moderate_8h.enschedule( { activity_id( "ACT_PLANT_SEED" ), 5_minutes }, 8_hours );
+    moderate_8h.enschedule( task_plant, 8_hours );
 
     tasklist soldier_8h;
     soldier_8h.enschedule( task_dig, 8_hours );
@@ -76,12 +79,6 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
-    static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
-    // Set up our scenarios ahead of time
-    const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
-    const schedule task_dig( dig_actor, 5_minutes );
-    const schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
-
     tasklist soldier_8h;
     soldier_8h.enschedule( task_dig, 8_hours );
     soldier_8h.enschedule( task_wait, 8_hours );
@@ -102,13 +99,8 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
-    static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
-    // Set up our scenarios ahead of time
-    const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
-    const schedule task_dig( dig_actor, 5_minutes );
-
     tasklist waiting_24h;
-    waiting_24h.enschedule( { activity_id( "ACT_WAIT" ), 5_minutes }, 24_hours );
+    waiting_24h.enschedule( task_wait, 24_hours );
 
     tasklist digging_24h;
     digging_24h.enschedule( task_dig, 24_hours );

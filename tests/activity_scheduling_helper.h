@@ -6,33 +6,86 @@
 #include "clone_ptr.h"
 
 struct schedule {
-    activity_id act;
-    cata::clone_ptr<activity_actor> actor;
+    virtual void setup( avatar & ) const = 0;
+    virtual void do_turn( avatar & ) const = 0;
+    virtual bool instantaneous() const {
+        return false;
+    }
     time_duration interval = 5_minutes;
 
-    schedule( const activity_id &id, const time_duration ticks ) : act( id ), interval( ticks ) {   }
-    schedule( const activity_actor &assigned,
-              const time_duration ticks ) : actor( assigned.clone() ),
-        interval( ticks ) {}
+    virtual ~schedule() = default;
+};
+
+class activity_schedule : public schedule
+{
+        activity_id act;
+        cata::clone_ptr<activity_actor> actor;
+
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar &guy ) const override;
+
+        activity_schedule( const activity_id &id, const time_duration ticks ) : act( id ) {
+            interval = ticks;
+        }
+        activity_schedule( const activity_actor &assigned,
+                           const time_duration ticks ) : actor( assigned.clone() ) {
+            interval = ticks;
+        }
+};
+
+class meal_schedule : public schedule
+{
+        itype_id food;
+
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar & ) const override;
+        bool instantaneous() const override;
+
+        meal_schedule( const itype_id &eaten ) : food( eaten ) {};
+};
+
+class clear_guts : public schedule
+{
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar & ) const override;
+        bool instantaneous() const override;
+};
+
+const clear_guts sched_clear_guts{};
+
+class sleep_schedule : public schedule
+{
+    public:
+        void setup( avatar &guy ) const override;
+        void do_turn( avatar &guy ) const override;
 };
 
 class tasklist
 {
         // The tasks we have yet to do, and how long
-        std::vector<std::pair<schedule, time_duration>> tasks;
+        // The first member is a pointer because we need to preserve the virtual
+        // class that it's pointing to
+        // It will _never_ be nullptr
+        std::vector<std::pair<const schedule *, time_duration>> tasks;
         // How long we've been on the current task
         time_duration advanced = 0_seconds;
         // The current task's index
         size_t cursor = 0;
 
     public:
-        schedule next_task() {
+        const schedule &next_task() {
             // Uh oh! We ran out of tasks!
             if( cursor >= tasks.size() ) {
                 debugmsg( "Requested task when none existed!" );
-                return schedule( activity_id( "ACT_WAIT" ), 5_minutes );
+                if( tasks.empty() ) {
+                    abort();
+                }
+                return *tasks[0].first;
             }
-            return tasks[cursor].first;
+            return *tasks[cursor].first;
         }
 
         void advance( const time_duration how_long ) {
@@ -51,7 +104,7 @@ class tasklist
         }
 
         void enschedule( const schedule &added, const time_duration how_long ) {
-            tasks.insert( tasks.end(), { added, how_long } );
+            tasks.insert( tasks.end(), { &added, how_long } );
         }
 
         void clear() {
@@ -62,7 +115,7 @@ class tasklist
 
         time_duration duration() {
             time_duration ret;
-            for( const std::pair<schedule, time_duration> &cursor : tasks ) {
+            for( const std::pair<const schedule *, time_duration> &cursor : tasks ) {
                 ret += cursor.second;
             }
             return ret;
