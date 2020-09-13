@@ -1846,6 +1846,8 @@ class item : public visitable<item>
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
+        /** Get first attached gunmod with flag or nullptr if no such mod or item is not a gun */
+        item *gunmod_find_by_flag( const std::string &flag );
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
@@ -2260,6 +2262,7 @@ class item : public visitable<item>
         int temperature = 0;       // Temperature of the item (in 0.00001 K).
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
+        bool ethereal = false;
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.

@@ -1422,21 +1422,9 @@ void player::process_effects()
 
 double player::vomit_mod()
 {
-    double mod = 1;
+    double mod = mutation_value( "vomit_multiplier" );
     if( has_effect( effect_weed_high ) ) {
         mod *= .1;
-    }
-    if( has_trait( trait_STRONGSTOMACH ) ) {
-        mod *= .5;
-    }
-    if( has_trait( trait_WEAKSTOMACH ) ) {
-        mod *= 2;
-    }
-    if( has_trait( trait_NAUSEA ) ) {
-        mod *= 3;
-    }
-    if( has_trait( trait_VOMITOUS ) ) {
-        mod *= 3;
     }
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
@@ -2451,8 +2439,9 @@ bool player::unload( item_location &loc, bool bypass_activity )
     std::vector<item *> opts( 1, &it );
 
     for( item *e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
         }
@@ -2476,27 +2465,29 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
-        add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
-        return false;
-    }
-
-    if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
-            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
-        } else {
+    if( !target->has_flag( "BRASS_CATCHER" ) ) {
+        if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+            return false;
         }
-        return false;
-    }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
-        if( target->is_tool() ) {
-            add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
-        } else {
-            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
+        if( target->has_flag( "NO_UNLOAD" ) ) {
+            if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+                add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
+            } else {
+                add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+            }
+            return false;
         }
-        return false;
+
+        if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+            if( target->is_tool() ) {
+                add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
+            } else {
+                add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
+            }
+            return false;
+        }
     }
 
     target->casings_handle( [&]( item & e ) {
@@ -2556,6 +2547,8 @@ bool player::unload( item_location &loc, bool bypass_activity )
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+    } else if( target->has_flag( "BRASS_CATCHER" ) ) {
+        target->spill_contents( get_player_character() );
     }
 
     // Turn off any active tools

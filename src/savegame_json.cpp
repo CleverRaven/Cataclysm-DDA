@@ -2308,6 +2308,10 @@ void item::io( Archive &archive )
     archive.io( "specific_energy", specific_energy, -10 );
     archive.io( "temperature", temperature, 0 );
     archive.io( "recipe_charges", recipe_charges, 1 );
+    // Legacy: remove flag check/unset after 0.F
+    const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
+    archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
+    unset_flag( flag_ETHEREAL_ITEM );
     archive.template io<const itype>( "curammo", curammo, load_curammo,
     []( const itype & i ) {
         return i.get_id().str();
@@ -3028,7 +3032,7 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "npc_id", npc_id );
     jo.read( "good_fac_id", good_fac_id );
     jo.read( "bad_fac_id", bad_fac_id );
-
+    jo.read( "player_id", player_id );
 }
 
 void mission::serialize( JsonOut &json ) const

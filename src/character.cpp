@@ -2786,12 +2786,10 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
 std::vector<item_location> Character::all_items_loc()
 {
     std::vector<item_location> ret;
-    if( has_weapon() ) {
-        item_location weap_loc( *this, &weapon );
-        std::vector<item_location> weapon_internal_items;
-        recur_internal_locations( weap_loc, weapon_internal_items );
-        ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
-    }
+    item_location weap_loc( *this, &weapon );
+    std::vector<item_location> weapon_internal_items;
+    recur_internal_locations( weap_loc, weapon_internal_items );
+    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
         std::vector<item_location> worn_internal_items;
@@ -2905,7 +2903,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid );
+            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() );
         }
     }
 
@@ -2926,8 +2924,9 @@ void Character::handle_contents_changed( const item_location &container, item_po
         pocket->on_contents_changed();
 
         bool drop_unhandled = false;
-        if( parent.where() != item_location::type::map && pocket->will_spill() ) {
-            pocket->handle_liquid_or_spill( *this );
+        if( parent.where() != item_location::type::map && !is_wielding( *parent )
+            && pocket->will_spill() ) {
+            pocket->handle_liquid_or_spill( *this, /*avoid=*/&*parent );
             // drop the container instead if canceled.
             if( !pocket->empty() ) {
                 // drop later since we still need to access the target item of `parent`
@@ -7332,8 +7331,9 @@ hint_rating Character::rate_action_unload( const item &it ) const
     }
 
     for( const item *e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
             return hint_rating::good;
         }
     }
@@ -7498,6 +7498,7 @@ mutation_value_map = {
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
+    { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
     { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
 };
 
@@ -10322,7 +10323,11 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            i_add( *it );
+            item &added = i_add( *it, true, /*avoid=*/nullptr,
+                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() );
+            if( added.is_null() ) {
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
+            }
         }
         return VisitResponse::SKIP;
     } );

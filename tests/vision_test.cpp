@@ -98,6 +98,7 @@ static void full_map_test( const std::vector<std::string> &setup,
             switch( setup[y][x] ) {
                 case 'V':
                 case 'U':
+                case 'H':
                 case 'u':
                     origin = player_character.pos() - point( x, y );
                     if( setup[y][x] == 'V' ) {
@@ -121,7 +122,7 @@ static void full_map_test( const std::vector<std::string> &setup,
         REQUIRE( player_offset.x >= 0 );
         REQUIRE( player_offset.x < width );
         char player_char = setup[player_offset.y][player_offset.x];
-        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' ) );
+        REQUIRE( ( player_char == 'U' || player_char == 'u' || player_char == 'V' || player_char == 'H' ) );
     }
 
     map &here = get_map();
@@ -137,6 +138,7 @@ static void full_map_test( const std::vector<std::string> &setup,
                     here.ter_set( above, t_flat_roof );
                     break;
                 case '#':
+                case 'H':
                     here.ter_set( p, t_brick_wall );
                     here.ter_set( above, t_flat_roof );
                     break;
@@ -344,6 +346,7 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 // 'U' - player, outdoors
 // 'u' - player, indoors
 // 'V' - player, with light in inventory
+// 'H' - player, indoors, standing inside a wall
 // 'L' - light, indoors
 // '#' - wall
 // '=' - window frame
@@ -540,6 +543,35 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
         },
         // Want a night time
         full_moon - time_past_midnight( full_moon ),
+        vision_test_flags::none
+    };
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting][vision]" )
+{
+    /**
+     *  Even when stating inside the opaque wall and surrounded by opaque walls,
+     *  you should see yourself and immediate surrounding.
+     *  (walls here simulate the behavior of the fully opaque fields, e.g. thick smoke)
+     */
+    vision_test_case t {
+        {
+            "#####",
+            "#####",
+            "##H##",
+            "#####",
+            "#####",
+        },
+        {
+            "66666",
+            "61116",
+            "61116",
+            "61116",
+            "66666",
+        },
+        midnight,
         vision_test_flags::none
     };
 

@@ -100,24 +100,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    mutation_filter filter = mutation_filter::all;
-    if( b.is_valid() ) {
-        if( b.obj().debug ) {
-            filter = mutation_filter::debug;
-        } else if( !b.obj().anger_relations.empty() ) {
-            filter = mutation_filter::anger_relations;
-        } else if( !b.obj().ignored_by.empty() ) {
-            filter = mutation_filter::ignored_by;
-        } else if( !b.obj().social_mods.empty() ) {
-            filter = mutation_filter::social_mods;
-        }
-    }
-    for( const trait_id &mut : get_mutations( true, filter ) ) {
-        if( mut == b ) {
-            return true;
-        }
-    }
-    return false;
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -147,16 +130,19 @@ void Character::toggle_trait( const trait_id &trait_ )
     const trait_id trait = trait_;
     const auto titer = my_traits.find( trait );
     const auto miter = my_mutations.find( trait );
-    if( titer == my_traits.end() ) {
+    const bool not_found_in_traits = titer == my_traits.end();
+    const bool not_found_in_mutations = miter == my_mutations.end();
+    if( not_found_in_traits ) {
         my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+    // Checking this after toggling my_traits, if we exit the two are now consistent.
+    if( not_found_in_traits != not_found_in_mutations ) {
         debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
         return;
     }
-    if( miter == my_mutations.end() ) {
+    if( not_found_in_mutations ) {
         set_mutation( trait );
     } else {
         unset_mutation( trait );

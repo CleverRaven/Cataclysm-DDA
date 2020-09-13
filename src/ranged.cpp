@@ -1580,11 +1580,13 @@ static void cycle_action( item &weap, const tripoint &pos )
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
+    item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
+        if( weap.has_flag( "RELOAD_EJECT" ) ) {
             weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
-        } else {
+        } else if( !( brass_catcher && brass_catcher->put_in( item( casing ),
+                      item_pocket::pocket_type::CONTAINER ).success() ) ) {
             if( cargo.empty() ) {
                 here.add_item_or_charges( eject, item( casing ) );
             } else {
@@ -1600,13 +1602,13 @@ static void cycle_action( item &weap, const tripoint &pos )
     const item *mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
-        if( weap.gunmod_find( itype_brass_catcher ) ) {
-            linkage.set_flag( "CASING" );
-            weap.put_in( linkage, item_pocket::pocket_type::CONTAINER );
-        } else if( cargo.empty() ) {
-            here.add_item_or_charges( eject, linkage );
-        } else {
-            vp->vehicle().add_item( *cargo.front(), linkage );
+        if( !( brass_catcher &&
+               brass_catcher->put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+            if( cargo.empty() ) {
+                here.add_item_or_charges( eject, linkage );
+            } else {
+                vp->vehicle().add_item( *cargo.front(), linkage );
+            }
         }
     }
 }

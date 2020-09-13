@@ -35,6 +35,7 @@
 #include "mapdata.h"
 #include "morale_types.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pickup.h"
@@ -1461,8 +1462,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // We already checked if this is nullptr above
     item &craft = *craft_item.get_item();
 
-    const tripoint location = craft_item.where() == item_location::type::character ? tripoint_zero :
-                              craft_item.position();
+    const cata::optional<tripoint> location = craft_item.where() == item_location::type::character
+            ? cata::optional<tripoint>() : cata::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
     const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
     const int assistants = crafter.available_assistant_count( craft.get_making() );

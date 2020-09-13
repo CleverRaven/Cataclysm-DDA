@@ -5863,16 +5863,30 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    item_location loc = game_menus::inv::gun_to_modify( *p, *it );
+    do {
+        item_location loc = game_menus::inv::gun_to_modify( *p, *it );
 
-    if( !loc ) {
-        add_msg( m_info, _( "Never mind." ) );
+        if( !loc ) {
+            add_msg( m_info, _( "Never mind." ) );
+            return 0;
+        }
+
+        if( !loc->is_gunmod_compatible( *it ).success() ) {
+            return 0;
+        }
+
+        const item mod_copy( *it );
+        item modded_gun( *loc );
+
+        modded_gun.put_in( mod_copy, item_pocket::pocket_type::MOD );
+
+        if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
+            continue;
+        }
+
+        p->gunmod_add( *loc, *it );
         return 0;
-    }
-
-    p->gunmod_add( *loc, *it );
-
-    return 0;
+    } while( true );
 }
 
 int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
