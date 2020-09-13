@@ -434,7 +434,14 @@ void monster::plan()
     }
 
     fleeing = fleeing || ( mood == MATT_FLEE );
-    if( friendly == 0 ) {
+    // Throttle monster thinking, if there are no apparent threats, stop paying attention.
+    constexpr int max_turns_for_rate_limiting = 1800;
+    constexpr double max_turns_to_skip = 600.0;
+    // Outputs a range from 0.0 - 1.0.
+    int rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
+                               turns_since_target );
+    int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
+    if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
         for( const auto &fac : factions ) {
             mf_attitude faction_att = faction.obj().attitude( fac.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -465,6 +472,12 @@ void monster::plan()
                 }
             }
         }
+    }
+    if( target == nullptr ) {
+        // Just avoiding overflow.
+        turns_since_target = std::min( turns_since_target + 1, max_turns_for_rate_limiting );
+    } else {
+        turns_since_target = 0;
     }
 
     // Friendly monsters here
@@ -785,7 +798,7 @@ void monster::move()
 
     if( current_attitude == MATT_IGNORE ||
         ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
-        moves -= 100;
+        moves = 0;
         stumble();
         return;
     }
@@ -998,7 +1011,7 @@ void monster::move()
             }
         }
     } else {
-        moves -= 100;
+        moves = 0;
         stumble();
         path.clear();
     }
