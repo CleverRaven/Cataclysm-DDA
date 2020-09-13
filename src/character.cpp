@@ -2926,7 +2926,8 @@ void Character::handle_contents_changed( const item_location &container, item_po
         pocket->on_contents_changed();
 
         bool drop_unhandled = false;
-        if( parent.where() != item_location::type::map && pocket->will_spill() ) {
+        if( parent.where() != item_location::type::map && !is_wielding( *parent )
+            && pocket->will_spill() ) {
             pocket->handle_liquid_or_spill( *this, /*avoid=*/&*parent );
             // drop the container instead if canceled.
             if( !pocket->empty() ) {
