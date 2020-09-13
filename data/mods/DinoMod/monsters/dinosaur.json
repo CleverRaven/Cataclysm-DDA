@@ -304,7 +304,7 @@
     "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_scutellosaurus",
     "name": { "str_sp": "Scutellosaurus" },
@@ -318,12 +318,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_cut": 2,
-    "special_attacks": [
-      [ "EAT_CROP", 20 ]
-    ],
+    "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -714,7 +712,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_maiasaura",
     "name": { "str_sp": "Maiasaura" },
@@ -916,7 +914,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_coelophysis",
     "name": { "str_sp": "Coelophysis" },
