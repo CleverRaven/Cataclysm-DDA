@@ -2398,6 +2398,14 @@ void target_ui::update_target_list()
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
         return rl_dist_exact( lhs->pos(), you->pos() ) < rl_dist_exact( rhs->pos(), you->pos() );
     } );
+
+    // Push targets the player's attitude to them is friendly to end
+    std::stable_sort( targets.begin(), targets.end(), [&]( const Creature * lhs,
+    const Creature * rhs ) {
+        Creature::Attitude lhsAtt = you->attitude_to( *lhs );
+        Creature::Attitude rhsAtt = you->attitude_to( *rhs );
+        return lhsAtt != rhsAtt && lhsAtt != Creature::Attitude::FRIENDLY;
+    } );
 }
 
 bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
