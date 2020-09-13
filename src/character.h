@@ -2330,8 +2330,8 @@ class Character : public Creature, public visitable<Character>
         float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
         // ---- CRAFTING ----
-        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
-                                      const tripoint &loc = tripoint_zero );
+        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
+                                      const cata::optional<tripoint> &loc );
         pimpl<craft_command> last_craft;
 
         recipe_id lastrecipe;
@@ -2376,7 +2376,7 @@ class Character : public Creature, public visitable<Character>
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
         float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
         /** For use with in progress crafts */
-        float crafting_speed_multiplier( const item &craft, const tripoint &loc ) const;
+        float crafting_speed_multiplier( const item &craft, const cata::optional<tripoint> &loc ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
          * Time to craft not including speed multiplier
@@ -2399,15 +2399,17 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Start various types of crafts
-         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
+         * @param loc the location of the workbench. cata::nullopt indicates crafting from inventory.
          */
-        void craft( const tripoint &loc = tripoint_zero );
-        void recraft( const tripoint &loc = tripoint_zero );
-        void long_craft( const tripoint &loc = tripoint_zero );
-        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
-        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
+        void craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void recraft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void long_craft( const cata::optional<tripoint> &loc = cata::nullopt );
+        void make_craft( const recipe_id &id, int batch_size,
+                         const cata::optional<tripoint> &loc = cata::nullopt );
+        void make_all_craft( const recipe_id &id, int batch_size,
+                             const cata::optional<tripoint> &loc );
         /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const tripoint &loc );
+        void start_craft( craft_command &command, const cata::optional<tripoint> &loc );
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
@@ -2415,7 +2417,7 @@ class Character : public Creature, public visitable<Character>
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
         double crafting_success_roll( const recipe &making ) const;
-        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
+        void complete_craft( item &craft, const cata::optional<tripoint> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.

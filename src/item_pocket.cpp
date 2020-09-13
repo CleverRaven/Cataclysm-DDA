@@ -592,9 +592,16 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 
 void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
+    if( guy.is_npc() ) {
+        spill_contents( guy.pos() );
+        return;
+    }
+
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
-            liquid_handler::handle_liquid( *iter, avoid, 1 );
+            while( iter->charges > 0 && liquid_handler::handle_liquid( *iter, avoid, 1 ) ) {
+                // query until completely handled or explicitly canceled
+            }
             if( iter->charges == 0 ) {
                 iter = contents.erase( iter );
             } else {
