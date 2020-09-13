@@ -76,6 +76,11 @@ weariness_events do_activity( tasklist tasks )
 
 
     avatar &guy = get_avatar();
+    // Ensure we have enough light to see
+    item bag( "duffelbag" );
+    item light( "atomic_lamp" );
+    guy.worn.push_back( bag );
+    guy.i_add( light );
     // How long we've been doing activities for
     time_duration spent = 0_seconds;
     // How weary we are starting

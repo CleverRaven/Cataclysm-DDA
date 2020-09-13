@@ -7,11 +7,19 @@
 
 // Set up our scenarios ahead of time
 static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
-const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0, "" );
-const activity_schedule task_dig( dig_actor, 5_minutes );
-const activity_schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
-const activity_schedule task_firstaid( activity_id( "ACT_FIRSTAID" ), 5_minutes );
-const activity_schedule task_plant( activity_id( "ACT_PLANT_SEED" ), 5_minutes );
+static const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0,
+        "" );
+static const activity_schedule task_dig( dig_actor, 5_minutes );
+static const activity_schedule task_wait( activity_id( "ACT_WAIT" ), 5_minutes );
+static const activity_schedule task_firstaid( activity_id( "ACT_FIRSTAID" ), 5_minutes );
+static const activity_schedule task_plant( activity_id( "ACT_PLANT_SEED" ), 5_minutes );
+static const activity_schedule task_weld( activity_id( "ACT_VEHICLE" ), 5_minutes );
+static const activity_schedule task_read( activity_id( "ACT_READ" ), 5_minutes );
+
+static const meal_schedule sausage( itype_id( "sausage" ) );
+static const meal_schedule milk( itype_id( "milk" ) );
+
+static const sleep_schedule sleep{};
 
 TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
@@ -83,6 +91,28 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
     soldier_8h.enschedule( task_dig, 8_hours );
     soldier_8h.enschedule( task_wait, 8_hours );
 
+    tasklist mechanic_day;
+    // Clear the guts, we're providing our own food
+    mechanic_day.enschedule( sched_clear_guts, 0_turns );
+    // Have a nice meal, get to work, eat more, read some, sleep
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( task_weld, 5_hours );
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( task_weld, 5_hours );
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( sausage, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( milk, 0_turns );
+    mechanic_day.enschedule( task_read, 4_hours );
+    mechanic_day.enschedule( sleep, 10_hours );
+    mechanic_day.enschedule( task_wait, 16_hours );
+
     SECTION( "Heavy tasks" ) {
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
         weariness_events info = do_activity( soldier_8h );
@@ -92,6 +122,21 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         CHECK( info.transition_minutes( 4, 3, 700_minutes ) == Approx( 700 ).margin( 0 ) );
         CHECK( info.transition_minutes( 3, 2, 820_minutes ) == Approx( 820 ).margin( 0 ) );
         CHECK( guy.weariness_level() == 2 );
+    }
+
+    SECTION( "1 day vehicle work" ) {
+        INFO( "\n3 meals, 10h vehicle work, 4h reading, 10h sleep, 16h waiting" );
+        weariness_events info = do_activity( mechanic_day );
+        INFO( info.summarize() );
+        INFO( guy.debug_weary_info() );
+        REQUIRE( !info.empty() );
+        CHECK( info.transition_minutes( 0, 1, 220_minutes ) == Approx( 220 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 1, 2, 385_minutes ) == Approx( 385 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 2, 3, 530_minutes ) == Approx( 530 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 645_minutes ) == Approx( 645 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 3, 890_minutes ) == Approx( 890 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 3, 2, 980_minutes ) == Approx( 980 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 2, 1, 1130_minutes ) == Approx( 1130 ).margin( 5 ) );
     }
 }
 
@@ -119,13 +164,13 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 125_minutes ) == Approx( 125 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 1, 2, 260_minutes ) == Approx( 260 ).margin( 0 ) );
-        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 0 ) );
+        CHECK( info.transition_minutes( 1, 2, 260_minutes ) == Approx( 260 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 460_minutes ) == Approx( 460 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 585 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 6, 7, 836_minutes ) == Approx( 835 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 7, 8, 905_minutes ) == Approx( 905 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 6, 7, 830_minutes ) == Approx( 830 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 7, 8, 905_minutes ) == Approx( 905 ).margin( 10 ) );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
         CHECK( guy.weariness_level() > 8 );
