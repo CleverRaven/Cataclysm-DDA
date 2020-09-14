@@ -20,9 +20,10 @@ jobs:
         SOUND: 1
     steps:
     - name: checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 10
+        submodules: true
     - name: install dependencies
       run: |
           #sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
