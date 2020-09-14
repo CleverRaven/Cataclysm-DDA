@@ -757,8 +757,7 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one.
          */
-        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
-                              bool print_error = false );
+        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
