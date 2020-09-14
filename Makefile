@@ -293,6 +293,7 @@ AR  = $(CROSS)ar
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
+CXXFLAGS += -I libraries/gzstream
 LDFLAGS += -lz
 
 ifneq ($(SANITIZE),)
