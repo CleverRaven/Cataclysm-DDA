@@ -426,6 +426,13 @@
     "drop_fields": [ "character" ]
   },
   {
+    "id": "num_avatar_wears_item",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_wears_item",
+    "description": { "str": "time worn an item", "str_pl": "times worn an item" }
+  },
+  {
     "id": "avatar_wears_power_armor_heavy",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
@@ -438,6 +445,76 @@
     "stat_type": "count",
     "event_transformation": "avatar_wears_power_armor_heavy",
     "description": { "str": "time worn tank suit", "str_pl": "times worn tank suit" }
+  },
+  {
+    "id": "avatar_eats_item",
+    "type": "event_transformation",
+    "event_type": "character_eats_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_avatar_eats_item",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_eats_item",
+    "description": { "str": "item consumed", "str_pl": "items consumed" }
+  },
+  {
+    "id": "avatar_consumes_item",
+    "type": "event_transformation",
+    "event_type": "character_consumes_item",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_consumes_item_flag",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item",
+    "new_fields": { "flag": { "flags_of_itype": "itype" } },
+    "drop_fields": [ "itype" ]
+  },
+  {
+    "id": "avatar_consumes_allergen_milk",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "string", "ALLERGEN_MILK" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_milk",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_milk",
+    "description": { "str": "dairy item consumed", "str_pl": "dairy items consumed" }
+  },
+  {
+    "id": "avatar_consumes_allergen_eggs",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "string", "ALLERGEN_EGGS" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_eggs",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_eggs",
+    "description": { "str": "egg-based item consumed", "str_pl": "egg-based items consumed" }
+  },
+  {
+    "id": "avatar_consumes_allergen_meat",
+    "type": "event_transformation",
+    "event_transformation": "avatar_consumes_item_flag",
+    "value_constraints": { "flag": { "equals": [ "string", "ALLERGEN_MEAT" ] } },
+    "drop_fields": [ "flag" ]
+  },
+  {
+    "id": "num_avatar_consumes_allergen_meat",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_consumes_allergen_meat",
+    "description": { "str": "meat item consumed", "str_pl": "meat items consumed" }
   },
   {
     "id": "first_omt",
