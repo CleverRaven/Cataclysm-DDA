@@ -343,8 +343,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         // Should fail to install the magazine
         REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
-            ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL,
-                                   true );
+            ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
         CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type" ) );
