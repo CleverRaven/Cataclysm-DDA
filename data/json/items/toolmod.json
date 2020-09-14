@@ -103,6 +103,25 @@
     ]
   },
   {
+    "id": "magazine_fuel_cell_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "fuel cell mod" },
+    "description": "A battery compartment mod adapts to the proprietary fuel cell connections.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "light_methanol_cell", "heavy_methanol_cell", "medium_methanol_cell", "super_methanol_cell" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg"
+      }
+    ],
+    "magazine_adaptor": [ [ "battery", [ "light_methanol_cell", "heavy_methanol_cell", "medium_methanol_cell", "super_methanol_cell" ] ] ]
+  },
+  {
     "id": "magazine_battery_heavy_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
