@@ -1530,7 +1530,9 @@
         "max_contains_weight": "4 kg",
         "sealed_data": { "spoil_multiplier": 0.0 }
       }
-    ]
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "test_watertight_open_sealed_multipocket_container_2x1L",
@@ -1583,7 +1585,11 @@
         "pocket_type": "CONTAINER",
         "max_contains_volume": "4 L",
         "max_contains_weight": "16 kg",
-        "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x1L", "test_watertight_open_sealed_container_250ml" ]
+        "item_restriction": [
+          "test_watertight_open_sealed_multipocket_container_2x1L",
+          "test_watertight_open_sealed_container_1L",
+          "test_watertight_open_sealed_container_250ml"
+        ]
       }
     ],
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },

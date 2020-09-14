@@ -85,6 +85,7 @@ enum class container_location : int {
 enum class scenario : int {
     begin,
     contained_liquid = begin,
+    nested_contained_liquid,
     recursive_multi_pocket,
     end,
 };
@@ -202,7 +203,7 @@ void match( item_location container, Container &&contents,
     for( auto &content_maybe_pointer : contents ) {
         item *content = item_pointer( content_maybe_pointer );
         if( content ) {
-            INFO( "looking for match in expected result: id = " << content->typeId().str() );
+            INFO( "looking for match in expected result: id = " + content->typeId().str() );
             item_location content_loc( container, content );
             bool found = false;
             for( auto it = content_results.begin(); it != content_results.end(); ++it ) {
@@ -280,6 +281,32 @@ void test_scenario::run()
                             true,
                             false,
                             {}
+                        }
+                    }
+                }
+            };
+            break;
+        }
+        case scenario::nested_contained_liquid: {
+            init_str = "scenario::nested_contained_liquid";
+            init = {
+                initialization {
+                    test_watertight_open_sealed_container_1L,
+                    false,
+                    true,
+                    {
+                        initialization {
+                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            false,
+                            true,
+                            {
+                                initialization {
+                                    test_liquid_1ml,
+                                    true,
+                                    false,
+                                    {}
+                                }
+                            }
                         }
                     }
                 }
@@ -503,6 +530,108 @@ void test_scenario::run()
                         false,
                         false,
                         {
+                            final_result {
+                                test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            }
+                        }
+                    }
+                };
+            }
+            break;
+        case scenario::nested_contained_liquid:
+            if( !will_spill_outer && do_spill ) {
+                original_location = final_result {
+                    test_watertight_open_sealed_container_1L,
+                    false,
+                    false,
+                    {
+                        final_result {
+                            test_watertight_open_sealed_multipocket_container_2x250ml,
+                            false,
+                            false,
+                            {}
+                        }
+                    }
+                };
+                ground = {
+                    final_result {
+                        test_liquid_1ml,
+                        false,
+                        false,
+                        {}
+                    }
+                };
+            } else if( !will_spill_outer && !do_spill ) {
+                original_location = final_result {
+                    test_watertight_open_sealed_container_1L,
+                    false,
+                    false,
+                    {}
+                };
+                ground = {
+                    final_result {
+                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false,
+                        false,
+                        {
+                            final_result {
+                                test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            },
+                            final_result {
+                                test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            }
+                        }
+                    }
+                };
+            } else if( do_spill ) {
+                original_location = final_result {
+                    test_watertight_open_sealed_container_1L,
+                    false,
+                    false,
+                    {}
+                };
+                ground = {
+                    final_result {
+                        test_liquid_1ml,
+                        false,
+                        false,
+                        {}
+                    },
+                    final_result {
+                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false,
+                        false,
+                        {}
+                    }
+                };
+            } else {
+                original_location = final_result {
+                    test_watertight_open_sealed_container_1L,
+                    false,
+                    false,
+                    {}
+                };
+                ground = {
+                    final_result {
+                        test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false,
+                        false,
+                        {
+                            final_result {
+                                test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            },
                             final_result {
                                 test_liquid_1ml,
                                 false,
