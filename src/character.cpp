@@ -2910,22 +2910,6 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
     return retval;
 }
 
-void Character::handle_contents_changed( const item_location &container, item_pocket *pocket )
-{
-    if( !pocket ) {
-        debugmsg( "null item pocket" );
-        return;
-    }
-
-    if( !container ) {
-        debugmsg( "invalid item location" );
-        return;
-    }
-
-    pocket->on_contents_changed();
-    handle_contents_changed( { container } );
-}
-
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
 {
     class item_loc_with_depth
@@ -3025,12 +3009,6 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
 }
 
 handle_contents_changed_helper::handle_contents_changed_helper(
-    Character &guy, const item_location &container, item_pocket *const pocket )
-    : guy( &guy ), parent( container ), pocket( pocket )
-{
-}
-
-handle_contents_changed_helper::handle_contents_changed_helper(
     Character &guy, const item_location &content )
     : guy( &guy )
 {
@@ -3046,7 +3024,8 @@ handle_contents_changed_helper::handle_contents_changed_helper(
 void handle_contents_changed_helper::handle()
 {
     if( guy && parent && pocket ) {
-        guy->handle_contents_changed( parent, pocket );
+        pocket->on_contents_changed();
+        guy->handle_contents_changed( { parent } );
     }
     guy = nullptr;
     parent = item_location::nowhere;
