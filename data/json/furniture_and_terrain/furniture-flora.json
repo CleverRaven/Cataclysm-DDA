@@ -319,5 +319,54 @@
     "examine_action": "harvest_furn",
     "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "seed_mustard", "base_num": [ 2, 6 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_alder",
+    "name": "alder tree",
+    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
+    "symbol": "7",
+    "color": [ "green", "green", "yellow_yellow", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_alder_harvested",
+    "examine_action": "harvest_ter",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "autumn" ],
+        "entries": [ { "drop": "alder_bark", "base_num": [ 2, 5 ], "scale_num": [ 0, 1 ] } ]
+      }
+    ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_alder_harvested",
+    "name": "alder tree",
+    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_alder",
+    "looks_like": "t_tree_hickory_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
   }
 ]
