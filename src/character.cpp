@@ -2903,7 +2903,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid );
+            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() );
         }
     }
 
@@ -2924,8 +2924,9 @@ void Character::handle_contents_changed( const item_location &container, item_po
         pocket->on_contents_changed();
 
         bool drop_unhandled = false;
-        if( parent.where() != item_location::type::map && pocket->will_spill() ) {
-            pocket->handle_liquid_or_spill( *this );
+        if( parent.where() != item_location::type::map && !is_wielding( *parent )
+            && pocket->will_spill() ) {
+            pocket->handle_liquid_or_spill( *this, /*avoid=*/&*parent );
             // drop the container instead if canceled.
             if( !pocket->empty() ) {
                 // drop later since we still need to access the target item of `parent`
@@ -10322,7 +10323,11 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            i_add( *it );
+            item &added = i_add( *it, true, /*avoid=*/nullptr,
+                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() );
+            if( added.is_null() ) {
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
+            }
         }
         return VisitResponse::SKIP;
     } );

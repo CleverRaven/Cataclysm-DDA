@@ -3032,7 +3032,7 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "npc_id", npc_id );
     jo.read( "good_fac_id", good_fac_id );
     jo.read( "bad_fac_id", bad_fac_id );
-
+    jo.read( "player_id", player_id );
 }
 
 void mission::serialize( JsonOut &json ) const

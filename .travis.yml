@@ -149,13 +149,6 @@ jobs:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
           sources: *apt_sources
 
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      name: "Mingw-w64 Make build with Curses"
-      if: type != pull_request
-      addons: &gcc
-        apt:
-          packages: ["wine"]
-
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       name: "Clang 3.9 Make build with Curses"
       if: type != pull_request

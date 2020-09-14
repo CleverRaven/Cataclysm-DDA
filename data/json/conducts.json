@@ -117,5 +117,47 @@
     "type": "conduct",
     "name": "Self-Imposed Illiteracy",
     "requirements": [ { "event_statistic": "num_reads_book", "is": "<=", "target": 0, "description": "Read no books" } ]
+  },
+  {
+    "id": "conduct_no_food",
+    "type": "conduct",
+    "name": "Foodless",
+    "requirements": [ { "event_statistic": "num_avatar_eats_item", "is": "<=", "target": 0, "description": "Eat nothing" } ]
+  },
+  {
+    "id": "conduct_vegan",
+    "type": "conduct",
+    "name": "Vegan",
+    "requirements": [
+      { "event_statistic": "num_avatar_consumes_allergen_milk", "is": "<=", "target": 0, "description": "Consume no milk" },
+      {
+        "event_statistic": "num_avatar_consumes_allergen_eggs",
+        "is": "<=",
+        "target": 0,
+        "description": "Consume no eggs"
+      },
+      {
+        "event_statistic": "num_avatar_consumes_allergen_meat",
+        "is": "<=",
+        "target": 0,
+        "description": "Consume no meat"
+      }
+    ],
+    "hidden_by": [ "conduct_no_food" ]
+  },
+  {
+    "id": "conduct_vegetarian",
+    "type": "conduct",
+    "name": "Vegetarian",
+    "requirements": [
+      { "event_statistic": "num_avatar_consumes_allergen_meat", "is": "<=", "target": 0, "description": "Consume no meat" }
+    ],
+    "hidden_by": [ "conduct_vegan" ]
+  },
+  {
+    "id": "conduct_nudist",
+    "type": "conduct",
+    "name": "Nudist",
+    "requirements": [ { "event_statistic": "num_avatar_wears_item", "is": "<=", "target": 0, "description": "Wear no clothing" } ]
   }
 ]

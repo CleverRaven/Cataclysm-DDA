@@ -36,6 +36,10 @@ enum class event_type : int {
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
+    // Eating is always consuming, but consuming also covers medication and
+    // fueling bionics
+    character_consumes_item,
+    character_eats_item,
     character_forgets_spell,
     character_gains_effect,
     character_gets_headshot,
@@ -167,7 +171,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 83,
+static_assert( static_cast<int>( event_type::num_event_types ) == 85,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -252,6 +256,12 @@ struct event_spec<event_type::buries_corpse> {
 
 template<>
 struct event_spec<event_type::causes_resonance_cascade> : event_spec_empty {};
+
+template<>
+struct event_spec<event_type::character_consumes_item> : event_spec_character_item {};
+
+template<>
+struct event_spec<event_type::character_eats_item> : event_spec_character_item {};
 
 template<>
 struct event_spec<event_type::character_forgets_spell> {
