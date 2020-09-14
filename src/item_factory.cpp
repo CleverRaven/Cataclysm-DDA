@@ -3062,7 +3062,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
                 count = 1;
             }
             for( ; count > 0; --count ) {
-                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                if( !obj.try_put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
                     obj.put_in( content, item_pocket::pocket_type::MIGRATION );
                 }
             }

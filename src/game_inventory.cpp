@@ -1312,7 +1312,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         bool success = false;
         if( !it.count_by_charges() ) {
             if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER ).success();
+                success = holster->try_put_in( it, item_pocket::pocket_type::CONTAINER ).success();
                 if( success ) {
                     holstered_item.first.remove_item();
                 }

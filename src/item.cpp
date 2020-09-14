@@ -1094,18 +1094,23 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+CHECK_RESULT ret_val<bool> item::try_put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
-    if( !result.success() ) {
-        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
-                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
-    }
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
     on_contents_changed();
     return result;
+}
+
+void item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+{
+    ret_val<bool> result = try_put_in( payload, pk_type );
+    if( !result.success() ) {
+        debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
+                  payload.typeId().str(), payload.count(), typeId().str(), result.str() );
+    }
 }
 
 void item::set_var( const std::string &name, const int value )

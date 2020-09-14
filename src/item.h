@@ -2,6 +2,14 @@
 #ifndef CATA_SRC_ITEM_H
 #define CATA_SRC_ITEM_H
 
+#if defined(__GNUC__) && (__GNUC__ >= 4)
+#define CHECK_RESULT __attribute__ ((warn_unused_result))
+#elif defined(_MSC_VER) && (_MSC_VER >= 1700)
+#define CHECK_RESULT _Check_return_
+#else
+#define CHECK_RESULT
+#endif
+
 #include <algorithm>
 #include <climits>
 #include <cstdint>
@@ -755,9 +763,13 @@ class item : public visitable<item>
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
         /**
-         * Puts the given item into this one.
+         * Tries to put the given item into this one. Requires handling of the return value.
          */
-        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
+        CHECK_RESULT ret_val<bool> try_put_in( const item &payload, item_pocket::pocket_type pk_type );
+        /**
+        * Uses try_put_in and prints an error message when it fails
+        */
+        void put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
