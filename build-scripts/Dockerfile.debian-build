@@ -27,7 +27,7 @@ RUN apt-fast -qq install --no-install-recommends build-essential clang-6.0 cmake
 RUN apt-get -qq remove gcc g++ && apt-get -qq autoremove
 
 # CDDA: general stuff; gettext is required for localization
-RUN apt-fast -qq install --no-install-recommends gettext libgzstream-dev
+RUN apt-fast -qq install --no-install-recommends gettext
 
 # CDDA: libraries for curses-based terminal cdda
 RUN apt-fast -qq install --no-install-recommends libncurses5-dev libncursesw5-dev
