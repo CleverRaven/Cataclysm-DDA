@@ -2912,49 +2912,116 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
 
 void Character::handle_contents_changed( const item_location &container, item_pocket *pocket )
 {
-    item_location parent = container;
+    if( !pocket ) {
+        debugmsg( "null item pocket" );
+        return;
+    }
+
+    if( !container ) {
+        debugmsg( "invalid item location" );
+        return;
+    }
+
+    pocket->on_contents_changed();
+    handle_contents_changed( { container } );
+}
+
+void Character::handle_contents_changed( const std::vector<item_location> &containers )
+{
+    class item_loc_with_depth
+    {
+        public:
+            item_loc_with_depth( const item_location &_loc )
+                : _loc( _loc ), _depth( 0 ) {
+                item_location ancestor = _loc;
+                while( ancestor.has_parent() ) {
+                    ++_depth;
+                    ancestor = ancestor.parent_item();
+                }
+            }
+
+            const item_location &loc() const {
+                return _loc;
+            }
+
+            int depth() const {
+                return _depth;
+            }
+
+        private:
+            item_location _loc;
+            int _depth = 0;
+    };
+
+    class sort_by_depth
+    {
+        public:
+            bool operator()( const item_loc_with_depth &lhs, const item_loc_with_depth &rhs ) {
+                return lhs.depth() < rhs.depth();
+            }
+    };
+
+    std::multiset<item_loc_with_depth, sort_by_depth> sorted_containers(
+        containers.begin(), containers.end() );
     map &m = get_map();
 
-    do {
-        parent->on_contents_changed();
-        if( pocket == nullptr ) {
-            debugmsg( "null item pocket" );
-            return;
+    // unseal and handle containers, from innermost (max depth) to outermost (min depth)
+    // so inner containers are always handled before outer containers are possibly removed.
+    while( !sorted_containers.empty() ) {
+        item_location loc = std::prev( sorted_containers.end() )->loc();
+        sorted_containers.erase( std::prev( sorted_containers.end() ) );
+        if( !loc ) {
+            debugmsg( "invalid item location" );
+            continue;
         }
-        pocket->on_contents_changed();
-
+        loc->on_contents_changed();
         bool drop_unhandled = false;
-        if( parent.where() != item_location::type::map && !is_wielding( *parent )
-            && pocket->will_spill() ) {
-            pocket->handle_liquid_or_spill( *this, /*avoid=*/&*parent );
-            // drop the container instead if canceled.
-            if( !pocket->empty() ) {
-                // drop later since we still need to access the target item of `parent`
-                drop_unhandled = true;
+        if( loc.where() != item_location::type::map && !is_wielding( *loc ) ) {
+            for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+                if( pocket && pocket->will_spill() ) {
+                    // the pocket's contents (with a larger depth value) are not
+                    // inside `sorted_containers` and can be safely disposed of.
+                    pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
+                    // drop the container instead if canceled.
+                    if( !pocket->empty() ) {
+                        // drop later since we still need to access the container item
+                        drop_unhandled = true;
+                        // canceling one pocket cancels spilling for the whole container
+                        break;
+                    }
+                }
             }
         }
 
-        item_location child = parent;
-        if( parent.has_parent() ) {
-            parent = parent.parent_item();
-            pocket = parent->contained_where( *child );
-        } else {
-            parent = item_location::nowhere;
-            pocket = nullptr;
+        if( loc.has_parent() ) {
+            item_loc_with_depth parent( loc.parent_item() );
+            bool exists = false;
+            auto it = sorted_containers.lower_bound( parent );
+            for( ; it != sorted_containers.end() && it->depth() == parent.depth(); ++it ) {
+                if( it->loc() == parent.loc() ) {
+                    exists = true;
+                    break;
+                }
+            }
+            if( !exists ) {
+                sorted_containers.emplace_hint( it, parent );
+            }
         }
 
         if( drop_unhandled ) {
+            // We can drop the unhandled container now since the container and
+            // its contents (with a larger depth) are not inside `sorted_containers`.
             add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                child->display_name(), m.name( pos() )
+                loc->display_name(), m.name( pos() )
             );
-            item it_copy( *child );
-            child.remove_item();
-            // child item is invalidated and should not be used from now on
+            item it_copy( *loc );
+            loc.remove_item();
+            // target item of `loc` is invalidated and should not be used from now on
             m.add_item_or_charges( pos(), it_copy );
         }
-    } while( parent );
+    }
 }
 
 handle_contents_changed_helper::handle_contents_changed_helper(

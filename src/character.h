@@ -1502,6 +1502,18 @@ class Character : public Creature, public visitable<Character>
          *        location is invalidated in the process of modifying).
          */
         void handle_contents_changed( const item_location &container, item_pocket *pocket );
+        /**
+         * Update elements of `containers` and their parent/ancestor items after
+         * their contents are changed. Unlike `handle_contents_changed( const item_location &, item_pocket * )`,
+         * pockets of the changed contents should be unsealed before calling this
+         * method.
+         * @param containers Item locations of containers to unseal. Item locations
+         *        in this vector can contain each other, but should always be valid
+         *        (i.e. if A contains B and B contains C, A and C can be in the vector
+         *        at the same time, but B shouldn't be removed in such case, otherwise
+         *        C is invalidated.). Item location in this vector should be unique.
+         */
+        void handle_contents_changed( const std::vector<item_location> &containers );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
