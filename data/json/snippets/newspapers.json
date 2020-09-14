@@ -73,7 +73,10 @@
       },
       {
         "id": "many_years_old_news_18",
-        "text": "GENERAL PROMOTED ONBOARD OLD IRONSIDES.  The USS Constitution was the site of a promotion ceremony held by the Massachusetts National Guard at the Charlestown Navy Yard.  Col. Ariel Dabrowski was promoted to the rank of brigadier general in the Massachusetts National Guard in front of a crowd massed on the deck of the historic ship.  General Carlsberg officiated the promotion ceremony, and Maj. Gen. Michael Baker administered the oath of office."
+        "text": {
+          "str": "GENERAL PROMOTED ONBOARD OLD IRONSIDES.  The USS Constitution was the site of a promotion ceremony held by the Massachusetts National Guard at the Charlestown Navy Yard.  Col. Ariel Dabrowski was promoted to the rank of brigadier general in the Massachusetts National Guard in front of a crowd massed on the deck of the historic ship.  General Carlsberg officiated the promotion ceremony, and Maj. Gen. Michael Baker administered the oath of office.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
