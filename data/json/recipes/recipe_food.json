@@ -1103,10 +1103,10 @@
     "skills_required": [ "survival", 2 ],
     "time": "8 m",
     "autolearn": true,
-    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+    "//": "Small amounts of oil will be absorbed by the batter, real fried food 8-25% by weight",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

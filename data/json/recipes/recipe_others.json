@@ -5051,5 +5051,20 @@
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "from_alder",
+    "result": "quikclot",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 4,
+    "time": "1 m 12 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "alder_bark", 6 ], [ "lye", 5 ], [ "water_clean", 10 ] ] ]
   }
 ]

@@ -3141,6 +3141,21 @@
     "flags": [ "NO_REPAIR" ]
   },
   {
+    "type": "GENERIC",
+    "id": "alder_bark",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str_sp": "alder bark" },
+    "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "weight": "323 g",
+    "volume": "250 ml",
+    "bashing": 4,
+    "to_hit": 1
+  },
+  {
     "id": "wallet",
     "type": "GENERIC",
     "category": "container",
