@@ -1582,19 +1582,27 @@ static void cycle_action( item &weap, const tripoint &pos )
 
     item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
-        const itype_id casing = *weap.ammo_data()->ammo->casing;
+        item casing( *weap.ammo_data()->ammo->casing, calendar::turn, 1 );
+        bool caught = false;
         if( weap.has_flag( "RELOAD_EJECT" ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
-        } else if( !( brass_catcher && brass_catcher->try_put_in( item( casing ),
-                      item_pocket::pocket_type::CONTAINER ).success() ) ) {
-            if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
-            } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+            weap.put_in( casing.set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
+        } else {
+            if( brass_catcher ) {
+                caught = brass_catcher->try_put_in( casing, item_pocket::pocket_type::CONTAINER ).success();
+                if( !caught ) {
+                    add_msg( "Your %s couldn't catch the %s.", brass_catcher->type_name(), casing.tname() );
+                }
             }
+            if( !caught ) {
+                if( cargo.empty() ) {
+                    here.add_item_or_charges( eject, casing );
+                } else {
+                    vp->vehicle().add_item( *cargo.front(), casing );
+                }
 
-            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
-                                     sfx::get_heard_angle( eject ) );
+                sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
+                                         sfx::get_heard_angle( eject ) );
+            }
         }
     }
 
@@ -1602,8 +1610,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     const item *mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
-        if( !( brass_catcher &&
-               brass_catcher->try_put_in( linkage, item_pocket::pocket_type::CONTAINER ).success() ) ) {
+        bool caught = false;
+        if( brass_catcher ) {
+            caught = brass_catcher->try_put_in( linkage, item_pocket::pocket_type::CONTAINER ).success();
+            if( !caught ) {
+                add_msg( "Your %s couldn't catch the %s.", brass_catcher->type_name(), linkage.tname() );
+            }
+        }
+        if( !caught ) {
             if( cargo.empty() ) {
                 here.add_item_or_charges( eject, linkage );
             } else {
