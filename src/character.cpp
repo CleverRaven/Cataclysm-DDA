@@ -4904,7 +4904,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( "NO_THIRST" ) ) {
+    if( has_trait_flag( "NO_THIRST" ) || ( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -5253,7 +5253,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
+        if( !npc_no_food ) {
             mod_stored_kcal( digested_to_body.nutr.kcal );
             log_activity_level( activity_level );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
@@ -5263,6 +5263,10 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             // instead of hunger keeping track of how you're living, burn calories instead
             mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
         }
+    }
+    // if npc_no_food no need to calc hunger, and set hunger_effect
+    if( npc_no_food ) {
+        return;
     }
     if( stomach.time_since_ate() > 10_minutes ) {
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
