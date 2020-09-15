@@ -2,7 +2,7 @@
   {
     "result": "acidchitin_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 s",
@@ -12,7 +12,7 @@
   {
     "result": "chitin_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 s",
@@ -22,7 +22,7 @@
   {
     "result": "chainmail_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "2 m",
@@ -52,7 +52,7 @@
   {
     "result": "kevlar_harness",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "5 m",
@@ -70,7 +70,7 @@
   {
     "result": "superalloy_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "15 m",

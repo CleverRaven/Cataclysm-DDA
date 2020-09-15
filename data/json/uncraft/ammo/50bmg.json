@@ -2,7 +2,7 @@
   {
     "result": "50_incendiary",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -20,7 +20,7 @@
   {
     "result": "50bmg",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -37,7 +37,7 @@
   {
     "result": "50ss",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",

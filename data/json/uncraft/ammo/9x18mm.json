@@ -2,7 +2,7 @@
   {
     "result": "9x18mm",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -13,7 +13,7 @@
   {
     "result": "9x18mmP2",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
@@ -24,7 +24,7 @@
   {
     "result": "9x18mmfmj",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
