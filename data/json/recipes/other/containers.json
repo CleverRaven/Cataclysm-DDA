@@ -123,7 +123,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "canteen_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
