@@ -1650,7 +1650,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-	"flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_soft_leather",
@@ -1742,7 +1742,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-	"flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_soft_leather_2",
