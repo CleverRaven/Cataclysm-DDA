@@ -1617,7 +1617,7 @@ class map
     public:
         void build_outside_cache( int zlev );
         // Get a bitmap indicating which layers are potentially visible from the target layer.
-        std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( const int origin_zlevel )const ;
+        std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( int origin_zlevel )const ;
         // Builds a floor cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_floor_cache( int zlev );
