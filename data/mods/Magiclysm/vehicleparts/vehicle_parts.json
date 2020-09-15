@@ -4,5 +4,20 @@
     "id": "orichalcum_frame_break",
     "subtype": "collection",
     "entries": [ { "item": "orichalcum_lump", "count": [ 4, 6 ] }, { "item": "orichalcum_sliver", "count": [ 4, 6 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "f_magiclysm_translocator_gate_vehicle_part",
+    "item": "f_magiclysm_translocator_gate_vehicle_part",
+    "copy-from": "f_magiclysm_translocator_gate",
+    "name": { "str": "Mobile Translocator Gate" },
+    "symbol": "X",
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "f_magiclysm_translocator_gate",
+    "durability": 900,
+    "description": "A gate for translocation. Cast the translocation spell or use a translocator to choose this gate as a destination.",
+    "epower": -400,
+    "size": 1200
   }
 ]
