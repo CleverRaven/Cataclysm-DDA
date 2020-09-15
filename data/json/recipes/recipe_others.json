@@ -1146,7 +1146,7 @@
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ]

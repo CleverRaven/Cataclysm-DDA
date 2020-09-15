@@ -325,7 +325,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ],
@@ -672,7 +672,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ],
@@ -702,7 +702,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ],
@@ -1149,7 +1149,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ],
@@ -1209,7 +1209,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-	"proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
       { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
     ],
