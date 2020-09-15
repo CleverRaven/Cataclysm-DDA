@@ -23,7 +23,7 @@
     "type": "BOOK",
     "looks_like": "glassblowing_book",
     "name": {
-      "str_sp": "Plastics & Polymers: Projects for the Classroom",
+      "str": "Plastics & Polymers: Projects for the Classroom",
       "str_pl": "copies of Plastics & Polymers: Projects for the Classroom"
     },
     "description": "A textbook that goes through types and material properties of various common plastics, and how to use them in several common projects.",
