@@ -466,6 +466,7 @@
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 1,
     "reversible": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "plastic_molding", 1 ] ],
     "components": [
       [ [ "5x50_hull", 1 ] ],
