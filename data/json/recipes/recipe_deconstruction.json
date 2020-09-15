@@ -3051,7 +3051,6 @@
     "result": "pot_makeshift_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "pot_makeshift_copper",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
