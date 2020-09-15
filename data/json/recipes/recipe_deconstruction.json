@@ -2119,7 +2119,7 @@
   {
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
@@ -2127,7 +2127,7 @@
   {
     "result": "sheet_neoprene_patchwork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
@@ -2135,8 +2135,8 @@
   {
     "result": "tanned_hide",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 6 ] ] ]
   },
@@ -4186,7 +4186,7 @@
   {
     "result": "bundle_rag",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 10 ] ] ],
@@ -4195,7 +4195,7 @@
   {
     "result": "bundle_leather",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 10 ] ] ],
@@ -4204,7 +4204,7 @@
   {
     "result": "bundle_wool",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "felt_patch", 10 ] ] ],
