@@ -1826,9 +1826,9 @@
   {
     "result": "cable",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
+    "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "copper", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -1990,7 +1990,7 @@
   {
     "result": "cu_pipe",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -2311,7 +2311,7 @@
   {
     "result": "mirror",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
   },
@@ -2821,7 +2821,7 @@
   {
     "result": "makeshift_crowbar",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -3050,7 +3050,8 @@
   {
     "result": "pot_makeshift_copper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "pot_makeshift_copper",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
@@ -3102,7 +3103,7 @@
   {
     "result": "pot_copper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",

@@ -624,7 +624,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "foldwoodframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -721,7 +721,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "frame_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
