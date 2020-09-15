@@ -250,8 +250,11 @@ player::player()
         vitamin_levels[ v.first ] = 0;
     }
 
-    recalc_sight_limits();
-    calc_encumbrance();
+    // Only call these if game is initialized
+    if( !!g ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 }
 
 player::~player() = default;
