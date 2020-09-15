@@ -57,7 +57,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "down_pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -70,7 +70,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "down_mattress",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -84,7 +84,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -1237,7 +1237,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1250,7 +1250,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sheet_kevlar_layered",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -3936,7 +3936,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leather_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -4386,7 +4386,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "canteen",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4400,7 +4400,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "2lcanteen",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -4414,7 +4414,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bagpipes",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4805,7 +4805,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leather_tarp",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4819,7 +4819,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fiber_mat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

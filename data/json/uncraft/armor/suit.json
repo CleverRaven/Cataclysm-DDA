@@ -2,7 +2,7 @@
   {
     "result": "xlhsurvivor_suit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "10 m",
@@ -12,7 +12,7 @@
   {
     "result": "xlsurvivor_suit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "5 m",

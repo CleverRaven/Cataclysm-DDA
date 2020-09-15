@@ -32,7 +32,7 @@
   {
     "result": "leather_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
@@ -42,7 +42,7 @@
   {
     "result": "leatherbone_harness_dog",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
