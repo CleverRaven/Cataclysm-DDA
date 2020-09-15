@@ -24,7 +24,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "mansion_+",
       "mansion_+1",
       "mansion_+1d",
       "mansion_+1u",
@@ -61,7 +60,6 @@
       "mansion_e2u",
       "mansion_entry_dn",
       "mansion_entry_up",
-      "mansion_t",
       "mansion_t1",
       "mansion_t1d",
       "mansion_t1u",
