@@ -6924,7 +6924,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     }
 
     if( is_watertight_container() && !contents.empty() &&
-        ( contents.legacy_front().typeId() == ammo ) ) {
+        ( contents.only_item().typeId() == ammo ) ) {
         return true;
     }
 

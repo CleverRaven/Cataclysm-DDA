@@ -3179,13 +3179,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     return VisitResponse::SKIP;
                 }
 
-                if( node->is_container() && !node->is_container_empty() ) {
-                    return VisitResponse::NEXT;
-                }
-
                 if( node->typeId() == contents_id ) {
                     out = item_location( src, node );
-                    return VisitResponse::ABORT;
                 }
 
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
@@ -3195,10 +3190,6 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
                 if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
-                }
-
-                if( node->is_container() && !node->is_container_empty() ) {
-                    return VisitResponse::NEXT;
                 }
 
                 if( parent != nullptr && parent->is_container() &&
