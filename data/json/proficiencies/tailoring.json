@@ -45,7 +45,7 @@
     "type": "proficiency",
     "id": "prof_leatherworking",
     "name": { "str": "Leatherworking" },
-    "description": "Working with leather requires a specific set of skills and tools... a set you are familiar with.",
+    "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
     "time_to_learn": "10 h"
   },
