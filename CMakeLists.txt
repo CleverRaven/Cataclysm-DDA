@@ -237,7 +237,8 @@ ELSE()
        -Wpedantic \
        -Wsuggest-override \
        -Wunused-macros \
-       -Wzero-as-null-pointer-constant")
+       -Wzero-as-null-pointer-constant \
+       -Wno-unknown-warning-option")
     IF (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
         SET(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     ENDIF()
