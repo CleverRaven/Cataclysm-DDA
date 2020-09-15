@@ -78,7 +78,7 @@
         "description": "Additional Armor penetration per stack.  Further reduces dodge attempts. 3 stacks max.",
         "unarmed_allowed": false,
         "melee_allowed": true,
-        "skill_requirements": [ { "name": "melee", "level": 6 }, { "name": "piercing", "level": 4 }, { "name": "cutting", "level": 4 } ],
+        "skill_requirements": [ { "name": "melee", "level": 6 }, { "name": "stabbing", "level": 4 }, { "name": "cutting", "level": 4 } ],
         "buff_duration": 1,
         "bonus_dodges": -1,
         "max_stacks": 3,

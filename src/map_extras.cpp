@@ -3241,9 +3241,6 @@ void map_extra::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "autonote", autonote, false );
 }
 
-extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
-        update_mapgen;
-
 void map_extra::check() const
 {
     switch( generator_method ) {

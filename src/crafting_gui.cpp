@@ -19,6 +19,7 @@
 #include "crafting.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -49,9 +50,9 @@ enum TAB_MODE {
 };
 
 // TODO: Convert these globals to handling categories via generic_factory?
-std::vector<std::string> craft_cat_list;
-std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::string> normalized_names;
+static std::vector<std::string> craft_cat_list;
+static std::map<std::string, std::vector<std::string> > craft_subcat_list;
+static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
@@ -62,10 +63,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
                                  const std::string &subtab,
                                  const recipe_subset &available_recipes, TAB_MODE mode = NORMAL );
 
-std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
-int related_menu_fill( uilist &rmenu,
-                       const std::vector<std::pair<itype_id, std::string>> &related_recipes,
-                       const recipe_subset &available );
+static std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
+static int related_menu_fill( uilist &rmenu,
+                              const std::vector<std::pair<itype_id, std::string>> &related_recipes,
+                              const recipe_subset &available );
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
@@ -533,12 +534,34 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Batch time savings: <color_cyan>%s</color>" ),
                                         current[line]->batch_savings_string() );
 
+                const int makes = current[line]->makes_amount();
+                if( makes > 1 ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "Recipe makes: <color_cyan>%d</color>" ),
+                                            makes );
+                }
+
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
+
+                std::string nearby_string;
+                const int nearby_amount = crafting_inv.count_item( current[line]->result() );
+
+                if( nearby_amount == 0 ) {
+                    nearby_string = "<color_light_gray>0</color>";
+                } else if( nearby_amount > 9000 ) {
+                    // at some point you get too many to count at a glance and just know you have a lot
+                    nearby_string = _( "<color_red>It's Over 9000!!!</color>" );
+                } else {
+                    nearby_string = string_format( "<color_yellow>%d</color>", nearby_amount );
+                }
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                        _( "Nearby: %s" ), nearby_string );
+
                 const bool can_craft_this = available[line].can_craft;
                 if( can_craft_this && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,

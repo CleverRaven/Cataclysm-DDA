@@ -17,11 +17,10 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "string_formatter.h"
-
-extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -222,7 +221,7 @@ void JsonArray::throw_error( const std::string &err, int idx )
     if( !jsin ) {
         throw JsonError( err );
     }
-    if( idx >= 0 && size_t( idx ) < positions.size() ) {
+    if( idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error( err );

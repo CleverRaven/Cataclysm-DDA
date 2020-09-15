@@ -95,14 +95,17 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const cata::optional<tripoint> &new_loc )
+{
+    loc = new_loc;
+
+    execute();
+}
+
+void craft_command::execute()
 {
     if( empty() ) {
         return;
-    }
-
-    if( new_loc != tripoint_zero ) {
-        loc = new_loc;
     }
 
     bool need_selections = true;

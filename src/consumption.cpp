@@ -15,6 +15,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "event_bus.h"
 #include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
@@ -86,6 +87,8 @@ static const item_category_id item_category_chems( "chems" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
+
+static const mutation_category_id mutation_category_URSINE( "URSINE" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -168,20 +171,20 @@ static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
-const std::vector<std::string> carnivore_blacklist {{
+static const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
     }
 };
 // This ugly temp array is here because otherwise it goes
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
-const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
-const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+static const std::array<std::string, 2> temparray {{flag_ALLERGEN_MEAT, flag_ALLERGEN_EGG}};
+static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // Defines the maximum volume that a internal furnace can consume
-const units::volume furnace_max_volume( 3_liter );
+static const units::volume furnace_max_volume( 3_liter );
 
 // TODO: JSONize.
-const std::map<itype_id, int> plut_charges = {
+static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
     { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
@@ -869,7 +872,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 /** Eat a comestible.
 *   @return true if item consumed.
 */
-static bool eat( item &food, player &you, bool force, item_pocket *const parent_pocket )
+static bool eat( item &food, player &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -932,15 +935,9 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
     if( !you.consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
-            if( parent_pocket ) {
-                parent_pocket->unseal();
-            }
             food.mod_charges( -charges_used );
         }
         return false;
-    }
-    if( parent_pocket ) {
-        parent_pocket->unseal();
     }
     food.mod_charges( -1 );
 
@@ -1044,6 +1041,8 @@ static bool eat( item &food, player &you, bool force, item_pocket *const parent_
             you.expose_to_disease( elem.first );
         }
     }
+
+    get_event_bus().send<event_type::character_eats_item>( you.getID(), food.typeId() );
 
     if( will_vomit ) {
         you.vomit();
@@ -1241,11 +1240,11 @@ void Character::modify_morale( item &food, const int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level["URSINE"] > 40 ) {
+        mutation_category_level[mutation_category_URSINE] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
-                        mutation_category_level["URSINE"] / 12;
+                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
+                        mutation_category_level[mutation_category_URSINE] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {
@@ -1427,7 +1426,7 @@ bool Character::can_feed_reactor_with( const item &it ) const
     } );
 }
 
-bool Character::feed_reactor_with( item &it, item_pocket *const parent_pocket )
+bool Character::feed_reactor_with( item &it )
 {
     if( !can_feed_reactor_with( it ) ) {
         return false;
@@ -1448,9 +1447,6 @@ bool Character::feed_reactor_with( item &it, item_pocket *const parent_pocket )
 
     // TODO: Encapsulate
     tank_plut += amount;
-    if( parent_pocket ) {
-        parent_pocket->unseal();
-    }
     it.charges -= 1;
     mod_moves( -250 );
     return true;
@@ -1474,7 +1470,7 @@ bool Character::can_feed_furnace_with( const item &it ) const
     return !it.has_flag( flag_CORPSE );
 }
 
-bool Character::feed_furnace_with( item &it, item_pocket *const parent_pocket )
+bool Character::feed_furnace_with( item &it )
 {
     if( !can_feed_furnace_with( it ) ) {
         return false;
@@ -1526,16 +1522,13 @@ bool Character::feed_furnace_with( item &it, item_pocket *const parent_pocket )
         mod_power_level( units::from_kilojoule( profitable_energy ) );
     }
 
-    if( parent_pocket ) {
-        parent_pocket->unseal();
-    }
     it.charges -= consumed_charges;
     mod_moves( -250 );
 
     return true;
 }
 
-bool Character::fuel_bionic_with( item &it, item_pocket *const parent_pocket )
+bool Character::fuel_bionic_with( item &it )
 {
     if( !can_fuel_bionic_with( it ) ) {
         return false;
@@ -1546,9 +1539,6 @@ bool Character::fuel_bionic_with( item &it, item_pocket *const parent_pocket )
     const bool is_magazine = !!it.type->magazine;
     std::string item_name = it.tname();
     itype_id item_type = it.typeId();
-    if( parent_pocket ) {
-        parent_pocket->unseal();
-    }
     int loadable;
     if( is_magazine ) {
         const item ammo = item( it.ammo_current() );
@@ -1751,7 +1741,7 @@ time_duration Character::get_consume_time( const item &it )
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
-    } else if( it.get_category().get_id() == item_category_chems ) {
+    } else if( it.get_category_shallow().get_id() == item_category_chems ) {
         time = time_duration::from_seconds( std::max( ( volume / 15 ),
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
@@ -1793,7 +1783,7 @@ static bool query_consume_ownership( item &target, player &p )
 /** Consume medication.
 *   @return true if item consumed.
 */
-static bool consume_med( item &target, player &you, item_pocket *const parent_pocket )
+static bool consume_med( item &target, player &you )
 {
     if( !target.is_medication() ) {
         return false;
@@ -1839,15 +1829,11 @@ static bool consume_med( item &target, player &you, item_pocket *const parent_po
         you.consume_effects( target );
     }
 
-    if( parent_pocket ) {
-        parent_pocket->unseal();
-    }
-
     target.mod_charges( -amount_used );
     return true;
 }
 
-trinary player::consume( item &target, bool force, item_pocket *const parent_pocket )
+trinary player::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1868,11 +1854,13 @@ trinary player::consume( item &target, bool force, item_pocket *const parent_poc
     if( is_player() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
-    if( consume_med( target, *this, parent_pocket ) ||
-        eat( target, *this, force, parent_pocket ) ||
-        feed_reactor_with( target, parent_pocket ) ||
-        feed_furnace_with( target, parent_pocket ) ||
-        fuel_bionic_with( target, parent_pocket ) ) {
+    if( consume_med( target, *this ) ||
+        eat( target, *this, force ) ||
+        feed_reactor_with( target ) ||
+        feed_furnace_with( target ) ||
+        fuel_bionic_with( target ) ) {
+
+        get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
         target.on_contents_changed();
         return target.charges <= 0 ? trinary::ALL : trinary::SOME;
@@ -1887,15 +1875,9 @@ trinary player::consume( item_location loc, bool force )
         debugmsg( "Null loc to consume." );
         return trinary::NONE;
     }
+    handle_contents_changed_helper handler( *this, loc );
     item &target = *loc;
-    item_pocket *parent_pocket = nullptr;
-    if( loc.has_parent() ) {
-        parent_pocket = loc.parent_item()->contained_where( target );
-    }
-    bool wielding = is_wielding( target );
-    bool worn = is_worn( target );
-    const bool inv_item = !( wielding || worn );
-    trinary result = consume( target, force, parent_pocket );
+    trinary result = consume( target, force );
     if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
@@ -1903,13 +1885,9 @@ trinary player::consume( item_location loc, bool force )
             loc.remove_item();
         }
 
-    } else if( inv_item ) {
-        if( Pickup::handle_spillable_contents( *this, target, get_map() ) ) {
-            i_rem( &target );
-        }
-        inv->restack( *this );
-        inv->unsort();
     }
-
+    if( result != trinary::NONE ) {
+        handler.handle();
+    }
     return result;
 }

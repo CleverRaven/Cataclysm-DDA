@@ -16,6 +16,7 @@ add_library(
     NoStaticGettextCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
+    StaticDeclarationsCheck.cpp
     StaticStringIdConstantsCheck.cpp
     StringLiteralIterator.cpp
     TestFilenameCheck.cpp

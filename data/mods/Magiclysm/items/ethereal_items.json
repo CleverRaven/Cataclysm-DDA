@@ -662,5 +662,32 @@
         }
       ]
     }
+  },
+  {
+    "id": "dragon_shell_black",
+    "type": "ARMOR",
+    "name": "Black Dragon Shell",
+    "description": "An aura of black and green draconic energy, swirling around your body protecting you and punishing those who strike you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "symbol": "o",
+    "color": "green",
+    "coverage": 100,
+    "encumbrance": 0,
+    "warmth": 0,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "dragon_shell_retaliation_black", "hit_self": false } ]
+        }
+      ]
+    }
   }
 ]

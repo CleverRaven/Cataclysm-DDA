@@ -192,7 +192,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
 }
 } // namespace io
 
-generic_factory<mission_type> mission_type_factory( "mission_type" );
+static generic_factory<mission_type> mission_type_factory( "mission_type" );
 
 /** @relates string_id */
 template<>
