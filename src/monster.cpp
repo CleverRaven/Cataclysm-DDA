@@ -2647,7 +2647,7 @@ field_type_id monster::gibType() const
 
 creature_size monster::get_size() const
 {
-    return creature_size( type->size + size_bonus );
+    return static_cast<creature_size>( type->size + size_bonus );
 }
 
 units::mass monster::get_weight() const
