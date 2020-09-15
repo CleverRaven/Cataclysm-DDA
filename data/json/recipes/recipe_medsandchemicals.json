@@ -73,7 +73,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tallow_tainted",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",

@@ -47,7 +47,7 @@
   {
     "result": "offal_pickled",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -217,7 +217,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "V8",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -518,7 +518,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kompot",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -543,7 +543,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "id_suffix": "jarred",
@@ -567,7 +567,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "id_suffix": "jarred_3L",
@@ -1237,7 +1237,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kompot",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
