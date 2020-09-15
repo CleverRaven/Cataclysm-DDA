@@ -4,20 +4,33 @@
     "abstract": "generic_mansion",
     "name": "mansion",
     "sym": "M",
-    "color": "green",
+    "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
+    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS", "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mansion_e1", "mansion_e2" ],
-    "color": "light_green",
+    "abstract": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
+    "color": "green",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mansion_entry", "mansion_e1", "mansion_e2" ],
     "copy-from": "generic_mansion"
   },
   {
     "type": "overmap_terrain",
+    "id": [ "mansion_wild" ],
+    "color": "light_green",
+    "copy-from": "generic_mansion_no_sidewalk"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
+      "mansion_+",
       "mansion_+1",
       "mansion_+1d",
       "mansion_+1u",
@@ -31,6 +44,7 @@
       "mansion_+4u",
       "mansion_+_dn",
       "mansion_+_up",
+      "mansion_c",
       "mansion_c1",
       "mansion_c1d",
       "mansion_c1u",
@@ -54,6 +68,7 @@
       "mansion_e2u",
       "mansion_entry_dn",
       "mansion_entry_up",
+      "mansion_t",
       "mansion_t1",
       "mansion_t1d",
       "mansion_t1u",
@@ -77,6 +92,6 @@
       "mansion_wild_dn",
       "mansion_wild_up"
     ],
-    "copy-from": "generic_mansion"
+    "copy-from": "generic_mansion_no_sidewalk"
   }
 ]
