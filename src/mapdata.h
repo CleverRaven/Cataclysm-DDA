@@ -94,6 +94,12 @@ struct plant_data {
     bool load( const JsonObject &jsobj, const std::string &member );
 };
 
+struct lockpicking_open_result {
+    ter_id new_ter_type;
+    furn_id new_furn_type;
+    std::string open_message;
+};
+
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
@@ -349,6 +355,8 @@ struct ter_t : map_data_common_t {
 void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
+/** Gets lockpicked object and message */
+lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.

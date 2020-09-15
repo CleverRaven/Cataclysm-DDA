@@ -933,6 +933,41 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
+lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type )
+{
+    lockpicking_open_result result;
+
+    ter_id new_ter_type = t_null;
+    furn_id new_furn_type = f_null;
+    std::string open_message;
+    if( ter_type == t_chaingate_l ) {
+        new_ter_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the chain-link gate opens." );
+    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
+               ter_type == t_door_locked_interior ) {
+        new_ter_type = t_door_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_locked_peep ) {
+        new_ter_type = t_door_c_peep;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_metal_pickable ) {
+        new_ter_type = t_door_metal_c;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    } else if( ter_type == t_door_bar_locked ) {
+        new_ter_type = t_door_bar_o;
+        //Bar doors auto-open (and lock if closed again) so show a different message)
+        open_message = _( "The door swings open…" );
+    } else if( furn_type == f_gunsafe_ml ) {
+        new_furn_type = f_safe_o;
+        open_message = _( "With a satisfying click, the lock on the door opens." );
+    }
+
+    result.new_ter_type = new_ter_type;
+    result.new_furn_type = new_furn_type;
+    result.open_message = open_message;
+    return result;
+}
+
 furn_id f_null,
         f_hay,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,

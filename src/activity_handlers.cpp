@@ -2568,30 +2568,12 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
 
     const ter_id ter_type = g->m.ter( act->placement );
     const furn_id furn_type = g->m.furn( act->placement );
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else {
+    lockpicking_open_result lr = get_lockpicking_open_result( ter_type, furn_type );
+    ter_id new_ter_type = lr.new_ter_type;
+    furn_id new_furn_type = lr.new_furn_type;
+    std::string open_message = lr.open_message;
+
+    if( new_ter_type == t_null && new_furn_type == f_null ) {
         act->set_to_null();
     }
 

@@ -751,21 +751,37 @@ bool Character::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == bio_lockpick ) {
-        tmp_item = item( "pseudo_bio_picklock", 0 );
         g->refresh_all();
-        int charges = tmp_item.charges;
         bool used = false;
-        if( invoke_item( &tmp_item ) ) {
-            if( tmp_item.charges != charges ) {
+        bool tried_lockpick = false;
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Use your lockpick where?" ) );
+        std::string open_message;
+        if( pnt ) {
+            tried_lockpick = true;
+            ter_id ter_type = g->m.ter( *pnt );
+            furn_id furn_type = g->m.furn( *pnt );
+            lockpicking_open_result lr = get_lockpicking_open_result( ter_type, furn_type );
+            ter_id new_ter_type = lr.new_ter_type;
+            furn_id new_furn_type = lr.new_furn_type;
+            open_message = lr.open_message;
+
+            if( new_ter_type != t_null || new_furn_type != f_null ) {
+                g->m.has_furn( *pnt ) ?
+                g->m.furn_set( *pnt, new_furn_type ) :
+                static_cast<void>( g->m.ter_set( *pnt, new_ter_type ) );
                 used = true;
             }
         }
 
         if( used ) {
             add_msg_activate();
+            add_msg_if_player( m_good, open_message );
             mod_moves( -100 );
         } else {
             refund_power();
+            if( tried_lockpick ) {
+                add_msg_if_player( m_info, _( "There is nothing to lockpick nearby." ) );
+            }
             return false;
         }
     } else if( bio.id == bio_flashbang ) {
