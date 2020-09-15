@@ -1,0 +1,36 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_closures",
+    "name": { "str": "Garment Closures" },
+    "description": "You are familiar with the adjustments and tricks needed to make properly functional buttons, zippers, and other closures on garments.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_closures_waterproofing",
+    "name": { "str": "Fabric Waterproofing" },
+    "description": "You know how to making garments and fabric containers sealed against water.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_closures" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting",
+    "name": { "str": "Knitting" },
+    "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting_speed",
+    "name": { "str": "Speed Knitting" },
+    "description": "You have knitted and knitted and knitted some more, and have the consistent string tension to show for it.  When you get going, the clicking of your needles is like a metronome.",
+    "can_learn": true,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_knitting" ]
+  }
+]
