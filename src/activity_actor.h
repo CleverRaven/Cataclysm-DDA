@@ -765,7 +765,7 @@ class drop_or_stash_item_info
 {
     public:
         drop_or_stash_item_info()
-            : _loc( item_location::nowhere ), _count( 0 ) {}
+            : _loc( item_location::nowhere ) {}
         drop_or_stash_item_info( const item_location &_loc, const int _count )
             : _loc( _loc ), _count( _count ) {}
 

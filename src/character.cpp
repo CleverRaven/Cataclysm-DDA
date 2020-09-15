@@ -2947,7 +2947,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     {
         public:
             item_loc_with_depth( const item_location &_loc )
-                : _loc( _loc ), _depth( 0 ) {
+                : _loc( _loc ) {
                 item_location ancestor = _loc;
                 while( ancestor.has_parent() ) {
                     ++_depth;
