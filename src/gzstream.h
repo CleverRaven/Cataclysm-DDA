@@ -33,10 +33,8 @@
 #include <fstream>
 #include <zlib.h>
 
-#define GZSTREAM_NAMESPACE
 namespace GZSTREAM_NAMESPACE
 {
-#endif
 
 // ----------------------------------------------------------------------------
 // Internal classes to implement gzstream. See below for user classes.
@@ -127,11 +125,8 @@ class ogzstream : public gzstreambase, public std::ostream
         }
 };
 
-#ifdef GZSTREAM_NAMESPACE
 } // namespace GZSTREAM_NAMESPACE
-#endif
 
-#endif // GZSTREAM_H
 // ============================================================================
 // EOF //
 
