@@ -2,7 +2,7 @@
   {
     "result": "basket_laundry",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
