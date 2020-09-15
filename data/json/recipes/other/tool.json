@@ -335,7 +335,12 @@
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.15, "learning_time_multiplier": 0.1 }
+      {
+        "proficiency": "prof_plasticworking",
+        "required": false,
+        "time_multiplier": 1.15,
+        "learning_time_multiplier": 0.1
+      }
     ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
