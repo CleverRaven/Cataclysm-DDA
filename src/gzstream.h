@@ -1,3 +1,6 @@
+#pragma once
+#ifndef CATA_SRC_GZSTREAM_H
+#define CATA_SRC_GZSTREAM_H
 // ============================================================================
 // gzstream, C++ iostream classes wrapping the zlib compression library.
 // Copyright (C) 2001  Deepak Bandyopadhyay, Lutz Kettner
@@ -26,15 +29,10 @@
 // Standard C++ Library".
 // ============================================================================
 
-#define GZSTREAM_H 1
-
 // standard C++ with new header file names and std:: namespace
 #include <iostream>
 #include <fstream>
 #include <zlib.h>
-
-namespace GZSTREAM_NAMESPACE
-{
 
 // ----------------------------------------------------------------------------
 // Internal classes to implement gzstream. See below for user classes.
@@ -125,8 +123,6 @@ class ogzstream : public gzstreambase, public std::ostream
         }
 };
 
-} // namespace GZSTREAM_NAMESPACE
-
 // ============================================================================
 // EOF //
-
+#endif // CATA_SRC_GZSTREAM_H
