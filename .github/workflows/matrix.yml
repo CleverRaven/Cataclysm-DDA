@@ -36,10 +36,9 @@ jobs:
         SANITIZE: ${{ matrix.sanitize }}
     steps:
     - name: checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
       with:
         fetch-depth: 10
-        submodules: true
     - name: install dependencies
       run: |
           sudo apt-get update

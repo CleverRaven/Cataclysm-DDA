@@ -1,3 +1,0 @@
-[submodule "libraries/gzstream"]
-	path = libraries/gzstream
-	url = https://github.com/kanedo/gzstream.git
