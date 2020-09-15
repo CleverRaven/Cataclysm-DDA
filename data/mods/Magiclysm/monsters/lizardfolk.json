@@ -40,12 +40,11 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER_2",
       "CLIMBS",
       "GROUP_MORALE",
       "LEATHER",
       "SWIMS",
-      "ATTACKMON",
       "PUSH_MON",
       "SWARMS",
       "BONES",
@@ -134,6 +133,7 @@
     "default_faction": "lizardfolk",
     "species": [ "LIZARDFOLK" ],
     "symbol": "C",
-    "harvest": "lizardfolk"
+    "harvest": "lizardfolk",
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "GROUP_MORALE", "LEATHER", "NO_BREATHE" ]
   }
 ]

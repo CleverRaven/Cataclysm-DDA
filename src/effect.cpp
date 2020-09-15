@@ -797,7 +797,7 @@ bodypart_id effect::get_bp() const
 {
     return bp.id();
 }
-void effect::set_bp( bodypart_str_id part )
+void effect::set_bp( const bodypart_str_id &part )
 {
     bp = part;
 }

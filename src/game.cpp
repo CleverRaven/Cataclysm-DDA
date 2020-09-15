@@ -38,6 +38,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
@@ -189,9 +190,6 @@ class inventory;
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
-
-/** Will be set to true when running unit tests */
-bool test_mode = false;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -2016,34 +2014,6 @@ void game::handle_key_blocking_activity()
     }
 }
 
-void game::handle_contents_changed( const item_location &acted_item )
-{
-    if( acted_item.where() != item_location::type::container ) {
-        return;
-    }
-    item_location parent = acted_item;
-    item_pocket *pocket = nullptr;
-    Character &player_character = get_player_character();
-    do {
-        item_location child = parent;
-        parent = parent.parent_item();
-        pocket = parent->contained_where( *child );
-        parent->on_contents_changed();
-        if( pocket == nullptr ) {
-            if( acted_item ) {
-                // if the item_location expired, the parent doesn't contain it, so we can't find the pocket it was in.
-                debugmsg( "ERROR: item_location parent does not contain child item" );
-            }
-            return;
-        }
-        pocket->on_contents_changed();
-
-        if( pocket->will_spill() ) {
-            pocket->handle_liquid_or_spill( player_character );
-        }
-    } while( parent.where() == item_location::type::container );
-}
-
 static hint_rating rate_action_change_side( const avatar &you, const item &it )
 {
     if( !it.is_sided() ) {
@@ -2307,25 +2277,26 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
+            handle_contents_changed_helper handler( u, locThisItem );
             switch( cMenu ) {
                 case 'a':
                     avatar_action::use_item( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'E':
                     avatar_action::eat( u, locThisItem );
                     break;
                 case 'W':
                     u.wear( oThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'w':
                     wield( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 't':
                     avatar_action::plthrow( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'c':
                     u.change_side( locThisItem );
@@ -2335,31 +2306,31 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'U':
                     u.unload( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'r':
                     reload( locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'p':
                     reload( locThisItem, true );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'm':
                     avatar_action::mend( u, locThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'R':
                     u.read( oThisItem );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
@@ -2378,7 +2349,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
-                    handle_contents_changed( locThisItem );
+                    handler.handle();
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, oThisItem );
@@ -3724,12 +3695,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 {
     ter_view_p = center;
 
-    // TODO: Make it not rebuild the cache all the time (cache point+moves?)
-    if( !looking ) {
-        // If we're looking, the cache is built at start (entering looking mode)
-        m.build_map_cache( center.z );
-    }
-
     m.draw( w_terrain, center );
 
     if( draw_sounds ) {
@@ -4199,8 +4164,8 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = ( width / 3 ) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    //for the alignment of the 1,2,3 rows on the right edge
-    xcoords[2] -= utf8_width( _( "East:" ) ) - utf8_width( _( "NE:" ) );
+    //for the alignment of the 1,2,3 rows on the right edge (East - NE)
+    xcoords[2] -= widths[2] - widths[1];
     for( int i = 0; i < 8; i++ ) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dark_gray
                      : ( dangerous[i] ? c_light_red : c_light_gray );
@@ -7209,6 +7174,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_lighting();
             }
+        } else if( action == "debug_transparency" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_transparency();
+            }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
@@ -7789,7 +7758,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty() || !activeItem || filter_type;
-        draw_custom_border( w_item_info, bDrawLeft, true, true, true, LINE_XXXO, LINE_XOXX, true, true );
+        draw_custom_border( w_item_info, bDrawLeft, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
@@ -7935,7 +7904,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             std::string last_cat_name;
             for( int i = std::max( 0, highPEnd );
                  i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
-                const std::string &cat_name = filtered_items[i].example->get_category().name();
+                const std::string &cat_name =
+                    filtered_items[i].example->get_category_of_contents().name();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
@@ -8104,9 +8074,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( !hide_ui ) {
-            draw_custom_border( w_monsters_border, true, true, true, true, true, true, LINE_XOXO, LINE_XOXO );
-            draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
-                                true );
+            draw_custom_border( w_monsters_border, 1, 1, 1, 1, 1, 1, LINE_XOXO, LINE_XOXO );
+            draw_custom_border( w_monster_info_border, 1, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
             mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
             wprintz( w_monsters_border, c_white, _( "Monsters" ) );
@@ -8244,8 +8213,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     cCurMon->print_info( w_monster_info, 1, iInfoHeight - 3, 1 );
                 }
 
-                draw_custom_border( w_monster_info_border, true, true, true, true, LINE_XXXO, LINE_XOXX, true,
-                                    true );
+                draw_custom_border( w_monster_info_border, 1, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
                 if( bVMonsterLookFire ) {
                     mvwprintw( w_monster_info_border, point_east, "< " );
@@ -10827,17 +10795,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
     }
-    if( u.is_mounted() ) {
-        if( stored_mount ) {
-            cata_assert( !here.has_zlevels() );
-            stored_mount->spawn( u.pos() );
-            if( critter_tracker->add( stored_mount ) ) {
-                u.mounted_creature = stored_mount;
-            }
-        } else {
-            u.mounted_creature->setpos( u.pos() );
-        }
-    }
+
     // if an NPC or monster is on the stiars when player ascends/descends
     // they may end up merged on th esame tile, do some displacement to resolve that.
     // if, in the weird case of it not being possible to displace;
@@ -10884,6 +10842,20 @@ void game::vertical_move( int movez, bool force, bool peeking )
             debugmsg( "Failed to find a spot to displace into." );
         }
     }
+
+    // Now that we know the player's destination position, we can move their mount as well
+    if( u.is_mounted() ) {
+        if( stored_mount ) {
+            cata_assert( !here.has_zlevels() );
+            stored_mount->spawn( u.pos() );
+            if( critter_tracker->add( stored_mount ) ) {
+                u.mounted_creature = stored_mount;
+            }
+        } else {
+            u.mounted_creature->setpos( u.pos() );
+        }
+    }
+
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
         std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
@@ -11808,6 +11780,13 @@ void game::display_radiation()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+    }
+}
+
+void game::display_transparency()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
     }
 }
 

@@ -85,7 +85,6 @@
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_darkness( "darkness" );
@@ -119,13 +118,11 @@ static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
-static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
@@ -150,16 +147,12 @@ static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
-static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -179,7 +172,6 @@ static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_speed( "bio_speed" );
-static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 stat_mod player::get_pain_penalty() const
 {
@@ -258,8 +250,11 @@ player::player()
         vitamin_levels[ v.first ] = 0;
     }
 
-    recalc_sight_limits();
-    calc_encumbrance();
+    // Only call these if game is initialized
+    if( !!g ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 }
 
 player::~player() = default;
@@ -514,18 +509,6 @@ void player::recalc_speed_bonus()
     }
 }
 
-float player::stability_roll() const
-{
-    /** @EFFECT_STR improves player stability roll */
-
-    /** @EFFECT_PER slightly improves player stability roll */
-
-    /** @EFFECT_DEX slightly improves player stability roll */
-
-    /** @EFFECT_MELEE improves player stability roll */
-    return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
-}
-
 double player::recoil_vehicle() const
 {
     // TODO: vary penalty dependent upon vehicle part on which player is boarded
@@ -584,67 +567,6 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
                                        rng( -1, 1 ) * error_magnitude *
                                        rng( 0, std::max( 0, threshold - skill_lvl ) ) );
     return estimate;
-}
-
-bool player::has_conflicting_trait( const trait_id &flag ) const
-{
-    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
-             has_same_type_trait( flag ) );
-}
-
-bool player::has_lower_trait( const trait_id &flag ) const
-{
-    for( const trait_id &i : flag->prereqs ) {
-        if( has_trait( i ) || has_lower_trait( i ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::has_higher_trait( const trait_id &flag ) const
-{
-    for( const auto &i : flag->replacements ) {
-        if( has_trait( i ) || has_higher_trait( i ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::has_same_type_trait( const trait_id &flag ) const
-{
-    for( auto &i : get_mutations_in_types( flag->types ) ) {
-        if( has_trait( i ) && flag != i ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool player::purifiable( const trait_id &flag ) const
-{
-    return flag->purifiable;
-}
-
-/// Returns a randomly selected dream
-std::string player::get_category_dream( const std::string &cat,
-                                        int strength ) const
-{
-    std::vector<dream> valid_dreams;
-    //Pull the list of dreams
-    for( auto &i : dreams ) {
-        //Pick only the ones matching our desired category and strength
-        if( ( i.category == cat ) && ( i.strength == strength ) ) {
-            // Put the valid ones into our list
-            valid_dreams.push_back( i );
-        }
-    }
-    if( valid_dreams.empty() ) {
-        return "";
-    }
-    const dream &selected_dream = random_entry( valid_dreams );
-    return random_entry( selected_dream.messages() );
 }
 
 std::list<item *> player::get_radio_items()
@@ -861,150 +783,6 @@ void player::search_surroundings()
             add_known_trap( tp, tr );
         }
     }
-}
-
-bool player::is_dead_state() const
-{
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
-}
-
-void player::on_dodge( Creature *source, float difficulty )
-{
-    static const matec_id tec_none( "tec_none" );
-
-    // Each avoided hit consumes an available dodge
-    // When no more available we are likely to fail player::dodge_roll
-    dodges_left--;
-
-    // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
-    if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
-        recoil = std::min( MAX_RECOIL, recoil );
-    }
-
-    // Even if we are not to train still call practice to prevent skill rust
-    difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, difficulty * 2, difficulty );
-
-    martial_arts_data->ma_ondodge_effects( *this );
-
-    // For adjacent attackers check for techniques usable upon successful dodge
-    if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
-
-        if( tec != tec_none && !is_dead_state() ) {
-            if( get_stamina() < get_stamina_max() / 3 ) {
-                add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
-            } else {
-                melee_attack( *source, false, tec );
-            }
-        }
-    }
-}
-
-void player::on_hit( Creature *source, bodypart_id bp_hit,
-                     float /*difficulty*/, dealt_projectile_attack const *const proj )
-{
-    check_dead_state();
-    if( source == nullptr || proj != nullptr ) {
-        return;
-    }
-
-    bool u_see = get_player_view().sees( *this );
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
-        if( is_player() ) {
-            add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
-                     source->disp_name() );
-        } else if( u_see ) {
-            add_msg( _( "%1$s's offensive defense system shocks %2$s in mid-attack!" ),
-                     disp_name(),
-                     source->disp_name() );
-        }
-        int shock = rng( 1, 4 );
-        mod_power_level( units::from_kilojoule( -shock ) );
-        damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage( damage_type::ELECTRIC, shock * 5 );
-        // Should hit body part used for attack
-        source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
-    }
-    if( !wearing_something_on( bp_hit ) &&
-        ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
-        int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
-        if( !is_player() ) {
-            if( u_see ) {
-                add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), name,
-                         ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
-                         source->disp_name() );
-            }
-        } else {
-            add_msg( m_good, _( "Your %1$s puncture %2$s in mid-attack!" ),
-                     ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
-                     source->disp_name() );
-        }
-        damage_instance spine_damage;
-        spine_damage.add_damage( damage_type::STAB, spine );
-        source->deal_damage( this, bodypart_id( "torso" ), spine_damage );
-    }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_THORNS ) ) &&
-        ( !( source->has_weapon() ) ) ) {
-        if( !is_player() ) {
-            if( u_see ) {
-                add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), name,
-                         _( "thorns" ), source->disp_name() );
-            }
-        } else {
-            add_msg( m_good, _( "Your thorns scrape %s in mid-attack!" ), source->disp_name() );
-        }
-        int thorn = rng( 1, 4 );
-        damage_instance thorn_damage;
-        thorn_damage.add_damage( damage_type::CUT, thorn );
-        // In general, critters don't have separate limbs
-        // so safer to target the torso
-        source->deal_damage( this, bodypart_id( "torso" ), thorn_damage );
-    }
-    if( ( !( wearing_something_on( bp_hit ) ) ) && ( has_trait( trait_CF_HAIR ) ) ) {
-        if( !is_player() ) {
-            if( u_see ) {
-                add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
-                         name, ( _( "hair" ) ) );
-            }
-        } else {
-            add_msg( m_good, _( "Your hairs detach into %s!" ), source->disp_name() );
-        }
-        source->add_effect( effect_stunned, 2_turns );
-        if( one_in( 3 ) ) { // In the eyes!
-            source->add_effect( effect_blind, 2_turns );
-        }
-    }
-    if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
-        int rolls = 4;
-        if( worn_with_flag( "ROLLER_ONE" ) ) {
-            rolls += 2;
-        }
-        if( has_trait( trait_PROF_SKATER ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_DEFT ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_CLUMSY ) ) {
-            rolls++;
-        }
-
-        if( stability_roll() < dice( rolls, 10 ) ) {
-            if( !is_player() ) {
-                if( u_see ) {
-                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
-                }
-            } else {
-                add_msg( m_bad, _( "You lose your balance while being hit!" ) );
-            }
-            // This kind of downing is not subject to immunity.
-            add_effect( effect_downed, 2_turns, false, 0, true );
-        }
-    }
-    Character::on_hit( source, bp_hit, 0.0f, proj );
 }
 
 int player::get_lift_assist() const
@@ -1647,21 +1425,9 @@ void player::process_effects()
 
 double player::vomit_mod()
 {
-    double mod = 1;
+    double mod = mutation_value( "vomit_multiplier" );
     if( has_effect( effect_weed_high ) ) {
         mod *= .1;
-    }
-    if( has_trait( trait_STRONGSTOMACH ) ) {
-        mod *= .5;
-    }
-    if( has_trait( trait_WEAKSTOMACH ) ) {
-        mod *= 2;
-    }
-    if( has_trait( trait_NAUSEA ) ) {
-        mod *= 3;
-    }
-    if( has_trait( trait_VOMITOUS ) ) {
-        mod *= 3;
     }
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
@@ -1678,7 +1444,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void player::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
         remove_weapon();
     }
 
@@ -2676,8 +2442,9 @@ bool player::unload( item_location &loc, bool bypass_activity )
     std::vector<item *> opts( 1, &it );
 
     for( item *e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
         }
@@ -2701,27 +2468,29 @@ bool player::unload( item_location &loc, bool bypass_activity )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
-        add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
-        return false;
-    }
-
-    if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
-            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
-        } else {
+    if( !target->has_flag( "BRASS_CATCHER" ) ) {
+        if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+            return false;
         }
-        return false;
-    }
 
-    if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
-        if( target->is_tool() ) {
-            add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
-        } else {
-            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
+        if( target->has_flag( "NO_UNLOAD" ) ) {
+            if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+                add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
+            } else {
+                add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
+            }
+            return false;
         }
-        return false;
+
+        if( !target->magazine_current() && target->ammo_remaining() <= 0 && target->casings_count() <= 0 ) {
+            if( target->is_tool() ) {
+                add_msg( m_info, _( "Your %s isn't charged." ), target->tname() );
+            } else {
+                add_msg( m_info, _( "Your %s isn't loaded." ), target->tname() );
+            }
+            return false;
+        }
     }
 
     target->casings_handle( [&]( item & e ) {
@@ -2781,6 +2550,8 @@ bool player::unload( item_location &loc, bool bypass_activity )
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
+    } else if( target->has_flag( "BRASS_CATCHER" ) ) {
+        target->spill_contents( get_player_character() );
     }
 
     // Turn off any active tools
@@ -3464,39 +3235,6 @@ nc_color encumb_color( int level )
         return c_light_red;
     }
     return c_red;
-}
-
-float player::get_melee() const
-{
-    return get_skill_level( skill_id( "melee" ) );
-}
-
-bool player::uncanny_dodge()
-{
-    bool is_u = is_avatar();
-    bool seen = get_player_view().sees( *this );
-    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
-        return false;
-    }
-    tripoint adjacent = adjacent_tile();
-    mod_power_level( -75_kJ );
-    if( adjacent.x != posx() || adjacent.y != posy() ) {
-        position.x = adjacent.x;
-        position.y = adjacent.y;
-        if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
-        } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
-
-        }
-        return true;
-    }
-    if( is_u ) {
-        add_msg( _( "You try to dodge but there's no room!" ) );
-    } else if( seen ) {
-        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
-    }
-    return false;
 }
 
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const

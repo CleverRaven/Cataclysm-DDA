@@ -348,9 +348,10 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
         if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                                        "\nRoster:\n" );
+            const std::string entry_suffix = _( " [READY]\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
+                    entry_aux = entry_aux + "  " + elem->name + entry_suffix;
                 }
             }
             entry_aux = entry_aux + _( "\n\n"

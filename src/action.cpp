@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
@@ -47,8 +48,8 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
-void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                   std::set<action_id> &unbound_keymap );
+static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
+                          std::set<action_id> &unbound_keymap );
 
 void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,
@@ -327,6 +328,8 @@ std::string action_ident( action_id act )
             return "debug_vehicle_ai";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_TRANSPARENCY:
+            return "debug_transparency";
         case ACTION_DISPLAY_LIGHTING:
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
@@ -441,6 +444,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_VISIBILITY:
         case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
+        case ACTION_DISPLAY_TRANSPARENCY:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -874,6 +878,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_VEHICLE_AI );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
+            REGISTER_ACTION( ACTION_DISPLAY_TRANSPARENCY );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {

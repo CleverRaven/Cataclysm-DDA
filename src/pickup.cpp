@@ -1075,27 +1075,6 @@ void show_pickup_message( const PickupMap &mapPickup )
     }
 }
 
-bool Pickup::handle_spillable_contents( Character &c, item &it, map &m )
-{
-    if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c, /*avoid=*/&it );
-
-        // If bucket is still not empty then player opted not to handle the
-        // rest of the contents
-        if( !it.contents.empty() ) {
-            c.add_msg_player_or_npc(
-                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
-            );
-            m.add_item_or_charges( c.pos(), it );
-            return true;
-        }
-    }
-
-    return false;
-}
-
 int Pickup::cost_to_move_item( const Character &who, const item &it )
 {
     // Do not involve inventory capacity, it's not like you put it in backpack

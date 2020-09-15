@@ -4004,14 +4004,8 @@ void iexamine::curtains( player &p, const tripoint &examp )
         p.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
-        if( ter == t_window_domestic || ter == t_curtains ) {
-            here.ter_set( examp, t_window_no_curtains );
-        } else if( ter == t_window_open ) {
-            here.ter_set( examp, t_window_no_curtains_open );
-        } else if( ter == t_window_domestic_taped ) {
-            here.ter_set( examp, t_window_no_curtains_taped );
-        } else if( ter == t_window_bars_domestic || ter == t_window_bars_curtains ) {
-            here.ter_set( examp, t_window_bars );
+        if( here.ter( examp )->has_curtains() ) {
+            here.ter_set( examp, here.ter( examp )->curtain_transform );
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );

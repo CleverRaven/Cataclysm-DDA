@@ -25,7 +25,7 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
-bool monster_whitelist_is_exclusive = false;
+static bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>

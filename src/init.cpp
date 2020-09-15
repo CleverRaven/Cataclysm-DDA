@@ -191,8 +191,6 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions

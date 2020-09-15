@@ -215,8 +215,8 @@ TEST_CASE( "snippet-tag-test" )
  * A is acid with NPC on it, W/M is vehicle & acid with (follower/non-follower) NPC on it,
  * B/C is acid with (follower/non-follower) NPC on it.
  */
-constexpr int height = 5, width = 17;
-constexpr char setup[height][width + 1] = {
+static constexpr int height = 5, width = 17;
+static constexpr char setup[height][width + 1] = {
     "U ###############",
     "V #R#AAA#W# # #C#",
     "  #A#A#A# #M#B# #",

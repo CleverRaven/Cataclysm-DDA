@@ -9,20 +9,20 @@ import subprocess
 LINE_LIMIT = 58
 
 def get_data(argsDict, resource_name):
-   resource = []
-   resource_sources = argsDict.get(resource_name, [])
-   if not isinstance(resource_sources, list):
-       resource_sources = [resource_sources]
-   for resource_filename in resource_sources:
-       if resource_filename.endswith(".json"):
-          try:
-              with open(resource_filename) as resource_file:
-                  resource += json.load(resource_file)
-          except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
-       else:
-           print("Invalid filename {}".format(resource_filename))
-   return resource
+    resource = []
+    resource_sources = argsDict.get(resource_name, [])
+    if not isinstance(resource_sources, list):
+        resource_sources = [resource_sources]
+    for resource_filename in resource_sources:
+        if resource_filename.endswith(".json"):
+            try:
+                with open(resource_filename) as resource_file:
+                    resource += json.load(resource_file)
+            except FileNotFoundError:
+                exit("Failed: could not find {}".format(resource_filename))
+        else:
+            print("Invalid filename {}".format(resource_filename))
+    return resource
 
 
 # stupid stinking Python 2 versus Python 3 syntax

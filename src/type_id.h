@@ -146,6 +146,9 @@ using start_location_id = string_id<start_location>;
 class move_mode;
 using move_mode_id = string_id<move_mode>;
 
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
+
 class proficiency;
 using proficiency_id = string_id<proficiency>;
 

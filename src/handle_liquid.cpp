@@ -292,14 +292,16 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         return false;
     }
 
-    menu.query();
-    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
-        add_msg( _( "Never mind." ) );
-        // Explicitly canceled all options (container, drink, pour).
-        return false;
-    }
+    while( target.dest_opt == LD_NULL ) {
+        menu.query();
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
+            add_msg( _( "Never mind." ) );
+            // Explicitly canceled all options (container, drink, pour).
+            return false;
+        }
 
-    actions[menu.ret]();
+        actions[menu.ret]();
+    }
     return true;
 }
 

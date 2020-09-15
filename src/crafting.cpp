@@ -193,22 +193,23 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const item &craft, const tripoint &loc )
+static float workbench_crafting_speed_multiplier( const item &craft,
+        const cata::optional<tripoint> &loc )
 {
     float multiplier;
     units::mass allowed_mass;
     units::volume allowed_volume;
 
     map &here = get_map();
-    if( loc == tripoint_zero ) {
-        // tripoint_zero indicates crafting from inventory
+    if( !loc ) {
+        // cata::nullopt indicates crafting from inventory
         // Use values from f_fake_bench_hands
         const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
     } else if( const cata::optional<vpart_reference> vp = here.veh_at(
-                   loc ).part_with_feature( "WORKBENCH", true ) ) {
+                   *loc ).part_with_feature( "WORKBENCH", true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
         if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
@@ -219,9 +220,9 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
             debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
             return 0.0f;
         }
-    } else if( here.furn( loc ).obj().workbench ) {
+    } else if( here.furn( *loc ).obj().workbench ) {
         // Furniture workbench
-        const furn_t &f = here.furn( loc ).obj();
+        const furn_t &f = here.furn( *loc ).obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
@@ -258,7 +259,8 @@ float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress 
     return result;
 }
 
-float Character::crafting_speed_multiplier( const item &craft, const tripoint &loc ) const
+float Character::crafting_speed_multiplier( const item &craft,
+        const cata::optional<tripoint> &loc ) const
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -315,7 +317,7 @@ bool Character::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-void Character::craft( const tripoint &loc )
+void Character::craft( const cata::optional<tripoint> &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
@@ -326,7 +328,7 @@ void Character::craft( const tripoint &loc )
     }
 }
 
-void Character::recraft( const tripoint &loc )
+void Character::recraft( const cata::optional<tripoint> &loc )
 {
     if( lastrecipe.str().empty() ) {
         popup( _( "Craft something first" ) );
@@ -335,7 +337,7 @@ void Character::recraft( const tripoint &loc )
     }
 }
 
-void Character::long_craft( const tripoint &loc )
+void Character::long_craft( const cata::optional<tripoint> &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
@@ -587,18 +589,20 @@ void Character::invalidate_crafting_inventory()
     cached_time = calendar::before_time_starts;
 }
 
-void Character::make_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
+void Character::make_craft( const recipe_id &id_to_make, int batch_size,
+                            const cata::optional<tripoint> &loc )
 {
     make_craft_with_command( id_to_make, batch_size, false, loc );
 }
 
-void Character::make_all_craft( const recipe_id &id_to_make, int batch_size, const tripoint &loc )
+void Character::make_all_craft( const recipe_id &id_to_make, int batch_size,
+                                const cata::optional<tripoint> &loc )
 {
     make_craft_with_command( id_to_make, batch_size, true, loc );
 }
 
 void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
-        const tripoint &loc )
+        const cata::optional<tripoint> &loc )
 {
     const auto &recipe_to_make = *id_to_make;
 
@@ -732,7 +736,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
     }
 }
 
-void Character::start_craft( craft_command &command, const tripoint &loc )
+void Character::start_craft( craft_command &command, const cata::optional<tripoint> &loc )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -754,7 +758,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
 
     // Check if we are standing next to a workbench. If so, just use that.
     float best_bench_multi = 0.0f;
-    tripoint target = loc;
+    cata::optional<tripoint> target = loc;
     map &here = get_map();
     for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
         if( here.dangerous_field_at( adj ) ) {
@@ -779,7 +783,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
     }
 
     // Crafting without a workbench
-    if( target == tripoint_zero ) {
+    if( !target ) {
         if( !has_two_arms() ) {
             craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
         } else if( !is_armed() ) {
@@ -837,7 +841,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
         }
     } else {
         // We have a workbench, put the item there.
-        craft_in_world = set_item_map_or_vehicle( *this, target, craft );
+        craft_in_world = set_item_map_or_vehicle( *this, *target, craft );
     }
 
     if( !craft_in_world.get_item() ) {
@@ -1148,7 +1152,7 @@ void item::inherit_flags( const std::list<item> &parents, const recipe &making )
     }
 }
 
-void Character::complete_craft( item &craft, const tripoint &loc )
+void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1282,10 +1286,10 @@ void Character::complete_craft( item &craft, const tripoint &loc )
 
         if( newit.made_of( phase_id::LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
+        } else if( !loc && !is_armed() && can_wield( newit ).success() ) {
             wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, loc, newit );
+            set_item_map_or_vehicle( *this, loc.value_or( pos() ), newit );
         }
     }
 
@@ -1305,10 +1309,10 @@ void Character::complete_craft( item &craft, const tripoint &loc )
             bp.set_owner( get_faction()->id );
             if( bp.made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
-            } else if( loc == tripoint_zero ) {
+            } else if( !loc ) {
                 set_item_inventory( *this, bp );
             } else {
-                set_item_map_or_vehicle( *this, loc, bp );
+                set_item_map_or_vehicle( *this, loc.value_or( pos() ), bp );
             }
         }
     }

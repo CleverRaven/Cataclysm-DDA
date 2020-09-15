@@ -50,17 +50,11 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -933,6 +927,7 @@ class game
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
             { ACTION_DISPLAY_RADIATION, false },
+            { ACTION_DISPLAY_TRANSPARENCY, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
@@ -940,6 +935,7 @@ class game
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
+        void display_transparency(); // Displays transparency map
 
         Creature *is_hostile_within( int distance );
 
@@ -1104,9 +1100,6 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
-
-        /** Call on_contents_changed() for the location's parent and all the way up the chain.*/
-        static void handle_contents_changed( const item_location &acted_item );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

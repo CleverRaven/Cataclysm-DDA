@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "action.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -78,8 +79,6 @@ bool is_mouse_enabled()
     return true;
 #endif
 }
-
-extern bool keycode_mode;
 
 bool is_keycode_mode_supported()
 {
@@ -475,8 +474,8 @@ void input_manager::add_mouse_keycode_pair( const int ch, const std::string &nam
     mouse_keyname_to_keycode[name] = ch;
 }
 
-constexpr int char_key_beg = ' ';
-constexpr int char_key_end = '~';
+static constexpr int char_key_beg = ' ';
+static constexpr int char_key_end = '~';
 
 void input_manager::init_keycode_mapping()
 {
@@ -846,11 +845,11 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     }
 }
 
-const std::string CATA_ERROR = "ERROR";
-const std::string ANY_INPUT = "ANY_INPUT";
-const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
-const std::string COORDINATE = "COORDINATE";
-const std::string TIMEOUT = "TIMEOUT";
+static const std::string CATA_ERROR = "ERROR";
+static const std::string ANY_INPUT = "ANY_INPUT";
+static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
+static const std::string COORDINATE = "COORDINATE";
+static const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -1011,13 +1010,14 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
+    const std::string separator = _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         rval += inputs_to_show[i].long_description();
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval += _( " or " );
+            rval += separator;
         } else if( i + 1 < inputs_to_show.size() ) {
             rval += ", ";
         }
@@ -1213,7 +1213,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 // Custom set of hotkeys that explicitly don't include the hardcoded
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
-const std::string display_help_hotkeys =
+static const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
 action_id input_context::display_menu( const bool permit_execute_action )
@@ -1668,12 +1668,13 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
+    const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
         keyed += events[j].long_description();
 
         if( j + 1 < events.size() ) {
-            keyed += _( " or " );
+            keyed += separator;
         }
     }
     keyed += key_bound_suf;

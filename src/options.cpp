@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <type_traits>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -48,15 +49,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-
-bool use_tiles;
-bool log_from_top;
-int message_ttl;
-int message_cooldown;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
-bool keycode_mode;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -2115,8 +2107,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
-         translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
+    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wandering hordes" ),
+         translate_marker( "Emulation of zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
          false
        );
 

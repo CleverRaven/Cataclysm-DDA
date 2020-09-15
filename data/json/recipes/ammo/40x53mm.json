@@ -2,6 +2,7 @@
   {
     "result": "40x53mm_buckshot_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -26,6 +27,7 @@
   {
     "result": "40x53mm_slug_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -50,6 +52,7 @@
   {
     "result": "40x53mm_flechette_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
