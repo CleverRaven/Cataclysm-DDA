@@ -1,0 +1,32 @@
+[flake8]
+exclude = .git,__pycache__,lang/json
+ignore =
+    # The following errors were present when starting to use flake8; they need
+    # to be triaged to determine which we should fix and which we should leave
+    # permanently ignored
+    E111,
+    E123,
+    E128,
+    E131,
+    E201,
+    E202,
+    E225,
+    E231,
+    E241,
+    E261,
+    E262,
+    E265,
+    E266,
+    E302,
+    E305,
+    E501,
+    E713,
+    E722,
+    E731,
+    F821,
+    F841,
+    W291,
+    W391,
+    W503,
+    W504,
+    W605
