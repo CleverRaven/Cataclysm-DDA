@@ -23,8 +23,8 @@
     "type": "BOOK",
     "looks_like": "glassblowing_book",
     "name": {
-      "str": "Plastics & Polymers: Projects for the Classroom",
-      "str_pl": "Plastics & Polymers: Projects for the Classroom"
+      "str_sp": "Plastics & Polymers: Projects for the Classroom",
+      "str_pl": "copies of Plastics & Polymers: Projects for the Classroom"
     },
     "description": "A textbook that goes through types and material properties of various common plastics, and how to use them in several common projects.",
     "weight": "1620 g",
