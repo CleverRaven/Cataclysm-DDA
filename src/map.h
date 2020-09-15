@@ -256,14 +256,13 @@ class map
 
         void set_seen_cache_dirty( const tripoint change_location ) {
             if( inbounds_z( change_location.z ) ) {
-                std::unique_ptr<level_cache> cache =
-                    std::make_unique<level_cache>( get_cache( change_location.z ) );
-                if( cache->seen_cache_dirty ) {
+                level_cache &cache = get_cache( change_location.z );
+                if( cache.seen_cache_dirty ) {
                     return;
                 }
                 if( change_location == tripoint_zero ||
-                    cache->seen_cache[change_location.x][change_location.y] != 0.0 ) {
-                    cache->seen_cache_dirty = true;
+                    cache.seen_cache[change_location.x][change_location.y] != 0.0 ) {
+                    cache.seen_cache_dirty = true;
                 }
             }
         }
