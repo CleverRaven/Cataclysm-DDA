@@ -693,9 +693,9 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
         path_type &ptype )
 {
     std::vector<tripoint> path;
-    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
-    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+    constexpr int RADIUS = 4;            // Maximal radius of search (in overmaps)
+    constexpr int OX = RADIUS * OMAPX;   // half-width of the area to search in
+    constexpr int OY = RADIUS * OMAPY;   // half-height of the area to search in
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return path;
     }

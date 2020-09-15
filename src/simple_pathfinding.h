@@ -80,17 +80,16 @@ path find_path( const point &source,
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<node, std::vector<node>> nodes[2];
+    std::priority_queue<node, std::vector<node>> nodes;
 
-    int i = 0;
-    nodes[i].push( first_node );
+    nodes.push( first_node );
     open[map_index( source )] = std::numeric_limits<int>::max();
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
-    while( !nodes[i].empty() ) {
-        const node mn( nodes[i].top() ); // get the best-looking node
+    while( !nodes.empty() ) {
+        const node mn( nodes.top() ); // get the best-looking node
 
-        nodes[i].pop();
+        nodes.pop();
         // mark it visited
         closed[map_index( mn.pos )] = true;
 
@@ -98,7 +97,7 @@ path find_path( const point &source,
         if( mn.pos == dest ) {
             point p = mn.pos;
 
-            res.nodes.reserve( nodes[i].size() );
+            res.nodes.reserve( nodes.size() );
 
             while( p != source ) {
                 const int n = map_index( p );
@@ -132,25 +131,8 @@ path find_path( const point &source,
             if( open[n] == 0 || open[n] > cn.priority ) {
                 // Note: Only works if the offsets are CW/CCW!
                 dirs[n] = ( dir + offsets.size() / 2 ) % offsets.size();
-
-                if( open[n] != 0 ) {
-                    while( nodes[i].top().pos != p ) {
-                        nodes[1 - i].push( nodes[i].top() );
-                        nodes[i].pop();
-                    }
-                    nodes[i].pop();
-
-                    if( nodes[i].size() > nodes[1 - i].size() ) {
-                        i = 1 - i;
-                    }
-                    while( !nodes[i].empty() ) {
-                        nodes[1 - i].push( nodes[i].top() );
-                        nodes[i].pop();
-                    }
-                    i = 1 - i;
-                }
                 open[n] = cn.priority;
-                nodes[i].push( cn );
+                nodes.push( cn );
             }
         }
     }
