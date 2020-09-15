@@ -26,7 +26,6 @@
 // Standard C++ Library".
 // ============================================================================
 
-#ifndef GZSTREAM_H
 #define GZSTREAM_H 1
 
 // standard C++ with new header file names and std:: namespace
@@ -34,7 +33,7 @@
 #include <fstream>
 #include <zlib.h>
 
-#ifdef GZSTREAM_NAMESPACE
+#define GZSTREAM_NAMESPACE
 namespace GZSTREAM_NAMESPACE
 {
 #endif
@@ -68,13 +67,13 @@ class gzstreambuf : public std::streambuf
         }
         gzstreambuf *open( const char *name, int open_mode );
         gzstreambuf *close();
-        ~gzstreambuf() {
+        ~gzstreambuf() override {
             close();
         }
 
-        virtual int     overflow( int c = EOF ) override;
-        virtual int     underflow() override;
-        virtual int     sync() override;
+        int     overflow( int c = EOF ) override;
+        int     underflow() override;
+        int     sync() override;
 };
 
 class gzstreambase : virtual public std::ios
@@ -86,7 +85,7 @@ class gzstreambase : virtual public std::ios
             init( &buf );
         }
         gzstreambase( const char *name, int open_mode );
-        ~gzstreambase();
+        ~gzstreambase() override;
         void open( const char *name, int open_mode );
         void close();
         gzstreambuf *rdbuf() {
