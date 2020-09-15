@@ -256,7 +256,7 @@ class map
 
         void set_seen_cache_dirty( const tripoint change_location ) {
             if( inbounds_z( change_location.z ) ) {
-                level_cache cache = get_cache( change_location.z );
+                level_cache &cache = get_cache( change_location.z );
                 if( cache.seen_cache_dirty ) {
                     return;
                 }
