@@ -4,6 +4,10 @@
 import biplist
 import os.path
 
+# defines is provided by dmgbuild, but pretend to define it here for the
+# beneit of linting tools.
+defines = defines # noqa: F821
+
 # .. Useful stuff ..............................................................
 
 application = defines.get('app', 'Cataclysm.app')
