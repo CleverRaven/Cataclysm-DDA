@@ -369,6 +369,8 @@ IF(USE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
 add_subdirectory(src)
+add_executable(gzstream gzstream.cpp)
+target_link_libraries(gzstream z)
 add_subdirectory(data)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
