@@ -20,4 +20,4 @@ jobs:
     - name: install dependencies
       run: sudo apt-get install flake8
     - name: run Flake8
-      run: flake8
+      run: make python-check
