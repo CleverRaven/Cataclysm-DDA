@@ -106,8 +106,7 @@ WARNINGS = \
   -Wpedantic \
   -Wsuggest-override \
   -Wunused-macros \
-  -Wzero-as-null-pointer-constant \
-  -Wno-unknown-warning-option
+  -Wzero-as-null-pointer-constant
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
