@@ -72,6 +72,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_scutellosaurus",
+    "name": "scutellosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_scutellosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_stegosaurus",
     "name": "stegosaurus egg",
     "copy-from": "egg_dino",
@@ -156,6 +163,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_maiasaura",
+    "name": "maiasaura egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_maiasaura"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_parasaurolophus",
     "name": "parasaurolophus egg",
     "copy-from": "egg_dino",
@@ -202,6 +216,13 @@
     "name": "eoraptor egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_eoraptor"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coelophysis",
+    "name": "coelophysis egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_coelophysis"
   },
   {
     "type": "COMESTIBLE",
