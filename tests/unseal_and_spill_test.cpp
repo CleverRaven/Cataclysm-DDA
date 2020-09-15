@@ -193,10 +193,22 @@ item *item_pointer( item &it )
     return &it;
 }
 
+template < typename Parent,
+           std::enable_if_t < !std::is_same<std::decay_t<Parent>, item_location>::value, int > = 0 >
+item_location container_from_parent( Parent && )
+{
+    return item_location::nowhere;
+}
+
+item_location container_from_parent( const item_location &loc )
+{
+    return loc;
+}
+
 void match( item_location loc, const final_result &result );
 
-template<typename Container>
-void match( item_location container, Container &&contents,
+template<typename Parent, typename Container>
+void match( Parent &&parent, Container &&contents,
             std::vector<final_result> content_results )
 {
     CHECK( content_results.size() == contents.size() );
@@ -204,7 +216,7 @@ void match( item_location container, Container &&contents,
         item *content = item_pointer( content_maybe_pointer );
         if( content ) {
             INFO( "looking for match in expected result: id = " + content->typeId().str() );
-            item_location content_loc( container, content );
+            item_location content_loc( parent, content );
             bool found = false;
             for( auto it = content_results.begin(); it != content_results.end(); ++it ) {
                 const final_result &content_result = *it;
@@ -212,6 +224,7 @@ void match( item_location container, Container &&contents,
                 // Maybe use notes as unique ids instead?
                 if( content->typeId() == content_result.id ) {
                     match( content_loc, content_result );
+                    item_location container = container_from_parent( parent );
                     if( container ) {
                         item_pocket *pocket = container->contained_where( *content );
                         REQUIRE( pocket );
@@ -491,6 +504,9 @@ void test_scenario::run()
 
     cata::optional<final_result> original_location;
     std::vector<final_result> ground;
+    std::vector<final_result> vehicle_results;
+    std::vector<final_result> worn_results;
+    cata::optional<final_result> wielded_results;
     switch( cur_scenario ) {
         case scenario::contained_liquid:
             if( !will_spill_outer ) {
@@ -787,8 +803,56 @@ void test_scenario::run()
             return;
         }
     }
-    if( cur_container_loc == container_location::ground && original_location ) {
-        ground.emplace_back( *original_location );
+    switch( cur_container_loc ) {
+        case container_location::ground:
+            if( original_location ) {
+                ground.emplace_back( *original_location );
+            }
+            break;
+        case container_location::inventory:
+            if( original_location ) {
+                worn_results.emplace_back( final_result {
+                    test_restricted_container_holder,
+                    false,
+                    false,
+                    { *original_location }
+                } );
+            } else {
+                worn_results.emplace_back( final_result {
+                    test_restricted_container_holder,
+                    false,
+                    false,
+                    {}
+                } );
+            }
+            break;
+        case container_location::worn:
+            if( original_location ) {
+                worn_results.emplace_back( *original_location );
+            }
+            break;
+        case container_location::vehicle:
+            if( original_location ) {
+                vehicle_results.emplace_back( *original_location );
+            }
+            break;
+        case container_location::wielded:
+            if( original_location ) {
+                REQUIRE( !wielded_results.has_value() );
+                wielded_results = original_location;
+            }
+            break;
+        default:
+            FAIL( "unknown container_location" );
+    }
+    if( cur_container_loc != container_location::wielded ) {
+        REQUIRE( !wielded_results.has_value() );
+        wielded_results = final_result {
+            test_solid_1ml,
+            false,
+            false,
+            {}
+        };
     }
 
     INFO( "checking original item" );
@@ -799,7 +863,25 @@ void test_scenario::run()
         REQUIRE( !it_loc );
     }
     INFO( "checking ground items" );
-    match( item_location::nowhere, here.i_at( guy.pos() ), ground );
+    match( map_cursor( guy.pos() ), here.i_at( guy.pos() ), ground );
+    INFO( "checking vehicle items" );
+    cata::optional<vpart_reference> vp = here.veh_at( guy.pos() )
+                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+    if( cur_container_loc == container_location::vehicle ) {
+        REQUIRE( vp.has_value() );
+        match( vehicle_cursor( vp->vehicle(), vp->part_index() ),
+               vp->vehicle().get_items( vp->part_index() ), vehicle_results );
+    } else {
+        REQUIRE( !vp.has_value() );
+    }
+    INFO( "checking worn items" );
+    match( guy, guy.worn, worn_results );
+    INFO( "checking wielded item" );
+    if( wielded_results ) {
+        match( item_location( guy, &guy.weapon ), *wielded_results );
+    } else {
+        REQUIRE( !guy.is_armed() );
+    }
 }
 } // namespace
 
