@@ -7,12 +7,12 @@ This document is intended to not only guide new potential contributors, but also
 
 Mechanically, Dark Skies Above began as a project to demonstrate how you can push the game engine to present different stories. Unlike the base game, a narrative arc is assumed: the player will want find a way to make occupation of Earth too costly for the aliens to continue, or die trying. This is, of course, by no means an "easy" or "short" process, nor is it necessarily a requirement. This is done largely to compensate for the fact that Dark Skies does not play well with other mods or some aspects of active development, thus needing a tighter experience.
 
-In short, Dark Skies is a science fiction/science fantasy story focused around an ongoing alien invasion and the survival of those left in one of the hotsites: the New England Exclusion Zone.
+In short, Dark Skies is a science fiction/science fantasy story focused around an ongoing alien invasion and the survival of those left in one of the hot-sites: the New England Exclusion Zone.
 
 
 # Contributing
 
-Since Dark Skies is distributed with the base game, contributions are welcome. If you have any questions, you can contact me on Discord via `@ephemeral_storyteller` through the offical developer or official community severs.
+Since Dark Skies is distributed with the base game, contributions are welcome. If you have any questions, you can contact me on Discord via `@ephemeral_storyteller` through the official developer or official community severs.
 
 
 # Content
@@ -28,9 +28,9 @@ The Earth presented in Dark Skies is closer to our current tech level (things yo
 ## The Arrival and The Aliens
 "The Arrival" is the term for the first few days of the alien invasion, in which various key points of infrastructure were  knocked out: satellites, power plants, highways, and so forth (implying that the aliens have been watching humanity for some time, or at least are familiar with similar systems), and aerial superiority was quickly established in favor of the aliens. Ground based invasion then began, supported by deployment of bioweapons in the form of the Stray strain parasites (however, Strays are currently over-represented in game right now and will be scaled back in favor of mixed alien forces or perhaps removed entirely). The game begins immediately after the Arrival during the ground invasion phase of alien occupation, and ensuing resistance operations by both the US military and any unevacuated civilians still left in the area.
 
-In truth, the aliens themselves are a part of a rampant artifical intelligence network dedicated to acquiring resources from other planets by way of tunneling through the multiverse. The civilization that originally made it is long dead, and any interesting, vaguely religious aesthetics revering technology are essentially reflections of its birth culture. The network concerns itself with little more than expanding its scope, extracting resources, and refining its tools - though it occasionally will show small glimmers of sapience. It uses a mix of drones and cyborgs made from formerly conquered species to do its bidding, with the ultimate intent of turning planets it comes across to balls of rock hosting innumerable farms and factories. Think a mix between the AI from "Universal Paperclips", the Combine from Half-Life 2, and a little bit of Cogmind. 
+In truth, the aliens themselves are a part of a rampant artificial intelligence network dedicated to acquiring resources from other planets by way of tunneling through the multiverse. The civilization that originally made it is long dead, and any interesting, vaguely religious aesthetics revering technology are essentially reflections of its birth culture. The network concerns itself with little more than expanding its scope, extracting resources, and refining its tools - though it occasionally will show small glimmers of sapience. It uses a mix of drones and cyborgs made from formerly conquered species to do its bidding, with the ultimate intent of turning planets it comes across to balls of rock hosting innumerable farms and factories. Think a mix between the AI from "Universal Paperclips", the Combine from Half-Life 2, and a little bit of Cogmind. 
 
-Being an artifical intelligence unconcerned with cordial contact, the aliens have never identified themselves. Where American government institutions are concerned, "novel opposing force" or simply "OPFOR" is sufficient in refering to its new extradimensional enemy. 
+Being an artificial intelligence unconcerned with cordial contact, the aliens have never identified themselves. Where American government institutions are concerned, "novel opposing force" or simply "OPFOR" is sufficient in referring to its new extradimensional enemy. 
 
 
 ## Other Aliens
@@ -54,7 +54,7 @@ The player is a survivor of the chaos of the initial invasion, and has stayed in
 
 ## The Resistance and the Narrative
 
-Small pockets of resistance have sprung up, groups of both civilians working alone and those who volunteered to help the military. They are hard to find, as any compound of significant size inevitably attracts bombardment. Most are part of a larger overall network that the player can join and do missions for that has contacts with the military, though there are some isolated groups with differing ideaologies. Ideally these will only appear after a few months and gradually build up, though the game doesn't quite work like this (yet) and will likely require some dirty tricks using NPC quests. 
+Small pockets of resistance have sprung up, groups of both civilians working alone and those who volunteered to help the military. They are hard to find, as any compound of significant size inevitably attracts bombardment. Most are part of a larger overall network that the player can join and do missions for that has contacts with the military, though there are some isolated groups with differing ideologies. Ideally these will only appear after a few months and gradually build up, though the game doesn't quite work like this (yet) and will likely require some dirty tricks using NPC quests. 
 
 Ultimately, the story will revolve around the player discovering that the invasion is commanded by a central construct that is currently on a ship in orbit, finding a way to reach the ship, and having a final showdown. If successful, they will at least buy humanity enough time to figure out a response to any future attacks. This task is made much easier by working with rebel forces, however it should be technically possible to do without... *technically*.
 
