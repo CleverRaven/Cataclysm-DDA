@@ -947,9 +947,9 @@ class Character : public Creature, public visitable<Character>
 
         bool can_power_mutation( const trait_id &mut );
         /** Generates and handles the UI for player interaction with installed bionics */
-        virtual void power_bionics() {};
+        virtual void power_bionics() {}
         // TODO: Implement NPCs activating mutations
-        virtual void power_mutations() {};
+        virtual void power_mutations() {}
 
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );

@@ -1966,7 +1966,6 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
                                        sp.damage_type_string() );
         if( sp.aoe() > 0 ) {
-            ;
             aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
         }
     }

@@ -326,7 +326,7 @@ class gunmod_remove_activity_actor : public activity_actor
             int moves_total,
             const item_location &gun,
             int gunmod_idx
-        ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {};
+        ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_GUNMOD_REMOVE" );

@@ -37,7 +37,6 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     tasklist soldier_12h;
     soldier_12h.enschedule( task_dig, 12_hours );
 
-
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
         weariness_events info = do_activity( desk_8h );

@@ -5485,7 +5485,6 @@ void Character::try_reduce_weariness( const float exertion )
         }
     }
 
-
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
     if( weary.low_activity_ticks >= 6 ) {

@@ -902,7 +902,6 @@ TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
 // O T  T O  O O  O O
 // O O  O O  O T  T O
 
-
 TEST_CASE( "shadowcasting_floating_wall", "[shadowcasting]" )
 {
     grid_overlay test_case( { 2, 16, 3 }, LIGHT_TRANSPARENCY_OPEN_AIR );

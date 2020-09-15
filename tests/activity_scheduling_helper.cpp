@@ -74,7 +74,6 @@ weariness_events do_activity( tasklist tasks )
     clear_avatar();
     clear_map();
 
-
     avatar &guy = get_avatar();
     // Ensure we have enough light to see
     item bag( "duffelbag" );
