@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "pebble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -14,7 +14,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pebble_clay",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -27,7 +27,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "marble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -58,7 +58,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_small_game_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -77,7 +77,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -158,7 +158,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_metal_sharpened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -177,7 +177,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_heavy_fire_hardened_fletched",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -196,7 +196,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_wood_heavy",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -289,7 +289,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_metal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -308,7 +308,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_crude",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -323,7 +323,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_simple_wood",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -342,7 +342,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_simple_small_game",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -361,7 +361,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bolt_makeshift",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -388,7 +388,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "flamable_arrow",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -423,7 +423,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_exploding",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -504,7 +504,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fishspear",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
@@ -516,7 +516,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "m_fishspear",
     "category": "CC_AMMO",
     "skill_used": "fabrication",
@@ -528,7 +528,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blun_shot",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -555,7 +555,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blun_shot",
     "id_suffix": "using_big_scrap",
     "category": "CC_AMMO",
@@ -575,7 +575,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blun_slug",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -594,7 +594,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blun_slug",
     "id_suffix": "using_lead",
     "category": "CC_AMMO",
@@ -611,7 +611,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blun_flechette",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
@@ -630,7 +630,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arrow_plastic",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -649,7 +649,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rebar_rail",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -691,7 +691,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "napalm",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -715,7 +715,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "gelled_gasoline",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -732,7 +732,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flamethrower_fuel",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -750,7 +750,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "spiked_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -772,7 +772,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "explosive_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -786,7 +786,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "incendiary_hm_rocket",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -805,7 +805,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_fungicidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -820,7 +820,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_insecticidal",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -835,7 +835,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gas_chloramine",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -856,7 +856,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "tinder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -886,7 +886,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cac2powder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

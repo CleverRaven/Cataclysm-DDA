@@ -293,6 +293,15 @@
     "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
   },
   {
+    "id": "mon_maiasaura_juvenile",
+    "type": "MONSTER",
+    "name": "gray and magenta four-legged juvenile",
+    "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "dark_gray_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
+  },
+  {
     "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
     "name": "gray and magenta four-legged juvenile",
