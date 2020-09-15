@@ -202,7 +202,9 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ] ]
@@ -221,7 +223,9 @@
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
@@ -326,7 +330,9 @@
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.15 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.15, "learning_time_multiplier": 0.1 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
