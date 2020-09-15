@@ -19,5 +19,7 @@ jobs:
         fetch-depth: 10
     - name: install dependencies
       run: sudo apt-get install flake8
+    - name: Enable flake8 problem matcher
+      run: echo "::add-matcher::build-scripts/problem-matchers/flake8.json"
     - name: run Flake8
       run: make python-check
