@@ -3193,13 +3193,19 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } else {
             // Look for containers with any liquid and loose frozen liquids
             src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
-                if( parent->is_watertight_container() && node->is_frozen_liquid() ) {
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( ( parent->is_container() && node->made_of( phase_id::LIQUID ) ) || node->is_frozen_liquid() ) {
+                if( node->is_container() && !node->is_container_empty() ) {
+                    return VisitResponse::NEXT;
+                }
+
+                if( parent != nullptr && parent->is_container() &&
+                    ( node->made_of( phase_id::LIQUID ) || node->is_frozen_liquid() ) ) {
                     out = item_location( src, node );
                 }
+
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         }

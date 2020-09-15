@@ -6923,6 +6923,16 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         return true;
     }
 
+    if( is_watertight_container() && !contents.empty() &&
+        ( contents.legacy_front().typeId() == ammo ) ) {
+        return true;
+    }
+
+    // Could be more robust. Assumes ammo is liquid - cannot determine from itype_id.
+    if( is_watertight_container() && contents.empty() ) {
+        return true;
+    }
+
     if( magazine_integral() ) {
         if( ammo_data() ) {
             if( ammo_current() != ammo ) {
@@ -8044,7 +8054,12 @@ void item::reload_option::qty( int val )
     }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
-    int available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
+    int available_ammo;
+    if( ammo->has_flag( flag_SPEEDLOADER ) ) {
+        available_ammo = ammo_obj.ammo_remaining();
+    } else {
+        available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.count();
+    }
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
     qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
@@ -8158,6 +8173,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         }
         item contents( ammo->type );
         fill_with( contents, qty );
+        ammo->charges -= qty;
     } else {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -10044,6 +10060,8 @@ bool item::is_reloadable() const
         return false; // turrets ignore NO_RELOAD flag
 
     } else if( is_magazine() || contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        return true;
+    } else if( !is_container_full() && is_watertight_container() ) {
         return true;
     }
 
