@@ -4,16 +4,20 @@
     "abstract": "generic_mansion",
     "name": "mansion",
     "sym": "M",
-    "color": "light_green",
+    "color": "green",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
   },
   {
     "type": "overmap_terrain",
+    "id": [ "mansion_e1", "mansion_e2" ],
+    "color": "light_green",
+    "copy-from": "generic_mansion"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
-      "mansion_e1",
-      "mansion_e2",
       "mansion_+1",
       "mansion_+1d",
       "mansion_+1u",
