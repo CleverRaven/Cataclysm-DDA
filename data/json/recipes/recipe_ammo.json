@@ -14,7 +14,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pebble_clay",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -27,7 +27,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "marble",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
@@ -732,7 +732,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flamethrower_fuel",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
