@@ -1090,7 +1090,7 @@
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 14, "into": "", "into_group": "WASP_UPGRADE" },
+    "upgrades": { "half_life": 14, "into_group": "WASP_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
