@@ -160,7 +160,7 @@ struct initialization {
 item initialize( const initialization &init )
 {
     item it( init.id );
-    for( const initialization content_init : init.contents ) {
+    for( const initialization &content_init : init.contents ) {
         item content = initialize( content_init );
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
