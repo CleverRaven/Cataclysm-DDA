@@ -640,7 +640,20 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "mon_crayfish_mega",
+    "type": "MONSTER",
+    "name": { "str": "mega crayfish" },
+    "description": "An enormous mutated gray crayfish with pincer claws and long antennae.",
+    "copy-from": "mon_giant_crayfish",
+    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5 },
+    "volume": "625 L",
+    "weight": "815 kg",
+    "melee_dice": 2,
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_razorclaw",
