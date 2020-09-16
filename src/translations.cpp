@@ -457,7 +457,7 @@ void translation::deserialize( JsonIn &jsin )
                     jsin.seek( origin );
                     jsin.error( msg, offset );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
@@ -488,7 +488,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         } else {
@@ -505,7 +505,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_pl not supported here", "str_pl" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -522,7 +522,7 @@ void translation::deserialize( JsonIn &jsin )
                         jsobj.get_raw( "str_sp" )->error( msg, offset );
                     }
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
