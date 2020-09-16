@@ -293,8 +293,6 @@ AR  = $(CROSS)ar
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
-LDFLAGS += -lz
-
 ifneq ($(SANITIZE),)
   SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
   CXXFLAGS += $(SANITIZE_FLAGS)
@@ -879,6 +877,8 @@ ifeq ($(LTO), 1)
     endif
   endif
 endif
+
+LDFLAGS += -lz
 
 all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
 	@
