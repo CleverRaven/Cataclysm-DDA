@@ -1068,7 +1068,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "750 ml",
     "weight": "1 kg",
-    "upgrades": { "half_life": 14, "into_group": "WASP_UPGRADE" }
+    "upgrades": { "half_life": 14, "into": "", "into_group": "WASP_UPGRADE" }
   },
   {
     "id": "mon_wasp",
@@ -1448,7 +1448,7 @@
   {
     "id": "mon_ant_soldier_mega",
     "type": "MONSTER",
-    "name": { "str": "mega solder ant" },
+    "name": { "str": "mega soldier ant" },
     "description": "An enormous hairy red ant.  Bulging pincers extend from its jaws.",
     "copy-from": "mon_ant_soldier",
     "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5 },
