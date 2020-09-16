@@ -2114,7 +2114,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case UNLOAD_TURRET: {
-            g->unload( *turret.base() );
+            item_location loc = turret.base();
+            g->unload( loc );
             return;
         }
         case RELOAD_TURRET: {

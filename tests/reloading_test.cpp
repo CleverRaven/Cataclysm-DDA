@@ -101,7 +101,8 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( gun_pos != INT_MIN );
     item &glock = dummy.i_at( gun_pos );
     // We're expecting the magazine to end up in the inventory.
-    g->unload( glock );
+    item_location glock_loc( dummy, &glock );
+    REQUIRE( g->unload( glock_loc ) );
     int magazine_pos = dummy.inv.position_by_type( "glockmag" );
     REQUIRE( magazine_pos != INT_MIN );
     item &magazine = dummy.inv.find_item( magazine_pos );

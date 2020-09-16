@@ -3095,8 +3095,9 @@ bool player::add_or_drop_with_msg( item &it, const bool unloading )
     return true;
 }
 
-bool player::unload( item &it )
+bool player::unload( item_location loc )
 {
+    item &it = *loc.get_item();
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() || it.is_bandolier() ) {
         if( it.contents.empty() ) {
@@ -3208,7 +3209,9 @@ bool player::unload( item &it )
         }
 
         mod_moves( -std::min( 200, mv ) );
-
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
+        }
         return true;
 
     } else if( target->magazine_current() ) {
@@ -3270,7 +3273,9 @@ bool player::unload( item &it )
 
     add_msg( _( "You unload your %s." ), target->tname() );
     return true;
+
 }
+
 
 void player::use_wielded()
 {
@@ -3483,7 +3488,9 @@ bool player::gunmod_remove( item &gun, item &mod )
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
-    if( mod.ammo_remaining() && !g->unload( mod ) ) {
+
+    item_location loc = item_location( *this, &mod );
+    if( mod.ammo_remaining() && !g->unload( loc ) ) {
         return false;
     }
 
