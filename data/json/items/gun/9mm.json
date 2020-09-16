@@ -468,7 +468,7 @@
     "id": "mauser_m714",
     "copy-from": "mauser_c96",
     "type": "GUN",
-    "name": { "str": "detachalbe-magazine Mauser" },
+    "name": { "str": "detachable-magazine Mauser" },
     "description": "This is a variant of the Mauser C96 pistol chambered for 9x19mm, which uses a detachable magazine rather than an integral one.",
     "weight": "1070 g",
     "volume": "615 ml",
