@@ -263,6 +263,8 @@ ENDIF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 SET(CMAKE_THREAD_PREFER_PTHREAD True)
 FIND_PACKAGE(Threads REQUIRED)
 
+FIND_PACKAGE(ZLIB REQUIRED)
+
 # Check for build types and libraries
 IF(TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
@@ -281,7 +283,6 @@ IF(TILES)
       FIND_PACKAGE(Freetype REQUIRED)
       FIND_PACKAGE(PNG REQUIRED)
       FIND_PACKAGE(JPEG REQUIRED)
-      FIND_PACKAGE(ZLIB REQUIRED)
       FIND_PACKAGE(BZip2 REQUIRED)
     ENDIF (NOT DYNAMIC_LINKING)
 
@@ -369,8 +370,6 @@ IF(USE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
 add_subdirectory(src)
-add_executable(main src/main.cpp)
-target_link_libraries(main z)
 add_subdirectory(data)
 if (NOT MSVC)
     add_subdirectory(src/chkjson)
