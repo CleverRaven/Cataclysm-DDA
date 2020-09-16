@@ -324,12 +324,15 @@ void monster::plan()
     const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
 
+    map &here = get_map();
+    std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( pos().z );
     bool group_morale = has_flag( MF_GROUP_MORALE ) && morale < type->morale;
     bool swarms = has_flag( MF_SWARMS );
     monster_attitude mood = attitude();
     Character &player_character = get_player_character();
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+    if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
+        sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         dist = rate_target( player_character, dist, smart_planning );
         fleeing = fleeing || is_fleeing( player_character );
         target = &player_character;
@@ -368,7 +371,7 @@ void monster::plan()
         }
     } else if( friendly != 0 && !docile ) {
         for( monster &tmp : g->all_monsters() ) {
-            if( tmp.friendly == 0 ) {
+            if( tmp.friendly == 0 && seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
@@ -390,6 +393,9 @@ void monster::plan()
     for( npc &who : g->all_npcs() ) {
         mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
+            continue;
+        }
+        if( !seen_levels.test( who.pos().z + OVERMAP_DEPTH ) ) {
             continue;
         }
 
@@ -435,33 +441,38 @@ void monster::plan()
 
     fleeing = fleeing || ( mood == MATT_FLEE );
     if( friendly == 0 ) {
-        for( const auto &fac : factions ) {
-            mf_attitude faction_att = faction.obj().attitude( fac.first );
+        for( const auto &fac_list : factions ) {
+            mf_attitude faction_att = faction.obj().attitude( fac_list.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
                 continue;
             }
 
-            for( const weak_ptr_fast<monster> &weak : fac.second ) {
-                const shared_ptr_fast<monster> shared = weak.lock();
-                if( !shared ) {
+            for( auto &fac : fac_list.second ) {
+                if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                     continue;
                 }
-                monster &mon = *shared;
-                float rating = rate_target( mon, dist, smart_planning );
-                if( rating == dist ) {
-                    ++valid_targets;
-                    if( one_in( valid_targets ) ) {
-                        target = &mon;
+                for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                    const shared_ptr_fast<monster> shared = weak.lock();
+                    if( !shared ) {
+                        continue;
                     }
-                }
-                if( rating < dist ) {
-                    target = &mon;
-                    dist = rating;
-                    valid_targets = 1;
-                }
-                if( rating <= 5 ) {
-                    anger += angers_hostile_near;
-                    morale -= fears_hostile_near;
+                    monster &mon = *shared;
+                    float rating = rate_target( mon, dist, smart_planning );
+                    if( rating == dist ) {
+                        ++valid_targets;
+                        if( one_in( valid_targets ) ) {
+                            target = &mon;
+                        }
+                    }
+                    if( rating < dist ) {
+                        target = &mon;
+                        dist = rating;
+                        valid_targets = 1;
+                    }
+                    if( rating <= 5 ) {
+                        anger += angers_hostile_near;
+                        morale -= fears_hostile_near;
+                    }
                 }
             }
         }
@@ -480,32 +491,36 @@ void monster::plan()
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const weak_ptr_fast<monster> &weak : myfaction_iter->second ) {
-            const shared_ptr_fast<monster> shared = weak.lock();
-            if( !shared ) {
+        for( auto &fac : myfaction_iter->second ) {
+            if( !seen_levels.test( fac.first + OVERMAP_DEPTH ) ) {
                 continue;
             }
-            monster &mon = *shared;
-            float rating = rate_target( mon, dist, smart_planning );
-            if( group_morale && rating <= 10 ) {
-                morale += 10 - rating;
-            }
-            if( swarms ) {
-                if( rating < 5 ) { // Too crowded here
-                    wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
-                    wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
-                    wandf = 2;
-                    target = nullptr;
-                    // Swarm to the furthest ally you can see
-                } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
-                    target = &mon;
-                    dist = rating;
+            for( const weak_ptr_fast<monster> &weak : fac.second ) {
+                const shared_ptr_fast<monster> shared = weak.lock();
+                if( !shared ) {
+                    continue;
+                }
+                monster &mon = *shared;
+                float rating = rate_target( mon, dist, smart_planning );
+                if( group_morale && rating <= 10 ) {
+                    morale += 10 - rating;
+                }
+                if( swarms ) {
+                    if( rating < 5 ) { // Too crowded here
+                        wander_pos.x = posx() * rng( 1, 3 ) - mon.posx();
+                        wander_pos.y = posy() * rng( 1, 3 ) - mon.posy();
+                        wandf = 2;
+                        target = nullptr;
+                        // Swarm to the furthest ally you can see
+                    } else if( rating < FLT_MAX && rating > dist && wandf <= 0 ) {
+                        target = &mon;
+                        dist = rating;
+                    }
                 }
             }
         }
     }
 
-    map &here = get_map();
     // Operating monster keep you safe while they operate, how nice....
     if( type->has_special_attack( "OPERATE" ) ) {
         if( has_effect( effect_operating ) ) {
