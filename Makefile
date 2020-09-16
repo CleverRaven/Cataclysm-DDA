@@ -290,7 +290,7 @@ RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
 # We don't need scientific precision for our math functions, this lets them run much faster.
-CXXFLAGS += -ffast-math -lz
+CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
