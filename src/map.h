@@ -167,6 +167,8 @@ struct level_cache {
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
     bool seen_cache_dirty = false;
+    // This is a single value indicating that the entire level is floored.
+    bool no_floor_gaps = false;
 
     four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
     float sm[MAPSIZE_X][MAPSIZE_Y];
@@ -256,7 +258,7 @@ class map
 
         void set_seen_cache_dirty( const tripoint change_location ) {
             if( inbounds_z( change_location.z ) ) {
-                level_cache cache = get_cache( change_location.z );
+                level_cache &cache = get_cache( change_location.z );
                 if( cache.seen_cache_dirty ) {
                     return;
                 }
@@ -1614,6 +1616,8 @@ class map
         void build_sunlight_cache( int pzlev );
     public:
         void build_outside_cache( int zlev );
+        // Get a bitmap indicating which layers are potentially visible from the target layer.
+        std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( int origin_zlevel )const ;
         // Builds a floor cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.
         bool build_floor_cache( int zlev );

@@ -1427,17 +1427,17 @@
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_text>",
-    "text": "* will pick up items."
+    "text": "<mypronoun> will pick up items."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_list_text>",
-    "text": "* will only pick up items from the whitelist."
+    "text": "<mypronoun> will only pick up items from the whitelist."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_false_text>",
-    "text": "* will not pick up items."
+    "text": "<mypronoun> will not pick up items."
   },
   {
     "type": "snippet",

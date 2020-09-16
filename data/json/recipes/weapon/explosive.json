@@ -18,7 +18,7 @@
   {
     "result": "dynamite",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "chemistry",
@@ -61,7 +61,7 @@
   {
     "result": "firecracker",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -75,7 +75,7 @@
   {
     "result": "firecracker_pack",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -114,7 +114,7 @@
   {
     "result": "flashbang",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -135,7 +135,7 @@
   {
     "result": "gasbomb_makeshift",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "//": "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -156,7 +156,7 @@
   {
     "result": "fungicidalbomb_makeshift",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "chemistry",
@@ -177,7 +177,7 @@
   {
     "result": "insecticidalbomb_makeshift",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "chemistry",
@@ -198,7 +198,7 @@
   {
     "result": "bootleg_grenade",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -220,7 +220,7 @@
   {
     "result": "improvised_grenade",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -241,7 +241,7 @@
   {
     "result": "primitive_grenade",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -275,7 +275,7 @@
   {
     "result": "dynamite_bomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -291,7 +291,7 @@
   {
     "result": "bootleg_pipebomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "id_suffix": "stable",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -308,7 +308,7 @@
   {
     "result": "improvised_pipebomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -323,7 +323,7 @@
   {
     "result": "primitive_pipebomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -338,7 +338,7 @@
   {
     "result": "smokebomb",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "chemistry",
@@ -399,7 +399,7 @@
   {
     "result": "tool_small_bootleg_fragmentation_device",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -414,7 +414,7 @@
   {
     "result": "tool_small_improvised_fragmentation_device",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -429,7 +429,7 @@
   {
     "result": "tool_small_primitive_fragmentation_device",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",

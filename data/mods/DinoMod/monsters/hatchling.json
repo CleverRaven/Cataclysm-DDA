@@ -129,6 +129,27 @@
     ]
   },
   {
+    "id": "mon_scutellosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
     "id": "mon_stegosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -303,6 +324,27 @@
     ]
   },
   {
+    "id": "mon_maiasaura_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 30, "into": "mon_maiasaura_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
     "id": "mon_parasaurolophus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -396,6 +438,14 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
+  },
+  {
+    "id": "mon_coelophysis_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "magenta and green hatchling",
+    "default_faction": "coelophysis",
+    "upgrades": { "age_grow": 30, "into": "mon_coelophysis" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",

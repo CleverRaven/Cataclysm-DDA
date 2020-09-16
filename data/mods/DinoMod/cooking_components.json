@@ -23,6 +23,7 @@
         [ "egg_tyrannosaurus", 1 ],
         [ "egg_albertosaurus", 1 ],
         [ "egg_triceratops", 1 ],
+        [ "egg_scutellosaurus", 1 ],
         [ "egg_stegosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
         [ "egg_diplodocus", 1 ],
@@ -35,6 +36,7 @@
         [ "egg_deinonychus", 1 ],
         [ "egg_utahraptor", 1 ],
         [ "egg_camptosaurus", 1 ],
+        [ "egg_maiasaura", 1 ],
         [ "egg_parasaurolophus", 1 ],
         [ "egg_corythosaurus", 1 ],
         [ "egg_edmontosaurus", 1 ],
@@ -42,6 +44,7 @@
         [ "egg_pteranodon", 1 ],
         [ "egg_quetzalcoatlus", 1 ],
         [ "egg_eoraptor", 1 ],
+        [ "egg_coelophysis", 1 ],
         [ "egg_dilophosaurus", 1 ],
         [ "egg_ceratosaurus", 1 ],
         [ "egg_mosasaurus", 1 ]

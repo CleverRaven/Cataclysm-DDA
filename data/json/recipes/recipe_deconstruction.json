@@ -213,8 +213,8 @@
   {
     "result": "holy_symbol_wood",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "6 s",
+    "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
   },
@@ -397,8 +397,8 @@
   {
     "result": "leather_collar",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "12 s",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
@@ -429,72 +429,72 @@
   {
     "result": "fur_cat_ears",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_ears",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_cat_tail",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "faux_fur_cat_tail",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "fur_collar",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "fur", 1 ] ] ]
   },
   {
     "result": "faux_fur_collar",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "faux_fur", 1 ] ] ]
   },
   {
     "result": "leather_belt",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_ears",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "1 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
   {
     "result": "leather_cat_tail",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ]
   },
@@ -1826,9 +1826,9 @@
   {
     "result": "cable",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
     "//": "This may need to be modified, a plastic sheath would give plastic chunks, but there already is a plastic sheathed cable",
+    "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "copper", 1 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -1929,8 +1929,8 @@
   {
     "result": "char_purifier",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "5 m",
+    "activity_level": "MODERATE_EXERCISE",
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
@@ -1990,7 +1990,7 @@
   {
     "result": "cu_pipe",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -2111,7 +2111,7 @@
   {
     "result": "down_pillow",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
@@ -2119,7 +2119,7 @@
   {
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
@@ -2127,7 +2127,7 @@
   {
     "result": "sheet_neoprene_patchwork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
@@ -2135,8 +2135,8 @@
   {
     "result": "tanned_hide",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "2 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 6 ] ] ]
   },
@@ -2177,8 +2177,8 @@
   {
     "result": "felt_patch",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "5 m",
+    "activity_level": "LIGHT_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 50 ] ] ]
   },
@@ -2262,28 +2262,28 @@
   {
     "result": "jar_3l_glass_sealed",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 10 ] ] ]
   },
   {
     "result": "bottle_glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "flask_glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "jar_glass_sealed",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
@@ -2311,14 +2311,14 @@
   {
     "result": "mirror",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 182 ] ] ]
   },
@@ -2775,7 +2775,7 @@
   {
     "result": "basket_laundry",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 20 ] ] ]
@@ -2821,7 +2821,7 @@
   {
     "result": "makeshift_crowbar",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -3050,7 +3050,7 @@
   {
     "result": "pot_makeshift_copper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
@@ -3066,7 +3066,7 @@
   {
     "result": "pillow",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
@@ -3102,7 +3102,7 @@
   {
     "result": "pot_copper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
@@ -3198,7 +3198,7 @@
   {
     "result": "rag",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
@@ -3802,7 +3802,7 @@
   {
     "result": "tank_top",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
     "components": [ [ [ "rag", 4 ] ] ],
@@ -3964,7 +3964,7 @@
   {
     "result": "tshirt",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
     "components": [ [ [ "rag", 5 ] ] ],
@@ -4086,8 +4086,8 @@
   {
     "result": "box_medium",
     "type": "uncraft",
-    "activity_level": "fake",
     "time": "3 m 30 s",
+    "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 85 ] ] ]
   },
@@ -4186,7 +4186,7 @@
   {
     "result": "bundle_rag",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 10 ] ] ],
@@ -4195,7 +4195,7 @@
   {
     "result": "bundle_leather",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 10 ] ] ],
@@ -4204,7 +4204,7 @@
   {
     "result": "bundle_wool",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "felt_patch", 10 ] ] ],
@@ -4491,7 +4491,7 @@
   {
     "result": "electric_blanket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "skill_used": "tailor",
     "time": "30 m",
     "difficulty": 1,
@@ -4501,7 +4501,7 @@
   {
     "result": "wearable_light",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -4971,7 +4971,7 @@
   {
     "result": "razor_shaving",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "6 s",
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "razor_blade", 1 ] ] ]

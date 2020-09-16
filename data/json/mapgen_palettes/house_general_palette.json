@@ -98,7 +98,7 @@
     },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "items": {
-      "a": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
+      "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
       "d": [
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
         { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
@@ -155,7 +155,7 @@
       "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
       "J": { "item": "kitchen_counters", "chance": 5 },
       "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
-      "M": { "item": "home_display_case", "chance": 80 },
+      "M": { "item": "home_display_case", "chance": 70 },
       "N": [
         { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },

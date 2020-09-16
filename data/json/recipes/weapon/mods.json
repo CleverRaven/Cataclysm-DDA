@@ -579,7 +579,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "filter_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -593,7 +593,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bottle_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -606,7 +606,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bow_silencer",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
