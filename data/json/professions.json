@@ -461,7 +461,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_knitting" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -517,7 +517,7 @@
     "points": 2,
     "//": "Tailoring kit makes an already decent class for careful folks much more powerful.",
     "skills": [ { "level": 4, "name": "tailor" } ],
-    "proficiencies": [ "prof_fibers" ],
+    "proficiencies": [ "prof_fibers", "prof_leatherworking", "prof_closures", "prof_closures_waterproofing" ],
     "items": {
       "both": {
         "items": [ "polo_shirt", "blazer", "pants", "socks", "dress_shoes", "knit_scarf", "scissors", "wristwatch" ],
@@ -1031,7 +1031,7 @@
       { "level": 2, "name": "swimming" },
       { "level": 1, "name": "lockpick" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
@@ -1173,6 +1173,7 @@
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_knitting", "prof_knitting_speed" ],
     "pets": [
       { "name": "mon_cat", "amount": 5 },
       { "name": "mon_cat_tabby", "amount": 4 },
@@ -2304,6 +2305,7 @@
     "id": "senior",
     "name": "Senior Citizen",
     "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
+    "proficiencies": [ "prof_knitting" ],
     "points": 0,
     "items": {
       "both": {
@@ -2321,6 +2323,7 @@
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
     "points": 1,
     "skills": [ { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_closures", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
@@ -3032,7 +3035,7 @@
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself amidst the ruins of civilization.  Whether through force, guile, or luck, you've obtained the best gear you could find.",
     "points": 8,
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knitting", "prof_closures" ],
     "skills": [
       { "level": 5, "name": "melee" },
       { "level": 5, "name": "gun" },
@@ -3149,7 +3152,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking" ],
     "items": {
       "both": {
         "items": [
