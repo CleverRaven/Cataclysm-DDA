@@ -92,7 +92,10 @@
         "text": "\"I took all the supplies.  Don't follow me.  I'm sorry, man.  I have to look out for myself now.\""
       },
       { "id": "dks_note_35", "text": "\"My next-door neighbor had a katana in his basement!\"" },
-      { "id": "dks_note_36", "text": "\"thought i was lucky when i found some soldiers.  they just made me hand over all my shit AND my boots.  walked back home the mud.\"" },
+      {
+        "id": "dks_note_36",
+        "text": "\"thought i was lucky when i found some soldiers.  they just made me hand over all my shit AND my boots.  walked back home the mud.\""
+      },
       {
         "id": "dks_note_37",
         "text": "\"Boyfriend stole my pistol while I was asleep.  I locked him in the bathroom and set the house on fire.  At least he attracted their attention.\""
@@ -117,7 +120,10 @@
         "text": "\"Got a picture of someone wasting one of those walkers.  You should see it soon: remember me by it.\""
       },
       { "id": "dks_note_45", "text": "\"Gas mask is nice and all, but I can hardly run with it on.\"" },
-      { "id": "dks_note_46", "text": "\"why would you set up fucking mines they don't do anything to them just blew off my FUCKING LEG when i was trying to take a stroll\"" },
+      {
+        "id": "dks_note_46",
+        "text": "\"why would you set up fucking mines they don't do anything to them just blew off my FUCKING LEG when i was trying to take a stroll\""
+      },
       {
         "id": "dks_note_47",
         "text": "\"The evacs are a death trap.  They took everyone else away on a bus but stayed and heard the explosions just a few minutes later.  Now it's just me.\""
@@ -398,10 +404,7 @@
         "text": "\"I'm gonna be honest here, I'm really gonna die soon so I dont want to gt forgnottedn ples dont forntget me y nrmmy name is h@@hbhbh\""
       },
       { "id": "dks_note_164", "text": "\"all it takes to seal a wound is a sawblade and a match!  trust me\"" },
-      {
-        "id": "dks_note_165",
-        "text": "\"they put something in the water\""
-      },
+      { "id": "dks_note_165", "text": "\"they put something in the water\"" },
       { "id": "dks_note_166", "text": "\"the 50cal is strong with this one\"" },
       {
         "id": "dks_note_167",
@@ -487,7 +490,10 @@
         "text": "\"The fewer 'resistance members' in New England, the stronger we'll become out here in the wilds.  Let them die.\""
       },
       { "id": "dks_note_202", "text": "\"It all boils down to the Apex Predator.\"" },
-      { "id": "dks_note_203", "text": "\"Take this little token as a sign that I was here too, and I took something really good. ;3\"" },
+      {
+        "id": "dks_note_203",
+        "text": "\"Take this little token as a sign that I was here too, and I took something really good. ;3\""
+      },
       { "id": "dks_note_204", "text": "\"Got my mortar and pestle.  Now if I could just find some avocados…\"" }
     ]
   }
