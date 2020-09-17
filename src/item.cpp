@@ -6924,12 +6924,12 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
     }
 
     if( is_watertight_container() && !contents.empty() &&
-        ( contents.only_item().typeId() == ammo ) ) {
+        contents.only_item().typeId() == ammo ) {
         return true;
     }
 
-    // Could be more robust. Assumes ammo is liquid - cannot determine from itype_id.
-    if( is_watertight_container() && contents.empty() ) {
+    if( is_watertight_container() && contents.empty() &&
+        ammo.obj().phase == phase_id::LIQUID ) {
         return true;
     }
 
