@@ -2,7 +2,7 @@
   {
     "result": "socks_ankle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "thread", 35 ] ] ]
@@ -10,7 +10,7 @@
   {
     "result": "down_blanket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
@@ -18,7 +18,7 @@
   {
     "result": "blanket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 35 ] ] ]
@@ -26,7 +26,7 @@
   {
     "result": "under_armor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "lycra_patch", 1 ] ] ]
@@ -34,7 +34,7 @@
   {
     "result": "under_armor_shorts",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "lycra_patch", 1 ] ] ]

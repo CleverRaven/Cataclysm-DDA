@@ -118,7 +118,7 @@ void JsonObject::report_unvisited() const
                 try {
                     throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -1548,14 +1548,14 @@ std::string JsonIn::line_number( int offset_modifier )
         }
     }
     std::stringstream ret;
-    ret << "line " << line << ":" << ( offset + offset_modifier );
+    ret << name << ":" << line << ":" << ( offset + offset_modifier );
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
-    err << line_number( offset ) << ": " << message;
+    err << "Json error: " << line_number( offset ) << ": " << message;
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
         throw JsonError( err.str() );

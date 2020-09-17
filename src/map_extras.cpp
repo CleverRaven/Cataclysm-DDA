@@ -1105,6 +1105,14 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
+static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
+{
+    tripoint tri_target( target, m.get_abs_sub().z );
+    if( m.ter( tri_target ).obj().trap == tr_null ) {
+        mtrap_set( &m, target, trap_type );
+    }
+}
+
 static bool mx_minefield( map &, const tripoint &abs_sub )
 {
     const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
@@ -1201,9 +1209,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1303,9 +1311,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 3, SEEX * 2 - 4 ), y = rng( 1, SEEY );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1450,9 +1458,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 
@@ -1585,9 +1593,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 3, SEEY * 2 - 4 );
             if( m.has_flag( flag_DIGGABLE, point( x, y ) ) ) {
-                mtrap_set( &m, point( x, y ), tr_landmine_buried );
+                place_trap_if_clear( m, point( x, y ), tr_landmine_buried );
             } else {
-                mtrap_set( &m, point( x, y ), tr_landmine );
+                place_trap_if_clear( m, point( x, y ), tr_landmine );
             }
         }
 

@@ -434,7 +434,11 @@
     "time": "50 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 250 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 36 ] ]
   },
   {
     "result": "nomex_gloves",
