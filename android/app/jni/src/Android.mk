@@ -16,7 +16,7 @@ LOCAL_SRC_FILES := $(FILE_LIST:$(LOCAL_PATH)/%=%)
 
 LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf libintl-lite mpg123
 
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lz
 
 LOCAL_CFLAGS += -DTILES=1 -DSDL_SOUND=1 -DCATA_NO_CPP11_STRING_CONVERSIONS=1 -DLOCALIZE=1 -Wextra -Wall -fsigned-char -ffast-math
 

@@ -263,6 +263,8 @@ ENDIF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 SET(CMAKE_THREAD_PREFER_PTHREAD True)
 FIND_PACKAGE(Threads REQUIRED)
 
+FIND_PACKAGE(ZLIB REQUIRED)
+
 # Check for build types and libraries
 IF(TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
