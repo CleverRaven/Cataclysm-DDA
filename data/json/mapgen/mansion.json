@@ -129,6 +129,7 @@
         "E": "t_carpet_red",
         "l": "t_carpet_red"
       },
+      "furniture": { "&": "f_sofa" },
       " ": { "item": "clutter_mansion" },
       "c": { "item": "suit_of_armor", "chance": 100 }
     },
