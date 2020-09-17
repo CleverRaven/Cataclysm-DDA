@@ -354,9 +354,14 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
         char header[2];
         fin.read( header, 2 );
         if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            const char *cstr_path = path.c_str();
-            igzstream fingz( cstr_path, std::ios::binary );
-            reader( fingz );
+            igzstream fingz( path.c_str() );
+            std::stringstream ss;
+            ss << fingz.rdbuf();
+            if( fingz.bad() ) {
+                throw std::runtime_error( "reading file failed" );
+            }
+            ss.seekg( 0, std::ios::beg );
+            reader( ss );
         } else {
             fin.clear();
             fin.seekg( 0, std::ios::beg ); // reset read position
