@@ -323,6 +323,12 @@
           "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "dks_flier_82",
+        "text": {
+          "str": "Printed on this glossy piece of paper is a picture of someone firing a rocket launcher at a massive robot.  The word \"RESIST\" is printed just below it."
+        }
       }
     ]
   }
