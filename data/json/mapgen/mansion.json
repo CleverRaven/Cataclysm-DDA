@@ -130,10 +130,9 @@
         "l": "t_carpet_red"
       },
       "furniture": { "&": "f_sofa" },
-      " ": { "item": "clutter_mansion" },
-      "c": { "item": "suit_of_armor", "chance": 100 }
-    },
-    "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
+      "items": { " ": { "item": "clutter_mansion", "chance": 2 }, "c": { "item": "suit_of_armor", "chance": 100 } },
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
+    }
   },
   {
     "type": "mapgen",
