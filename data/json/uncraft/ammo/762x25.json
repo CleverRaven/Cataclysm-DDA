@@ -3,7 +3,7 @@
     "result": "762_25",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
@@ -12,7 +12,7 @@
     "result": "762_25hot",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
@@ -21,7 +21,7 @@
     "result": "762_25typeP",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]

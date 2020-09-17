@@ -11,7 +11,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "grenade_inc",
     "skill_used": "fabrication",
     "difficulty": 3,

@@ -2,7 +2,7 @@
   {
     "result": "bead_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wooden_bead", 10 ] ] ]
@@ -10,7 +10,7 @@
   {
     "result": "bead_ear",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
@@ -18,14 +18,14 @@
   {
     "result": "bead_necklace",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wooden_bead", 30 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bottle_opener",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -34,7 +34,7 @@
   {
     "result": "bracelet_friendship",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
@@ -58,14 +58,14 @@
   {
     "result": "bronze_medal",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "can_opener",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -73,7 +73,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "carving_fork",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -82,7 +82,7 @@
   {
     "result": "colander_steel",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 6 ] ] ]
@@ -90,7 +90,7 @@
   {
     "result": "copper_hairpin",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 3 ] ] ]
@@ -98,7 +98,7 @@
   {
     "result": "copper_locket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 4 ] ] ]
@@ -106,7 +106,7 @@
   {
     "result": "copper_necklace",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 4 ] ] ]
@@ -114,7 +114,7 @@
   {
     "result": "copper_pan",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
@@ -124,14 +124,14 @@
   {
     "result": "copper_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 3 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "corkscrew",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -140,7 +140,7 @@
   {
     "result": "cufflinks",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -148,7 +148,7 @@
   {
     "result": "cufflinks_intricate",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "gold_small", 2 ] ] ]
@@ -156,7 +156,7 @@
   {
     "result": "vac_oven_small_done",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "15 m",
@@ -165,7 +165,7 @@
   {
     "result": "ear_spool",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
@@ -173,7 +173,7 @@
   {
     "result": "gold_hairpin",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ] ]
@@ -181,7 +181,7 @@
   {
     "result": "gold_locket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ] ]
@@ -189,7 +189,7 @@
   {
     "result": "gold_medal",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ] ]
@@ -197,7 +197,7 @@
   {
     "result": "gold_necklace",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ] ]
@@ -205,7 +205,7 @@
   {
     "result": "silver_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -221,7 +221,7 @@
   {
     "result": "ring_engagement",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ], [ [ "diamond", 1 ] ] ]
@@ -229,7 +229,7 @@
   {
     "result": "ring_purity",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -237,7 +237,7 @@
   {
     "result": "ring_signet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "silver_small", 2 ] ] ]
@@ -245,7 +245,7 @@
   {
     "result": "ring_wedding",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 2 ] ] ]
@@ -253,7 +253,7 @@
   {
     "result": "silver_hairpin",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -261,7 +261,7 @@
   {
     "result": "silver_medal",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -269,7 +269,7 @@
   {
     "result": "silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -277,7 +277,7 @@
   {
     "result": "garnet_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "garnet", 1 ] ] ]
@@ -285,7 +285,7 @@
   {
     "result": "amethyst_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
@@ -293,7 +293,7 @@
   {
     "result": "aquamarine_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
@@ -301,7 +301,7 @@
   {
     "result": "emerald_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "emerald", 1 ] ] ]
@@ -309,7 +309,7 @@
   {
     "result": "alexandrite_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
@@ -317,7 +317,7 @@
   {
     "result": "ruby_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "ruby", 1 ] ] ]
@@ -325,7 +325,7 @@
   {
     "result": "peridot_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "peridot", 1 ] ] ]
@@ -333,7 +333,7 @@
   {
     "result": "sapphire_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
@@ -341,7 +341,7 @@
   {
     "result": "tourmaline_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
@@ -349,7 +349,7 @@
   {
     "result": "citrine_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "citrine", 1 ] ] ]
@@ -357,7 +357,7 @@
   {
     "result": "blue_topaz_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
@@ -365,7 +365,7 @@
   {
     "result": "opal_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "opal", 1 ] ] ]
@@ -373,7 +373,7 @@
   {
     "result": "pearl_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "pearl", 1 ] ] ]
@@ -381,14 +381,14 @@
   {
     "result": "diamond_silver_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "diamond", 1 ] ] ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "ladle",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -405,7 +405,7 @@
   {
     "result": "rad_badge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
@@ -413,7 +413,7 @@
   {
     "result": "badge_doctor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
@@ -421,7 +421,7 @@
   {
     "result": "badge_foodkid",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
@@ -501,7 +501,7 @@
   {
     "result": "alarmclock",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "clockworks", 2 ] ] ]
@@ -509,7 +509,7 @@
   {
     "result": "badge_cybercop",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
@@ -517,7 +517,7 @@
   {
     "result": "badge_deputy",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
@@ -525,7 +525,7 @@
   {
     "result": "badge_detective",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 20 ] ] ]
@@ -533,7 +533,7 @@
   {
     "result": "badge_marshal",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
@@ -541,7 +541,7 @@
   {
     "result": "badge_swat",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
@@ -549,7 +549,7 @@
   {
     "result": "baseball",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "string_6", 2 ] ] ]
@@ -557,7 +557,7 @@
   {
     "result": "bindle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "rag", 4 ] ], [ [ "stick", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -565,7 +565,7 @@
   {
     "result": "binoculars",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
@@ -573,7 +573,7 @@
   {
     "result": "bio_blood_filter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -585,7 +585,7 @@
   {
     "result": "bio_digestion",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -597,7 +597,7 @@
   {
     "result": "bio_face_mask",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -609,7 +609,7 @@
   {
     "result": "bio_ground_sonar",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -621,7 +621,7 @@
   {
     "result": "bio_metabolics",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -633,7 +633,7 @@
   {
     "result": "bio_nanobots",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -645,7 +645,7 @@
   {
     "result": "bio_recycler",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 7,
     "skills_required": [ "firstaid", 5 ],
@@ -665,7 +665,7 @@
   {
     "result": "boots_steel",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -674,7 +674,7 @@
   {
     "result": "box_cigarette",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -682,7 +682,7 @@
   {
     "result": "broken_EMP_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "15 m",
@@ -701,7 +701,7 @@
   {
     "result": "broken_c4_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "15 m",
@@ -720,7 +720,7 @@
   {
     "result": "broken_copbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -744,7 +744,7 @@
   {
     "result": "broken_robofac_prototype",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -762,7 +762,7 @@
   {
     "result": "broken_robofac_laserturret_mk1",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "3 h",
@@ -783,7 +783,7 @@
   {
     "result": "broken_eyebot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "30 m",
@@ -805,7 +805,7 @@
   {
     "result": "broken_flashbang_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "15 m",
@@ -824,7 +824,7 @@
   {
     "result": "broken_gasbomb_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "15 m",
@@ -843,7 +843,7 @@
   {
     "result": "broken_grenade_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "15 m",
@@ -862,7 +862,7 @@
   {
     "result": "broken_manhack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "10 m",
@@ -882,7 +882,7 @@
   {
     "result": "broken_mininuke_hack",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "25 m",
@@ -901,7 +901,7 @@
   {
     "result": "broken_molebot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "3 h",
@@ -920,7 +920,7 @@
   {
     "result": "broken_riotbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -943,7 +943,7 @@
   {
     "result": "broken_secubot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -967,7 +967,7 @@
   {
     "result": "broken_talon_m202a1",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -991,7 +991,7 @@
   {
     "result": "broken_skitterbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -1013,7 +1013,7 @@
   {
     "result": "broken_turret",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",
@@ -1035,7 +1035,7 @@
   {
     "result": "broken_turret_rifle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",
@@ -1057,7 +1057,7 @@
   {
     "result": "broken_crows_m240",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",
@@ -1079,7 +1079,7 @@
   {
     "result": "broken_turret_bmg",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",
@@ -1101,7 +1101,7 @@
   {
     "result": "broken_turret_riot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",
@@ -1125,7 +1125,7 @@
   {
     "result": "broken_science_bot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "2 h",
@@ -1150,7 +1150,7 @@
   {
     "result": "broken_mech_recon",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -1172,7 +1172,7 @@
   {
     "result": "broken_mech_lifter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -1194,7 +1194,7 @@
   {
     "result": "broken_mech_combat",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -1216,7 +1216,7 @@
   {
     "result": "broken_nursebot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h 30 m",
@@ -1238,7 +1238,7 @@
   {
     "result": "broken_nursebot_defective",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h 30 m",
@@ -1260,7 +1260,7 @@
   {
     "result": "broken_grocerybot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "150 m",
@@ -1282,7 +1282,7 @@
   {
     "result": "broken_grocerybot_busted",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "150 m",
@@ -1301,7 +1301,7 @@
   {
     "result": "bot_grocerybot_busted",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "150 m",
@@ -1320,7 +1320,7 @@
   {
     "result": "broken_dispatch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1345,7 +1345,7 @@
   {
     "result": "broken_exodii_worker",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
     "difficulty": 9,
@@ -1388,7 +1388,7 @@
   {
     "result": "broken_exodii_quad",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
     "difficulty": 9,
@@ -1439,7 +1439,7 @@
   {
     "result": "broken_exodii_turret",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
     "difficulty": 9,
@@ -1486,7 +1486,7 @@
   {
     "result": "broken_exodii_sniper_drone",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "skills_required": [ [ "mechanics", 9 ], [ "computer", 9 ] ],
     "difficulty": 9,
@@ -1527,7 +1527,7 @@
   {
     "result": "broken_dispatch_military",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1553,7 +1553,7 @@
   {
     "result": "targeting_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1563,7 +1563,7 @@
   {
     "result": "identification_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1573,7 +1573,7 @@
   {
     "result": "iron_pot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
@@ -1583,7 +1583,7 @@
   {
     "result": "pathfinding_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1593,7 +1593,7 @@
   {
     "result": "memory_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1603,7 +1603,7 @@
   {
     "result": "sensor_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1620,7 +1620,7 @@
   {
     "result": "self_monitoring_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1636,7 +1636,7 @@
   {
     "result": "ai_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "2 h",
@@ -1653,7 +1653,7 @@
   {
     "result": "ai_module_basic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "1 h",
@@ -1670,7 +1670,7 @@
   {
     "result": "ai_module_advanced",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 5,
     "time": "2 h 30 m",
@@ -1687,7 +1687,7 @@
   {
     "result": "gun_module",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": "45 m",
@@ -1704,7 +1704,7 @@
   {
     "result": "spidery_legs_big",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "6 h 40 m",
@@ -1721,7 +1721,7 @@
   {
     "result": "spidery_legs_small",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "6 h 40 m",
@@ -1732,7 +1732,7 @@
   {
     "result": "reverse_jointed_legs",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "6 h 40 m",
@@ -1743,7 +1743,7 @@
   {
     "result": "omni_wheel",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "6 h 40 m",
@@ -1760,7 +1760,7 @@
   {
     "result": "quad_rotors",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "3 h 20 m",
@@ -1777,7 +1777,7 @@
   {
     "result": "android_legs",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": "6 h 40 m",
@@ -1796,7 +1796,7 @@
   {
     "result": "android_arms",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": "6 h 40 m",
@@ -1815,7 +1815,7 @@
   {
     "result": "tank_tread",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "6 h 40 m",
@@ -1836,7 +1836,7 @@
   {
     "result": "camera",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 5 ] ], [ [ "e_scrap", 2 ] ], [ [ "lens", 1 ] ] ]
@@ -1844,7 +1844,7 @@
   {
     "result": "camera_pro",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
@@ -1852,7 +1852,7 @@
   {
     "result": "candlestick",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 300 ] ] ]
@@ -1860,7 +1860,7 @@
   {
     "result": "cannabis",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "weed", 20 ] ], [ [ "plant_fibre", 100 ] ], [ [ "withered", 1 ] ] ],
@@ -1877,7 +1877,7 @@
   {
     "result": "cell_phone",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
@@ -1885,7 +1885,7 @@
   {
     "result": "smart_phone",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
@@ -1893,7 +1893,7 @@
   {
     "result": "splatter_guard",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
@@ -1901,28 +1901,28 @@
   {
     "result": "ceramic_bowl",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_cup",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_mug",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
   {
     "result": "ceramic_plate",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 s",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
   },
@@ -1936,7 +1936,7 @@
   {
     "result": "clock",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "clockworks", 2 ] ] ]
@@ -1944,7 +1944,7 @@
   {
     "result": "collarpin",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ] ]
@@ -1960,7 +1960,7 @@
   {
     "result": "copper_ear",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 25 ] ] ]
@@ -1968,7 +1968,7 @@
   {
     "result": "creepy_doll",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
@@ -1976,7 +1976,7 @@
   {
     "result": "crown_golden",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 200 ] ] ]
@@ -1999,7 +1999,7 @@
   {
     "result": "diamond_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 1 ] ] ]
@@ -2007,7 +2007,7 @@
   {
     "result": "garnet_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 1 ] ] ]
@@ -2015,7 +2015,7 @@
   {
     "result": "amethyst_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 1 ] ] ]
@@ -2023,7 +2023,7 @@
   {
     "result": "aquamarine_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 1 ] ] ]
@@ -2031,7 +2031,7 @@
   {
     "result": "emerald_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 1 ] ] ]
@@ -2039,7 +2039,7 @@
   {
     "result": "alexandrite_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 1 ] ] ]
@@ -2047,7 +2047,7 @@
   {
     "result": "ruby_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 1 ] ] ]
@@ -2055,7 +2055,7 @@
   {
     "result": "peridot_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 1 ] ] ]
@@ -2063,7 +2063,7 @@
   {
     "result": "sapphire_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 1 ] ] ]
@@ -2071,7 +2071,7 @@
   {
     "result": "tourmaline_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 1 ] ] ]
@@ -2079,7 +2079,7 @@
   {
     "result": "citrine_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 1 ] ] ]
@@ -2087,7 +2087,7 @@
   {
     "result": "blue_topaz_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 1 ] ] ]
@@ -2095,7 +2095,7 @@
   {
     "result": "diamond_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "diamond", 1 ] ] ]
@@ -2103,7 +2103,7 @@
   {
     "result": "diving_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
@@ -2143,7 +2143,7 @@
   {
     "result": "eink_tablet_pc",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "e_scrap", 2 ] ] ]
@@ -2151,7 +2151,7 @@
   {
     "result": "extinguisher",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
@@ -2161,7 +2161,7 @@
   {
     "result": "fan",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
@@ -2169,7 +2169,7 @@
   {
     "result": "fancy_sunglasses",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2185,7 +2185,7 @@
   {
     "result": "file",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 3 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2193,7 +2193,7 @@
   {
     "result": "fitover_sunglasses",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2201,7 +2201,7 @@
   {
     "result": "flyer",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2209,7 +2209,7 @@
   {
     "result": "scorecard",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2217,7 +2217,7 @@
   {
     "result": "foon",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -2225,7 +2225,7 @@
   {
     "result": "football",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "string_6", 3 ] ] ]
@@ -2233,7 +2233,7 @@
   {
     "result": "fork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -2241,21 +2241,21 @@
   {
     "result": "glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
@@ -2290,21 +2290,21 @@
   {
     "result": "beaker",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "gradcylinder",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "fish_bowl",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 7 ] ] ]
   },
@@ -2325,7 +2325,7 @@
   {
     "result": "game_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
@@ -2341,7 +2341,7 @@
   {
     "result": "garnet_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "garnet", 4 ] ] ]
@@ -2349,7 +2349,7 @@
   {
     "result": "amethyst_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
@@ -2357,7 +2357,7 @@
   {
     "result": "aquamarine_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
@@ -2365,7 +2365,7 @@
   {
     "result": "emerald_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "emerald", 4 ] ] ]
@@ -2373,7 +2373,7 @@
   {
     "result": "alexandrite_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
@@ -2381,7 +2381,7 @@
   {
     "result": "ruby_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "ruby", 4 ] ] ]
@@ -2389,7 +2389,7 @@
   {
     "result": "peridot_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "peridot", 4 ] ] ]
@@ -2397,7 +2397,7 @@
   {
     "result": "sapphire_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
@@ -2405,7 +2405,7 @@
   {
     "result": "tourmaline_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
@@ -2413,7 +2413,7 @@
   {
     "result": "citrine_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "citrine", 4 ] ] ]
@@ -2421,7 +2421,7 @@
   {
     "result": "blue_topaz_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
@@ -2429,7 +2429,7 @@
   {
     "result": "opal_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "opal", 4 ] ] ]
@@ -2437,7 +2437,7 @@
   {
     "result": "pearl_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "pearl", 4 ] ] ]
@@ -2445,7 +2445,7 @@
   {
     "result": "diamond_gold_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 8 ] ], [ [ "diamond", 4 ] ] ]
@@ -2453,7 +2453,7 @@
   {
     "result": "gold_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
@@ -2461,7 +2461,7 @@
   {
     "result": "gold_ear",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ] ]
@@ -2469,7 +2469,7 @@
   {
     "result": "garnet_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "garnet", 2 ] ] ]
@@ -2477,7 +2477,7 @@
   {
     "result": "amethyst_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
@@ -2485,7 +2485,7 @@
   {
     "result": "aquamarine_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
@@ -2493,7 +2493,7 @@
   {
     "result": "emerald_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "emerald", 2 ] ] ]
@@ -2501,7 +2501,7 @@
   {
     "result": "alexandrite_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
@@ -2509,7 +2509,7 @@
   {
     "result": "ruby_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "ruby", 2 ] ] ]
@@ -2517,7 +2517,7 @@
   {
     "result": "peridot_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "peridot", 2 ] ] ]
@@ -2525,7 +2525,7 @@
   {
     "result": "sapphire_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
@@ -2533,7 +2533,7 @@
   {
     "result": "tourmaline_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
@@ -2541,7 +2541,7 @@
   {
     "result": "citrine_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "citrine", 2 ] ] ]
@@ -2549,7 +2549,7 @@
   {
     "result": "blue_topaz_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
@@ -2557,7 +2557,7 @@
   {
     "result": "opal_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "opal", 2 ] ] ]
@@ -2565,7 +2565,7 @@
   {
     "result": "pearl_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "pearl", 2 ] ] ]
@@ -2573,7 +2573,7 @@
   {
     "result": "diamond_gold_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ], [ [ "diamond", 2 ] ] ]
@@ -2581,7 +2581,7 @@
   {
     "result": "gold_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
@@ -2589,7 +2589,7 @@
   {
     "result": "hd_steel_drum",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "2 h",
@@ -2600,7 +2600,7 @@
   {
     "result": "heavy_flashlight",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "6 m",
@@ -2610,7 +2610,7 @@
   {
     "result": "holy_symbol",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 4 ] ] ]
@@ -2618,7 +2618,7 @@
   {
     "result": "horn_big",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "5 m",
@@ -2628,7 +2628,7 @@
   {
     "result": "horn_car",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "6 m",
@@ -2638,7 +2638,7 @@
   {
     "result": "kettle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "2 m",
@@ -2648,7 +2648,7 @@
   {
     "result": "kiln_done",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
@@ -2664,7 +2664,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_butter",
     "time": "2 m",
     "//": "I have no clue how this makes sense, but im not removing it -Esoop1 2020",
@@ -2739,7 +2739,7 @@
   {
     "result": "laptop",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2757,7 +2757,7 @@
   {
     "result": "large_lcd_screen",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "30 m",
     "using": [ [ "soldering_standard", 15 ] ],
@@ -2766,7 +2766,7 @@
   {
     "result": "small_lcd_screen",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "10 m",
     "using": [ [ "soldering_standard", 5 ] ],
@@ -2783,7 +2783,7 @@
   {
     "result": "teleumbrella",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
@@ -2791,7 +2791,7 @@
   {
     "result": "lawnmower",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
@@ -2806,14 +2806,14 @@
   {
     "result": "lighter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "silver_locket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 10 ] ] ]
@@ -2830,7 +2830,7 @@
   {
     "result": "makeshift_sling",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "sheet", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -2838,7 +2838,7 @@
   {
     "result": "many_years_old_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2846,7 +2846,7 @@
   {
     "result": "material_shrd_limestone",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -2865,7 +2865,7 @@
   {
     "result": "mess_tray",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
@@ -2873,7 +2873,7 @@
   {
     "result": "microwave",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2890,7 +2890,7 @@
   {
     "result": "mil_mess_kit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2899,7 +2899,7 @@
   {
     "result": "militarymap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2907,7 +2907,7 @@
   {
     "result": "mininuke",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 h",
     "skill_used": "electronics",
     "difficulty": 8,
@@ -2934,7 +2934,7 @@
   {
     "result": "money_bundle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2942,7 +2942,7 @@
   {
     "result": "months_old_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -2950,7 +2950,7 @@
   {
     "result": "motor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 4,
     "time": "30 m",
@@ -2961,7 +2961,7 @@
   {
     "result": "motor_large",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 6,
     "time": "50 m",
@@ -2979,7 +2979,7 @@
   {
     "result": "multi_cooker",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h 15 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2998,7 +2998,7 @@
   {
     "result": "silver_necklace",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 10 ] ] ]
@@ -3006,7 +3006,7 @@
   {
     "result": "newest_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3014,7 +3014,7 @@
   {
     "result": "one_year_old_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3022,7 +3022,7 @@
   {
     "result": "oxy_torch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "5 m",
@@ -3032,7 +3032,7 @@
   {
     "result": "oxygen_tank",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "5 m",
@@ -3042,7 +3042,7 @@
   {
     "result": "peeler",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -3058,7 +3058,7 @@
   {
     "result": "potato_masher",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -3083,7 +3083,7 @@
   {
     "result": "pocketwatch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "36 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 3 ] ], [ [ "clockworks", 1 ] ] ]
@@ -3091,7 +3091,7 @@
   {
     "result": "polisher",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "6 m",
@@ -3112,7 +3112,7 @@
   {
     "result": "power_armor_basic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
@@ -3131,7 +3131,7 @@
   {
     "result": "power_armor_helmet_basic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
@@ -3150,7 +3150,7 @@
   {
     "result": "processor",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "10 m",
@@ -3160,7 +3160,7 @@
   {
     "result": "radio_car",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -3177,7 +3177,7 @@
   {
     "result": "radio_car_box",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "components": [
       [ [ "radio_car", 1 ] ],
@@ -3189,7 +3189,7 @@
   {
     "result": "radiocontrol",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -3206,7 +3206,7 @@
   {
     "result": "stick_fiber",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 80 ] ] ]
@@ -3214,21 +3214,21 @@
   {
     "result": "ref_lighter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "restaurantmap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "garlic_press",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -3253,7 +3253,7 @@
   {
     "result": "garnet_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "garnet", 1 ] ] ]
@@ -3261,7 +3261,7 @@
   {
     "result": "amethyst_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
@@ -3269,7 +3269,7 @@
   {
     "result": "aquamarine_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
@@ -3277,7 +3277,7 @@
   {
     "result": "emerald_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "emerald", 1 ] ] ]
@@ -3285,7 +3285,7 @@
   {
     "result": "alexandrite_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
@@ -3293,7 +3293,7 @@
   {
     "result": "ruby_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "ruby", 1 ] ] ]
@@ -3301,7 +3301,7 @@
   {
     "result": "peridot_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "peridot", 1 ] ] ]
@@ -3309,7 +3309,7 @@
   {
     "result": "sapphire_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
@@ -3317,7 +3317,7 @@
   {
     "result": "tourmaline_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
@@ -3325,7 +3325,7 @@
   {
     "result": "citrine_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "citrine", 1 ] ] ]
@@ -3333,7 +3333,7 @@
   {
     "result": "blue_topaz_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
@@ -3341,7 +3341,7 @@
   {
     "result": "opal_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "opal", 1 ] ] ]
@@ -3349,7 +3349,7 @@
   {
     "result": "pearl_gold_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "gold_small", 2 ] ], [ [ "pearl", 1 ] ] ]
@@ -3357,7 +3357,7 @@
   {
     "result": "roadmap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3376,7 +3376,7 @@
   {
     "result": "robot_controls",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "45 m",
@@ -3412,7 +3412,7 @@
   {
     "result": "sf_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "gold_small", 5 ] ], [ [ "silver_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
@@ -3428,7 +3428,7 @@
   {
     "result": "garnet_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "garnet", 4 ] ] ]
@@ -3436,7 +3436,7 @@
   {
     "result": "amethyst_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
@@ -3444,7 +3444,7 @@
   {
     "result": "aquamarine_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
@@ -3452,7 +3452,7 @@
   {
     "result": "emerald_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "emerald", 4 ] ] ]
@@ -3460,7 +3460,7 @@
   {
     "result": "alexandrite_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
@@ -3468,7 +3468,7 @@
   {
     "result": "ruby_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "ruby", 4 ] ] ]
@@ -3476,7 +3476,7 @@
   {
     "result": "peridot_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "peridot", 4 ] ] ]
@@ -3484,7 +3484,7 @@
   {
     "result": "sapphire_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
@@ -3492,7 +3492,7 @@
   {
     "result": "tourmaline_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
@@ -3500,7 +3500,7 @@
   {
     "result": "citrine_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "citrine", 4 ] ] ]
@@ -3508,7 +3508,7 @@
   {
     "result": "blue_topaz_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
@@ -3516,7 +3516,7 @@
   {
     "result": "opal_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "opal", 4 ] ] ]
@@ -3524,7 +3524,7 @@
   {
     "result": "pearl_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "pearl", 4 ] ] ]
@@ -3532,7 +3532,7 @@
   {
     "result": "diamond_silver_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 8 ] ], [ [ "diamond", 4 ] ] ]
@@ -3540,7 +3540,7 @@
   {
     "result": "silver_ear",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 3 ] ] ]
@@ -3548,7 +3548,7 @@
   {
     "result": "garnet_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "garnet", 2 ] ] ]
@@ -3556,7 +3556,7 @@
   {
     "result": "amethyst_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
@@ -3564,7 +3564,7 @@
   {
     "result": "aquamarine_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
@@ -3572,7 +3572,7 @@
   {
     "result": "emerald_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "emerald", 2 ] ] ]
@@ -3580,7 +3580,7 @@
   {
     "result": "alexandrite_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
@@ -3588,7 +3588,7 @@
   {
     "result": "ruby_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "ruby", 2 ] ] ]
@@ -3596,7 +3596,7 @@
   {
     "result": "peridot_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "peridot", 2 ] ] ]
@@ -3604,7 +3604,7 @@
   {
     "result": "sapphire_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
@@ -3612,7 +3612,7 @@
   {
     "result": "tourmaline_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
@@ -3620,7 +3620,7 @@
   {
     "result": "citrine_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "citrine", 2 ] ] ]
@@ -3628,7 +3628,7 @@
   {
     "result": "blue_topaz_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
@@ -3636,7 +3636,7 @@
   {
     "result": "opal_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "opal", 2 ] ] ]
@@ -3644,7 +3644,7 @@
   {
     "result": "pearl_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "pearl", 2 ] ] ]
@@ -3652,7 +3652,7 @@
   {
     "result": "diamond_silver_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ], [ [ "diamond", 2 ] ] ]
@@ -3660,7 +3660,7 @@
   {
     "result": "sm_extinguisher",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 m",
@@ -3670,7 +3670,7 @@
   {
     "result": "small_relic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 20 ] ] ]
@@ -3678,7 +3678,7 @@
   {
     "result": "smoxygen_tank",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 m",
@@ -3688,7 +3688,7 @@
   {
     "result": "spoon",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -3696,7 +3696,7 @@
   {
     "result": "spork",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
@@ -3712,7 +3712,7 @@
   {
     "result": "stick_long",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 2 ] ] ]
@@ -3720,7 +3720,7 @@
   {
     "result": "stock_pot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
@@ -3730,7 +3730,7 @@
   {
     "result": "straw_basket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "components": [ [ [ "straw_pile", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -3738,7 +3738,7 @@
   {
     "result": "straw_doll",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "components": [ [ [ "straw_pile", 1 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -3746,7 +3746,7 @@
   {
     "result": "straw_fedora",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
@@ -3754,7 +3754,7 @@
   {
     "result": "straw_hat",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -3762,7 +3762,7 @@
   {
     "result": "straw_sandals",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -3770,7 +3770,7 @@
   {
     "result": "sunglasses",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3778,7 +3778,7 @@
   {
     "result": "survivormap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3786,7 +3786,7 @@
   {
     "result": "survnote",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3794,7 +3794,7 @@
   {
     "result": "talking_doll",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "rag", 2 ] ], [ [ "RAM", 1 ] ], [ [ "e_scrap", 2 ] ] ]
@@ -3811,7 +3811,7 @@
   {
     "result": "television",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -3828,7 +3828,7 @@
   {
     "result": "thyme",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
@@ -3836,7 +3836,7 @@
   {
     "result": "hickory_nut",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3847,7 +3847,7 @@
   {
     "result": "hazelnut",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3858,7 +3858,7 @@
   {
     "result": "chestnut",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3869,7 +3869,7 @@
   {
     "result": "almond",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3880,7 +3880,7 @@
   {
     "result": "pistachio",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3891,7 +3891,7 @@
   {
     "result": "pecan",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3902,7 +3902,7 @@
   {
     "result": "walnut",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "10 m",
@@ -3913,7 +3913,7 @@
   {
     "result": "whisk",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
@@ -3921,14 +3921,14 @@
   {
     "result": "wine_glass",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
     "result": "peanut",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "survival",
     "difficulty": 1,
     "time": "5 m",
@@ -3939,7 +3939,7 @@
   {
     "result": "tieclip",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 4 ] ] ]
@@ -3947,7 +3947,7 @@
   {
     "result": "toaster",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "12 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -3956,7 +3956,7 @@
   {
     "result": "touristmap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -3973,7 +3973,7 @@
   {
     "result": "tshirt_tour",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "time": "1 m",
     "components": [ [ [ "rag", 5 ] ] ],
@@ -3982,7 +3982,7 @@
   {
     "result": "usb_drive",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "RAM", 1 ] ] ]
@@ -3990,7 +3990,7 @@
   {
     "result": "vac_sealer",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
@@ -3998,7 +3998,7 @@
   {
     "result": "vehicle_dashboard",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "30 m",
@@ -4019,7 +4019,7 @@
   {
     "result": "weeks_old_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4043,7 +4043,7 @@
   {
     "result": "wrapper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4051,7 +4051,7 @@
   {
     "result": "wristwatch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
@@ -4059,7 +4059,7 @@
   {
     "result": "years_old_newspaper",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4078,7 +4078,7 @@
   {
     "result": "box_small",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 15 ] ] ]
@@ -4094,7 +4094,7 @@
   {
     "result": "box_large",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cardboard", 125 ] ] ]
@@ -4164,7 +4164,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "solarpack_on",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -4213,7 +4213,7 @@
   {
     "result": "1st_aid",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "components": [
       [ [ "medical_tape", 20 ] ],
@@ -4230,7 +4230,7 @@
   {
     "result": "ifak",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "components": [
       [ [ "medical_tape", 20 ] ],
@@ -4249,7 +4249,7 @@
   {
     "result": "survival_kit",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "15 s",
     "components": [
       [ [ "knife_folding", 1 ] ],
@@ -4267,7 +4267,7 @@
   {
     "result": "garlic",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "15 s",
     "components": [ [ [ "garlic_clove", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4275,7 +4275,7 @@
   {
     "result": "styrofoam_cup",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_chunk", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4283,7 +4283,7 @@
   {
     "result": "pan",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "3 m",
@@ -4313,7 +4313,7 @@
   {
     "result": "fluid_preserved_brain",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass_sealed", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4321,7 +4321,7 @@
   {
     "result": "trailmap",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -4329,7 +4329,7 @@
   {
     "result": "spectrophotometer",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "chemistry", 1 ],
@@ -4349,7 +4349,7 @@
   {
     "result": "melting_point",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4365,7 +4365,7 @@
   {
     "result": "vortex",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4381,7 +4381,7 @@
   {
     "result": "ph_meter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4390,7 +4390,7 @@
   {
     "result": "voltmeter",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4399,7 +4399,7 @@
   {
     "result": "microscope",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4417,7 +4417,7 @@
   {
     "result": "microscope_dissecting",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4435,7 +4435,7 @@
   {
     "result": "microcentrifuge",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "45 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4452,7 +4452,7 @@
   {
     "result": "gelbox",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "40 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -4510,7 +4510,7 @@
   {
     "result": "miner_hat",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -4523,7 +4523,7 @@
   {
     "result": "adobe_pallet_done",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "1 m",
     "difficulty": 1,
@@ -4533,7 +4533,7 @@
   {
     "result": "guitar_electric",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "6 m",
@@ -4550,7 +4550,7 @@
   {
     "result": "amplifier_head",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "1 h 15 m",
@@ -4571,7 +4571,7 @@
   {
     "result": "platinum_hairpin",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "6 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 3 ] ] ]
@@ -4579,7 +4579,7 @@
   {
     "result": "platinum_locket",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ] ]
@@ -4587,7 +4587,7 @@
   {
     "result": "platinum_necklace",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 3 ] ] ]
@@ -4595,7 +4595,7 @@
   {
     "result": "platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "36 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ] ]
@@ -4603,7 +4603,7 @@
   {
     "result": "garnet_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "garnet", 4 ] ] ]
@@ -4611,7 +4611,7 @@
   {
     "result": "amethyst_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "amethyst", 4 ] ] ]
@@ -4619,7 +4619,7 @@
   {
     "result": "aquamarine_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "aquamarine", 4 ] ] ]
@@ -4627,7 +4627,7 @@
   {
     "result": "emerald_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "emerald", 4 ] ] ]
@@ -4635,7 +4635,7 @@
   {
     "result": "alexandrite_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "alexandrite", 4 ] ] ]
@@ -4643,7 +4643,7 @@
   {
     "result": "ruby_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "ruby", 4 ] ] ]
@@ -4651,7 +4651,7 @@
   {
     "result": "peridot_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "peridot", 4 ] ] ]
@@ -4659,7 +4659,7 @@
   {
     "result": "sapphire_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "sapphire", 4 ] ] ]
@@ -4667,7 +4667,7 @@
   {
     "result": "tourmaline_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "tourmaline", 4 ] ] ]
@@ -4675,7 +4675,7 @@
   {
     "result": "citrine_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "citrine", 4 ] ] ]
@@ -4683,7 +4683,7 @@
   {
     "result": "blue_topaz_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "blue_topaz", 4 ] ] ]
@@ -4691,7 +4691,7 @@
   {
     "result": "opal_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "opal", 4 ] ] ]
@@ -4699,7 +4699,7 @@
   {
     "result": "pearl_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "pearl", 4 ] ] ]
@@ -4707,7 +4707,7 @@
   {
     "result": "diamond_platinum_bracelet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 8 ] ], [ [ "diamond", 4 ] ] ]
@@ -4715,7 +4715,7 @@
   {
     "result": "platinum_dental_grill",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
@@ -4723,7 +4723,7 @@
   {
     "result": "platinum_ear",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
@@ -4731,7 +4731,7 @@
   {
     "result": "garnet_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "garnet", 2 ] ] ]
@@ -4739,7 +4739,7 @@
   {
     "result": "amethyst_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "amethyst", 2 ] ] ]
@@ -4747,7 +4747,7 @@
   {
     "result": "aquamarine_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "aquamarine", 2 ] ] ]
@@ -4755,7 +4755,7 @@
   {
     "result": "emerald_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "emerald", 2 ] ] ]
@@ -4763,7 +4763,7 @@
   {
     "result": "alexandrite_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "alexandrite", 2 ] ] ]
@@ -4771,7 +4771,7 @@
   {
     "result": "ruby_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "ruby", 2 ] ] ]
@@ -4779,7 +4779,7 @@
   {
     "result": "peridot_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "peridot", 2 ] ] ]
@@ -4787,7 +4787,7 @@
   {
     "result": "sapphire_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "sapphire", 2 ] ] ]
@@ -4795,7 +4795,7 @@
   {
     "result": "tourmaline_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "tourmaline", 2 ] ] ]
@@ -4803,7 +4803,7 @@
   {
     "result": "citrine_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "citrine", 2 ] ] ]
@@ -4811,7 +4811,7 @@
   {
     "result": "blue_topaz_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "blue_topaz", 2 ] ] ]
@@ -4819,7 +4819,7 @@
   {
     "result": "opal_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "opal", 2 ] ] ]
@@ -4827,7 +4827,7 @@
   {
     "result": "pearl_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "pearl", 2 ] ] ]
@@ -4835,7 +4835,7 @@
   {
     "result": "diamond_platinum_earring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 4 ] ], [ [ "diamond", 2 ] ] ]
@@ -4843,7 +4843,7 @@
   {
     "result": "platinum_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "36 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "platinum_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
@@ -4851,7 +4851,7 @@
   {
     "result": "platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
@@ -4859,7 +4859,7 @@
   {
     "result": "garnet_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "garnet", 1 ] ] ]
@@ -4867,7 +4867,7 @@
   {
     "result": "amethyst_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "amethyst", 1 ] ] ]
@@ -4875,7 +4875,7 @@
   {
     "result": "aquamarine_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "aquamarine", 1 ] ] ]
@@ -4883,7 +4883,7 @@
   {
     "result": "emerald_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "emerald", 1 ] ] ]
@@ -4891,7 +4891,7 @@
   {
     "result": "alexandrite_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "alexandrite", 1 ] ] ]
@@ -4899,7 +4899,7 @@
   {
     "result": "ruby_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "ruby", 1 ] ] ]
@@ -4907,7 +4907,7 @@
   {
     "result": "peridot_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "peridot", 1 ] ] ]
@@ -4915,7 +4915,7 @@
   {
     "result": "sapphire_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "sapphire", 1 ] ] ]
@@ -4923,7 +4923,7 @@
   {
     "result": "tourmaline_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "tourmaline", 1 ] ] ]
@@ -4931,7 +4931,7 @@
   {
     "result": "citrine_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "citrine", 1 ] ] ]
@@ -4939,7 +4939,7 @@
   {
     "result": "blue_topaz_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "blue_topaz", 1 ] ] ]
@@ -4947,7 +4947,7 @@
   {
     "result": "opal_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "opal", 1 ] ] ]
@@ -4955,7 +4955,7 @@
   {
     "result": "pearl_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "pearl", 1 ] ] ]
@@ -4963,7 +4963,7 @@
   {
     "result": "diamond_platinum_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ], [ [ "diamond", 1 ] ] ]
@@ -4979,7 +4979,7 @@
   {
     "result": "hair_dryer",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 1,
     "time": "5 m",
@@ -4989,7 +4989,7 @@
   {
     "result": "curling_iron",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "10 m",
@@ -4999,7 +4999,7 @@
   {
     "result": "string_floss",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "6 s",
     "//": "just unspool the floss, no need to make a big production out of it.",
@@ -5008,7 +5008,7 @@
   {
     "result": "plunger_toilet",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
