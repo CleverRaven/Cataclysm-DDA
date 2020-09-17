@@ -84,14 +84,12 @@ IF(TILES)
         ${FREETYPE_INCLUDE_DIRS}
         ${PNG_INCLUDE_DIRS}
         ${JPEG_INCLUDE_DIR}
-        ${ZLIB_INCLUDE_DIRS}
         ${BZIP2_INCLUDE_DIR}
       )
       target_link_libraries(cataclysm-tiles-common
         ${FREETYPE_LIBRARIES}
         ${PNG_LIBRARIES}
         ${JPEG_LIBRARIES}
-        ${ZLIB_LIBRARIES}
         ${BZIP2_LIBRARIES}
       )
     ENDIF (NOT DYNAMIC_LINKING)
@@ -99,11 +97,13 @@ IF(TILES)
       ${SDL2_INCLUDE_DIR}
       ${SDL2_IMAGE_INCLUDE_DIRS}
       ${SDL2_TTF_INCLUDE_DIRS}
+      ${ZLIB_INCLUDE_DIRS}
     )
     target_link_libraries(cataclysm-tiles-common
       ${SDL2_LIBRARY}
       ${SDL2_IMAGE_LIBRARIES}
       ${SDL2_TTF_LIBRARIES}
+      ${ZLIB_LIBRARIES}
     )
 
     IF(SOUND)
