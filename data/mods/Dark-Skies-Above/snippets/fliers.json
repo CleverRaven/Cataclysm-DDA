@@ -299,26 +299,26 @@
         "text": "This is an advertisement for Rivtech brand rifles.  It shows a picture of a smiling soldier with a futuristic looking rifle on her shoulder saluting the viewer.  The caption reads:  \"Rivtech caseless firearms proudly supports our Military.\""
       },
       {
-        "id": "flier_77",
+        "id": "dks_flier_77",
         "text": "This scrap of paper features a faded ad for Cascade Cola.  \"All the sweet you can stand.  Don't just drink it; let it cascade into you.\""
       },
       {
-        "id": "flier_78",
+        "id": "dks_flier_78",
         "text": {
           "str": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\"",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
-        "id": "flier_79",
+        "id": "dks_flier_79",
         "text": "JOIN THE CONCERNED CONSUMERS OF FOODPEOPLE!  Join the fight to…\n - Stop the neutralization of cultural icons.\n - Endow Foodperson with vitals befitting heroics superb.\n - Protect RU-238 and other FRUIT flavors from the threat of prohibition.\n - Inspire future consumers of the superhero genre."
       },
       {
-        "id": "flier_80",
+        "id": "dks_flier_80",
         "text": "This promotional palm card is emblazoned \"DigiMart has E-Ink\" in a garish neon purple typeface.  \"E-Ink Tablets come packed with octo-core cpu, veripixel lenses camera, neoTouch screen, DRM locket, InnerVision ready near field, a free datavault storage plan, wi-fi, and more!\""
       },
       {
-        "id": "flier_81",
+        "id": "dks_flier_81",
         "text": {
           "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
           "//NOLINT(cata-text-style)": "intentional format"
