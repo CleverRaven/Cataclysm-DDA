@@ -3174,8 +3174,19 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     // This stops containers and magazines counting *themselves* as ammo sources
                     return VisitResponse::SKIP;
                 }
-                // prevents reloading with items frozen in watertight containers.
-                if( node->is_frozen_liquid() && parent->is_watertight_container() ) {
+                // Prevents reloading with items frozen in watertight containers.
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
+                }
+
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of( phase_id::LIQUID ) ) {
                     return VisitResponse::SKIP;
                 }
 
@@ -3188,15 +3199,25 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } else {
             // Look for containers with any liquid and loose frozen liquids
             src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
+                // Prevents reloading with items frozen in watertight containers.
                 if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( parent != nullptr && parent->is_container() &&
-                    ( node->made_of( phase_id::LIQUID ) || node->is_frozen_liquid() ) ) {
-                    out = item_location( src, node );
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
 
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->made_of( phase_id::LIQUID ) || node->is_frozen_liquid() ) {
+                    out = item_location( src, node );
+                }
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         }
