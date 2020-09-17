@@ -593,7 +593,11 @@
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 910 ] ]
   },
   {
     "result": "sleeveless_duster",
@@ -1026,7 +1030,11 @@
     "time": "6 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 600 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 550 ] ]
   },
   {
     "result": "tank_top",

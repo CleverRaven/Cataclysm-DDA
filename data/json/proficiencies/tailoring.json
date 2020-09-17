@@ -1,0 +1,69 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_closures",
+    "name": { "str": "Garment Closures" },
+    "description": "You are familiar with the adjustments and tricks needed to make properly functional buttons, zippers, and other closures on garments.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_closures_waterproofing",
+    "name": { "str": "Fabric Waterproofing" },
+    "description": "You know how to making garments and fabric containers sealed against water.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_closures" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cobbling",
+    "name": { "str": "Cobbling" },
+    "description": "Like a magical elf, you've learned how to construct footwear by hand.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting",
+    "name": { "str": "Knitting" },
+    "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting_speed",
+    "name": { "str": "Speed Knitting" },
+    "description": "You have knitted and knitted and knitted some more, and have the consistent string tension to show for it.  When you get going, the clicking of your needles is like a metronome.",
+    "can_learn": true,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_knitting" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_leatherworking",
+    "name": { "str": "Leatherworking" },
+    "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_chitinworking",
+    "name": { "str": "Chitinworking" },
+    "description": "It seems unlikely that anyone prior to the cataclysm knew how to work with the shells of giant bugs as well as you do now.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_leatherworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_polymerworking",
+    "name": { "str": "Advanced polymer sewing" },
+    "description": "You know the tricks for working with kevlar, nomex, and other advanced polymer cloth.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  }
+]

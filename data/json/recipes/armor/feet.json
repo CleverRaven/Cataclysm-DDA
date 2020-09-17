@@ -488,20 +488,11 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
-  },
-  {
-    "result": "socks_wool",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "1 h",
-    "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 150 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 40 ] ]
   },
   {
     "result": "socks_ankle",

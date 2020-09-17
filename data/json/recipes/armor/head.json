@@ -359,7 +359,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -725,7 +729,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 600 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 100 ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -753,7 +761,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 900 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 190 ] ]
   },
   {
     "result": "long_patchwork_scarf",
@@ -1221,7 +1233,11 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 150 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "result": "scarf_fur",
@@ -1281,7 +1297,11 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 160 ] ]
   },
   {
     "result": "straw_fedora",
