@@ -163,7 +163,7 @@ struct level_cache {
     level_cache();
     level_cache( const level_cache &other ) = default;
 
-    bool transparency_cache_dirty = false;
+    std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
     bool outside_cache_dirty = false;
     bool floor_cache_dirty = false;
     bool seen_cache_dirty = false;
@@ -252,20 +252,38 @@ class map
         /*@{*/
         void set_transparency_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).transparency_cache_dirty = true;
+                get_cache( zlev ).transparency_cache_dirty.set();
+            }
+        }
+
+        // more granular version of the transparency cache invalidation
+        // preferred over map::set_transparency_cache_dirty( const int zlev )
+        // p is in local coords ("ms")
+        void set_transparency_cache_dirty( const tripoint &p ) {
+            if( inbounds( p ) ) {
+                const tripoint smp = ms_to_sm_copy( p );
+                get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
             }
         }
 
         void set_seen_cache_dirty( const tripoint change_location ) {
-            if( inbounds_z( change_location.z ) ) {
+            if( inbounds( change_location ) ) {
                 level_cache &cache = get_cache( change_location.z );
                 if( cache.seen_cache_dirty ) {
                     return;
                 }
-                if( change_location == tripoint_zero ||
-                    cache.seen_cache[change_location.x][change_location.y] != 0.0 ) {
+                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
+                    cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
                     cache.seen_cache_dirty = true;
                 }
+            }
+        }
+
+        // invalidates seen cache for the whole zlevel unconditionally
+        void set_seen_cache_dirty( const int zlevel ) {
+            if( inbounds_z( zlevel ) ) {
+                level_cache &cache = get_cache( zlevel );
+                cache.seen_cache_dirty = true;
             }
         }
 
@@ -295,7 +313,7 @@ class map
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
-                ch.transparency_cache_dirty = true;
+                ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
             }
@@ -421,13 +439,13 @@ class map
         // Versions of the above that don't do bounds checks
         maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
-        maptile maptile_has_bounds( const tripoint &p, bool bounds_checked );
-        std::array<maptile, 8> get_neighbors( const tripoint &p );
+        std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
+        std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                          const time_duration &outdoor_age_speedup, scent_block &sblk );
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
-        void gas_spread_to( field_entry &cur, maptile &dst );
+        void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
         int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
@@ -1217,10 +1235,9 @@ class map
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         // See fields.cpp
-        bool process_fields();
-        bool process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
-                                           field_entry &cur, bool &dirty_transparency_cache );
+        void process_fields();
+        void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
+        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1301,8 +1318,8 @@ class map
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
-        bool add_field( const tripoint &p, const field_type_id &type, int intensity = INT_MAX,
-                        const time_duration &age = 0_turns );
+        bool add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
+                        const time_duration &age = 0_turns, bool hit_player = true );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
