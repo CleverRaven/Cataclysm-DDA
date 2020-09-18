@@ -337,14 +337,8 @@ class handle_contents_changed_helper
     public:
         /**
          * @param guy The guy who's manipulating the item.
-         * @param container The parent container of the manipulated item
-         * @param pocket The parent pocket of the manipulated item
-         */
-        handle_contents_changed_helper( Character &guy, const item_location &container,
-                                        item_pocket *pocket );
-        /**
-         * @param guy The guy who's manipulating the item.
-         * @param content The manipulated item.
+         * @param content The manipulated item. Parent item and pocket of this
+         *        item should remain valid before `handle()` is called.
          */
         handle_contents_changed_helper( Character &guy, const item_location &content );
         void handle();
@@ -1493,15 +1487,21 @@ class Character : public Creature, public visitable<Character>
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
         /**
-         * Update `container` and its parent/ancestor items after its contents are changed.
-         * Specifically, unseal `container` and its parent/ancestor items and handle any content
-         * that would spill.
-         * @param container Item location of the innermost container to unseal.
-         * @param pocket Pocket of `container` to unseal (this value should be
-         *        secured before modifying the content, in case the content item
-         *        location is invalidated in the process of modifying).
+         * Update items in `containers` and their parent/ancestor items after
+         * their contents are changed. Specifically, handle contents that would
+         * spill in unsealed pockets of items in `containers`, and unseal and
+         * handle any parent/ancestor pockets in the process.
+         *
+         * Pockets of items in `container` should be unsealed before calling
+         * this method
+         *
+         * @param containers Item locations of containers to handle. Item locations
+         *        in this vector can contain each other, but should always be valid
+         *        (i.e. if A contains B and B contains C, A and C can be in the vector
+         *        at the same time, but B shouldn't be removed in such case, otherwise
+         *        C is invalidated.). Item location in this vector should be unique.
          */
-        void handle_contents_changed( const item_location &container, item_pocket *pocket );
+        void handle_contents_changed( const std::vector<item_location> &containers );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */

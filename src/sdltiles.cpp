@@ -3088,6 +3088,11 @@ void input_manager::set_timeout( const int t )
 // is simply a wrapper around this.
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
 #if !defined( __ANDROID__ )
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         SDL_StartTextInput();

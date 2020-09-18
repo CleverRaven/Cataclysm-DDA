@@ -18,5 +18,10 @@ extern bool use_tiles;
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.
 extern bool test_mode;
+enum class test_mode_spilling_action_t {
+    spill_all,
+    cancel_spill,
+};
+extern test_mode_spilling_action_t test_mode_spilling_action;
 
 #endif // CATA_SRC_CACHED_OPTIONS_H
