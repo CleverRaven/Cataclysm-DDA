@@ -2940,7 +2940,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     class sort_by_depth
     {
         public:
-            bool operator()( const item_loc_with_depth &lhs, const item_loc_with_depth &rhs ) {
+            bool operator()( const item_loc_with_depth &lhs, const item_loc_with_depth &rhs ) const {
                 return lhs.depth() < rhs.depth();
             }
     };
