@@ -3164,7 +3164,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
             }
             if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
-                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                if( node->ammo_remaining() ) {
                     out = item_location( src, node );
                 }
             }

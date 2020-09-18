@@ -1103,6 +1103,16 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+bool item_contents::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            return pocket.allows_speedloader( speedloader_id );
+        }
+    }
+    return false;
+}
+
 std::vector<const item *> item_contents::mods() const
 {
     std::vector<const item *> mods;

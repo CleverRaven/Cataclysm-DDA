@@ -124,6 +124,8 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
@@ -373,6 +375,7 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.

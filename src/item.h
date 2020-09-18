@@ -508,6 +508,8 @@ class item : public visitable<item>
          * @param qty caps reloading to this (or fewer) units
          */
         bool reload( Character &u, item_location ammo, int qty );
+        // is this speedloader compatible with this item?
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         template<typename Archive>
         void io( Archive & );
