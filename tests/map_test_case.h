@@ -338,4 +338,4 @@ void map_test_case::for_each_tile( const std::function<R( tile )> &callback )
     for_each_tile( *origin, callback );
 }
 
-#endif //CATA_TESTS_MAP_TEST_CASE_H
+#endif // CATA_TESTS_MAP_TEST_CASE_H
