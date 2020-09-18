@@ -49,8 +49,9 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ], [ [ "copper", 1 ] ] ]
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
+    "//": "65 mg gunpowder rounded to 1 100 mg 'pieces'",
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_22_lr",
@@ -66,8 +67,9 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ] ]
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
+    "//": "65 mg gunpowder rounded to 1 100 mg 'pieces'",
+    "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 65 ], [ "gunpowder_pistol", 65 ] ] ]
   },
   {
     "result": "bp_22_fmj",
@@ -83,7 +85,7 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -100,7 +102,7 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "chem_black_powder", 3 ] ] ]
   },
   {
@@ -117,11 +119,12 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "//": "1500 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 4 ], [ "gunpowder_magnum_pistol", 4 ], [ "gunpowder_rifle", 4 ] ],
+      [ [ "gunpowder", 15 ], [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 1 ] ]
     ]
   },
@@ -139,7 +142,7 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -156,8 +159,9 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_270win", 1 ] ],
-    "components": [ [ [ "gunpowder", 10 ], [ "gunpowder_magnum_pistol", 10 ], [ "gunpowder_rifle", 10 ] ], [ [ "copper", 3 ] ] ]
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 3 ], [ "ammo_270win", 1 ] ],
+    "//": "2974 mg gunpowder rounded to 30 100 mg 'pieces'",
+    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ], [ "gunpowder_rifle", 30 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_270win_jsp",
@@ -173,8 +177,8 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ], [ "ammo_270win", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "copper", 3 ] ] ]
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 3 ], [ "ammo_270win", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 15 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_300_winmag",
@@ -190,12 +194,13 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "//": "4327 mg gunpowder rounded to 43 100 mg 'pieces'",
     "components": [
       [ [ "300_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 16 ], [ "gunpowder_rifle", 16 ], [ "gunpowder_large_rifle", 16 ] ],
-      [ [ "copper", 4 ] ]
+      [ [ "gunpowder", 43 ], [ "gunpowder_rifle", 43 ], [ "gunpowder_large_rifle", 43 ] ],
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -212,8 +217,8 @@
     "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "300_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 24 ] ], [ [ "copper", 4 ] ] ]
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "300_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 24 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_3006",
@@ -229,12 +234,13 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
+    "//": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ],
-      [ [ "copper", 4 ] ]
+      [ [ "gunpowder", 32 ], [ "gunpowder_rifle", 32 ], [ "gunpowder_large_rifle", 32 ] ],
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -251,12 +257,13 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "//": "3300 mg gunpowder rounded to 33 100 mg 'pieces'",
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ],
-      [ [ "copper", 4 ] ]
+      [ [ "gunpowder", 33 ], [ "gunpowder_rifle", 33 ], [ "gunpowder_large_rifle", 33 ] ],
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -273,17 +280,18 @@
     "book_learn": [ [ "recipe_bullets", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "//": "3300 mg gunpowder rounded to 33 100 mg 'pieces'",
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [
-        [ "gunpowder", 12 ],
-        [ "gunpowder_magnum_pistol", 12 ],
-        [ "gunpowder_rifle", 12 ],
-        [ "gunpowder_large_rifle", 12 ]
+        [ "gunpowder", 33 ],
+        [ "gunpowder_magnum_pistol", 33 ],
+        [ "gunpowder_rifle", 33 ],
+        [ "gunpowder_large_rifle", 33 ]
       ],
-      [ [ "copper", 4 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 8 ] ]
     ]
   },
@@ -301,8 +309,8 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 4 ] ] ]
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_3006fmj",
@@ -318,8 +326,8 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 4 ] ] ]
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 18 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "bp_3006_incendiary",
@@ -335,12 +343,12 @@
     "book_learn": [ [ "recipe_bullets", 2 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 18 ] ],
-      [ [ "copper", 4 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 8 ] ]
     ]
   },
@@ -358,17 +366,18 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "//": "2800 mg gunpowder rounded to 28 100 mg 'pieces'",
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [
-        [ "gunpowder", 8 ],
-        [ "gunpowder_magnum_pistol", 12 ],
-        [ "gunpowder_rifle", 12 ],
-        [ "gunpowder_large_rifle", 12 ]
+        [ "gunpowder", 28 ],
+        [ "gunpowder_magnum_pistol", 28 ],
+        [ "gunpowder_rifle", 28 ],
+        [ "gunpowder_large_rifle", 28 ]
       ],
-      [ [ "copper", 3 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -385,12 +394,12 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 12 ] ],
-      [ [ "copper", 3 ] ]
+      [ [ "copper", 1 ] ]
     ]
   },
   {
@@ -407,13 +416,14 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 5 ] ],
+    "//": "2844 mg gunpowder rounded to 28 100 mg 'pieces'",
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 15 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_magnum_pistol", 12 ] ],
+      [ [ "gunpowder", 28 ], [ "gunpowder_rifle", 28 ], [ "gunpowder_magnum_pistol", 28 ] ],
       [ [ "lead", 5 ] ],
-      [ [ "copper", 2 ] ]
+      [ [ "copper", 3 ] ]
     ]
   },
   {
@@ -430,12 +440,13 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 3 ] ],
+    "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 17 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ] ],
-      [ [ "copper", 7 ] ]
+      [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ], [ "gunpowder_rifle", 30 ] ],
+      [ [ "copper", 5 ] ]
     ]
   },
   {
@@ -453,11 +464,12 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
+    "//": "1944 mg gunpowder rounded to 19 100 mg 'pieces'",
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ] ],
-      [ [ "lead", 9 ] ]
+      [ [ "gunpowder", 1944 ], [ "gunpowder_magnum_pistol", 1944 ], [ "gunpowder_rifle", 1944 ] ],
+      [ [ "copper", 3 ] ]
     ]
   },
   {
@@ -475,7 +487,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
-    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "lead", 9 ] ] ]
+    "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "copper", 3 ] ] ]
   },
   {
     "result": "reloaded_5x50dart",
@@ -493,11 +505,12 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [
       [ [ "5x50_hull", 1 ] ],
       [ [ "plastic_chunk", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 3 ], [ "gunpowder_magnum_pistol", 3 ] ],
+      [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ] ],
       [ [ "combatnail", 1 ] ]
     ]
   },
@@ -516,10 +529,11 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder", 158 ], [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
     ]
   },
@@ -537,11 +551,12 @@
     "book_learn": [ [ "recipe_bullets", 8 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 15 ] ],
+    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
+    "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder", 158 ], [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ],
       [ [ "incendiary", 20 ] ]
     ]
@@ -561,10 +576,11 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ] ],
+    "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
+      [ [ "gunpowder", 158 ], [ "gunpowder_large_rifle", 158 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 6 ] ]
     ]
@@ -583,11 +599,12 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
     "components": [
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 5 ], [ "gunpowder_magnum_pistol", 5 ], [ "gunpowder_rifle", 5 ] ],
+      [ [ "gunpowder", 13 ], [ "gunpowder_magnum_pistol", 13 ], [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
     ]
   },
@@ -605,11 +622,12 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
     "components": [
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 6 ], [ "gunpowder_magnum_pistol", 6 ], [ "gunpowder_rifle", 6 ] ],
+      [ [ "gunpowder", 13 ], [ "gunpowder_magnum_pistol", 13 ], [ "gunpowder_rifle", 13 ] ],
       [ [ "copper", 1 ] ]
     ]
   },
@@ -627,8 +645,9 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 5 ], [ "ammo_300blk", 1 ] ],
-    "components": [ [ [ "gunpowder", 4 ] ], [ [ "copper", 2 ] ] ]
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "//": "1133 mg gunpowder rounded to 11 100 mg 'pieces'",
+    "components": [ [ [ "gunpowder", 11 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_300blk",
@@ -644,8 +663,8 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 5 ], [ "ammo_300blk", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_556",
@@ -661,17 +680,14 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 20 ] ],
+    "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [
-        [ "gunpowder", 6 ],
-        [ "gunpowder_magnum_pistol", 6 ],
-        [ "gunpowder_rifle", 6 ],
-        [ "gunpowder_magnum_pistol", 6 ]
-      ],
-      [ [ "copper", 1 ] ]
+      [ [ "gunpowder", 17 ], [ "gunpowder_magnum_pistol", 17 ], [ "gunpowder_rifle", 17 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -688,11 +704,12 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ],
+      [ [ "gunpowder", 17 ], [ "gunpowder_rifle", 17 ], [ "gunpowder_magnum_pistol", 17 ] ],
       [ [ "copper", 1 ] ],
       [ [ "incendiary", 2 ] ]
     ]
@@ -711,7 +728,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -728,7 +745,7 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -751,12 +768,13 @@
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 10 ] ],
+    "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
+    "//": "16523 mg gunpowder rounded to 165 100 mg 'pieces'",
     "components": [
       [ [ "700nx_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ],
-      [ [ "copper", 5 ] ]
+      [ [ "gunpowder", 165 ], [ "gunpowder_large_rifle", 165 ] ],
+      [ [ "copper", 10 ] ]
     ]
   },
   {
@@ -773,12 +791,13 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "//": "2462 mg gunpowder rounded to 25 100 mg 'pieces'",
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 10 ], [ "gunpowder_rifle", 10 ], [ "gunpowder_magnum_pistol", 10 ] ],
-      [ [ "copper", 3 ] ]
+      [ [ "gunpowder", 25 ], [ "gunpowder_rifle", 25 ], [ "gunpowder_magnum_pistol", 25 ] ],
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -795,17 +814,18 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "//": "2462 mg gunpowder rounded to 25 100 mg 'pieces'",
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [
-        [ "gunpowder", 10 ],
-        [ "gunpowder_magnum_pistol", 10 ],
-        [ "gunpowder_rifle", 10 ],
-        [ "gunpowder_large_rifle", 10 ]
+        [ "gunpowder", 25 ],
+        [ "gunpowder_magnum_pistol", 25 ],
+        [ "gunpowder_rifle", 25 ],
+        [ "gunpowder_large_rifle", 25 ]
       ],
-      [ [ "copper", 3 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 6 ] ]
     ]
   },
@@ -823,12 +843,12 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 15 ] ],
-      [ [ "copper", 3 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -845,12 +865,12 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 15 ] ],
-      [ [ "copper", 3 ] ],
+      [ [ "copper", 2 ] ],
       [ [ "incendiary", 6 ] ]
     ]
   },
@@ -868,17 +888,18 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 7 ] ],
+    "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 3 ] ],
+    "//": "2851 mg gunpowder rounded to 29 100 mg 'pieces'",
     "components": [
       [ [ "762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [
-        [ "gunpowder", 10 ],
-        [ "gunpowder_magnum_pistol", 10 ],
-        [ "gunpowder_rifle", 10 ],
-        [ "gunpowder_large_rifle", 10 ]
+        [ "gunpowder", 29 ],
+        [ "gunpowder_magnum_pistol", 29 ],
+        [ "gunpowder_rifle", 29 ],
+        [ "gunpowder_large_rifle", 29 ]
       ],
-      [ [ "copper", 3 ] ]
+      [ [ "copper", 2 ] ]
     ]
   },
   {
@@ -895,11 +916,13 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 2 ] ],
+    "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ], [ "gunpowder_magnum_pistol", 8 ], [ "gunpowder_rifle", 8 ] ],
+      [ [ "gunpowder", 15 ], [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
+      [ [ "scrap", 1 ] ],
       [ [ "copper", 1 ] ]
     ]
   },
@@ -917,12 +940,13 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
+    "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ], [ "gunpowder_magnum_pistol", 8 ], [ "gunpowder_rifle", 8 ] ],
-      [ [ "copper", 1 ] ]
+      [ [ "gunpowder", 15 ], [ "gunpowder_magnum_pistol", 15 ], [ "gunpowder_rifle", 15 ] ],
+      [ [ "copper", 2 ] ]
     ]
   }
 ]

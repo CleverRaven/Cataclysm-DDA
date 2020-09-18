@@ -6,7 +6,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "9mmP",
@@ -15,7 +15,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "9mmP2",
@@ -24,7 +24,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 6 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "9mmfmj",
@@ -33,6 +33,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_9mm", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
   }
 ]

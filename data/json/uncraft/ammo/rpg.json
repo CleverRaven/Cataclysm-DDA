@@ -10,7 +10,7 @@
     "components": [
       [ [ "copper", 200 ] ],
       [ [ "chem_compositionb", 450 ] ],
-      [ [ "gunpowder_artillery", 300 ] ],
+      [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ]
     ],
@@ -27,7 +27,7 @@
     "components": [
       [ [ "copper", 250 ] ],
       [ [ "chem_compositionb", 1500 ] ],
-      [ [ "gunpowder_artillery", 300 ] ],
+      [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ]
     ],
@@ -44,7 +44,7 @@
     "components": [
       [ [ "copper", 50 ] ],
       [ [ "chem_compositionb", 50 ] ],
-      [ [ "gunpowder_artillery", 300 ] ],
+      [ [ "gunpowder_artillery", 3000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 3 ] ],
       [ [ "incendiary", 150 ] ]
@@ -59,7 +59,7 @@
     "difficulty": 6,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder_artillery", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder_artillery", 3000 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]

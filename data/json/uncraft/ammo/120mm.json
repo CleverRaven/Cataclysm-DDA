@@ -10,7 +10,7 @@
     "components": [
       [ [ "copper", 2500 ] ],
       [ [ "chem_compositionb", 6000 ] ],
-      [ [ "gunpowder_artillery", 8000 ] ],
+      [ [ "gunpowder_artillery", 80000 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "scrap", 25 ] ]
     ],
