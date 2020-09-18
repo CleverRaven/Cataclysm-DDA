@@ -9,6 +9,7 @@
       { "id": "MANA_INFUSE", "level": 2 }
     ],
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -28,6 +29,7 @@
       { "id": "MANA_INFUSE", "level": 2 }
     ],
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -46,6 +48,7 @@
       { "id": "MANA_INFUSE", "level": 2 }
     ],
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -64,6 +67,7 @@
       { "id": "MANA_INFUSE", "level": 2 }
     ],
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -82,6 +86,7 @@
       { "id": "MANA_INFUSE", "level": 2 }
     ],
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
@@ -94,6 +99,7 @@
   {
     "result": "demonchitin_armor_horse",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "armor_demonchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
@@ -106,6 +112,7 @@
   {
     "result": "demonchitin_harness_dog",
     "type": "recipe",
+    "activity_level": "fake",
     "copy-from": "armor_demonchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",

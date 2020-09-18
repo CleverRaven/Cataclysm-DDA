@@ -2,6 +2,7 @@
   {
     "result": "circsaw_blade",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -15,6 +16,7 @@
   {
     "result": "blade_scythe",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -28,6 +30,7 @@
   {
     "result": "hinge",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -41,6 +44,7 @@
   {
     "result": "sheet_metal",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -55,6 +59,7 @@
     "result": "sheet_metal",
     "id_suffix": "welding",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -67,6 +72,7 @@
   {
     "result": "sheet_metal_small",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -80,6 +86,7 @@
   {
     "result": "xlframe",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",

@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -2139,7 +2140,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-std::map<std::string, mapgen_palette> palettes;
+static std::map<std::string, mapgen_palette> palettes;
 
 mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::string &src )
 {
@@ -2904,8 +2905,8 @@ void map::draw_map( mapgendata &dat )
     draw_connections( dat );
 }
 
-const int SOUTH_EDGE = 2 * SEEY - 1;
-const int EAST_EDGE = 2 * SEEX  - 1;
+static const int SOUTH_EDGE = 2 * SEEY - 1;
+static const int EAST_EDGE = 2 * SEEX  - 1;
 
 void map::draw_office_tower( const mapgendata &dat )
 {
@@ -5790,7 +5791,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
                 !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
+                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );
@@ -5901,6 +5902,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
         }
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
+        invalidate_max_populated_zlev( p.z );
 
         auto &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );

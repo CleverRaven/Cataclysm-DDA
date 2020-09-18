@@ -128,6 +128,7 @@ class item_contents
 
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
@@ -202,7 +203,9 @@ class item_contents
         // gets the first ammo in all magazine pockets
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
-        // spills all liquid from the container. removing liquid from a magazine requires unload logic.
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;

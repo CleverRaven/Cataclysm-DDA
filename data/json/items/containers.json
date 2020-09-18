@@ -176,6 +176,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "watertight": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "750 g",
         "spoil_multiplier": 0.8,

@@ -1532,6 +1532,18 @@
   },
   {
     "type": "item_group",
+    "id": "gun_cases",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rifle_case_soft", "prob": 50 },
+      { "item": "rifle_case_soft_leather", "prob": 30 },
+      { "item": "rifle_case_soft_2", "prob": 40 },
+      { "item": "rifle_case_soft_leather_2", "prob": 30 },
+      { "item": "rifle_case_xl_soft_leather", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "bags_trip",
     "subtype": "distribution",
     "entries": [ { "item": "suitcase_l", "prob": 37 }, { "item": "suitcase_m", "prob": 55 }, { "item": "duffelbag", "prob": 8 } ]

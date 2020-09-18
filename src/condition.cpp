@@ -260,7 +260,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         const auto items_with = actor->items_with( [category_id]( const item & it ) {
-            return it.get_category().get_id() == category_id;
+            return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
     };

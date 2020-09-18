@@ -15,6 +15,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -89,8 +90,6 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth;
-extern int fontheight;
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -1021,7 +1020,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
-    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
@@ -1235,33 +1233,41 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                  direction::NORTH ) );
             }
 
-            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-                static std::vector<SDL_Color> lighting_colors;
-                if( g->displaying_lighting_condition == 0 ) {
-                    if( lighting_colors.empty() ) {
-                        SDL_Color white = { 255, 255, 255, 255 };
-                        SDL_Color blue = { 0, 0, 255, 255 };
-                        lighting_colors = color_linear_interpolate( white, blue, 9 );
-                    }
-
-                    // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float ambient = here.ambient_light_at( {x, y, center.z} );
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
-
-                    point tile_pos = player_to_screen( point( x, y ) );
-
-                    // color overlay
-                    SDL_Color color = lighting_colors[static_cast<int>( lighting ) - 1];
-                    color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( tile_pos, color );
-
-                    // string overlay
-                    overlay_strings.emplace( tile_pos + quarter_tile,
-                                             formatted_text( string_format( "%.1f", ambient ),
-                                                     catacurses::black,
-                                                     direction::NORTH ) );
+            static std::vector<SDL_Color> lighting_colors;
+            // color hue in the range of [0..10], 0 being white,  10 being blue
+            auto draw_debug_tile = [&]( const int color_hue, const std::string & text ) {
+                if( lighting_colors.empty() ) {
+                    SDL_Color white = { 255, 255, 255, 255 };
+                    SDL_Color blue = { 0, 0, 255, 255 };
+                    lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
+                point tile_pos = player_to_screen( point( x, y ) );
+
+                // color overlay
+                SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
+                color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( tile_pos, color );
+
+                // string overlay
+                overlay_strings.emplace( tile_pos + quarter_tile, formatted_text( text, catacurses::black,
+                                         direction::NORTH ) );
+            };
+
+            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                if( g->displaying_lighting_condition == 0 ) {
+                    const float light = here.ambient_light_at( {x, y, center.z} );
+                    // note: lighting will be constrained in the [1.0, 11.0] range.
+                    int intensity = static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
+                    draw_debug_tile( intensity, string_format( "%.1f", light ) );
+                }
+            }
+
+            if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
+                const float tr = here.light_transparency( {x, y, center.z} );
+                int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
+                                 ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
+                draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {

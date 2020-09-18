@@ -112,16 +112,16 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( avatar &u, points_left &points );
-tab_direction set_stats( avatar &u, points_left &points );
-tab_direction set_traits( avatar &u, points_left &points );
-tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_skills( avatar &u, points_left &points );
-tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
+static tab_direction set_points( avatar &u, points_left &points );
+static tab_direction set_stats( avatar &u, points_left &points );
+static tab_direction set_traits( avatar &u, points_left &points );
+static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_skills( avatar &u, points_left &points );
+static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-void reset_scenario( avatar &u, const scenario *scen );
+static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -1317,7 +1317,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
@@ -1944,7 +1944,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
@@ -2888,35 +2888,14 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden, mutation_filter filter ) const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
-            bool is_suitable = true;
-            switch( filter ) {
-                case mutation_filter::all:
-                    break;
-                case mutation_filter::debug:
-                    is_suitable = t.first.obj().debug;
-                    break;
-                case mutation_filter::anger_relations:
-                    is_suitable = !t.first.obj().anger_relations.empty();
-                    break;
-                case mutation_filter::social_mods:
-                    is_suitable = !t.first.obj().social_mods.empty();
-                    break;
-                case mutation_filter::ignored_by:
-                    is_suitable = !t.first.obj().ignored_by.empty();
-                    break;
-            }
-            if( !is_suitable ) {
-                continue;
-            }
             result.push_back( t.first );
         }
     }
-
     for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;

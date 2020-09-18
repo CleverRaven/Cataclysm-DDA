@@ -56,7 +56,7 @@ e.g. ctags.""")
 
                     for obj in json_data:
                         for id_key in ('id', 'abstract', 'ident',
-                                'nested_mapgen_id', 'update_mapgen_id', 'result'):
+                                       'nested_mapgen_id', 'update_mapgen_id', 'result'):
                             if id_key in obj:
                                 id = obj[id_key]
                                 if type(id) == str and id:

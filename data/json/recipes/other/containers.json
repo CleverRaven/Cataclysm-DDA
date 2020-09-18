@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bowl_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -18,6 +19,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_canister",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -35,6 +37,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_hydria",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -52,6 +55,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_watercont",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -69,6 +73,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "jug_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -87,6 +92,7 @@
   {
     "result": "keg_steel",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
@@ -99,6 +105,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -117,6 +124,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "large_stomach_sealed",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -135,6 +143,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "canteen_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -153,6 +162,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bottle_metal",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -165,6 +175,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "box_medium",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",

@@ -32,7 +32,7 @@ enum astar_state {
 };
 
 // Turns two indexed to a 2D array into an index to equivalent 1D array
-constexpr int flat_index( const point &p )
+static constexpr int flat_index( const point &p )
 {
     return ( p.x * MAPSIZE_Y ) + p.y;
 }

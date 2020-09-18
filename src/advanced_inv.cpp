@@ -15,6 +15,7 @@
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "catacharset.h"
@@ -62,7 +63,6 @@
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
@@ -516,9 +516,7 @@ struct advanced_inv_sorter {
                             return false;
                         }
                     }
-                    return std::lexicographical_compare( a1.begin(), a1.end(),
-                                                         a2.begin(), a2.end(),
-                                                         sort_case_insensitive_less() );
+                    return localized_compare( a1, a2 );
                 }
             }
             break;
@@ -545,8 +543,7 @@ struct advanced_inv_sorter {
             n1 = &d1.name_without_prefix;
             n2 = &d2.name_without_prefix;
         }
-        return std::lexicographical_compare( n1->begin(), n1->end(),
-                                             n2->begin(), n2->end(), sort_case_insensitive_less() );
+        return localized_compare( *n1, *n2 );
     }
 };
 
@@ -915,18 +912,18 @@ bool advanced_inventory::move_all_items( bool nested_call )
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        player_character.assign_activity( ACT_DROP );
-        player_character.activity.placement = darea.off;
-
+        const tripoint placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
-        if( !dpane.in_vehicle() ) {
-            player_character.activity.str_values.push_back( "force_ground" );
-        }
+        const bool force_ground = !dpane.in_vehicle();
+        std::vector<drop_or_stash_item_info> to_drop;
 
         for( const std::pair<item_location, int> &it : dropped ) {
-            player_character.activity.targets.emplace_back( it.first );
-            player_character.activity.values.emplace_back( it.second );
+            to_drop.emplace_back( it.first, it.second );
         }
+
+        player_character.assign_activity( player_activity( drop_activity_actor(
+                                              to_drop, placement, force_ground
+                                          ) ) );
 
         // exit so that the activity can be carried out
         exit = true;
@@ -1346,25 +1343,25 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         } else {
             // important if item is worn
             if( player_character.can_drop( *sitem->items.front() ).success() ) {
-                player_character.assign_activity( ACT_DROP );
-                player_character.activity.placement = squares[destarea].off;
-
+                const tripoint placement = squares[destarea].off;
                 // incase there is vehicle cargo space at dest but the player wants to drop to ground
-                if( !to_vehicle ) {
-                    player_character.activity.str_values.push_back( "force_ground" );
-                }
+                const bool force_ground = !to_vehicle;
+                std::vector<drop_or_stash_item_info> to_drop;
 
                 int remaining_amount = amount_to_move;
                 for( item *itm : sitem->items ) {
                     if( remaining_amount <= 0 ) {
                         break;
                     }
-                    player_character.activity.targets.emplace_back( player_character, itm );
                     const int move_amount = itm->count_by_charges() ?
                                             std::min( remaining_amount, itm->charges ) : 1;
-                    player_character.activity.values.emplace_back( move_amount );
+                    to_drop.emplace_back( item_location( player_character, itm ), move_amount );
                     remaining_amount -= move_amount;
                 }
+
+                player_character.assign_activity( player_activity( drop_activity_actor(
+                                                      to_drop, placement, force_ground
+                                                  ) ) );
 
                 // exit so that the activity can be carried out
                 exit = true;

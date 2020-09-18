@@ -89,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
                         c_light_gray, format_item_info( info, {} ) );
     }
 
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 static std::string keys_text()
@@ -1242,6 +1242,24 @@ ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pocke
         return ret_val<std::vector<const item_pocket *>>::make_success( pockets );
     } else {
         return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
+    }
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+{
+    std::vector<item_pocket *> pockets;
+    bool found = false;
+
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            found = true;
+            pockets.push_back( &pocket );
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<item_pocket *>>::make_success( pockets );
+    } else {
+        return ret_val<std::vector<item_pocket *>>::make_failure( pockets );
     }
 }
 

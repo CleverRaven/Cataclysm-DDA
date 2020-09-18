@@ -21,6 +21,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "json.h"
@@ -38,8 +39,6 @@
 
 std::string getOSXSystemLang();
 #endif
-
-extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -458,7 +457,7 @@ void translation::deserialize( JsonIn &jsin )
                     jsin.seek( origin );
                     jsin.error( msg, offset );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
@@ -489,7 +488,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         } else {
@@ -506,7 +505,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_pl not supported here", "str_pl" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -523,7 +522,7 @@ void translation::deserialize( JsonIn &jsin )
                         jsobj.get_raw( "str_sp" )->error( msg, offset );
                     }
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }

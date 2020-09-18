@@ -36,6 +36,15 @@ void test_serialization( const T &val, const std::string &s )
     }
 }
 
+TEST_CASE( "avoid_serializing_default_values", "[json]" )
+{
+    std::ostringstream os;
+    JsonOut jsout( os );
+    jsout.member( "foo", "foo", "foo" );
+    jsout.member( "bar", "foo", "bar" );
+    REQUIRE( os.str() == "\"bar\":\"foo\"" );
+}
+
 TEST_CASE( "serialize_colony", "[json]" )
 {
     cata::colony<std::string> c = { "foo", "bar" };

@@ -33,8 +33,10 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "morale_types.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pickup.h"
@@ -53,6 +55,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -567,7 +570,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     }
 }
 
-static hack_type get_hack_type( tripoint examp )
+static hack_type get_hack_type( const tripoint &examp )
 {
     hack_type type = hack_type::NONE;
     map &here = get_map();
@@ -1160,7 +1163,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
@@ -1170,7 +1173,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
             canceled = true;
             consume_menu_selections = std::vector<int>();
             consume_menu_selected_items.clear();
-            consume_menu_filter = std::string();
+            consume_menu_filter.clear();
             return;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
@@ -1201,11 +1204,7 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            trinary result = player_character.consume( consume_loc, /*force=*/true );
-            // Parent pockets need to be notified so they can be unsealed as well.
-            if( result != trinary::NONE ) {
-                game::handle_contents_changed( consume_loc );
-            }
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
             player_character.consume( consume_item, /*force=*/true );
         } else {
@@ -1448,11 +1447,11 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
 {
-
     if( !check_if_craft_okay( craft_item, crafter ) ) {
         act.set_to_null();
     }
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = craft_item.get_item()->get_making().exertion_level();
 }
 
 void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
@@ -1465,8 +1464,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // We already checked if this is nullptr above
     item &craft = *craft_item.get_item();
 
-    const tripoint location = craft_item.where() == item_location::type::character ? tripoint_zero :
-                              craft_item.position();
+    const cata::optional<tripoint> location = craft_item.where() == item_location::type::character
+            ? cata::optional<tripoint>() : cata::optional<tripoint>( craft_item.position() );
     const recipe &rec = craft.get_making();
     const float crafting_speed = crafter.crafting_speed_multiplier( craft, location );
     const int assistants = crafter.available_assistant_count( craft.get_making() );
@@ -1556,6 +1555,11 @@ std::string craft_activity_actor::get_progress_message( const player_activity & 
     return craft_item.get_item()->tname();
 }
 
+float craft_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
 void craft_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -1640,13 +1644,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     workout_query.text =
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
-    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+    workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
                                  _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
-    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+    workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
                                  _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
-    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+    workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
                                  _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
-    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+    workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
                                  _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
@@ -1817,6 +1821,222 @@ std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+// TODO: Display costs in the multidrop menu
+static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const drop_or_stash_item_info &it : items ) {
+        item_location loc = it.loc();
+        if( !loc ) {
+            // some items could have been destroyed by e.g. monster attack
+            continue;
+        }
+        res += string_format( "Drop %d %s\n", it.count(), loc->display_name( it.count() ) );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+// Return a list of items to be dropped by the given item-dropping activity in the current turn.
+static std::list<item> obtain_activity_items(
+    std::vector<drop_or_stash_item_info> &items,
+    std::vector<item_location> &unhandled_containers,
+    Character &who )
+{
+    std::list<item> res;
+
+    debug_drop_list( items );
+
+    auto it = items.begin();
+    for( ; it != items.end(); ++it ) {
+        item_location loc = it->loc();
+        if( !loc ) {
+            // some items could have been destroyed by e.g. monster attack
+            continue;
+        }
+
+        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
+            break;
+        }
+
+        who.mod_moves( -consumed_moves );
+
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
+        if( loc.has_parent() ) {
+            item_location parent = loc.parent_item();
+            item_pocket *const parent_pocket = parent->contained_where( *loc );
+            if( parent_pocket ) {
+                parent_pocket->on_contents_changed();
+            }
+            // Update encumbrance on the parent item
+            parent->on_contents_changed();
+            // Save parent items to be handled when finishing or canceling activity,
+            // in case there are still other items to drop from the same container.
+            // This assumes that an item and any of its parents/ancestors are not
+            // dropped at the same time.
+            if( std::find( unhandled_containers.begin(), unhandled_containers.end(),
+                           parent ) == unhandled_containers.end() ) {
+                unhandled_containers.emplace_back( parent );
+            }
+        }
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+    }
+
+    // Remove handled items from activity
+    items.erase( items.begin(), it );
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
+
+    return res;
+}
+
+static void handle_containers(
+    std::vector<item_location> &unhandled_containers,
+    Character &who )
+{
+    // some containers could have been destroyed by e.g. monster attack
+    auto it = std::remove_if( unhandled_containers.begin(), unhandled_containers.end(),
+    []( const item_location & loc ) -> bool {
+        return !loc;
+    } );
+    unhandled_containers.erase( it, unhandled_containers.end() );
+    who.handle_contents_changed( unhandled_containers );
+    unhandled_containers.clear();
+}
+
+void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "loc", _loc );
+    jsout.member( "count", _count );
+    jsout.end_object();
+}
+
+void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "loc", _loc );
+    jsobj.read( "count", _count );
+}
+
+void drop_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+    who.invalidate_weight_carried_cache();
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
+                              obtain_activity_items( items, unhandled_containers, who ),
+                              pos, force_ground );
+}
+
+void drop_activity_actor::canceled( player_activity &, Character &who )
+{
+    handle_containers( unhandled_containers, who );
+}
+
+void drop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "placement", placement );
+    jsout.member( "force_ground", force_ground );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+{
+    drop_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "placement", actor.placement );
+    jsobj.read( "force_ground", actor.force_ground );
+
+    return actor.clone();
+}
+
+static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
+{
+    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
+    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
+    map &here = get_map();
+
+    for( const item &it : items ) {
+        if( it.volume() > remaining_volume ) {
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else if( it.weight() > remaining_weight ) {
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else {
+            pet.add_item( it );
+            remaining_volume -= it.volume();
+            remaining_weight -= it.weight();
+        }
+        // TODO: if NPCs can have pets or move items onto pets
+        item( it ).handle_pickup_ownership( who );
+    }
+}
+
+
+void stash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+
+    monster *pet = g->critter_at<monster>( pos );
+    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+        stash_on_pet( obtain_activity_items( items, unhandled_containers, who ),
+                      *pet, who );
+    } else {
+        who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
+        who.cancel_activity();
+    }
+}
+
+void stash_activity_actor::canceled( player_activity &, Character &who )
+{
+    handle_containers( unhandled_containers, who );
+}
+
+void stash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "placement", placement );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+{
+    stash_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -1828,6 +2048,7 @@ deserialize_functions = {
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
+    { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
@@ -1835,6 +2056,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },

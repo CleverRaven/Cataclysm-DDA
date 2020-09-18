@@ -4,6 +4,10 @@
 import biplist
 import os.path
 
+# defines is provided by dmgbuild, but pretend to define it here for the
+# beneit of linting tools.
+defines = defines # noqa: F821
+
 # .. Useful stuff ..............................................................
 
 application = defines.get('app', 'Cataclysm.app')
@@ -52,7 +56,7 @@ badge_icon = icon_from_app(application)
 icon_locations = {
     appname:        (240, 400),
     'Applications': (430, 400)
-    }
+}
 
 # .. Window configuration ......................................................
 
@@ -148,7 +152,7 @@ list_column_widths = {
     'label': 100,
     'version': 75,
     'comments': 300,
-    }
+}
 list_column_sort_directions = {
     'name': 'ascending',
     'date-modified': 'descending',
@@ -160,4 +164,4 @@ list_column_sort_directions = {
     'label': 'ascending',
     'version': 'ascending',
     'comments': 'ascending',
-    }
+}

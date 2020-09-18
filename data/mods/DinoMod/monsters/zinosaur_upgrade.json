@@ -349,6 +349,29 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zaiasaura_brute",
+    "name": { "str": "Mother Crusher" },
+    "copy-from": "mon_zaiasaura",
+    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zarasaurolophus_brute",
     "name": { "str": "Parasaur Punch", "str_pl": "Parasaur Punches" },
     "copy-from": "mon_zarasaurolophus",

@@ -10,7 +10,7 @@
 #include "generic_factory.h"
 #include "json.h"
 
-std::vector<move_mode_id> move_modes_sorted;
+static std::vector<move_mode_id> move_modes_sorted;
 
 const std::vector<move_mode_id> &move_modes_by_speed()
 {

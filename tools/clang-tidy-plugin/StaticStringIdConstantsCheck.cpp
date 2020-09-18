@@ -66,6 +66,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
         { "morale_type_data", "" },
         { "mtype", "" },
         { "mutation_branch", "trait_" },
+        { "mutation_category_trait", "mutation_category_" },
         { "npc_class", "" },
         { "quality", "qual_" },
         { "Skill", "skill_" },
@@ -128,6 +129,10 @@ static void CheckConstructor( StaticStringIdConstantsCheck &Check,
     std::string CanonicalName = GetCanonicalName( ConstructorDecl->getParent(), Arg->getString() );
 
     if( VarDeclParent && TranslationUnit ) {
+        if( VarDeclParent->isStaticDataMember() ) {
+            return;
+        }
+
         const VarDecl *PreviousDecl = dyn_cast_or_null<VarDecl>( VarDeclParent->getPreviousDecl() );
         bool PreviousDeclIsExtern =
             PreviousDecl ? PreviousDecl->getStorageClass() == SC_Extern : false;

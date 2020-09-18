@@ -44,6 +44,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_pine": 32,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
@@ -73,6 +74,7 @@
           "t_tree_birch": 16,
           "t_tree_elm": 16,
           "t_tree_cottonwood": 16,
+          "t_tree_alder": 16,
           "t_tree_maple": 32,
           "t_tree_willow": 32,
           "t_tree_hickory": 16,
@@ -170,6 +172,7 @@
         "t_tree_birch": 0.05,
         "t_tree_elm": 0.05,
         "t_tree_cottonwood": 0.05,
+        "t_tree_alder": 2,
         "t_tree_pine": 0.1,
         "t_tree_maple": 0.1,
         "t_tree_willow": 0.1,
@@ -319,6 +322,7 @@
               "t_tree_birch": 20,
               "t_tree_elm": 20,
               "t_tree_cottonwood": 20,
+              "t_tree_alder": 80,
               "t_tree_maple": 40,
               "t_tree_willow": 40,
               "t_tree_walnut": 8,
@@ -549,7 +553,33 @@
         }
       },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
-      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } }
+      "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
+      "sewer": {
+        "chance": 1,
+        "extras": {
+          "mx_sewer_round": 40,
+          "mx_sewer_grid": 20,
+          "mx_sewer_grid2": 20,
+          "mx_sewer_mntE": 10,
+          "mx_sewer_mntW": 10,
+          "mx_sewer_mntN": 10,
+          "mx_sewer_mntS": 10,
+          "mx_sewer_grateE": 10,
+          "mx_sewer_grateW": 10,
+          "mx_sewer_grateN": 10,
+          "mx_sewer_grateS": 10,
+          "mx_sewer_pipesA": 30,
+          "mx_sewer_pipesB": 30,
+          "mx_sewer_pipesC": 30,
+          "mx_sewer_pipesD": 30,
+          "mx_sewer_pipesE": 30,
+          "mx_sewer_pipesF": 30,
+          "mx_sewer_pipesG": 30,
+          "mx_sewer_pipesH": 30,
+          "mx_sewer_pipesI": 30,
+          "mx_sewer_pipesJ": 30
+        }
+      }
     },
     "city": {
       "shop_radius": 30,

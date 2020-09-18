@@ -75,6 +75,8 @@ class recipe
 
         int time = 0; // in movement points (100 per turn)
 
+        float exertion;
+
     public:
         recipe();
 
@@ -174,6 +176,9 @@ class recipe
         // The time malus due to proficiencies lacking
         float proficiency_maluses( const Character &guy ) const;
 
+        // How active of exercise this recipe is
+        float exertion_level() const;
+
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
 
@@ -228,6 +233,9 @@ class recipe
         void check_blueprint_requirements();
 
         bool hot_result() const;
+
+        // Returns the ammount or charges recipe will produce.
+        int makes_amount() const;
 
     private:
         void incorporate_build_reqs();

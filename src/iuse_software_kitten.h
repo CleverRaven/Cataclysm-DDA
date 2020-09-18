@@ -13,7 +13,7 @@ class ui_adaptor;
 struct kobject {
     point pos;
     nc_color color;
-    int character;
+    int character = 0;
 };
 
 static constexpr int MAXMESSAGES = 1200;
@@ -21,7 +21,7 @@ static constexpr int MAXMESSAGES = 1200;
 class robot_finds_kitten
 {
     public:
-        bool ret;
+        bool ret = false;
         robot_finds_kitten();
     private:
         std::string getmessage( int idx ) const;
@@ -39,7 +39,7 @@ class robot_finds_kitten
         static constexpr int rfkLINES = 20;
         static constexpr int rfkCOLS = 60;
         int rfkscreen[rfkCOLS][rfkLINES];
-        int nummessages;
+        int nummessages = 0;
         int bogus_messages[MAXMESSAGES];
 
         enum class ui_state : int {

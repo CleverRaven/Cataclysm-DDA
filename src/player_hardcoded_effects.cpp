@@ -249,10 +249,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "RAT" );
+            u.mutate_category( mutation_category_id( "RAT" ) );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "TROGLOBITE" );
+            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -1346,7 +1346,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
-        std::string highcat = get_highest_category();
+        mutation_category_id highcat = get_highest_category();
         int highest = mutation_category_level[highcat];
 
         // Determine the strength of effects or dreams based upon category strength
@@ -1373,7 +1373,7 @@ void player::hardcoded_effects( effect &it )
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_THRESH_MYCUS ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MYCUS" );
+                        mutate_category( mutation_category_id( "MYCUS" ) );
                         mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );

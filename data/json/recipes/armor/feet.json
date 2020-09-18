@@ -2,6 +2,7 @@
   {
     "result": "bastsandals",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -14,6 +15,7 @@
   {
     "result": "boots",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -26,6 +28,7 @@
   {
     "result": "boots_chitin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -38,6 +41,7 @@
   {
     "result": "boots_acidchitin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -52,6 +56,7 @@
   {
     "result": "boots_fsurvivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -72,6 +77,7 @@
   {
     "result": "boots_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -86,6 +92,7 @@
   {
     "result": "boots_h20survivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -107,6 +114,7 @@
   {
     "result": "boots_hsurvivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -128,6 +136,7 @@
   {
     "result": "boots_larmor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -140,6 +149,7 @@
   {
     "result": "boots_lsurvivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -159,6 +169,7 @@
   {
     "result": "boots_plate",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -173,6 +184,7 @@
   {
     "result": "boots_scrap",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -188,6 +200,7 @@
   {
     "result": "boots_survivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -207,6 +220,7 @@
   {
     "result": "boots_western",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -219,6 +233,7 @@
   {
     "result": "boots_winter",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -231,6 +246,7 @@
   {
     "result": "boots_wsurvivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -250,6 +266,7 @@
   {
     "result": "boots_xlsurvivor",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -270,6 +287,7 @@
   {
     "result": "clogs",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -282,6 +300,7 @@
   {
     "result": "geta",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -294,6 +313,7 @@
   {
     "result": "tabi_dress",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -306,6 +326,7 @@
   {
     "result": "footrags",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -318,6 +339,7 @@
   {
     "result": "footrags_fur",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -330,6 +352,7 @@
   {
     "result": "footrags_leather",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -342,6 +365,7 @@
   {
     "result": "footrags_wool",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -354,6 +378,7 @@
   {
     "result": "leathersandals",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -366,6 +391,7 @@
   {
     "result": "mocassins",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -379,6 +405,7 @@
   {
     "result": "nomex_socks",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -391,6 +418,7 @@
   {
     "result": "xlnomex_socks",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -403,6 +431,7 @@
   {
     "result": "shoes_birchbark",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -416,6 +445,7 @@
   {
     "result": "socks",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -427,6 +457,7 @@
   {
     "result": "xlsocks",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -438,6 +469,7 @@
   {
     "result": "socks_bag",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "survival",
@@ -449,6 +481,7 @@
   {
     "result": "socks_wool",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -456,23 +489,16 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
-  },
-  {
-    "result": "socks_wool",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "1 h",
-    "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 150 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 40 ] ]
   },
   {
     "result": "socks_ankle",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -484,6 +510,7 @@
   {
     "result": "stockings",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -496,6 +523,7 @@
   {
     "result": "straw_sandals",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -507,6 +535,7 @@
   {
     "result": "swim_fins",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -522,6 +551,7 @@
   {
     "result": "thermal_socks",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "electronics",
@@ -536,6 +566,7 @@
   {
     "result": "wetsuit_booties",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
@@ -549,6 +580,7 @@
   {
     "result": "chainmail_feet",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -561,6 +593,7 @@
   {
     "result": "roller_blades",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",
@@ -576,6 +609,7 @@
   {
     "result": "rollerskates",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "fabrication",

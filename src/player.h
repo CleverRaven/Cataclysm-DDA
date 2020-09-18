@@ -154,58 +154,12 @@ class player : public Character
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
 
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait that shares a type with the entered trait */
-        bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable( const trait_id &flag ) const;
-        /** Returns a dream's description selected randomly from the player's highest mutation category */
-        std::string get_category_dream( const std::string &cat, int strength ) const;
-
-        /** Generates and handles the UI for player interaction with installed bionics */
-        void power_bionics();
-        void power_mutations();
-
-        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( int ch );
-
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void pause(); // '.' command; pauses & resets recoil
 
-        // martialarts.cpp
-
-        /** Returns true if the player can learn the entered martial art */
-        bool can_autolearn( const matype_id &ma_id ) const;
-
-        /** Returns value of player's stable footing */
-        float stability_roll() const override;
-        /** Returns true if the player has stealthy movement */
-        bool is_stealthy() const;
-        /** Returns true if the current martial art works with the player's current weapon */
-        bool can_melee() const;
-        /** Returns true if the player should be dead */
-        bool is_dead_state() const override;
-
-        /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
         // melee.cpp
-
-        /**
-         * Returns a weapon's modified dispersion value.
-         * @param obj Weapon to check dispersion on
-         */
-        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &it );
@@ -238,31 +192,6 @@ class player : public Character
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
-
-        /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, float difficulty ) override;
-        /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
-        /** NPC-related item rating functions */
-        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
-        double melee_value( const item &weap ) const; // As above, but only as melee
-        double unarmed_value() const; // Evaluate yourself!
-
-        /** Returns Creature::get_dodge_base modified by the player's skill level */
-        float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
-        /** Returns Creature::get_dodge() modified by any player effects */
-        float get_dodge() const override;
-        /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
-
-        /** Returns melee skill level, to be used to throttle dodge practice. **/
-        float get_melee() const override;
-
-        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
-        bool uncanny_dodge() override;
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
@@ -325,7 +254,7 @@ class player : public Character
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
+        trinary consume( item &target, bool force = false );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
@@ -484,7 +413,7 @@ class player : public Character
         tripoint view_offset;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        int volume;
+        int volume = 0;
         const profession *prof;
 
         bool random_start_location = true;
@@ -494,9 +423,9 @@ class player : public Character
         cata::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
-        int scent;
-        int cash;
-        int movecounter;
+        int scent = 0;
+        int cash = 0;
+        int movecounter = 0;
 
         bool manual_examine = false;
         vproto_id starting_vehicle;

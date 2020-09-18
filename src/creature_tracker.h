@@ -3,6 +3,7 @@
 #define CATA_SRC_CREATURE_TRACKER_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <set>
 #include <unordered_map>
@@ -32,8 +33,8 @@ class Creature_tracker
                 }
         };
 
-        std::unordered_map<mfaction_id, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>
-                monster_faction_map_;
+        std::unordered_map<mfaction_id, std::map<int, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>>
+        monster_faction_map_;
 
         /**
          * Creatures that get removed via @ref remove are stored here until the end of the turn.

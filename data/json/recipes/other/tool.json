@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "billet_bone",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -12,6 +13,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "billet_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -35,6 +37,7 @@
   {
     "result": "g_shovel",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -49,6 +52,7 @@
   {
     "result": "hand_pump",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -63,6 +67,7 @@
   {
     "result": "loom_frame",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -74,6 +79,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "punch_bone",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -89,6 +95,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "punch_nail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -101,6 +108,7 @@
   {
     "result": "shed_stick",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -113,6 +121,7 @@
   {
     "result": "sickle",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -126,6 +135,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "stone_chisel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -143,6 +153,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "stone_chopper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -156,6 +167,7 @@
   {
     "result": "knife_paring",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -174,6 +186,7 @@
   {
     "result": "butchering_kit",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -191,6 +204,7 @@
   {
     "result": "shears",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -215,6 +229,7 @@
   {
     "result": "elec_shears",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -239,6 +254,7 @@
   {
     "result": "knife_chef",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -257,6 +273,7 @@
   {
     "result": "knife_carving",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -275,6 +292,7 @@
   {
     "result": "knife_bread",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -289,6 +307,7 @@
   {
     "result": "knife_vegetable_cleaver",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -307,6 +326,7 @@
   {
     "result": "knife_meat_cleaver",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -325,6 +345,7 @@
   {
     "result": "knife_folding",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -350,6 +371,7 @@
   {
     "result": "steel_pan",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -364,6 +386,7 @@
   {
     "result": "awl_bone",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -376,6 +399,7 @@
   {
     "result": "awl_steel",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -389,6 +413,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "sewing_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -405,6 +430,7 @@
   {
     "result": "fishing_rod_professional",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -436,6 +462,7 @@
   {
     "result": "churn",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -456,6 +483,7 @@
   {
     "result": "horse_tack",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "tailor",
@@ -470,6 +498,7 @@
   {
     "result": "jack",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -485,6 +514,7 @@
   {
     "result": "jack_makeshift",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -499,6 +529,7 @@
   {
     "result": "jack_small",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -514,6 +545,7 @@
   {
     "result": "pickaxe",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -530,6 +562,7 @@
   {
     "result": "still",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -544,6 +577,7 @@
   {
     "result": "food_processor",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
     "skill_used": "electronics",
@@ -564,6 +598,7 @@
   {
     "result": "can_sealer",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -586,6 +621,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "mortar_pestle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -604,6 +640,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "chicken_cage",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -617,6 +654,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hobo_stove",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -632,6 +670,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hand_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -645,6 +684,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "makeshift_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -659,6 +699,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "tinderbox",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -673,6 +714,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "pot_makeshift",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -686,6 +728,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "pot_makeshift_copper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -700,6 +743,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "mess_tin",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -713,6 +757,7 @@
   {
     "result": "crowbar",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -727,6 +772,7 @@
   {
     "result": "halligan",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -741,6 +787,7 @@
   {
     "result": "claw_bar",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -755,6 +802,7 @@
   {
     "result": "iceaxe",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -773,6 +821,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "ny_hook",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -788,6 +837,7 @@
   {
     "result": "makeshift_crowbar",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -800,6 +850,7 @@
   {
     "result": "torch",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -811,6 +862,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "torch",
     "id_suffix": "pine",
     "category": "CC_OTHER",
@@ -825,6 +877,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "sieve_steel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -837,6 +890,7 @@
   {
     "result": "sieve_primitive",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -848,6 +902,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "closed_loop_extractor_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -883,6 +938,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "closed_loop_extractor_large",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -918,6 +974,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "oil_extractor_crude",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -938,6 +995,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "vac_pump",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -972,6 +1030,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "filter_paper_qualitative",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -986,6 +1045,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "filter_paper_quantitative",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1000,6 +1060,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "recovery_pump",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1028,6 +1089,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "gasket_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1042,6 +1104,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "vac_oven_small",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1079,6 +1142,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "vac_oven_small_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1091,6 +1155,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "dab_pen",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -1107,6 +1172,7 @@
   {
     "result": "dog_whistle_wood",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1120,6 +1186,7 @@
   {
     "result": "makeshift_hose",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "id_suffix": "DIY_hose_from_leather",
@@ -1134,6 +1201,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "makeshift_hand_drill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1148,6 +1216,7 @@
   {
     "result": "shovel_snow",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1163,6 +1232,7 @@
   {
     "result": "shovel_snow_plastic",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1178,6 +1248,7 @@
   {
     "result": "rake",
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1193,6 +1264,7 @@
   {
     "result": "rake_plastic",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",

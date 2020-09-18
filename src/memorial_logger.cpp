@@ -760,7 +760,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                std::string category_id =
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -1190,8 +1190,15 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::character_consumes_item:
+        case event_type::character_eats_item:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
+        case event_type::character_melee_attacks_character:
+        case event_type::character_melee_attacks_monster:
+        case event_type::character_ranged_attacks_character:
+        case event_type::character_ranged_attacks_monster:
+        case event_type::character_smashes_tile:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_wears_item:

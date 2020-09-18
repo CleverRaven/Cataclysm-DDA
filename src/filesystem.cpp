@@ -133,14 +133,6 @@ std::string read_entire_file( const std::string &path )
 
 namespace
 {
-
-// TODO: move elsewhere.
-template <typename T, size_t N>
-inline size_t sizeof_array( T const( & )[N] ) noexcept
-{
-    return N;
-}
-
 //--------------------------------------------------------------------------------------------------
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------

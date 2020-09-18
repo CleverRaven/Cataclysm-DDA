@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_power_storage",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -22,6 +23,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_power_storage_mkII",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -43,6 +45,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bn_bio_solar",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -65,6 +68,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_batteries",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -86,6 +90,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_ups",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -106,6 +111,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_evap",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -128,6 +134,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_flashlight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -149,6 +156,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_water_extractor",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -171,6 +179,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_climate",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -193,6 +202,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_emp_armgun",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -217,6 +227,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_syringe",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -239,6 +250,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_shock_absorber",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -262,6 +274,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_weight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -286,6 +299,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_sunglasses",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -308,6 +322,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "afs_bio_missiles",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -330,6 +345,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_armor_head",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -357,6 +373,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_armor_arms",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -383,6 +400,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_armor_torso",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
@@ -409,6 +427,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_armor_legs",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",

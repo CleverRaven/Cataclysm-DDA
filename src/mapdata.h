@@ -20,6 +20,9 @@
 #include "units_fwd.h"
 #include "value_ptr.h"
 
+struct ter_t;
+using ter_str_id = string_id<ter_t>;
+
 class JsonObject;
 class player;
 struct furn_t;
@@ -247,6 +250,13 @@ struct map_data_common_t {
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
         std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
+
+    public:
+        ter_str_id curtain_transform;
+
+        bool has_curtains() const {
+            return !( curtain_transform.is_empty() || curtain_transform.is_null() );
+        }
 
     public:
         std::string name() const;
