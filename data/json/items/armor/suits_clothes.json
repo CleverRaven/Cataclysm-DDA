@@ -156,8 +156,7 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "yellow",
-    "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
-    "coverage": 95,
+    "armor_portion_data": [ { "covers": [ "torso" ], "coverage": 95 }, { "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 60 } ],
     "encumbrance": 3,
     "max_encumbrance": 7,
     "pocket_data": [

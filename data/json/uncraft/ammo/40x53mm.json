@@ -10,7 +10,7 @@
     "components": [
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "combatnail", 100 ] ],
-      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
@@ -26,7 +26,7 @@
     "components": [
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "chem_compositionb", 32 ] ],
-      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "gunpowder_shotgun", 42 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ],

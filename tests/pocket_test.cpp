@@ -919,10 +919,10 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item can( "test_can_drink" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<const item_pocket *>> can_pockets = can.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> can_pockets = can.contents.get_all_contained_pockets();
         REQUIRE( can_pockets.success() );
         REQUIRE( can_pockets.value().size() == 1 );
-        item_pocket pocket = *can_pockets.value().front();
+        item_pocket &pocket = *can_pockets.value().front();
         // Must be sealable, but not sealed initially
         REQUIRE( pocket.sealable() );
         REQUIRE_FALSE( pocket.sealed() );
@@ -969,10 +969,10 @@ TEST_CASE( "sealed containers", "[pocket][seal]" )
         item jug( "test_jug_plastic" );
 
         // Ensure it has exactly one contained pocket, and get that pocket for testing
-        ret_val<std::vector<const item_pocket *>> jug_pockets = jug.contents.get_all_contained_pockets();
+        ret_val<std::vector<item_pocket *>> jug_pockets = jug.contents.get_all_contained_pockets();
         REQUIRE( jug_pockets.success() );
         REQUIRE( jug_pockets.value().size() == 1 );
-        item_pocket pocket = *jug_pockets.value().front();
+        item_pocket &pocket = *jug_pockets.value().front();
         // Must NOT be sealable
         REQUIRE_FALSE( pocket.sealable() );
         REQUIRE_FALSE( pocket.sealed() );

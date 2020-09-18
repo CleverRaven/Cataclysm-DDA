@@ -1847,7 +1847,7 @@
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
-        [ "gunpowder", 72 ],
+        [ "gunpowder", 720 ],
         [ "chem_black_powder", 72 ],
         [ "shot_bird", 24 ],
         [ "shot_00", 12 ],
@@ -5069,6 +5069,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "alder_bark", 6 ], [ "lye", 5 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "lye", 5 ] ], [ [ "water_clean", 10 ] ] ]
   }
 ]

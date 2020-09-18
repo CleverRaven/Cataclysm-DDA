@@ -898,6 +898,11 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            // rare scenario when monster is on the border of the map and it's goal is outside of the map
+            if( !here.inbounds( candidate ) ) {
+                continue;
+            }
+
             bool via_ramp = false;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
@@ -1157,6 +1162,11 @@ tripoint monster::scent_move()
     if( std::abs( posz() - get_map().get_abs_sub().z ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
+    scent_map &scents = get_scent();
+    bool in_range = scents.inbounds( pos() );
+    if( !in_range ) {
+        return { -1, -1, INT_MIN };
+    }
 
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
     const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
@@ -1172,43 +1182,49 @@ tripoint monster::scent_move()
 
     Character &player_character = get_player_character();
     const bool fleeing = is_fleeing( player_character );
+    int scent_here = scents.get_unsafe( pos() );
     if( fleeing ) {
-        bestsmell = get_scent().get( pos() );
+        bestsmell = scent_here;
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && get_scent().get( pos() ) > smell_threshold ) ||
-        ( fleeing && bestsmell == 0 ) ) {
+    // When the scent is *either* too strong or too weak, can't follow it.
+    if( ( !fleeing && scent_here > smell_threshold ) ||
+        ( scent_here == 0 ) ) {
         return next;
     }
+    // Check for the scent type being compatible.
+    const scenttype_id &type_scent = scents.get_type();
+    bool right_scent = false;
+    // is the monster tracking this scent
+    if( !tracked_scents.empty() ) {
+        right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+    }
+    //is this scent recognised by the monster species
+    if( !type_scent.is_empty() ) {
+        const std::set<species_id> &receptive_species = type_scent->receptive_species;
+        const std::set<species_id> &monster_species = type->species;
+        std::vector<species_id> v_intersection;
+        std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                               monster_species.end(), std::back_inserter( v_intersection ) );
+        if( !v_intersection.empty() ) {
+            right_scent = true;
+        }
+    }
+    // is the monster actually ignoring this scent
+    if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+        right_scent = false;
+    }
+    if( !right_scent ) {
+        return { -1, -1, INT_MIN };
+    }
+
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
-    for( const auto &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = get_scent().get( dest );
-        const scenttype_id &type_scent = get_scent().get_type( dest );
+    for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+        int smell = scents.get( dest );
 
-        bool right_scent = false;
-        // is the monster tracking this scent
-        if( !tracked_scents.empty() ) {
-            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
-        }
-        //is this scent recognised by the monster species
-        if( !type_scent.is_empty() ) {
-            const std::set<species_id> &receptive_species = type_scent->receptive_species;
-            const std::set<species_id> &monster_species = type->species;
-            std::vector<species_id> v_intersection;
-            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
-                                   monster_species.end(), std::back_inserter( v_intersection ) );
-            if( !v_intersection.empty() ) {
-                right_scent = true;
-            }
-        }
-        // is the monster actually ignoring this scent
-        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
-            right_scent = false;
-        }
-
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
             continue;
         }
         if( here.valid_move( pos(), dest, can_bash, true ) &&

@@ -1,0 +1,22 @@
+[
+  {
+    "type": "SPELL",
+    "id": "FIRE_ELEMENTAL_BURNBACK",
+    "name": "Fire Elemental Burnback",
+    "description": "The burnback effect from the Fire Elemental Attunement.",
+    "effect": "target_attack",
+    "min_damage": 5,
+    "max_damage": 5,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "fire",
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "FIRE_ELEMENTAL",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_HEAT", "multiply": -0.4 } ],
+    "hit_me_effect": [ { "id": "FIRE_ELEMENTAL_BURNBACK" } ]
+  }
+]

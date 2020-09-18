@@ -323,7 +323,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "You have used your expertise in Biomancy to change your body more toward your affinity for fire as a Kelvinist.  Fire doesn't bother you as much anymore, and your blood is flammable when it touches the air, resulting in a gout of flame when something hurts you.  You are also starting to study more spells that focus on using your own body's affinity for fire.",
+    "enchantments": [ "FIRE_ELEMENTAL" ],
+    "spells_learned": [ [ "flareup", 5 ], [ "flarewhip", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",

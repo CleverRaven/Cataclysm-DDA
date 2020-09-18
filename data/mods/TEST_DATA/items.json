@@ -1425,5 +1425,174 @@
       { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
     ],
     "warmth": 5
+  },
+  {
+    "id": "test_liquid_1ml",
+    "type": "AMMO",
+    "category": "fuel",
+    "ammo_type": "gasoline",
+    "phase": "liquid",
+    "name": { "str_sp": "test liquid" },
+    "description": "One milliliter liquid.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "light_gray"
+  },
+  {
+    "id": "test_solid_1ml",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "ammo_type": "components",
+    "name": { "str": "test solid" },
+    "description": "One milliliter solid.",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "symbol": "?",
+    "color": "light_gray"
+  },
+  {
+    "id": "test_watertight_open_sealed_container_250ml",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test can" },
+    "description": "Some strange can from another dimension.  It can be worn on the waist.",
+    "weight": "13 g",
+    "volume": "253 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_watertight_open_sealed_multipocket_container_2x250ml",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test can" },
+    "description": "Some strange can from another dimension.",
+    "weight": "26 g",
+    "volume": "506 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ]
+  },
+  {
+    "id": "test_watertight_open_sealed_container_1L",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test jug" },
+    "description": "Some strange jug from another dimension.",
+    "weight": "52 g",
+    "volume": "1012 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 }
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_watertight_open_sealed_multipocket_container_2x1L",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "test jug with strap", "str_pl": "test jugs with strap" },
+    "description": "Some strange jug from another dimension.  It can be worn on the waist.",
+    "weight": "104 g",
+    "volume": "2024 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "1 L",
+        "max_item_volume": "1 L",
+        "max_contains_weight": "4 kg",
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "item_restriction": [ "test_watertight_open_sealed_multipocket_container_2x250ml", "test_solid_1ml" ]
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "test_restricted_container_holder",
+    "type": "ARMOR",
+    "name": { "str": "test restricted container holder" },
+    "description": "A backpack that somehow only holds specific containers.",
+    "weight": "208 g",
+    "volume": "4048 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "16 kg",
+        "item_restriction": [
+          "test_watertight_open_sealed_multipocket_container_2x1L",
+          "test_watertight_open_sealed_container_1L",
+          "test_watertight_open_sealed_container_250ml"
+        ]
+      }
+    ],
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "flags": [ "BELTED" ]
   }
 ]

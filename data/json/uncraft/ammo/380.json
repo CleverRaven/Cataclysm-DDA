@@ -6,7 +6,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_380", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "380_FMJ",
@@ -15,7 +15,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_380", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "380_p",
@@ -24,6 +24,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "using": [ [ "ammo_380", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 3 ] ], [ [ "copper", 1 ] ] ]
   }
 ]
