@@ -1325,7 +1325,7 @@ bool item_pocket::airtight() const
 bool item_pocket::allows_speedloader( const itype_id &speedloader_id ) const
 {
     if( data->allowed_speedloaders.empty() ) {
-        return true;
+        return false;
     } else {
         return data->allowed_speedloaders.count( speedloader_id );
     }
