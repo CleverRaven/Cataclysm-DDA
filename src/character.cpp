@@ -3186,15 +3186,19 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 // Spills have no parent.
-                if( parent == nullptr && node->made_of( phase_id::LIQUID ) ) {
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( node->typeId() == contents_id ) {
-                    out = item_location( src, node );
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
                 }
 
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         } else {
             // Look for containers with any liquid and loose frozen liquids
@@ -3211,14 +3215,19 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 // Spills have no parent.
-                if( parent == nullptr && node->made_of( phase_id::LIQUID ) ) {
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( node->made_of( phase_id::LIQUID ) || node->is_frozen_liquid() ) {
-                    out = item_location( src, node );
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
                 }
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         }
     }
