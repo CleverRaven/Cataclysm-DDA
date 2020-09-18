@@ -898,6 +898,11 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            // rare scenario when monster is on the border of the map and it's goal is outside of the map
+            if( !here.inbounds( candidate ) ) {
+                continue;
+            }
+
             bool via_ramp = false;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
