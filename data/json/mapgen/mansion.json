@@ -2252,7 +2252,7 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
-      "furniture": { "=": "f_machinery_old", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": { "=": "f_machinery_old", "&": "f_table", "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": { ".": { "item": "clutter_basement" }, "!": { "item": "crate_stack", "chance": 100 } },
       "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
