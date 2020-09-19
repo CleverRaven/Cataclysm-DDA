@@ -138,7 +138,7 @@
       { "item": "improvised_pipebomb", "prob": 10 },
       { "item": "molotov", "prob": 10 },
       { "item": "longbow", "prob": 5 },
-      { "item": "recurbow", "prob": 15 },
+      { "item": "compositebow", "prob": 15 },
       { "item": "shortbow", "prob": 10 },
       { "item": "arrow_metal", "prob": 25 },
       { "item": "bolt_steel", "prob": 10 },

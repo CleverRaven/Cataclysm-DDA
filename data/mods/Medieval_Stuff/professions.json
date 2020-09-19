@@ -173,7 +173,7 @@
           "gauntlets_larmor",
           "helmet_conical",
           "backpack",
-          "recurbow",
+          "compositebow",
           "fur_rollmat",
           "pot",
           "waterskin"
@@ -214,7 +214,7 @@
           "tabi_dress",
           "bastsandals",
           "backpack",
-          "recurbow",
+          "compositebow",
           "waterskin"
         ],
         "entries": [ { "item": "katana", "container-item": "scabbard" } ]
@@ -229,7 +229,7 @@
         "tabi_dress",
         "bastsandals",
         "backpack",
-        "recurbow",
+        "compositebow",
         "waterskin",
         "naginata"
       ],

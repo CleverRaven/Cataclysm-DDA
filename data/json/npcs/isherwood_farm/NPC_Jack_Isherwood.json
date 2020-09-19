@@ -67,8 +67,7 @@
       { "item": "crossbow", "prob": 20 },
       { "item": "shortbow", "prob": 5 },
       { "item": "compbow", "prob": 15 },
-      { "item": "recurbow", "prob": 15 },
-      { "item": "reflexbow", "prob": 10 },
+      { "item": "compositebow", "prob": 15 },
       { "item": "longbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 15 },
       { "item": "selfbow", "prob": 5 }

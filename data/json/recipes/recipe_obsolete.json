@@ -2386,22 +2386,17 @@
   },
   {
     "type": "recipe",
+    "result": "woodgreatbow",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "q_solarpack",
     "obsolete": true
   },
   {
     "type": "recipe",
     "result": "q_solarpack_on",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "taint_tornado",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "drink_sewerbrew",
     "obsolete": true
   },
   {

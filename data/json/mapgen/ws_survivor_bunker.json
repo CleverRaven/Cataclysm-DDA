@@ -79,7 +79,7 @@
       [ "electric_lantern", 15 ],
       [ "oil_lamp", 15 ],
       [ "lamp_oil", 15 ],
-      [ "recurbow", 20 ],
+      [ "compbow", 20 ],
       [ "binoculars", 20 ],
       [ "ref_lighter", 30 ],
       [ "e_tool", 30 ],

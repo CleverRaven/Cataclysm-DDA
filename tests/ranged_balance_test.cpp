@@ -270,7 +270,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "a skilled archer with an accurate bow" ) {
-        arm_character( shooter, "recurbow", { "bow_sight" } );
+        arm_character( shooter, "compbow", { "bow_sight" } );
         test_shooting_scenario( shooter, 8, 10, 32 );
         test_fast_shooting( shooter, 50, 0.4 );
     }

@@ -195,7 +195,7 @@
       [ "improvised_pipebomb", 10 ],
       [ "molotov", 10 ],
       [ "longbow", 5 ],
-      [ "recurbow", 15 ],
+      [ "compositebow", 15 ],
       [ "shortbow", 10 ],
       [ "arrow_metal", 25 ],
       [ "bolt_steel", 10 ],

@@ -1188,5 +1188,30 @@
     "id": "akmbigmag",
     "type": "MIGRATION",
     "replace": "akmag40"
+  },
+  {
+    "id": "reflexrecurvebow",
+    "type": "MIGRATION",
+    "replace": "compositebow"
+  },
+  {
+    "id": "hybridbow",
+    "type": "MIGRATION",
+    "replace": "compositebow"
+  },
+  {
+    "id": "reflexbow",
+    "type": "MIGRATION",
+    "replace": "compositebow"
+  },
+  {
+    "id": "recurbow",
+    "type": "MIGRATION",
+    "replace": "compositebow"
+  },
+  {
+    "id": "woodgreatbow",
+    "type": "MIGRATION",
+    "replace": "compgreatbow"
   }
 ]

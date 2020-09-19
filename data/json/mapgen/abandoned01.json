@@ -548,7 +548,7 @@
         { "item": "mess_kit", "x": 17, "y": 15 },
         { "item": "nail", "x": 15, "y": 15 },
         { "item": "ax", "x": 15, "y": 15 },
-        { "item": "recurbow", "x": 16, "y": 15 },
+        { "item": "compositebow", "x": 16, "y": 15 },
         { "item": "quiver", "x": 16, "y": 15 },
         { "item": "arrow_wood_heavy", "x": 16, "y": 15 },
         { "item": "knife_hunting", "x": 16, "y": 15 },

@@ -71,7 +71,7 @@
     "id": "afs_hardlight_longbow",
     "type": "GUN",
     "symbol": "(",
-    "looks_like": "recurbow",
+    "looks_like": "longbow",
     "color": "white",
     "name": { "str": "hard-light longbow" },
     "description": "A sleek, stringless white metal longbow constructed of ultralight, atomic-age materials.  Rather than using ammunition, each shot uses high-tech projectors to create a string and arrow out of hard light on the spot, which provide excellent accuracy and armor penetration.  Being a bow, it's still not as powerful as conventional ballistic weapons.  It runs off of UPS power, and rather efficiently so.",

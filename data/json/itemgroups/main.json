@@ -238,8 +238,7 @@
       { "item": "longbow", "prob": 40 },
       { "item": "compbow", "prob": 40 },
       { "item": "shortbow", "prob": 20 },
-      { "item": "recurbow", "prob": 40 },
-      { "item": "reflexbow", "prob": 20 },
+      { "item": "compositebow", "prob": 40 },
       { "item": "slingshot", "prob": 50 },
       { "item": "wristrocket", "prob": 50 }
     ]
