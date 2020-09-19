@@ -8656,7 +8656,8 @@ int item::fill_with( const item &contained, const int amount )
         if( count_by_charges ) {
             contained_item.charges = std::min( { amount - num_contained,
                                                  contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() )
+                                               } );
         }
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
@@ -8724,11 +8725,17 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
 
+                // Unseal the pocket and parent pockets.
+                if( parent != nullptr ) {
+                    map_cursor mc( pos );
+                    avatar &player = get_avatar();
+                    item_location container( mc, parent );
+                    handle_contents_changed_helper handler( player, item_location( container, e ) );
+                    handler.handle();
+                }
+
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
-                if( parent ) {
-                    parent->on_contents_changed();
-                }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
                     qty = 0;
