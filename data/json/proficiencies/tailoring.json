@@ -4,7 +4,7 @@
     "id": "prof_articulation",
     "name": { "str": "Joint Articulation" },
     "description": "Making flexible items out of hard materials is tricky.  You've done enough of it to understand how to make smoothly articulated joints out of rigid or semi-rigid materials.",
-	"//": "while specifically made for tailoring, I think this could also apply to things like making robot legs.",
+    "//": "while specifically made for tailoring, I think this could also apply to things like making robot legs.",
     "can_learn": true,
     "time_to_learn": "6 h"
   },
@@ -64,7 +64,7 @@
     "id": "prof_chitinworking",
     "name": { "str": "Chitinworking" },
     "description": "It seems unlikely that anyone prior to the cataclysm knew how to work with the shells of giant bugs as well as you do now.",
-	"//": "Given that nobody has ever written a guide for this, it should be particularly tough to master.",
+    "//": "Given that nobody has ever written a guide for this, it should be particularly tough to master.",
     "can_learn": true,
     "time_to_learn": "16 h",
     "required_proficiencies": [ "prof_leatherworking", "prof_articulation" ]
