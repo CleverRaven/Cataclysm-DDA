@@ -779,7 +779,8 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "FLAMMABLE", "EXPLODES" ] }
+    "death_function": [ "EXPLODE" ],
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "FLAMMABLE" ] }
   },
   {
     "id": "mon_spider_trapdoor_small",
