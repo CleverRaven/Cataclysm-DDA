@@ -509,6 +509,10 @@ class JsonIn
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        // if the next element is a string, throw error after the `offset`th unicode
+        // character in the parsed string. if `offset` is 0, throw error right after
+        // the starting quotation mark.
+        [[noreturn]] void string_error( const std::string &message, int offset );
 
         // If throw_, then call error( message, offset ), otherwise return
         // false
