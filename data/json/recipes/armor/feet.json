@@ -127,10 +127,10 @@
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1 } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "sheet_kevlar_layered", 4 ] ],
