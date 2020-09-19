@@ -31,7 +31,7 @@ parser.add_argument(
     "-L", "--list",
     action="store_true",
     help="print only a sorted list of keys in JSON format,"
-        " or newline-separated plain text list if --human is also set.")
+         " or newline-separated plain text list if --human is also set.")
 parser.add_argument(
     "where",
     action=WhereAction, nargs='*', type=str,
