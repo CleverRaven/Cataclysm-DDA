@@ -173,6 +173,7 @@
       "terrain": {
         " ": "t_rock",
         ".": "t_thconc_floor",
+        "0": "t_thconc_floor",
         "-": "t_carpet_concrete_red",
         "h": "t_carpet_concrete_red",
         "=": "t_carpet_concrete_red"
