@@ -59,5 +59,13 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "rifle_rail_ammo",
+    "copy-from": "12mm",
+    "type": "AMMO",
+    "name": { "str_sp": "railgun rifle ammo" },
+    "description": "Projectile used for a railgun.  It's made of a ferromagnetic metal, probably cobalt.",
+    "ammo_type": "ammo_railgun"
   }
 ]

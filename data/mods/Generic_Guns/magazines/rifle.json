@@ -30,5 +30,14 @@
     "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
     "ammo_type": [ "ammo_rifle" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 5 }, "rigid": true } ]
+  },
+  {
+    "id": "rifle_rail_mag",
+    "copy-from": "hk_g80mag",
+    "type": "MAGAZINE",
+    "name": { "str": "railgun rifle magazine" },
+    "description": "A railgun rifle magazine which can hold up to 20 ferromagnetic projectiles.",
+    "ammo_type": [ "ammo_railgun" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_railgun": 20 } } ]
   }
 ]

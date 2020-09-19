@@ -245,6 +245,11 @@
     "replace": "rifle_sniper_mag"
   },
   {
+    "id": [ "hk_g80mag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail_mag"
+  },
+  {
     "id": [ "saiga410mag_10rd", "saiga410mag_30rd", "saiga10mag", "saiga30mag", "USAS10mag", "USAS20mag", "shotbelt_20" ],
     "type": "MIGRATION",
     "replace": "shot_mag"

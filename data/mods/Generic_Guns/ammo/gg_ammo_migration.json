@@ -264,6 +264,11 @@
     "replace": "reloaded_rifle_huge_AP"
   },
   {
+    "id": [ "12mm" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail_ammo"
+  },
+  {
     "id": [ "36navy", "44army", "flintlock_ammo" ],
     "type": "MIGRATION",
     "replace": "black_powder_ball"

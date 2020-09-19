@@ -296,6 +296,11 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "hk_g80" ],
+    "type": "MIGRATION",
+    "replace": "rifle_rail"
+  },
+  {
     "id": [ "AT4", "LAW_Packed", "LAW" ],
     "type": "MIGRATION",
     "replace": "rocket_disposable"

@@ -70,5 +70,23 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "id": "rifle_rail",
+    "copy-from": "hk_g80",
+    "type": "GUN",
+    "name": "railgun rifle",
+    "ammo": [ "ammo_railgun" ],
+    "description": "A handheld railgun which magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "250 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_rail_mag" ]
+      }
+    ]
   }
 ]
