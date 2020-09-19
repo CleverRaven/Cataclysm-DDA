@@ -601,6 +601,9 @@
     "difficulty": 10,
     "time": "4 h",
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5, "learning_time_multiplier": 0.25 }
+    ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
@@ -1042,6 +1045,12 @@
     "time": "55 m",
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      {
+        "proficiency": "prof_plasticworking",
+        "required": false,
+        "time_multiplier": 1.1,
+        "learning_time_multiplier": 0.1
+      },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
     ],
     "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
@@ -1088,7 +1097,7 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 8,
     "time": "1 h",
-    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 4 ] ],
     "tools": [ [ [ "large_repairkit", 250 ] ] ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
   },
@@ -1117,7 +1126,6 @@
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 5,
     "time": "25 m",
-    "autolearn": true,
     "book_learn": [
       [ "manual_fabrication", 3 ],
       [ "manual_shotgun", 4 ],
@@ -1127,6 +1135,9 @@
     ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -1139,9 +1150,11 @@
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 4,
     "time": "25 m",
-    "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_shotgun", 4 ], [ "manual_smg", 4 ], [ "manual_rifle", 4 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1178,6 +1191,9 @@
     "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 2 ], [ "manual_rifle", 3 ], [ "manual_launcher", 3 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1201,6 +1217,9 @@
       [ "manual_launcher", 4 ]
     ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
     "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
@@ -1251,9 +1270,11 @@
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 6,
     "time": "30 m",
-    "autolearn": true,
     "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_pistol", 4 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1267,7 +1288,6 @@
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 6,
     "time": "30 m",
-    "autolearn": true,
     "book_learn": [
       [ "manual_fabrication", 3 ],
       [ "manual_shotgun", 4 ],
@@ -1276,6 +1296,9 @@
       [ "manual_launcher", 4 ]
     ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "using": [ [ "welding_standard", 1 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
@@ -1289,7 +1312,6 @@
     "skills_required": [ [ "gun", 3 ] ],
     "difficulty": 6,
     "time": "20 m",
-    "autolearn": true,
     "book_learn": [
       [ "textbook_mechanics", 3 ],
       [ "manual_pistol", 4 ],
@@ -1298,6 +1320,7 @@
       [ "manual_rifle", 4 ]
     ],
     "using": [ [ "soldering_standard", 15 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -1358,11 +1381,11 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 3,
-    "time": "10 m",
-    "autolearn": true,
+    "time": "30 m",
     "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1374,11 +1397,11 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 3 ] ],
     "difficulty": 3,
-    "time": "5 m",
-    "autolearn": true,
+    "time": "30 m",
     "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -1696,7 +1719,13 @@
     "book_learn": [ [ "manual_knives", 9 ], [ "textbook_weapeast", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 },
+      {
+        "proficiency": "prof_plasticworking",
+        "required": false,
+        "time_multiplier": 1.1,
+        "learning_time_multiplier": 0.1
+      }
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1751,6 +1780,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -1767,7 +1797,13 @@
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 },
+      {
+        "proficiency": "prof_plasticworking",
+        "required": false,
+        "time_multiplier": 1.1,
+        "learning_time_multiplier": 0.1
+      }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1787,7 +1823,13 @@
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
-      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 },
+      {
+        "proficiency": "prof_plasticworking",
+        "required": false,
+        "time_multiplier": 1.25,
+        "learning_time_multiplier": 0.1
+      }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1887,6 +1929,7 @@
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 5 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -1912,8 +1955,9 @@
     "skill_used": "fabrication",
     "skills_required": [ "melee", 1 ],
     "difficulty": 6,
-    "time": "30 m",
+    "time": "1 h",
     "book_learn": [ [ "recipe_melee", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
@@ -1940,11 +1984,12 @@
     "skill_used": "fabrication",
     "skills_required": [ "electronics", 3 ],
     "difficulty": 6,
-    "time": "45 m",
+    "time": "2 h",
     "book_learn": [ [ "recipe_melee", 5 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2.5 } ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
       [ [ "amplifier", 2 ] ],
@@ -2921,6 +2966,9 @@
     "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
+    ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "laptop", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],

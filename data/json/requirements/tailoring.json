@@ -164,7 +164,7 @@
     "type": "requirement",
     "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {

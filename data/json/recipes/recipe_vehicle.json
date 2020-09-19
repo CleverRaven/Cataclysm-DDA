@@ -167,11 +167,12 @@
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 5 ],
     "difficulty": 5,
-    "time": "180 m",
+    "time": "5 h",
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -238,6 +239,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -283,6 +285,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "sheet_metal", 2 ] ],
@@ -374,6 +377,7 @@
     "time": "90 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -430,8 +434,9 @@
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "5 m",
+    "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
   },

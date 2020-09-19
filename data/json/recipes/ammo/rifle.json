@@ -503,12 +503,11 @@
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "plastic_molding", 1 ] ],
     "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [
       [ [ "5x50_hull", 1 ] ],
-      [ [ "plastic_chunk", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ] ],
       [ [ "combatnail", 1 ] ]

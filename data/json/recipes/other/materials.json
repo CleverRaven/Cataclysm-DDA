@@ -265,6 +265,7 @@
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 4 ], [ "textbook_fabrication", 5 ], [ "welding_book", 5 ] ],
     "batch_time_factors": [ 90, 2 ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 2 } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "tongs", -1 ] ],

@@ -242,9 +242,9 @@
     "difficulty": 4,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
   },
   {
     "result": "leg_warmers",
@@ -307,11 +307,12 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "15 m",
+    "time": "1 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "sewing_standard", 25 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
-    "components": [ [ [ "neoprene", 6 ] ], [ [ "plastic_chunk", 8 ] ] ]
+    "components": [ [ [ "neoprene", 6 ] ], [ [ "plastic_chunk", 4 ] ] ]
   },
   {
     "result": "legguard_lightplate",
