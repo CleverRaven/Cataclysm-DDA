@@ -25,6 +25,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_basketweaving",
+    "name": { "str": "Basketweaving" },
+    "description": "Forming coarse fibers into shapes.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_pottery_glazing",
     "name": { "str": "Pottery Glazing" },
     "description": "Adding glazes to pottery to make them waterproof.",
@@ -41,11 +49,28 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_carving",
+    "name": { "str": "Woodcarving" },
+    "description": "Shaping wood with a cutting implement.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_blacksmithing",
     "name": { "str": "Blacksmithing" },
     "description": "The craft of working metal into tools and other items of use.",
     "can_learn": true,
     "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_armorsmithing",
+    "name": { "str": "Armorsmithing" },
+    "description": "How to make articulated armor from pieces of metal.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_blacksmithing", "prof_articulation" ]
   },
   {
     "type": "proficiency",

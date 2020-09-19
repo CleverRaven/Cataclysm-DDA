@@ -1,6 +1,15 @@
 [
   {
     "type": "proficiency",
+    "id": "prof_articulation",
+    "name": { "str": "Joint Articulation" },
+    "description": "Making flexible items out of hard materials is tricky.  You've done enough of it to understand how to make smoothly articulated joints out of rigid or semi-rigid materials.",
+    "//": "while specifically made for tailoring, I think this could also apply to things like making robot legs.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_closures",
     "name": { "str": "Garment Closures" },
     "description": "You are familiar with the adjustments and tricks needed to make properly functional buttons, zippers, and other closures on garments.",
@@ -22,7 +31,8 @@
     "name": { "str": "Cobbling" },
     "description": "Like a magical elf, you've learned how to construct footwear by hand.",
     "can_learn": true,
-    "time_to_learn": "10 h"
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_closures", "prof_leatherworking" ]
   },
   {
     "type": "proficiency",
@@ -54,9 +64,18 @@
     "id": "prof_chitinworking",
     "name": { "str": "Chitinworking" },
     "description": "It seems unlikely that anyone prior to the cataclysm knew how to work with the shells of giant bugs as well as you do now.",
+    "//": "Given that nobody has ever written a guide for this, it should be particularly tough to master.",
     "can_learn": true,
-    "time_to_learn": "10 h",
-    "required_proficiencies": [ "prof_leatherworking" ]
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_leatherworking", "prof_articulation" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_chain_armour",
+    "name": { "str": "Chain Garments" },
+    "description": "Turning sheets of chain links into effective, wearable clothing that doesn't bind up.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
   },
   {
     "type": "proficiency",
