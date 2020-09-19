@@ -146,7 +146,8 @@
       "ATTACKMON"
     ],
     "harvest": "dino_feather_leather",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -406,7 +407,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -446,7 +447,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -512,7 +513,7 @@
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ],
     "categories": [ "DINOSAUR" ]
   },
@@ -801,7 +802,6 @@
     "special_attacks": [ [ "EAT_CROP", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
-    "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
   {
