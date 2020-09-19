@@ -343,13 +343,11 @@ int main( int argc, const char *argv[] )
     if( error_during_initialization ) {
         DebugLog( D_INFO, DC_ALL ) <<
                                    "Treating result as failure due to error logged during initialization.";
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
-        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
         return 1;
     }
 
