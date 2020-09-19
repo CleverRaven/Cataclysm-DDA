@@ -147,19 +147,15 @@ def validate(dialogue):
             response = repeated.get("response", {})
             parse_response(topics, response, topic_branches, this_ids)
 
-    all_topics_valid = True
     for topic_id, topic_record in topics.items():
         if not topic_record.get("valid", False):
-            all_topics_valid = False
             if topic_id in start_topics:
                 print("talk topic {} referenced in an NPC chat but not defined".format(topic_id))
             else:
                 print("talk topic {} referenced in a response but not defined".format(topic_id))
         if not topic_record.get("in_response", False):
-            all_topics_valid = False
             print("talk topic {} defined but not referenced in a response".format(topic_id))
         if topic_id in OBSOLETE_TOPICS:
-            all_topics_valid = False
             print("talk topic {} referenced despite being listed as obsolete.".format(topic_id))
 
     no_change = False
