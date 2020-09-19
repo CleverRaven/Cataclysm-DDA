@@ -34,7 +34,7 @@
         "###++##############++###"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "terrain": { " ": "t_rock", ".": "t_thconc_floor" },
+      "terrain": { " ": "t_rock", ".": "t_thconc_floor", "]": "t_sewage_pipe", ")": "t_sewage_pump" },
       "furniture": { "?": "f_generator_broken", "!": [ "f_crate_c", "f_cardboard_box" ] },
       "items": {
         ".": { "item": "clutter_basement" },
