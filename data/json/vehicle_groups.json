@@ -57,7 +57,9 @@
       [ "food_truck", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
-      [ "4x4_car", 500 ]
+      [ "4x4_car", 500 ],
+      [ "car_sports_atomic", 15 ],
+      [ "bubble_car", 20 ]
     ]
   },
   {
@@ -240,7 +242,8 @@
       [ "food_truck", 20 ],
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "bubble_car", 50 ]
     ]
   },
   {
@@ -529,7 +532,8 @@
       [ "suv_electric", 70 ],
       [ "rara_x", 40 ],
       [ "car_sports", 30 ],
-      [ "car_sports_electric", 20 ]
+      [ "car_sports_electric", 20 ],
+      [ "car_sports_atomic", 5 ]
     ]
   },
   {
@@ -614,7 +618,8 @@
       [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 50 ],
-      [ "car_sports", 30 ]
+      [ "car_sports", 30 ],
+      [ "car_sports_atomic", 5 ]
     ]
   },
   {
