@@ -942,6 +942,7 @@ class Character : public Creature, public visitable<Character>
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id & );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
+        void set_mutations( const std::vector<trait_id> &traits );
         void set_mutation( const trait_id & );
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
