@@ -41,7 +41,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "tofu", 1 ] ],  [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+    "components": [ [ [ "tofu", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -117,7 +117,12 @@
     },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "raw_dandelion", 1 ] ],
+      [ [ "raw_burdock", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "batter", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -152,7 +157,7 @@
     ]
   },
   {
-	"//": "Fried seeds means something a little different. Often no oils are used, technically should be called ROASTED.",
+    "//": "Fried seeds means something a little different. Often no oils are used, technically should be called ROASTED.",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_seeds",
@@ -185,4 +190,4 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "can_spam", 1 ] ] ]
   }
-}
+]
