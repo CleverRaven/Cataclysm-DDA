@@ -362,7 +362,7 @@
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": { "str": "super methanol fuel cell" },
-    "description": "This is a custom made methanol fuel cell assembly.  Hand made from a shortened and strengthened metal tank and welded onto a large methanol fuel cell, it offers extreme capacity but is unwieldly.  It can be reloaded quickly, compared to the others, without special tools, but all old charges are still lost.",
+    "description": "This is a custom made methanol fuel cell assembly.  Hand made from a shortened and strengthened metal tank and welded onto a large methanol fuel cell, it offers extreme capacity but is unwieldly.  It can be reloaded quickly compared to the others, without special tools, but all old charges are still lost.",
     "weight": "15000 g",
     "volume": "11000ml",
     "price": 200,
