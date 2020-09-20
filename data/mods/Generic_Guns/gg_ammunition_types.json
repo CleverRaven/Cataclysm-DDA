@@ -36,6 +36,13 @@
   },
   {
     "type": "ammunition_type",
+    "id": "ammo_rifle_foreign",
+    "//": "any Exodii rifle ammo less powerful than .375 H&H.",
+    "name": "foreign rifle ammo",
+    "default": "rifle_ball_foreign"
+  },
+  {
+    "type": "ammunition_type",
     "id": "ammo_railgun",
     "name": "railgun ammo",
     "default": "rifle_rail_ammo"

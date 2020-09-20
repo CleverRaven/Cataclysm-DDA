@@ -182,6 +182,11 @@
     "replace": "rifle_ball"
   },
   {
+    "id": [ "123ln" ],
+    "type": "MIGRATION",
+    "replace": "rifle_ball_foreign"
+  },
+  {
     "id": [
       "reloaded_223",
       "reloaded_270win_jsp",

@@ -296,6 +296,11 @@
     "replace": "rifle_sporter"
   },
   {
+    "id": [ "pamd68", "pamd71z" ],
+    "type": "MIGRATION",
+    "replace": "rifle_assault_foreign"
+  },
+  {
     "id": [ "hk_g80" ],
     "type": "MIGRATION",
     "replace": "rifle_rail"

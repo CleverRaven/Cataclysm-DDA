@@ -245,6 +245,16 @@
     "replace": "rifle_sniper_mag"
   },
   {
+    "id": [ "exodiiBRmag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_mag_foreign"
+  },
+  {
+    "id": [ "exodiiminimag" ],
+    "type": "MIGRATION",
+    "replace": "rifle_sniper_mag_foreign"
+  },
+  {
     "id": [ "hk_g80mag" ],
     "type": "MIGRATION",
     "replace": "rifle_rail_mag"

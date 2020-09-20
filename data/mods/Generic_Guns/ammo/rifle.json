@@ -61,6 +61,14 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "rifle_ball_foreign",
+    "copy-from": "rifle_ball",
+    "type": "AMMO",
+    "name": { "str_sp": "foreign rifle ammo, ball" },
+    "description": "Foreign rifle ammo brought by the Exodii, and very common amongst them.",
+    "ammo_type": "ammo_rifle_foreign"
+  },
+  {
     "id": "rifle_rail_ammo",
     "copy-from": "12mm",
     "type": "AMMO",
