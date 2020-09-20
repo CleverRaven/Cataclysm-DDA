@@ -158,6 +158,7 @@
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
+    "type": "overmap_terrain",
     "id": "robot_dispatch_first",
     "name": "robot dispatch center",
     "sym": "R",
