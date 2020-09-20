@@ -25,6 +25,7 @@
 #include "mapgen_functions.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -39,6 +40,16 @@
 static const itype_id itype_hotplate( "hotplate" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
+
+
+static const int get_proficiency_penalty_option() {
+    auto options = get_options();
+    if( options.has_option( "PROFICIENCY_PENALTY" ) ) {
+        return options.get_option( "PROFICIENCY_PENALTY" ).value_as<int>();
+    } else {
+        return 0;
+    }
+}
 
 time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
                                       size_t assistants ) const
@@ -67,15 +78,8 @@ int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) 
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
-    int ret = time;
-    for( const recipe_proficiency &prof : proficiencies ) {
-        if( !prof.required ) {
-            if( !guy.has_proficiency( prof.id ) &&
-                !helpers_have_proficiencies( guy, prof.id ) ) {
-                ret *= prof.time_multiplier;
-            }
-        }
-    }
+    int ret = time * proficiency_maluses( guy );
+
     return ret;
 }
 
@@ -578,17 +582,30 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         }
     }
     std::string required = enumerate_as_string( required_profs.begin(),
-    required_profs.end(), [&]( const proficiency_id & id ) {
-        nc_color color;
-        if( c.has_proficiency( id ) ) {
-            color = c_green;
-        } else if( helpers_have_proficiencies( c, id ) ) {
-            color = c_yellow;
-        } else {
-            color = c_red;
-        }
-        return colorize( id->name(), color );
-    } );
+        required_profs.end(), [&]( const proficiency_id & id ) {
+            nc_color color;
+            if( c.has_proficiency( id ) ) {
+                color = c_green;
+            } else if( helpers_have_proficiencies( c, id ) ) {
+                color = c_yellow;
+            } else {
+                color = c_red;
+            }
+            return colorize( id->name(), color );
+        } );
+
+    // default formats proficiency penalties as "Foo 4x"
+    std::function< std::string( std::string&, std::string&, float ) > penalty_formatter = []( std::string &prof, std::string &color, const float &penalty ) {
+        return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", prof, color, penalty );
+    };
+    
+    int proficiency_penalty = get_proficiency_penalty_option();
+    if( proficiency_penalty == 1 ) {
+        // non stacking formats penalty as "Foo +300%"
+        penalty_formatter = []( std::string &prof, std::string &color, const float &penalty ) {
+            return string_format( "<color_cyan>%s</color> <color_%s>+%g%%</color>", prof, color, 100 * ( penalty-1.0 ) );
+        };
+    }
 
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
@@ -599,8 +616,7 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         } else {
             color = "yellow";
         }
-        return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
-                              pair.second );
+        return penalty_formatter( pair.first->name(), color, pair.second );
     } );
     used = string_format( _( "Proficiencies Used: %s" ), used );
 
@@ -620,6 +636,10 @@ std::set<proficiency_id> recipe::required_proficiencies() const
 
 bool recipe::character_has_required_proficiencies( const Character &c ) const
 {
+    // if proficiency penalties are disabled, pretend the character knows them all 
+    if( get_proficiency_penalty_option() == -1 )
+        return true;
+
     for( const proficiency_id &id : required_proficiencies() ) {
         if( !c.has_proficiency( id ) && !helpers_have_proficiencies( c, id ) ) {
             return false;
@@ -641,11 +661,25 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
 
 float recipe::proficiency_maluses( const Character &guy ) const
 {
+    auto proficiency_penalty = get_proficiency_penalty_option();
+
     float malus = 1.0f;
-    for( const recipe_proficiency &prof : proficiencies ) {
-        if( !guy.has_proficiency( prof.id ) &&
-            !helpers_have_proficiencies( guy, prof.id ) ) {
-            malus *= prof.time_multiplier;
+
+    // PROFICIENCY_PENALTY of -1 disables proficiency time penalties
+    if( proficiency_penalty != -1 ) {
+        // default is a stacking penalty
+        std::function< float( float, float ) > aggregator = []( float agg, float v ) { return agg * v; };
+
+        // PROFICIENCY_PENALTY of 1 merely adds the penalties (minus the base 100% per proficiency)
+        if( proficiency_penalty == 1 ) {
+            aggregator = []( float agg, float v ) { return agg + (v - 1); };
+        }
+
+        for( const recipe_proficiency &prof : proficiencies ) {
+            if( !guy.has_proficiency( prof.id ) &&
+                !helpers_have_proficiencies( guy, prof.id ) ) {
+                malus = aggregator( malus, prof.time_multiplier );
+            }
         }
     }
     return malus;

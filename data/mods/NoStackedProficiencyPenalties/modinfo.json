@@ -1,0 +1,19 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_stacked_proficiency_penalties",
+    "name": "Proficiency time penalties: No stacking",
+    "authors": [ "DoctorVanGogh" ],
+    "maintainers": [ "DoctorVanGogh" ],
+    "description": "Removes stacking time penalties for missing crafting proficiencies",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PROFICIENCY_PENALTY",
+    "info": "Removes the time penalty stacking for missing crafting proficiencies",
+    "stype": "int",
+    "value": 1
+  }
+]
