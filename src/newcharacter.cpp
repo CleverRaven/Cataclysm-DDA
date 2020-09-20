@@ -394,7 +394,7 @@ void avatar::add_profession_items()
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( it, false );
+            wear_item( it, false, false );
         } else {
             inv->push_back( it );
         }
@@ -402,6 +402,8 @@ void avatar::add_profession_items()
             items_identified.insert( it.typeId() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
