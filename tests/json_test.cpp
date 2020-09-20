@@ -116,7 +116,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"("foo.)" "\n"
             R"(    ^)" "\n"
             R"(      bar.")" "\n" ),
-        R"("foo. bar.")" );
+        R"("foo. bar.")" ); // NOLINT(cata-text-style)
     // string, unicode
     test_translation_text_style_check(
         Catch::Equals(
@@ -129,7 +129,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"("…foo.)" "\n"
             R"(       ^)" "\n"
             R"(         bar.")" "\n" ),
-        R"("…foo. bar.")" );
+        R"("…foo. bar.")" ); // NOLINT(cata-text-style)
     // string, escape sequence
     test_translation_text_style_check(
         Catch::Equals(
@@ -142,7 +142,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"("\u2026foo.)" "\n"
             R"(          ^)" "\n"
             R"(            bar.")" "\n" ),
-        R"("\u2026foo. bar.")" );
+        R"("\u2026foo. bar.")" ); // NOLINT(cata-text-style)
     // object, ascii
     test_translation_text_style_check(
         Catch::Equals(
@@ -155,7 +155,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"({"str": "foo.)" "\n"
             R"(            ^)" "\n"
             R"(              bar."})" "\n" ),
-        R"({"str": "foo. bar."})" );
+        R"({"str": "foo. bar."})" ); // NOLINT(cata-text-style)
     // object, unicode
     test_translation_text_style_check(
         Catch::Equals(
@@ -168,7 +168,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"({"str": "…foo.)" "\n"
             R"(               ^)" "\n"
             R"(                 bar."})" "\n" ),
-        R"({"str": "…foo. bar."})" );
+        R"({"str": "…foo. bar."})" ); // NOLINT(cata-text-style)
     // object, escape sequence
     test_translation_text_style_check(
         Catch::Equals(
@@ -181,7 +181,7 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"({"str": "\u2026foo.)" "\n"
             R"(                  ^)" "\n"
             R"(                    bar."})" "\n" ),
-        R"({"str": "\u2026foo. bar."})" );
+        R"({"str": "\u2026foo. bar."})" ); // NOLINT(cata-text-style)
 }
 
 static void test_get_string( const std::string &str, const std::string &json )
@@ -233,6 +233,7 @@ TEST_CASE( "jsonin_get_string", "[json]" )
     // read slash
     test_get_string( "foo\\bar", R"("foo\\bar")" );
     // read escaped characters
+    // NOLINTNEXTLINE(cata-text-style)
     test_get_string( "\"\\/\b\f\n\r\t\u2581", R"("\"\\\/\b\f\n\r\t\u2581")" );
 
     // empty json
@@ -332,7 +333,7 @@ TEST_CASE( "jsonin_get_string", "[json]" )
             R"("b)" "\n"
             R"(  ^)" "\n"
             R"(")" "\n" ),
-        "\"b\r\"" );
+        "\"b\r\"" ); // NOLINT(cata-text-style)
 
     // test throwing error after the given number of unicode characters
     // ascii
