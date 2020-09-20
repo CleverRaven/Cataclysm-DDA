@@ -534,12 +534,12 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            append_cell( [&p](const item_location & loc) {
+            append_cell( [&p]( const item_location & loc ) {
                 const item &it = *loc;
                 const int charges = std::max( it.charges, 1 );
-                const double converted_weight = convert_weight ( it.weight() / charges );
+                const double converted_weight = convert_weight( it.weight() / charges );
                 // Prevent div by 0
-                if ( converted_weight == 0 ) {
+                if( converted_weight == 0 ) {
                     return std::string( "---" );
                 }
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
