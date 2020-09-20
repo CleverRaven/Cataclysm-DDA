@@ -78,6 +78,7 @@
     "flags": [ "UNIQUE" ]
   },
   {
+    "type": "overmap_special",
     "id": "robot_dispatch",
     "locations": [ "land", "swamp" ],
     "city_distance": [ -1, 1 ],
