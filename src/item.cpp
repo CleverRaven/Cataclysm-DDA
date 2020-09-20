@@ -8724,13 +8724,12 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
-
-                if( parent != nullptr ) {
-                    parent->contained_where( *e )->unseal();
-                }
-
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
+                if( parent ) {
+                    parent->contained_where( *e )->on_contents_changed();
+                    parent->on_contents_changed();
+                }
                 if( !obj.is_null() ) {
                     used.push_back( obj );
                     qty = 0;
