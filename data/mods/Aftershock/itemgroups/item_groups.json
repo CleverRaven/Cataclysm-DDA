@@ -26,7 +26,7 @@
   {
     "id": "chem_lab",
     "type": "item_group",
-    "items": [ [ "panacea", 1 ], [ "afs_calorie_pill", 5 ], [ "afs_sundew", 8 ] ]
+    "items": [ [ "panacea", 1 ], [ "afs_calorie_pill", 5 ], [ "afs_sundew", 8 ], [ "recipe_unusual_ammos", 3 ] ]
   },
   {
     "id": "rare",

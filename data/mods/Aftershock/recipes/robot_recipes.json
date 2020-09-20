@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "bot_laserturret",
+    "result": "bot_laserturret_xray",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "electronics",
