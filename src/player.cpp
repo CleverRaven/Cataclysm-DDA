@@ -1838,10 +1838,11 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
 
             itype_id id = ammo->typeId();
             if( e->can_reload_with( id ) ) {
-                // Speedloaders require an empty target.
-                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
-                    ammo_match_found = true;
-                }
+                ammo_match_found = true;
+            } else if( ammo->has_flag( "SPEEDLOADER" ) && e->allows_speedloader( id ) &&
+                       ammo->ammo_remaining() > 1 && e->ammo_remaining() < 1 ) {
+                id = ammo->ammo_current();
+                ammo_match_found = e->can_reload_with( id );
             }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );

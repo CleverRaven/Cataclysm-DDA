@@ -6896,6 +6896,11 @@ bool item::can_unload_liquid() const
     return contents.can_unload_liquid();
 }
 
+bool item::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    return contents.allows_speedloader( speedloader_id );
+}
+
 bool item::can_reload_with( const itype_id &ammo ) const
 {
     return is_reloadable_helper( ammo, false );

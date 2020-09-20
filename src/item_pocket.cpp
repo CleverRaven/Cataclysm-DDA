@@ -111,6 +111,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     if( !item_id_restriction.empty() ) {
         std::vector<itype_id> item_restriction;
         mandatory( jo, was_loaded, "item_restriction", item_restriction );
@@ -1319,6 +1320,15 @@ bool item_pocket::is_standard_type() const
 bool item_pocket::airtight() const
 {
     return data->airtight;
+}
+
+bool item_pocket::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    if( data->allowed_speedloaders.empty() ) {
+        return false;
+    } else {
+        return data->allowed_speedloaders.count( speedloader_id );
+    }
 }
 
 const pocket_data *item_pocket::get_pocket_data() const
