@@ -2120,10 +2120,10 @@ item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
-        ui_manager::redraw();
         if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
             highlight();
         }
+        ui_manager::redraw();
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
@@ -2185,7 +2185,6 @@ void inventory_selector::highlight()
             }
         }
     }
-    ui_manager::redraw();
 }
 
 inventory_multiselector::inventory_multiselector( Character &p,
@@ -2467,10 +2466,10 @@ drop_locations inventory_drop_selector::execute()
 
     int count = 0;
     while( true ) {
-        ui_manager::redraw();
         if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
             highlight();
         }
+        ui_manager::redraw();
 
         const inventory_input input = get_input();
 
