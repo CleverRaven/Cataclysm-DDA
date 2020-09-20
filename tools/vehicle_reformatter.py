@@ -61,13 +61,13 @@ def really_add_parts(xpoint, ypoint, xparts, new_parts):
     # print("{}".format(pretty_parts))
     for subpart_list in pretty_parts:
         if len(subpart_list) > 1:
-            rev_part = { "x": xpoint, "y": ypoint, "parts": subpart_list}
+            rev_part = {"x": xpoint, "y": ypoint, "parts": subpart_list}
         else:
             subpart = subpart_list[0]
-            if isinstance( subpart, str ):
-                rev_part = { "x": xpoint, "y": ypoint, "part": subpart}
+            if isinstance(subpart, str):
+                rev_part = {"x": xpoint, "y": ypoint, "part": subpart}
             else:
-                rev_part = { "x": xpoint, "y": ypoint }
+                rev_part = {"x": xpoint, "y": ypoint}
                 for key, value in subpart.items():
                     if key == "x" or key == "y":
                         continue
@@ -133,10 +133,10 @@ for datafile in argsDict.get("vehicle_sources", []):
         revised_parts = []
         last_center = add_parts(revised_parts, 0, 0, new_parts)
         # print("last center {}".format(last_center))
-        for xpoint in range( 1, max_x +1 ):
+        for xpoint in range(1, max_x +1):
             last_center = add_parts(revised_parts, xpoint, last_center, new_parts)
             # print("x {}, last center {}".format(xpoint, last_center))
-        for xpoint in range( -1, min_x - 1, -1 ):
+        for xpoint in range(-1, min_x - 1, -1):
             last_center = add_parts(revised_parts, xpoint, last_center, new_parts)
 
         old_vehicle["parts"] = revised_parts

@@ -38,10 +38,10 @@ format = defines.get('format', 'UDBZ')
 size = defines.get('size', '200M')
 
 # Files to include
-files = [ application ]
+files = [application]
 
 # Symlinks to create
-symlinks = { 'Applications': '/Applications' }
+symlinks = {'Applications': '/Applications'}
 
 # Volume icon
 #
