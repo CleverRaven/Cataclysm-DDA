@@ -2334,7 +2334,6 @@ static void draw_gender( const catacurses::window &w_gender, const avatar &you,
                _( "Male" ) );
     mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_pink ),
                _( "Female" ) );
-    unsigned gender_pos = 1 + utf8_width( _( "Gender:" ) );
     wnoutrefresh( w_gender );
 }
 
@@ -2410,8 +2409,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ui.on_screen_resize( init_windows );
 
     const unsigned namebar_pos = 1 + utf8_width( _( "Name:" ) );
-    unsigned male_pos = 1 + utf8_width( _( "Gender:" ) );
-    unsigned female_pos = 2 + male_pos + utf8_width( _( "Male" ) );
 
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
     ctxt.register_cardinal();
