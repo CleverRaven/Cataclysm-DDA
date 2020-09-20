@@ -297,6 +297,22 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
   {
+    "abstract": "bot_hack_base",
+    "type": "TOOL",
+    "name": "inactive hack",
+    "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
+    "weight": "5400 g",
+    "volume": "750 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 4,
+    "cutting": 4,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green"
+  },
+  {
     "id": "bot_light_hack",
     "type": "TOOL",
     "copy-from": "bot_hack_base",
@@ -314,6 +330,22 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     }
+  },
+  {
+    "abstract": "bot_milbot_base",
+    "type": "TOOL",
+    "name": "inactive military robot",
+    "looks_like": "mon_secubot",
+    "material": [ "steel", "kevlar" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   },
   {
     "id": "bot_milbot_308",
