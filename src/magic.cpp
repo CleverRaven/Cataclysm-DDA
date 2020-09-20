@@ -112,6 +112,9 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
     switch( data ) {
     case magic_energy_type::bionic: return "BIONIC";
     case magic_energy_type::fatigue: return "FATIGUE";
+	case magic_energy_type::hunger: return "HUNGER";
+	case magic_energy_type::thirst: return "THIRST";
+	case magic_energy_type::pain: return "PAIN";
     case magic_energy_type::hp: return "HP";
     case magic_energy_type::mana: return "MANA";
     case magic_energy_type::none: return "NONE";
@@ -724,6 +727,12 @@ bool spell::can_cast( Character &guy ) const
             return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
         case magic_energy_type::fatigue:
             return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
+		case magic_energy_type::hunger:
+			return guy.get_kcal_percent() >= 0.5f;
+		case magic_energy_type::thirst:
+			return guy.get_thirst() <= 240;
+		case magic_energy_type::pain:
+			return guy.get_perceived_pain() < 60;
         case magic_energy_type::none:
         default:
             return true;
@@ -898,6 +907,12 @@ std::string spell::energy_string() const
             return _( "bionic power" );
         case magic_energy_type::fatigue:
             return _( "fatigue" );
+		case magic_energy_type::hunger:
+            return _( "calories" );
+		case magic_energy_type::thirst:
+            return _( "thirst" );
+		case magic_energy_type::pain:
+            return _( "pain" );
         default:
             return "";
     }
@@ -920,6 +935,15 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == magic_energy_type::fatigue ) {
+        return colorize( to_string( energy_cost( guy ) ), c_cyan );
+    }
+	if( energy_source() == magic_energy_type::hunger ) {
+        return colorize( to_string( energy_cost( guy ) ), c_cyan );
+    }
+	if( energy_source() == magic_energy_type::thirst ) {
+        return colorize( to_string( energy_cost( guy ) ), c_cyan );
+    }
+	if( energy_source() == magic_energy_type::pain ) {
         return colorize( to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
@@ -946,6 +970,17 @@ std::string spell::energy_cur_string( const Character &guy ) const
     }
     if( energy_source() == magic_energy_type::fatigue ) {
         const std::pair<std::string, nc_color> pair = guy.get_fatigue_description();
+        return colorize( pair.first, pair.second );
+    }
+	if( energy_source() == magic_energy_type::hunger ) {
+        return colorize( to_string( guy.get_stored_kcal() ), c_cyan );
+    }
+	if( energy_source() == magic_energy_type::thirst ) {
+		const std::pair<std::string, nc_color> pair = guy.get_thirst_description();
+        return colorize( pair.first, pair.second );
+    }
+	if( energy_source() == magic_energy_type::pain ) {
+        const std::pair<std::string, nc_color> pair = guy.get_pain_description();
         return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
@@ -1546,6 +1581,12 @@ bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
             return false;
         case magic_energy_type::fatigue:
             return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
+		case magic_energy_type::hunger:
+			return guy.get_kcal_percent() >= 0.5f;
+		case magic_energy_type::thirst:
+			return guy.get_thirst() <= 240;
+		case magic_energy_type::pain:
+			return guy.get_perceived_pain() < 60;
         case magic_energy_type::none:
             return true;
         default:
