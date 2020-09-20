@@ -1432,6 +1432,17 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "INVENTORY_HIGHLIGHT", "interface",
+         translate_marker( "Inventory highlight mode" ),
+         translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
+    "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
+        { "symbol", translate_marker( "Symbol" ) },
+        { "highlight", translate_marker( "Highlight" ) },
+        { "disable", translate_marker( "Disable" ) }
+    },
+    "symbol"
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
