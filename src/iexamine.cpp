@@ -5277,7 +5277,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            item result( mdata.into_, start_time + milling_time,
+                         ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
             for( const std::string &f : it.type->item_tags ) {
