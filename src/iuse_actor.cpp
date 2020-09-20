@@ -3827,10 +3827,17 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
 
 int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    auto mods = it.gunmods();
+    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::is_irremovable,
+                                       std::placeholders::_1 ) ), gunmods.end() );
+    };
 
-    mods.erase( std::remove_if( mods.begin(), mods.end(), std::bind( &item::is_irremovable,
-                                std::placeholders::_1 ) ), mods.end() );
+    item gun_copy = item( it );
+    std::vector<item *> mods = it.gunmods();
+    std::vector<item *> mods_copy = gun_copy.gunmods();
+
+    filter_irremovable( mods );
+    filter_irremovable( mods_copy );
 
     uilist prompt;
     prompt.text = _( "Remove which modification?" );
@@ -3842,12 +3849,15 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
-    } else {
-        p.add_msg_if_player( _( "Never mind." ) );
+        gun_copy.remove_item( *mods_copy[prompt.ret] );
+
+        if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+            p.gunmod_remove( it, *mods[ prompt.ret ] );
+            return 0;
+        }
     }
 
+    p.add_msg_if_player( _( "Never mind." ) );
     return 0;
 }
 
