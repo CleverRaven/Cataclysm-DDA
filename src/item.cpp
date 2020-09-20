@@ -8725,13 +8725,8 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
 
-                // Unseal the pocket and parent pockets.
                 if( parent != nullptr ) {
-                    map_cursor mc( pos );
-                    avatar &player = get_avatar();
-                    item_location container( mc, parent );
-                    handle_contents_changed_helper handler( player, item_location( container, e ) );
-                    handler.handle();
+                    parent->contained_where( *e )->unseal();
                 }
 
                 // if can supply excess charges split required off leaving remainder in-situ
