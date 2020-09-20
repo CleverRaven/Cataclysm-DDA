@@ -531,6 +531,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                                                 &converted_volume_scale ), 2 );
 
                 //~ Eat menu Volume: <num><unit>
+                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
             append_cell( [&p](const item_location & loc) {
