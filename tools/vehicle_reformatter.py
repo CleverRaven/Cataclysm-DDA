@@ -128,7 +128,7 @@ for datafile in argsDict.get("vehicle_sources", []):
                 else:
                     new_parts[part_x][part_y]["parts"].append(part.get("part"))
 
-        # debug - did everything get copied over correctly? 
+        # debug - did everything get copied over correctly?
         # print(json.dumps(new_parts, indent=2))
         revised_parts = []
         last_center = add_parts(revised_parts, 0, 0, new_parts)
