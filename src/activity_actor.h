@@ -314,6 +314,39 @@ class dig_channel_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class gunmod_remove_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        item_location gun;
+        int gunmod_idx;
+
+    public:
+        gunmod_remove_activity_actor(
+            int moves_total,
+            const item_location &gun,
+            int gunmod_idx
+        ) : moves_total( moves_total ), gun( gun ), gunmod_idx( gunmod_idx ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GUNMOD_REMOVE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<gunmod_remove_activity_actor>( *this );
+        }
+
+        static bool gunmod_unload( Character &who, item &gunmod );
+        static void gunmod_remove( Character &who, item &gun, item &mod );
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class hacking_activity_actor : public activity_actor
 {
     private:

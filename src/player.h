@@ -351,7 +351,10 @@ class player : public Character
         /** Reassign letter. */
         void reassign_item( item &it, int invlet );
 
-        /** Removes gunmod after first unloading any contained ammo and returns true on success */
+        /**
+         * Starts activity to remove gunmod after unloading any contained ammo.
+         * Returns true on success (activity has been started)
+         */
         bool gunmod_remove( item &gun, item &mod );
 
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/

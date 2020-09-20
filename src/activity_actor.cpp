@@ -503,6 +503,103 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void gunmod_remove_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void gunmod_remove_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *it_gun = gun.get_item();
+    if( !it_gun ) {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gun" );
+        act.set_to_null();
+        return;
+    }
+    item *it_mod = nullptr;
+    std::vector<item *> mods = it_gun->gunmods();
+    if( gunmod_idx >= 0 && mods.size() > static_cast<size_t>( gunmod_idx ) ) {
+        it_mod = mods[gunmod_idx];
+    } else {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gunmod" );
+        act.set_to_null();
+        return;
+    }
+    act.set_to_null();
+    gunmod_remove( who, *it_gun, *it_mod );
+}
+
+bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
+{
+    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+        // Exclude brass catchers so that removing them wouldn't spill the casings
+        return true;
+    }
+    // TODO: unloading gunmods happens instantaneously in some cases, but should take time
+    item_location loc = item_location( who, &gunmod );
+    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+}
+
+void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
+{
+    if( !gunmod_unload( who, mod ) ) {
+        return;
+    }
+
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    const itype *modtype = mod.type;
+
+    who.i_add_or_drop( mod );
+    gun.remove_item( mod );
+
+    // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( const auto &slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( item *the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( who, gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
+                           mod_locations.end() ) {
+                    gunmod_remove( who, gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    //~ %1$s - gunmod, %2$s - gun.
+    who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
+                           gun.tname() );
+}
+
+void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "gun", gun );
+    jsout.member( "gunmod", gunmod_idx );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+{
+    gunmod_remove_activity_actor actor( 0, item_location(), -1 );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "gun", actor.gun );
+    data.read( "gunmod", actor.gunmod_idx );
+
+    return actor.clone();
+}
+
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 5_minutes );
@@ -2054,6 +2151,7 @@ deserialize_functions = {
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
+    { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
