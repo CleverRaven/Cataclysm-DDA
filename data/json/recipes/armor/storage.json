@@ -1147,7 +1147,7 @@
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
-    "components": [ [ [ "cordage", 1, "LIST" ] ], [ "leather_pouch", 2 ] ]
+    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "leather_pouch", 2 ] ] ]
   },
   {
     "result": "backpack_hiking",
