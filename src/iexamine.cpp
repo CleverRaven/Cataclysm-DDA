@@ -4491,6 +4491,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
     cmenu.query();
 
+    // Weariness scaling
+    float weary_mult = 1.0f;
     map &here = get_map();
     switch( cmenu.ret ) {
         case 1: {
@@ -4551,6 +4553,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else if( height == 1 ) {
                 const char *query;
                 p.increase_activity_level( MODERATE_EXERCISE );
+                weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
                     if( climb_cost <= 0 && fall_mod > 0.8 ) {
@@ -4571,7 +4574,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
             p.setpos( examp );
 
             if( has_grapnel ) {

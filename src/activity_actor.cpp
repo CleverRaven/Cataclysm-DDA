@@ -785,7 +785,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance );
+            // Yuck, I'm sticking weariness scaling based on activity level here
+            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
@@ -1485,8 +1487,11 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // Current expected total moves, includes crafting speed modifiers and assistants
     const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
                                    assistants ) );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = crafter.get_moves() * base_total_moves / cur_total_moves;
+    // Delta progress in moves adjusted for current crafting speed /
+    //crafter.exertion_adjusted_move_multiplier( exertion_level() )
+    int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
+                          exertion_level() );
+    const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
     const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;

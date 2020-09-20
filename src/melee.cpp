@@ -428,6 +428,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             return;
         }
     }
+
+    // Fighting is hard work
+    increase_activity_level( EXTRA_EXERCISE );
+
     item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
 
     // If no weapon is selected, use highest layer of gloves instead.
@@ -655,7 +659,9 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     mod_stamina( std::min( -50, mod_sta + melee + deft_bonus ) );
     add_msg_debug( "Stamina burn: %d", std::min( -50, mod_sta ) );
-    mod_moves( -move_cost );
+    // Weariness handling - 1 / the value, because it returns what % of the normal speed
+    const float weary_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+    mod_moves( -move_cost * ( 1 / weary_mult ) );
     // trigger martial arts on-attack effects
     martial_arts_data->ma_onattack_effects( *this );
     // some things (shattering weapons) can harm the attacking creature.
@@ -675,6 +681,9 @@ void player::reach_attack( const tripoint &p )
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
+    // Fighting is hard work
+    increase_activity_level( EXTRA_EXERCISE );
+
     Creature *critter = g->critter_at( p );
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
@@ -683,7 +692,10 @@ void player::reach_attack( const tripoint &p )
     // Max out recoil
     recoil = MAX_RECOIL;
 
-    int move_cost = attack_speed( weapon );
+    // Weariness handling
+    // 1 / mult because mult is the percent penalty, in the form 1.0 == 100%
+    const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+    int move_cost = attack_speed( weapon ) * weary_mult;
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
     map &here = get_map();

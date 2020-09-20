@@ -1972,7 +1972,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             }
 
             float stamina_ratio = static_cast<float>( p->get_stamina() ) / p->get_stamina_max();
-            moves += 100 / std::max( 0.25f, stamina_ratio );
+            moves += 100 / std::max( 0.25f,
+                                     stamina_ratio ) * p->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || p->is_npc() ) {
                 p->moves = std::min( 0, p->moves - moves );
                 return;
@@ -2260,7 +2261,10 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // time-based instead of speed based because it's a sustained activity
     item &hand_crank_item = *act->targets.front();
 
-    if( calendar::once_every( 144_seconds ) ) {
+    int time_to_crank = to_seconds<int>( 144_seconds );
+    // Modify for weariness
+    time_to_crank /= p->exertion_adjusted_move_multiplier( act->exertion_level() );
+    if( calendar::once_every( time_duration::from_seconds( time_to_crank ) ) ) {
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity( ammotype( "battery" ) ) > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( itype_id( "battery" ), hand_crank_item.ammo_remaining() + 1 );
@@ -3146,7 +3150,8 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 void activity_handlers::repair_item_do_turn( player_activity *act, player *p )
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
-    const int effective_moves = p->moves / p->fine_detail_vision_mod();
+    const float exertion_mult = p->exertion_adjusted_move_multiplier( act->exertion_level() );
+    const int effective_moves = p->moves / ( p->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
         p->moves = 0;
