@@ -54,6 +54,7 @@
   {
     "type": "GENERIC",
     "id": "broken_utilibot_beehive",
+    "name": "broken beehive robot",
     "copy-from": "broken_utilibot"
   }
 ]
