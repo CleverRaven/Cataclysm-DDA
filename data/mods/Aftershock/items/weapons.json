@@ -293,7 +293,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "x-xray_laser_barrel" ]
+        "item_restriction": [ "xray_laser_barrel" ]
       }
     ],
     "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]

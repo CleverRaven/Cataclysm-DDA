@@ -316,6 +316,21 @@
     }
   },
   {
+    "id": "bot_milbot_308",
+    "type": "TOOL",
+    "copy-from": "bot_milbot_base",
+    "name": "inactive military robot",
+    "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "color": "green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_milbot_308",
+      "difficulty": 0,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    }
+  },
+  {
     "id": "bot_eyebot_heater",
     "type": "TOOL",
     "copy-from": "bot_eyebot_base",
