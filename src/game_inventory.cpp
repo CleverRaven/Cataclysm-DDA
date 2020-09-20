@@ -543,9 +543,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                     return std::string( "---" );
                 }
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
-                const double calpergr = round_up( nutr.kcal / converted_weight, 2 );
+                const int calpergr = int(round_up( nutr.kcal / converted_weight, 0 ));
                 return string_format( _( "%.2f" ), calpergr );
-            }, _( "cal/g" ) );
+            }, _( "cal/kg" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
