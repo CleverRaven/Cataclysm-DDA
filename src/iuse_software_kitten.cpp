@@ -1,8 +1,11 @@
 #include "iuse_software_kitten.h"
 
+#include <algorithm>
 #include <cstdlib>  // Needed for rand()
+#include <ctime>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
@@ -456,7 +459,8 @@ void robot_finds_kitten::process_input()
                     check.x++;
                 }
 
-                constexpr half_open_rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
+                constexpr half_open_rectangle<point> bounds(
+                    point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
                 if( !bounds.contains( check ) ) {
                     /* Can't move past edge */
                 } else if( rfkscreen[check.x][check.y] != EMPTY ) {

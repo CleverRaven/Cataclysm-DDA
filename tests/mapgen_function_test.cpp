@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "mapgen.h"
 #include "type_id.h"
 

@@ -5,21 +5,22 @@
 #include <map>
 #include <string>
 
+#include "string_id.h"
 #include "type_id.h"
 
-struct tripoint;
 class JsonObject;
 class nc_color;
+struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
-    float fragment_mass = 0.005;
+    float fragment_mass = 0.005f;
     // Percentage
     int recovery        = 0;
     itype_id drop       = itype_id::NULL_ID();
 
     shrapnel_data() = default;
-    shrapnel_data( int casing_mass, float fragment_mass = 0.005, int recovery = 0,
+    shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
                    itype_id drop = itype_id::NULL_ID() )
         : casing_mass( casing_mass )
         , fragment_mass( fragment_mass )

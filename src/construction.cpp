@@ -9,13 +9,15 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "color.h"
 #include "construction_category.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -33,6 +35,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -1074,7 +1077,7 @@ bool construct::check_empty( const tripoint &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+static inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
             p + point_north,
@@ -1774,11 +1777,8 @@ void finalize_constructions()
             debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
                       con.description );
         }
-        requirement_data requirements_ = std::accumulate( con.reqs_using.begin(), con.reqs_using.end(),
-                                         *con.requirements,
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
+        requirement_data requirements_ = std::accumulate(
+                                             con.reqs_using.begin(), con.reqs_using.end(), *con.requirements );
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
@@ -1798,13 +1798,14 @@ void finalize_constructions()
     finalized = true;
 }
 
-void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs )
+build_reqs get_build_reqs_for_furn_ter_ids(
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    build_reqs total_reqs;
+
     if( !finalized ) {
         debugmsg( "get_build_reqs_for_furn_ter_ids called before finalization" );
-        return;
+        return total_reqs;
     }
     std::map<construction_id, int> total_builds;
 
@@ -1878,6 +1879,8 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
             }
         }
     }
+
+    return total_reqs;
 }
 
 static const construction null_construction {};

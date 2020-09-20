@@ -57,15 +57,15 @@ void color_manager::finalize()
 
         if( !entry.name_custom.empty() ) {
             // Not using name_to_color because we want default color of this name
-            const auto id = name_to_id( entry.name_custom );
+            const color_id id = name_to_id( entry.name_custom );
             auto &other = color_array[id];
             entry.custom = other.color;
         }
 
         if( !entry.name_invert_custom.empty() ) {
-            const auto id = name_to_id( entry.name_invert_custom );
+            const color_id id = name_to_id( entry.name_invert_custom );
             auto &other = color_array[id];
-            entry.custom = other.color;
+            entry.invert_custom = other.color;
         }
 
         inverted_map[entry.color] = entry.col_id;
@@ -90,8 +90,8 @@ void color_manager::finalize()
 
 nc_color color_manager::name_to_color( const std::string &name ) const
 {
-    const auto id = name_to_id( name );
-    auto &entry = color_array[id];
+    const color_id id = name_to_id( name );
+    const color_struct &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
 }
@@ -138,7 +138,7 @@ nc_color color_manager::get( const color_id id ) const
         return nc_color();
     }
 
-    auto &entry = color_array[id];
+    const auto &entry = color_array[id];
 
     return entry.custom > 0 ? entry.custom : entry.color;
 }
@@ -152,7 +152,7 @@ std::string color_manager::get_name( const nc_color &color ) const
 nc_color color_manager::get_invert( const nc_color &color ) const
 {
     const color_id id = color_to_id( color );
-    auto &entry = color_array[id];
+    const color_struct &entry = color_array[id];
 
     return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;
 }
@@ -1024,7 +1024,7 @@ void color_manager::load_custom( const std::string &sPath )
 void color_manager::serialize( JsonOut &json ) const
 {
     json.start_array();
-    for( auto &entry : color_array ) {
+    for( const color_struct &entry : color_array ) {
         if( !entry.name_custom.empty() || !entry.name_invert_custom.empty() ) {
             json.start_object();
 

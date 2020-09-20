@@ -12,7 +12,7 @@
       [ "can_food", 10 ],
       [ "box_small", 10 ],
       [ "jug_plastic", 10 ],
-      [ "jar_glass", 5 ],
+      [ "jar_glass_sealed", 5 ],
       [ "wrapper", 10 ],
       [ "string_6", 5 ],
       [ "cig_butt", 10 ],

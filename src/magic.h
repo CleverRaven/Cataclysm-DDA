@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <memory>
@@ -13,22 +14,25 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class nc_color;
-class Character;
 class spell;
 class time_duration;
+struct requirement_data;
+
 namespace cata
 {
 class event;
@@ -71,7 +75,8 @@ enum class magic_energy_type : int {
     stamina,
     bionic,
     fatigue,
-    none
+    none,
+    last
 };
 
 enum class spell_target : int {
@@ -87,26 +92,39 @@ enum class spell_target : int {
 };
 
 template<>
+struct enum_traits<magic_energy_type> {
+    static constexpr magic_energy_type last = magic_energy_type::last;
+};
+
+template<>
 struct enum_traits<spell_target> {
-    static constexpr auto last = spell_target::num_spell_targets;
+    static constexpr spell_target last = spell_target::num_spell_targets;
 };
 
 template<>
 struct enum_traits<spell_flag> {
-    static constexpr auto last = spell_flag::LAST;
+    static constexpr spell_flag last = spell_flag::LAST;
 };
 
 struct fake_spell {
     spell_id id;
+
+    static const cata::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+
+    static const int level_default;
     // level for things that need it
-    int level = 0;
+    int level = level_default;
+
+    static const bool self_default;
     // target tripoint is source (true) or target (false)
-    bool self = false;
+    bool self = self_default;
+
+    static const int trigger_once_in_default;
     // a chance to trigger the enchantment spells
-    int trigger_once_in = 1;
+    int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
@@ -149,6 +167,9 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        requirement_id spell_components;
+
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -221,7 +242,7 @@ class spell_type
         // minimum pierce damage
         int min_pierce = 0;
         // increment of pierce damage per spell level
-        float pierce_increment = 0;
+        float pierce_increment = 0.0f;
         // max pierce damage
         int max_pierce = 0;
 
@@ -244,8 +265,6 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time = 0;
-        // If spell is to summon a vehicle, the vproto_id of the vehicle
-        std::string vehicle_id;
         // increment of casting time per level
         float casting_time_increment = 0.0f;
         // max or min casting time
@@ -257,7 +276,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NULL;
+        damage_type dmg_type = damage_type::NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;
@@ -268,7 +287,7 @@ class spell_type
         std::set<mtype_id> targeted_monster_ids;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> affected_bps;
+        body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
 
@@ -281,6 +300,51 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+    private:
+        // default values
+
+        static const skill_id skill_default;
+        static const requirement_id spell_components_default;
+        static const translation message_default;
+        static const translation sound_description_default;
+        static const sounds::sound_t sound_type_default;
+        static const bool sound_ambient_default;
+        static const std::string sound_id_default;
+        static const std::string sound_variant_default;
+        static const std::string effect_str_default;
+        static const cata::optional<field_type_id> field_default;
+        static const int field_chance_default;
+        static const int min_field_intensity_default;
+        static const int max_field_intensity_default;
+        static const float field_intensity_increment_default;
+        static const float field_intensity_variance_default;
+        static const int min_damage_default;
+        static const float damage_increment_default;
+        static const int max_damage_default;
+        static const int min_range_default;
+        static const float range_increment_default;
+        static const int max_range_default;
+        static const int min_aoe_default;
+        static const float aoe_increment_default;
+        static const int max_aoe_default;
+        static const int min_dot_default;
+        static const float dot_increment_default;
+        static const int max_dot_default;
+        static const int min_duration_default;
+        static const float duration_increment_default;
+        static const int max_duration_default;
+        static const int min_pierce_default;
+        static const float pierce_increment_default;
+        static const int max_pierce_default;
+        static const int base_energy_cost_default;
+        static const float energy_increment_default;
+        static const trait_id spell_class_default;
+        static const magic_energy_type energy_source_default;
+        static const damage_type dmg_type_default;
+        static const int difficulty_default;
+        static const int max_level_default;
+        static const int base_casting_time_default;
+        static const float casting_time_increment_default;
 };
 
 class spell
@@ -359,15 +423,17 @@ class spell
         std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
         int casting_time( const Character &guy, bool ignore_encumb = false ) const;
-
+        // the requirement data for spell components. includes tools, items, and qualities.
+        const requirement_data &components() const;
+        bool has_components() const;
         // can the Character cast this spell?
-        bool can_cast( const Character &guy ) const;
+        bool can_cast( Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( body_part bp ) const;
+        bool bp_is_affected( const bodypart_str_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         // check if the spell's class is the same as input
@@ -432,7 +498,8 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
-
+        // uses up the components in @guy's inventory
+        void use_components( Character &guy ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
@@ -483,7 +550,7 @@ class known_magic
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const Character &guy );
+        int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
@@ -582,7 +649,7 @@ struct area_expander {
         // Previous position
         tripoint from;
         // Accumulated cost.
-        float cost = 0;
+        float cost = 0.0f;
     };
 
     int max_range = -1;

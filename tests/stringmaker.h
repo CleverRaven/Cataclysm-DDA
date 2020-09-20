@@ -20,6 +20,13 @@ struct StringMaker<string_id<T>> {
     }
 };
 
+template<typename T>
+struct StringMaker<int_id<T>> {
+    static std::string convert( const int_id<T> &i ) {
+        return string_format( "int_id( \"%s\" )", i.id().str() );
+    }
+};
+
 template<>
 struct StringMaker<item> {
     static std::string convert( const item &i ) {
@@ -34,16 +41,16 @@ struct StringMaker<point> {
     }
 };
 
-template<>
-struct StringMaker<rectangle> {
-    static std::string convert( const rectangle &r ) {
+template<typename Point>
+struct StringMaker<rectangle<Point>> {
+    static std::string convert( const rectangle<Point> &r ) {
         return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
     }
 };
 
-template<>
-struct StringMaker<cuboid> {
-    static std::string convert( const cuboid &b ) {
+template<typename Tripoint>
+struct StringMaker<cuboid<Tripoint>> {
+    static std::string convert( const cuboid<Tripoint> &b ) {
         return string_format( "[%s-%s]", b.p_min.to_string(), b.p_max.to_string() );
     }
 };

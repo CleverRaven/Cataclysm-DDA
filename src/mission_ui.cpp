@@ -1,5 +1,3 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <map>
 #include <string>
@@ -11,11 +9,13 @@
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
+#include "game.h" // IWYU pragma: associated
 #include "input.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -80,7 +80,7 @@ void game::list_missions()
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
-            const auto miss = umissions[i];
+            mission *miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
             trim_and_print( w_missions, point( 1, y ), 28,
@@ -89,7 +89,7 @@ void game::list_missions()
         }
 
         if( selection < umissions.size() ) {
-            const auto miss = umissions[selection];
+            mission *miss = umissions[selection];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             std::string for_npc;
             if( miss->get_npc_id().is_valid() ) {

@@ -1,8 +1,65 @@
 [
   {
+    "type": "vehicle_part",
+    "id": "cargo_bag",
+    "name": { "str": "storage bag" },
+    "symbol": "o",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "dark_gray",
+    "damage_modifier": 60,
+    "durability": 15,
+    "folded_volume": "1 L",
+    "size": 60,
+    "item": "bag_canvas",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
+    "breaks_into": "ig_vp_cloth"
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "basketlg_abstract",
+    "name": { "str": "shopping cart basket" },
+    "symbol": "o",
+    "looks_like": "basketsm",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "size": 600,
+    "item": "basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "copy-from": "basketlg_abstract",
+    "id": "basketlg",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketlg_abstract",
+    "id": "basketlg_cart",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
     "id": "basketlg_external",
     "type": "vehicle_part",
     "name": { "str": "external shopping cart basket" },
+    "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
     "symbol": "o",
@@ -22,9 +79,70 @@
     "damage_reduction": { "all": 6 }
   },
   {
+    "type": "vehicle_part",
+    "id": "basketlg_folding",
+    "name": { "str": "folding shopping cart basket" },
+    "symbol": "o",
+    "looks_like": "basketlg",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "size": 600,
+    "folded_volume": "6 L",
+    "item": "folding_basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FOLDABLE" ],
+    "damage_reduction": { "all": 4 }
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "basketsm_abstract",
+    "name": { "str": "wire bike basket" },
+    "symbol": "o",
+    "looks_like": "basketlg",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 75,
+    "folded_volume": "1500 ml",
+    "size": 80,
+    "item": "bike_basket",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "250 s", "using": [ [ "welding_standard", 1 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm",
+    "looks_like": "basketlg",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm_bike_rear",
+    "looks_like": "basketsm",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
     "id": "basketsm_external",
     "type": "vehicle_part",
     "name": { "str": "external wire bike basket" },
+    "looks_like": "basketsm",
     "item": "bike_basket",
     "location": "structure",
     "symbol": "o",
@@ -42,6 +160,42 @@
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "box_abstract",
+    "name": { "str": "box" },
+    "symbol": "o",
+    "looks_like": "f_crate_o",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 100,
+    "size": 275,
+    "item": "frame",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "breaks_into": "ig_vp_frame",
+    "damage_reduction": { "all": 28 }
+  },
+  {
+    "copy-from": "box_abstract",
+    "id": "box",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "box_abstract",
+    "id": "box_wheelbarrow",
+    "looks_like": "box",
+    "symbol": "o",
+    "type": "vehicle_part"
   },
   {
     "id": "cargo_space_external",

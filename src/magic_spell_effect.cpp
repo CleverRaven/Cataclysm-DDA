@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,13 +33,16 @@
 #include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
-#include "monstergenerator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mongroup.h"
 #include "monster.h"
+#include "monstergenerator.h"
+#include "mtype.h"
 #include "optional.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -143,7 +147,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int total_hp = 0; // total hp among limbs
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
-        if( elem.first == bodypart_str_id( "num_bp" ) ) {
+        if( elem.first == bodypart_str_id( "bp_null" ) ) {
             continue;
         }
         num_limbs++;
@@ -386,7 +390,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : targets ) {
+    for( const tripoint &pt : targets ) {
         explosion_colors[pt] = sp.damage_type_color();
     }
 
@@ -405,15 +409,15 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     bool bodypart_effected = false;
 
     if( guy ) {
-        for( const body_part bp : all_body_parts ) {
-            if( sp.bp_is_affected( bp ) ) {
+        for( const bodypart_id &bp : guy->get_all_body_parts() ) {
+            if( sp.bp_is_affected( bp.id() ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
         }
     }
     if( !bodypart_effected ) {
-        critter->add_effect( spell_effect, dur_td, num_bp );
+        critter->add_effect( spell_effect, dur_td );
     }
 }
 
@@ -428,7 +432,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.make_sound( target );
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
-            here.add_field( target, fd_fire, 1, 10_minutes );
+            here.add_field( target, field_type_id( "fd_fire" ), 1, 10_minutes );
         }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
@@ -524,10 +528,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         return;
     }
 
-    if( get_player_character().sees( victim ) ) {
-        add_msg( _( "The %s transforms into a %s." ), victim.type->nname(),
-                 new_id->nname() );
-    }
+    add_msg_if_player_sees( victim, _( "The %s transforms into a %s." ),
+                            victim.type->nname(), new_id->nname() );
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
@@ -710,9 +712,9 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     };
     // Moving fields.
-    move_field( spell_target::fire, fd_fire );
-    move_field( spell_target::blood, fd_blood );
-    move_field( spell_target::blood, fd_gibs_flesh );
+    move_field( spell_target::fire, field_type_id( "fd_fire" ) );
+    move_field( spell_target::blood, field_type_id( "fd_blood" ) );
+    move_field( spell_target::blood, field_type_id( "fd_gibs_flesh" ) );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
@@ -754,9 +756,10 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {
     item granted( sp.effect_data(), calendar::turn );
+    // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
     if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
-        granted.set_flag( "ETHEREAL_ITEM" );
+        granted.ethereal = true;
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
         granted.charges = sp.damage();
@@ -794,7 +797,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     }
 
     if( energy_source == "MANA" ) {
-        p->magic.mod_mana( *p, healing );
+        p->magic->mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
         p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
@@ -1081,7 +1084,7 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
                 guy->mutate_towards( trait_id( sp.effect_data() ) );
             } else {
-                guy->mutate_category( sp.effect_data() );
+                guy->mutate_category( mutation_category_id( sp.effect_data() ) );
             }
         }
         sp.make_sound( potential_target );

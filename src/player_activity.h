@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cstddef>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -16,6 +17,7 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class Character;
@@ -163,6 +165,8 @@ class player_activity
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
+
+        float exertion_level() const;
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

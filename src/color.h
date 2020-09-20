@@ -3,11 +3,11 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <iosfwd>
 
 class nc_color;
 class translation;
@@ -328,8 +328,8 @@ enum color_id {
     num_colors
 };
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 void init_colors();
 

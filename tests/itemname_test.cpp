@@ -1,11 +1,14 @@
-#include <memory>
+#include "catch/catch.hpp"
+
+#include <set>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "character.h"
-#include "player_helpers.h"
 #include "flat_set.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )

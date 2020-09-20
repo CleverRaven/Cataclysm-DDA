@@ -1,7 +1,7 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <cmath>
+#include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
@@ -10,7 +10,9 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bone_tainted( "bone_tainted" );
@@ -141,7 +143,7 @@ std::vector<std::string> mtype::species_descriptions() const
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( auto &s : species_ptrs ) {
+    for( const species_type *s : species_ptrs ) {
         if( other.in_species( *s ) ) {
             return true;
         }
@@ -154,42 +156,42 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
     {
-        return fd_acid;
+        return field_type_id( "fd_acid" );
     }
     if( has_flag( MF_BILE_BLOOD ) ) {
-        return fd_bile;
+        return field_type_id( "fd_bile" );
     }
     if( has_flag( MF_LARVA ) || has_flag( MF_ARTHROPOD_BLOOD ) ) {
-        return fd_blood_invertebrate;
+        return field_type_id( "fd_blood_invertebrate" );
     }
     if( made_of( material_id( "veggy" ) ) ) {
-        return fd_blood_veggy;
+        return field_type_id( "fd_blood_veggy" );
     }
     if( made_of( material_id( "iflesh" ) ) ) {
-        return fd_blood_insect;
+        return field_type_id( "fd_blood_insect" );
     }
     if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
-        return fd_blood;
+        return field_type_id( "fd_blood" );
     }
-    return fd_null;
+    return field_type_id( "fd_null" );
 }
 
 field_type_id mtype::gibType() const
 {
     if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
-        return fd_gibs_invertebrate;
+        return field_type_id( "fd_gibs_invertebrate" );
     }
     if( made_of( material_id( "veggy" ) ) ) {
-        return fd_gibs_veggy;
+        return field_type_id( "fd_gibs_veggy" );
     }
     if( made_of( material_id( "iflesh" ) ) ) {
-        return fd_gibs_insect;
+        return field_type_id( "fd_gibs_insect" );
     }
     if( made_of( material_id( "flesh" ) ) ) {
-        return fd_gibs_flesh;
+        return field_type_id( "fd_gibs_flesh" );
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
-    return fd_null;
+    return field_type_id( "fd_null" );
 }
 
 itype_id mtype::get_meat_itype() const

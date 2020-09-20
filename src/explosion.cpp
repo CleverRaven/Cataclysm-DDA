@@ -1,5 +1,4 @@
 #include "explosion.h" // IWYU pragma: associated
-#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -11,12 +10,14 @@
 #include <queue>
 #include <random>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
@@ -24,6 +25,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flat_set.h"
+#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -35,8 +37,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -84,13 +84,13 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001;
+static float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001;
+static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
-constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
+static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
+static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -105,7 +105,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
-        auto shr = jo.get_object( "shrapnel" );
+        JsonObject shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
     }
 
@@ -136,9 +136,9 @@ static int ballistic_damage( float velocity, float mass )
 static float mass_to_area( const float mass )
 {
     // Density of steel in g/cm^3
-    constexpr float steel_density = 7.85;
+    constexpr float steel_density = 7.85f;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0f ) / ( 4.0f * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 
@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( const tripoint &pt : closed ) {
         if( here.impassable( pt ) ) {
             continue;
         }
@@ -298,12 +298,13 @@ static void do_blast( const tripoint &p, const float power,
                 intensity++;
             }
 
-            here.add_field( pt, fd_fire, intensity );
+            here.add_field( pt, field_type_id( "fd_fire" ), intensity );
         }
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
+                                  false );
         }
 
         Creature *critter = g->critter_at( pt, true );
@@ -311,7 +312,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg( m_debug, "Blast hits %s with force %.1f", critter->disp_name(), force );
+        add_msg_debug( "Blast hits %s with force %.1f", critter->disp_name(), force );
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
@@ -320,7 +321,7 @@ static void do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
-            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
+            add_msg_debug( "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
         }
 
@@ -349,11 +350,12 @@ static void do_blast( const tripoint &p, const float power,
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
-            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
+                                                 blp.armor_mul );
+            const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg( m_debug, "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
+            add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
             if( res_dmg > 0 ) {
                 pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
@@ -410,7 +412,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        auto critter = g->critter_at( target );
+        Creature *critter = g->critter_at( target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
@@ -434,10 +436,10 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 } else {
                     non_damaging_hits++;
                 }
-                add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                         critter->disp_name(),
-                         frag.proj.speed, rl_dist( src, target ) );
-                add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                add_msg_debug( "Shrapnel hit %s at %d m/s at a distance of %d",
+                               critter->disp_name(),
+                               frag.proj.speed, rl_dist( src, target ) );
+                add_msg_debug( "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                 if( critter->is_dead_state() ) {
                     break;
                 }
@@ -576,7 +578,7 @@ void flashbang( const tripoint &p, bool player_immune )
                        player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            player_character.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
                                              time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -802,24 +804,24 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_type_id type = fd_null;
+                            field_type_id type = field_type_id( "fd_null" );
                             switch( rng( 1, 7 ) ) {
                                 case 1:
-                                    type = fd_blood;
+                                    type = field_type_id( "fd_blood" );
                                     break;
                                 case 2:
-                                    type = fd_bile;
+                                    type = field_type_id( "fd_bile" );
                                     break;
                                 case 3:
                                 case 4:
-                                    type = fd_slime;
+                                    type = field_type_id( "fd_slime" );
                                     break;
                                 case 5:
-                                    type = fd_fire;
+                                    type = field_type_id( "fd_fire" );
                                     break;
                                 case 6:
                                 case 7:
-                                    type = fd_nuke_gas;
+                                    type = field_type_id( "fd_nuke_gas" );
                                     break;
                             }
                             if( !one_in( 3 ) ) {
@@ -888,11 +890,11 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5;
+    constexpr float Cd = 0.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
-                         ( 2.0 * fragment_mass ) ) );
+                         ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
     new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );

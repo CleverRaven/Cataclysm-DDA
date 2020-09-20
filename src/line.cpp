@@ -1,18 +1,17 @@
 #include "line.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
 #include <array>
+#include <cstdlib>
 #include <memory>
 #include <tuple>
 #include <utility>
 
-#include "math_defines.h"
-#include "translations.h"
-#include "string_formatter.h"
-#include "output.h"
+#include "cata_assert.h"
 #include "enums.h"
+#include "output.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 bool trigdist;
 
@@ -321,7 +320,7 @@ unsigned make_xyz( const tripoint &p )
 // returns the normalized dx, dy, dz for the current line vector.
 static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
 {
-    assert( !line.empty() && line.front() != line.back() );
+    cata_assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );
     double normDx = ( line.back().x - line.front().x ) / len;
     double normDy = ( line.back().y - line.front().y ) / len;
@@ -467,7 +466,7 @@ std::string direction_name_impl( const direction dir, const bool short_name )
         return result;
     }();
 
-    auto i = static_cast<int>( dir );
+    int i = static_cast<int>( dir );
     if( i < 0 || i >= size ) {
         i = size;
     }

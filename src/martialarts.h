@@ -12,11 +12,15 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "input.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
-enum damage_type : int;
+class input_context;
+struct input_event;
+
+enum class damage_type : int;
 class Character;
 class JsonObject;
 class effect;
@@ -38,7 +42,7 @@ struct ma_requirements {
     std::vector<std::pair<skill_id, int>> min_skill;
 
     /** Minimum amount of given damage type on the weapon
-     *  Note: DT_FIRE currently won't work, not even on flaming weapons!
+     *  Note: damage_type::FIRE currently won't work, not even on flaming weapons!
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 

@@ -1,18 +1,19 @@
 #include "handle_liquid.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -31,7 +32,6 @@
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "type_id.h"
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -93,20 +93,20 @@ static void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 namespace liquid_handler
 {
-void handle_all_liquid( item liquid, const int radius )
+void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
     while( liquid.charges > 0 ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, nullptr, radius );
+        handle_liquid( liquid, avoid, radius );
     }
 }
 
-bool consume_liquid( item &liquid, const int radius )
+bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
-    const auto original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
+    const int original_charges = liquid.charges;
+    while( liquid.charges > 0 && handle_liquid( liquid, avoid, radius ) ) {
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;
@@ -154,7 +154,7 @@ bool handle_liquid_from_container( item &container, int radius )
     return handled;
 }
 
-static bool get_liquid_target( item &liquid, item *const source, const int radius,
+static bool get_liquid_target( item &liquid, const item *const source, const int radius,
                                const tripoint *const source_pos,
                                const vehicle *const source_veh,
                                const monster *const source_mon,
@@ -165,6 +165,18 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         debugmsg( "Tried to handle_liquid a non-liquid!" );
         // "canceled by the user" because we *can* not handle it.
         return false;
+    }
+
+    Character &player_character = get_player_character();
+    if( test_mode ) {
+        switch( test_mode_spilling_action ) {
+            case test_mode_spilling_action_t::spill_all:
+                target.pos = player_character.pos();
+                target.dest_opt = LD_GROUND;
+                return true;
+            case test_mode_spilling_action_t::cancel_spill:
+                return false;
+        }
     }
 
     uilist menu;
@@ -187,7 +199,6 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         //~ %s: liquid name
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
-    Character &player_character = get_player_character();
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
         if( player_character.can_consume_for_bionic( liquid ) ) {
@@ -203,7 +214,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
     actions.emplace_back( [&]() {
-        target.item_loc = game_menus::inv::container_for( player_character, liquid, radius );
+        target.item_loc = game_menus::inv::container_for( player_character, liquid,
+                          radius, /*avoid=*/source );
         item *const cont = target.item_loc.get_item();
 
         if( cont == nullptr || cont->is_null() ) {
@@ -220,8 +232,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const auto &e : here.points_in_radius( player_character.pos(), 1 ) ) {
-        auto veh = veh_pointer_or_null( here.veh_at( e ) );
+    for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
+        vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
         vehicle_part_range vpr = veh->get_all_parts();
         if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
         return pt.part().can_reload( liquid );
@@ -229,7 +241,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             opts.insert( veh );
         }
     }
-    for( auto veh : opts ) {
+    for( vehicle *veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -240,7 +252,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         } );
     }
 
-    for( auto &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+    for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
@@ -292,14 +304,16 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         return false;
     }
 
-    menu.query();
-    if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
-        add_msg( _( "Never mind." ) );
-        // Explicitly canceled all options (container, drink, pour).
-        return false;
-    }
+    while( target.dest_opt == LD_NULL ) {
+        menu.query();
+        if( menu.ret < 0 || static_cast<size_t>( menu.ret ) >= actions.size() ) {
+            add_msg( _( "Never mind." ) );
+            // Explicitly canceled all options (container, drink, pour).
+            return false;
+        }
 
-    actions[menu.ret]();
+        actions[menu.ret]();
+    }
     return true;
 }
 
@@ -398,7 +412,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     return transfer_ok;
 }
 
-bool handle_liquid( item &liquid, item *const source, const int radius,
+bool handle_liquid( item &liquid, const item *const source, const int radius,
                     const tripoint *const source_pos,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )

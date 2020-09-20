@@ -1,13 +1,16 @@
+#include "catch/catch.hpp"
+#include "weather.h"
+
 #include <algorithm>
-#include <cstdlib>
-#include <memory>
+#include <cmath>
+#include <map>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "point.h"
-#include "weather.h"
+#include "type_id.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static double mean_abs_running_diff( std::vector<double> const &v )
 {
@@ -32,7 +35,7 @@ static double mean_pairwise_diffs( std::vector<double> const &a, std::vector<dou
 static double proportion_gteq_x( std::vector<double> const &v, double x )
 {
     int count = 0;
-    for( auto i : v ) {
+    for( double i : v ) {
         count += ( i >= x );
     }
     return static_cast<double>( count ) / v.size();
@@ -55,7 +58,7 @@ TEST_CASE( "weather realism" )
     const int n_hours = to_hours<int>( 1_days );
     const int n_minutes = to_minutes<int>( 1_days );
 
-    for( auto seed : seeds ) {
+    for( unsigned int seed : seeds ) {
         std::vector<std::vector<double>> temperature;
         temperature.resize( n_days, std::vector<double>( n_minutes, 0 ) );
         std::vector<double> hourly_precip;

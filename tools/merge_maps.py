@@ -36,26 +36,25 @@ def x_y_sub(x, y, is_north):
                                (y - MIN_Y - 1) % STRIDE_Y)
 
 
-
 def x_y_simple(x, y):
     return "{}__{}".format(x, y)
 
 
 def get_data(argsDict, resource_name):
-   resource = []
-   resource_sources = argsDict.get(resource_name, [])
-   if not isinstance(resource_sources, list):
-       resource_sources = [resource_sources]
-   for resource_filename in resource_sources:
-       if resource_filename.endswith(".json"):
-          try:
-              with open(resource_filename) as resource_file:
-                  resource += json.load(resource_file)
-          except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
-       else:
-           print("Invalid filename {}".format(resource_filename))
-   return resource
+    resource = []
+    resource_sources = argsDict.get(resource_name, [])
+    if not isinstance(resource_sources, list):
+        resource_sources = [resource_sources]
+    for resource_filename in resource_sources:
+        if resource_filename.endswith(".json"):
+            try:
+                with open(resource_filename) as resource_file:
+                    resource += json.load(resource_file)
+            except FileNotFoundError:
+                exit("Failed: could not find {}".format(resource_filename))
+        else:
+            print(("Invalid filename {}".format(resource_filename)))
+    return resource
 
 
 def adjacent_to_set(x, y, coord_set):
@@ -87,7 +86,7 @@ def validate_old_map(old_map, entry):
     if entry["weight"] and old_map.get("weight") and entry["weight"] != old_map.get("weight"):
         return False
     if entry["object"].get("fill_ter") and old_obj.get("fill_ter") and \
-        entry["object"]["fill_ter"] != old_obj.get("fill_ter"):
+            entry["object"]["fill_ter"] != old_obj.get("fill_ter"):
         return False
 
     new_palettes = entry.get("palettes", {})
@@ -106,7 +105,7 @@ def validate_old_map(old_map, entry):
             keysets[key_term] = new_keyset
         elif new_keyset != {}:
             return False
-             
+
     if not entry["weight"]:
         entry["weight"] = old_map.get("weight", 0)
     if not entry["object"].get("fill_ter"):
@@ -124,10 +123,10 @@ def adjust_place(term, old_obj, offset_x, offset_y):
     def adjust_coord(x_or_y, new_entry, old_entry, offset):
         val = old_entry.get(x_or_y, "False")
         if val == "False":
-             return False
+            return False
         if isinstance(val, list):
-             val[0] += offset
-             val[1] += offset
+            val[0] += offset
+            val[1] += offset
         else:
             val += offset
         new_entry[x_or_y] = val
@@ -242,7 +241,7 @@ for z, zlevel in merge_sets.items():
     for x_y, mapset in zlevel.items():
         # first, split the mergeset into chunks with common KEYED_TERMS using a weird floodfill
         chunks = []
-        chunks = [{ "maps": [], "entry": copy.deepcopy(basic_entry)}]
+        chunks = [{"maps": [], "entry": copy.deepcopy(basic_entry)}]
         for y in range(0, STRIDE_Y):
             for x in range(0, STRIDE_X):
                 om_id = mapset.get(x_y_simple(x, y), "")
@@ -260,10 +259,10 @@ for z, zlevel in merge_sets.items():
                     # check that this map's keyed terms match the other keyed terms in this chunk
                     if validate_old_map(old_map, chunk_data["entry"]):
                         chunk_data["maps"].append({"x": x, "y": y})
-                        validated = True                            
+                        validated = True
                 if not validated:
                     new_entry = copy.deepcopy(basic_entry)
-                    chunks.append({ "maps": [{"x": x, "y": y}], "entry": new_entry })
+                    chunks.append({"maps": [{"x": x, "y": y}], "entry": new_entry})
 
         # then split up any irregular shapes that made it past the screen
         # T and L shapes are possible because every map is adjacent, for instance
@@ -278,7 +277,7 @@ for z, zlevel in merge_sets.items():
             min_x = maps[0]["x"]
             maps.sort(key=itemgetter("y"))
             max_y = maps[-1]["y"]
-            min_y = maps[0]["y"] 
+            min_y = maps[0]["y"]
             # if this is a line, square, or rectangle, it's continguous
             if len(maps) == ((max_x - min_x + 1) * (max_y - min_y + 1)):
                 final_chunks.append(chunk_data)
@@ -303,7 +302,7 @@ for z, zlevel in merge_sets.items():
             if not maps:
                 continue
             first_x = maps[0]["x"]
-            first_y = maps[0]["y"] 
+            first_y = maps[0]["y"]
             for coords in maps:
                 x = coords["x"]
                 y = coords["y"]

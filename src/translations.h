@@ -2,12 +2,14 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
+#include <cstddef>
 #include <map>
 #include <ostream>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "optional.h"
 

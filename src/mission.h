@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -12,6 +13,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
@@ -32,6 +34,7 @@ class JsonOut;
 class avatar;
 class item;
 class mission;
+class npc;
 class overmapbuffer;
 class player;
 template<typename T> struct enum_traits;
@@ -459,11 +462,7 @@ class mission
         static mission_status status_from_string( const std::string &s );
         static std::string status_to_string( mission_status st );
 
-        /** Used to handle saves from before player_id was a member of mission */
-        void set_player_id_legacy_0c( character_id id );
-
     private:
-        bool legacy_no_player_id = false;
 
         void set_target_to_mission_giver();
 

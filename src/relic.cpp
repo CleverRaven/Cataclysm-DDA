@@ -2,15 +2,34 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <set>
 
+#include "calendar.h"
+#include "character.h"
 #include "creature.h"
-#include "enum_traits.h"
+#include "debug.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "magic.h"
 #include "magic_enchantment.h"
+#include "map.h"
+#include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "weather.h"
+
+/*
+ * A little helper function to tell if you can load one ammo into a gun.
+ * Checks if you can load ammo directly into the gun, or if you can load it into a magazine in the gun.
+ */
+static bool item_can_not_load_ammo( const item &gun )
+{
+    return ( gun.is_magazine() && gun.remaining_ammo_capacity() == 0 ) ||
+           ( !gun.is_magazine() && gun.magazine_current() == nullptr ) ||
+           ( gun.magazine_current() != nullptr && gun.magazine_current()->remaining_ammo_capacity() == 0 );
+}
 
 namespace io
 {
@@ -30,6 +49,20 @@ namespace io
         abort();
     }
     // *INDENT-ON*
+template<>
+std::string enum_to_string<relic_recharge>( relic_recharge type )
+{
+    // *INDENT-OFF*
+    switch( type ) {
+        case relic_recharge::none: return "none";
+        case relic_recharge::periodic: return "periodic";
+        case relic_recharge::solar_sunny: return "solar_sunny";
+        case relic_recharge::num: break;
+    }
+    // *INDENT-ON*
+    debugmsg( "Invalid relic recharge type" );
+    abort();
+}
 } // namespace io
 
 namespace
@@ -139,6 +172,24 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 
         item_weights.add( it, weight );
     }
+
+    for( const JsonObject &jo_inner : jo.get_array( "active_procgen_values" ) ) {
+        int weight = 0;
+        mandatory( jo_inner, was_loaded, "weight", weight );
+        relic_procgen_data::enchantment_active val;
+        val.load( jo_inner );
+
+        active_procgen_values.add( val, weight );
+    }
+
+    for( const JsonObject &jo_inner : jo.get_array( "charge_types" ) ) {
+        int weight = 0;
+        mandatory( jo_inner, was_loaded, "weight", weight );
+        relic_charge_template charge;
+        charge.load( jo_inner );
+
+        charge_values.add( charge, weight );
+    }
 }
 
 void relic_procgen_data::generation_rules::load( const JsonObject &jo )
@@ -160,6 +211,104 @@ void relic_procgen_data::deserialize( JsonIn &jsin )
     load( jobj );
 }
 
+void relic_charge_template::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void relic_charge_template::load( const JsonObject &jo )
+{
+    int tmp_power = 0;
+
+    const JsonObject max_charge = jo.get_object( "max_charges" );
+    max_charge.read( "range", max_charges );
+    max_charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    const JsonObject charge = jo.get_object( "charges" );
+    charge.read( "range", init_charges );
+    charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    const JsonObject init_charge = jo.get_object( "charges_per_use" );
+    init_charge.read( "range", charges_per_use );
+    init_charge.read( "power", tmp_power );
+    power_level += tmp_power;
+
+    jo.read( "recharge_type", type );
+    jo.read( "time", time );
+}
+
+relic_charge_info relic_charge_template::generate() const
+{
+    relic_charge_info ret;
+    ret.max_charges = rng( max_charges.first, max_charges.second );
+    ret.charges_per_use = rng( charges_per_use.first, charges_per_use.second );
+    ret.charges = std::min( rng( init_charges.first, init_charges.second ), ret.max_charges );
+    ret.activation_time = rng( time.first, time.second );
+    ret.type = type;
+    ret.power = power_level;
+    return ret;
+}
+
+void relic_charge_info::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void relic_charge_info::load( const JsonObject &jo )
+{
+    jo.read( "charges", charges );
+    jo.read( "charges_per_use", charges_per_use );
+    jo.read( "max_charges", max_charges );
+    jo.read( "recharge_type", type );
+    jo.read( "regenerate_ammo", regenerate_ammo );
+    jo.read( "activation_accumulator", activation_accumulator );
+    jo.read( "time", activation_time );
+}
+
+void relic_charge_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "charges", charges );
+    jsout.member( "charges_per_use", charges_per_use );
+    jsout.member( "max_charges", max_charges );
+    jsout.member( "regenerate_ammo", regenerate_ammo );
+    jsout.member( "recharge_type", type );
+    jsout.member( "activation_accumulator", activation_accumulator );
+    jsout.member( "time", activation_time );
+    jsout.end_object();
+}
+
+void relic_charge_info::accumulate_charge( item &parent )
+{
+    const bool time = activation_time == 0_seconds;
+    const bool regen_ammo = regenerate_ammo && item_can_not_load_ammo( parent );
+    const bool has_max_charges = !regenerate_ammo && charges >= max_charges && max_charges != 0;
+    if( time || regen_ammo || has_max_charges ) {
+        return;
+    }
+
+    activation_accumulator += 1_seconds;
+    if( activation_accumulator >= activation_time ) {
+        activation_accumulator -= activation_time;
+        if( regenerate_ammo ) {
+            item *current_magazine = &parent;
+            if( parent.magazine_current() ) {
+                current_magazine = parent.magazine_current();
+            }
+            const itype_id current_ammo = current_magazine->ammo_current();
+            if( current_ammo == itype_id::NULL_ID() ) {
+                current_magazine->ammo_set( current_magazine->ammo_default(), 1 );
+            } else {
+                current_magazine->ammo_set( current_ammo, current_magazine->ammo_remaining() + 1 );
+            }
+        } else {
+            charges++;
+        }
+    }
+}
+
 void relic::load( const JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
@@ -179,8 +328,11 @@ void relic::load( const JsonObject &jo )
             add_passive_effect( ench );
         }
     }
+    jo.read( "charge_info", charge );
+    if( jo.has_member( "charges_per_activation" ) ) {
+        charge.charges_per_use = jo.get_int( "charges_per_activation", 1 );
+    }
     jo.read( "name", item_name_override );
-    charges_per_activation = jo.get_int( "charges_per_activation", 1 );
     moves = jo.get_int( "moves", 100 );
 }
 
@@ -195,7 +347,6 @@ void relic::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves", moves );
-    jsout.member( "charges_per_activation", charges_per_activation );
     // item_name_override is not saved, in case the original json text changes:
     // in such case names read back from a save wouold no longer be properly translated.
 
@@ -217,16 +368,89 @@ void relic::serialize( JsonOut &jsout ) const
         jsout.end_array();
     }
 
+    jsout.member( "charge_info", charge );
+
     jsout.end_object();
 }
 
-int relic::activate( Creature &caster, const tripoint &target ) const
+int relic::activate( Creature &caster, const tripoint &target )
 {
+    if( charge.charges_per_use != 0 && charges() - charge.charges_per_use < 0 ) {
+        caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
+        return 0;
+    }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+        spell casting = sp.get_spell( sp.level );
+        casting.cast_all_effects( caster, target );
+        caster.add_msg_if_player( casting.message() );
     }
-    return charges_per_activation;
+    charge.charges -= charge.charges_per_use;
+    return charge.charges_per_use;
+}
+
+int relic::charges() const
+{
+    return charge.charges;
+}
+
+int relic::charges_per_use() const
+{
+    return charge.charges_per_use;
+}
+
+int relic::max_charges() const
+{
+    return charge.max_charges;
+}
+
+bool relic::has_recharge() const
+{
+    return charge.type != relic_recharge::none;
+}
+
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_solar( const item &it, Character *carrier, const tripoint &pos )
+{
+    return get_map().is_outside( pos ) && is_day( calendar::turn ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
+void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
+{
+    if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
+        return;
+    } else if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
+        return;
+    }
+
+    switch( charge.type ) {
+        case relic_recharge::none: {
+            return;
+        }
+        case relic_recharge::periodic: {
+            charge.accumulate_charge( parent );
+            return;
+        }
+        case relic_recharge::solar_sunny: {
+            if( can_recharge_solar( parent, carrier, pos ) &&
+                get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge::num: {
+            debugmsg( "Attempted to recharge relic with invalid recharge type" );
+            return;
+        }
+    }
+}
+
+void relic::overwrite_charge( const relic_charge_info &info )
+{
+    charge = info;
 }
 
 int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
@@ -266,7 +490,13 @@ int relic::power_level( const relic_procgen_id &ruleset ) const
     for( const fake_spell &sp : active_effects ) {
         total_power_level += ruleset->power_level( sp );
     }
+    total_power_level += charge.power;
     return total_power_level;
+}
+
+bool relic::has_activation() const
+{
+    return !active_effects.empty();
 }
 
 int relic_procgen_data::power_level( const enchantment &ench ) const
@@ -451,6 +681,13 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 debugmsg( "ERROR: invalid relic procgen type" );
                 break;
             }
+        }
+    }
+
+    if( ret.has_activation() ) {
+        const relic_charge_template *charge = charge_values.pick();
+        if( charge != nullptr ) {
+            ret.overwrite_charge( charge->generate() );
         }
     }
 

@@ -1,10 +1,10 @@
+#include "catch/catch.hpp"
+
+#include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -12,6 +12,7 @@
 #include "type_id.h"
 #include "vehicle.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -25,7 +26,7 @@ static void reset_player()
     REQUIRE( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )

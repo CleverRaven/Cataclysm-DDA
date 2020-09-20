@@ -22,7 +22,8 @@ from datetime import time as dtime, date, datetime, timedelta
 log = logging.getLogger('generate_changelog')
 
 
-class MissingCommitException(Exception): pass
+class MissingCommitException(Exception):
+    pass
 
 
 class JenkinsBuild:
@@ -134,7 +135,7 @@ class SummaryType:
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
 
-    SUMMARY_REGEX = re.compile( r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE )
+    SUMMARY_REGEX = re.compile(r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
         'Content',
@@ -205,6 +206,7 @@ class JenkinsBuildFactory:
     def create(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
         return JenkinsBuild(number, last_hash, branch, build_dttm, is_building,
                             build_result, block_ms, wait_ms, build_ms)
+
 
 class CommitFactory:
     """Abstraction for instantiation of new Commit objects"""

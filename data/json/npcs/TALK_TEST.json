@@ -805,7 +805,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
+    "id": "TALK_TEST_MAPGEN",
     "dynamic_line": [ "This is an example of mapgen_update effect variations" ],
     "responses": [
       {

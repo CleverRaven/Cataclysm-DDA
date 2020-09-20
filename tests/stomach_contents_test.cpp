@@ -1,15 +1,20 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
-#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "item.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "item.h"
 #include "stomach.h"
-#include "units.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 
 static void reset_time()
 {
@@ -22,7 +27,7 @@ static void reset_time()
 
 static void pass_time( Character &p, time_duration amt )
 {
-    for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
+    for( time_duration turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
         p.update_body();
     }
@@ -102,9 +107,9 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 2087 );
+    REQUIRE( dummy.get_bmr() == 1738 );
 
-    constexpr int expected_day = 30;
+    constexpr int expected_day = 36;
     int day = 0;
     std::vector<std::string> results;
 
@@ -154,7 +159,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     } while( dummy.get_stored_kcal() > 0 );
 
     CAPTURE( results );
-    CHECK( day <= 11 );
+    CHECK( day <= 12 );
     CHECK( day >= 10 );
 }
 

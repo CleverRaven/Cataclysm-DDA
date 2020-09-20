@@ -1,12 +1,12 @@
-#include <array>
+#include "catch/catch.hpp"
+
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
@@ -71,8 +71,16 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
             THEN( "one dose is depleted" ) {
                 CHECK( antifungal.charges == charges_before - 1 );
 
-                AND_THEN( "it cures the fungal infection" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+                AND_THEN( "it applies the antifungal effect" ) {
+                    CHECK( dummy.has_effect( efftype_id( "antifungal" ) ) );
+                }
+                AND_WHEN( "time passes" ) {
+                    const time_duration fungal_clock = dummy.get_effect_dur( efftype_id( "fungus" ) );
+                    REQUIRE( fungal_clock == 1_hours );
+                    dummy.process_effects();
+                    THEN( "duration of fungal infection shortens" ) {
+                        CHECK( fungal_clock > dummy.get_effect_dur( efftype_id( "fungus" ) ) );
+                    }
                 }
             }
         }
@@ -331,10 +339,6 @@ TEST_CASE( "towel", "[iuse][towel]" )
         REQUIRE( dummy.get_part_wetness( bodypart_id( "arm_l" ) ) > 0 );
         REQUIRE( dummy.get_part_wetness( bodypart_id( "arm_r" ) ) > 0 );
 
-        // FIXME: Morale alone is the trigger for drying off!
-        // Without the morale modifier, towel_common thinks you're dry
-        dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
-
         WHEN( "they use a dry towel" ) {
             REQUIRE_FALSE( towel.has_flag( flag_WET ) );
             dummy.invoke_item( &towel );
@@ -366,6 +370,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
     }
 
     GIVEN( "avatar has poor morale due to being wet" ) {
+        dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
+                      false );
         dummy.add_morale( MORALE_WET, -10, -10, 1_hours, 1_hours );
         REQUIRE( dummy.has_morale( MORALE_WET ) == -10 );
 

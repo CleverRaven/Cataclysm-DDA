@@ -2,6 +2,9 @@
 #ifndef CATA_SRC_GAME_CONSTANTS_H
 #define CATA_SRC_GAME_CONSTANTS_H
 
+#include <map>
+#include <string>
+
 // Fixed window sizes.
 static constexpr int HP_HEIGHT = 14;
 static constexpr int HP_WIDTH = 7;
@@ -159,11 +162,21 @@ constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
  * in the json, think about what it would be if you
  * did this activity for a longer period of time.
 */
-constexpr float NO_EXERCISE = 1.2f;
+constexpr float NO_EXERCISE = 1.0f;
 constexpr float LIGHT_EXERCISE = 2.0f;
-constexpr float MODERATE_EXERCISE = 4.5f;
+constexpr float MODERATE_EXERCISE = 4.0f;
+constexpr float BRISK_EXERCISE = 6.0f;
 constexpr float ACTIVE_EXERCISE = 8.0f;
 constexpr float EXTRA_EXERCISE = 10.0f;
+
+const std::map<std::string, float> activity_levels = {
+    { "NO_EXERCISE", NO_EXERCISE },
+    { "LIGHT_EXERCISE", LIGHT_EXERCISE },
+    { "MODERATE_EXERCISE", MODERATE_EXERCISE },
+    { "BRISK_EXERCISE", BRISK_EXERCISE },
+    { "ACTIVE_EXERCISE", ACTIVE_EXERCISE },
+    { "EXTRA_EXERCISE", EXTRA_EXERCISE }
+};
 
 // these are the lower bounds of each of the weight classes.
 namespace character_weight_category

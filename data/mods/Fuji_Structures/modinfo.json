@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "FujiStruct",
+    "id": "FujiStruct",
     "name": "Fuji's More Buildings",
     "description": "Adds more buildings and more variations to existing buildings.  (Requires More Locations)",
     "category": "buildings",

@@ -2,6 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
+    "weight": 100,
     "om_terrain": [
       [ "railroad_station_0_1", "railroad_station_1_1", "railroad_station_2_1" ],
       [ "railroad_station_0_2", "railroad_station_1_2", "railroad_station_2_2" ],

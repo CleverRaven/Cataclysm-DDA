@@ -6,9 +6,12 @@
 #include <string>
 #include <vector>
 
+#include "int_id.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
+struct oter_t;
 
 struct overmap_location {
     public:

@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "inventory.h"
@@ -20,13 +21,12 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "kill_tracker.h"
-#include "line.h"
-#include "material.h"
 #include "monster.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "requirements.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -65,7 +65,7 @@ static std::unordered_map<int, mission> world_missions;
 
 mission *mission::reserve_new( const mission_type_id &type, const character_id &npc_id )
 {
-    const auto tmp = mission_type::get( type )->create( npc_id );
+    const mission tmp = mission_type::get( type )->create( npc_id );
     // TODO: Warn about overwrite?
     mission &miss = world_missions[tmp.uid] = tmp;
     return &miss;
@@ -108,8 +108,8 @@ void mission::process_all()
 std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 {
     std::vector<mission *> result;
-    for( auto &id : vec ) {
-        const auto miss = find( id );
+    for( const int &id : vec ) {
+        mission *miss = find( id );
         if( miss != nullptr ) {
             result.push_back( miss );
         }
@@ -121,7 +121,7 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
     result.reserve( vec.size() );
-    for( auto &miss : vec ) {
+    for( const mission *miss : vec ) {
         result.push_back( miss->uid );
     }
     return result;
@@ -142,13 +142,13 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         if( mon->mission_id == -1 ) {
             return;
         }
-        const auto mission = mission::find( mon->mission_id );
-        const auto type = mission->type;
+        mission *found_mission = mission::find( mon->mission_id );
+        const mission_type *type = found_mission->type;
         if( type->goal == MGOAL_FIND_MONSTER ) {
-            mission->fail();
+            found_mission->fail();
         }
         if( type->goal == MGOAL_KILL_MONSTER ) {
-            mission->step_complete( 1 );
+            found_mission->step_complete( 1 );
         }
         return;
     }
@@ -164,7 +164,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         // Technically, the active missions could be moved to the failed mission section.
         return;
     }
-    const auto dead_guys_id = p->getID();
+    const character_id dead_guys_id = p->getID();
     for( auto &e : world_missions ) {
         mission &i = e.second;
         if( !i.in_progress() ) {
@@ -230,6 +230,11 @@ void mission::assign( avatar &u )
         } else if( type->goal == MGOAL_KILL_MONSTER_SPEC ) {
             kill_count_to_reach = kills.kill_count( monster_species ) + monster_kill_goal;
         }
+        if( type->deadline_low != 0_turns || type->deadline_high != 0_turns ) {
+            deadline = calendar::turn + rng( type->deadline_low, type->deadline_high );
+        } else {
+            deadline = 0;
+        }
         type->start( this );
         status = mission_status::in_progress;
     }
@@ -248,7 +253,7 @@ void mission::fail()
 
 void mission::set_target_to_mission_giver()
 {
-    const auto giver = g->find_npc( npc_id );
+    const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
@@ -414,7 +419,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
-            for( auto &npc : npcs ) {
+            for( const auto &npc : npcs ) {
                 if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }
@@ -617,22 +622,12 @@ void mission::set_target_npc_id( const character_id &npc_id )
 
 bool mission::is_assigned() const
 {
-    return player_id.is_valid() || legacy_no_player_id;
+    return player_id.is_valid();
 }
 
 character_id mission::get_assigned_player_id() const
 {
     return player_id;
-}
-
-void mission::set_player_id_legacy_0c( character_id id )
-{
-    if( !legacy_no_player_id || player_id.is_valid() ) {
-        debugmsg( "Not a legacy mission, tried to set id %d", id.get_value() );
-    } else {
-        player_id = id;
-        legacy_no_player_id = false;
-    }
 }
 
 std::string mission::name()

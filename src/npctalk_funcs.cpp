@@ -1,5 +1,3 @@
-#include "npctalk.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstddef>
 #include <memory>
@@ -11,11 +9,12 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -30,27 +29,26 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "npctalk.h" // IWYU pragma: associated
 #include "npctrade.h"
 #include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
 #include "ui.h"
+#include "viewer.h"
 
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -91,7 +89,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 struct itype;
 
-void spawn_animal( npc &p, const mtype_id &mon );
+static void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
 {
@@ -201,10 +199,10 @@ void spawn_animal( npc &p, const mtype_id &mon )
 {
     if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
-        mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
+        mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
-        add_msg( m_debug, "No space to spawn purchased pet" );
+        add_msg_debug( "No space to spawn purchased pet" );
     }
 }
 
@@ -315,7 +313,7 @@ void talk_function::goto_location( npc &p )
         basecamp *temp_camp = *camp;
         camps.push_back( temp_camp );
     }
-    for( auto iter : camps ) {
+    for( const basecamp *iter : camps ) {
         //~ %1$s: camp name, %2$d and %3$d: coordinates
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
@@ -324,7 +322,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
-    auto index = selection_menu.ret;
+    int index = selection_menu.ret;
     if( index < 0 || index > static_cast<int>( camps.size() + 1 ) ||
         index == static_cast<int>( camps.size() + 1 ) ) {
         return;
@@ -332,7 +330,7 @@ void talk_function::goto_location( npc &p )
     if( index == static_cast<int>( camps.size() ) ) {
         destination = player_character.global_omt_location();
     } else {
-        auto selected_camp = camps[index];
+        const basecamp *selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
@@ -562,16 +560,17 @@ void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
     Character &player_character = get_player_character();
-    for( const bodypart_id &bp : player_character.get_all_body_parts( true ) ) {
+    for( const bodypart_id &bp :
+         player_character.get_all_body_parts( get_body_part_flags::only_main ) ) {
         player_character.heal( bp, 5 * rng( 2, 5 ) );
-        if( player_character.has_effect( effect_bite, bp->token ) ) {
-            player_character.remove_effect( effect_bite, bp->token );
+        if( player_character.has_effect( effect_bite, bp.id() ) ) {
+            player_character.remove_effect( effect_bite, bp );
         }
-        if( player_character.has_effect( effect_bleed, bp->token ) ) {
-            player_character.remove_effect( effect_bleed, bp->token );
+        if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+            player_character.remove_effect( effect_bleed, bp );
         }
-        if( player_character.has_effect( effect_infected, bp->token ) ) {
-            player_character.remove_effect( effect_infected, bp->token );
+        if( player_character.has_effect( effect_infected, bp.id() ) ) {
+            player_character.remove_effect( effect_infected, bp );
         }
     }
     const int moves = to_moves<int>( 100_minutes );
@@ -585,16 +584,17 @@ void talk_function::give_all_aid( npc &p )
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
-            for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
+            for( const bodypart_id &bp :
+                 guy.get_all_body_parts( get_body_part_flags::only_main ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
-                if( guy.has_effect( effect_bite, bp->token ) ) {
-                    guy.remove_effect( effect_bite, bp->token );
+                if( guy.has_effect( effect_bite, bp.id() ) ) {
+                    guy.remove_effect( effect_bite, bp );
                 }
-                if( guy.has_effect( effect_bleed, bp->token ) ) {
-                    guy.remove_effect( effect_bleed, bp->token );
+                if( guy.has_effect( effect_bleed, bp.id() ) ) {
+                    guy.remove_effect( effect_bleed, bp );
                 }
-                if( guy.has_effect( effect_infected, bp->token ) ) {
-                    guy.remove_effect( effect_infected, bp->token );
+                if( guy.has_effect( effect_infected, bp.id() ) ) {
+                    guy.remove_effect( effect_infected, bp );
                 }
             }
         }
@@ -896,10 +896,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
-                         character_id() );
-    mission->assign( get_avatar() );
-    p.goal = mission->get_target();
+    mission *reach_safety__mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+                                     character_id() );
+    reach_safety__mission->assign( get_avatar() );
+    p.goal = reach_safety__mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 
@@ -921,6 +921,7 @@ void talk_function::start_training( npc &p )
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.dialogue_spell;
+    const proficiency_id &proficiency = p.chatbin.proficiency;
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
@@ -929,19 +930,19 @@ void talk_function::start_training( npc &p )
         time = calc_skill_training_time( p, skill );
         name = skill.str();
     } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data.has_martialart( style ) ) {
+               !you.martial_arts_data->has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
     } else if( p.chatbin.dialogue_spell != spell_id() ) {
-        const spell &temp_spell = p.magic.get_spell( sp_id );
-        const bool knows = you.magic.knows_spell( sp_id );
+        const spell &temp_spell = p.magic->get_spell( sp_id );
+        const bool knows = you.magic->knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                                            temp_spell.get_level() );
         name = temp_spell.id().str();
         expert_multiplier = knows ? temp_spell.get_level() -
-                            you.magic.get_spell( sp_id ).get_level() : 1;
+                            you.magic->get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -951,9 +952,14 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
+            const int time_int = you.magic->time_to_learn_spell( you, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
+
+    } else if( proficiency != proficiency_id() ) {
+        name = proficiency.str();
+        cost = calc_proficiency_training_cost( p, proficiency );
+        time = calc_proficiency_training_time( p, proficiency );
     } else {
         debugmsg( "start_training with no valid skill or style set" );
         return;
@@ -980,7 +986,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_player_ally() && get_player_character().sees( guy ) ) {
+        if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }

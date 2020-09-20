@@ -1,12 +1,9 @@
 #include "init.h"
 
-#include <cassert>
 #include <cstddef>
-#include <exception>
 #include <fstream>
 #include <iterator>
 #include <memory>
-#include <sstream> // for throwing errors
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -20,13 +17,14 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
+#include "cata_assert.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
 #include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -73,6 +71,7 @@
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "regional_settings.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
@@ -91,7 +90,6 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
-#include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
 
@@ -192,8 +190,6 @@ void DynamicDataLoader::add( const std::string &type,
         debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
     }
 }
-
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 void DynamicDataLoader::initialize()
 {
@@ -387,6 +383,7 @@ void DynamicDataLoader::initialize()
     add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
         mission_type::load_mission_type( jo, src );
     } );
+    add( "butchery_requirement", &butchery_requirements::load_butchery_req );
     add( "harvest", []( const JsonObject & jo, const std::string & src ) {
         harvest_list::load( jo, src );
     } );
@@ -411,14 +408,15 @@ void DynamicDataLoader::initialize()
     add( "mod_tileset", &load_mod_tileset );
 #else
     // Dummy function
-    add( "mod_tileset", []( const JsonObject &, const std::string & ) { } );
+    add( "mod_tileset", load_ignored_type );
 #endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -436,23 +434,15 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         }
     }
     // iterate over each file
-    for( auto &files_i : files ) {
-        const std::string &file = files_i;
-        // open the file as a stream
-        std::ifstream infile( file.c_str(), std::ifstream::in | std::ifstream::binary );
+    for( const std::string &file : files ) {
         // and stuff it into ram
-        std::istringstream iss(
-            std::string(
-                ( std::istreambuf_iterator<char>( infile ) ),
-                std::istreambuf_iterator<char>()
-            )
-        );
+        std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonIn jsin( iss );
+            JsonIn jsin( iss, file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( file + ": " + err.what() );
+            throw std::runtime_error( err.what() );
         }
     }
 }
@@ -573,7 +563,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
-    assert( !finalized && "Can't finalize the data twice." );
+    cata_assert( !finalized && "Can't finalize the data twice." );
     ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
@@ -686,6 +676,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
             { _( "Constructions" ), &check_constructions },
+            { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },

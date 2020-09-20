@@ -1,4 +1,5 @@
-#include <algorithm>
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <sstream>
@@ -6,7 +7,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "game.h"
 #include "item.h"
@@ -15,7 +15,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "veh_type.h"
@@ -54,7 +53,8 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             }
             num_subjects++;
             num_subjects_this_time++;
-            spawn_test_monster( "mon_zombie", monster_position );
+            monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
+            new_monster.no_extra_death_drops = true;
         }
         // Set off an explosion
         item grenade( explosive_id );
