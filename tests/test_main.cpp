@@ -340,6 +340,11 @@ int main( int argc, const char *argv[] )
     DebugLog( D_INFO, DC_ALL ) << "Ended test at " << std::ctime( &end_time );
     DebugLog( D_INFO, DC_ALL ) << "The test took " << elapsed_seconds.count() << " seconds";
 
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
+
     if( error_during_initialization ) {
         DebugLog( D_INFO, DC_ALL ) <<
                                    "Treating result as failure due to error logged during initialization.";
