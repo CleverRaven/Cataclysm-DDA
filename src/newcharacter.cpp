@@ -2396,7 +2396,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_vehicle = catacurses::newwin( 2, 60, point( 80, 6 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
-        w_scenario = catacurses::newwin( 11, TERMX - 47, point( 46, 9 ) );
+        w_scenario = catacurses::newwin( 1, TERMX - 47, point( 46, 9 ) );
         w_profession = catacurses::newwin( 1, TERMX - 47, point( 46, 10 ) );
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
         w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
