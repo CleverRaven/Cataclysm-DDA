@@ -331,10 +331,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 40 ], [ "clasps", 1 ] ],
-    "components": [
-      [ [ "rag", 2 ], [ "leather", 2 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "rag", 2 ], [ "leather", 2 ] ], [ [ "rope_natural_short", 1, "LIST" ] ] ]
   },
   {
     "result": "bscabbard",
