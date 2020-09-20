@@ -440,25 +440,6 @@
     }
   },
   {
-    "id": "bot_light_hack",
-    "type": "TOOL",
-    "copy-from": "bot_hack_base",
-    "name": "inactive floating lantern",
-    "description": "An inactive floating lantern, a fist-sized robots that flies through the air and illuminates its surroundings with bright LEDs.  The lantern is non aggressive and has no means of attack.  Activate this item to deploy the salvaged robot.",
-    "color": "yellow",
-    "looks_like": "bot_manhack",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_light_hack",
-      "friendly_msg": "The floating lantern flies from your hand and lights up the area!",
-      "hostile_msg": "You misprogram the lantern.",
-      "difficulty": 1,
-      "moves": 60,
-      "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    }
-  },
-  {
     "id": "bot_laserturret_xray",
     "type": "TOOL",
     "name": { "str": "inactive laser turret" },
