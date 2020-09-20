@@ -1,0 +1,25 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "cata-catch2",
+            "pattern": [
+                {
+                    "regexp": "^(?:.\\[[0-9;]+m)*(?:\\.\\./)*([^:]*):(\\d+): .*FAILED:.*$",
+                    "file": 1,
+                    "line": 2
+                },
+                {
+                    "regexp": "^(?:.\\[[0-9;]+m)*  (.+)$",
+                    "code": 1
+                },
+                {
+                    "regexp": "^(?:.\\[[0-9;]+m)*(with expansion|due to a fatal error condition):$"
+                },
+                {
+                    "regexp": "^(?:.\\[[0-9;]+m)*  (.+)$",
+                    "message": 1
+                }
+            ]
+        }
+    ]
+}

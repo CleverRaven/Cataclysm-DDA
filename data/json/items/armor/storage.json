@@ -1649,7 +1649,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_soft_leather",
@@ -1687,7 +1688,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_soft_2",
@@ -1740,7 +1741,8 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_soft_leather_2",
@@ -1794,7 +1796,7 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "rifle_case_xl_soft_leather",
@@ -1832,6 +1834,6 @@
     ],
     "warmth": 1,
     "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   }
 ]

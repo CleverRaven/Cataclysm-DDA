@@ -481,6 +481,7 @@
     "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "scrap", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ], [ "plastic_chunk", 1 ] ],
@@ -502,6 +503,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "scrap", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ], [ "plastic_chunk", 1 ] ],
@@ -522,6 +524,7 @@
     "decomp_learn": 4,
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring", 1 ] ] ]
@@ -569,6 +572,7 @@
     "time": "15 m",
     "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
@@ -579,7 +583,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "filter_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -593,7 +597,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bottle_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -606,15 +610,16 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bow_silencer",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
-    "time": "1 m 30 s",
+    "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   }

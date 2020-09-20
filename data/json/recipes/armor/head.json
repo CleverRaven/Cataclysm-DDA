@@ -319,8 +319,8 @@
     "difficulty": 4,
     "time": "35 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 10 ] ]
   },
   {
     "result": "hat_hard_hooded",
@@ -359,7 +359,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "hat_noise_cancelling",
@@ -582,9 +586,10 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "sewing_standard", 40 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "sheet_kevlar_layered", 4 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 4 ] ], [ [ "wetsuit_hood", 1 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "result": "hood_lsurvivor",
@@ -725,7 +730,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 600 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 100 ] ]
   },
   {
     "result": "leather_cat_ears",
@@ -737,9 +746,9 @@
     "difficulty": 3,
     "time": "20 m",
     "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "sewing_standard", 10 ], [ "plastic_molding", 3 ] ],
+    "components": [ [ [ "leather", 2 ] ] ]
   },
   {
     "result": "long_knit_scarf",
@@ -753,7 +762,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 900 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 190 ] ]
   },
   {
     "result": "long_patchwork_scarf",
@@ -868,14 +881,10 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
-    "components": [
-      [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ],
-      [ [ "mask_filter", 3 ] ],
-      [ [ "hose", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "charcoal", 20 ] ]
-    ]
+    "components": [ [ [ "goggles_ski", 1 ], [ "goggles_swim", 2 ] ], [ [ "mask_filter", 3 ] ], [ [ "hose", 1 ] ], [ [ "charcoal", 20 ] ] ]
   },
   {
     "result": "mask_gas_xl",
@@ -897,8 +906,10 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 3 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
-    "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "mask_gas", 1 ] ], [ [ "mask_filter", 1 ] ] ]
   },
   {
     "result": "mask_h20survivor",
@@ -911,14 +922,10 @@
     "skills_required": [ "tailor", 7 ],
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
-    "components": [
-      [ [ "rebreather", 1 ] ],
-      [ [ "goggles_swim", 1 ] ],
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ]
-    ]
+    "components": [ [ [ "rebreather", 1 ] ], [ [ "goggles_swim", 1 ] ], [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ] ]
   },
   {
     "result": "mask_h20survivorxl",
@@ -931,12 +938,13 @@
     "skills_required": [ "tailor", 7 ],
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "adhesive", 2 ], [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "goggles_swim", 1 ] ],
-      [ [ "plastic_chunk", 8 ] ],
+      [ [ "plastic_chunk", 4 ] ],
       [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 6 ] ]
     ]
   },
@@ -1154,12 +1162,13 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "cable", 2 ] ]
@@ -1177,12 +1186,13 @@
     "time": "1 h 25 m",
     "book_learn": [ [ "manual_swimming", 3 ], [ "atomic_survival", 3 ], [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 8 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "plastic_chunk", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "e_scrap", 8 ] ],
       [ [ "cable", 2 ] ]
@@ -1201,13 +1211,14 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "rebreather", 1 ] ],
       [ [ "mask_filter", 1 ], [ "mask_gas", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "plastic_chunk", 6 ] ]
+      [ [ "e_scrap", 4 ] ]
     ]
   },
   {
@@ -1221,7 +1232,11 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 150 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "result": "scarf_fur",
@@ -1281,7 +1296,11 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 300 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 5 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "tailoring_wool_knitting", 160 ] ]
   },
   {
     "result": "straw_fedora",

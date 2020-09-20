@@ -90,7 +90,6 @@ static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
-static const efftype_id effect_pet( "pet" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
@@ -305,41 +304,6 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-static void pass_to_ownership_handling( item obj, Character &c )
-{
-    obj.handle_pickup_ownership( c );
-}
-
-static void pass_to_ownership_handling( item obj, player *p )
-{
-    obj.handle_pickup_ownership( *p );
-}
-
-static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
-{
-    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
-    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
-    map &here = get_map();
-
-    for( const item &it : items ) {
-        if( it.volume() > remaining_volume ) {
-            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), it );
-        } else if( it.weight() > remaining_weight ) {
-            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
-                     here.name( pet.pos() ) );
-            here.add_item_or_charges( pet.pos(), it );
-        } else {
-            pet.add_item( it );
-            remaining_volume -= it.volume();
-            remaining_weight -= it.weight();
-        }
-        // TODO: if NPCs can have pets or move items onto pets
-        pass_to_ownership_handling( it, p );
-    }
-}
-
 void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
@@ -424,7 +388,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
     }
     for( const item &it : items ) {
         here.add_item_or_charges( where, it );
-        pass_to_ownership_handling( it, c );
+        item( it ).handle_pickup_ownership( c );
     }
 }
 
@@ -462,92 +426,6 @@ static std::list<act_item> convert_to_act_item( const player_activity &act, Char
         res.emplace_back( act.targets[i], act.values[i], act.targets[i].obtain_cost( guy, act.values[i] ) );
     }
     return res;
-}
-
-// TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
-{
-    if( !debug_mode ) {
-        return;
-    }
-
-    std::string res( "Items ordered to drop:\n" );
-    for( const act_item &ait : list ) {
-        res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.loc->display_name( ait.count ), ait.consumed_moves );
-    }
-    popup( res, PF_GET_KEY );
-}
-
-// Return a list of items to be dropped by the given item-dropping activity in the current turn.
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
-{
-    std::list<item> res;
-
-    std::list<act_item> items = convert_to_act_item( act, p );
-    debug_drop_list( items );
-
-    // As long as the player has enough moves in this turn, drop items from the activity item list
-    while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
-        act_item &ait = items.front();
-
-        cata_assert( ait.loc );
-        cata_assert( ait.loc.get_item() );
-
-        p.mod_moves( -ait.consumed_moves );
-
-        // If item is inside another (container/pocket), unseal it, and update encumbrance
-        if( ait.loc.has_parent() ) {
-            item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
-            if( parent_pocket ) {
-                parent_pocket->unseal();
-            }
-            // Update encumbrance on the parent item
-            ait.loc.parent_item()->on_contents_changed();
-        }
-        // Take off the item or remove it from the player's inventory
-        if( p.is_worn( *ait.loc ) ) {
-            p.takeoff( *ait.loc, &res );
-        } else if( ait.loc->count_by_charges() ) {
-            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.loc ), ait.count ) );
-        } else {
-            res.push_back( p.i_rem( &*ait.loc ) );
-        }
-
-        items.pop_front();
-    }
-
-    // Load anything that remains (if any) into the activity
-    act.targets.clear();
-    act.values.clear();
-    for( const act_item &ait : items ) {
-        act.targets.push_back( ait.loc );
-        act.values.push_back( ait.count );
-    }
-    // And cancel if its empty. If its not, we modified in place and we will continue
-    // to resolve the drop next turn. This is different from the pickup logic which
-    // creates a brand new activity every turn and cancels the old activity
-    if( act.values.empty() ) {
-        p.cancel_activity();
-    }
-
-    return res;
-}
-
-void activity_handlers::drop_do_turn( player_activity *act, player *p )
-{
-    const tripoint pos = act->placement + p->pos();
-
-    bool force_ground = false;
-    for( const std::string &it : act->str_values ) {
-        if( it == "force_ground" ) {
-            force_ground = true;
-            break;
-        }
-    }
-    p->invalidate_weight_carried_cache();
-    put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
-                              pos, force_ground );
 }
 
 void activity_on_turn_wear( player_activity &act, player &p )
@@ -648,19 +526,6 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     act->set_to_null();
-}
-
-void activity_handlers::stash_do_turn( player_activity *act, player *p )
-{
-    const tripoint pos = act->placement + p->pos();
-
-    monster *pet = g->critter_at<monster>( pos );
-    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
-    } else {
-        p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
-        p->cancel_activity();
-    }
 }
 
 static double get_capacity_fraction( int capacity, int volume )

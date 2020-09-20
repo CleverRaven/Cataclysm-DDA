@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "atomic_coffeepot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -22,7 +22,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "atomic_light",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -42,7 +42,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "atomic_lamp",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -62,7 +62,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -76,7 +76,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brain_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -92,7 +92,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -101,7 +101,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "brain_cooked",
     "result": "kidney_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -110,7 +110,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "brain_cooked",
     "result": "sweetbread_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -119,7 +119,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "brain_cooked",
     "result": "liver_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
@@ -128,7 +128,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "foie_gras",
     "category": "CC_FOOD",
     "skill_used": "cooking",
@@ -142,7 +142,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fried_tripe",
     "category": "CC_FOOD",
     "skill_used": "cooking",
@@ -158,7 +158,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fried_brain",
     "category": "CC_FOOD",
     "skill_used": "cooking",
@@ -177,7 +177,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deviled_kidney",
     "category": "CC_FOOD",
     "skill_used": "cooking",
@@ -200,7 +200,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "grilled_sweetbread",
     "category": "CC_FOOD",
     "skill_used": "cooking",

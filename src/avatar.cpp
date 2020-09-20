@@ -1463,6 +1463,9 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     if( can_switch_to( new_mode ) ) {
         add_msg( new_mode->change_message( true, steed ) );
         move_mode = new_mode;
+        // crouching affects visibility
+        get_map().set_seen_cache_dirty( pos().z );
+
         if( new_mode->stop_hauling() ) {
             stop_hauling();
         }

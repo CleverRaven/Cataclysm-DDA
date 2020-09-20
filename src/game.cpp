@@ -1149,7 +1149,7 @@ bool game::cleanup_at_end()
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
-        const time_duration survived = calendar::turn - calendar::start_of_cataclysm;
+        const time_duration survived = calendar::turn - calendar::start_of_game;
         const int minutes = to_minutes<int>( survived ) % 60;
         const int hours = to_hours<int>( survived ) % 24;
         const int days = to_days<int>( survived );
@@ -5761,8 +5761,6 @@ bool game::npc_menu( npc &who )
     } else if( choice == attack ) {
         if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
-            // fighting is hard work!
-            u.increase_activity_level( EXTRA_EXERCISE );
             who.on_attacked( u );
         }
     } else if( choice == disarm ) {
@@ -7920,6 +7918,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = static_cast<int>( filtered_items.size() ) + iCatSortNum;
         }
 
+        const int item_info_scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
+
         if( action == "UP" ) {
             do {
                 iActive--;
@@ -7949,9 +7949,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
         } else if( action == "PAGE_UP" ) {
-            iScrollPos--;
+            iScrollPos -= item_info_scroll_lines;
         } else if( action == "PAGE_DOWN" ) {
-            iScrollPos++;
+            iScrollPos += item_info_scroll_lines;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -10158,22 +10158,23 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( canmove ) {
         u.increase_activity_level( ACTIVE_EXERCISE );
     }
+    const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
-        u.moves -= 50;
+        u.moves -= 50 * weary_mult;
         return true;
         ///\EFFECT_STR determines ability to drag furniture
     } else if( str_req > u.get_str() &&
                one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
-        u.moves -= 100;
+        u.moves -= 100 * weary_mult;
         u.mod_pain( 1 ); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
     } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
         add_msg( _( "There's stuff in the way." ) );
-        u.moves -= 50;
+        u.moves -= 50 * weary_mult;
         return true;
     }
 
@@ -10183,14 +10184,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
             if( u.get_str() >= str_req - 3 ) {
-                u.moves -= std::max( 3000, move_penalty * 10 );
+                u.moves -= std::max( 3000, move_penalty * 10 ) * weary_mult;
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
                     add_msg( m_bad, _( "You fail to move the %s." ), furntype.name() );
                     return true;
                 }
             } else {
-                u.moves -= 100;
+                u.moves -= 100 * weary_mult;
                 add_msg( m_bad, _( "The %s is too heavy for you to budge." ), furntype.name() );
                 return true;
             }

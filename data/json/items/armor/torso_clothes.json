@@ -564,7 +564,7 @@
     "type": "ARMOR",
     "name": { "str": "sweater" },
     "description": "A wool shirt.  Provides warmth.",
-    "weight": "344 g",
+    "weight": "550 g",
     "volume": "2 L",
     "price": 4500,
     "price_postapoc": 100,

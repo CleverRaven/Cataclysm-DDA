@@ -12,11 +12,10 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 20 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "lead", 5000 ] ],
       [ [ "chem_sulphuric_acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
@@ -35,11 +34,10 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "lead", 1000 ] ],
       [ [ "chem_sulphuric_acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
@@ -129,7 +127,7 @@
   {
     "result": "solder_wire",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
