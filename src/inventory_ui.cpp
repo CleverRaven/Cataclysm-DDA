@@ -2146,7 +2146,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_pick_selector::highlight()
+void inventory_selector::highlight()
 {
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
@@ -2468,6 +2468,9 @@ drop_locations inventory_drop_selector::execute()
     int count = 0;
     while( true ) {
         ui_manager::redraw();
+        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
+            highlight();
+        }
 
         const inventory_input input = get_input();
 

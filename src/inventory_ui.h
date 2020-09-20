@@ -598,6 +598,9 @@ class inventory_selector
         std::vector<inventory_column *> get_visible_columns() const;
 
         std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
+        /** Highlight parent and contents of selected item.
+        */
+        void highlight();
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -718,9 +721,6 @@ class inventory_pick_selector : public inventory_selector
             inventory_selector( p, preset ) {}
 
         item_location execute();
-        /** Highlight parent and contents of selected item.
-        */
-        void highlight();
 };
 
 class inventory_multiselector : public inventory_selector
