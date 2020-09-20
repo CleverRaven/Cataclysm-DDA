@@ -2396,9 +2396,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_vehicle = catacurses::newwin( 2, 60, point( 80, 6 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
-        w_scenario = catacurses::newwin( 2, 20, point( 2, 15 ) );
-        w_profession = catacurses::newwin( 2, 20, point( 2, 18 ) );
-        w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 9 ) );
+        w_scenario = catacurses::newwin( 2, 20, point( 2, 16 ) );
+        w_profession = catacurses::newwin( 1, TERMX - 47, point( 46, 10 ) );
+        w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
         w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
         w_height = catacurses::newwin( 1, 20, point( 62, 5 ) );
         w_age = catacurses::newwin( 1, 12, point( 62, 6 ) );
@@ -2657,12 +2657,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_vehicle );
 
         werase( w_scenario );
-        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario:\n" ) );
+        mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
         wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_scenario );
 
         werase( w_profession );
-        mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession:\n" ) );
+        mvwprintz( w_profession, point_zero, COL_HEADER, _( "Profession: " ) );
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
     } );
