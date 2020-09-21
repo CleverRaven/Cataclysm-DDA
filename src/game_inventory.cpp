@@ -538,12 +538,16 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = *loc;
                 const int charges = std::max( it.charges, 1 );
                 const double converted_weight = convert_weight( it.weight() / charges );
-                // Prevent div by 0
                 if( converted_weight == 0 ) {
                     return std::string( "---" );
                 }
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
-                const int calpergr = int( std::round( nutr.kcal / converted_weight ) );
+                const int kcalories = nutr.kcal;
+                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
+                if( kcalories == 0 ) {
+                    return std::string();
+                }
+                const int calpergr = int( std::round( kcalories / converted_weight ) );
                 return string_format( _( "%d" ), calpergr );
             }, _( "CAL/kg" ) );
 
