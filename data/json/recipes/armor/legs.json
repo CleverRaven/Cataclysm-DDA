@@ -168,10 +168,10 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": "45 m",
+    "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
   },
   {
     "result": "kilt",
@@ -181,10 +181,10 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "90 m",
+    "time": "6 h",
     "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "felt_patch", 18 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ],
+    "using": [ [ "tailoring_felt", 11 ], [ "clasps", 1 ] ]
   },
   {
     "result": "knee_pads",
@@ -194,11 +194,11 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "50 m",
-    "autolearn": true,
+    "time": "2 h",
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "reversible": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
-    "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 4 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap", 2 ] ]
   },
   {
     "result": "leg_warmers",
