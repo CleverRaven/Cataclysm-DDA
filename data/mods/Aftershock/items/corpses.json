@@ -65,5 +65,5 @@
     "name": { "str": "broken xray laser turret" },
     "weight": "110 kg",
     "copy-from": "broken_turret"
-  },
+  }
 ]
