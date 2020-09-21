@@ -124,16 +124,18 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "tailoring_leather_small", 2 ], [ "tailoring_nomex_patchwork", 2 ], [ "tailoring_kevlar_fabric", 1 ] ],
+    "using": [
+      [ "sewing_standard", 50 ],
+      [ "tailoring_leather_small", 2 ],
+      [ "tailoring_nomex_patchwork", 2 ],
+      [ "tailoring_kevlar_fabric", 1 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [ [ "duct_tape", 120 ] ],
-      [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
-    ]
+    "components": [ [ [ "duct_tape", 120 ] ], [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ] ]
   },
   {
     "result": "gloves_fur",
@@ -164,7 +166,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "plastic_molding", 4 ], [ "tailoring_kevlar_fabric", 1 ]  ],
+    "using": [ [ "sewing_standard", 50 ], [ "plastic_molding", 4 ], [ "tailoring_kevlar_fabric", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
@@ -184,7 +186,12 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ], [ "tailoring_leather_small", 2 ], [ "tailoring_cotton_patchwork", 1 ], [ "tailoring_kevlar_fabric", 1 ]  ],
+    "using": [
+      [ "sewing_standard", 40 ],
+      [ "tailoring_leather_small", 2 ],
+      [ "tailoring_cotton_patchwork", 1 ],
+      [ "tailoring_kevlar_fabric", 1 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
@@ -255,7 +262,12 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "18 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "tailoring_leather_small", 2 ], [ "tailoring_cotton_patchwork", 1 ], [ "tailoring_kevlar_fabric", 1 ] ],
+    "using": [
+      [ "sewing_standard", 50 ],
+      [ "tailoring_leather_small", 2 ],
+      [ "tailoring_cotton_patchwork", 1 ],
+      [ "tailoring_kevlar_fabric", 1 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
@@ -322,7 +334,7 @@
     "skills_required": [ "fabrication", 4 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 50 ], [ "tailoring_leather_small", 6 ], [ "tailoring_kevlar_fabric", 1 ]  ],
+    "using": [ [ "sewing_standard", 50 ], [ "tailoring_leather_small", 6 ], [ "tailoring_kevlar_fabric", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
@@ -476,11 +488,7 @@
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "duct_tape", 160 ] ],
-    ]
+    "components": [ [ [ "rag", 6 ] ], [ [ "scrap", 2 ] ], [ [ "duct_tape", 160 ] ] ]
   },
   {
     "result": "mittens",
