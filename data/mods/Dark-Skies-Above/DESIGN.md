@@ -22,7 +22,9 @@ Summarized below are the rough design directions currently intended.
 
 ## The World
 
-The Earth presented in Dark Skies is closer to our current tech level (things you'd reasonably find in the 21st century). The exact year is roughly "some time in the near future". The effects of global warming are already starting to increase the severity and frequency of natural disasters, while tensions between trade leaders are starting to grow due to global economic depression. As if things couldn't get any worse, astronomical institutions across the globe one day detected a peculiar gravitational anomaly just outside the Moon's orbit, initially considered a quaint discovery before alien spacecraft begin to spill from it...
+The Earth presented in Dark Skies is a little closer to our current tech level (things you'd reasonably find in the 21st century). It is still roughly "some time in the near future", and some of the advancements in technology reflect this. The effects of global warming are already starting to increase the severity and frequency of natural disasters, while tensions between trade leaders are starting to grow due to global economic depression. As if things couldn't get any worse, astronomical institutions across the globe one day detected a peculiar gravitational anomaly just outside the Moon's orbit, initially considered a quaint discovery before alien spacecraft begin to spill from it...
+
+The game takes place in a different timeline to base game Cataclysm, a different future if you will. Former President Toffer's atomic deregulations didn't go as far as he would've liked and presidential canidate Loft won over Oswald, by however slim a margin.  Loft is generally a better statesman (ie better PR) and more focused on internal affairs: namely, sweet deals with corporations who are looking to start plumbing outer space for resources, while maintaining a general air of concern over increasing natural disasters. 
 
 
 ## The Arrival and The Aliens
@@ -49,7 +51,7 @@ Alien technology freshly looted off of a corpse or stripped from a machine is no
 
 ## The Player
 
-The player is a survivor of the chaos of the initial invasion, and has stayed in the New England Exclusion Zone. They might be very able, or simply very lucky. Outside of very specific starts, they do not know much about the invaders and learn as they go, though eventually a start as a resistance member would be ideal as a sort of jump-start into the narrative arc. Tentatively, players will also be able to select "RP traits" at character creation that will give them some optional interactions with NPCs in the world. These probably won't have significant mechanical benefits, but hopefully will give the player a stronger sense of place in the world.
+The player is a survivor of the chaos of the initial invasion and remains in the New England Exclusion Zone, essentially the Disaster Area except occupied by aliens. They might be very able, or simply very lucky. Outside of very specific starts, they do not know much about the invaders and learn as they go, though eventually a start as a resistance member would be ideal as a sort of jump-start into the narrative arc. Tentatively, players will also be able to select "RP traits" at character creation that will give them some optional interactions with NPCs in the world. These probably won't have significant mechanical benefits, but hopefully will give the player a stronger sense of place in the world.
 
 
 ## The Resistance and the Narrative
