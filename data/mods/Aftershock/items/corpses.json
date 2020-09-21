@@ -56,5 +56,14 @@
     "id": "broken_utilibot_beehive",
     "name": "broken beehive robot",
     "copy-from": "broken_utilibot"
-  }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret_xray",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken xray laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  },
 ]
