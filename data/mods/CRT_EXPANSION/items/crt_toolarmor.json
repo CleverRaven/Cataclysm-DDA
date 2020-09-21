@@ -63,13 +63,12 @@
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 75,
-    "//": "Legacy artifact data is set for all stats +2 except INT charge_type solar",
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "PERCEPTION", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ]
+          "values": [ { "value": "PERCEPTION", "add": 2 } ]
         }
       ]
     },
@@ -160,13 +159,12 @@
     "turns_per_charge": 1,
     "revert_to": "crt_em_vest",
     "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "CRIT EM powering off…", "target": "crt_em_vest" },
-    "//": "Legacy artifact data is set for str +2 and speed up",
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 20 } ]
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 20 }, { "value": "DEXTERITY", "add": 2 } ]
         }
       ]
     },
