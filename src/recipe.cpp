@@ -582,17 +582,17 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         }
     }
     std::string required = enumerate_as_string( required_profs.begin(),
-        required_profs.end(), [&]( const proficiency_id & id ) {
-            nc_color color;
-            if( c.has_proficiency( id ) ) {
-                color = c_green;
-            } else if( helpers_have_proficiencies( c, id ) ) {
-                color = c_yellow;
-            } else {
-                color = c_red;
-            }
-            return colorize( id->name(), color );
-        } );
+    required_profs.end(), [&]( const proficiency_id & id ) {
+        nc_color color;
+        if( c.has_proficiency( id ) ) {
+            color = c_green;
+        } else if( helpers_have_proficiencies( c, id ) ) {
+            color = c_yellow;
+        } else {
+            color = c_red;
+        }
+        return colorize( id->name(), color );
+    } );
 
     // default formats proficiency penalties as "Foo 4x"
     std::function< std::string( std::string&, std::string&, float ) > penalty_formatter = []( std::string &prof, std::string &color, const float &penalty ) {
