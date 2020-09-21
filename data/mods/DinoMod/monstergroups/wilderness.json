@@ -20,6 +20,27 @@
         "conditions": [ "DUSK", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_pachyrhinosaurus",
+        "freq": 20,
+        "cost_multiplier": 20,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_pentaceratops",
+        "freq": 20,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_torosaurus",
+        "freq": 20,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_triceratops",
         "freq": 20,
         "cost_multiplier": 30,
@@ -626,6 +647,27 @@
       { "monster": "mon_spinosaurus", "freq": 50, "cost_multiplier": 50, "conditions": [ "NIGHT" ] },
       { "monster": "mon_tyrannosaurus", "freq": 400, "cost_multiplier": 40, "conditions": [ "NIGHT" ] },
       { "monster": "mon_albertosaurus", "freq": 200, "cost_multiplier": 35, "conditions": [ "NIGHT" ] },
+      {
+        "monster": "mon_pachyrhinosaurus",
+        "freq": 80,
+        "cost_multiplier": 20,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_pentaceratops",
+        "freq": 80,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_torosaurus",
+        "freq": 80,
+        "cost_multiplier": 25,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "WINTER" ]
+      },
       {
         "monster": "mon_triceratops",
         "freq": 80,
