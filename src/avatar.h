@@ -207,6 +207,10 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        void power_bionics() override;
+        void power_mutations() override;
+        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
+        bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions

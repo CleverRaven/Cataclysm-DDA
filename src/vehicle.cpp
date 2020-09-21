@@ -112,7 +112,7 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
 // 1 kJ per battery charge
-const int bat_energy_j = 1000;
+static const int bat_energy_j = 1000;
 
 // For reference what each function is supposed to do, see their implementation in
 // @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
@@ -141,7 +141,9 @@ class DefaultRemovePartHandler : public RemovePartHandler
             get_map().add_item_or_charges( loc, std::move( it ) );
         }
         void set_transparency_cache_dirty( const int z ) override {
-            get_map().set_transparency_cache_dirty( z );
+            map &here = get_map();
+            here.set_transparency_cache_dirty( z );
+            here.set_seen_cache_dirty( tripoint_zero );
         }
         void removed( vehicle &veh, const int part ) override {
             avatar &player_character = get_avatar();
@@ -1249,8 +1251,11 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
                 pwr = 0;
             }
         }
+        // Weary multiplier
+        const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += ( get_player_character().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
+        pwr += ( get_player_character().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor() *
+               weary_mult;
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
             weather_manager &weather = get_weather();
@@ -1884,6 +1889,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_seen_cache_dirty( tripoint_zero );
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -2434,6 +2440,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
 
         here.dirty_vehicle_list.insert( new_vehicle );
         here.set_transparency_cache_dirty( sm_pos.z );
+        here.set_seen_cache_dirty( tripoint_zero );
         if( !new_labels.empty() ) {
             new_vehicle->labels = new_labels;
         }

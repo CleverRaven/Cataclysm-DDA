@@ -2,7 +2,7 @@
   {
     "result": "milkshake",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -38,7 +38,7 @@
   {
     "result": "milkshake_deluxe",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -72,7 +72,7 @@
   {
     "result": "icecream",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -107,7 +107,7 @@
     "id_suffix": "from_bags",
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -140,7 +140,7 @@
   {
     "result": "icecream_candy",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -155,7 +155,7 @@
   {
     "result": "icecream_fruit",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -166,7 +166,7 @@
   {
     "result": "icecream_custard",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -200,7 +200,7 @@
   {
     "result": "icecream_yogurt",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -214,7 +214,7 @@
   {
     "result": "icecream_sorbet",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -231,7 +231,7 @@
   {
     "result": "icecream_gelato",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",

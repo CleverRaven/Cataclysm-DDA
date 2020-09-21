@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -36,8 +37,6 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
-
-extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -500,7 +499,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items
+        // TODO: Make it work for charge-less items (update makes amount)
         newit.charges *= result_mult;
     }
 
@@ -896,9 +895,11 @@ void recipe::check_blueprint_requirements()
 
         jsout.end_object();
 
-        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
-                  "Specify \"check_blueprint_needs\": false to disable the check or "
-                  "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
+        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.\n"
+                  "Make one of the following changes to resolve this issue:\n"
+                  "- Specify \"check_blueprint_needs\": false to disable the check.\n"
+                  "- Remove \"blueprint_needs\" from the recipe json to have the requirements be autocalculated.\n"
+                  "- Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
@@ -932,6 +933,18 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+int recipe::makes_amount() const
+{
+    int makes;
+    if( charges.has_value() ) {
+        makes = charges.value();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
+    }
+    // return either charges * mult or 1
+    return makes ? makes * result_mult : 1 ;
 }
 
 void recipe::incorporate_build_reqs()

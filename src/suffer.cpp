@@ -718,24 +718,27 @@ void Character::suffer_from_asthma( const int current_stim )
 
 void Character::suffer_in_sunlight()
 {
-    double sleeve_factor = armwear_factor();
-    const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
-    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
-                       has_trait( trait_LEAVES3 );
-    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( pos() );
-        int flux = ( player_local_temp - 65 ) / 2;
-        if( !has_hat ) {
-            sunlight_nutrition += ( 100 + flux ) * weather_factor;
-        }
-        if( leafier ) {
-            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
+    if( get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const bool leafy = has_trait( trait_LEAVES ) ||
+                           has_trait( trait_LEAVES2 ) ||
+                           has_trait( trait_LEAVES3 );
+        if( leafy ) {
+            const bool leafier = has_trait( trait_LEAVES2 );
+            const bool leafiest = has_trait( trait_LEAVES3 );
+            const double sleeve_factor = armwear_factor();
+            const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
+            const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                           sun_intensity_type::normal ) ? 1.0 : 0.5;
+            const int player_local_temp = get_weather().get_temperature( pos() );
+            const int flux = ( player_local_temp - 65 ) / 2;
+            if( !has_hat ) {
+                sunlight_nutrition += ( 100 + flux ) * weather_factor;
+            }
+            if( leafier ) {
+                const int rate = ( 100 * sleeve_factor + flux ) * 2;
+                sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
+            }
         }
     }
 
@@ -791,7 +794,7 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
 
     // Initially, all parts are assumed to be fully exposed
     for( const bodypart_id &bp : all_body_parts ) {
-        bp_exposure[bp] = 1.0;
+        bp_exposure[bp] = 1.0f;
     }
     // For every item worn, for every body part, adjust coverage
     for( const item &it : worn ) {
@@ -802,14 +805,13 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it.get_coverage( bp ) / 100.0f;
+            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
-            bp_exposure[bp] = bp_exposure[bp] * part_exposure;
+            bp_exposure[bp] *= part_exposure;
         }
     }
     return bp_exposure;
 }
-
 
 void Character::suffer_from_sunburn()
 {
@@ -1400,6 +1402,65 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
 }
 
+static void apply_weariness( Character &you, int level, int old )
+{
+    // Exertion cannot be negative!
+    if( level < 0 || old < 0 ) {
+        debugmsg( "Attempted to apply weariness to character with negative ( new: %d old: %d ) weariness",
+                  level, old );
+    }
+    // A mapping of weariness level to the effect to be applied
+    static std::array<efftype_id, 9> weary_effects { {
+            efftype_id( "weary_0" ),
+            efftype_id( "weary_1" ),
+            efftype_id( "weary_2" ),
+            efftype_id( "weary_3" ),
+            efftype_id( "weary_4" ),
+            efftype_id( "weary_5" ),
+            efftype_id( "weary_6" ),
+            efftype_id( "weary_7" ),
+            efftype_id( "weary_8" ),
+        }};
+
+    // If we're going above level 8, we're seriously messed up
+    // So just stick to level 8
+    if( level > 8 ) {
+        level = 8;
+    }
+    if( old > 8 ) {
+        old = 8;
+    }
+
+    /*
+     * It's possible that old == level, but we need to make sure we're removing
+     * the old effect when that's not true It's simple enough to just remove
+     * the old effect then apply the new, effect, because no change will happen
+     * if they're equal
+     */
+    you.remove_effect( weary_effects[old] );
+    you.add_effect( weary_effects[level], 1_turns, true );
+}
+
+void Character::suffer_from_exertion()
+{
+    int new_weary_level = weariness_level();
+    float max_activity = maximum_exertion_level();
+
+    // Only if there are changes (duh)
+    if( new_weary_level != old_weary_level ) {
+        apply_weariness( *this, new_weary_level, old_weary_level );
+    }
+
+    // Significantly slow the rate of messaging when in an activity
+    int chance = activity ? 2000 : 60;
+    if( attempted_activity_level > max_activity && one_in( chance ) ) {
+        add_msg( m_bad, _( "You're tiring out, continuing to work at this rate will be slower." ) );
+    }
+
+    // This must happen at the end, for hopefully obvious reasons
+    old_weary_level = new_weary_level;
+}
+
 void Character::suffer_without_sleep( const int sleep_deprivation )
 {
     // redo as a snippet?
@@ -1541,6 +1602,7 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
+    suffer_from_exertion();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
     suffer_from_radiation();

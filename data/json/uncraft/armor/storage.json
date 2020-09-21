@@ -2,7 +2,7 @@
   {
     "result": "fireman_belt",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
@@ -12,7 +12,7 @@
   {
     "result": "police_belt",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",

@@ -412,7 +412,6 @@ void vehicle::control_engines()
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
     } else if( !get_player_character().controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
-        return;
     }
 
     if( engine_on ) {
@@ -1527,9 +1526,11 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
-    get_map().set_transparency_cache_dirty( sm_pos.z );
-    const int dist = rl_dist( get_player_character().pos(),
-                              mount_to_tripoint( parts[part_index].mount ) );
+    map &here = get_map();
+    here.set_transparency_cache_dirty( sm_pos.z );
+    const tripoint part_location = mount_to_tripoint( parts[part_index].mount );
+    here.set_seen_cache_dirty( part_location );
+    const int dist = rl_dist( get_player_character().pos(), part_location );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().get_id().str(), 100 - dist * 3 );

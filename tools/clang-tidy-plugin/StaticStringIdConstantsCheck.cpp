@@ -129,6 +129,10 @@ static void CheckConstructor( StaticStringIdConstantsCheck &Check,
     std::string CanonicalName = GetCanonicalName( ConstructorDecl->getParent(), Arg->getString() );
 
     if( VarDeclParent && TranslationUnit ) {
+        if( VarDeclParent->isStaticDataMember() ) {
+            return;
+        }
+
         const VarDecl *PreviousDecl = dyn_cast_or_null<VarDecl>( VarDeclParent->getPreviousDecl() );
         bool PreviousDeclIsExtern =
             PreviousDecl ? PreviousDecl->getStorageClass() == SC_Extern : false;

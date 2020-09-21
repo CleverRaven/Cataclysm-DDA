@@ -130,7 +130,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -173,7 +173,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun",
     "id_suffix": "without_welding",
     "category": "CC_WEAPON",
@@ -215,7 +215,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun_d",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -258,7 +258,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun_d",
     "id_suffix": "welded_and_bolted",
     "category": "CC_WEAPON",
@@ -303,7 +303,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun_d",
     "id_suffix": "welded_together",
     "category": "CC_WEAPON",
@@ -318,7 +318,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun_d",
     "id_suffix": "taped_together",
     "category": "CC_WEAPON",

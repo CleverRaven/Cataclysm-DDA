@@ -84,7 +84,6 @@
       { "x": -4, "y": 0, "chance": 5, "items": [ "thorazine" ] },
       { "x": -4, "y": 0, "chance": 15, "items": [ "disinfectant" ] },
       { "x": -4, "y": 0, "chance": 5, "items": [ "tramadol" ] },
-      { "x": -4, "y": 0, "chance": 8, "items": [ "quikclot" ] },
       { "x": -4, "y": 0, "chance": 25, "item_groups": [ "ambulance_equipment" ] }
     ]
   },

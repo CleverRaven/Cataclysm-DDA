@@ -8,6 +8,9 @@
 template<typename T>
 class int_id;
 
+template<typename T>
+class generic_factory;
+
 /**
  * This represents an identifier (implemented as std::string) of some object.
  * It can be used for all type of objects, one just needs to specify a type as
@@ -39,6 +42,25 @@ class int_id;
  * please define it in type_id.h, a central light-weight header that defines all ids
  * people might want to use.  This prevents duplicate definitions in many
  * files.
+ *
+ * Notes on usage and performance (comparison between ids, ::obj lookup,
+ *    assuming default implementation of generic_factory is used):
+ *
+ * `int_id` is fastest, but it can't be reused after game reload. Depending on the loaded
+ *    combination of mods `int_id` might point to a different entity and there is no way to tell.
+ *    Because of this NEVER define static int ids.
+ *    But, it's safe to cache and use int_id within the game session.
+ *
+ * `string_id` is a bit slower than int_id, but it's safe to use the same instance between game reloads.
+ *    That means that string_id can be static (and should be for maximal performance).
+ *    Comparison of string ids is relatively slow (same as std::string comparison).
+ *    for newly created string_id (i.e. inline constant or local variable), first method invocation:
+ *     `::id` call is relatively slow (string hash map lookup)
+ *     `::obj` lookup is slow (string hash map lookup + array read)
+ *      note, after the first invocation, all subsequent calls on the same string_id instance are fast
+ *    for old (or static) string_id, second and subsequent method invocations:
+ *      conversion to int_id is extremely fast (just returns int field)
+ *     `::obj` call is relatively fast (array read by int index), a bit slower than on int_id
  */
 template<typename T>
 class string_id
@@ -55,14 +77,13 @@ class string_id
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = typename
                  std::enable_if< std::is_convertible<S, std::string >::value>::type >
-        explicit string_id( S && id, int cid = -1 ) : _id( std::forward<S>( id ) ), _cid( cid ) {
-        }
+        explicit string_id( S && id ) : _id( std::forward<S>( id ) ), _cid( -1 ), _version( -1 ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _cid( -1 ) {}
+        string_id() : _cid( -1 ), _version( -1 ) {}
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.
@@ -171,24 +192,14 @@ class string_id
             return !is_null();
         }
 
-        // TODO: Exposed for now. Hide these and make them accessible to the generic_factory only
-
-        /**
-         * Assigns a new value for the cached int id.
-         */
-        void set_cid( const int_id<T> &cid ) const {
-            _cid = cid.to_i();
-        }
-        /**
-         * Returns the current value of cached id
-         */
-        int_id<T> get_cid() const {
-            return int_id<T>( _cid );
-        }
-
     private:
         std::string _id;
+        // cached int_id counterpart of this string_id
         mutable int _cid;
+        // generic_factory version that corresponds to the _cid
+        mutable int _version;
+
+        friend class generic_factory<T>;
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.

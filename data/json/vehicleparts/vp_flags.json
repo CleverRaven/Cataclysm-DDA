@@ -88,7 +88,13 @@
     "id": "ENABLED_DRAINS_EPOWER",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "When turned on, this device drains power from the vehicle's batteries."
+    "info": "When turned on, this device drains <color_red>%sW</color> from the vehicle's batteries."
+  },
+  {
+    "id": "SOLAR_PANEL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the sun.  Weather and clouds will affect power generation."
   },
   {
     "id": "ENGINE",

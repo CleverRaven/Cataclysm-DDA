@@ -60,7 +60,7 @@ const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
 
-generic_factory<npc_class> npc_class_factory( "npc_class" );
+static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
 template<>

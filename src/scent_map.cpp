@@ -119,6 +119,11 @@ int scent_map::get_unsafe( const tripoint &p ) const
     return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z - p.z );
 }
 
+scenttype_id scent_map::get_type() const
+{
+    return typescent;
+}
+
 scenttype_id scent_map::get_type( const tripoint &p ) const
 {
     scenttype_id id;

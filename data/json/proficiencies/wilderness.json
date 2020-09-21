@@ -1,0 +1,20 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_fibers",
+    "name": { "str": "Fiber Twisting" },
+    "description": "You've got a basic grasp of the theory of how to twist and arrange fibers into a more durable cord.",
+    "can_learn": true,
+    "//": "Experimental data: I actually went camping and just sat around twisting cordage until I felt like I had a good handle on it.",
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fibers_rope",
+    "name": { "str": "Ropemaking" },
+    "description": "Making twisted fibers into durable and useful rope.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_fibers" ]
+  }
+]

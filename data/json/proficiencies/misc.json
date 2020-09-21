@@ -9,11 +9,68 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_glassblowing",
+    "name": { "str": "Glassblowing" },
+    "description": "Working with glass and heat without poisoning or perforating yourself.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery",
+    "name": { "str": "Pottery" },
+    "description": "Basic pottery, from shaping to working with slip to fuse pieces.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_basketweaving",
+    "name": { "str": "Basketweaving" },
+    "description": "Forming coarse fibers into shapes.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery_glazing",
+    "name": { "str": "Pottery Glazing" },
+    "description": "Adding glazes to pottery to make them waterproof.",
+    "can_learn": true,
+    "time_to_learn": "5 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_plasticworking",
+    "name": { "str": "Plastic Working" },
+    "description": "Working with plastic using your hands, including carving, molding, and gluing it.  You know how to identify thermoplastics that are suitable for mold casting, and how to identify the right plastic for the right job.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_carving",
+    "name": { "str": "Woodcarving" },
+    "description": "Shaping wood with a cutting implement.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_blacksmithing",
     "name": { "str": "Blacksmithing" },
     "description": "The craft of working metal into tools and other items of use.",
     "can_learn": true,
     "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_armorsmithing",
+    "name": { "str": "Armorsmithing" },
+    "description": "How to make articulated armor from pieces of metal.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_blacksmithing", "prof_articulation" ]
   },
   {
     "type": "proficiency",

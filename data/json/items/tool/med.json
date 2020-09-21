@@ -216,7 +216,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "262 g"
+        "max_contains_weight": "300 g"
       }
     ]
   },

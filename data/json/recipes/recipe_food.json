@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cake2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -24,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "donut_holes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -44,7 +44,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "water_clean",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -58,7 +58,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "water_clean",
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
@@ -66,12 +66,12 @@
     "skill_used": "cooking",
     "time": "9 s",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 1 ] ] ],
+    "tools": [ [ [ "water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salt",
     "id_suffix": "from_salt_water",
     "category": "CC_FOOD",
@@ -86,7 +86,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salt",
     "id_suffix": "from_mineral",
     "category": "CC_FOOD",
@@ -101,7 +101,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mushroom_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -115,7 +115,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_bell_pepper",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -129,7 +129,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -143,7 +143,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_scrap_cooked",
     "copy-from": "meat_cooked",
     "time": "45 s",
@@ -153,7 +153,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -167,7 +167,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_meat_scrap_cooked",
     "copy-from": "mutant_meat_cooked",
     "delete_flags": [ "BAD_TASTE" ],
@@ -178,7 +178,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -192,7 +192,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -206,7 +206,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hstomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -220,7 +220,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "small_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -234,7 +234,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "small_hstomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -248,7 +248,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -262,7 +262,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -277,7 +277,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -293,7 +293,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_tallow",
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -302,7 +302,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_lard",
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -311,7 +311,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_tallow",
     "copy-from": "tallow",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -320,7 +320,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_lard",
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
@@ -329,7 +329,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooking_oil",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -354,7 +354,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooking_oil2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -370,7 +370,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -383,7 +383,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -396,7 +396,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -409,7 +409,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -422,7 +422,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mayonnaise",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -449,7 +449,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "meat_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -465,7 +465,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "fish_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -481,7 +481,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -496,7 +496,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "onion_rings",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -511,7 +511,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -531,7 +531,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "onigiri",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -561,7 +561,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_veggyroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -600,7 +600,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tofu",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -615,7 +615,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tofu_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -629,7 +629,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tofu_stirfry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -659,7 +659,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_fishroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -687,7 +687,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sushi_meatroll",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -714,7 +714,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sashimi",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -745,7 +745,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "protein_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -757,7 +757,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "protein_shake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -773,7 +773,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -800,7 +800,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bratwurst_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -827,7 +827,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -853,7 +853,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -868,7 +868,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bologna",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -887,7 +887,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "human_tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -902,7 +902,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "human_lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -918,7 +918,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "human_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -932,7 +932,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -950,7 +950,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -964,7 +964,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -977,7 +977,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_wild_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -991,7 +991,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_cattail_stalk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1008,7 +1008,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "morel_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1023,7 +1023,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "morel_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1038,7 +1038,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dahlia_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1058,7 +1058,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salsify_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1079,7 +1079,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dandelion_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1094,7 +1094,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dandelion_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1103,14 +1103,14 @@
     "skills_required": [ "survival", 2 ],
     "time": "8 m",
     "autolearn": true,
-    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the dandelions",
+    "//": "Small amounts of oil will be absorbed by the batter, real fried food 8-25% by weight",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "raw_dandelion", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "burdock_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1133,7 +1133,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "burdock_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1157,7 +1157,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dandelionburdock_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1181,7 +1181,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "acorns_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1197,7 +1197,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_dinner",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1209,7 +1209,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cooked_pumpkin",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1224,7 +1224,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "potato_baked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1238,7 +1238,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chips2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1257,7 +1257,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fried_seeds",
     "charges": 1,
     "category": "CC_FOOD",
@@ -1273,7 +1273,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachos",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1287,7 +1287,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachosc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1301,7 +1301,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachosm",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1315,7 +1315,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachosmc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1333,7 +1333,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachosv",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1347,7 +1347,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nachosvc",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1365,7 +1365,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fresh_fries",
     "result_mult": 3,
     "category": "CC_FOOD",
@@ -1385,7 +1385,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cheese_fries",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1398,7 +1398,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "popcorn",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -1412,7 +1412,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "popcorn2",
     "charges": 1,
     "category": "CC_FOOD",
@@ -1425,7 +1425,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "popcorn3",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1440,7 +1440,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1455,7 +1455,7 @@
   {
     "type": "recipe",
     "result": "tea_green",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
@@ -1464,7 +1464,7 @@
   {
     "type": "recipe",
     "result": "tea_fruit",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "tea",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
@@ -1474,6 +1474,7 @@
     "type": "recipe",
     "result": "herbal_tea",
     "id_suffix": "from_tea_bag",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "tea",
     "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
@@ -1484,6 +1485,7 @@
     "type": "recipe",
     "result": "dandelion_tea",
     "id_suffix": "from_tea_bag",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "tea",
     "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
@@ -1494,6 +1496,7 @@
     "type": "recipe",
     "result": "chamomile_tea",
     "id_suffix": "from_tea_bag",
+    "activity_level": "LIGHT_EXERCISE",
     "copy-from": "tea",
     "activity_level": "fake",
     "qualities": [ { "id": "BOIL", "level": 1 } ],
@@ -1502,7 +1505,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "herbal_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1517,7 +1520,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pine_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1540,7 +1543,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dandelion_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1563,7 +1566,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dandelionburdock_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1586,7 +1589,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chicory_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1608,7 +1611,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chamomile_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1631,7 +1634,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lotus_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1654,7 +1657,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "spurge_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1677,7 +1680,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kompot",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1693,7 +1696,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1708,7 +1711,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_raw_kentucky",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1725,7 +1728,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "roasted_coffee_bean",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1740,7 +1743,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1754,7 +1757,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "atomic_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1767,7 +1770,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_substitute",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1781,7 +1784,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "almond_milk",
     "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
@@ -1799,7 +1802,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "almond_milk",
     "result_mult": 3,
     "byproducts": [ [ "almond_pulp" ] ],
@@ -1816,7 +1819,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soy_milk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1831,7 +1834,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1845,7 +1848,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -1857,7 +1860,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_reconstituted",
     "id_suffix": "from_condensed",
     "result_mult": 4,
@@ -1870,7 +1873,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_coconut",
     "charges": 1,
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -1886,7 +1889,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1904,7 +1907,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "starch",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -1917,7 +1920,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "starch",
     "id_suffix": "from_fibrous_stuff",
     "byproducts": [ [ "plant_fibre", 5 ] ],
@@ -1932,7 +1935,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1947,7 +1950,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1962,7 +1965,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
@@ -1977,7 +1980,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lemonade",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -1995,7 +1998,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lemonade",
     "id_suffix": "from_mix",
     "category": "CC_FOOD",
@@ -2007,7 +2010,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "spezi",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -2021,7 +2024,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "crispycran",
     "result_mult": 2,
     "category": "CC_FOOD",
@@ -2035,7 +2038,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "irish_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2054,7 +2057,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "long_island",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2074,7 +2077,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_screwdriver",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2087,7 +2090,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_wild_apple",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2100,7 +2103,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_rumcola",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2113,7 +2116,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_aspic",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2144,7 +2147,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_aspic",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2160,7 +2163,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jerky",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2187,7 +2190,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salted_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2201,7 +2204,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cracklins",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2216,7 +2219,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pemmican",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2259,7 +2262,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "V8",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2277,7 +2280,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cheese_hard",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2297,7 +2300,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2314,7 +2317,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2330,7 +2333,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2346,7 +2349,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2362,7 +2365,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2378,7 +2381,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2394,7 +2397,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "charges": 2,
     "category": "CC_FOOD",
@@ -2410,7 +2413,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_chowder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2441,7 +2444,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sponge_cake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2468,7 +2471,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "space_cake",
     "copy-from": "sponge_cake",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2490,7 +2493,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brownie",
     "copy-from": "sponge_cake",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2512,7 +2515,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brownie_weed",
     "copy-from": "brownie",
     "qualities": [ { "id": "COOK", "level": 3 } ],
@@ -2535,7 +2538,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flatbread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2552,7 +2555,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2574,7 +2577,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -2590,7 +2593,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "maple_candy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -2604,7 +2607,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "glazed_tenderloin",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2635,7 +2638,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sweet_sausage",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2663,7 +2666,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "beet_syrup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2678,7 +2681,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tortilla_corn",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2694,7 +2697,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cornbread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2710,7 +2713,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hardtack",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2730,7 +2733,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "biscuit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2751,7 +2754,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "johnnycake",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -2771,7 +2774,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "beans_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2785,7 +2788,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lentils_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -2800,7 +2803,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2847,7 +2850,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_veggy_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2874,7 +2877,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rice_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2888,7 +2891,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2926,7 +2929,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tofu_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -2940,7 +2943,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_veggy_rice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2954,7 +2957,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -2973,7 +2976,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3013,7 +3016,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_veggy_beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3040,7 +3043,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oatmeal",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3053,7 +3056,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oatmeal_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3066,7 +3069,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oatmeal_deluxe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3115,7 +3118,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chilly-p",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3129,7 +3132,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "buckwheat_cooked",
     "charges": 1,
     "category": "CC_FOOD",
@@ -3144,7 +3147,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3161,7 +3164,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soy_nuts",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3178,7 +3181,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "edamame_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3195,7 +3198,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pecan_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3212,7 +3215,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pistachio_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3229,7 +3232,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "almond_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3246,7 +3249,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chestnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3263,7 +3266,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hazelnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3280,7 +3283,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "acorn_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3297,7 +3300,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hickory_nut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3314,7 +3317,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hickory_nut_ambrosia",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -3348,7 +3351,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "granola",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3382,7 +3385,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "scrambled_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3396,7 +3399,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "scrambled_eggs",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -3411,7 +3414,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "boiled_egg",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3426,7 +3429,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3468,7 +3471,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "deluxe_eggs",
     "id_suffix": "from_powder",
     "category": "CC_FOOD",
@@ -3512,7 +3515,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3533,7 +3536,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fruit_pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3555,7 +3558,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "choc_pancakes",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3577,7 +3580,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "frenchtoast",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3604,7 +3607,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3625,7 +3628,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fruit_waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3647,7 +3650,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "choc_waffles",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -3669,7 +3672,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fruit_leather",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3696,7 +3699,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cookies",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3727,7 +3730,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "choco_coffee_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3741,7 +3744,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chocpretzels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3756,7 +3759,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "seasoning_salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3798,7 +3801,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "seasoning_italian",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -3813,7 +3816,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pie",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3832,7 +3835,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pie_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3847,7 +3850,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pie_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -3875,7 +3878,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pie_maple",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -3895,7 +3898,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "curry_meat",
     "charges": 1,
     "category": "CC_FOOD",
@@ -3931,7 +3934,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "curry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -3969,7 +3972,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chili",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4000,7 +4003,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pizza_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4036,7 +4039,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pizza_supreme",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4077,7 +4080,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "smores",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -4091,7 +4094,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_pesto",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4110,7 +4113,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pizza_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4129,7 +4132,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pizza_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4159,7 +4162,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4173,7 +4176,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salt",
     "id_suffix": "from_hickory",
     "category": "CC_FOOD",
@@ -4189,7 +4192,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sugar",
     "id_suffix": "from_sweets",
     "category": "CC_FOOD",
@@ -4226,7 +4229,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sugar",
     "id_suffix": "from_wood",
     "category": "CC_FOOD",
@@ -4243,7 +4246,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sugar",
     "id_suffix": "from_beets",
     "category": "CC_FOOD",
@@ -4264,7 +4267,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4282,7 +4285,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "salted_fish",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4300,7 +4303,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_salted",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4318,7 +4321,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_sugar",
     "id_suffix": "vacuum_packed",
     "container": "plastic_bag_vac",
@@ -4341,7 +4344,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fried_spam",
     "charges": 1,
     "category": "CC_FOOD",
@@ -4357,7 +4360,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flour",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4383,7 +4386,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cornmeal",
     "charges": 3,
     "category": "CC_FOOD",
@@ -4398,7 +4401,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meal_bone",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4413,7 +4416,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meal_bone_tainted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4428,7 +4431,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "vodka",
     "id_suffix": "from_ethanol",
     "category": "CC_FOOD",
@@ -4441,7 +4444,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mixed_alcohol_strong",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4468,7 +4471,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mixed_alcohol_weak",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4493,7 +4496,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_strawberry_surprise",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4507,7 +4510,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_boozeberry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4521,7 +4524,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cola_meth",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -4535,7 +4538,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cheeseburger",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4575,7 +4578,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_sandwich",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4611,7 +4614,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_bagel",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4632,7 +4635,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "lutefisk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4646,7 +4649,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_deluxe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4716,7 +4719,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hamburger",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4753,7 +4756,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "taco",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4772,7 +4775,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "quesadilla_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -4785,7 +4788,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hotdogs_campfire",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4800,7 +4803,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hotdogs_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4819,7 +4822,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chilidogs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4838,7 +4841,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausagegravy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4865,7 +4868,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "currywurst",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4883,7 +4886,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "corndogs_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4898,7 +4901,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "corndogs_homemade",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4919,7 +4922,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blt",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4938,7 +4941,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sloppyjoe",
     "charges": 2,
     "category": "CC_FOOD",
@@ -4957,7 +4960,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_t",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -4969,7 +4972,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pb",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4980,7 +4983,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pbj",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -4991,7 +4994,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pbh",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5006,7 +5009,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_pbm",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5017,7 +5020,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_fairy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5028,7 +5031,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "toasterpastry",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5041,7 +5044,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "ketchup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5061,7 +5064,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -5106,7 +5109,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "vinegar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5118,7 +5121,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauerkraut_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5137,7 +5140,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pickles_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5157,7 +5160,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "eggs_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5177,7 +5180,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauerkraut_onions",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5192,7 +5195,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -5215,7 +5218,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -5238,7 +5241,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fruit_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5251,7 +5254,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "jam_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5267,7 +5270,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "byproducts": [ [ "juice_pulp" ] ],
     "category": "CC_FOOD",
@@ -5282,7 +5285,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "fresh",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -5298,7 +5301,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "brioche",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -5321,7 +5324,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_salad",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5379,7 +5382,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "insta_salad",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5392,7 +5395,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sweet_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5415,7 +5418,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sugar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5429,7 +5432,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sugar_fried",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5444,7 +5447,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_tainted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5461,7 +5464,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "royal_beef",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5476,7 +5479,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wastebread",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -5506,7 +5509,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5565,7 +5568,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_cucumber",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5581,7 +5584,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_sauce",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5595,7 +5598,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_jam",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -5606,7 +5609,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_honey",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5617,7 +5620,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_cheese",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5629,7 +5632,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_cheese_grilled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5642,7 +5645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tea_bark",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5658,7 +5661,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5670,7 +5673,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5685,7 +5688,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chai_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5713,7 +5716,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_beeknees",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5725,7 +5728,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_wsour",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5738,7 +5741,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_martini",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5751,7 +5754,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_kalimotxo",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5767,7 +5770,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "drink_hobo",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5785,7 +5788,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "honey_gold",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5801,7 +5804,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pelmeni",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5815,7 +5818,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "honey_bottled",
     "charges": 6,
     "category": "CC_FOOD",
@@ -5830,7 +5833,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "honey_bottled",
     "id_suffix": "from_honey_glassed",
     "category": "CC_FOOD",
@@ -5847,7 +5850,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "haggis",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -5872,7 +5875,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "haggis",
     "id_suffix": "large",
     "category": "CC_FOOD",
@@ -5896,7 +5899,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_cullenskink",
     "charges": 1,
     "category": "CC_FOOD",
@@ -5916,7 +5919,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cloutie_dumpling",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
@@ -5947,7 +5950,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "honey_glassed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -5960,7 +5963,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bee_balm_tea",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5975,7 +5978,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "eggnog",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -5996,7 +5999,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "eggnog_spiked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6019,7 +6022,7 @@
   {
     "result": "hot_chocolate",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6039,7 +6042,7 @@
   {
     "result": "mex_chocolate",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -6061,7 +6064,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rehydration_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -6076,7 +6079,7 @@
   {
     "result": "oatmeal",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6090,7 +6093,7 @@
   {
     "result": "cornmeal",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "charges": 3,
     "category": "CC_FOOD",
@@ -6106,7 +6109,7 @@
   {
     "result": "flour",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6132,7 +6135,7 @@
   {
     "result": "meal_bone",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6147,7 +6150,7 @@
   {
     "result": "meal_bone_tainted",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6162,7 +6165,7 @@
   {
     "result": "cattlefodder",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -6187,7 +6190,7 @@
   {
     "result": "birdfood",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
@@ -6272,7 +6275,7 @@
   {
     "result": "meal_chitin_piece",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6287,7 +6290,7 @@
   {
     "result": "chilly-p",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6301,7 +6304,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage_wasteland",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6331,7 +6334,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage_wasteland",
     "id_suffix": "smoke",
     "category": "CC_FOOD",
@@ -6348,7 +6351,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sausage_wasteland_raw",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6377,7 +6380,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oatmeal",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6393,7 +6396,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "flour",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6421,7 +6424,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cornmeal",
     "id_suffix": "mortar",
     "charges": 3,
@@ -6438,7 +6441,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meal_bone",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6455,7 +6458,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meal_bone_tainted",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6472,7 +6475,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "acorns_cooked",
     "id_suffix": "mortar",
     "category": "CC_FOOD",
@@ -6489,7 +6492,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "peanutbutter",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6507,7 +6510,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "peanutbutter_imitation",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6544,7 +6547,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6567,7 +6570,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6590,7 +6593,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_pickled",
     "id_suffix": "jarred_3l",
     "container": "jar_3l_glass_sealed",
@@ -6635,7 +6638,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6650,7 +6653,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "charges": 10,
     "category": "CC_FOOD",
@@ -6666,7 +6669,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sourdough_young",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -6680,7 +6683,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sourdough_split",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -6694,7 +6697,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sourdough_bread",
     "byproducts": [ [ "sourdough_split", 1 ] ],
     "category": "CC_FOOD",
@@ -6716,7 +6719,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "nopalitos",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6731,7 +6734,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "homemade_burrito",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6770,7 +6773,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fiddlehead_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6786,7 +6789,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fiddlehead_sauteed",
     "id_suffix": "from_raw",
     "category": "CC_FOOD",
@@ -6804,7 +6807,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fiddlehead_sauteed",
     "id_suffix": "from_boiled",
     "category": "CC_FOOD",
@@ -6820,7 +6823,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6834,7 +6837,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_tallow",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6849,7 +6852,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_lard",
     "byproducts": [ [ "cracklins" ] ],
     "category": "CC_FOOD",
@@ -6865,7 +6868,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6879,7 +6882,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "small_demihuman_stomach_boiled",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -6893,7 +6896,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "hominy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6912,7 +6915,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "kernels",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -6927,7 +6930,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "horseradish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6948,7 +6951,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mustard_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -6962,7 +6965,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mustard_powder",
     "category": "CC_FOOD",
     "id_suffix": "with_from_food_processor",
@@ -6977,7 +6980,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mustard",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -6998,7 +7001,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -7024,7 +7027,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "coffee_substitute_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -7050,7 +7053,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_coffee_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -7074,7 +7077,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -7100,7 +7103,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "milk_tea_sweetened",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

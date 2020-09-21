@@ -191,8 +191,6 @@ void DynamicDataLoader::add( const std::string &type,
     }
 }
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-
 void DynamicDataLoader::initialize()
 {
     // all of the applicable types that can be loaded, along with their loading functions
@@ -441,10 +439,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonIn jsin( iss );
+            JsonIn jsin( iss, file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( file + ": " + err.what() );
+            throw std::runtime_error( err.what() );
         }
     }
 }

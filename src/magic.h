@@ -75,7 +75,8 @@ enum class magic_energy_type : int {
     stamina,
     bionic,
     fatigue,
-    none
+    none,
+    last
 };
 
 enum class spell_target : int {
@@ -91,6 +92,11 @@ enum class spell_target : int {
 };
 
 template<>
+struct enum_traits<magic_energy_type> {
+    static constexpr magic_energy_type last = magic_energy_type::last;
+};
+
+template<>
 struct enum_traits<spell_target> {
     static constexpr spell_target last = spell_target::num_spell_targets;
 };
@@ -102,15 +108,23 @@ struct enum_traits<spell_flag> {
 
 struct fake_spell {
     spell_id id;
+
+    static const cata::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+
+    static const int level_default;
     // level for things that need it
-    int level = 0;
+    int level = level_default;
+
+    static const bool self_default;
     // target tripoint is source (true) or target (false)
-    bool self = false;
+    bool self = self_default;
+
+    static const int trigger_once_in_default;
     // a chance to trigger the enchantment spells
-    int trigger_once_in = 1;
+    int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
     translation trigger_message;
     // a message when the enchantment is triggered and is on npc
@@ -286,6 +300,51 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+    private:
+        // default values
+
+        static const skill_id skill_default;
+        static const requirement_id spell_components_default;
+        static const translation message_default;
+        static const translation sound_description_default;
+        static const sounds::sound_t sound_type_default;
+        static const bool sound_ambient_default;
+        static const std::string sound_id_default;
+        static const std::string sound_variant_default;
+        static const std::string effect_str_default;
+        static const cata::optional<field_type_id> field_default;
+        static const int field_chance_default;
+        static const int min_field_intensity_default;
+        static const int max_field_intensity_default;
+        static const float field_intensity_increment_default;
+        static const float field_intensity_variance_default;
+        static const int min_damage_default;
+        static const float damage_increment_default;
+        static const int max_damage_default;
+        static const int min_range_default;
+        static const float range_increment_default;
+        static const int max_range_default;
+        static const int min_aoe_default;
+        static const float aoe_increment_default;
+        static const int max_aoe_default;
+        static const int min_dot_default;
+        static const float dot_increment_default;
+        static const int max_dot_default;
+        static const int min_duration_default;
+        static const float duration_increment_default;
+        static const int max_duration_default;
+        static const int min_pierce_default;
+        static const float pierce_increment_default;
+        static const int max_pierce_default;
+        static const int base_energy_cost_default;
+        static const float energy_increment_default;
+        static const trait_id spell_class_default;
+        static const magic_energy_type energy_source_default;
+        static const damage_type dmg_type_default;
+        static const int difficulty_default;
+        static const int max_level_default;
+        static const int base_casting_time_default;
+        static const float casting_time_increment_default;
 };
 
 class spell

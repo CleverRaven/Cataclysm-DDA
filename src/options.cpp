@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <type_traits>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -48,15 +49,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-
-bool use_tiles;
-bool log_from_top;
-int message_ttl;
-int message_cooldown;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
-bool keycode_mode;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -1438,6 +1430,17 @@ void options_manager::add_options_interface()
          translate_marker( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
                            "will autoselect an adjacent tile if there is exactly one valid target." ),
          true
+       );
+
+    add( "INVENTORY_HIGHLIGHT", "interface",
+         translate_marker( "Inventory highlight mode" ),
+         translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
+    "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
+        { "symbol", translate_marker( "Symbol" ) },
+        { "highlight", translate_marker( "Highlight" ) },
+        { "disable", translate_marker( "Disable" ) }
+    },
+    "symbol"
        );
 
     add_empty_line();

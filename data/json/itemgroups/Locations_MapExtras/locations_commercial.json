@@ -644,6 +644,7 @@
       [ "manual_stabbing", 12 ],
       [ "manual_bashing", 12 ],
       [ "manual_knives", 8 ],
+      [ "manual_swords", 8 ],
       [ "manual_gun", 8 ],
       [ "manual_shotgun", 6 ],
       [ "manual_rifle", 10 ],

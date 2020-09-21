@@ -1,17 +1,3 @@
-#ifdef _GLIBCXX_DEBUG
-// Workaround to allow randomly ordered tests.  See
-// https://github.com/catchorg/Catch2/issues/1384
-// https://stackoverflow.com/questions/22915325/avoiding-self-assignment-in-stdshuffle/23691322
-// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=85828
-#include <iosfwd> // Any cheap-to-include stdlib header
-#ifdef __GLIBCXX__
-#include <debug/macros.h> // IWYU pragma: keep
-
-#undef __glibcxx_check_self_move_assign
-#define __glibcxx_check_self_move_assign(x)
-#endif // __GLIBCXX__
-#endif // _GLIBCXX_DEBUG
-
 #ifdef CATA_CATCH_PCH
 #undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 #define CATCH_CONFIG_IMPL_ONLY
@@ -29,6 +15,7 @@
 #include <utility>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
@@ -318,16 +305,16 @@ int main( int argc, const char *argv[] )
 
         // If the run is terminated due to a crash during initialization, we won't
         // see the seed unless it's printed out in advance, so do that here.
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
     }
 
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
     } catch( const std::exception &err ) {
-        fprintf( stderr, "Terminated: %s\n", err.what() );
-        fprintf( stderr,
-                 "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        DebugLog( D_ERROR, DC_ALL ) << "Terminated:\n" << err.what();
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Make sure that you're in the correct working directory and your data isn't corrupted.";
         return EXIT_FAILURE;
     }
 
@@ -337,7 +324,7 @@ int main( int argc, const char *argv[] )
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
-    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
+    DebugLog( D_INFO, DC_ALL ) << "Starting the actual test at " << std::ctime( &start_time );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
@@ -346,22 +333,26 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
+        DebugLog( D_INFO, DC_ALL ) << "Test world " << world_name << " left for inspection.";
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
-    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
-            elapsed_seconds.count() );
+    DebugLog( D_INFO, DC_ALL ) << "Ended test at " << std::ctime( &end_time );
+    DebugLog( D_INFO, DC_ALL ) << "The test took " << elapsed_seconds.count() << " seconds";
+
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
 
     if( error_during_initialization ) {
-        printf( "\nTreating result as failure due to error logged during initialization.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Treating result as failure due to error logged during initialization.";
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
-        printf( "\nTreating result as failure due to error logged during tests.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
 

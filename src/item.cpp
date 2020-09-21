@@ -174,7 +174,6 @@ static const std::string flag_DANGEROUS( "DANGEROUS" );
 static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_DIAMOND( "DIAMOND" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 static const std::string flag_FAKE_MILL( "FAKE_MILL" );
 static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
 static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
@@ -1456,7 +1455,7 @@ static const double hits_by_accuracy[41] = {
     9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
-double item::effective_dps( const player &guy, monster &mon ) const
+double item::effective_dps( const Character &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
@@ -1491,7 +1490,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
-    const bool crit, const player & guy, monster & mon ) {
+    const bool crit, const Character & guy, monster & mon ) {
         monster temp_mon = mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
@@ -1560,7 +1559,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
-        const player &guy ) const
+        const Character &guy ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
@@ -1579,7 +1578,7 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
     return dps( for_display, for_calc, get_avatar() );
 }
 
-double item::average_dps( const player &guy ) const
+double item::average_dps( const Character &guy ) const
 {
     double dmg_count = 0.0;
     const std::map<std::string, double> &dps_data = dps( false, true, guy );
@@ -1622,7 +1621,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ),
-                                  "<header>" + get_category().name() + "</header>" ) );
+                                  "<header>" + get_category_shallow().name() + "</header>" ) );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -2732,9 +2731,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
                 struct armor_portion_type {
-                    int encumber;
-                    int max_encumber;
-                    int coverage;
+                    int encumber = 0;
+                    int max_encumber = 0;
+                    int coverage = 0;
 
                     bool operator==( const armor_portion_type &other ) {
                         return encumber == other.encumber
@@ -2745,7 +2744,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 struct body_part_display_info {
                     translation to_display;
                     armor_portion_type portion;
-                    bool active;
+                    bool active = false;
                 };
 
                 std::map<bodypart_str_id, body_part_display_info> to_display_data;
@@ -3313,7 +3312,8 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
-        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character() ) );
+        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character(),
+                                        recipe_time_flag::ignore_proficiencies ) );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
         const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),
@@ -3800,6 +3800,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     armor_fit_info( info, parts, batch, debug );
 
+    if( ethereal ) {
+        info.emplace_back( "DESCRIPTION",
+                           _( "This item disappears as soon as its timer runs out, unless it is permanent or a comestible." ) );
+    }
+
     if( has_flag( flag_RADIO_ACTIVATION ) &&
         parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
         if( has_flag( flag_RADIO_MOD ) ) {
@@ -3906,9 +3911,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         []( const itype * e ) {
             return e->nname( 1 );
         } ) );
+        info.back().sName += ".";
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
+        insert_separation_line( info );
         for( const auto &u : type->use_methods ) {
             const delayed_transform_iuse *tt = dynamic_cast<const delayed_transform_iuse *>
                                                ( u.second.get_actor_ptr() );
@@ -4515,7 +4522,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
         case 0:
-            dirt_symbol = "";
+            dirt_symbol.clear();
             break;
         case 1:
             dirt_symbol = "<color_white>\u2581</color>";
@@ -4533,7 +4540,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             dirt_symbol = "<color_brown>\u2588</color>";
             break;
         default:
-            dirt_symbol = "";
+            dirt_symbol.clear();
     }
     std::string damtext;
 
@@ -4636,7 +4643,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
-    if( has_flag( flag_ETHEREAL_ITEM ) ) {
+    if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
@@ -5594,9 +5601,9 @@ int item::spoilage_sort_order()
     }
 
     if( get_comestible() ) {
-        if( get_category().get_id() == item_category_food ) {
+        if( get_category_shallow().get_id() == item_category_food ) {
             return bottom - 3;
-        } else if( get_category().get_id() == item_category_drugs ) {
+        } else if( get_category_shallow().get_id() == item_category_drugs ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -6666,38 +6673,34 @@ const mtype *item::get_mtype() const
 
 float item::get_specific_heat_liquid() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_liquid();
+    if( is_comestible() ) {
+        return get_comestible()->specific_heat_liquid;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_liquid;
+    return made_of_types()[0]->specific_heat_liquid();
 }
 
 float item::get_specific_heat_solid() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_solid();
+    if( is_comestible() ) {
+        return get_comestible()->specific_heat_solid;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_solid;
+    return made_of_types()[0]->specific_heat_solid();
 }
 
 float item::get_latent_heat() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->latent_heat();
+    if( is_comestible() ) {
+        return get_comestible()->latent_heat;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->latent_heat;
+    return made_of_types()[0]->latent_heat();
 }
 
 float item::get_freeze_point() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->freeze_point();
+    if( is_comestible() ) {
+        return get_comestible()->freeze_point;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->freeze_point;
+    return made_of_types()[0]->freeze_point();
 }
 
 template<typename Item>
@@ -6788,7 +6791,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().get_id() == item_category_maps;
+    return get_category_shallow().get_id() == item_category_maps;
 }
 
 bool item::seal()
@@ -6894,6 +6897,11 @@ bool item::can_unload_liquid() const
     return contents.can_unload_liquid();
 }
 
+bool item::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    return contents.allows_speedloader( speedloader_id );
+}
+
 bool item::can_reload_with( const itype_id &ammo ) const
 {
     return is_reloadable_helper( ammo, false );
@@ -6954,7 +6962,7 @@ bool item::is_salvageable() const
 
 bool item::is_disassemblable() const
 {
-    return recipe_dictionary::get_uncraft( typeId() ) && !has_flag( flag_ETHEREAL_ITEM );
+    return !ethereal && recipe_dictionary::get_uncraft( typeId() );
 }
 
 bool item::is_craft() const
@@ -7099,7 +7107,7 @@ bool item::spill_contents( Character &c )
     contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
-    return true;
+    return is_container_empty();
 }
 
 bool item::spill_contents( const tripoint &pos )
@@ -7188,8 +7196,8 @@ const material_type &item::get_base_material() const
 
 bool item::operator<( const item &other ) const
 {
-    const item_category &cat_a = get_category();
-    const item_category &cat_b = other.get_category();
+    const item_category &cat_a = get_category_of_contents();
+    const item_category &cat_b = other.get_category_of_contents();
     if( cat_a != cat_b ) {
         return cat_a < cat_b;
     } else {
@@ -7202,8 +7210,7 @@ bool item::operator<( const item &other ) const
         } else {
             std::string n1 = this->type->nname( 1 );
             std::string n2 = other.type->nname( 1 );
-            return std::lexicographical_compare( n1.begin(), n1.end(),
-                                                 n2.begin(), n2.end(), sort_case_insensitive_less() );
+            return localized_compare( n1, n2 );
         }
     }
 }
@@ -7729,6 +7736,15 @@ item *item::gunmod_find( const itype_id &mod )
 const item *item::gunmod_find( const itype_id &mod ) const
 {
     return const_cast<item *>( this )->gunmod_find( mod );
+}
+
+item *item::gunmod_find_by_flag( const std::string &flag )
+{
+    std::vector<item *> mods = gunmods();
+    auto it = std::find_if( mods.begin(), mods.end(), [&flag]( item * e ) {
+        return e->has_flag( flag );
+    } );
+    return it != mods.end() ? *it : nullptr;
 }
 
 ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
@@ -8757,7 +8773,7 @@ void item::set_snippet( const snippet_id &id )
     snip_id = id;
 }
 
-const item_category &item::get_category() const
+const item_category &item::get_category_shallow() const
 {
     static item_category null_category;
     return type->category_force.is_valid() ? type->category_force.obj() : null_category;
@@ -8766,9 +8782,9 @@ const item_category &item::get_category() const
 const item_category &item::get_category_of_contents() const
 {
     if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
-        return contents.only_item().get_category();
+        return contents.only_item().get_category_of_contents();
     } else {
-        return this->get_category();
+        return this->get_category_shallow();
     }
 }
 
@@ -8984,7 +9000,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
-        if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
+        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->is_food() || it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -9858,7 +9874,7 @@ void item::set_last_temp_check( const time_point &pt )
 bool item::process_internal( player *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
-    if( has_flag( flag_ETHEREAL_ITEM ) ) {
+    if( ethereal ) {
         if( !has_var( "ethereal" ) ) {
             return true;
         }
@@ -10375,7 +10391,8 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
-    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
+                recipe_time_flag::ignore_proficiencies );
     std::vector<item_comp> to_be_disassembled = get_uncraft_components();
     while( !to_be_disassembled.empty() ) {
         item_comp current_comp = to_be_disassembled.back();

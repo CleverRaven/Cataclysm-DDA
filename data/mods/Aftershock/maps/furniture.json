@@ -114,6 +114,7 @@
     "symbol": "&",
     "color": "light_red",
     "copy-from": "f_autodoc",
+    "description": "A commercial surgical robot often found within licensed clinics and corporate hospitals.  Its various AI routines assist during surgery, but they are no replacement for the actual operator's skill.",
     "flags": [ "TRANSPARENT", "AUTODOC" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.6,

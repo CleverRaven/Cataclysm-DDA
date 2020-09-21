@@ -16,6 +16,7 @@
 #include "activity_actor.h"
 #include "avatar.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
@@ -265,9 +266,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "Move into the monster to attack." ) );
                 you.clear_destination();
                 return false;
-            } else {
-                // fighting is hard work!
-                you.increase_activity_level( EXTRA_EXERCISE );
             }
             if( you.has_effect( effect_relax_gas ) ) {
                 if( one_in( 8 ) ) {
@@ -307,8 +305,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
 
         you.melee_attack( np, true );
-        // fighting is hard work!
-        you.increase_activity_level( EXTRA_EXERCISE );
         np.make_angry();
         return false;
     }
@@ -842,7 +838,7 @@ void avatar_action::eat( avatar &you, const item_location &loc )
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
-                         std::vector<int> consume_menu_selections,
+                         const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter )
 {

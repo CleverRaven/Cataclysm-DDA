@@ -2239,6 +2239,66 @@
   },
   {
     "type": "effect_type",
+    "id": "weary_0"
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_1",
+    "name": [ "Lightly Weary" ],
+    "desc": [ "You've been pretty active for a while, operating at the highest levels of activity will be impaired." ],
+    "apply_message": "You're beginning to tire out."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_2",
+    "name": [ "Moderately Weary" ],
+    "desc": [ "You've been quite active for a while, operating at higher levels of activity will be impaired." ],
+    "apply_message": "You're tiring out more, continuing high levels of activity will be slower."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_3",
+    "name": [ "Weary" ],
+    "desc": [ "You've been very active for a while, and need to slow down for a bit." ],
+    "apply_message": "You've become weary."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_4",
+    "name": [ "Very Weary" ],
+    "desc": [ "You've been extremely active for a while, and need to slow down." ],
+    "apply_message": "You've become very weary, even moderate activity is becoming too much."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_5",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can't take much more activity." ],
+    "apply_message": "You've become extremely weary, and need some rest."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_6",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and really need to get some rest." ],
+    "apply_message": "You can't keep up this activity for much longer."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_7",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, it's time to stop." ],
+    "apply_message": "You can't keep up this activity for much longer."
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_8",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ],
+    "apply_message": "You can't keep up this activity for much longer."
+  },
+  {
+    "type": "effect_type",
     "id": "hunger_full",
     "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],

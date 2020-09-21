@@ -119,7 +119,7 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle:: smart_controller_handle_turn( bool thrusting,
-        cata::optional<float> k_traction_cache )
+        const cata::optional<float> &k_traction_cache )
 {
 
     if( !engine_on || !has_enabled_smart_controller ) {
@@ -1492,7 +1492,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-inline rl_vec2d degree_to_vec( double degrees )
+static inline rl_vec2d degree_to_vec( double degrees )
 {
     return rl_vec2d( std::cos( degrees * M_PI / 180 ), std::sin( degrees * M_PI / 180 ) );
 }

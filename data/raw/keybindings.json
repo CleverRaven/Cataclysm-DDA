@@ -697,13 +697,21 @@
     "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "PPAGE" },
+      { "input_method": "keyboard_char", "key": "<" },
+      { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "LEVEL_DOWN",
     "name": "Go Down",
-    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "NPAGE" },
+      { "input_method": "keyboard_char", "key": ">" },
+      { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
