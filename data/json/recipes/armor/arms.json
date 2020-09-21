@@ -40,7 +40,8 @@
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
   },
@@ -59,7 +60,8 @@
     "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -110,7 +112,7 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 1 }
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 1.5, "learning_time_multiplier": 0.5 }
     ]
   },
   {
@@ -155,7 +157,8 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 1.5 },
+    "proficiencies": [ { "proficiency": "prof_articulation", "required": false, "time_multiplier": 1.5 } ]
   },
   {
     "result": "armguard_soft",
