@@ -110,7 +110,8 @@
     "time": "5 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "tailoring_leather", 4 ], [ "button", 5 ] ]
@@ -155,7 +156,8 @@
     "type": "recipe",
     "copy-from": "hot_pants",
     "proficiencies": [
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "tailoring_leather", 1 ], [ "fastener_small", 1 ] ]
@@ -242,7 +244,8 @@
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_cotton", 2 ] ]
     "proficiencies": [
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
     ]
   },
   {

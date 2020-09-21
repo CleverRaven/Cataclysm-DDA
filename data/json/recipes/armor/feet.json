@@ -25,8 +25,9 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ], [ "tailoring_leather_small", 12 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -42,7 +43,8 @@
     "using": [ [ "cordage", 1 ], [ "armor_chitin", 18 ], [ "fastener_small", 1 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
     ],
@@ -62,7 +64,8 @@
     "using": [ [ "cordage", 1 ], [ "armor_acidchitin", 18 ], [ "fastener_small", 1 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
     ],
@@ -81,7 +84,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
     ],
@@ -108,8 +112,9 @@
     "book_learn": [ [ "textbook_survival", 1 ] ],
     "using": [ [ "sewing_standard", 13 ], [ "tailoring_leather_small", 7 ], [ "tailoring_fur_small", 7 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -125,7 +130,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 }
@@ -152,7 +158,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ], [ "tailoring_leather_small", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
@@ -178,8 +185,9 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ], [ "fastener_small", 1 ], [ "tailoring_leather_small", 18 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -195,7 +203,8 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
     ],
@@ -220,6 +229,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ], [ "tailoring_leather_small", 16 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
@@ -242,6 +252,7 @@
     "using": [ [ "cordage", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
@@ -263,10 +274,11 @@
     "using": [ [ "sewing_standard", 80 ], [ "tailoring_leather_small", 8 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
     ],
     "components": [
       [ [ "sheet_kevlar_layered", 4 ] ],
@@ -285,7 +297,8 @@
     "time": "35 m",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 5 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
     "using": [ [ "sewing_standard", 20 ], [ "tailoring_leather_small", 14 ] ]
@@ -302,7 +315,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ], [ "plastic_molding", 4 ], [ "waterproofing_plastic_bags", 2 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 }
     ],
@@ -322,7 +335,8 @@
     "using": [ [ "sewing_standard", 80 ], [ "tailoring_fur_small", 12 ] ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
@@ -347,7 +361,8 @@
     "using": [ [ "sewing_standard", 160 ], [ "tailoring_leather_small", 24 ] ],
     "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
@@ -464,7 +479,8 @@
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
     ],
     "using": [ [ "sewing_standard", 5 ], [ "tailoring_leather_small", 3 ] ]
   },
@@ -480,7 +496,8 @@
     "autolearn": true,
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 3 }
     ],
     "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
     "using": [ [ "sewing_standard", 5 ], [ "tailoring_fur_small", 2 ] ]
@@ -633,7 +650,7 @@
     "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 }
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 2 }
     ],
     "components": [ [ [ "duct_tape", 80 ], [ "medical_tape", 80 ] ], [ [ "superglue", 1 ] ] ]
   },
@@ -662,7 +679,10 @@
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 }
+    ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "welder", 5 ], [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
     "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
@@ -678,7 +698,7 @@
     "time": "12 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 }
     ],
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "sewing_standard", 5 ] ],
@@ -697,7 +717,7 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "plastic_molding", 8 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
