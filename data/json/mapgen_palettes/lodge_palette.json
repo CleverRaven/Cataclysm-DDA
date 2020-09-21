@@ -6,7 +6,6 @@
       "#": "t_rock_wall",
       "+": [ [ "t_door_c", 3 ], "t_door_locked" ],
       "=": "t_door_c",
-      "-": "t_fence",
       ".": [ [ "t_region_groundcover", 4 ], "t_region_groundcover_forest" ],
       "~": [ [ "t_region_groundcover_barren", 3 ], "t_region_groundcover" ],
       "*": [ [ "t_region_groundcover", 15 ], "t_region_shrub" ],
@@ -16,13 +15,16 @@
       "R": "t_floor",
       "r": "t_rock_floor",
       "S": "t_rock_floor",
+      "-": "t_window_bars_curtains",
       "w": "t_double_pane_glass_with_curtain_open_window_closed",
       "W": [ [ "t_double_pane_glass_with_curtain", 2 ], "t_double_pane_glass_with_curtain_open_window_closed" ],
       "%": "t_gutter_downspout",
       "q": "t_swater_sh",
       "Q": "t_water_dp",
       "H": "t_chickenwire_gate_c",
-      "I": "t_chickenwire_fence"
+      "I": "t_chickenwire_fence",
+      "<": "t_wood_stairs_down",
+      ">": "t_wood_stairs_up"
     },
     "furniture": {
       "a": "f_armchair",
