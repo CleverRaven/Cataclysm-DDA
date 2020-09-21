@@ -33,6 +33,7 @@
   {
     "id": "BGSS_WEDDING_1_CALM",
     "type": "talk_topic",
+    "//": "Some day it would be nice to have a demographically selected chance of this not being heteronormative",
     "dynamic_line": {
       "npc_female": true,
       "yes": "Well, I have this weird hope.  It's probably stupid, but I saw my fiancé peel out of there with his sister - my maid of honor - in her pickup truck as things went bad.  So, until I run into them again one way or another, I'm just gonna keep on believing they're out there, doing well.  That's more than most of us have.",
@@ -42,5 +43,11 @@
       { "text": "What were you saying before that?", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "CWH_WEDDING_1_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "I'll be honest with you, I was paying more attention to wedding planning than current events leading up to things.  I knew there were riots going on, but they were out of town.  Even when they got closer to home, I tried to ignore them so we could have our big day.  After the zombies started coming, though, well that's when stuff got really weird.  When I was running from the wedding I swear I saw the sky rip open and monsters fly out of the hole, like something out of Independence Day.  I don't know what it all was, it looked like black magic or something.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

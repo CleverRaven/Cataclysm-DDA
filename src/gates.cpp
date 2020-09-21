@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
@@ -23,17 +24,16 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
-
-static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 
 // Gates namespace
 
@@ -74,7 +74,7 @@ struct gate_data {
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return gate_id( g->m.ter( pos ).id().str() );
+    return gate_id( get_map().ter( pos ).id().str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type" );
@@ -131,7 +131,7 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
-    const auto wid = g->m.ter( pos );
+    const auto wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
@@ -179,6 +179,7 @@ void gates::open_gate( const tripoint &pos )
     bool close = false;
     bool fail = false;
 
+    map &here = get_map();
     for( const point &wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
@@ -195,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
 
             if( !open ) { // Closing the gate...
                 tripoint cur_pos = gate_pos;
-                while( g->m.ter( cur_pos ) == gate.floor.id() ) {
+                while( here.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
                     cur_pos += gate_offset;
@@ -205,10 +206,10 @@ void gates::open_gate( const tripoint &pos )
             if( !close ) { // Opening the gate...
                 tripoint cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = g->m.ter( cur_pos );
+                    const ter_id ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
-                        g->m.ter_set( cur_pos, gate.floor.id() );
+                        here.ter_set( cur_pos, gate.floor.id() );
                         open = !fail;
                     } else if( ter != gate.floor.id() ) {
                         break;
@@ -219,7 +220,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( g->u.sees( pos ) ) {
+    if( get_player_view().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -232,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::open_gate( const tripoint &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -252,7 +253,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
 // Doors namespace
 
-void doors::close_door( map &m, Character &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );
@@ -278,19 +279,19 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
             veh->close( closable );
             didit = true;
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
-                                   veh->parts[inside_closable].name() );
+                                   veh->part( inside_closable ).name() );
         } else if( openable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s is already closed." ),
-                                   veh->parts[openable].name() );
+                                   veh->part( openable ).name() );
         } else {
-            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->parts[vpart].name() );
+            who.add_msg_if_player( m_info, _( "You cannot close the %s." ), veh->part( vpart ).name() );
         }
     } else if( m.furn( closep ) == furn_str_id( "f_crate_o" ) ) {
         who.add_msg_if_player( m_info, _( "You'll need to construct a seal to close the crate!" ) );
@@ -303,7 +304,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             who.add_msg_if_player( m_info, _( "You cannot close the %s." ), m.name( closep ) );
         }
     } else {
-        auto items_in_way = m.i_at( closep );
+        map_stack items_in_way = m.i_at( closep );
         // Scoot up to 25 liters of items out of the way
         if( m.furn( closep ) != furn_str_id( "f_safe_o" ) && !items_in_way.empty() ) {
             const units::volume max_nudge = 25_liter;

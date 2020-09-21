@@ -128,7 +128,7 @@
     "epower": 0,
     "power": 7370,
     "energy_consumption": 18425,
-    "folded_volume": 6,
+    "folded_volume": "1500 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
@@ -152,7 +152,7 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 12 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -177,7 +177,7 @@
     "epower": 0,
     "power": 3728,
     "energy_consumption": 9320,
-    "folded_volume": 3,
+    "folded_volume": "750 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -326,7 +326,7 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 10, 20 ] },

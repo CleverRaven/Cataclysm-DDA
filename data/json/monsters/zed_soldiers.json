@@ -33,20 +33,7 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
@@ -88,20 +75,7 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
@@ -127,13 +101,13 @@
   {
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
-    "name": { "str": "acid-sniper zombie" },
+    "name": { "str": "bilious soldier zombie" },
     "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
-    "delete": { "flags": [ "BLEED" ] },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 10 ],
@@ -157,13 +131,13 @@
   {
     "id": "mon_zombie_soldier_acid_2",
     "type": "MONSTER",
-    "name": { "str": "acid-support zombie" },
+    "name": { "str": "caustic soldier zombie" },
     "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
-    "delete": { "flags": [ "BLEED" ] },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 5 ],
@@ -222,20 +196,7 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_kevlar_2",
@@ -274,20 +235,7 @@
     "death_drops": "mon_zombie_kevlar_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_military_pilot",
@@ -330,7 +278,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -382,7 +329,6 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "BLEED",
       "PUSH_MON",
       "DRIPS_NAPALM",
       "FILTHY"
@@ -421,7 +367,7 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_bio_op",
@@ -466,7 +412,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "ACIDPROOF",
       "ELECTRIC",
       "NO_BREATHE",

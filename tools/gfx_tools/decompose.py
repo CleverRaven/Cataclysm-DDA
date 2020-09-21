@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # decompose.py
 # Split a gfx tile_config.json into 1000s of little directories, each with their own config
@@ -9,6 +9,7 @@ import json
 import math
 import os
 import subprocess
+import sys
 
 try:
     import pyvips
@@ -18,13 +19,10 @@ except ImportError:
     gi.require_version('Vips', '8.0')
     from gi.repository import Vips
 
-# stupid stinking Python 2 versus Python 3 syntax
+
 def write_to_json(pathname, data, prettify=False):
     with open(pathname, "w") as fp:
-        try:
-            json.dump(data, fp)
-        except ValueError:
-            fp.write(json.dumps(data))
+        json.dump(data, fp)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if prettify and os.path.isfile(json_formatter):
@@ -214,6 +212,7 @@ class TileSheetData(object):
             #print("{}: {}".format(self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})
 
+
 class ExtractionData(object):
     def __init__(self, ts_filename, refs):
         self.ts_data = refs.ts_data.get(ts_filename)
@@ -225,7 +224,7 @@ class ExtractionData(object):
 
         ts_base = ts_filename.split(".png")[0]
         geometry_dim = "{}x{}".format(self.ts_data.sprite_width, self.ts_data.sprite_height)
-        pngs_dir = "/pngs_" +  ts_base + "_{}".format(geometry_dim)
+        pngs_dir = "/pngs_" + ts_base + "_{}".format(geometry_dim)
         self.ts_dir_pathname = refs.tileset_pathname + pngs_dir
         find_or_make_dir(self.ts_dir_pathname)
         self.tilenum_in_dir = 256
@@ -261,7 +260,7 @@ class ExtractionData(object):
         self.increment_dir()
         tile_data = refs.ts_data[ts_filename]
         file_index = png_index - tile_data.pngnum_min
-        y_index = math.floor( file_index / tile_data.ts_tiles_per_row )
+        y_index = math.floor(file_index / tile_data.ts_tiles_per_row)
         x_index = file_index - y_index * tile_data.ts_tiles_per_row
         tile_off_x = max(0, tile_data.sprite_width * x_index)
         tile_off_y = max(0, tile_data.sprite_height * y_index)
@@ -304,7 +303,7 @@ class PngRefs(object):
             os.stat(self.tileset_pathname)
         except KeyError:
             print("cannot find a directory {}".format(self.tileset_pathname))
-            exit -1
+            sys.exit(-1)
 
         tileset_confname = refs.tileset_pathname + "/" + "tile_config.json"
 
@@ -312,7 +311,7 @@ class PngRefs(object):
             os.stat(tileset_confname)
         except KeyError:
             print("cannot find a directory {}".format(tileset_confname))
-            exit -1
+            sys.exit(-1)
 
         if delete_pathname:
             with open(delete_pathname) as del_file:
@@ -328,7 +327,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))       
+            return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):
@@ -392,74 +391,75 @@ class PngRefs(object):
                 print("missing index {}, {}".format(pngnum, self.pngnum_to_pngname[pngnum]))
 
 
-args = argparse.ArgumentParser(description="Split a tileset's tile_config.json into a directory per tile containing the tile data and png.")
-args.add_argument("tileset_dir", action="store",
-                  help="local name of the tileset directory")
-args.add_argument("--delete_file", dest="del_path", action="store",
-                  help="local name of file containing lists of ranges of indices to delete")
-argsDict = vars(args.parse_args())
+if __name__ == '__main__':
+    args = argparse.ArgumentParser(description="Split a tileset's tile_config.json into a directory per tile containing the tile data and png.")
+    args.add_argument("tileset_dir", action="store",
+                      help="local name of the tileset directory")
+    args.add_argument("--delete_file", dest="del_path", action="store",
+                      help="local name of file containing lists of ranges of indices to delete")
+    argsDict = vars(args.parse_args())
 
-tileset_dirname = argsDict.get("tileset_dir", "")
-delete_pathname = argsDict.get("del_path", "")
+    tileset_dirname = argsDict.get("tileset_dir", "")
+    delete_pathname = argsDict.get("del_path", "")
 
-refs = PngRefs()
-all_tiles = refs.get_all_data(tileset_dirname, delete_pathname)
+    refs = PngRefs()
+    all_tiles = refs.get_all_data(tileset_dirname, delete_pathname)
 
-all_tilesheet_data = all_tiles.get("tiles-new", [])
-tile_info = all_tiles.get("tile_info", {})
-if tile_info:
-    refs.default_width = tile_info[0].get("width")
-    refs.default_height = tile_info[0].get("height")
+    all_tilesheet_data = all_tiles.get("tiles-new", [])
+    tile_info = all_tiles.get("tile_info", {})
+    if tile_info:
+        refs.default_width = tile_info[0].get("width")
+        refs.default_height = tile_info[0].get("height")
 
-overlay_ordering = all_tiles.get("overlay_ordering", [])
-ts_sequence = []
-for tilesheet_data in all_tilesheet_data:
-    ts_data = TileSheetData(tilesheet_data, refs)
-    ts_data.summarize(tile_info, refs)
-    ts_sequence.append(ts_data.ts_filename)
+    overlay_ordering = all_tiles.get("overlay_ordering", [])
+    ts_sequence = []
+    for tilesheet_data in all_tilesheet_data:
+        ts_data = TileSheetData(tilesheet_data, refs)
+        ts_data.summarize(tile_info, refs)
+        ts_sequence.append(ts_data.ts_filename)
 
-for tilesheet_data in all_tilesheet_data:
-    ts_filename = tilesheet_data.get("file", "")
-    ts_data = refs.ts_data[ts_filename]
-    if ts_data.fallback:
-        continue
-    tile_id_to_tile_entrys = {}
-    all_tile_entry = tilesheet_data.get("tiles", [])
-    for tile_entry in all_tile_entry:
-        tile_id = ts_data.parse_tile_entry(tile_entry, refs)
-        if tile_id:
-            tile_id_to_tile_entrys.setdefault(tile_id, [])
-            tile_id_to_tile_entrys[tile_id].append(tile_entry)
-    ts_data.tile_id_to_tile_entrys = tile_id_to_tile_entrys
+    for tilesheet_data in all_tilesheet_data:
+        ts_filename = tilesheet_data.get("file", "")
+        ts_data = refs.ts_data[ts_filename]
+        if ts_data.fallback:
+            continue
+        tile_id_to_tile_entrys = {}
+        all_tile_entry = tilesheet_data.get("tiles", [])
+        for tile_entry in all_tile_entry:
+            tile_id = ts_data.parse_tile_entry(tile_entry, refs)
+            if tile_id:
+                tile_id_to_tile_entrys.setdefault(tile_id, [])
+                tile_id_to_tile_entrys[tile_id].append(tile_entry)
+        ts_data.tile_id_to_tile_entrys = tile_id_to_tile_entrys
 
-#debug statements to verify pngnum_to_pngname and pngname_to_pngnum
-#print("pngnum_to_pngname: {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
-#print("pngname_to_pngnum: {}".format(json.dumps(refs.pngname_to_pngnum, sort_keys=True, indent=2)))
-#print("{}".format(json.dumps(file_tile_id_to_tile_entrys, indent=2)))
-#print("{}".format(json.dumps(refs.pngnum_to_tspathname, indent=2)))
+    #debug statements to verify pngnum_to_pngname and pngname_to_pngnum
+    #print("pngnum_to_pngname: {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
+    #print("pngname_to_pngnum: {}".format(json.dumps(refs.pngname_to_pngnum, sort_keys=True, indent=2)))
+    #print("{}".format(json.dumps(file_tile_id_to_tile_entrys, indent=2)))
+    #print("{}".format(json.dumps(refs.pngnum_to_tspathname, indent=2)))
 
-for ts_filename in ts_sequence:
-    out_data = ExtractionData(ts_filename, refs)
+    for ts_filename in ts_sequence:
+        out_data = ExtractionData(ts_filename, refs)
 
-    if not out_data.valid:
-        continue
-    out_data.write_expansions()
+        if not out_data.valid:
+            continue
+        out_data.write_expansions()
 
-    for tile_id, tile_entrys in out_data.ts_data.tile_id_to_tile_entrys.items():
-        #print("tile id {} with {} entries".format(tile_id, len(tile_entrys)))
-        for idx, tile_entry in enumerate(tile_entrys):
-            subdir_pathname = out_data.increment_dir()
-            tile_entry_name, tile_entry = refs.convert_pngnum_to_pngname(tile_entry)
-            if not tile_entry_name:
-                continue
-            tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + "_" + str(idx) + ".json"
-            #if os.path.isfile(tile_entry_pathname):
-            #    print("overwriting {}".format(tile_entry_pathname))
-            write_to_json(tile_entry_pathname, tile_entry)
-    out_data.write_images(refs)
+        for tile_id, tile_entrys in out_data.ts_data.tile_id_to_tile_entrys.items():
+            #print("tile id {} with {} entries".format(tile_id, len(tile_entrys)))
+            for idx, tile_entry in enumerate(tile_entrys):
+                subdir_pathname = out_data.increment_dir()
+                tile_entry_name, tile_entry = refs.convert_pngnum_to_pngname(tile_entry)
+                if not tile_entry_name:
+                    continue
+                tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + "_" + str(idx) + ".json"
+                #if os.path.isfile(tile_entry_pathname):
+                #    print("overwriting {}".format(tile_entry_pathname))
+                write_to_json(tile_entry_pathname, tile_entry)
+        out_data.write_images(refs)
 
-if tile_info:
-    tile_info_pathname = refs.tileset_pathname + "/" + "tile_info.json"
-    write_to_json(tile_info_pathname, tile_info, True)
+    if tile_info:
+        tile_info_pathname = refs.tileset_pathname + "/" + "tile_info.json"
+        write_to_json(tile_info_pathname, tile_info, True)
 
-refs.report_missing()
+    refs.report_missing()

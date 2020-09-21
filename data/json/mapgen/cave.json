@@ -576,8 +576,15 @@
         "............ ....F.7J G.",
         "............>..........."
       ],
-      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up", "7": "t_console_broken" },
-      "furniture": { "f": "f_firering", "c": "f_camp_chair", "C": "f_crate_o", "W": "f_crate_c", "T": "f_tourist_table" },
+      "terrain": { ".": "t_rock", " ": "t_rock_floor", ">": "t_slope_up" },
+      "furniture": {
+        "f": "f_firering",
+        "c": "f_camp_chair",
+        "C": "f_crate_o",
+        "W": "f_crate_c",
+        "T": "f_tourist_table",
+        "7": "f_console_broken"
+      },
       "traps": {
         "F": "tr_rollmat",
         "2": "tr_crossbow",

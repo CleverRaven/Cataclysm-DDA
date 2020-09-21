@@ -56,7 +56,7 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
 std::vector<oter_type_id> overmap_location::get_all_terrains() const
 {
     std::vector<oter_type_id> ret;
-    for( oter_type_str_id elem : terrains ) {
+    for( const oter_type_str_id &elem : terrains ) {
         ret.push_back( elem );
     }
     return ret;

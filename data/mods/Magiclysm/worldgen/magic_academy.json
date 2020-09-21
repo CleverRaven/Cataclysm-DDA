@@ -115,7 +115,13 @@
       "palettes": [ "standard_domestic_palette" ],
       "traps": { "=": "tr_rollmat" },
       "terrain": { " ": "t_thconc_floor", "`": "t_rock", "]": "t_door_glass_green_c", "#": "t_rock_blue", "~": "t_water_pool" },
-      "furniture": { ")": "f_beaded_door", "}": "f_huge_mana_crystal", "!": "f_ergometer", "$": "f_treadmill", "%": "f_exercise" },
+      "furniture": {
+        ")": "f_beaded_door",
+        "}": "f_huge_mana_crystal",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "$": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "%": "f_exercise"
+      },
       "place_loot": [ { "item": "television", "x": 8, "y": 1, "chance": 100 }, { "item": "stereo", "x": 7, "y": 1, "chance": 100 } ],
       "items": {
         "q": [

@@ -11,7 +11,7 @@
     "symbol": ":",
     "color": "yellow",
     "price_postapoc": 1000,
-    "use_action": "install_bionic",
+    "use_action": [ "install_bionic" ],
     "flags": [ "CBM" ],
     "is_upgrade": false,
     "faults": [ "fault_bionic_salvaged" ]

@@ -8,7 +8,7 @@
 
 namespace behavior
 {
-enum status_t : char;
+enum class status_t : char;
 
 /**
  * An oracle is a class in charge of introspecting into a game entity in a particular way.
@@ -21,9 +21,10 @@ class oracle_t
 {
 };
 
-status_t return_running( const oracle_t * );
+status_t return_running( const oracle_t *, const std::string & );
 
-extern std::unordered_map<std::string, std::function<status_t( const oracle_t * )>> predicate_map;
+extern std::unordered_map<std::string, std::function<status_t( const oracle_t *, const std::string & )>>
+        predicate_map;
 
 } // namespace behavior
 #endif // CATA_SRC_BEHAVIOR_ORACLE_H

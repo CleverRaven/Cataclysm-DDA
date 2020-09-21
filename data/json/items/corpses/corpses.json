@@ -25,9 +25,10 @@
     "name": { "str": "desiccated corpse" },
     "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
     "category": "other",
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "price": 0,
     "volume": "7500 ml",
+    "weight": "81500 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -36,7 +37,7 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead human body.",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -44,8 +45,8 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body of a middle-aged man.",
-    "looks_like": "corpse",
-    "material": "hflesh"
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -53,10 +54,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body of a young woman.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -64,10 +65,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body of a little boy.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -75,10 +76,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body of a little girl.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -86,10 +87,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -97,10 +98,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "30 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -109,10 +110,10 @@
     "name": { "str": "corpse" },
     "description": "A dead body of an old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
     "//": "Implied that someone hacked off her body parts for jewelry.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -120,8 +121,8 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body, coated in congealed blood.",
-    "looks_like": "corpse",
-    "material": "hflesh"
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -129,8 +130,8 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body with a frightful grimace.  He appears to have been horribly mangled prior to his death.",
-    "looks_like": "corpse",
-    "material": "hflesh"
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -138,8 +139,8 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
-    "looks_like": "corpse",
-    "material": "hflesh"
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -147,8 +148,8 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A dead body with a gaping stab wound in its back.",
-    "looks_like": "corpse",
-    "material": "hflesh"
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -156,10 +157,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "The dead body of a person.  Their forehead bears a large bullet entrance wound.  An even larger exit wound is present on the back of their head.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "40 L",
     "weight": "52 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -167,10 +168,10 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "The upper half of a dead body, as if torn apart with enormous force.  Some organs are hanging out.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "40 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   },
   {
     "type": "GENERIC",
@@ -178,9 +179,9 @@
     "copy-from": "corpse",
     "name": { "str": "corpse" },
     "description": "A half-decapitated dead body.  It is unclear what could have caused such a wound.",
-    "looks_like": "corpse",
+    "looks_like": "corpse_generic_human",
     "volume": "57 L",
     "weight": "78 kg",
-    "material": "hflesh"
+    "material": [ "hflesh" ]
   }
 ]

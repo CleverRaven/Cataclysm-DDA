@@ -78,6 +78,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
@@ -104,7 +105,28 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "WORM" ],
+    "upgrades": { "half_life": 20, "into": "mon_graboid" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
+  },
+  {
+    "id": "mon_worm_small",
+    "type": "MONSTER",
+    "name": { "str": "large worm" },
+    "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
+    "copy-from": "mon_halfworm",
+    "looks_like": "mon_worm",
+    "upgrades": { "half_life": 14, "into": "mon_worm" }
+  },
+  {
+    "id": "mon_large_cockroach",
+    "type": "MONSTER",
+    "name": { "str": "huge cockroach" },
+    "description": "A mutant cockroach the size of a small dog.",
+    "copy-from": "mon_giant_cockroach",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_giant_cockroach" }
   },
   {
     "id": "mon_skittering_plague",
@@ -216,7 +238,7 @@
     "id": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "giant cockroach", "str_pl": "giant cockroaches" },
-    "description": "A mutant cockroach the size of a small dog.",
+    "description": "A mutant cockroach the size of a dog.",
     "default_faction": "roach",
     "bodytype": "insect",
     "species": [ "INSECT" ],
@@ -315,6 +337,17 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_bee_small",
+    "type": "MONSTER",
+    "name": { "str": "huge bee" },
+    "description": "A mutant bee the size of a small dog.",
+    "copy-from": "mon_bee",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_bee" }
+  },
+  {
     "id": "mon_bee",
     "type": "MONSTER",
     "name": { "str": "giant bee" },
@@ -344,9 +377,19 @@
     "vision_night": 5,
     "harvest": "arachnid_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "bees", 50 ] ], "//": "50% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_centipede_small",
+    "type": "MONSTER",
+    "name": { "str": "huge centipede" },
+    "description": "A brightly colored, many-legged mutant centipede the size of a dog.",
+    "copy-from": "mon_centipede_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_centipede_giant" }
   },
   {
     "id": "mon_centipede_giant",
@@ -381,10 +424,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_dragonfly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge dragonfly" },
+    "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
+    "copy-from": "mon_dragonfly_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
+  {
     "id": "mon_dragonfly_giant",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly", "str_pl": "giant dragonflies" },
-    "description": "A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
+    "description": "A ferocious mutant dragonfly as big as a dog, darting through the air with a cluster of fangs for a mouth.",
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
@@ -413,10 +467,21 @@
     "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_fly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge fly" },
+    "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
+    "copy-from": "mon_fly",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_fly" }
+  },
+  {
     "id": "mon_fly",
     "type": "MONSTER",
     "name": { "str": "giant fly", "str_pl": "giant flies" },
-    "description": "A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
+    "description": "A tremendous housefly the size of a dog, predictably accompanied by a loud, incessant buzzing sound.",
     "default_faction": "small_animal",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
@@ -440,6 +505,17 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_mosquito_small",
+    "type": "MONSTER",
+    "name": { "str": "huge mosquito" },
+    "description": "A mutant mosquito the size of a small dog, buzzing and fluttering erratically.",
+    "copy-from": "mon_mosquito_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_mosquito_giant" }
   },
   {
     "id": "mon_mosquito_giant",
@@ -469,6 +545,17 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_spider_cellar_small",
+    "type": "MONSTER",
+    "name": { "str": "huge cellar spider" },
+    "description": "A mutant brown spider the size of a small dog with long thin legs, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_cellar_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_cellar_giant" }
   },
   {
     "id": "mon_spider_cellar_giant",
@@ -536,7 +623,19 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_cellar_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_spider_jumping_small",
+    "type": "MONSTER",
+    "name": { "str": "huge jumping spider" },
+    "description": "A mutant spider the size of a small dog with big forelegs, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_jumping_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_jumping_giant" }
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -572,10 +671,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_spider_trapdoor_small",
+    "type": "MONSTER",
+    "name": { "str": "huge trapdoor spider" },
+    "description": "A dark brown mutant spider the size of a dog with a bulbous thorax, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_trapdoor_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_trapdoor_giant" }
+  },
+  {
     "id": "mon_spider_trapdoor_giant",
     "type": "MONSTER",
     "name": { "str": "giant trapdoor spider" },
-    "description": "A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
+    "description": "A gigantic dark brown spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
     "default_faction": "spider_trapdoor",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -604,10 +714,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_spider_web_small",
+    "type": "MONSTER",
+    "name": { "str": "huge web spinning spider" },
+    "description": "A light gray mutant spider the size of a dog with a long legs, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_web",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_web" }
+  },
+  {
     "id": "mon_spider_web",
     "type": "MONSTER",
     "name": { "str": "giant web spider" },
-    "description": "A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
+    "description": "A light gray giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
     "default_faction": "spider_web",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -664,13 +785,25 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_web" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_spider_widow_small",
+    "type": "MONSTER",
+    "name": { "str": "huge black widow spider" },
+    "description": "A black mutant spider the size of a cat with a long legs, big eyes, and oversized fangs.  There is a red hourglass shape on its thorax.",
+    "copy-from": "mon_spider_widow_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_widow_giant" }
   },
   {
     "id": "mon_spider_widow_giant",
     "type": "MONSTER",
     "name": { "str": "giant black widow" },
-    "description": "A giant mutated black widow spider.  A highly venomous nightmare come to life.",
+    "description": "A giant mutated black widow spider.  There is a red hourglass shape on its thorax.  A highly venomous nightmare come to life.",
     "default_faction": "spider_widow",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -730,7 +863,19 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_widow_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_spider_wolf_small",
+    "type": "MONSTER",
+    "name": { "str": "huge wolf spider" },
+    "description": "A shaggy brown mutant spider the size of a dog with a long legs, two especially big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_wolf_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_wolf_giant" }
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -766,6 +911,17 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
+    "id": "mon_wasp_small",
+    "type": "MONSTER",
+    "name": { "str": "huge wasp" },
+    "description": "A huge black and yellow mutant yellowjacket wasp the size of a ferret with a long, evil-looking stinger.",
+    "copy-from": "mon_wasp",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "upgrades": { "half_life": 14, "into_group": "WASP_UPGRADE" }
+  },
+  {
     "id": "mon_wasp",
     "type": "MONSTER",
     "name": { "str": "giant wasp" },
@@ -795,7 +951,6 @@
     "vision_night": 5,
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "wasps", 40 ] ], "//": "40% chance of an item from group bees" },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
@@ -859,6 +1014,17 @@
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
   },
   {
+    "id": "mon_ant_small",
+    "type": "MONSTER",
+    "name": { "str": "huge ant" },
+    "description": "A mutant red ant the size of a dog covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
+    "copy-from": "mon_ant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_ant" }
+  },
+  {
     "id": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "giant ant" },
@@ -890,6 +1056,17 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_ant_acid_small",
+    "type": "MONSTER",
+    "name": { "str": "huge acidic ant" },
+    "description": "A brown mutated ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid drips out periodically.",
+    "copy-from": "mon_ant_acid",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -1106,10 +1283,21 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
+    "id": "mon_locust_small",
+    "type": "MONSTER",
+    "name": { "str": "huge locust" },
+    "description": "A yellow and brown mutated locust the size of a cat with big eyes and long powerful legs.",
+    "copy-from": "mon_locust",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_locust" }
+  },
+  {
     "id": "mon_locust",
     "type": "MONSTER",
     "name": { "str": "giant locust" },
-    "description": "An overgrown locust.  You don't think it'll eat you but it could cause massive damage to nearby plants.",
+    "description": "A yellow and brown mutated locust the size of a dog with big eyes and long powerful legs.  You don't think it'll eat you but it could cause massive damage to nearby plants.",
     "default_faction": "locust",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],

@@ -27,6 +27,7 @@
       { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
       { "group": "college_camping", "prob": 50 },
       { "group": "college_camping", "prob": 80 },
+      { "group": "SUS_book_nonf_soft", "prob": 20 },
       { "item": "corpse", "damage": 3 }
     ]
   },
@@ -43,6 +44,7 @@
       { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
       { "group": "college_sports", "prob": 50 },
       { "group": "college_sports", "prob": 90 },
+      { "group": "SUS_book_sports", "prob": 30 },
       { "item": "corpse", "damage": 3 }
     ]
   },
@@ -59,6 +61,7 @@
       { "group": "hatstore_hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
       { "group": "college_lake", "prob": 50 },
       { "group": "college_lake", "prob": 70 },
+      { "group": "SUS_book_nonf_soft", "prob": 25 },
       { "item": "corpse", "damage": 3 }
     ]
   },
@@ -104,6 +107,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "map_extra_casings",
-    "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink_unsealed" } ]
+    "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink" } ]
   }
 ]

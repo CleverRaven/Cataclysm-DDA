@@ -1,8 +1,6 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
-
-from __future__ import print_function
 
 import argparse
 import os
@@ -24,10 +22,10 @@ Example usages:
     values.py -k material | %(prog)s
 
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--human",
-        action="store_true",
-        help="if set, makes output human readable. default is to return output in JSON.")
-
+parser.add_argument(
+    "--human",
+    action="store_true",
+    help="if set, makes output human readable. default is to return output in JSON.")
 
 
 if __name__ == "__main__":
@@ -56,7 +54,7 @@ if __name__ == "__main__":
     keys = set()
     for item in json_data:
         # We assume only dictionaries here
-        keys.update(item.keys())
+        keys.update(list(item.keys()))
 
     keys = sorted(list(keys))
 

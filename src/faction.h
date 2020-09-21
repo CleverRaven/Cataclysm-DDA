@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FACTION_H
 #define CATA_SRC_FACTION_H
 
+#include <algorithm>
 #include <bitset>
 #include <map>
 #include <set>
@@ -18,7 +19,7 @@
 #include "type_id.h"
 
 // TODO: Redefine?
-#define MAX_FAC_NAME_SIZE 40
+static constexpr int MAX_FAC_NAME_SIZE = 40;
 
 std::string fac_ranking_text( int val );
 std::string fac_respect_text( int val );

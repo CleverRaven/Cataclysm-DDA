@@ -2,6 +2,7 @@
   {
     "result": "40x53mm_buckshot_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -15,10 +16,11 @@
     "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 16 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "215 mg gunpowder rounded to 2 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -26,6 +28,7 @@
   {
     "result": "40x53mm_slug_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -39,10 +42,11 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 16 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "10% more charge than 40x46 slug to represent increased damage. 16500 mg gunpowder rounded to 165 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "gunpowder_shotgun", 165 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]
@@ -50,6 +54,7 @@
   {
     "result": "40x53mm_flechette_m169",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -62,11 +67,12 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "215 mg gunpowder rounded to 2 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 100 ] ],
-      [ [ "gunpowder_shotgun", 35 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x53mm_m169_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
     ]

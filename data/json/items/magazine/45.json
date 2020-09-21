@@ -9,14 +9,13 @@
     "volume": "500 ml",
     "price": 1800,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 30,
-    "reliability": 7,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
   },
   {
     "id": "smg_45_mag",
@@ -28,34 +27,32 @@
     "volume": "750 ml",
     "price": 4000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 20,
-    "reliability": 1,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
   },
   {
     "id": "tdi_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "TDI Vector magazine" },
-    "description": "A 30-round steel box magazine for use with the TDI Vector",
+    "name": { "str": "Vector .45 magazine" },
+    "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector.",
     "weight": "210 g",
     "volume": "500 ml",
     "price": 1800,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 30,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
   },
   {
     "id": "thompson_bigmag",
@@ -67,15 +64,14 @@
     "volume": "750 ml",
     "price": 4000,
     "price_postapoc": 200,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 30,
-    "reliability": 8,
     "reload_time": 120,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 30 } } ]
   },
   {
     "id": "thompson_drum",
@@ -87,15 +83,14 @@
     "volume": "1 L",
     "price": 8000,
     "price_postapoc": 500,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 50,
-    "reliability": 7,
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 50 } } ]
   },
   {
     "id": "thompson_mag",
@@ -107,14 +102,13 @@
     "volume": "500 ml",
     "price": 3000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 20,
-    "reliability": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 20 } } ]
   },
   {
     "id": "thompson_makeshiftmag",
@@ -134,14 +128,13 @@
     "volume": "500 ml",
     "price": 4950,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 25,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 25 } } ]
   },
   {
     "id": "ump45_makeshiftmag",
@@ -161,14 +154,13 @@
     "volume": "250 ml",
     "price": 5900,
     "price_postapoc": 100,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 12,
-    "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ]
   },
   {
     "id": "ppq45mag",
@@ -180,14 +172,13 @@
     "volume": "240 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 12,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 12 } } ]
   },
   {
     "id": "hptjhpmag",
@@ -199,13 +190,12 @@
     "volume": "353 ml",
     "price": 2500,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45" ],
     "capacity": 9,
-    "reliability": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 9 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 9 } } ]
   }
 ]

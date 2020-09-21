@@ -6,15 +6,18 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <numeric>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
 #include "crafting.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
 class JsonArray;
 class JsonIn;
 class JsonObject;
@@ -24,6 +27,7 @@ class inventory;
 class item;
 class nc_color;
 class player;
+template <typename E> struct enum_traits;
 
 enum class available_status : int {
     a_true = +1, // yes, it's available
@@ -90,7 +94,7 @@ struct tool_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -108,7 +112,7 @@ struct item_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
@@ -147,8 +151,9 @@ struct quality_requirement {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
+    std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
@@ -157,17 +162,15 @@ struct quality_requirement {
     }
 };
 
-enum class requirement_display_flags {
+enum class requirement_display_flags : int {
     none = 0,
     no_unavailable = 1,
 };
 
-inline constexpr requirement_display_flags operator&( requirement_display_flags l,
-        requirement_display_flags r )
-{
-    return static_cast<requirement_display_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+template<>
+struct enum_traits<requirement_display_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 /**
  * The *_vector members represent list of alternatives requirements:
@@ -220,6 +223,21 @@ struct requirement_data {
                           const alter_item_comp_vector &components ) : tools( tools ), qualities( qualities ),
             components( components ) {}
 
+        template <
+            typename Container,
+            typename = std::enable_if_t <
+                std::is_same <
+                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
+                std::is_same <
+                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                >
+            >
+        requirement_data( const Container &cont ) :
+            requirement_data(
+                std::accumulate(
+                    cont.begin(), cont.end(), requirement_data() ) )
+        {}
+
         const requirement_id &id() const {
             return id_;
         }
@@ -243,6 +261,11 @@ struct requirement_data {
 
         /** Combines two sets of requirements */
         requirement_data operator+( const requirement_data &rhs ) const;
+        /** Incorporate data from an id and integer.
+         * This is helpful when building requirement_data objects from maps
+         * loaded from JSON */
+        requirement_data operator+( const std::pair<const requirement_id, int> &rhs ) const;
+        requirement_data operator+( const std::pair<requirement_id, int> &rhs ) const;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
@@ -317,7 +340,7 @@ struct requirement_data {
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, std::string hilite = "",
+                int batch = 1, const std::string &hilite = "",
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
@@ -435,11 +458,11 @@ class deduped_requirement_data
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const std::function<bool( const item & )> &filter, int batch = 1,
+            Character &, const std::function<bool( const item & )> &filter, int batch = 1,
             craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const inventory &, const std::function<bool( const item & )> &filter,
+            Character &, const inventory &, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         bool can_make_with_inventory(

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CONDITION_H
 #define CATA_SRC_CONDITION_H
 
+#include <algorithm>
 #include <functional>
 #include <string>
 #include <unordered_set>
@@ -9,6 +10,9 @@
 #include "dialogue.h"
 #include "json.h"
 #include "mission.h"
+
+struct dialogue;
+struct mission_goal_condition_context;
 
 namespace dialogue_data
 {
@@ -20,7 +24,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "has_no_available_mission", "has_available_mission", "has_many_available_missions",
         "mission_complete", "mission_incomplete", "mission_has_generic_rewards",
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
-        "npc_train_skills", "npc_train_styles",
+        "npc_train_skills", "npc_train_styles", "npc_train_spells",
         "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
@@ -40,7 +44,8 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override",
         "npc_cbm_reserve_rule", "npc_cbm_recharge_rule",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
-        "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var"
+        "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
+        "u_compare_time_since_var", "npc_compare_time_since_var"
     }
 };
 } // namespace dialogue_data
@@ -75,6 +80,8 @@ struct conditional_t {
         void set_has_trait_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_compare_time_since_var( const JsonObject &jo, const std::string &member,
+                                         bool is_npc = false );
         void set_has_activity( bool is_npc = false );
         void set_is_riding( bool is_npc = false );
         void set_npc_has_class( const JsonObject &jo );
@@ -118,6 +125,7 @@ struct conditional_t {
         void set_npc_hostile();
         void set_npc_train_skills();
         void set_npc_train_styles();
+        void set_npc_train_spells();
         void set_at_safe_space();
         void set_can_stow_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );

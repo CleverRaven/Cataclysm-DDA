@@ -8,6 +8,7 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -15,6 +16,7 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -63,6 +65,9 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -95,7 +100,7 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) > 0;
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
 bool Character::has_trait_flag( const std::string &b ) const
@@ -125,19 +130,42 @@ void Character::toggle_trait( const trait_id &trait_ )
     const trait_id trait = trait_;
     const auto titer = my_traits.find( trait );
     const auto miter = my_mutations.find( trait );
-    if( titer == my_traits.end() ) {
+    const bool not_found_in_traits = titer == my_traits.end();
+    const bool not_found_in_mutations = miter == my_mutations.end();
+    if( not_found_in_traits ) {
         my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+    // Checking this after toggling my_traits, if we exit the two are now consistent.
+    if( not_found_in_traits != not_found_in_mutations ) {
         debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
         return;
     }
-    if( miter == my_mutations.end() ) {
+    if( not_found_in_mutations ) {
         set_mutation( trait );
     } else {
         unset_mutation( trait );
+    }
+}
+
+void Character::set_mutations( const std::vector<trait_id> &traits )
+{
+    for( const trait_id &trait : traits ) {
+        const auto iter = my_mutations.find( trait );
+        if( iter != my_mutations.end() ) {
+            continue;
+        }
+        my_mutations.emplace( trait, trait_data{} );
+        cached_mutations.push_back( &trait.obj() );
+        mutation_effect( trait, false );
+    }
+    recalc_sight_limits();
+    calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
     }
 }
 
@@ -149,9 +177,14 @@ void Character::set_mutation( const trait_id &trait )
     }
     my_mutations.emplace( trait, trait_data{} );
     cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait );
+    mutation_effect( trait, false );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -170,23 +203,117 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
                                   bool start_powered )
 {
     unset_mutation( switched );
-    mutation_loss_effect( switched );
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target );
+}
+
+bool Character::can_power_mutation( const trait_id &mut )
+{
+    bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
+    bool thirst = mut->thirst && get_thirst() >= 260;
+    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+
+    return !hunger && !fatigue && !thirst;
+}
+
+void Character::mutation_reflex_trigger( const trait_id &mut )
+{
+    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+        return;
+    }
+
+    bool activate = false;
+
+    std::pair<translation, game_message_type> msg_on;
+    std::pair<translation, game_message_type> msg_off;
+
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+        activate = false;
+        // OR conditions: if any trigger is true then this condition is true
+        for( const reflex_activation_data &rdata : vect_rdata ) {
+            if( rdata.is_trigger_true( *this ) ) {
+                activate = true;
+                msg_on = rdata.msg_on;
+                break;
+            }
+            msg_off = rdata.msg_off;
+        }
+        // AND conditions: if any OR condition is false then this is false
+        if( !activate ) {
+            break;
+        }
+    }
+
+    if( activate && !has_active_mutation( mut ) ) {
+        activate_mutation( mut );
+        if( !msg_on.first.empty() ) {
+            add_msg_if_player( msg_on.second, msg_on.first );
+        }
+    } else if( !activate && has_active_mutation( mut ) ) {
+        deactivate_mutation( mut );
+        if( !msg_off.first.empty() ) {
+            add_msg_if_player( msg_off.second, msg_off.first );
+        }
+    }
+}
+
+bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+{
+    bool activate = false;
+
+    int var = 0;
+    switch( trigger ) {
+        case PAIN:
+            var = guy.get_pain();
+            break;
+        case HUNGER:
+            var = guy.get_hunger();
+            break;
+        case THRIST:
+            var = guy.get_thirst();
+            break;
+        case MOOD:
+            var = guy.get_morale_level();
+            break;
+        case STAMINA:
+            var = guy.get_stamina();
+            break;
+        case MOON:
+            var = static_cast<int>( get_moon_phase( calendar::turn ) );
+            break;
+        case TIME:
+            var = to_hours<int>( time_past_midnight( calendar::turn ) );
+            break;
+        default:
+            debugmsg( "Invalid trigger" );
+            return false;
+    }
+
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
+            activate = true;
+        }
+    } else {
+        if( var < threshold_high ||
+            var > threshold_low ) {
+            activate = true;
+        }
+    }
+    return activate;
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
-    auto &mod_data = mut->mods;
+    const auto &mod_data = mut->mods;
     int ret = 0;
     auto found = mod_data.find( std::make_pair( false, arg ) );
     if( found != mod_data.end() ) {
@@ -215,8 +342,8 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
-        if( it.covers( bp ) ) {
+    for( const bodypart_str_id &bp : restricts_gear ) {
+        if( it.covers( bp.id() ) ) {
             return true;
         }
     }
@@ -224,9 +351,9 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
-const resistances &mutation_branch::damage_resistance( body_part bp ) const
+const resistances &mutation_branch::damage_resistance( const bodypart_id &bp ) const
 {
-    const auto iter = armor.find( bp );
+    const auto iter = armor.find( bp.id() );
     if( iter == armor.end() ) {
         static const resistances nulres;
         return nulres;
@@ -235,20 +362,22 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-m_size calculate_size( const Character &c )
+void Character::recalculate_size()
 {
-    if( c.has_trait( trait_id( "SMALL2" ) ) || c.has_trait( trait_id( "SMALL_OK" ) ) ||
-        c.has_trait( trait_id( "SMALL" ) ) ) {
-        return MS_SMALL;
-    } else if( c.has_trait( trait_LARGE ) || c.has_trait( trait_LARGE_OK ) ) {
-        return MS_LARGE;
-    } else if( c.has_trait( trait_HUGE ) || c.has_trait( trait_HUGE_OK ) ) {
-        return MS_HUGE;
+    if( has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK ) ) {
+        size_class = creature_size::tiny;
+    } else if( has_trait( trait_SMALL ) ) {
+        size_class = creature_size::small;
+    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+        size_class = creature_size::large;
+    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+        size_class = creature_size::huge;
+    } else {
+        size_class = creature_size::medium;
     }
-    return MS_MEDIUM;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
@@ -281,11 +410,11 @@ void Character::mutation_effect( const trait_id &mut )
         apply_mods( mut, true );
     }
 
-    size_class = calculate_size( *this );
+    recalculate_size();
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -297,7 +426,7 @@ void Character::mutation_effect( const trait_id &mut )
         if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( branch.destroys_gear ) {
+        if( !worn_destroyed_override && branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
@@ -308,7 +437,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            g->m.add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos(), armor );
         }
         return true;
     } );
@@ -353,11 +482,11 @@ void Character::mutation_loss_effect( const trait_id &mut )
         apply_mods( mut, false );
     }
 
-    size_class = calculate_size( *this );
+    recalculate_size();
 
     const auto &branch = mut.obj();
-    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
-        branch.hp_adjustment != 0.0f ) {
+    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
+        branch.hp_adjustment.has_value() ) {
         recalc_hp();
     }
 
@@ -370,7 +499,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+bool Character::is_category_allowed( const std::vector<mutation_category_id> &category ) const
 {
     bool allowed = false;
     bool restricted = false;
@@ -378,7 +507,7 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
         if( !mut.obj().allowed_category.empty() ) {
             restricted = true;
         }
-        for( const std::string &Mu_cat : category ) {
+        for( const mutation_category_id &Mu_cat : category ) {
             if( mut.obj().allowed_category.count( Mu_cat ) ) {
                 allowed = true;
                 break;
@@ -393,12 +522,12 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
 
 }
 
-bool Character::is_category_allowed( const std::string &category ) const
+bool Character::is_category_allowed( const mutation_category_id &category ) const
 {
     bool allowed = false;
     bool restricted = false;
     for( const trait_id &mut : get_mutations() ) {
-        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+        for( const mutation_category_id &Ch_cat : mut.obj().allowed_category ) {
             restricted = true;
             if( Ch_cat == category ) {
                 allowed = true;
@@ -474,9 +603,7 @@ void Character::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
+    if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );
@@ -501,21 +628,26 @@ void Character::activate_mutation( const trait_id &mut )
             mod_fatigue( cost );
         }
         tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
         recalc_sight_limits();
+    }
+
+    if( !mut->enchantments.empty() ) {
+        recalculate_enchantment_cache();
     }
 
     if( mdata.transform ) {
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+
+        if( !mdata.transform->msg_transform.empty() ) {
+            add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+        }
         return;
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), field_type_id( "fd_web" ), 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
@@ -575,8 +707,9 @@ void Character::activate_mutation( const trait_id &mut )
         }
         // Check for adjacent trees.
         bool adjacent_tree = false;
-        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( "TREE", p2 ) ) {
+        map &here = get_map();
+        for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
+            if( here.has_flag( "TREE", p2 ) ) {
                 adjacent_tree = true;
             }
         }
@@ -625,8 +758,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        g->refresh_all();
-        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( *this, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -644,6 +776,14 @@ void Character::deactivate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+    }
+
+    if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
+        add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+    }
+
+    if( !mut->enchantments.empty() ) {
+        recalculate_enchantment_cache();
     }
 }
 
@@ -708,10 +848,10 @@ void Character::mutate()
     }
 
     // Determine the highest mutation category
-    std::string cat = get_highest_category();
+    mutation_category_id cat = get_highest_category();
 
     if( !is_category_allowed( cat ) ) {
-        cat.clear();
+        cat = mutation_category_id();
     }
 
     // See if we should upgrade/extend an existing mutation...
@@ -788,7 +928,7 @@ void Character::mutate()
         }
     } else {
         // Remove existing mutations that don't fit into our category
-        if( !downgrades.empty() && !cat.empty() ) {
+        if( !downgrades.empty() && !cat.str().empty() ) {
             size_t roll = rng( 0, downgrades.size() + 4 );
             if( roll < downgrades.size() ) {
                 remove_mutation( downgrades[roll] );
@@ -805,10 +945,10 @@ void Character::mutate()
         // there, try again with empty category
         // CHAOTIC_BAD lets the game pull from any category by default
         if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
-            cat.clear();
+            cat = mutation_category_id();
         }
 
-        if( cat.empty() ) {
+        if( cat.str().empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                 if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
@@ -834,7 +974,7 @@ void Character::mutate()
             // So we won't repeat endlessly
             first_pass = false;
         }
-    } while( valid.empty() && !cat.empty() );
+    } while( valid.empty() && !cat.str().empty() );
 
     if( valid.empty() ) {
         // Couldn't find anything at all!
@@ -849,11 +989,11 @@ void Character::mutate()
     }
 }
 
-void Character::mutate_category( const std::string &cat )
+void Character::mutate_category( const mutation_category_id &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
-    if( cat == "ANY" ) {
+    if( cat == mutation_category_id( "ANY" ) ) {
         mutate();
         return;
     }
@@ -1069,7 +1209,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
 
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
@@ -1088,7 +1228,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
     }
@@ -1110,7 +1250,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
     }
@@ -1129,7 +1269,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
+        get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
     set_mutation( mut );
@@ -1137,6 +1277,67 @@ bool Character::mutate_towards( const trait_id &mut )
     set_highest_cat_level();
     drench_mut_calc();
     return true;
+}
+
+bool Character::has_conflicting_trait( const trait_id &flag ) const
+{
+    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
+             has_same_type_trait( flag ) );
+}
+
+bool Character::has_lower_trait( const trait_id &flag ) const
+{
+    for( const trait_id &i : flag->prereqs ) {
+        if( has_trait( i ) || has_lower_trait( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_higher_trait( const trait_id &flag ) const
+{
+    for( const auto &i : flag->replacements ) {
+        if( has_trait( i ) || has_higher_trait( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_same_type_trait( const trait_id &flag ) const
+{
+    for( auto &i : get_mutations_in_types( flag->types ) ) {
+        if( has_trait( i ) && flag != i ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::purifiable( const trait_id &flag ) const
+{
+    return flag->purifiable;
+}
+
+/// Returns a randomly selected dream
+std::string Character::get_category_dream( const mutation_category_id &cat,
+        int strength ) const
+{
+    std::vector<dream> valid_dreams;
+    //Pull the list of dreams
+    for( auto &i : dreams ) {
+        //Pick only the ones matching our desired category and strength
+        if( ( i.category == cat ) && ( i.strength == strength ) ) {
+            // Put the valid ones into our list
+            valid_dreams.push_back( i );
+        }
+    }
+    if( valid_dreams.empty() ) {
+        return "";
+    }
+    const dream &selected_dream = random_entry( valid_dreams );
+    return random_entry( selected_dream.messages() );
 }
 
 void Character::remove_mutation( const trait_id &mut, bool silent )
@@ -1171,7 +1372,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1193,7 +1394,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     // Duplicated for prereq2
     if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1299,7 +1500,7 @@ bool Character::has_child_flag( const trait_id &flag ) const
 
 void Character::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : flag->replacements ) {
+    for( const auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
@@ -1335,9 +1536,9 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
         if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
             guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
             guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( guy.pos(), t_fungus );
+            get_map().ter_set( guy.pos(), t_fungus );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
@@ -1368,7 +1569,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male",
                               "Burned out a particularly nasty fungal infestation." ),
                     pgettext( "memorial_female",
@@ -1379,7 +1580,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                    it.tname() );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                     pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
             }
@@ -1394,7 +1595,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
-    g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
+    get_event_bus().send<event_type::administers_mutagen>( guy.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
@@ -1419,13 +1620,13 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         return;
     }
 
-    std::string mutation_category = m_category.id;
+    mutation_category_id mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
         total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
-    const std::string &primary = guy.get_highest_category();
+    const mutation_category_id &primary = guy.get_highest_category();
     int breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
@@ -1436,7 +1637,8 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         // Alpha is similarly eclipsed by other mutation categories.
         // Will add others if there's serious/demonstrable need.
         int booster = 0;
-        if( mutation_category == "URSINE"  || mutation_category == "ALPHA" ) {
+        if( mutation_category == mutation_category_id( "URSINE" ) ||
+            mutation_category == mutation_category_id( "ALPHA" ) ) {
             booster = 50;
         }
         int breacher = breach_power + booster;
@@ -1444,11 +1646,12 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             guy.add_msg_if_player( m_good,
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
             guy.set_mutation( mutation_thresh );
-            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
+            get_event_bus().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
+            if( mutation_category == mutation_category_id( "URSINE" ) &&
+                guy.has_trait( trait_CARNIVORE ) ) {
                 guy.unset_mutation( trait_CARNIVORE );
                 guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }

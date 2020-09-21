@@ -96,8 +96,10 @@ void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, cht
               chtype bl, chtype br );
 void mvwhline( const window &win, const point &p, chtype ch, int n );
 void mvwvline( const window &win, const point &p, chtype ch, int n );
+void wnoutrefresh( const window &win );
 void wrefresh( const window &win );
 void refresh();
+void doupdate();
 void wredrawln( const window &win, int beg_line, int num_lines );
 void mvwprintw( const window &win, const point &p, const std::string &text );
 template<typename ...Args>

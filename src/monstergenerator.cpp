@@ -1,6 +1,3 @@
-#include "mattack_common.h" // IWYU pragma: associated
-#include "monstergenerator.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cstdlib>
 #include <set>
@@ -8,6 +5,7 @@
 
 #include "assign.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
@@ -20,10 +18,13 @@
 #include "item_group.h"
 #include "json.h"
 #include "mattack_actors.h"
+#include "mattack_common.h" // IWYU pragma: associated
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "mongroup.h"
+#include "monstergenerator.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
@@ -31,6 +32,12 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
+
+namespace behavior
+{
+class node_t;
+}  // namespace behavior
 
 namespace io
 {
@@ -83,7 +90,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_VENOM: return "VENOM";
         case MF_BADVENOM: return "BADVENOM";
         case MF_PARALYZE: return "PARALYZEVENOM";
-        case MF_BLEED: return "BLEED";
         case MF_WEBWALK: return "WEBWALK";
         case MF_DIGS: return "DIGS";
         case MF_CAN_DIG: return "CAN_DIG";
@@ -215,7 +221,7 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-    : mon_templates( "monster type", "id", "alias" )
+    : mon_templates( "monster type" )
     , mon_species( "species" )
 {
     mon_templates->insert( mtype() );
@@ -260,26 +266,26 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume &vol )
+static creature_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
-        return MS_TINY;
+        return creature_size::tiny;
     } else if( vol <= 46250_ml ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( vol <= 77500_ml ) {
-        return MS_MEDIUM;
+        return creature_size::medium;
     } else if( vol <= 483750_ml ) {
-        return MS_LARGE;
+        return creature_size::large;
     }
-    return MS_HUGE;
+    return creature_size::huge;
 }
 
 struct monster_adjustment {
     species_id species;
     std::string stat;
-    float stat_adjust;
+    float stat_adjust = 0.0f;
     std::string flag;
-    bool flag_val;
+    bool flag_val = false;
     std::string special;
     void apply( mtype &mon );
 };
@@ -339,12 +345,17 @@ static void build_behavior_tree( mtype &type )
     if( type.has_flag( MF_ABSORBS ) || type.has_flag( MF_ABSORBS_SPLITS ) ) {
         type.add_goal( "absorb_items" );
     }
+    for( const std::pair<const std::string, mtype_special_attack> &attack : type.special_attacks ) {
+        if( string_id<behavior::node_t>( attack.first ).is_valid() ) {
+            type.add_goal( attack.first );
+        } /* TODO: Make this an error once all the special attacks are migrated. */
+    }
 }
 
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
-    for( const auto &elem : mon_templates->get_all() ) {
+    for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
         apply_species_attributes( mon );
         set_species_ids( mon );
@@ -383,6 +394,12 @@ void MonsterGenerator::finalize_mtypes()
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
+
+        //If the result monster is blacklisted no need to have the original monster look like it can revive
+        if( !mon.zombify_into.is_empty() &&
+            MonsterGroupManager::monster_is_blacklisted( mon.zombify_into ) ) {
+            mon.zombify_into = mtype_id();
+        }
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
@@ -427,11 +444,11 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
 
 void MonsterGenerator::init_phases()
 {
-    phase_map["NULL"] = PNULL;
-    phase_map["SOLID"] = SOLID;
-    phase_map["LIQUID"] = LIQUID;
-    phase_map["GAS"] = GAS;
-    phase_map["PLASMA"] = PLASMA;
+    phase_map["NULL"] = phase_id::PNULL;
+    phase_map["SOLID"] = phase_id::SOLID;
+    phase_map["LIQUID"] = phase_id::LIQUID;
+    phase_map["GAS"] = phase_id::GAS;
+    phase_map["PLASMA"] = phase_id::PLASMA;
 }
 
 void MonsterGenerator::init_death()
@@ -650,7 +667,7 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
     return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                             e.get_bool( "affect_hit_bp", false ),
-                            get_body_part_token( e.get_string( "bp", "NUM_BP" ) ),
+                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
                             e.get_bool( "permanent", false ),
                             e.get_int( "chance", 100 ) );
 }
@@ -708,7 +725,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "volume", volume, strict, 0_ml );
     assign( jo, "weight", weight, strict, 0_gram );
 
-    optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ), SOLID );
+    optional( jo, was_loaded, "phase", phase, make_flag_reader( gen.phase_map, "phase id" ),
+              phase_id::SOLID );
 
     assign( jo, "diff", difficulty_base, strict, 0 );
     assign( jo, "hp", hp, strict, 1 );
@@ -748,6 +766,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
+    optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+              mtype_id() );
+
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
@@ -770,7 +791,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     int bonus_cut = 0;
     if( jo.has_int( "melee_cut" ) ) {
         bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( DT_CUT, bonus_cut );
+        melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
     if( jo.has_member( "death_drops" ) ) {
@@ -903,7 +924,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
     if( jo.has_member( "path_settings" ) ) {
-        auto jop = jo.get_object( "path_settings" );
+        JsonObject jop = jo.get_object( "path_settings" );
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
@@ -1099,7 +1120,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
                       id.c_str(), name );
         }
     }
-    auto new_attack = mtype_special_attack( iter->second );
+    mtype_special_attack new_attack = mtype_special_attack( iter->second );
     new_attack.actor->cooldown = inner.get_int( 1 );
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
@@ -1146,14 +1167,14 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s is flagged milkable, but has no starting ammo", mon.id.c_str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
-            !item( mon.starting_ammo.begin()->first ).made_of( LIQUID ) ) {
+            !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
             debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
             debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
         }
-        for( auto &spec : mon.species ) {
+        for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
             }
@@ -1162,7 +1183,7 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
-        for( auto &m : mon.mat ) {
+        for( const material_id &m : mon.mat ) {
             if( m.str() == "null" || !m.is_valid() ) {
                 debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
             }
@@ -1171,6 +1192,10 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
         }
+        if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
+            debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
+                      mon.zombify_into.c_str() );
+        }
         if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
                       mon.mech_weapon.c_str() );
@@ -1178,6 +1203,9 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !mon.harvest.is_valid() ) {
+            debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
@@ -1189,12 +1217,12 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
-        for( auto &s : mon.starting_ammo ) {
+        for( const std::pair<const itype_id, int> &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }
         }
-        for( auto &e : mon.atk_effs ) {
+        for( const mon_effect_data &e : mon.atk_effs ) {
             if( !e.id.is_valid() ) {
                 debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon.id.c_str() );
             }

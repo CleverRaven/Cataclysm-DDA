@@ -2,8 +2,8 @@
   {
     "id": "armor_acidchitin",
     "type": "requirement",
-    "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.  In the future when we have some bases, we should also add the requirement for a weak base to neutralize the chitin before crafting with it.",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "acidchitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
@@ -17,7 +17,7 @@
     "id": "armor_chitin",
     "type": "requirement",
     "//": "Shaping and attaching a chitin plate to something, per 90 g of chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
@@ -164,7 +164,7 @@
     "type": "requirement",
     "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {

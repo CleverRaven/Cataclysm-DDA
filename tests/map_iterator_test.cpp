@@ -1,11 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 
-#include "catch/catch.hpp"
+#include "coordinates.h"
 #include "map_iterator.h"
 #include "point.h"
 
-std::array<tripoint, 9> range_1_2d_centered = {
+static std::array<tripoint, 9> range_1_2d_centered = {
     {   {tripoint_north_west}, { tripoint_north}, { tripoint_north_east},
         {tripoint_west}, { tripoint_zero}, { tripoint_east},
         {tripoint_south_west}, { tripoint_south}, { tripoint_south_east}
@@ -14,13 +16,14 @@ std::array<tripoint, 9> range_1_2d_centered = {
 
 TEST_CASE( "Radius one 2D square centered at origin." )
 {
-    for( const tripoint &candidate : tripoint_range( tripoint_north_west, tripoint_south_east ) ) {
+    for( const tripoint &candidate :
+         tripoint_range<tripoint>( tripoint_north_west, tripoint_south_east ) ) {
         REQUIRE( std::find( range_1_2d_centered.begin(), range_1_2d_centered.end(), candidate ) !=
                  range_1_2d_centered.end() );
     }
 }
 
-std::array<tripoint, 9> range_1_2d_offset = {
+static std::array<tripoint, 9> range_1_2d_offset = {
     {   {-5, -5, 0}, {-4, -5, 0}, {-3, -5, 0},
         {-5, -4, 0}, {-4, -4, 0}, {-3, -4, 0},
         {-5, -3, 0}, {-4, -3, 0}, {-3, -3, 0}
@@ -29,13 +32,22 @@ std::array<tripoint, 9> range_1_2d_offset = {
 
 TEST_CASE( "Radius one 2D square centered at -4/-4/0." )
 {
-    for( const tripoint &candidate : tripoint_range( {-5, -5, 0}, {-3, -3, 0} ) ) {
+    for( const tripoint &candidate : tripoint_range<tripoint>( {-5, -5, 0}, {-3, -3, 0} ) ) {
         REQUIRE( std::find( range_1_2d_offset.begin(), range_1_2d_offset.end(), candidate ) !=
                  range_1_2d_offset.end() );
     }
 }
 
-std::array<tripoint, 343> range_3_3d_offset = {
+TEST_CASE( "Radius one 2D square centered at -4/-4/0 in abs_omt coords." )
+{
+    for( const tripoint_abs_omt &candidate :
+         tripoint_range<tripoint_abs_omt>( {-5, -5, 0}, {-3, -3, 0} ) ) {
+        REQUIRE( std::find( range_1_2d_offset.begin(), range_1_2d_offset.end(), candidate.raw() ) !=
+                 range_1_2d_offset.end() );
+    }
+}
+
+static std::array<tripoint, 343> range_3_3d_offset = {
     {   { 5, 5, -2}, { 6, 5, -2}, { 7, 5, -2}, { 8, 5, -2}, { 9, 5, -2}, {10, 5, -2}, {11, 5, -2},
         { 5, 6, -2}, { 6, 6, -2}, { 7, 6, -2}, { 8, 6, -2}, { 9, 6, -2}, {10, 6, -2}, {11, 6, -2},
         { 5, 7, -2}, { 6, 7, -2}, { 7, 7, -2}, { 8, 7, -2}, { 9, 7, -2}, {10, 7, -2}, {11, 7, -2},
@@ -96,7 +108,7 @@ std::array<tripoint, 343> range_3_3d_offset = {
 
 TEST_CASE( "Radius three 3D square centered at 8/8/1." )
 {
-    for( const tripoint &candidate : tripoint_range( {5, 5, -2}, {11, 11, 4} ) ) {
+    for( const tripoint &candidate : tripoint_range<tripoint>( {5, 5, -2}, {11, 11, 4} ) ) {
         REQUIRE( std::find( range_3_3d_offset.begin(), range_3_3d_offset.end(), candidate ) !=
                  range_3_3d_offset.end() );
     }

@@ -96,7 +96,7 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
     } );
 }
 
-inline int newline( cata_cursesport::WINDOW *win )
+static inline int newline( cata_cursesport::WINDOW *win )
 {
     if( win->cursor.y < win->height - 1 ) {
         win->cursor.y++;
@@ -108,7 +108,7 @@ inline int newline( cata_cursesport::WINDOW *win )
 
 // move the cursor a single cell, jumps to the next line if the
 // end of a line has been reached, also sets the touched flag.
-inline void addedchar( cata_cursesport::WINDOW *win )
+static inline void addedchar( cata_cursesport::WINDOW *win )
 {
     win->cursor.x++;
     win->line[win->cursor.y].touched = true;
@@ -181,8 +181,7 @@ void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
     wattroff( win, BORDER_COLOR );
 }
 
-//Refreshes a window, causing it to redraw on top.
-void catacurses::wrefresh( const window &win_ )
+void catacurses::wnoutrefresh( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     // TODO: log win == nullptr
@@ -191,10 +190,22 @@ void catacurses::wrefresh( const window &win_ )
     }
 }
 
+//Refreshes a window, causing it to redraw on top.
+void catacurses::wrefresh( const window &win )
+{
+    wnoutrefresh( win );
+    doupdate();
+}
+
 //Refreshes the main window, causing it to redraw on top.
 void catacurses::refresh()
 {
     return wrefresh( stdscr );
+}
+
+void catacurses::doupdate()
+{
+    refresh_display();
 }
 
 void catacurses::wredrawln( const window &/*win*/, int /*beg_line*/, int /*num_lines*/ )
@@ -209,7 +220,7 @@ void catacurses::wredrawln( const window &/*win*/, int /*beg_line*/, int /*num_l
 
 // Get a sequence of Unicode code points, store them in target
 // return the display width of the extracted string.
-inline int fill( const char *&fmt, int &len, std::string &target )
+static inline int fill( const char *&fmt, int &len, std::string &target )
 {
     const char *const start = fmt;
     int dlen = 0; // display width
@@ -247,7 +258,7 @@ inline int fill( const char *&fmt, int &len, std::string &target )
 // The current cell of the window, pointed to by the cursor. The next character
 // written to that window should go in this cell.
 // Returns nullptr if the cursor is invalid (outside the window).
-inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
+static inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
 {
     if( win->cursor.y >= win->height || win->cursor.x >= win->width ) {
         return nullptr;
@@ -256,7 +267,7 @@ inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
 }
 
 //The core printing function, prints characters to the array, and sets colors
-inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
+static inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
 {
     using cata_cursesport::cursecell;
     win->draw = true;
@@ -381,7 +392,6 @@ void catacurses::werase( const window &win_ )
     }
     win->draw = true;
     wmove( win_, point_zero );
-    //    wrefresh(win);
     handle_additional_window_clear( win );
 }
 

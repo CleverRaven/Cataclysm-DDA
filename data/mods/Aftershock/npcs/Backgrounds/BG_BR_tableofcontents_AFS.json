@@ -1,0 +1,146 @@
+[
+  {
+    "id": "TALK_FRIEND_CONVERSATION",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RECENT_MUTATION_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RECENT_MUTATION_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_4_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_4" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_UPLIFTED_ANIMAL_5_STORY1",
+        "condition": { "npc_has_trait": "BGSS_UPLIFTED_ANIMAL_5" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RADIATION_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RADIATION_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_RADIATION_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RADIATION_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_SELFTEST_STORY1",
+        "condition": { "npc_has_trait": "BGSS_SELFTEST" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_VATGROWN_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_VATGROWN_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CRIMINAL_EXPERIMENT_STORY1",
+        "condition": { "npc_has_trait": "BGSS_CRIMINAL_EXPERIMENT" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_AFTERLIFE_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_RADIATION_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_MIGO_1_STORY1",
+        "condition": { "npc_has_trait": "BGRS_MIGO_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_MIGO_2_STORY1",
+        "condition": { "npc_has_trait": "BGRS_MIGO_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_MIGO_3_STORY1",
+        "condition": { "npc_has_trait": "BGRS_MIGO_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_SCHIZO_1_STORY1",
+        "condition": { "npc_has_trait": "BGRS_SCHIZO_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_SCHIZO_2_STORY1",
+        "condition": { "npc_has_trait": "BGRS_SCHIZO_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_Dreamer_STORY1",
+        "condition": { "npc_has_trait": "BGRS_Dreamer" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGRS_Bonesinger_STORY1",
+        "condition": { "npc_has_trait": "BGRS_Bonesinger" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GANGER_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_GANGER_1" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GANGER_2_STORY1",
+        "condition": { "npc_has_trait": "BGSS_GANGER_2" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_GANGER_3_STORY1",
+        "condition": { "npc_has_trait": "BGSS_GANGER_3" },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_CYBERNINJA_STORY1",
+        "condition": { "npc_has_trait": "BGSS_CYBERNINJA" },
+        "switch": true
+      }
+    ]
+  }
+]

@@ -1,7 +1,57 @@
 TODO: document the "npc" structure, used to load NPC template
+# Creating new NPCs
+Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
+
+There are two parts to creating a new NPC, apart from any dialogue you may want to add.  
+First there is the `npc_class` which follows the following template.
+Format:
+```json
+{
+  "type": "npc_class",
+  "id": "NC_EXAMPLE",
+  "name": { "str": "Example NPC" },
+  "job_description": "I'm helping you learn the game.",
+  "common": false,
+  "bonus_str": { "rng": [ -4, 0 ] },
+  "bonus_dex": { "rng": [ -2, 0 ] },
+  "bonus_int": { "rng": [ 1, 5 ] },
+  "skills": [
+    {
+      "skill": "ALL",
+      "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+    }
+  ],
+  "worn_override": "NC_EXAMPLE_worn",
+  "carry_override": "NC_EXAMPLE_carried",
+  "weapon_override": "NC_EXAMPLE_weapon",
+  "shopkeeper_item_group": "example_shopkeeper_itemgroup",
+  "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+}
+```
+There are a couple of items in the above template that may not be self explanatory. `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified. `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+There is a second template required for a new NPC. It looks like this:
+Format:
+```json
+{
+  "type": "npc",
+  "id": "examplicious",
+  "//": "The luckiest NPC to never experience the Cataclysm.",
+  "name_suffix": "examplar",
+  "class": "NC_EXAMPLE",
+  "attitude": 0,
+  "mission": 7,
+  "chat": "TALK_EXAMPLE",
+  "faction": "no_faction"
+}
+```
+This is the JSON that creates the NPC ID that is used to spawn an NPC in "mapgen" (map generation).
+Attitude is based on the enum in npc.h. The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK", 3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE.
+Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP", and 7=NPC_MISSION_GUARD", 8 = NPC_MISSION_GUARD_PATROL will actively investigate noises".
+Chat is covered in the dialogue examples below.
+Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
 
 # Writing dialogues
-Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
+Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
 Note that it is perfectly fine to have a response that switches the topic back to itself.
 
@@ -19,7 +69,7 @@ defined, and all defined topics are referenced in a response or an NPC's chat, i
 There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
 and vice versa.  Invoke it with
 ```sh
-python tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
+python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
 ```
 
 If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
@@ -426,12 +476,13 @@ Effect | Description
 `u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
-`u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, `value: value_str` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.
+`u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true`  | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num` | Your character or the NPC will adjust the stored variable by `adjustment_num`.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
+`npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
 
 #### Trade / Items
 
@@ -554,6 +605,7 @@ Condition | Type | Description
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
 `"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": value_num` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
+`"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).  *example*: `{ "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }` returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 `"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 `"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.

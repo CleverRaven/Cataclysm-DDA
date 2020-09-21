@@ -10,7 +10,7 @@
     "volume": "250 ml",
     "price": 250,
     "container": "bag_plastic",
-    "material": "powder",
+    "material": [ "powder" ],
     "symbol": "%",
     "charges": 100,
     "freezing_point": -490

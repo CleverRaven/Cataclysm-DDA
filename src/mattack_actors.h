@@ -25,16 +25,16 @@ class monster;
 class leap_actor : public mattack_actor
 {
     public:
-        float max_range;
+        float max_range = 0.0f;
         // Jump has to be at least this tiles long
-        float min_range;
+        float min_range = 0.0f;
         // Don't leap without a hostile target creature
-        bool allow_no_target;
-        int move_cost;
+        bool allow_no_target = false;
+        int move_cost = 0;
         // Range below which we don't consider jumping at all
-        float min_consider_range;
+        float min_consider_range = 0.0f;
         // Don't jump if distance to target is more than this
-        float max_consider_range;
+        float max_consider_range = 0.0f;
 
         leap_actor() = default;
         ~leap_actor() override = default;
@@ -48,9 +48,9 @@ class mon_spellcasting_actor : public mattack_actor
 {
     public:
         // is the spell beneficial to target itself?
-        bool self;
+        bool self = false;
         spell spell_data;
-        int move_cost;
+        int move_cost = 0;
 
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
@@ -80,7 +80,7 @@ class melee_actor : public mattack_actor
          * If non-empty, a body part is selected from the map to be targeted,
          * with a chance proportional to the value.
          */
-        weighted_float_list<body_part> body_parts;
+        weighted_float_list<bodypart_str_id> body_parts;
 
         /** Extra effects applied on damaging hit. */
         std::vector<mon_effect_data> effects;
@@ -115,7 +115,7 @@ class bite_actor : public melee_actor
     public:
         // one_in( this - damage dealt ) chance of getting infected
         // i.e. the higher is this, the lower chance of infection
-        int no_infection_chance;
+        int no_infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;
@@ -147,16 +147,16 @@ class gun_actor : public mattack_actor
         /** Specify weapon mode to use at different engagement distances */
         std::map<std::pair<int, int>, gun_mode_id> ranges;
 
-        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
+        int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
-        std::string description;
+        translation description;
 
         /** Message to display (if any) for failures to fire excluding lack of ammo */
-        std::string failure_msg;
+        translation failure_msg;
 
-        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
-        std::string no_ammo_sound;
+        /** Sound (if any) when either ammo depleted or max_ammo reached */
+        translation no_ammo_sound;
 
         /** Number of moves required for each attack */
         int move_cost = 150;
@@ -173,7 +173,7 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** Default turns after which targeting is lost and needs repeating */
         int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
-        std::string targeting_sound;
+        translation targeting_sound;
         int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */

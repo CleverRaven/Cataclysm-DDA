@@ -176,21 +176,5 @@
     "description": "Durable silica-coated chitin plating made for a vehicle.",
     "material": [ "acidchitin" ],
     "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "bone_plate",
-    "symbol": "]",
-    "color": "white",
-    "name": { "str": "bone armor kit" },
-    "description": "Bone plating made for a vehicle.",
-    "price": 1200,
-    "price_postapoc": 100,
-    "material": [ "bone" ],
-    "weight": "4000 g",
-    "volume": "9500 ml",
-    "bashing": 8,
-    "to_hit": -4,
-    "category": "veh_parts"
   }
 ]

@@ -4,6 +4,7 @@
     "type": "field_type",
     "legacy_enum_id": 5,
     "immune_mtypes": [ "mon_spider_gum" ],
+    "decrease_intensity_on_contact": true,
     "intensity_levels": [
       {
         "name": "flimsy gum webs",
@@ -12,7 +13,7 @@
         "effects": [
           {
             "effect_id": "gummed",
-            "intensity": 1,
+            "intensity": 2,
             "min_duration": "2 seconds",
             "immune_in_vehicle": true,
             "is_environmental": false,
@@ -27,7 +28,7 @@
         "effects": [
           {
             "effect_id": "gummed",
-            "intensity": 2,
+            "intensity": 4,
             "min_duration": "20 seconds",
             "immune_in_vehicle": true,
             "is_environmental": false,
@@ -43,7 +44,7 @@
         "effects": [
           {
             "effect_id": "gummed",
-            "intensity": 3,
+            "intensity": 6,
             "min_duration": "40 seconds",
             "immune_in_vehicle": true,
             "is_environmental": false,
@@ -57,7 +58,6 @@
     "description_affix": "covered_in",
     "priority": 2,
     "phase": "solid",
-    "half_life": "2 h",
     "bash": {
       "str_min": 1,
       "str_max": 3,

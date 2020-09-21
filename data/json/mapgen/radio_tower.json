@@ -297,9 +297,9 @@
       "place_loot": [
         { "group": "camping", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "blanket", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "can_drink_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "can_drink", "x": 1, "y": [ 0, 1 ], "chance": 30, "repeat": [ 2, 3 ] },
+        { "item": "can_food", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "item": "can_food", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
         { "item": "sleeping_bag", "x": 1, "y": 1, "chance": 40 }
       ]
     }
@@ -315,7 +315,7 @@
         { "item": "corpse", "x": 1, "y": 0 },
         { "group": "mon_zombie_soldier_death_drops", "x": 1, "y": 0 },
         { "item": "survivor_scope", "x": 1, "y": 0, "chance": 70 },
-        { "item": "can_drink_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "can_drink", "x": 1, "y": [ 0, 1 ], "chance": 70, "repeat": [ 2, 3 ] },
         { "item": "3006", "x": 1, "y": 0, "chance": 40 },
         { "item": "remington_700", "x": 1, "y": 0, "chance": 80, "ammo": 100 }
       ]

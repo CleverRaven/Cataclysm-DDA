@@ -1,22 +1,23 @@
-#include <algorithm>
+#include "catch/catch.hpp"
+#include "overmap.h"
+
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "common_types.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "omdata.h"
-#include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
-#include "point.h"
 #include "type_id.h"
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
-    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_zero );
+    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
 
     // By default there are no scents set.
     for( int x = 0; x < 180; ++x ) {
@@ -36,7 +37,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
 TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 {
     int overmaps_to_construct = 10;
-    for( const point &candidate_addr : closest_points_first( point_zero, 10 ) ) {
+    for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr ) ) {
             continue;
@@ -44,7 +45,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const auto &special_placement : test_specials ) {
-            auto special = special_placement.special_details;
+            const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
             CHECK( special->occurrences.min <= special_placement.instances_placed );
@@ -57,7 +58,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
-    const point origin = point_zero;
+    const point_abs_om origin{};
 
     overmap_special mandatory;
     overmap_special optional;

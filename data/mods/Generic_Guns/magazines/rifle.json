@@ -16,7 +16,7 @@
     "id": "rifle_mag",
     "copy-from": "falbigmag",
     "type": "MAGAZINE",
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "name": "standard rifle magazine",
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
     "ammo_type": [ "ammo_rifle" ]

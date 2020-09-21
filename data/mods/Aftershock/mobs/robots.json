@@ -11,7 +11,7 @@
     "weight": "40750 g",
     "hp": 45,
     "speed": 100,
-    "material": "alien_resin",
+    "material": [ "alien_resin" ],
     "symbol": "2",
     "color": "green",
     "aggression": 100,
@@ -19,6 +19,7 @@
     "armor_bash": 14,
     "armor_cut": 16,
     "vision_day": 50,
+    "starting_ammo": { "acidic_bore": 500 },
     "revert_to_itype": "bot_migoturret",
     "special_attacks": [
       [ "PARROT", 0 ],
@@ -33,6 +34,15 @@
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_migoturret_whately",
+    "type": "MONSTER",
+    "name": { "str": "Whately family brain blaster" },
+    "description": "The Whately family deploys mi-go style techno-organic defensive turrets.  They claim that these turrets are made from family members near death, but you have doubts.",
+    "default_faction": "whately",
+    "copy-from": "afs_mon_migoturret",
+    "aggression": 1
   },
   {
     "id": "mon_chickenbot",
@@ -195,7 +205,7 @@
       {
         "type": "gun",
         "cooldown": 15,
-        "gun_type": "afs_sentinel_laser",
+        "gun_type": "afs_sentinel_laser_mon",
         "ranges": [ [ 0, 12, "DEFAULT" ] ],
         "targeting_sound": "\"Dispatching hostile with lethal force.\""
       }

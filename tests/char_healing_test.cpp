@@ -1,12 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "avatar.h"
-#include "effect.h"
+#include "calendar.h"
+#include "character.h"
 #include "options.h"
 #include "player.h"
 #include "type_id.h"
-
-#include "catch/catch.hpp"
 
 // Tests for Character healing, including:
 //
@@ -36,7 +37,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_disinfected( "disinfected" );
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
-static void give_one_trait( player &dummy, const std::string trait_name )
+static void give_one_trait( player &dummy, const std::string &trait_name )
 {
     const trait_id trait( trait_name );
     dummy.clear_mutations();
@@ -51,7 +52,6 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
     dummy.set_healthy( healthy_value );
     return dummy.healing_rate( rest_quality );
 }
-
 
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
@@ -258,37 +258,37 @@ TEST_CASE( "health effects on healing rate", "[heal][health]" )
 // using a local avatar instance to avoid any cross-contamination. Tests may be contagious!
 
 // Return `healing_rate_medicine` for an untreated body part at a given rest quality
-static float untreated_rate( const std::string bp_name, const float rest_quality )
+static float untreated_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
     return dummy.healing_rate_medicine( rest_quality, bodypart_id( bp_name ) );
 }
 
 // Return `healing_rate_medicine` for a `bandaged` body part at a given rest quality
-static float bandaged_rate( const std::string bp_name, const float rest_quality )
+static float bandaged_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
 // Return `healing_rate_medicine` for a `disinfected` body part at a given rest quality
-static float disinfected_rate( const std::string bp_name, const float rest_quality )
+static float disinfected_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
 // Return `healing_rate_medicine` for a `bandaged` AND `disinfected` body part at a given rest quality
-static float together_rate( const std::string bp_name, const float rest_quality )
+static float together_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
     const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 

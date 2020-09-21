@@ -19,8 +19,11 @@ struct tripoint;
 // player is looking at is lit.
 // For non-opaque tiles direction doesn't matter so we just use the single
 // default_ value.
-enum class quadrant {
-    NE, SE, SW, NW,
+enum class quadrant : int {
+    NE,
+    SE,
+    SW,
+    NW,
     default_ = NE
 };
 
@@ -37,7 +40,10 @@ struct four_quadrants {
         return values[static_cast<int>( q )];
     }
     void fill( float v ) {
-        std::fill( values.begin(), values.end(), v );
+        values[0] = v;
+        values[1] = v;
+        values[2] = v;
+        values[3] = v;
     }
     float max() const {
         return *std::max_element( values.begin(), values.end() );
@@ -47,7 +53,7 @@ struct four_quadrants {
     friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
-                        result.values.begin(), std::multiplies<float>() );
+                        result.values.begin(), std::multiplies<>() );
         return result;
     }
 

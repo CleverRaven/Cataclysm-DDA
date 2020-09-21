@@ -10,7 +10,7 @@
     "broken_color": "red",
     "durability": 120,
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
-    "folded_volume": 25,
+    "folded_volume": "6250 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 9 ] },
       { "item": "steel_chunk", "count": [ 6, 9 ] },
@@ -30,7 +30,7 @@
     "name": { "str": "motorbike battery" },
     "item": "battery_motorbike",
     "durability": 100,
-    "folded_volume": 5,
+    "folded_volume": "1250 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -44,7 +44,7 @@
     "name": { "str": "motorbike battery, small" },
     "item": "battery_motorbike_small",
     "durability": 30,
-    "folded_volume": 3,
+    "folded_volume": "750 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -87,7 +87,7 @@
     "item": "medium_storage_battery",
     "difficulty": 1,
     "durability": 250,
-    "folded_volume": 10,
+    "folded_volume": "2500 ml",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
@@ -103,7 +103,7 @@
     "item": "small_storage_battery",
     "difficulty": 1,
     "durability": 100,
-    "folded_volume": 2,
+    "folded_volume": "500 ml",
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },

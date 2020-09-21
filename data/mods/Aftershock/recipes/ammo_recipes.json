@@ -1,0 +1,19 @@
+[
+  {
+    "type": "recipe",
+    "result": "afs_foamcrete",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "45 m",
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [
+      [ [ "oxy_powder", 20 ] ],
+      [ [ "afs_biomaterial_1", 4 ] ],
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
+      [ [ "concrete", 10 ], [ "chitin_piece", 6 ] ]
+    ]
+  }
+]

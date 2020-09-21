@@ -1,6 +1,5 @@
 #include "disease.h"
 
-#include "assign.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "string_id.h"
@@ -31,18 +30,15 @@ void disease_type::load( const JsonObject &jo, const std::string & )
 {
     disease_type new_disease;
 
-    assign( jo, "id", id );
-    assign( jo, "min_duration", min_duration );
-    assign( jo, "max_duration", max_duration );
-    assign( jo, "min_intensity", min_intensity );
-    assign( jo, "max_intensity", max_intensity );
-    assign( jo, "health_threshold", health_threshold );
-    assign( jo, "symptoms", symptoms );
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "min_duration", min_duration );
+    mandatory( jo, was_loaded, "max_duration", max_duration );
+    mandatory( jo, was_loaded, "min_intensity", min_intensity );
+    mandatory( jo, was_loaded, "max_intensity", max_intensity );
+    mandatory( jo, was_loaded, "symptoms", symptoms );
 
-    JsonArray jsr = jo.get_array( "affected_bodyparts" );
-    while( jsr.has_more() ) {
-        new_disease.affected_bodyparts.emplace( get_body_part_token( jsr.next_string() ) );
-    }
+    optional( jo, was_loaded, "health_threshold", health_threshold );
+    optional( jo, was_loaded, "affected_bodyparts", affected_bodyparts );
 
 }
 

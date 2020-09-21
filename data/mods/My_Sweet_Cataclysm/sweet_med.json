@@ -8,12 +8,12 @@
     "weight": "375 g",
     "volume": "250 ml",
     "price": 600,
-    "material": "sugar",
+    "material": [ "sugar" ],
     "symbol": "~",
     "color": "brown",
     "charges": 3,
     "stack_size": 9,
     "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
-    "use_action": { "type": "heal", "bandages_power": 15, "bleed": 1, "move_cost": 300 }
+    "use_action": { "type": "heal", "bandages_power": 15, "bleed": 30, "move_cost": 300 }
   }
 ]

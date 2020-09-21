@@ -72,7 +72,7 @@
           { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 },
           { "damage_type": "bash", "amount": 9, "armor_multiplier": 0.7 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
         "cooldown": 10
       }
     ],
@@ -122,7 +122,6 @@
       "KEENNOSE",
       "PATH_AVOID_DANGER_1",
       "ANIMAL",
-      "BLEED",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
       "CATTLEFODDER"
@@ -170,7 +169,6 @@
       "PATH_AVOID_DANGER_1",
       "GROUP_MORALE",
       "ANIMAL",
-      "BLEED",
       "ATTACKMON",
       "SWIMS"
     ]

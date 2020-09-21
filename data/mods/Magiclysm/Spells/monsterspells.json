@@ -59,7 +59,7 @@
     "description": "Spreads toxic gas around itself.",
     "valid_targets": [ "self", "hostile", "ground" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
-    "damage_type": "bio",
+    "damage_type": "biological",
     "min_damage": 1,
     "max_damage": 1,
     "max_level": 5,
@@ -83,6 +83,7 @@
     "id": "mon_demon_fireball",
     "name": "Demon Fireball",
     "description": "This is a monster only spell.",
+    "flags": [ "IGNITE_FLAMMABLE" ],
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "min_damage": 15,
     "max_damage": 15,
@@ -92,7 +93,7 @@
     "max_aoe": 2,
     "base_casting_time": 120,
     "effect": "projectile_attack",
-    "damage_type": "fire"
+    "damage_type": "heat"
   },
   {
     "type": "SPELL",

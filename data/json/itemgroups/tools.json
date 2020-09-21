@@ -3,7 +3,15 @@
     "id": "tools_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by blacksmiths",
-    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
+    "items": [
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ],
+      [ "hammer", 90 ],
+      [ "sandpaper", 90 ]
+    ]
   },
   {
     "id": "tools_carpentry",
@@ -16,8 +24,9 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
-      [ "toolbox", 12 ],
-      [ "toolbox_workshop", 3 ]
+      { "group": "tools_toolbox", "prob": 12 },
+      { "group": "tools_workshop", "prob": 3 },
+      [ "sandpaper", 100 ]
     ]
   },
   {
@@ -31,8 +40,8 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 20 ],
-      [ "toolbox_workshop", 5 ],
+      { "group": "tools_toolbox", "prob": 20 },
+      { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
       [ "angle_grinder", 30 ]
     ]
@@ -62,7 +71,48 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 80 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 25 ]
+    ]
+  },
+  {
+    "id": "tools_toolbox",
+    "type": "item_group",
+    "//": "A typical toolbox filled with tools.",
+    "subtype": "collection",
+    "container-item": "toolbox_empty",
+    "items": [
+      [ "hammer", 80 ],
+      [ "screwdriver_set", 65 ],
+      [ "wrench", 75 ],
+      [ "funnel", 50 ],
+      [ "metal_file", 40 ],
+      [ "sandpaper", 65 ]
+    ]
+  },
+  {
+    "id": "tools_workshop",
+    "type": "item_group",
+    "//": "A typical toolbox filled with tools.",
+    "subtype": "collection",
+    "container-item": "toolbox_empty",
+    "items": [
+      [ "hammer", 80 ],
+      [ "screwdriver_set", 65 ],
+      [ "wrench", 75 ],
+      [ "funnel", 50 ],
+      [ "metal_file", 40 ],
+      [ "sandpaper", 65 ],
+      [ "hacksaw", 30 ],
+      [ "saw", 65 ],
+      [ "pin_reamer", 18 ],
+      [ "clamp", 30 ],
+      [ "boxcutter", 20 ],
+      [ "nailgun", 15 ],
+      [ "circsaw_off", 25 ],
+      [ "cordless_drill", 45 ]
     ]
   },
   {
@@ -85,7 +135,12 @@
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
-      [ "tourist_table", 1 ]
+      [ "tourist_table", 1 ],
+      [ "sandpaper", 50 ],
+      [ "plastic_sheet", 50 ],
+      [ "shovel_snow", 10 ],
+      [ "shovel_snow_plastic", 15 ],
+      [ "hose_garden", 20 ]
     ]
   },
   {
@@ -137,7 +192,11 @@
       [ "trimmer_off", 20 ],
       [ "scythe", 40 ],
       [ "shovel", 120 ],
-      [ "sickle", 40 ]
+      [ "sickle", 40 ],
+      [ "rake", 20 ],
+      [ "rake_plastic", 40 ],
+      [ "shovel_snow", 20 ],
+      [ "shovel_snow_plastic", 40 ]
     ]
   },
   {
@@ -168,7 +227,8 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ]
     ]
   },
   {
@@ -208,8 +268,8 @@
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
-      [ "toolbox", 4 ],
-      [ "toolbox_workshop", 1 ]
+      { "group": "tools_toolbox", "prob": 4 },
+      { "group": "tools_workshop", "prob": 1 }
     ]
   },
   {
@@ -309,7 +369,7 @@
       [ "pur_tablets", 10 ],
       [ "ref_lighter", 20 ],
       [ "signal_flare", 20 ],
-      [ "sm_extinguisher", 20 ],
+      { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "whistle", 20 ],
       [ "hand_crank_charger", 15 ],
       [ "flint_steel", 5 ],
@@ -359,8 +419,8 @@
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
       [ "hotplate", 5 ],
-      [ "jar_glass", 5 ],
-      [ "jar_3l_glass", 5 ],
+      [ "jar_glass_sealed", 5 ],
+      [ "jar_3l_glass_sealed", 5 ],
       [ "magnifying_glass", 5 ],
       [ "thermometer", 5 ],
       [ "geiger_off", 3 ],
@@ -427,7 +487,7 @@
       [ "misc_repairkit", 15 ],
       [ "welder", 10 ],
       [ "soldering_iron", 8 ],
-      [ "extinguisher", 10 ],
+      { "item": "extinguisher", "prob": 10, "charges": 100 },
       [ "magnifying_glass", 10 ],
       [ "multitool", 20 ],
       [ "screwdriver_set", 20 ],
@@ -437,8 +497,8 @@
       [ "element", 5 ],
       [ "light_battery_cell", 10 ],
       [ "goggles_welding", 20 ],
-      [ "sm_extinguisher", 10 ],
-      [ "toolbox", 5 ],
+      { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
+      { "group": "tools_toolbox", "prob": 5 },
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
       [ "wrench", 10 ]

@@ -1,8 +1,6 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
-
-from __future__ import print_function
 
 import sys
 import argparse
@@ -16,16 +14,18 @@ Example usages:
 
     %(prog)s material=plastic material=steel
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("--all",
-        action="store_true",
-        help="if set, includes all matches. if not set, includes first match in the stream.")
-parser.add_argument("where",
-        action=WhereAction, nargs='+', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
-
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "--all",
+    action="store_true",
+    help="if set, includes all matches. if not set, includes first match in the stream.")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='+', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:
@@ -58,6 +58,6 @@ if __name__ == "__main__":
         # TODO: get rid of ugh
         print("[")
         for i, p in enumerate(plucked):
-            eol = ",\n" if i < len(plucked)-1 else "\n"
+            eol = ",\n" if i < len(plucked) - 1 else "\n"
             print(CDDAJSONWriter(p, 1).dumps(), end=eol)
         print("]")

@@ -63,14 +63,14 @@
     "id": "scream_mush",
     "type": "COMESTIBLE",
     "copy-from": "mushroom",
-    "name": "scream mushroom",
+    "name": { "str": "scream mushroom" },
     "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
     "price": 1400
   },
   {
     "id": "purified_meat",
     "type": "COMESTIBLE",
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "copy-from": "meat",
     "name": "purified meat",
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
@@ -79,7 +79,7 @@
   {
     "id": "impure_meat",
     "type": "COMESTIBLE",
-    "flags": "NUTRIENT_OVERRIDE",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "copy-from": "mutant_meat",
     "name": "impure meat",
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",

@@ -16,6 +16,14 @@
       { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "monster": "mon_claygolem", "freq": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "freq": 4, "cost_multiplier": 5 },
+      {
+        "monster": "mon_loup_garou",
+        "freq": 4,
+        "cost_multiplier": 5,
+        "conditions": [ "NIGHT" ],
+        "pack_size": [ 2, 4 ],
+        "starts": 1500
+      },
       { "monster": "mon_irongolem", "freq": 2, "cost_multiplier": 8 },
       { "monster": "mon_demon_spiderling", "freq": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] }
     ]
@@ -43,6 +51,16 @@
       { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_shrieker", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_lemure", "freq": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_POLYMORPH_SHADOW",
+    "default": "mon_shadow",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_shadow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_shadow_snake", "freq": 10, "cost_multiplier": 1 }
     ]
   },
   {
@@ -114,5 +132,50 @@
       { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_STANDARD",
+    "default": "mon_goblin_warrior",
+    "monsters": [
+      { "monster": "mon_goblin_warrior", "freq": 35, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goblin_slinger", "freq": 65, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_ADVANCED",
+    "default": "mon_goblin_chieftain",
+    "monsters": [ { "monster": "mon_goblin_chieftain", "freq": 40, "cost_multiplier": 1 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGE_STANDARD",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_forgeborn", "freq": 10, "cost_multiplier": 10 },
+      { "monster": "mon_forgemaster1", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_forgemaster2", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_forgemaster3", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGEDEMONS",
+    "default": "mon_forgedemons",
+    "monsters": [ { "monster": "mon_forgedemons", "freq": 100, "cost_multiplier": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGE_DWARVES",
+    "default": "mon_forgedwarves",
+    "monsters": [ { "monster": "mon_forgedwarves", "freq": 100, "cost_multiplier": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGE_AUTOMATA",
+    "default": "mon_forgeborn",
+    "monsters": [ { "monster": "mon_forgeborn", "freq": 100, "cost_multiplier": 3 } ]
   }
 ]

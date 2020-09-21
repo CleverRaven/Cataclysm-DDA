@@ -1,9 +1,14 @@
 #include "catch/catch.hpp"
-
-#include "item.h"
 #include "item_contents.h"
 
-#include <sstream>
+#include <string>
+
+#include "item.h"
+#include "item_pocket.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
 
 TEST_CASE( "item_contents" )
 {
@@ -17,10 +22,27 @@ TEST_CASE( "item_contents" )
     item wrench( "wrench" );
     item crowbar( "crowbar" );
 
-    tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
-    tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
-    tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
-    tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
+    ret_val<bool> i1 = tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
+    ret_val<bool> i2 = tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
+    ret_val<bool> i3 = tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
+    ret_val<bool> i4 = tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
+
+    {
+        CAPTURE( i1.str() );
+        CHECK( i1.success() );
+    }
+    {
+        CAPTURE( i2.str() );
+        CHECK( i2.success() );
+    }
+    {
+        CAPTURE( i3.str() );
+        CHECK( i3.success() );
+    }
+    {
+        CAPTURE( i4.str() );
+        CHECK( i4.success() );
+    }
 
     // check the items actually got added to the tool belt
     REQUIRE( tool_belt.contents.num_item_stacks() == 4 );

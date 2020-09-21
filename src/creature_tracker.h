@@ -3,24 +3,26 @@
 #define CATA_SRC_CREATURE_TRACKER_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
-#include <unordered_map>
 #include <set>
+#include <unordered_map>
 #include <vector>
 
+#include "int_id.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
-class monster;
 class JsonIn;
 class JsonOut;
+class monster;
 
 class Creature_tracker
 {
     private:
 
-        void add_to_faction_map( shared_ptr_fast<monster> critter );
+        void add_to_faction_map( const shared_ptr_fast<monster> &critter );
 
         class weak_ptr_comparator
         {
@@ -31,8 +33,8 @@ class Creature_tracker
                 }
         };
 
-        std::unordered_map<mfaction_id, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>
-                monster_faction_map_;
+        std::unordered_map<mfaction_id, std::map<int, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>>
+        monster_faction_map_;
 
         /**
          * Creatures that get removed via @ref remove are stored here until the end of the turn.
@@ -64,7 +66,7 @@ class Creature_tracker
          * @return Whether the operation was successful. It may fail if there is already
          * another monster at the location of the new monster.
          */
-        bool add( shared_ptr_fast<monster> critter );
+        bool add( const shared_ptr_fast<monster> &critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */

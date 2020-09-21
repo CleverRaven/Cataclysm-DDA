@@ -1,7 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <string>
+#include <regex>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
@@ -63,7 +65,7 @@ static float bodyweight_kg_at_bmi( player &dummy, float bmi )
 }
 
 // Clear player traits and give them a single trait by name
-static void set_single_trait( player &dummy, std::string trait_name )
+static void set_single_trait( player &dummy, const std::string &trait_name )
 {
     dummy.clear_mutations();
     dummy.toggle_trait( trait_id( trait_name ) );
@@ -71,7 +73,7 @@ static void set_single_trait( player &dummy, std::string trait_name )
 }
 
 // Return player `metabolic_rate_base` with a given mutation
-static float metabolic_rate_with_mutation( player &dummy, std::string trait_name )
+static float metabolic_rate_with_mutation( player &dummy, const std::string &trait_name )
 {
     set_single_trait( dummy, trait_name );
     return dummy.metabolic_rate_base();
@@ -87,7 +89,8 @@ static int bmr_at_act_level( player &dummy, float activity_level )
 }
 
 // Return player `height()` with a given base height and size trait (SMALL, MEDIUM, LARGE, HUGE).
-static int height_with_base_and_size( player &dummy, int base_height, std::string size_trait )
+static int height_with_base_and_size( player &dummy, int base_height,
+                                      const std::string &size_trait )
 {
     clear_character( dummy );
     dummy.mod_base_height( base_height - dummy.base_height() );
@@ -239,7 +242,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
         REQUIRE( dummy.base_height() == init_height );
 
         WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "height is initial height" ) {
                 CHECK( dummy.height() == init_height );
@@ -248,7 +251,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become SMALL" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they are 50cm shorter" ) {
                 CHECK( dummy.height() == init_height - 50 );
@@ -257,7 +260,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become LARGE" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they are 50cm taller" ) {
                 CHECK( dummy.height() == init_height + 50 );
@@ -266,7 +269,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become HUGE" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they are 100cm taler" ) {
                 CHECK( dummy.height() == init_height + 100 );
@@ -312,8 +315,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
-
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~49-107kg" ) {
                 // BMI [16-35] is "Emaciated/Underweight" to "Obese/Very Obese"
@@ -325,7 +327,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is small" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "bodyweight varies from ~25-55kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 25.0f ).margin( 0.1f ) );
@@ -336,7 +338,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is large" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "bodyweight varies from ~81-177kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 81.0f ).margin( 0.1f ) );
@@ -347,7 +349,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is huge" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "bodyweight varies from ~121-265kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 121.0f ).margin( 0.1f ) );
@@ -365,8 +367,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
             REQUIRE_FALSE( dummy.has_trait( trait_id( "SMALL" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "LARGE" ) ) );
             REQUIRE_FALSE( dummy.has_trait( trait_id( "HUGE" ) ) );
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
-
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "bodyweight varies from ~57-126kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0 ) == Approx( 57.8 ).margin( 0.1f ) );
@@ -377,7 +378,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is small" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "bodyweight varies from ~31-68kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 31.4f ).margin( 0.1f ) );
@@ -388,7 +389,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is large" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "bodyweight varies from ~92-201kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 92.16f ).margin( 0.1f ) );
@@ -399,7 +400,7 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
         WHEN( "character is huge" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "bodyweight varies from ~134-294kg" ) {
                 CHECK( bodyweight_kg_at_bmi( dummy, 16.0f ) == Approx( 134.6f ).margin( 0.1f ) );
@@ -416,10 +417,10 @@ TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity
     // Activity level is a floating-point number, but only set to discrete values:
     //
     // NO_EXERCISE = 1.2f;
-    // LIGHT_EXERCISE = 1.375f;
-    // MODERATE_EXERCISE = 1.55f;
-    // ACTIVE_EXERCISE = 1.725f;
-    // EXTRA_EXERCISE = 1.9f;
+    // LIGHT_EXERCISE = 2.0f;
+    // MODERATE_EXERCISE = 4.5f;
+    // ACTIVE_EXERCISE = 8.0f;
+    // EXTRA_EXERCISE = 10.0f;
 
     // Functions tested:
     // activity_level_str (return string constant for each range)
@@ -494,9 +495,69 @@ TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity
     }
 }
 
+// Return a string with multiple consecutive spaces replaced with a single space
+static std::string condensed_spaces( const std::string &text )
+{
+    std::regex spaces( " +" );
+    return std::regex_replace( text, spaces, " " );
+}
+
+// Make avatar have a given activity level for a certain time, returning to NO_EXERCISE when done
+static void test_activity_duration( avatar &dummy, const float at_level,
+                                    const time_duration &how_long )
+{
+    // Pass time at this level, updating body each turn
+    for( int turn = 0; turn < to_turns<int>( how_long ); ++turn ) {
+        // Make sure activity level persists (otherwise may be reset after 5 minutes)
+        dummy.increase_activity_level( at_level );
+        calendar::turn += 1_turns;
+        dummy.update_body();
+    }
+    // Stop exercising
+    dummy.decrease_activity_level( NO_EXERCISE );
+}
+
+TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][activity][diary]" )
+{
+    // Typical spring start, day 61
+    calendar::turn = calendar::turn_zero + 60_days;
+
+    avatar dummy;
+    clear_character( dummy );
+
+    SECTION( "shows all zero at start of day 61" ) {
+        CHECK( condensed_spaces( dummy.total_daily_calories_string() ) ==
+               "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
+               "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
+    }
+
+    SECTION( "shows time at each activity level for the current day" ) {
+        dummy.reset_activity_level();
+        test_activity_duration( dummy, NO_EXERCISE, 1_hours );
+        test_activity_duration( dummy, LIGHT_EXERCISE, 45_minutes );
+        test_activity_duration( dummy, MODERATE_EXERCISE, 30_minutes );
+        test_activity_duration( dummy, BRISK_EXERCISE, 20_minutes );
+        test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
+        test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
+
+        // Spent calories are randomized; get expected spent/net from expected gain
+        int expect_gained_kcal = 1286; // FIXME: Could this be random too?
+        int expect_net_kcal = dummy.get_stored_kcal() - 55000;
+        int expect_spent_kcal = expect_gained_kcal - expect_net_kcal;
+
+        CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
+                   "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
+                   "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+                   "<color_c_light_gray> 61 60 45 30 20 15 10 %d %d</color><color_c_light_blue> %d</color>\n",
+                   expect_gained_kcal, expect_spent_kcal, expect_net_kcal ) );
+    }
+}
+
 TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger
     // rate per 5 minutes". With no metabolism-affecting mutations, metabolism should be this value.
@@ -533,6 +594,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
 TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Basal metabolic rate depends on size (height), bodyweight (BMI), and activity level
     // scaled by metabolic base rate. Assume default metabolic rate.
@@ -549,49 +611,49 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
     // CHECK expressions have expected value on the left hand side for better readability.
 
     SECTION( "normal body size" ) {
-        REQUIRE( dummy.get_size() == MS_MEDIUM );
+        REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 2087 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 2696 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 3304 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 1738 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 6952 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 17380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 4174 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 5391 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 6608 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 13904 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 34760 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 1044 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 1348 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 1652 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 869 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 8690 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
     SECTION( "small body size" ) {
         set_single_trait( dummy, "SMALL" );
-        REQUIRE( dummy.get_size() == MS_SMALL );
+        REQUIRE( dummy.get_size() == creature_size::small );
 
-        CHECK( 1262 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 1630 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 1998 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 1051 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 4204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 10510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 
     SECTION( "large body size" ) {
         set_single_trait( dummy, "LARGE" );
-        REQUIRE( dummy.get_size() == MS_LARGE );
+        REQUIRE( dummy.get_size() == creature_size::large );
 
-        CHECK( 3062 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 3955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 4848 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 2551 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 10204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 25510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 }
 

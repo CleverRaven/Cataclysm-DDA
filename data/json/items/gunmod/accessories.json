@@ -83,7 +83,7 @@
     "integral_volume": "0 ml",
     "price": 2000,
     "price_postapoc": 50,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "accessories",

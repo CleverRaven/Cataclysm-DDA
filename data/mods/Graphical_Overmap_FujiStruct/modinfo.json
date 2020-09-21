@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Graphical_Overmap_Fujistruct",
+    "id": "Graphical_Overmap_Fujistruct",
     "name": "Graphical Overmap Fujistruct",
     "authors": [ "Kilvoctu" ],
     "maintainers": [ "Kilvoctu" ],

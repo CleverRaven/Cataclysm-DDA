@@ -34,7 +34,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban",
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
@@ -46,7 +46,6 @@
         "_": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
-        "x": "t_console_broken",
         "F": "t_chainfence",
         "f": "t_chainfence",
         "G": "t_chaingate_l",
@@ -54,6 +53,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "x": "f_console_broken",
         "o": "f_bookcase",
         "d": "f_desk",
         "h": "f_chair",
@@ -177,7 +177,7 @@
         "ss                      "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban",
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
@@ -190,7 +190,6 @@
         "R": "t_pavement",
         "&": "t_radio_tower",
         "s": "t_sidewalk",
-        "x": "t_console_broken",
         "F": "t_chainfence",
         "f": "t_chainfence",
         "G": "t_chaingate_l",
@@ -199,6 +198,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "x": "f_console_broken",
         "o": "f_bookcase",
         "d": "f_desk",
         "h": "f_chair",

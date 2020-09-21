@@ -3,27 +3,27 @@
 #define CATA_SRC_CLZONES_H
 
 #include <cstddef>
+#include <functional>
 #include <map>
+#include <memory>
+#include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <functional>
-#include <memory>
-#include <string>
-#include <set>
 
+#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
-#include "memory_fast.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
-class item;
+class JsonOut;
 class faction;
+class item;
 class map;
 struct construction;
 
@@ -256,7 +256,7 @@ class zone_data
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   shared_ptr_fast<zone_options> _options = nullptr ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -382,7 +382,7 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  shared_ptr_fast<zone_options> options = nullptr );
+                  const shared_ptr_fast<zone_options> &options = nullptr );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone );

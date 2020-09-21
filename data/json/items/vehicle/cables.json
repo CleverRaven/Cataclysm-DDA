@@ -16,7 +16,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": "CABLE_ATTACH",
+    "use_action": [ "CABLE_ATTACH" ],
     "flags": [ "CABLE_SPOOL" ]
   },
   {
@@ -36,7 +36,8 @@
     "price_postapoc": 500,
     "max_charges": 6,
     "initial_charges": 6,
-    "use_action": "TOW_ATTACH",
+    "use_action": [ "TOW_ATTACH" ],
+    "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE" ]
   },
   {
@@ -56,7 +57,7 @@
     "name": { "str": "shiny cable" },
     "description": "This is the cable of the gods: 50 meters long, no power loss, light as a feather and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
     "weight": "1 g",
-    "volume": "0 ml",
+    "volume": "1 ml",
     "max_charges": 50,
     "initial_charges": 50,
     "copy-from": "jumper_cable"

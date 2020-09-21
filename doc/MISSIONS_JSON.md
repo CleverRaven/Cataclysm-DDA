@@ -171,7 +171,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 ```
 
 If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
-value as well--otherwise, the game will not know how to spawn the entire special.
+value as well--otherwise, the game will not know how to spawn the entire special. If a multitile `om_special` is used it is important to specify the exact `om_terrain` that you would like the target to appear in.  
 
 `om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
 

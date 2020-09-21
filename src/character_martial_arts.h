@@ -50,6 +50,7 @@ class character_martial_arts
         void learn_current_style_CQB( bool is_avatar );
         void learn_style( const matype_id &mastyle, bool is_avatar );
         void set_style( const matype_id &mastyle, bool force = false );
+        void clear_styles();
         /** Displays a message if the player can or cannot use the martial art */
         void martialart_use_message( const Character &owner ) const;
 

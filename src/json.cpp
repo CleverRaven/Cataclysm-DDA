@@ -2,26 +2,25 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cmath> // pow
+#include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul
+#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
 #include <iterator>
 #include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
-#include <sstream>
+#include <sstream> // IWYU pragma: keep
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "string_formatter.h"
-
-extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -119,7 +118,7 @@ void JsonObject::report_unvisited() const
                 try {
                     throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -200,7 +199,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -209,7 +208,7 @@ void JsonObject::throw_error( std::string err, const std::string &name ) const
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -217,18 +216,18 @@ void JsonArray::throw_error( std::string err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx )
 {
     if( !jsin ) {
         throw JsonError( err );
     }
-    if( idx >= 0 && size_t( idx ) < positions.size() ) {
+    if( idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err ) const
+void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -1241,7 +1240,6 @@ bool JsonIn::get_bool()
     }
     err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
-    throw JsonError( "warnings are silly" );
 }
 
 JsonObject JsonIn::get_object()
@@ -1550,14 +1548,14 @@ std::string JsonIn::line_number( int offset_modifier )
         }
     }
     std::stringstream ret;
-    ret << "line " << line << ":" << ( offset + offset_modifier );
+    ret << name << ":" << line << ":" << ( offset + offset_modifier );
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
-    err << line_number( offset ) << ": " << message;
+    err << "Json error: " << line_number( offset ) << ": " << message;
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
         throw JsonError( err.str() );
@@ -1936,7 +1934,7 @@ JsonValue JsonObject::get_member( const std::string &name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "requested non-existing member \"" + name + "\"" );
+        throw_error( "requested non-existing member \"" + name + "\" in " + str() );
     }
     mark_visited( name );
     return JsonValue( *jsin, iter->second );

@@ -14,6 +14,23 @@
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
   {
+    "id": "afs_solderers_item",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "precision solderers" },
+    "flags": [ "TRADER_AVOID" ],
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
+  },
+  {
+    "id": "afs_bio_precision_solderers",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Precision Solderers CBM" },
+    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
+    "price": 20000,
+    "difficulty": 3
+  },
+  {
     "type": "GENERIC",
     "id": "afs_hauling_space",
     "name": { "str": "hauling space" },
@@ -59,7 +76,7 @@
     "price": 100000000,
     "price_postapoc": 50000,
     "material": [ "superalloy", "kevlar" ],
-    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "material_thickness": 2,
     "encumbrance": 4,
@@ -95,7 +112,7 @@
     "price": 10000000,
     "price_postapoc": 5000,
     "material": [ "superalloy", "plastic" ],
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
+    "covers": [ "head", "eyes", "mouth" ],
     "coverage": 100,
     "material_thickness": 2,
     "encumbrance": 15,
@@ -114,10 +131,13 @@
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
     "looks_like": "depowered_helmet",
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -126,7 +146,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -154,7 +174,7 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "dark_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -173,7 +193,7 @@
     "material": [ "wool" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 100,
@@ -218,7 +238,7 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "brown",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 100,
     "encumbrance": 16,
     "warmth": 25,
@@ -240,7 +260,7 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 85,
     "encumbrance": 3,
     "max_encumbrance": 7,
@@ -266,7 +286,7 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "white",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 95,
     "encumbrance": 14,
     "warmth": 20,

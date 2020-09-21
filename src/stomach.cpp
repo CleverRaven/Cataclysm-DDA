@@ -18,6 +18,16 @@ static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 
+//size mutations now affect this, so we have to define them first
+static const trait_id trait_SMALL( "SMALL" );
+static const trait_id trait_SMALL2( "SMALL2" );
+static const trait_id trait_SMALL_OK( "SMALL_OK" );
+static const trait_id trait_LARGE( "LARGE" );
+static const trait_id trait_LARGE_OK( "LARGE_OK" );
+static const trait_id trait_HUGE( "HUGE" );
+static const trait_id trait_HUGE_OK( "HUGE_OK" );
+//done defining, the new things start at line 184
+
 void nutrients::min_in_place( const nutrients &r )
 {
     kcal = std::min( kcal, r.kcal );
@@ -118,7 +128,7 @@ stomach_contents::stomach_contents( units::volume max_vol, bool is_stomach )
     last_ate = calendar::before_time_starts;
 }
 
-static std::string ml_to_string( units::volume vol )
+static std::string ml_to_string( const units::volume &vol )
 {
     return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
@@ -157,20 +167,7 @@ void stomach_contents::deserialize( JsonIn &json )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    float max_mod = 1;
-    if( owner.has_trait( trait_GIZZARD ) ) {
-        max_mod *= 0.9;
-    }
-    if( owner.has_active_mutation( trait_HIBERNATE ) ) {
-        max_mod *= 3;
-    }
-    if( owner.has_active_mutation( trait_GOURMAND ) ) {
-        max_mod *= 2;
-    }
-    if( owner.has_trait( trait_SLIMESPAWNER ) ) {
-        max_mod *= 3;
-    }
-    return max_volume * max_mod;
+    return max_volume * owner.mutation_value( "stomach_size_multiplier" );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
@@ -274,7 +271,7 @@ void stomach_contents::mod_nutr( int nutr )
     mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
 }
 
-void stomach_contents::mod_water( units::volume h2o )
+void stomach_contents::mod_water( const units::volume &h2o )
 {
     if( h2o > 0_ml ) {
         water += h2o;
@@ -286,7 +283,7 @@ void stomach_contents::mod_quench( int quench )
     mod_water( 5_ml * quench );
 }
 
-void stomach_contents::mod_contents( units::volume vol )
+void stomach_contents::mod_contents( const units::volume &vol )
 {
     if( -vol >= contents ) {
         contents = 0_ml;

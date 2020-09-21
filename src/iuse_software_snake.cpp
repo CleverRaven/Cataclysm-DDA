@@ -81,7 +81,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
     // TODO: print actual bound keys
     center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) );
-    wrefresh( w_snake );
+    wnoutrefresh( w_snake );
 }
 
 int snake_game::start_game()
@@ -92,11 +92,11 @@ int snake_game::start_game()
     catacurses::window w_snake;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
         w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                      point( iOffsetX, iOffsetY ) );
+                                      iOffset );
 
         ui.position_from_window( w_snake );
     } );
@@ -138,7 +138,7 @@ int snake_game::start_game()
             mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
         }
         print_score( w_snake, iScore );
-        wrefresh( w_snake );
+        wnoutrefresh( w_snake );
     } );
 
     do {

@@ -20,7 +20,7 @@
     "power": -75,
     "epower": 36,
     "damage_modifier": 80,
-    "folded_volume": 5,
+    "folded_volume": "1250 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 5 ] },
       { "item": "steel_chunk", "count": [ 2, 5 ] },
@@ -45,7 +45,7 @@
     "power": -746,
     "epower": 360,
     "damage_modifier": 80,
-    "folded_volume": 5,
+    "folded_volume": "1250 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 5 ] },
       { "item": "steel_chunk", "count": [ 2, 5 ] },

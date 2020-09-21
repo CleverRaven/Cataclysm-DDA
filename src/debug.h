@@ -47,10 +47,11 @@
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
-#include <vector>
 #include <string>
-#include <utility>
 #include <type_traits>
+#include <utility>
+#include <vector>
+#include <functional>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -79,6 +80,21 @@ inline void realDebugmsg( const char *const filename, const char *const line,
     return realDebugmsg( filename, line, funcname, string_format( mes,
                          std::forward<Args>( args )... ) );
 }
+
+// A fatal error for use in constexpr functions
+// This exists for compatibility reasons.  On gcc 5.3 we need a
+// different implementation that is messier.
+// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67371
+// Pass a placeholder return value to be used on gcc 5.3 (it won't
+// actually be returned, it's just needed for the type), and then
+// args as if to debugmsg for the remaining args.
+#if defined(__GNUC__) && __GNUC__ < 6
+#define constexpr_fatal(ret, ...) \
+    do { return false ? ( ret ) : ( abort(), ( ret ) ); } while(false)
+#else
+#define constexpr_fatal(ret, ...) \
+    do { debugmsg(__VA_ARGS__); abort(); } while(false)
+#endif
 
 /**
  * Used to generate game report information.
@@ -152,7 +168,7 @@ enum DebugClass {
     DC_ALL    = ( 1 << 30 ) - 1
 };
 
-enum class DebugOutput {
+enum class DebugOutput : int {
     std_err,
     file,
 };
@@ -181,6 +197,13 @@ void limitDebugClass( int );
  * @return true if any error has been logged in this run.
  */
 bool debug_has_error_been_observed();
+
+/**
+ * Capturing debug messages during func execution,
+ * used to test debugmsg calls in the unit tests
+ * @return std::string debugmsg
+ */
+std::string capture_debugmsg_during( const std::function<void()> &func );
 
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------

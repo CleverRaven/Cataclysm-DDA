@@ -4,8 +4,8 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "TDI Vector" },
-    "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
+    "name": { "str": "Vector SMG .45" },
+    "description": "The Vector SMG is a delayed blowback submachine gun with a unique, in-line design that places both the shooter's hand and shoulder in line with the bore axis, reducing muzzle climb during bursts.  This one is chambered in .45 ACP.",
     "weight": "3100 g",
     "volume": "4248 ml",
     "longest_side": "611 mm",
@@ -27,7 +27,7 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip", 1 ],
+      [ "grip_mount", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -37,7 +37,16 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "tdi_mag" ] ] ]
+    "default_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "tdi_mag" ]
+      }
+    ]
   },
   {
     "id": "hk_ump45",
@@ -79,7 +88,15 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "m1911",
@@ -104,7 +121,16 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m1911mag", "m1911bigmag" ]
+      }
+    ]
   },
   {
     "id": "m1911_MEU",
@@ -134,7 +160,7 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "45" ],
@@ -159,7 +185,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mac10mag", "smg_45_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_45",
@@ -170,6 +204,7 @@
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": "2114 g",
     "volume": "2 L",
+    "longest_side": "100 cm",
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -186,7 +221,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -199,7 +234,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 1 } } ]
   },
   {
     "id": "smg_45",
@@ -209,13 +244,14 @@
     "name": { "str": "Luty SMG: .45", "str_pl": "Luty SMGs: .45" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
-    "weight": "3274 g",
-    "volume": "1750 ml",
+    "weight": "3520 g",
+    "volume": "1110 ml",
+    "longest_side": "538 mm",
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": -1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": [ "45" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
@@ -225,7 +261,7 @@
     "min_cycle_recoil": 456,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -239,7 +275,15 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "smg_45_mag", "mac10mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "smg_45_mag", "mac10mag" ]
+      }
+    ]
   },
   {
     "id": "surv_hand_cannon",
@@ -251,6 +295,7 @@
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": "1200 g",
     "volume": "1 L",
+    "longest_side": "30 cm",
     "price": 60000,
     "price_postapoc": 750,
     "to_hit": -3,
@@ -265,7 +310,7 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 5 } } ]
   },
   {
     "id": "tommygun",
@@ -291,7 +336,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -307,7 +352,15 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
+      }
+    ]
   },
   {
     "id": "usp_45",
@@ -321,7 +374,16 @@
     "price_postapoc": 2500,
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
-    "magazines": [ [ "45", [ "usp45mag" ] ] ]
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "usp45mag" ]
+      }
+    ]
   },
   {
     "id": "mk23",
@@ -354,7 +416,16 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 9,
-    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+    "pocket_data": [
+      {
+        "magazine_well": "240 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ppq45mag" ]
+      }
+    ]
   },
   {
     "id": "hptjhp",
@@ -375,6 +446,15 @@
     "ammo": [ "45" ],
     "dispersion": 480,
     "durability": 7,
-    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "pocket_data": [
+      {
+        "magazine_well": "353 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "hptjhpmag" ]
+      }
+    ]
   }
 ]

@@ -9,7 +9,7 @@
     "weight": "40000 g",
     "volume": "20 L",
     "price": 200000,
-    "material": "steel",
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {

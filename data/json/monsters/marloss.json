@@ -28,7 +28,7 @@
     "death_drops": "marloss_zealot_death_drops",
     "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON" ]
   },
   {
     "id": "mon_marloss_zealot_m",
@@ -59,6 +59,6 @@
     "death_drops": "marloss_zealot_death_drops",
     "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON" ]
   }
 ]

@@ -38,7 +38,7 @@
       [ "can_spam", 30 ],
       [ "salt", 10 ],
       [ "seasoning_salt", 5 ],
-      [ "jar_sauerkraut_pickled", 20 ],
+      { "item": "sauerkraut", "prob": 20, "charges": 4, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 20 ],
       [ "pemmican", 20 ]
     ]

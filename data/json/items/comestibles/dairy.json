@@ -309,7 +309,7 @@
     "price": 70,
     "price_postapoc": 150,
     "looks_like": "milk",
-    "material": "milk",
+    "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],

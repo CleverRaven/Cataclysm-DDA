@@ -5,8 +5,7 @@
     "type": "MAGAZINE",
     "name": "shotgun box magazine",
     "capacity": 8,
-    "material": "plastic",
-    "reliability": 6,
+    "material": [ "plastic" ],
     "description": "An 8 round box magazine for tactical shotguns.  Shotshells tend to not work well in box magazines due to their plastic hulls and the compression from the magazine spring.",
     "ammo_type": [ "ammo_shot" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 8 } } ]

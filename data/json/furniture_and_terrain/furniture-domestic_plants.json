@@ -14,7 +14,7 @@
       "items": [
         { "item": "withered" },
         { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "can_drink", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
         { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots" }
@@ -28,7 +28,7 @@
       "items": [
         { "item": "withered", "prob": 50 },
         { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "can_drink", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
         { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots_broken" }
@@ -50,7 +50,7 @@
       "items": [
         { "item": "withered" },
         { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "can_drink", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
         { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots" }
@@ -64,7 +64,7 @@
       "items": [
         { "item": "withered", "prob": 50 },
         { "item": "wrapper", "prob": 5 },
-        { "item": "can_drink_unsealed", "prob": 5 },
+        { "item": "can_drink", "prob": 5 },
         { "item": "bag_plastic", "prob": 5 },
         { "item": "cig_butt", "prob": 10, "count": [ 1, 10 ] },
         { "group": "flower_pots_broken" }

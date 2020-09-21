@@ -47,7 +47,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_CUT",
-    "dynamic_line": "Stand still while I get my clippers...",
+    "dynamic_line": "Stand still while I get my clippers…",
     "responses": [ { "text": "Thanks…", "topic": "TALK_DONE" } ]
   }
 ]

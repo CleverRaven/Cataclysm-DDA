@@ -9,7 +9,7 @@
     "integral_volume": "250 ml",
     "price": 480,
     "price_postapoc": 10,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": ":",
     "color": "green",
     "location": "sling",

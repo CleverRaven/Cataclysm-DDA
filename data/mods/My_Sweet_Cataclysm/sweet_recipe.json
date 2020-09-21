@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "caramel_ointement",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",

@@ -85,11 +85,13 @@ std::string help::get_dir_grid()
                            " / | \\     / | \\\n"
                            "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
 
-    for( auto dir : movearray ) {
-        std::vector<char> keys = keys_bound_to( dir );
+    for( action_id dir : movearray ) {
+        std::vector<input_event> keys = keys_bound_to( dir, /*maximum_modifier_count=*/0 );
         for( size_t i = 0; i < 2; i++ ) {
             movement = string_replace( movement, "<" + action_ident( dir ) + string_format( "_%d>", i ),
-                                       i < keys.size() ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                       i < keys.size()
+                                       ? string_format( "<color_light_blue>%s</color>",
+                                               keys[i].short_description() )
                                        : "<color_red>?</color>" );
         }
     }
@@ -117,7 +119,7 @@ void help::draw_menu( const catacurses::window &win )
                         c_white, c_light_blue, cat_name );
     }
 
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 std::string help::get_note_colors()
@@ -150,6 +152,7 @@ void help::display_help()
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
+    ctxt = input_context( "default", keyboard_mode::keychar );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -160,7 +163,7 @@ void help::display_help()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( " HELP " ), c_black_white );
-        wrefresh( w_help_border );
+        wnoutrefresh( w_help_border );
         draw_menu( w_help );
     } );
 

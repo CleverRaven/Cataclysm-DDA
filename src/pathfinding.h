@@ -42,7 +42,7 @@ struct pathfinding_cache {
     pathfinding_cache();
     ~pathfinding_cache();
 
-    bool dirty;
+    bool dirty = false;
 
     pf_special special[MAPSIZE_X][MAPSIZE_Y];
 };

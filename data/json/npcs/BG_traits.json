@@ -6,7 +6,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Confused_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Confused 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -18,7 +18,7 @@
   {
     "type": "mutation",
     "id": "BGSS_No_Past_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: No Past 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -30,7 +30,7 @@
   {
     "type": "mutation",
     "id": "BGSS_No_Past_2",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: No Past 2" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -42,7 +42,7 @@
   {
     "type": "mutation",
     "id": "BGSS_No_Past_3",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: No Past 3" },
     "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
@@ -54,7 +54,7 @@
   {
     "type": "mutation",
     "id": "BGSS_No_Past_4",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: No Past 4" },
     "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
@@ -66,7 +66,7 @@
   {
     "type": "mutation",
     "id": "BGSS_No_Past_5",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: No Past 5" },
     "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
@@ -78,7 +78,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Religious_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Religious 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -90,7 +90,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Religious_2",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Religious 2" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -102,7 +102,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Dreamer",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Dreamer 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -114,7 +114,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Wedding_1",
-    "name": { "str": "Survivor" },
+    "name": { "str": "Survivor: Wedding 1" },
     "player_display": false,
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
@@ -126,7 +126,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -138,7 +138,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_2",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 2" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -150,7 +150,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_3",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 3" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "valid": false,
@@ -161,7 +161,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_4",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 4" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -173,7 +173,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_5",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 5" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -185,7 +185,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Evacuee_6",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Evacuee 6" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -197,7 +197,7 @@
   {
     "type": "mutation",
     "id": "BGSS_FEMA_Evacuee_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: FEMA Evacuee 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -209,7 +209,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Left_for_Dead_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Left for Dead 1" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,
@@ -221,7 +221,19 @@
   {
     "type": "mutation",
     "id": "BGSS_Left_for_Dead_2",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor: Left for Dead 2" },
+    "points": 0,
+    "description": "This NPC could tell you about how they survived the Cataclysm",
+    "player_display": false,
+    "valid": false,
+    "purifiable": false,
+    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "flags": [ "BG_SURVIVAL_STORY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BGSS_Left_for_Dead_3",
+    "name": { "str": "Survivor: Left for Dead 3" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm",
     "player_display": false,

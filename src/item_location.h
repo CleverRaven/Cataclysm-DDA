@@ -81,6 +81,9 @@ class item_location
          *  @warning all further operations using this class are invalid */
         void remove_item();
 
+        /** Handles updates to the item location, mostly for caching. */
+        void on_contents_changed();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
@@ -99,6 +102,8 @@ class item_location
          * exists because calling parent_item() naively causes debug messages
          **/
         bool has_parent() const;
+
+        bool parents_can_contain_recursive( item *it ) const;
 
     private:
         class impl;

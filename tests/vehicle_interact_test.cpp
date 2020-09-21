@@ -1,18 +1,18 @@
-#include <memory>
+#include "catch/catch.hpp"
+
 #include <string>
 #include <vector>
 
-#include "avatar.h"
-#include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "character.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -23,15 +23,16 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
-    g->u.setpos( test_origin );
+    Character &player_character = get_player_character();
+    player_character.setpos( test_origin );
     const item backpack( "backpack" );
-    g->u.wear( g->u.i_add( backpack ), false );
+    player_character.wear_item( backpack );
     for( const item &gear : tools ) {
-        g->u.i_add( gear );
+        player_character.i_add( gear );
     }
 
     const tripoint vehicle_origin = test_origin + tripoint_south_east;
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
     REQUIRE( veh_ptr != nullptr );
     // Find the frame at the origin.
     vehicle_part *origin_frame = nullptr;
@@ -51,10 +52,11 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 
     requirement_data reqs = vp.repair_requirements();
     // Bust cache on crafting_inventory()
-    g->u.mod_moves( 1 );
-    inventory crafting_inv = g->u.crafting_inventory();
-    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory(),
-                      is_crafting_component );
+    player_character.mod_moves( 1 );
+    inventory crafting_inv = player_character.crafting_inventory();
+    bool can_repair = vp.repair_requirements().can_make_with_inventory(
+                          player_character.crafting_inventory(),
+                          is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }
 

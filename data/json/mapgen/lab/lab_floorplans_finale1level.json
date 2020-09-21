@@ -35,17 +35,17 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "furniture": { "7": "f_console", "C": "f_centrifuge", "?": "f_autodoc", "/": "f_autodoc_couch" },
       "terrain": {
         ",": "t_floor_blue",
-        "C": "t_centrifuge",
+        "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
-        "7": "t_console",
+        "7": "t_floor_blue",
         "r": "t_floor_blue"
       },
       "place_loot": [
-        { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ] },
+        { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ], "ammo": 100 },
         { "item": "id_science", "x": 7, "y": 11, "chance": 100 }
       ],
       "mapping": {
@@ -119,16 +119,8 @@
         "......g..........g......"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "R": "f_rack" },
-      "terrain": {
-        "C": "t_machinery_electronic",
-        "x": "t_machinery_heavy",
-        "?": "t_nanofab",
-        "r": "t_metal_floor",
-        "/": "t_nanofab_body",
-        "Y": "t_thconc_floor_olight",
-        "p": "t_metal_floor"
-      },
+      "furniture": { "C": "f_machinery_electronic", "x": "f_machinery_heavy", "R": "f_rack" },
+      "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
@@ -174,9 +166,9 @@
         ".......................-"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "R": "f_rack", "D": "f_desk" },
+      "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
+      "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "D": {
@@ -231,8 +223,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "V": "f_standing_tank" },
-      "terrain": { ",": "t_floor_blue", "V": "t_floor_blue", "C": "t_centrifuge" },
+      "furniture": { "V": "f_standing_tank", "C": "f_centrifuge" },
+      "terrain": { ",": "t_floor_blue", "V": "t_floor_blue", "C": "t_floor_blue" },
       "mapping": { "c": { "items": [ { "item": "mut_lab", "chance": 50 } ] } },
       "computers": {
         "6": {

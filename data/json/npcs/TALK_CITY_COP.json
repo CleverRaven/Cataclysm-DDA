@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "survivor_cop",
       "value": "yes",
-      "no": "STOP, Put your hands in the air! Ha, startled you didn't I…there is no law anymore...",
+      "no": "STOP, Put your hands in the air!  Ha, startled you didn't I… there is no law anymore…",
       "yes": "Hi there, <name_g>."
     },
     "responses": [
@@ -25,7 +25,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CITY_COP_INTRO",
-    "dynamic_line": "I was watching the station when things went sideways.  None of the other officers returned from the last call, well not as humans anyway...",
+    "dynamic_line": "I was watching the station when things went sideways.  None of the other officers returned from the last call, well not as humans anyway…",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_CITY_COP" },

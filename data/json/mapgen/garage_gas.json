@@ -42,9 +42,8 @@
         "+": "t_door_c",
         "-": "t_wall_w",
         "|": "t_wall_w",
-        ".": [ [ "t_grass", 3 ], [ "t_dirt", 3 ], "t_grass_long" ],
+        ".": "t_region_groundcover_urban",
         " ": "t_thconc_floor",
-        "6": "t_console_broken",
         "=": "t_door_metal_locked",
         "I": "t_column",
         "[": "t_door_glass_c",
@@ -58,6 +57,7 @@
         "w": "t_window"
       },
       "furniture": {
+        "6": "f_console_broken",
         "P": "f_indoor_plant",
         "D": "f_trashcan",
         "R": "f_trashcan",

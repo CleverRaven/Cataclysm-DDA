@@ -9,11 +9,11 @@
     "price": 0,
     "bashing": 9,
     "to_hit": -1,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
   },
   {
@@ -23,7 +23,7 @@
     "color": "light_gray",
     "name": "stone shell",
     "description": "The broken fragment of an owlbear egg.  With luck it might still contain some of its former power, though if nothing else it's still a bit sharp.",
-    "material": "stone",
+    "material": [ "stone" ],
     "weight": "250 g",
     "volume": "150 ml",
     "bashing": 5,
@@ -61,31 +61,13 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 5,
     "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
     "qualities": [ [ "MANA_FOCUS", 1 ] ]
-  },
-  {
-    "id": "stone_chisel",
-    "type": "TOOL",
-    "name": { "str": "stone chisel" },
-    "looks_like": "chisel",
-    "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
-    "weight": "660 g",
-    "volume": "250 ml",
-    "price": 1600,
-    "to_hit": 2,
-    "bashing": 2,
-    "cutting": 1,
-    "material": "stone",
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CHISEL", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "potion_starter",
@@ -116,10 +98,10 @@
     "symbol": "*",
     "color": "yellow",
     "name": "glow dust",
-    "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
-    "material": "powder",
+    "description": "The powdered remains of a will-o-wisps's physical form.  It seems to still possess an otherworldly glow.",
+    "material": [ "powder" ],
     "weight": "5 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "glow_light",
@@ -130,7 +112,7 @@
     "weight": "270 g",
     "volume": "250 ml",
     "price": 125000,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
     "use_action": {
@@ -150,7 +132,7 @@
     "weight": "270 g",
     "volume": "250 ml",
     "price": 125000,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": ",",
     "color": "light_blue",
     "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
@@ -163,9 +145,9 @@
     "color": "light_gray",
     "name": "bulette plate",
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
-    "material": "arcane_skin",
+    "material": [ "arcane_skin" ],
     "weight": "30 kg",
-    "volume": 12
+    "volume": "3 L"
   },
   {
     "id": "bulette_pearl",
@@ -174,9 +156,9 @@
     "color": "red",
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
-    "material": "stone",
+    "material": [ "stone" ],
     "weight": "120 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "dragon_essence",
@@ -217,7 +199,7 @@
     "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
     "price": 0,
-    "material": "demon_chitin",
+    "material": [ "demon_chitin" ],
     "weight": "89 g",
     "volume": "250 ml",
     "bashing": 1,
@@ -232,7 +214,7 @@
     "color": "red",
     "name": "demon chitin plate",
     "price": 15225,
-    "material": "demon_chitin",
+    "material": [ "demon_chitin" ],
     "weight": "10 kg",
     "volume": "4 L",
     "bashing": 12,
@@ -277,8 +259,9 @@
     "symbol": "*",
     "color": "blue",
     "name": "mana dust",
-    "description": "Crystallized mana in powdered form.  It faintly pulses with arcane energy.",
-    "material": "powder",
-    "volume": "100 ml"
+    "description": "Crystalized mana in powdered form.  It faintly pulses with arcane energy.",
+    "material": [ "powder" ],
+    "volume": "100 ml",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

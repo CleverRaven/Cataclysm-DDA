@@ -16,6 +16,12 @@ function just_json
     return 0
 }
 
+# Enable GitHub actions problem matchers
+# (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
+echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
+echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
+echo "::add-matcher::build-scripts/problem-matchers/json.json"
+
 if which travis_retry &>/dev/null
 then
     travis_retry=travis_retry
@@ -23,9 +29,11 @@ else
     travis_retry=
 fi
 
-if just_json; then
-    export JUST_JSON=true
-    export CODE_COVERAGE=""
+if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]; then
+    if just_json; then
+        export JUST_JSON=true
+        export CODE_COVERAGE=""
+    fi
 fi
 
 set -x
@@ -72,8 +80,7 @@ if [ -n "${MXE_TARGET}" ]; then
 fi
 
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  brew update
-  brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
+  HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
 fi
 
 if [[ "$NATIVE" == "android" ]]; then

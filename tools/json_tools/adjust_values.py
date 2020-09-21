@@ -14,9 +14,8 @@ def gen_new(path):
     with open(path, "r") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
-            if "ammo_type" in jo and type(jo["ammo_type"]) != list and jo["type"] == "MAGAZINE":
-                ammo_list = [jo["ammo_type"]]
-                jo["ammo_type"] = ammo_list
+            if "reliability" in jo and jo["type"] == "MAGAZINE":
+                del jo["reliability"]
                 change = True
 
     return json_data if change else None
@@ -27,7 +26,7 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         path = os.path.join(root, filename)
         if path.endswith(".json"):
             new = gen_new(path)
-            if new != None:
+            if new is not None:
                 with open(path, "w") as jf:
                     json.dump(new, jf, ensure_ascii=False)
                 os.system(f"./tools/format/json_formatter.cgi {path}")

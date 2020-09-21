@@ -8,7 +8,8 @@
     "//": "http://www.guns.com/2012/05/17/remington-xm2010-army-sniper-system-esr-now-in-stores/.",
     "description": "A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 Winchester Magnum round.  The M2010 had completely replaced the M24 rifle series by 2017.",
     "weight": "5443 g",
-    "volume": "7143 ml",
+    "volume": "6182 ml",
+    "longest_side": "1187 mm",
     "price": 1701000,
     "price_postapoc": 3750,
     "to_hit": -1,
@@ -18,9 +19,17 @@
     "dispersion": 90,
     "durability": 8,
     "min_cycle_recoil": 4770,
-    "barrel_length": "500 ml",
-    "magazines": [ [ "300", [ "m2010mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "barrel_volume": "500 ml",
+    "flags": [ "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "m2010mag" ]
+      }
+    ]
   },
   {
     "id": "weatherby_5",
@@ -32,6 +41,7 @@
     "description": "The Weatherby Mark V is one of the finest bolt action rifles.  Designed in 1955 by Roy Weatherby and Fred Jennie, it has a strong action designed to safely fire high-pressure cartridges.  These rifles were presented to celebrities as part of a marketing campaign.",
     "weight": "3730 g",
     "volume": "3761 ml",
+    "longest_side": "1183 mm",
     "price": 259500,
     "price_postapoc": 5500,
     "to_hit": -1,
@@ -43,9 +53,9 @@
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "win70",
@@ -56,6 +66,7 @@
     "description": "The Winchester Model 70 is a bolt action sporting rifle.  It has an iconic place in American sporting culture and has been held in high regard by shooters since it was introduced in 1936.",
     "weight": "3520 g",
     "volume": "3205 ml",
+    "longest_side": "1198 mm",
     "price": 46000,
     "price_postapoc": 3250,
     "to_hit": -1,
@@ -67,8 +78,8 @@
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   }
 ]

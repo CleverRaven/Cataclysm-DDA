@@ -7,8 +7,8 @@
       "type": "dialogue",
       "context": "cyborg",
       "value": "yes",
-      "no": "I… I'm free. *Zzzt* I'm actually free! *bzzz* Look, you're the first person I've seen in a long time.",
-      "yes": "Hey again. *kzzz*"
+      "no": "I… I'm free.  *Zzzt* I'm actually free!  *bzzz* Look, you're the first person I've seen in a long time.",
+      "yes": "Hey again.  *kzzz*"
     },
     "speaker_effect": { "effect": { "npc_add_var": "cyborg_has_talked", "type": "dialogue", "context": "cyborg", "value": "yes" } },
     "responses": [
@@ -45,7 +45,7 @@
   {
     "id": "TALK_CYBORG_FRIENDLY",
     "type": "talk_topic",
-    "dynamic_line": "*buzz* Great! So what happens now?",
+    "dynamic_line": "*buzz* Great!  So what happens now?",
     "responses": [
       {
         "text": "Come with me.  We can help each other out.",
@@ -59,7 +59,7 @@
   {
     "id": "TALK_CYBORG_WARY",
     "type": "talk_topic",
-    "dynamic_line": "...Wait. *BEEP* Why do I believe you? *ZZZT* You could be just as bad as them!",
+    "dynamic_line": "…Wait.  *BEEP* Why do I believe you?  *ZZZT* You could be just as bad as them!",
     "responses": [
       {
         "text": "I wouldn't have pulled your chip out if I didn't want you to think for yourself.",
@@ -79,7 +79,7 @@
   {
     "id": "TALK_CYBORG_FEARFUL",
     "type": "talk_topic",
-    "dynamic_line": "Okay, okay, *BUZZ* I'm sorry! Don't hurt me again! Anything but the chip!",
+    "dynamic_line": "Okay, okay, *BUZZ* I'm sorry!  Don't hurt me again!  Anything but the chip!",
     "responses": [
       {
         "text": "Follow me and do my bidding, then.",
@@ -104,7 +104,7 @@
   {
     "id": "TALK_CYBORG_BREAKDOWN",
     "type": "talk_topic",
-    "dynamic_line": "...kill… *ZTZTZT* …you!",
+    "dynamic_line": "…kill… *ZTZTZT* …you!",
     "responses": [
       {
         "text": "Run while you still can!",

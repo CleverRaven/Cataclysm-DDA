@@ -45,7 +45,6 @@
         ",": "t_pavement_y",
         "-": "t_wall_g",
         ".": "t_floor",
-        "@": "t_console_broken",
         "D": "t_door_locked",
         "c": "t_linoleum_gray",
         "d": "t_pavement",
@@ -60,6 +59,7 @@
         "|": "t_wall_g"
       },
       "furniture": {
+        "@": "f_console_broken",
         "#": "f_table",
         "&": "f_fridge",
         "B": "f_bench",
@@ -195,7 +195,7 @@
       "terrain": {
         "_": "t_pavement",
         "~": "t_sidewalk",
-        " ": [ "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_dirt" ],
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub" ],
         "&": "t_linoleum_gray",
         "'": "t_window_domestic",
         "+": "t_door_c",
@@ -203,7 +203,6 @@
         "-": "t_wall_b",
         ".": "t_floor",
         "u": "t_floor",
-        "@": "t_console_broken",
         "D": "t_door_locked",
         "c": "t_linoleum_gray",
         "d": "t_pavement",
@@ -222,6 +221,7 @@
         "!": "t_brick_wall"
       },
       "furniture": {
+        "@": "f_console_broken",
         "#": "f_table",
         "$": "f_glass_fridge",
         "&": "f_fridge",

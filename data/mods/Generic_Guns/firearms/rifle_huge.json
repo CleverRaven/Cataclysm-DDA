@@ -6,7 +6,15 @@
     "name": { "str": "anti-materiel rifle" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "Large, intimidating, and overbuilt, this hefty rifle fires huge projectiles with relative precision.  Though it resembles a sniper rifle, this anti-material weapon is best suited for blinding tanks, shooting at aircraft, or destroying explosives.  It feeds from comically oversized magazines.",
-    "magazines": [ [ "ammo_rifle_huge", [ "rifle_huge_amr_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_huge_amr_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_huge_double",
@@ -27,6 +35,14 @@
     "name": { "str": "heavy machine gun" },
     "ammo": [ "ammo_rifle_huge" ],
     "description": "This large, ungainly  belt-fed machine gun fires huge projectiles, originally intended for turn of the century anti-vehicular use.  While no longer suitable for modern tanks or aircraft, thinner skinned vehicles or drones are just as susceptible, as are any other 'smaller' threats.  Slow to reload, incredibly loud, and must be mounted to be fired.",
-    "magazines": [ [ "ammo_rifle_huge", [ "rifle_huge_belt" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_huge_belt" ]
+      }
+    ]
   }
 ]

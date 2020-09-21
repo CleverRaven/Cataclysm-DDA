@@ -76,6 +76,7 @@
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "SOMATIC", "LOUD" ],
+    "components": "spell_components_shardspray",
     "effect": "cone_attack",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
@@ -83,16 +84,19 @@
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "max_level": 20,
-    "min_damage": 10,
-    "max_damage": 60,
-    "damage_increment": 2,
+    "min_damage": 30,
+    "max_damage": 80,
+    "damage_increment": 2.5,
     "damage_type": "cut",
     "min_aoe": 25,
     "max_aoe": 60,
     "aoe_increment": 5,
-    "min_range": 1,
+    "min_range": 3,
     "max_range": 10,
-    "range_increment": 0.5
+    "range_increment": 0.5,
+    "min_pierce": 0,
+    "max_pierce": 5,
+    "pierce_increment": 0.4
   },
   {
     "id": "eshaper_piercing_bolt",
@@ -228,7 +232,7 @@
     "description": "This is a sub spell for the Lava Bomb spell.",
     "effect": "projectile_attack",
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
-    "damage_type": "fire",
+    "damage_type": "heat",
     "max_level": 30,
     "min_damage": 10,
     "max_damage": 90,
@@ -271,7 +275,8 @@
     "base_energy_cost": 1000,
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
-    "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ]
+    "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ],
+    "spell_class": "EARTHSHAPER"
   },
   {
     "id": "clairvoyance",

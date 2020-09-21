@@ -49,7 +49,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "spear_knife",
+    "item": "spear_knife_superior",
     "count": 12,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_SCAVENGER_2",

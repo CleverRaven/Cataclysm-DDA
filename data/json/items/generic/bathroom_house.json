@@ -10,7 +10,7 @@
     "price_postapoc": 0,
     "weight": "100 g",
     "volume": "50 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 1,
     "to_hit": -1
   },
@@ -65,6 +65,15 @@
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
     ]
+  },
+  {
+    "id": "toothbrush_dirty",
+    "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
+    "type": "GENERIC",
+    "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
+    "symbol": "/",
+    "flags": [ "FILTHY" ],
+    "copy-from": "base_toiletries"
   },
   {
     "id": "hairbrush",
@@ -145,7 +154,7 @@
     "price_postapoc": 10,
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 2,
     "to_hit": -1
   },
@@ -161,7 +170,7 @@
     "price_postapoc": 180,
     "volume": "250 ml",
     "weight": "227 g",
-    "material": "paper",
+    "material": [ "paper" ],
     "to_hit": -2,
     "snippet_category": [
       {

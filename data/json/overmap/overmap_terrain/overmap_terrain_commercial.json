@@ -195,7 +195,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics", "s_electronics_1" ],
+    "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "generic_city_building",
     "name": "electronics store",
     "color": "yellow",
@@ -203,9 +203,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics_roof", "s_electronics_roof_1" ],
+    "id": [ "s_electronics_roof", "s_electronics_roof_1", "s_electronicstore_roof" ],
     "copy-from": "generic_city_building",
     "name": "electronics store roof",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store 2nd floor",
+    "copy-from": "generic_city_building",
     "color": "yellow"
   },
   {
@@ -240,7 +247,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4" ],
+    "id": [ "s_gun", "s_gun_1", "s_gun_2", "s_gun_3", "s_gun_4", "s_gunstore" ],
     "copy-from": "generic_city_building",
     "name": "gun store",
     "color": "red",
@@ -248,14 +255,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4" ],
+    "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
     "name": "gun store roof",
     "copy-from": "generic_city_building",
     "color": "red"
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun_2ndfloor_4",
+    "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ],
     "name": "gun store 2nd floor",
     "copy-from": "generic_city_building",
     "color": "red"
@@ -380,7 +387,7 @@
     "id": [ "s_teashop", "s_teashop_1" ],
     "copy-from": "generic_city_building",
     "name": "teashop",
-    "color": "c_light_cyan_magenta",
+    "color": "light_cyan_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
@@ -388,7 +395,7 @@
     "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "teashop roof",
-    "color": "c_light_cyan_magenta"
+    "color": "light_cyan_magenta"
   },
   {
     "type": "overmap_terrain",
@@ -846,7 +853,7 @@
     "id": [ "candy_shop", "candy_shop_1" ],
     "copy-from": "generic_city_building",
     "name": "candy shop",
-    "color": "c_red_white",
+    "color": "red_white",
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -854,14 +861,14 @@
     "id": [ "candy_shop_roof", "candy_shop_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "candy shop roof",
-    "color": "c_red_white"
+    "color": "red_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white",
+    "color": "yellow_white",
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -869,21 +876,21 @@
     "id": "bakery_roof",
     "name": "bakery roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white"
+    "color": "yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery_upper_roof",
     "name": "bakery roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white"
+    "color": "yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
-    "color": "c_blue_white",
+    "color": "blue_white",
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -891,7 +898,7 @@
     "id": "icecream_shop_roof",
     "name": "icecream shop roof",
     "copy-from": "generic_city_building",
-    "color": "c_blue_white"
+    "color": "blue_white"
   },
   {
     "type": "overmap_terrain",
@@ -1137,7 +1144,7 @@
     "id": "home_improvement",
     "name": "home improvement store",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_green",
+    "color": "yellow_green",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
@@ -1145,7 +1152,7 @@
     "id": "home_improvement_roof",
     "name": "home improvement store roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_green"
+    "color": "yellow_green"
   },
   {
     "type": "overmap_terrain",
@@ -1541,5 +1548,19 @@
       "urban_14_9"
     ],
     "copy-from": "urban_13_3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games",
+    "name": "gaming store",
+    "copy-from": "generic_city_building",
+    "sym": "g",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store roof",
+    "copy-from": "s_games"
   }
 ]

@@ -227,7 +227,8 @@
         "     ||||||  |||||||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "%": "t_machinery_heavy", "S": "t_sewage_pump" },
+      "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "S": "t_sewage_pump" },
+      "furniture": { "%": "f_machinery_heavy" },
       "items": { "l": { "item": "sewage_plant", "chance": 75 } }
     }
   },

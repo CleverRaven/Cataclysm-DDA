@@ -5,7 +5,7 @@
     "name": { "str": "7.62x25mm JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "weight": "10 g",
-    "volume": "250 ml",
+    "volume": "107 ml",
     "price": 100,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

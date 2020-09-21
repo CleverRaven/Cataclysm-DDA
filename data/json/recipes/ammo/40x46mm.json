@@ -2,6 +2,7 @@
   {
     "result": "40x46mm_buckshot_m118",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -12,13 +13,14 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 12 ] ],
+    "//": "24 gram shot load according to wikipedia with 880 fps muzzle velocity, about 2/3rds of 12 gauge 00 buck. Used 7/8 oz 12 gauge load as basis for powder charge. 186 mg gunpowder rounded to 2 100 mg 'pieces'",
+    "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 8 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -26,6 +28,7 @@
   {
     "result": "40x46mm_buckshot_m199",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -39,10 +42,11 @@
     "using": [ [ "shot_forming", 2 ], [ "ammo_bullet", 12 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "186 mg gunpowder rounded to 2 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -50,6 +54,7 @@
   {
     "result": "40x46mm_slug_m118",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -63,10 +68,11 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "Based on the 700 NX' 16 gram load, reduced a little due to lower penetration. 15000 mg gunpowder rounded to 150 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 150 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -74,6 +80,7 @@
   {
     "result": "40x46mm_slug_m199",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -87,10 +94,11 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 12 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "15000 mg gunpowder rounded to 150 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 150 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
@@ -98,6 +106,7 @@
   {
     "result": "40x46mm_flechette_m118",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -110,11 +119,12 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "7x the charge of 12 gauge flechettes for 7x the payload. 5250 mg gunpowder rounded to 53 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 53 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
     ]
@@ -122,6 +132,7 @@
   {
     "result": "40x46mm_flechette_m199",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_SHOT",
     "skill_used": "fabrication",
@@ -134,11 +145,12 @@
     "reversible": true,
     "tools": [ [ [ "press", -1 ] ], [ [ "swage", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "5250 mg gunpowder rounded to 53 100 mg 'pieces'",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ], [ "wax", 1 ] ],
       [ [ "combatnail", 70 ] ],
-      [ [ "gunpowder_shotgun", 30 ] ],
+      [ [ "gunpowder_shotgun", 53 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]

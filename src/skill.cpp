@@ -89,7 +89,9 @@ void Skill::reset()
 
 void Skill::load_skill( const JsonObject &jsobj )
 {
-    skill_id ident = skill_id( jsobj.get_string( "ident" ) );
+    // TEMPORARY until 0.G: Remove "ident" support
+    skill_id ident = skill_id( jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
+                               jsobj.get_string( "id" ) );
     skills.erase( std::remove_if( begin( skills ), end( skills ), [&]( const Skill & s ) {
         return s._ident == ident;
     } ), end( skills ) );
@@ -138,7 +140,10 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
-    skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );
+    // TEMPORARY until 0.G: Remove "ident" support
+    skill_displayType_id ident = skill_displayType_id(
+                                     jsobj.has_string( "ident" ) ? jsobj.get_string( "ident" ) :
+                                     jsobj.get_string( "id" ) );
     skillTypes.erase( std::remove_if( begin( skillTypes ),
     end( skillTypes ), [&]( const SkillDisplayType & s ) {
         return s._ident == ident;
@@ -246,7 +251,7 @@ bool SkillLevel::isRusting() const
 bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
 {
     const time_duration delta = calendar::turn - _lastPracticed;
-    const float char_rate = character_rate / 100.0;
+    const float char_rate = character_rate / 100.0f;
     const time_duration skill_rate = rustRate( _level );
     if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
         delta % ( skill_rate * char_rate ) != 0_turns ) {

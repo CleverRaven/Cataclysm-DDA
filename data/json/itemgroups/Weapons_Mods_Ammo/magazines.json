@@ -118,12 +118,16 @@
       [ "px4_40mag", 6 ],
       [ "glockmag", 33 ],
       [ "glock40mag", 7 ],
+      [ "glock_20mag", 3 ],
+      [ "glock_29mag", 2 ],
       [ "m1911mag", 25 ],
+      [ "m1911_10mag", 2 ],
       [ "mosquitomag", 10 ],
       [ "kpf9mag", 5 ],
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
+      [ "p220_10_mag", 1 ],
       [ "p226mag_15rd_357sig", 25 ],
       [ "p320mag_14rd_357sig", 10 ],
       [ "bhp9mag_13rd", 2 ],
@@ -141,10 +145,12 @@
       [ "hptcf380", 1 ],
       [ "hptjcp", 1 ],
       [ "hptjhp", 1 ],
+      [ "witness_mag_10", 2 ],
       [ "cz75mag_12rd", 9 ],
       [ "cz75mag_20rd", 5 ],
       [ "cz75mag_26rd", 2 ],
       [ "ccpmag", 4 ],
+      [ "xd_10_mag", 1 ],
       [ "wp22mag", 7 ]
     ]
   },
@@ -164,13 +170,13 @@
       [ "454_speedloader5", 5 ],
       [ "454_speedloader6", 5 ],
       [ "500_speedloader5", 5 ],
-      [ "8x40_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
       [ "90two40mag", 5 ],
       [ "deaglemag", 40 ],
       [ "fn57mag", 80 ],
-      [ "glockbigmag", 60 ],
+      [ "cz75mag_26rd", 2 ],
+      [ "tdi_10mm_mag", 1 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
       [ "m1911mag_10rd_38super", 10 ],
@@ -210,7 +216,15 @@
     "type": "item_group",
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
-    "items": [ [ "calicomag", 15 ], [ "fnp90mag", 15 ], [ "mp5bigmag", 10 ], [ "thompson_bigmag", 5 ], [ "thompson_drum", 15 ] ]
+    "items": [
+      [ "calicomag", 19 ],
+      [ "fnp90mag", 150 ],
+      [ "tdi_10mm_mag", 65 ],
+      [ "mp5bigmag", 2 ],
+      [ "mp5_10_mag", 1 ],
+      [ "thompson_bigmag", 5 ],
+      [ "thompson_drum", 98 ]
+    ]
   },
   {
     "type": "item_group",
@@ -308,7 +322,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",

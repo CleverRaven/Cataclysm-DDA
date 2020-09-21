@@ -13,12 +13,12 @@
           "no": {
             "npc_need": "fatigue",
             "level": "TIRED",
-            "no": "Just few minutes more...",
+            "no": "Just few minutes more…",
             "yes": "Make it quick, I want to go back to sleep."
           },
           "yes": "Just let me sleep, <name_b>!"
         },
-        "yes": "No, just <swear> no..."
+        "yes": "No, just <swear> no…"
       },
       "no": "Anything to do before I go to sleep?"
     },
@@ -46,7 +46,71 @@
     "responses": [
       { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
       { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
+      },
+      { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
+      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *tshk* Are you serious?  This isn't a cell phone.  Can it wait until we're in the same place?",
+      "no": "Sure, what did you want to say?"
+    },
+    "responses": [
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" },
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_RADIO",
+        "condition": { "not": "is_by_radio" },
+        "switch": true
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm all ears, my friend.", "You gonna give me orders?", "What would you like?", "Just say the word." ],
+    "responses": [
       {
         "text": "Can you teach me anything?",
         "condition": { "not": "is_by_radio" },
@@ -67,19 +131,19 @@
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
       {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
-      },
-      {
         "text": "Let's trade items.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "start_trade",
         "switch": true,
         "default": true
+      },
+      {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
       },
       {
         "text": "I want you to use this item.",
@@ -105,8 +169,6 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_camp"
       },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
         "text": "Find a horse and mount up!",
         "condition": { "not": "npc_is_riding" },
@@ -126,58 +188,32 @@
         "effect": "goto_location"
       },
       {
-        "text": "I'd like to know a bit more about your abilities.",
-        "topic": "TALK_FRIEND",
-        "effect": "reveal_stats"
-      },
-      {
-        "text": "Any hints about the world we now live in?",
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "or": [
-              { "npc_need": "thirst", "amount": 80 },
-              { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_hint" },
-              "u_driving",
-              "npc_driving"
-            ]
-          }
-        },
-        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
-        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
-      },
-      {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": {
-          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
-        },
-        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
         "switch": true
       },
       {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": "at_safe_space",
+        "text": "I want you to build a camp here.",
+        "topic": "TALK_DONE",
+        "effect": "start_camp",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
         "switch": true,
-        "effect": { "npc_add_trait": "BGSS_Confused_1" },
-        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
-        "//2": "This is a stand-in for some kind of better system to add a random trait."
+        "default": true
       },
       {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_CONVERSATION_DANGER",
-        "condition": { "not": "at_safe_space" }
+        "text": "We need to abandon this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_DONE",
+        "effect": "abandon_camp"
       },
       {
-        "text": "Let's just chitchat for a while, I could use some relaxation.",
-        "topic": "TALK_FRIEND_CHAT",
-        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+        "text": "Show me what needs to be done at the camp.",
+        "topic": "TALK_DONE",
+        "effect": "basecamp_mission",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
-      { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
@@ -882,56 +918,6 @@
     "type": "talk_topic",
     "dynamic_line": "Sure thing, I'll make my way there.",
     "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
-  },
-  {
-    "id": "TALK_FRIEND_CHAT",
-    "type": "talk_topic",
-    "dynamic_line": [
-      { "u_has_item": "beer", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
-      { "u_has_item": "european_pilsner", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
-      { "u_has_item": "pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
-      { "u_has_item": "india_pale_ale", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
-      { "u_has_item": "wine_barley", "yes": "<noticedbooze>", "no": "<neutralchitchat>" },
-      {
-        "is_season": "summer",
-        "yes": "Yeah, this summer heat is hitting me hard, let's take a quick break, how goes it <name_g>?",
-        "no": "<neutralchitchat>"
-      },
-      {
-        "is_season": "winter",
-        "yes": "OK, maybe it'll stop me from freezing in this weather, what's up?",
-        "no": "<neutralchitchat>"
-      },
-      {
-        "is_day": "Well, it's the time of day for a quick break surely!  How are you holding up?",
-        "no": "Man it's dark out isn't it? what's up?"
-      },
-      {
-        "npc_has_effect": "infected",
-        "yes": "Well, I'm feeling pretty sick… are you doing OK though?",
-        "no": "<neutralchitchat>"
-      },
-      {
-        "has_no_assigned_mission": "<neutralchitchat>",
-        "no": {
-          "has_many_assigned_missions": "Definitely, by the way, thanks for helping me so much with my tasks!  Anyway, you coping OK, <name_g>? ",
-          "no": "OK, let's take a moment, oh, and thanks for helping me with that thing, so… what's up?"
-        }
-      },
-      {
-        "days_since_cataclysm": 30,
-        "yes": "Now, we've got a moment, I was just thinking it's been a month or so since… since all this, how are you coping with it all?",
-        "no": "<neutralchitchat>"
-      }
-    ],
-    "responses": [
-      {
-        "text": "Oh you know, not bad, not bad…",
-        "topic": "TALK_DONE",
-        "switch": true,
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
-      }
-    ]
   },
   {
     "id": "TRADE_HALLU",

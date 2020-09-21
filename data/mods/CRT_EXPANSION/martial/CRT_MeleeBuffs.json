@@ -50,7 +50,6 @@
         "name": "Fluid Tenacity",
         "description": "+Atk Speed and other small bonuses based on DEX per stack.  Max of 5 stacks",
         "unarmed_allowed": true,
-        "meledescription": false,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 2,
         "max_stacks": 5,

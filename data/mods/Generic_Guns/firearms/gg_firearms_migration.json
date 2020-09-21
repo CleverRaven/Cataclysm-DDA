@@ -118,13 +118,20 @@
       "90two",
       "px4",
       "90two40",
-      "px4_40"
+      "px4_40",
+      "glock_29",
+      "glock_20",
+      "glock_40",
+      "m1911_10",
+      "witness_10",
+      "p220_10",
+      "xd_10"
     ],
     "type": "MIGRATION",
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -145,7 +152,7 @@
     "replace": "pistol_pipe_smg"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "rm99_pistol", "m47a1" ],
+    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "m47a1" ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
@@ -206,16 +213,6 @@
     "id": [ "m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
-  },
-  {
-    "id": [ "surv_carbine_223" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_carbine"
-  },
-  {
-    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_rifle"
   },
   {
     "id": [
@@ -287,7 +284,7 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },
@@ -316,5 +313,15 @@
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
+  },
+  {
+    "id": "slamfire_shotgun",
+    "type": "MIGRATION",
+    "replace": "slamfire_shotgun"
+  },
+  {
+    "id": "slamfire_shotgun_d",
+    "type": "MIGRATION",
+    "replace": "slamfire_shotgun_d"
   }
 ]

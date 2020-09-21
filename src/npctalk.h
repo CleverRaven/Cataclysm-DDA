@@ -93,6 +93,8 @@ void clear_overrides( npc &p );
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );
+time_duration calc_proficiency_training_time( const npc &, const proficiency_id &proficiency );
+int calc_proficiency_training_cost( const npc &p, const proficiency_id &proficiency );
 time_duration calc_ma_style_training_time( const npc &, const matype_id & /* id */ );
 int calc_ma_style_training_cost( const npc &p, const matype_id & /* id */ );
 #endif // CATA_SRC_NPCTALK_H

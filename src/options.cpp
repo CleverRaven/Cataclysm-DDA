@@ -1,10 +1,13 @@
 #include "options.h"
 
+#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,6 +20,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
@@ -41,19 +45,10 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
-
-bool use_tiles;
-bool log_from_top;
-int message_ttl;
-int message_cooldown;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -68,8 +63,8 @@ options_manager::options_manager() :
     general_page_( "general", to_translation( "General" ) ),
     interface_page_( "interface", to_translation( "Interface" ) ),
     graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
     world_default_page_( "world_default", to_translation( "World Defaults" ) ),
+    debug_page_( "debug", to_translation( "Debug" ) ),
     android_page_( "android", to_translation( "Android" ) )
 {
     pages_.emplace_back( general_page_ );
@@ -77,12 +72,10 @@ options_manager::options_manager() :
     pages_.emplace_back( graphics_page_ );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( world_default_page_ );
         pages_.emplace_back( debug_page_ );
     }
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-    }
+
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
@@ -841,7 +834,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue( std::string sSetIn )
+void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
         if( getItemPos( sSetIn ) != -1 ) {
@@ -897,7 +890,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
 
-    for( auto &resource_dir : resource_dirs ) {
+    for( const std::string &resource_dir : resource_dirs ) {
         read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
@@ -937,39 +930,41 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
-    const std::string &path )
+void options_manager::search_resource(
+    std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+    const std::vector<std::string> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
 {
-    // Use local map as build_resource_list will clear the first parameter
-    std::map<std::string, std::string> local_tilesets;
-    auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
-                         PATH_INFO::tileset_conf() );
+    // Clear the result containers.
+    storage.clear();
+    option_list.clear();
 
-    // Copy found tilesets
-    TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
+    // Loop through each search path and add its resources.
+    for( const std::string &search_path : search_paths ) {
+        // Get the resource list from the search path.
+        std::map<std::string, std::string> resources;
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
 
-    return tileset_names;
+        // Add any new resources from this path to the result containers.
+        // First, add to the resource mapping.
+        storage.insert( resources.begin(), resources.end() );
+        // Next, add to the option list.
+        for( const id_and_option &name : resource_names ) {
+            // Only add if not a duplicate.
+            if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
+                option_list.emplace_back( name );
+            }
+        }
+    }
 }
 
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
-    // Clear tilesets
-    TILESETS.clear();
     std::vector<id_and_option> result;
 
-    // Load from data directory
-    std::vector<options_manager::id_and_option> data_tilesets = load_tilesets_from(
-                PATH_INFO::gfxdir() );
-    result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
-
-    // Load from user directory
-    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
-                PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
-        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
-            result.emplace_back( id );
-        }
-    }
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+                     PATH_INFO::tileset_conf() );
 
     // Default values
     if( result.empty() ) {
@@ -979,34 +974,12 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     return result;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
-    const std::string &path )
-{
-    // build_resource_list will clear &resource_option - first param
-    std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
-                           PATH_INFO::soundpack_conf() );
-
-    // Copy over found soundpacks
-    SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
-
-    // Return found soundpack names for further processing
-    return soundpack_names;
-}
-
 std::vector<options_manager::id_and_option> options_manager::build_soundpacks_list()
 {
-    // Clear soundpacks before loading
-    SOUNDPACKS.clear();
     std::vector<id_and_option> result;
 
-    // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( PATH_INFO::data_sound() );
-    result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
-
-    // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( PATH_INFO::user_sound() );
-    result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
+    search_resource( SOUNDPACKS, result, { PATH_INFO::user_sound(), PATH_INFO::data_sound() },
+                     "soundpack", PATH_INFO::soundpack_conf() );
 
     // Select default built-in sound pack
     if( result.empty() ) {
@@ -1112,8 +1085,8 @@ void options_manager::init()
     add_options_general();
     add_options_interface();
     add_options_graphics();
-    add_options_debug();
     add_options_world_default();
+    add_options_debug();
     add_options_android();
 
     for( Page &p : pages_ ) {
@@ -1184,7 +1157,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_zombie_only", translate_marker( "Pulp Zombies Only" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", translate_marker( "Pulp Adjacent Zombie Only" ) }, { "butcher", translate_marker( "Butcher" ) } },
     "off"
        );
 
@@ -1406,8 +1379,18 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),
-         translate_marker( "If true, Y/N prompts are case-sensitive and y and n are not accepted." ),
+    add( "SDL_KEYBOARD_MODE", "interface", translate_marker( "Use key code input mode" ),
+         translate_marker( "Use key code or symbol input on SDL.  "
+                           "Symbol is recommended for non-qwerty layouts since currently "
+                           "the default keybindings for key code mode only supports qwerty.  "
+                           "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
+    { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
+    "keychar", COPT_CURSES_HIDE );
+
+    add( "FORCE_CAPITAL_YN", "interface",
+         translate_marker( "Force capital/modified letters in prompts" ),
+         translate_marker( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
+                           "lower case and unmodified letters only snap the cursor to the corresponding option." ),
          true
        );
 
@@ -1447,6 +1430,17 @@ void options_manager::add_options_interface()
          translate_marker( "If true, directional actions ( like \"Examine\", \"Open\", \"Pickup\" ) "
                            "will autoselect an adjacent tile if there is exactly one valid target." ),
          true
+       );
+
+    add( "INVENTORY_HIGHLIGHT", "interface",
+         translate_marker( "Inventory highlight mode" ),
+         translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
+    "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
+        { "symbol", translate_marker( "Symbol" ) },
+        { "highlight", translate_marker( "Highlight" ) },
+        { "disable", translate_marker( "Disable" ) }
+    },
+    "symbol"
        );
 
     add_empty_line();
@@ -1543,11 +1537,27 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
+    add( "MESSAGE_LIMIT", "interface", translate_marker( "Limit message history" ),
+         translate_marker( "Number of messages to preserve in the history, and when saving." ),
+         1, 10000, 255
+       );
+
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
          false
        );
+
+    add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
+         translate_marker( "Popup window when achievmement completed" ),
+         translate_marker( "Whether to trigger a popup window when completing an achievement.  "
+                           "First: when completing an achievement that has not been completed in "
+    "a previous game." ), {
+        { "never", translate_marker( "Never" ) },
+        { "always", translate_marker( "Always" ) },
+        { "first", translate_marker( "First" ) }
+    },
+    "first" );
 
     add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
          translate_marker( "Switch between look around panel being left or right." ),
@@ -1708,12 +1718,12 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
@@ -1789,7 +1799,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1997,6 +2007,143 @@ void options_manager::add_options_graphics()
 
 }
 
+void options_manager::add_options_world_default()
+{
+    const auto add_empty_line = [&]() {
+        world_default_page_.items_.emplace_back();
+    };
+
+    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
+         translate_marker( "Controls what migrations are applied for legacy worlds" ),
+         1, core_version, core_version, COPT_ALWAYS_HIDE
+       );
+
+    add_empty_line();
+
+    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
+    translate_marker( "Handling of game world when last character dies." ), {
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
+       );
+
+    add_empty_line();
+
+    add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
+         translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
+         0, 16, 8
+       );
+
+    add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
+         translate_marker( "A number determining how far apart cities are.  Warning, small numbers lead to very slow mapgen." ),
+         0, 8, 4
+       );
+
+    add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
+         translate_marker( "A scaling factor that determines density of monster spawns." ),
+         0.0, 50.0, 1.0, 0.1
+       );
+
+    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
+         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
+       );
+
+    add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
+         translate_marker( "A scaling factor that determines density of item spawns." ),
+         0.01, 10.0, 1.0, 0.01
+       );
+
+    add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
+         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  Set to 0 days to disable random NPCs." ),
+         0.0, 100.0, 4.0, 0.01
+       );
+
+    add( "MONSTER_UPGRADE_FACTOR", "world_default",
+         translate_marker( "Monster evolution scaling factor" ),
+         translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
+         0.0, 100, 4.0, 0.01
+       );
+
+    add_empty_line();
+
+    add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
+         1, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
+         1, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add_empty_line();
+
+    add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
+         translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
+    { { "default", "default" } }, "default"
+       );
+
+    add_empty_line();
+
+    add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
+         translate_marker( "Initial starting time of day on character generation." ),
+         0, 23, 8
+       );
+
+    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
+         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         -1, 999, 60
+       );
+
+    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
+         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         0, 9999, 0
+       );
+
+    add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
+         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
+         14, 127, 91
+       );
+
+    add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
+         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
+         0, 1000, 100
+       );
+
+    add( "ETERNAL_SEASON", "world_default", translate_marker( "Eternal season" ),
+         translate_marker( "Keep the initial season for ever." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wandering hordes" ),
+         translate_marker( "Emulation of zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
+         false
+       );
+
+    add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
+         translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
+         translate_marker( "If true, radiation causes the player to mutate." ),
+         true
+       );
+
+    add_empty_line();
+
+    add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
+         translate_marker( "Allowed point pools for character generation." ),
+    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
+    "any"
+       );
+}
+
 void options_manager::add_options_debug()
 {
     const auto add_empty_line = [&]() {
@@ -2070,170 +2217,6 @@ void options_manager::add_options_debug()
     add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
-       );
-}
-
-void options_manager::add_options_world_default()
-{
-    const auto add_empty_line = [&]() {
-        world_default_page_.items_.emplace_back();
-    };
-
-    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
-         translate_marker( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
-
-    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
-    translate_marker( "Handling of game world when last character dies." ), {
-        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
-        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
-    }, "reset"
-       );
-
-    add_empty_line();
-
-    add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-         translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
-         0, 16, 8
-       );
-
-    add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
-         translate_marker( "A number determining how far apart cities are.  Warning, small numbers lead to very slow mapgen." ),
-         0, 8, 4
-       );
-
-    add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of monster spawns." ),
-         0.0, 50.0, 1.0, 0.1
-       );
-
-    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
-         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
-       );
-
-    add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
-         translate_marker( "A scaling factor that determines density of item spawns." ),
-         0.01, 10.0, 1.0, 0.01
-       );
-
-    add( "NPC_DENSITY", "world_default", translate_marker( "NPC spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
-         0.0, 100.0, 0.1, 0.01
-       );
-
-    add( "MONSTER_UPGRADE_FACTOR", "world_default",
-         translate_marker( "Monster evolution scaling factor" ),
-         translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 4.0, 0.01
-       );
-
-    add_empty_line();
-
-    add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
-         1, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
-    add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
-         1, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
-    add_empty_line();
-
-    add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
-         translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
-    { { "default", "default" } }, "default"
-       );
-
-    add_empty_line();
-
-    add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
-         translate_marker( "Initial starting time of day on character generation." ),
-         0, 23, 8
-       );
-
-    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 60
-       );
-
-    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
-         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
-         0, 9999, 0
-       );
-
-    add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
-         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-         14, 127, 91
-       );
-
-    add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-         0, 1000, 100
-       );
-
-    add( "ETERNAL_SEASON", "world_default", translate_marker( "Eternal season" ),
-         translate_marker( "Keep the initial season for ever." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
-         translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
-         false
-       );
-
-    add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
-         translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
-         true
-       );
-
-    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
-         translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
-    { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } },
-    "scenario"
-       );
-
-    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
-
-    add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
-         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
-         translate_marker( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
-    add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
-         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
-         true
-       );
-
-    add_empty_line();
-
-    add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
-         translate_marker( "Allowed point pools for character generation." ),
-    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
-    "any"
        );
 }
 
@@ -2503,17 +2486,13 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        g->init_ui();
-        g->refresh_all();
+        g->mark_main_ui_adaptor_resize();
     }
 }
 #else
@@ -2532,12 +2511,12 @@ static void draw_borders_external(
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
-    for( auto &mapLine : mapLines ) {
+    for( const auto &mapLine : mapLines ) {
         if( mapLine.second ) {
             mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
@@ -2551,7 +2530,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string options_manager::show( bool ingame, const bool world_options_only,
@@ -2721,7 +2700,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
                         page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
-        wrefresh( w_options_border );
+        wnoutrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
@@ -2740,7 +2719,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-        wrefresh( w_options_header );
+        wnoutrefresh( w_options_header );
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
@@ -2789,9 +2768,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
-        wrefresh( w_options_tooltip );
+        wnoutrefresh( w_options_tooltip );
 
-        wrefresh( w_options );
+        wnoutrefresh( w_options );
     } );
 
     while( true ) {
@@ -2980,7 +2959,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
 
-        handle_resize( projected_window_width(), projected_window_height() );
+        resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
 #else
     ( void ) terminal_size_changed;
@@ -3053,10 +3032,8 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-bool options_manager::save()
+static void update_options_cache()
 {
-    const auto savefile = PATH_INFO::options();
-
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
@@ -3065,6 +3042,14 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+}
+
+bool options_manager::save()
+{
+    const auto savefile = PATH_INFO::options();
+
+    update_options_cache();
 
     update_music_volume();
 
@@ -3077,55 +3062,17 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-    if( !read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
-    deserialize( jsin );
-    } ) ) {
-        if( load_legacy() ) {
-            if( save() ) {
-                remove_file( PATH_INFO::legacy_options() );
-                remove_file( PATH_INFO::legacy_options2() );
-            }
-        }
-    }
+    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+        deserialize( jsin );
+    } );
 
     update_global_locale();
 
-    // cache to global due to heavy usage.
-    trigdist = ::get_option<bool>( "CIRCLEDIST" );
-    use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
-    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    update_options_cache();
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
-}
-
-bool options_manager::load_legacy()
-{
-    const auto reader = [&]( std::istream & fin ) {
-        std::string sLine;
-        while( !fin.eof() ) {
-            getline( fin, sLine );
-
-            if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-                int iPos = sLine.find( ' ' );
-                const std::string loadedvar = migrateOptionName( sLine.substr( 0, iPos ) );
-                const std::string loadedval = migrateOptionValue( sLine.substr( 0, iPos ), sLine.substr( iPos + 1,
-                                              sLine.length() ) );
-                // option with values from post init() might get clobbered
-
-                add_retry( loadedvar, loadedval ); // stash it until update();
-
-                options[ loadedvar ].setValue( loadedval );
-            }
-        }
-    };
-
-    return read_from_file_optional( PATH_INFO::legacy_options(), reader ) ||
-           read_from_file_optional( PATH_INFO::legacy_options2(), reader );
 }
 
 bool options_manager::has_option( const std::string &name ) const
@@ -3135,30 +3082,32 @@ bool options_manager::has_option( const std::string &name ) const
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
+    if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return options[name];
+        return opt->second;
     }
-    auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
-        auto &opt = options[name];
-        if( opt.getPage() != "world_default" ) {
+    std::unordered_map<std::string, cOpt>::iterator wopt = ( *world_options )->find( name );
+    if( wopt == ( *world_options )->end() ) {
+        if( opt->second.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
-            return opt;
+            return opt->second;
         }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = opt;
+        cOpt &new_world_option = ( **world_options )[name];
+        new_world_option = opt->second;
+        return new_world_option;
     }
-    return wopts[name];
+    return wopt->second;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
-    for( auto &elem : options ) {
+    for( const auto &elem : options ) {
         if( elem.second.getPage() == "world_default" ) {
             result.insert( elem );
         }
@@ -3206,7 +3155,7 @@ void options_manager::update_global_locale()
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
         }
-    } catch( std::runtime_error &e ) {
+    } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );
     }
 

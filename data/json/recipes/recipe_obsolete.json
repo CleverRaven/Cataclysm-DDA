@@ -1,11 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "spear_stone",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "cooked_burrito",
     "obsolete": true
   },
@@ -2468,6 +2463,202 @@
   {
     "type": "recipe",
     "result": "control_laptop",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bot_laserturret",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_laserturret",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "laser_cannon",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammonia",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lever_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bone_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "slam_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "can_medium_unsealed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acid",
+    "id_suffix": "from batteries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_270",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_anfo_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_rdx_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_laser_pack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "unbio_blaster_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lsd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_neoprene",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lye_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_simple",
+    "obsolete": true
+  },
+  {
+    "result": "double_plutonium_core",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "ring",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "pipebomb",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "tool_black_powder_charge",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_combination_gun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_308",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "surv_carbine_223",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_3006",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tihar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helsing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rifle",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_rail_rifle",
+    "obsolete": true
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "foot_crank",
     "obsolete": true
   }
 ]

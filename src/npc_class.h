@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
@@ -14,7 +15,6 @@
 class JsonObject;
 
 using Group_tag = std::string;
-using Mutation_category_tag = std::string;
 
 class Trait_group;
 
@@ -30,7 +30,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( std::function<float()> gen );
+        distribution( const std::function<float()> &gen );
 
     public:
         distribution();
@@ -75,11 +75,12 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::map<Mutation_category_tag, distribution> mutation_rounds;
+        std::map<mutation_category_id, distribution> mutation_rounds;
         trait_group::Trait_group_tag traits = trait_group::Trait_group_tag( "EMPTY_GROUP" );
         // the int is what level the spell starts at
         std::map<spell_id, int> _starting_spells;
         std::map<bionic_id, int> bionic_list;
+        std::vector<proficiency_id> _starting_proficiencies;
         npc_class();
 
         std::string get_name() const;
@@ -112,24 +113,24 @@ class npc_class
 };
 
 // TODO: Get rid of that
-extern npc_class_id NC_NONE;
-extern npc_class_id NC_EVAC_SHOPKEEP;
-extern npc_class_id NC_SHOPKEEP;
-extern npc_class_id NC_HACKER;
-extern npc_class_id NC_CYBORG;
-extern npc_class_id NC_DOCTOR;
-extern npc_class_id NC_TRADER;
-extern npc_class_id NC_NINJA;
-extern npc_class_id NC_COWBOY;
-extern npc_class_id NC_SCIENTIST;
-extern npc_class_id NC_BOUNTY_HUNTER;
-extern npc_class_id NC_THUG;
-extern npc_class_id NC_SCAVENGER;
-extern npc_class_id NC_ARSONIST;
-extern npc_class_id NC_HUNTER;
-extern npc_class_id NC_SOLDIER;
-extern npc_class_id NC_BARTENDER;
-extern npc_class_id NC_JUNK_SHOPKEEP;
-extern npc_class_id NC_HALLU;
+extern const npc_class_id NC_NONE;
+extern const npc_class_id NC_EVAC_SHOPKEEP;
+extern const npc_class_id NC_SHOPKEEP;
+extern const npc_class_id NC_HACKER;
+extern const npc_class_id NC_CYBORG;
+extern const npc_class_id NC_DOCTOR;
+extern const npc_class_id NC_TRADER;
+extern const npc_class_id NC_NINJA;
+extern const npc_class_id NC_COWBOY;
+extern const npc_class_id NC_SCIENTIST;
+extern const npc_class_id NC_BOUNTY_HUNTER;
+extern const npc_class_id NC_THUG;
+extern const npc_class_id NC_SCAVENGER;
+extern const npc_class_id NC_ARSONIST;
+extern const npc_class_id NC_HUNTER;
+extern const npc_class_id NC_SOLDIER;
+extern const npc_class_id NC_BARTENDER;
+extern const npc_class_id NC_JUNK_SHOPKEEP;
+extern const npc_class_id NC_HALLU;
 
 #endif // CATA_SRC_NPC_CLASS_H

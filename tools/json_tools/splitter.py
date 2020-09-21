@@ -1,8 +1,6 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
-
-from __future__ import print_function
 
 import sys
 import argparse
@@ -18,13 +16,14 @@ Example usages:
     # everything else goes to stderr
     %(prog)s --fnmatch=dreams.json type=dream strength=2 1>matched.json 2>not_matched.json
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("where",
-        action=WhereAction, nargs='+', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
-
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='+', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":
@@ -35,7 +34,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:
@@ -53,13 +52,13 @@ if __name__ == "__main__":
     # matched first
     print("[")
     for i, p in enumerate(matched):
-        eol = ",\n" if i < len(matched)-1 else "\n"
+        eol = ",\n" if i < len(matched) - 1 else "\n"
         print(CDDAJSONWriter(p, 1).dumps(), end=eol)
     print("]")
 
     # not_matched second
     print("[", file=sys.stderr)
     for i, p in enumerate(not_matched):
-        eol = ",\n" if i < len(not_matched)-1 else "\n"
+        eol = ",\n" if i < len(not_matched) - 1 else "\n"
         print(CDDAJSONWriter(p, 1).dumps(), end=eol, file=sys.stderr)
     print("]", file=sys.stderr)

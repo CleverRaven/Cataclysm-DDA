@@ -13,7 +13,7 @@
 
 class item;
 
-enum class VisitResponse {
+enum class VisitResponse : int {
     ABORT, // Stop processing after this node
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
     SKIP   // Skip any child nodes and move directly to the next sibling
@@ -78,7 +78,7 @@ class visitable
          */
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        std::function<void( int )> visitor = nullptr ) const;
+                        const std::function<void( int )> &visitor = nullptr ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

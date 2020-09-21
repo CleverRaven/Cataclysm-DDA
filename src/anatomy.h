@@ -57,6 +57,4 @@ class anatomy
         static void check_consistency();
 };
 
-extern anatomy_id human_anatomy;
-
 #endif // CATA_SRC_ANATOMY_H

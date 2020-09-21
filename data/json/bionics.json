@@ -45,6 +45,7 @@
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ] ],
     "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
+    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -56,6 +57,7 @@
     "env_protec": [ [ "eyes", 7 ] ],
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
+    "bullet_protec": [ [ "eyes", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -66,6 +68,7 @@
     "occupied_bodyparts": [ [ "head", 5 ], [ "mouth", 1 ] ],
     "bash_protec": [ [ "head", 3 ] ],
     "cut_protec": [ [ "head", 3 ] ],
+    "bullet_protec": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -76,6 +79,7 @@
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ] ],
     "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -86,6 +90,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "bash_protec": [ [ "torso", 3 ] ],
     "cut_protec": [ [ "torso", 3 ] ],
+    "bullet_protec": [ [ "torso", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -116,7 +121,7 @@
     "name": { "str": "Shotgun Arm" },
     "description": "Concealed in your left arm is a single shot 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
     "occupied_bodyparts": [ [ "arm_l", 15 ] ],
-    "encumbrance": [ [ "ARM_L", 5 ] ],
+    "encumbrance": [ [ "arm_l", 5 ] ],
     "act_cost": "50 J",
     "fake_item": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
@@ -186,6 +191,18 @@
       [ "foot_r", 2 ]
     ],
     "cut_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ]
+    ],
+    "bullet_protec": [
       [ "torso", 4 ],
       [ "head", 4 ],
       [ "arm_l", 4 ],
@@ -268,7 +285,7 @@
     "id": "bio_cqb",
     "type": "bionic",
     "name": { "str": "Close Quarters Battle" },
-    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills, but prevents you from improving them through combat experience.",
+    "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand-to-hand combat skills, but prevents you from improving them through combat experience.",
     "occupied_bodyparts": [ [ "head", 4 ] ],
     "act_cost": "20 J",
     "react_cost": "20 J",
@@ -298,6 +315,7 @@
     "name": { "str": "Expanded Digestive System" },
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
+    "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
@@ -407,7 +425,6 @@
       "BIRD_EYE",
       "COMPOUND_EYES",
       "LIZ_IR",
-      "EAGLEEYED",
       "CEPH_VISION",
       "CEPH_EYES",
       "ELFA_FNV",
@@ -740,7 +757,7 @@
     "name": { "str": "Bionic Nostril" },
     "description": "You're really not sure how the CBM ended up in your nose, but no matter how it got there this badly misplaced bionic makes it difficult to breathe.  Increases mouth encumbrance by ten.",
     "occupied_bodyparts": [ [ "head", 2 ], [ "mouth", 1 ] ],
-    "encumbrance": [ [ "MOUTH", 10 ] ],
+    "encumbrance": [ [ "mouth", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -768,7 +785,7 @@
     "name": { "str": "Bionic Visual Impairment" },
     "description": "Due to a badly misplaced dielectric stylette, you are now suffering from mild optic neuropathy.  Increases eye encumbrance by ten.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "encumbrance": [ [ "EYES", 10 ] ],
+    "encumbrance": [ [ "eyes", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -977,13 +994,13 @@
     "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "encumbrance": [
-      [ "TORSO", 10 ],
-      [ "ARM_L", 10 ],
-      [ "ARM_R", 10 ],
-      [ "LEG_L", 10 ],
-      [ "LEG_R", 10 ],
-      [ "FOOT_L", 10 ],
-      [ "FOOT_R", 10 ]
+      [ "torso", 10 ],
+      [ "arm_l", 10 ],
+      [ "arm_r", 10 ],
+      [ "leg_l", 10 ],
+      [ "leg_r", 10 ],
+      [ "foot_l", 10 ],
+      [ "foot_r", 10 ]
     ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -1037,7 +1054,7 @@
     "name": { "str": "Self-Locking Thumbs" },
     "description": "Self-locking thumbs hold tight (even when you really don't want them to) and don't let go (even when you'd rather they did).  Increases hand encumbrance by ten, while failing to improve your ability to hold objects whatsoever.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "encumbrance": [ [ "HAND_L", 10 ], [ "HAND_R", 10 ] ],
+    "encumbrance": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -1153,7 +1170,7 @@
     "name": { "str": "Gasoline Fuel Cell CBM" },
     "description": "A small gasoline fuel cell fixed to your scapula.  Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
-    "encumbrance": [ [ "TORSO", 5 ] ],
+    "encumbrance": [ [ "torso", 5 ] ],
     "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,

@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Creature;
 class monster;
@@ -26,8 +27,7 @@ struct dealt_projectile_attack;
 struct species_type;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
-enum m_size : int;
+enum class creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -38,7 +38,7 @@ class JsonObject;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
-enum class mon_trigger {
+enum class mon_trigger : int {
     STALK,              // Increases when following the player
     MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
@@ -56,7 +56,7 @@ enum class mon_trigger {
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr auto last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -72,7 +72,7 @@ enum m_flag : int {
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
-    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then MS_TINY
+    MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
     MF_BASHES,              // Bashes down doors
     MF_DESTROYS,            // Bashes down walls and more
@@ -81,7 +81,6 @@ enum m_flag : int {
     MF_VENOM,               // Attack may poison the player
     MF_BADVENOM,            // Attack may SEVERELY poison the player
     MF_PARALYZE,            // Attack may paralyze the player with venom
-    MF_BLEED,               // Causes player to bleed
     MF_WEBWALK,             // Doesn't destroy webs
     MF_DIGS,                // Digs through the ground
     MF_CAN_DIG,             // Can dig and walk
@@ -174,7 +173,7 @@ enum m_flag : int {
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
-    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
+    MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -188,11 +187,11 @@ struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
-    body_part bp;
+    bodypart_str_id bp;
     bool permanent;
     int chance;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_str_id nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}
@@ -242,7 +241,7 @@ struct mtype {
         mfaction_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
-        m_size size;
+        creature_size size;
         units::volume volume;
         units::mass weight;
         phase_id phase;
@@ -263,7 +262,7 @@ struct mtype {
         bool regen_morale = false;
 
         // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2;
+        float mountable_weight_ratio = 0.2f;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
@@ -310,6 +309,8 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+
+        mtype_id zombify_into; // mtype_id this monster zombifies into
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;

@@ -605,10 +605,22 @@
       "base_temperature": 6.5,
       "base_humidity": 70.0,
       "base_pressure": 1015.0,
-      "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": {
       "clear_blacklist": false,

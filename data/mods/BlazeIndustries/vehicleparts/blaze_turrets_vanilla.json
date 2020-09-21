@@ -366,8 +366,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted Marlin 39A" },
-    "item": "marlin_9a",
-    "breaks_into": [ { "item": "marlin_9a", "prob": 50 } ],
+    "item": "blaze_marlin_9a",
+    "breaks_into": [ { "item": "blaze_marlin_9a", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -614,8 +614,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted SKS" },
-    "item": "sks",
-    "breaks_into": [ { "item": "sks", "prob": 50 } ],
+    "item": "blaze_sks",
+    "breaks_into": [ { "item": "blaze_sks", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {

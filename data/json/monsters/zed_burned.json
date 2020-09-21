@@ -79,7 +79,7 @@
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
     "id": "mon_zombie_scorched",
@@ -113,6 +113,6 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": [ "SMOKEBURST", "NORMAL" ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   }
 ]

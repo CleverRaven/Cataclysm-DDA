@@ -5,7 +5,7 @@
     "name": { "str": ".410 000 shot" },
     "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
     "weight": "16 g",
-    "volume": "250 ml",
+    "volume": "170 ml",
     "price": 175,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

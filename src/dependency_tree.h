@@ -29,7 +29,7 @@ class dependency_node
         bool on_stack;
 
         dependency_node();
-        dependency_node( mod_id _key );
+        dependency_node( const mod_id &key );
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
@@ -55,26 +55,26 @@ class dependency_tree
     public:
         dependency_tree();
 
-        void init( std::map<mod_id, std::vector<mod_id> > key_dependency_map );
+        void init( const std::map<mod_id, std::vector<mod_id> > &key_dependency_map );
 
         void clear();
 
         // tree traversal
         // Upward by key
-        std::vector<mod_id > get_dependencies_of_X_as_strings( mod_id key );
-        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( mod_id key );
+        std::vector<mod_id > get_dependencies_of_X_as_strings( const mod_id &key );
+        std::vector<dependency_node * > get_dependencies_of_X_as_nodes( const mod_id &key );
         // Downward by key
-        std::vector< mod_id > get_dependents_of_X_as_strings( mod_id key );
-        std::vector< dependency_node * > get_dependents_of_X_as_nodes( mod_id key );
+        std::vector< mod_id > get_dependents_of_X_as_strings( const mod_id &key );
+        std::vector< dependency_node * > get_dependents_of_X_as_nodes( const mod_id &key );
 
-        bool is_available( mod_id key );
-        dependency_node *get_node( mod_id key );
+        bool is_available( const mod_id &key );
+        dependency_node *get_node( const mod_id &key );
 
         std::map<mod_id, dependency_node> master_node_map;
     private:
         // Don't need to be called directly. Only reason to call these are during initialization phase.
-        void build_node_map( std::map<mod_id, std::vector<mod_id > > key_dependency_map );
-        void build_connections( std::map<mod_id, std::vector<mod_id > > key_dependency_map );
+        void build_node_map( const std::map<mod_id, std::vector<mod_id > > &key_dependency_map );
+        void build_connections( const std::map<mod_id, std::vector<mod_id > > &key_dependency_map );
 
         /*
         Cyclic Dependency checks using Tarjan's Strongly Connected Components algorithm

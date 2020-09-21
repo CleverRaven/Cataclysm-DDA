@@ -74,6 +74,7 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
+      [ "plastichoboreel", 5 ],
       [ "survivormap", 5 ]
     ]
   },
@@ -81,8 +82,8 @@
     "type": "item_group",
     "id": "fireman_gear",
     "items": [
-      [ "extinguisher", 10 ],
-      [ "sm_extinguisher", 20 ],
+      { "item": "extinguisher", "prob": 10, "charges": 100 },
+      { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
       [ "1st_aid", 10 ],
@@ -138,7 +139,7 @@
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
       [ "wearable_light", 5 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "smoxygen_tank", 35 ],
       [ "watercannon", 10 ],
       [ "l-stick", 1 ],
@@ -158,6 +159,40 @@
       [ "adv_UPS_off", 2 ],
       [ "prussian_blue", 25 ],
       [ "iodine", 50 ]
+    ]
+  },
+  {
+    "id": "SUS_scuba_gear",
+    "type": "item_group",
+    "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ], "prob": 65 },
+      { "group": "swimmer_head", "prob": 100 },
+      { "group": "swimmer_torso", "prob": 100 },
+      { "group": "swimmer_pants", "prob": 100 },
+      { "group": "swimmer_wetsuit", "prob": 100 },
+      { "item": "dive_bag", "prob": 100 },
+      { "item": "wetsuit_gloves", "prob": 70 },
+      { "item": "wetsuit_booties", "prob": 70 },
+      { "item": "swim_fins", "prob": 100 },
+      {
+        "distribution": [
+          { "item": "airspeargun", "prob": 20 },
+          { "item": "doublespeargun", "prob": 10 },
+          { "item": "minispeargun", "prob": 30 },
+          { "item": "speargun", "prob": 40 }
+        ],
+        "prob": 65
+      },
+      {
+        "collection": [ { "item": "small_scuba_tank", "prob": 40 }, { "item": "scuba_tank", "prob": 60 } ],
+        "prob": 85
+      },
+      {
+        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90 } ],
+        "prob": 20
+      }
     ]
   }
 ]

@@ -47,6 +47,7 @@
     "price": 2500,
     "price_postapoc": 1250,
     "material": [ "paper" ],
+    "ascii_picture": "manual_first_aid",
     "symbol": "?",
     "color": "green",
     "skill": "firstaid",
