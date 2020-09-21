@@ -148,4 +148,3 @@ if __name__ == '__main__':
                 elif filename == old_name_json:
                     new_path = subdir_fpath + "/" + new_name_json
                     os.rename(old_path, new_path)
-
