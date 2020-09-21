@@ -3312,7 +3312,8 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
-        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character() ) );
+        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character(),
+                                        recipe_time_flag::ignore_proficiencies ) );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
         const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),
@@ -10390,7 +10391,8 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
-    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
+                recipe_time_flag::ignore_proficiencies );
     std::vector<item_comp> to_be_disassembled = get_uncraft_components();
     while( !to_be_disassembled.empty() ) {
         item_comp current_comp = to_be_disassembled.back();
