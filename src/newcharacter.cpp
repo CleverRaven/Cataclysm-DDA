@@ -2769,11 +2769,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     }
                     break;
                 case char_creation::GENDER:
-                    if( you.male ) {
-                        you.male = false;
-                    } else {
-                        you.male = true;
-                    }
+                    you.male = !you.male;
                     break;
                 default:
                     break;
@@ -2804,11 +2800,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     }
                     break;
                 case char_creation::GENDER:
-                    if( you.male ) {
-                        you.male = false;
-                    } else {
-                        you.male = true;
-                    }
+                    you.male = !you.male;
                     break;
                 default:
                     break;
