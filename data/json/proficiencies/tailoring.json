@@ -18,6 +18,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_elastics",
+    "name": { "str": "Stretch Fabric" },
+    "description": "Making elastic bands is easy enough, but making a whole garment from stretchy cloth takes a bit of finesse.  You're good at it.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_cobbling",
     "name": { "str": "Cobbling" },
     "description": "Like a magical elf, you've learned how to construct footwear by hand.",
