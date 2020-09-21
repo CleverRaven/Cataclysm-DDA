@@ -2573,7 +2573,7 @@ int Character::get_standard_stamina_cost( item *thrown_item )
 }
 
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive )
+        bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
     const auto ret = can_wear( to_wear );
@@ -2629,8 +2629,10 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     inv->update_invlet( *new_item_it );
     inv->update_cache_with_item( *new_item_it );
 
-    recalc_sight_limits();
-    calc_encumbrance();
+    if( do_calc_encumbrance ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 
     return new_item_it;
 }

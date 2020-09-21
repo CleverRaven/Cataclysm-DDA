@@ -394,7 +394,7 @@ void avatar::add_profession_items()
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( it, false );
+            wear_item( it, false, false );
         } else {
             inv->push_back( it );
         }
@@ -402,6 +402,8 @@ void avatar::add_profession_items()
             items_identified.insert( it.typeId() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
@@ -2915,12 +2917,16 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 void Character::clear_mutations()
 {
     while( !my_traits.empty() ) {
-        toggle_trait( *my_traits.begin() );
+        my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        unset_mutation( my_mutations.begin()->first );
+        const trait_id trait = my_mutations.begin()->first;
+        my_mutations.erase( my_mutations.begin() );
+        mutation_loss_effect( trait );
     }
     cached_mutations.clear();
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 void Character::empty_skills()
