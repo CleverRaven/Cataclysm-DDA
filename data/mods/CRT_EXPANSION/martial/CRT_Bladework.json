@@ -37,7 +37,7 @@
       {
         "id": "crt_blade_static_2",
         "name": "Honed Movements",
-        "description": "Your skill and handling with sharp weaponry has improved. Gain extra Cutting and Stabbing damage.",
+        "description": "Your skill with handling sharp weaponry has improved. Gain extra Cutting and Stabbing damage.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 3 }, { "name": "cutting", "level": 3 }, { "name": "stabbing", "level": 3 } ],
@@ -170,7 +170,7 @@
     "crit_ok": true,
     "down_dur": 2,
     "messages": [
-      "You release a blindingly fast low slash at %s and topple them off balance",
+      "You release a debilitating slash at %s and topple them off balance",
       "<npcname> slashes at %s and shoves them down"
     ]
   },
