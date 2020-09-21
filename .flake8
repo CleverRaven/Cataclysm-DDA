@@ -4,7 +4,6 @@ ignore =
     # The following errors were present when starting to use flake8; they need
     # to be triaged to determine which we should fix and which we should leave
     # permanently ignored
-    E225,
     E231,
     E241,
     E261,
