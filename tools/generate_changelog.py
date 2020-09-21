@@ -863,8 +863,8 @@ def smart_open(filename=None, *args, **kwargs):
 def validate_file_for_writing(filepath):
     if (filepath is not None and
         filepath != sys.stdout and
-            (not filepath.parent.exists()
-             or not filepath.parent.is_dir())):
+            (not filepath.parent.exists() or
+             not filepath.parent.is_dir())):
         return False
 
 
