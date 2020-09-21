@@ -24,7 +24,7 @@
     "time": "90 m",
     "autolearn": true,
     "byproducts": [ [ "scrap_cotton", 79 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "sewing_standard" ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "sewing_standard", 20 ] ]
   },
   {
     "result": "armguard_chitin",
@@ -38,7 +38,10 @@
     "time": "390 m",
     "autolearn": true,
     "byproducts": [ [ "scrap_leather", 80 ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+    ],
     "using": [ [ "armor_chitin", 3 ], [ "tailoring_leather_small", 2 ] ]
   },
   {
@@ -54,7 +57,10 @@
     "autolearn": true,
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
+    ]
   },
   {
     "result": "armguard_hard",
@@ -69,7 +75,10 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 43 ] ],
     "using": [ [ "plastic_molding", 2 ], [ "tailoring_neoprene_patchwork", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [
+      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 }
+    ]
   },
   {
     "result": "armguard_larmor",
@@ -99,7 +108,10 @@
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 2 ], [ "tailoring_leather", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 1 }
+    ]
   },
   {
     "result": "armguard_metal",
@@ -156,7 +168,8 @@
     "time": "280 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_cotton", 43 ], [ "scrap_neoprene", 44 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "tailoring_neoprene_patchwork", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "tailoring_neoprene_patchwork", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 } ]
   },
   {
     "result": "elbow_pads",
