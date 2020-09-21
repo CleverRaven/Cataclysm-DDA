@@ -197,8 +197,11 @@
     "time": "2 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
     "reversible": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
-    "using": [ [ "sewing_standard", 20 ], [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap", 2 ] ]
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
+    ],
+    "using": [ [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "leg_warmers",
