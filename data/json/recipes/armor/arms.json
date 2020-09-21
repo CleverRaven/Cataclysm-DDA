@@ -24,7 +24,6 @@
     "difficulty": 1,
     "time": "90 m",
     "autolearn": true,
-    "reversible": true,
     "byproducts": [ [ "scrap_cotton", 79 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 1 ] ]
   },
@@ -39,7 +38,6 @@
     "skills_required": [ [ "tailor", 3 ] ],
     "time": "390 m",
     "autolearn": true,
-    "reversible": true,
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
@@ -59,7 +57,6 @@
     "skills_required": [ [ "tailor", 3 ] ],
     "time": "390 m",
     "autolearn": true,
-    "reversible": true,
     "byproducts": [ [ "scrap_leather", 80 ] ],
     "using": [ [ "armor_acidchitin", 3 ], [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [
@@ -96,7 +93,6 @@
     "difficulty": 3,
     "time": "720 m",
     "autolearn": true,
-    "reversible": true,
     "byproducts": [ [ "leather", 9 ], [ "scrap_leather", 29 ] ],
     "using": [ [ "tailoring_leather", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
@@ -239,7 +235,6 @@
     "difficulty": 2,
     "time": "360 m",
     "autolearn": true,
-    "reversible": true,
     "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 42 ] ],
     "using": [ [ "tailoring_leather", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
