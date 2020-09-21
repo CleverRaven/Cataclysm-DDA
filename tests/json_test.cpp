@@ -184,6 +184,77 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
         R"({"str": "\u2026foo. bar."})" ); // NOLINT(cata-text-style)
 }
 
+TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )
+{
+    SECTION( "string" ) {
+        const std::string json =
+            R"([)" "\n"
+            R"(  "foo. bar.",)" "\n" // NOLINT(cata-text-style)
+            R"(  "foobar")" "\n"
+            R"(])" "\n";
+        std::istringstream iss( json );
+        JsonIn jsin( iss );
+        jsin.start_array();
+        translation trans;
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            jsin.read( trans );
+        } );
+        // check that the correct debug message is shown
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:2:7: insufficient spaces at this location.  2 required, but only 1 found.)"
+                "\n"
+                R"(    Suggested fix: insert " ")" "\n"
+                R"(    At the following position (marked with caret))" "\n"
+                R"()" "\n"
+                R"([)" "\n"
+                R"(  "foo.)" "\n"
+                R"(      ^)" "\n"
+                R"(        bar.",)" "\n"
+                R"(  "foobar")" "\n"
+                R"(])" "\n" ) );
+        // check that the stream is correctly restored to after the first string
+        CHECK( jsin.get_string() == "foobar" );
+        CHECK( jsin.end_array() );
+    }
+
+    SECTION( "object" ) {
+        const std::string json =
+            R"([)" "\n"
+            R"(  { "str": "foo. bar." },)" "\n" // NOLINT(cata-text-style)
+            R"(  "foobar")" "\n"
+            R"(])" "\n";
+        std::istringstream iss( json );
+        JsonIn jsin( iss );
+        jsin.start_array();
+        translation trans;
+        const std::string dmsg = capture_debugmsg_during( [&]() {
+            jsin.read( trans );
+        } );
+        // check that the correct debug message is shown
+        CHECK_THAT(
+            dmsg,
+            Catch::Equals(
+                R"((json-error))" "\n"
+                R"(Json error: <unknown source file>:2:16: insufficient spaces at this location.  2 required, but only 1 found.)"
+                "\n"
+                R"(    Suggested fix: insert " ")" "\n"
+                R"(    At the following position (marked with caret))" "\n"
+                R"()" "\n"
+                R"([)" "\n"
+                R"(  { "str": "foo.)" "\n"
+                R"(               ^)" "\n"
+                R"(                 bar." },)" "\n"
+                R"(  "foobar")" "\n"
+                R"(])" "\n" ) );
+        // check that the stream is correctly restored to after the first string
+        CHECK( jsin.get_string() == "foobar" );
+        CHECK( jsin.end_array() );
+    }
+}
+
 static void test_get_string( const std::string &str, const std::string &json )
 {
     CAPTURE( json );

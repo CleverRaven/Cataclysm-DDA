@@ -453,12 +453,16 @@ void translation::deserialize( JsonIn &jsin )
             const int origin = jsin.tell();
             check_style = true;
             log_error = [&jsin, origin]( const std::string & msg, const int offset ) {
+                const int previous_pos = jsin.tell();
                 try {
                     jsin.seek( origin );
                     jsin.string_error( msg, offset );
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
+                // seek to previous pos (end of string) so subsequent json input
+                // can continue.
+                jsin.seek( previous_pos );
             };
         }
 #endif

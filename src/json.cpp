@@ -1777,17 +1777,16 @@ void JsonIn::rewind( int max_lines, int max_chars )
             ++lines_found;
             if( tellpos > 0 ) {
                 stream->seekg( -1, std::istream::cur );
-                // note: does not update tellpos or count a character
                 if( peek() != '\r' ) {
-                    continue;
+                    stream->seekg( 1, std::istream::cur );
+                } else {
+                    --tellpos;
                 }
             }
         } else if( peek() == '\r' ) {
             ++lines_found;
         }
-        if( tellpos == 0 ) {
-            break;
-        } else if( lines_found == max_lines ) {
+        if( lines_found == max_lines ) {
             // don't include the last \n or \r
             if( peek() == '\n' ) {
                 stream->seekg( 1, std::istream::cur );
@@ -1797,6 +1796,8 @@ void JsonIn::rewind( int max_lines, int max_chars )
                     stream->seekg( 1, std::istream::cur );
                 }
             }
+            break;
+        } else if( tellpos == 0 ) {
             break;
         }
         stream->seekg( -1, std::istream::cur );
