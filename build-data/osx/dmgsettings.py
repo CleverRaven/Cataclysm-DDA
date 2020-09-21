@@ -17,7 +17,7 @@ def icon_from_app(app_path):
     plist_path = os.path.join(app_path, 'Contents', 'Info.plist')
     plist = biplist.readPlist(plist_path)
     icon_name = plist['CFBundleIconFile']
-    icon_root,icon_ext = os.path.splitext(icon_name)
+    icon_root, icon_ext = os.path.splitext(icon_name)
     if not icon_ext:
         icon_ext = '.icns'
     icon_name = icon_root + icon_ext
@@ -38,10 +38,10 @@ format = defines.get('format', 'UDBZ')
 size = defines.get('size', '200M')
 
 # Files to include
-files = [ application ]
+files = [application]
 
 # Symlinks to create
-symlinks = { 'Applications': '/Applications' }
+symlinks = {'Applications': '/Applications'}
 
 # Volume icon
 #

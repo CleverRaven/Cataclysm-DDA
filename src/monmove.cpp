@@ -821,29 +821,41 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
+    bool try_to_move = false;
+    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
+        if( dest != pos() ) {
+            if( can_move_to( dest ) &&
+                g->critter_at( dest, true ) == nullptr ) {
+                try_to_move = true;
+                break;
+            }
+        }
+    }
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    if( !wander() ) {
-        while( !path.empty() && path.front() == pos() ) {
-            path.erase( path.begin() );
-        }
+    if( try_to_move ) {
+        if( !wander() ) {
+            while( !path.empty() && path.front() == pos() ) {
+                path.erase( path.begin() );
+            }
 
-        const auto &pf_settings = get_pathfinding_settings();
-        if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-            ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-            // We need a new path
-            path = here.route( pos(), goal, pf_settings, get_path_avoid() );
-        }
+            const auto &pf_settings = get_pathfinding_settings();
+            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
+                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+                // We need a new path
+                path = here.route( pos(), goal, pf_settings, get_path_avoid() );
+            }
 
-        // Try to respect old paths, even if we can't pathfind at the moment
-        if( !path.empty() && path.back() == goal ) {
-            destination = path.front();
-            moved = true;
-            pathed = true;
-        } else {
-            // Straight line forward, probably because we can't pathfind (well enough)
-            destination = goal;
-            moved = true;
+            // Try to respect old paths, even if we can't pathfind at the moment
+            if( !path.empty() && path.back() == goal ) {
+                destination = path.front();
+                moved = true;
+                pathed = true;
+            } else {
+                // Straight line forward, probably because we can't pathfind (well enough)
+                destination = goal;
+                moved = true;
+            }
         }
     }
     if( !moved && has_flag( MF_SMELLS ) ) {

@@ -40,7 +40,7 @@ def gen_new(path):
             if jo["result"] == args_dict["id"]:
                 # Already got this one
                 if jo["activity_level"] != "fake":
-                    print("skipping {skipped} - value is {val}, currently on {current}".format(skipped=jo["result"],val=jo["activity_level"],current=args_dict["id"]))
+                    print("skipping {skipped} - value is {val}, currently on {current}".format(skipped=jo["result"], val=jo["activity_level"], current=args_dict["id"]))
                     return None
                 jo["activity_level"] = args_dict["level"]
                 change = True

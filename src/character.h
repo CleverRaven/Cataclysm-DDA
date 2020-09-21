@@ -312,6 +312,21 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
+struct weariness_tracker {
+    int tracker = 0;
+    int intake = 0;
+
+    // Semi-consecutive 5 minute ticks of low activity (or 2 if we're sleeping)
+    int low_activity_ticks = 0;
+    // Consecutive ticks of non-low activity
+    // If it gets high enough, low_activity_ticks decreases by 1
+    int tick_counter = 0;
+    // How many ticks since we've decreased intake
+    int ticks_since_decrease = 0;
+
+    void clear();
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -927,6 +942,7 @@ class Character : public Creature, public visitable<Character>
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id & );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
+        void set_mutations( const std::vector<trait_id> &traits );
         void set_mutation( const trait_id & );
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
@@ -1402,9 +1418,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Wear item; returns nullopt on fail, or pointer to newly worn item on success.
          * If interactive is false, don't alert the player or drain moves on completion.
+         * If do_calc_encumbrance is false, don't recalculat encumbrance, caller must call it eventually.
          */
         cata::optional<std::list<item>::iterator>
-        wear_item( const item &to_wear, bool interactive = true );
+        wear_item( const item &to_wear, bool interactive = true, bool do_calc_encumbrance = true );
 
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
@@ -2551,6 +2568,13 @@ class Character : public Creature, public visitable<Character>
         bool defer_move( const tripoint &next );
         time_duration get_consume_time( const item &it );
 
+        int weariness_level() const;
+        float activity_level() const;
+        float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
+        void try_reduce_weariness( float exertion );
+        float maximum_exertion_level() const;
+        std::string debug_weary_info() const;
+
     protected:
         Character();
         Character( Character && );
@@ -2583,6 +2607,12 @@ class Character : public Creature, public visitable<Character>
         int healthy = 0;
         int healthy_mod = 0;
 
+        weariness_tracker weary;
+        int weary_threshold() const;
+        int weariness() const;
+        // Our bmr at no activity level
+        int base_bmr() const;
+
         /** age in years at character creation */
         int init_age = 25;
         /**height at character creation*/
@@ -2591,7 +2621,7 @@ class Character : public Creature, public visitable<Character>
         creature_size size_class = creature_size::medium;
 
         // the player's activity level for metabolism calculations
-        float activity_level = NO_EXERCISE;
+        float attempted_activity_level = NO_EXERCISE;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
@@ -2683,6 +2713,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
         void suffer_from_stimulants( int current_stim );
+        void suffer_from_exertion();
         void suffer_without_sleep( int sleep_deprivation );
         void suffer_from_tourniquet();
         /**
@@ -2713,6 +2744,9 @@ class Character : public Creature, public visitable<Character>
 
         units::energy power_level;
         units::energy max_power_level;
+
+        // Our weariness level last turn, so we know when we transition
+        int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         int stored_calories;

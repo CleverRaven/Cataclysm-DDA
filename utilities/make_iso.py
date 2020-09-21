@@ -55,7 +55,7 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
         if os.system(command):
             raise RuntimeError("iso-ization failed for %s" % tile_png)
         else:
-            converted_tile_ids[(tile_num,initial_rotation)] = True
+            converted_tile_ids[(tile_num, initial_rotation)] = True
             return True
     return False
 
@@ -263,7 +263,7 @@ for otn in otc['tiles-new']:
 
     for otile in otn['tiles']:
         print(" handling '%s'" % otile['id'])
-        tile = tile_convert(otile,otile['id'],new_tile_number)
+        tile = tile_convert(otile, otile['id'], new_tile_number)
         new_tile_number = tile['ntn']
         del tile['ntn']
         ntn['tiles'].append(tile)

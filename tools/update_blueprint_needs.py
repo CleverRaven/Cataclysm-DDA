@@ -104,9 +104,9 @@ def main(argv):
                         raise
                 if type(content) is list:
                     for obj in content:
-                        if not (type(obj) is dict
-                                and "type" in obj and obj["type"] == "recipe"
-                                and ("result" in obj or "abstract" in obj)):
+                        if not (type(obj) is dict and
+                                "type" in obj and obj["type"] == "recipe" and
+                                ("result" in obj or "abstract" in obj)):
                             continue
                         ident = None
                         if "abstract" in obj:

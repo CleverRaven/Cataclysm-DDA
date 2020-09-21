@@ -240,6 +240,8 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "FUEL_LIST_UP" );
     main_context.register_action( "DESC_LIST_DOWN" );
     main_context.register_action( "DESC_LIST_UP" );
+    main_context.register_action( "PAGE_DOWN" );
+    main_context.register_action( "PAGE_UP" );
     main_context.register_action( "CONFIRM" );
     main_context.register_action( "HELP_KEYBINDINGS" );
     main_context.register_action( "FILTER" );
@@ -406,6 +408,7 @@ void veh_interact::do_main_loop()
     while( !finish ) {
         calc_overview();
         ui_manager::redraw();
+        const int description_scroll_lines = catacurses::getmaxy( w_parts ) - 4;
         const std::string action = main_context.handle_input();
         msg.reset();
         if( const cata::optional<tripoint> vec = main_context.get_direction( action ) ) {
@@ -484,6 +487,10 @@ void veh_interact::do_main_loop()
             move_cursor( point_zero, 1 );
         } else if( action == "DESC_LIST_UP" ) {
             move_cursor( point_zero, -1 );
+        } else if( action == "PAGE_DOWN" ) {
+            move_cursor( point_zero, description_scroll_lines );
+        } else if( action == "PAGE_UP" ) {
+            move_cursor( point_zero, -description_scroll_lines );
         }
         if( sel_cmd != ' ' ) {
             finish = true;

@@ -37,7 +37,7 @@ parser.add_argument(
     "-L", "--list",
     action="store_true",
     help="print only a sorted list of values in JSON format,"
-        " or newline-separated plain text list if --human is also set.")
+         " or newline-separated plain text list if --human is also set.")
 parser.add_argument(
     "-k", "--key",
     required=True, type=str,
@@ -82,4 +82,3 @@ if __name__ == "__main__":
         print(json.dumps(sorted(stats.keys())))
     else:
         print(json.dumps(stats))
-

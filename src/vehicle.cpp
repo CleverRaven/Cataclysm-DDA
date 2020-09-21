@@ -1251,8 +1251,11 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
                 pwr = 0;
             }
         }
+        // Weary multiplier
+        const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += ( get_player_character().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
+        pwr += ( get_player_character().str_cur - 8 ) * part_info( index ).engine_muscle_power_factor() *
+               weary_mult;
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
             weather_manager &weather = get_weather();

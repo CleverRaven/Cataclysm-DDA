@@ -1084,11 +1084,19 @@ void Item_factory::check_definitions() const
             }
         }
 
+        int mag_pocket_number = 0;
         for( const pocket_data &data : type->pockets ) {
+            if( data.type == item_pocket::pocket_type::MAGAZINE ||
+                data.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+                mag_pocket_number++;
+            }
             std::string pocket_error = data.check_definition();
             if( !pocket_error.empty() ) {
                 msg += "problem with pocket: " + pocket_error;
             }
+        }
+        if( mag_pocket_number > 1 ) {
+            msg += "cannot have more than one pocket that handles ammo (MAGAZINE or MAGAZINE_WELL)\n";
         }
 
         if( !type->category_force.is_valid() ) {

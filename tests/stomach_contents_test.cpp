@@ -107,7 +107,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 1739 );
+    REQUIRE( dummy.get_bmr() == 1738 );
 
     constexpr int expected_day = 36;
     int day = 0;

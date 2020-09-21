@@ -1544,6 +1544,7 @@
     "entries": [
       { "group": "tools_medical", "prob": 100 },
       { "group": "drugs_emergency", "prob": 50 },
+      { "item": "quikclot", "prob": 10 },
       { "item": "badge_doctor", "prob": 2 }
     ]
   },

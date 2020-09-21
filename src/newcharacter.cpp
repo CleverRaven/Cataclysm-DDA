@@ -394,7 +394,7 @@ void avatar::add_profession_items()
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( it, false );
+            wear_item( it, false, false );
         } else {
             inv->push_back( it );
         }
@@ -402,6 +402,8 @@ void avatar::add_profession_items()
             items_identified.insert( it.typeId() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
@@ -2427,12 +2429,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                           loc_name, loc.targets_count() );
             }
 
-            uilist_entry entry( loc.id.get_cid().to_i(), true, -1, loc_name );
+            uilist_entry entry( loc.id.id().to_i(), true, -1, loc_name );
 
             select_location.entries.emplace_back( entry );
 
-            if( !you.random_start_location &&
-                loc.id.get_cid() == you.start_location.get_cid() ) {
+            if( !you.random_start_location && loc.id.id() == you.start_location.id() ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2809,7 +2810,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 you.random_start_location = true;
             } else if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_locations::get_all() ) {
-                    if( loc.id.get_cid().to_i() == select_location.ret ) {
+                    if( loc.id.id().to_i() == select_location.ret ) {
                         you.random_start_location = false;
                         you.start_location = loc.id;
                         break;
@@ -2916,12 +2917,16 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 void Character::clear_mutations()
 {
     while( !my_traits.empty() ) {
-        toggle_trait( *my_traits.begin() );
+        my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        unset_mutation( my_mutations.begin()->first );
+        const trait_id trait = my_mutations.begin()->first;
+        my_mutations.erase( my_mutations.begin() );
+        mutation_loss_effect( trait );
     }
     cached_mutations.clear();
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 void Character::empty_skills()

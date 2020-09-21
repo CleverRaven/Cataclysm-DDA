@@ -1402,6 +1402,65 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
 }
 
+static void apply_weariness( Character &you, int level, int old )
+{
+    // Exertion cannot be negative!
+    if( level < 0 || old < 0 ) {
+        debugmsg( "Attempted to apply weariness to character with negative ( new: %d old: %d ) weariness",
+                  level, old );
+    }
+    // A mapping of weariness level to the effect to be applied
+    static std::array<efftype_id, 9> weary_effects { {
+            efftype_id( "weary_0" ),
+            efftype_id( "weary_1" ),
+            efftype_id( "weary_2" ),
+            efftype_id( "weary_3" ),
+            efftype_id( "weary_4" ),
+            efftype_id( "weary_5" ),
+            efftype_id( "weary_6" ),
+            efftype_id( "weary_7" ),
+            efftype_id( "weary_8" ),
+        }};
+
+    // If we're going above level 8, we're seriously messed up
+    // So just stick to level 8
+    if( level > 8 ) {
+        level = 8;
+    }
+    if( old > 8 ) {
+        old = 8;
+    }
+
+    /*
+     * It's possible that old == level, but we need to make sure we're removing
+     * the old effect when that's not true It's simple enough to just remove
+     * the old effect then apply the new, effect, because no change will happen
+     * if they're equal
+     */
+    you.remove_effect( weary_effects[old] );
+    you.add_effect( weary_effects[level], 1_turns, true );
+}
+
+void Character::suffer_from_exertion()
+{
+    int new_weary_level = weariness_level();
+    float max_activity = maximum_exertion_level();
+
+    // Only if there are changes (duh)
+    if( new_weary_level != old_weary_level ) {
+        apply_weariness( *this, new_weary_level, old_weary_level );
+    }
+
+    // Significantly slow the rate of messaging when in an activity
+    int chance = activity ? 2000 : 60;
+    if( attempted_activity_level > max_activity && one_in( chance ) ) {
+        add_msg( m_bad, _( "You're tiring out, continuing to work at this rate will be slower." ) );
+    }
+
+    // This must happen at the end, for hopefully obvious reasons
+    old_weary_level = new_weary_level;
+}
+
 void Character::suffer_without_sleep( const int sleep_deprivation )
 {
     // redo as a snippet?
@@ -1543,6 +1602,7 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
+    suffer_from_exertion();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
     suffer_from_radiation();

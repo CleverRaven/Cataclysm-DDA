@@ -489,10 +489,9 @@
     "difficulty": 3,
     "charges": 1,
     "time": "16 m",
-    "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "fish", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "fish", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -506,8 +505,8 @@
     "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ], [ [ "batter", 2, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1031,10 +1030,9 @@
     "difficulty": 3,
     "time": "8 m",
     "autolearn": true,
-    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the morel",
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "mushroom_morel", 1 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "mushroom_morel", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1150,10 +1148,9 @@
       "family_cookbook": { "skill_level": 1 },
       "cookbook_daintydishes": { "skill_level": 2, "recipe_name": "Royal Penny Tea" }
     },
-    "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "raw_burdock", 2 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "raw_burdock", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1176,8 +1173,13 @@
     },
     "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "batter", 1, "LIST" ] ] ]
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "raw_dandelion", 1 ] ],
+      [ [ "raw_burdock", 1 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "batter", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1283,7 +1285,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
+    "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "fry_oil", 2, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1374,7 +1376,6 @@
     "difficulty": 3,
     "time": "16 m",
     "autolearn": true,
-    "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the potato.",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "components": [
@@ -2687,8 +2688,9 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "charges": 1,
+    "//": "Online recipe says prep time 5 min, cook time 1hr. Adjusted batch time to mimic that.",
     "time": "1 h 15 m",
-    "batch_time_factors": [ 50, 4 ],
+    "batch_time_factors": [ 85, 1 ],
     "book_learn": [ [ "baking_book", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],

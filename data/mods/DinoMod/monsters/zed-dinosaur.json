@@ -173,6 +173,42 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zachyrhinosaurus",
+    "name": { "str": "Pachyrhinosaurus zombie" },
+    "copy-from": "mon_zriceratops",
+    "weight": "4000 kg",
+    "hp": 400,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears.",
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zentaceratops",
+    "name": { "str": "Pentaceraterror" },
+    "copy-from": "mon_zriceratops",
+    "weight": "5000 kg",
+    "armor_cut": 9,
+    "armor_bash": 8,
+    "hp": 500,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zorosaurus",
+    "name": { "str": "Torosaurus zombie" },
+    "copy-from": "mon_zriceratops",
+    "weight": "5000 kg",
+    "armor_cut": 9,
+    "armor_bash": 8,
+    "hp": 500,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which two wicked looking horns emerge.  Its black eyes ooze like tears.",
+    "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zriceratops",
     "name": { "str": "Triceraterror" },
     "copy-from": "mon_zamptosaurus",
@@ -186,11 +222,12 @@
     "melee_dice_sides": 8,
     "melee_cut": 15,
     "armor_bash": 5,
-    "armor_cut": 5,
+    "armor_cut": 7,
     "armor_bullet": 3,
-    "hp": 250,
+    "hp": 600,
     "description": "A massive shambling rhino-like dinosaur corpse with a bony crest from which three wicked looking horns emerge.  Its black eyes ooze like tears.",
-    "upgrades": { "half_life": 14, "into": "mon_zriceratops_brute" }
+    "upgrades": { "half_life": 14, "into": "mon_zriceratops_brute" },
+    "special_attacks": [ { "id": "impale" } ]
   },
   {
     "type": "MONSTER",
