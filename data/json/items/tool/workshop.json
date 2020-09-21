@@ -947,8 +947,23 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "kevlar_layered", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
-        "skill": "mechanics",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "plastic",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1000
       },
