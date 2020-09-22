@@ -169,10 +169,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "down_dur": 2,
-    "messages": [
-      "You release a debilitating slash at %s and topple them off balance",
-      "<npcname> slashes at %s and shoves them down"
-    ]
+    "messages": [ "You release a debilitating slash at %s and topple them off balance", "<npcname> slashes at %s and shoves them down" ]
   },
   {
     "type": "technique",
