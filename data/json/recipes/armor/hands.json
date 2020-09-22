@@ -181,11 +181,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_leather_small", 2 ],
-      [ "tailoring_cotton_patchwork", 1 ],
-      [ "tailoring_kevlar_fabric", 1 ]
-    ],
+    "using": [ [ "tailoring_leather_small", 2 ], [ "tailoring_cotton_patchwork", 1 ], [ "tailoring_kevlar_fabric", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
