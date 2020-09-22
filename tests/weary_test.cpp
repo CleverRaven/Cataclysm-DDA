@@ -19,7 +19,7 @@ static const activity_schedule task_read( activity_id( "ACT_READ" ), 5_minutes )
 static const meal_schedule sausage( itype_id( "sausage" ) );
 static const meal_schedule milk( itype_id( "milk" ) );
 
-static const sleep_schedule sleep{};
+static const sleep_schedule sched_sleep{};
 
 TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
@@ -110,7 +110,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
     mechanic_day.enschedule( milk, 0_turns );
     mechanic_day.enschedule( milk, 0_turns );
     mechanic_day.enschedule( task_read, 4_hours );
-    mechanic_day.enschedule( sleep, 10_hours );
+    mechanic_day.enschedule( sched_sleep, 10_hours );
     mechanic_day.enschedule( task_wait, 16_hours );
 
     SECTION( "Heavy tasks" ) {
