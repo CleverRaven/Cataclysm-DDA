@@ -2297,8 +2297,7 @@ static std::pair<bench_type, float> best_bench_here( const item &craft, const tr
 
 bench_location find_best_bench( const player &p, const item &craft )
 {
-    bool can_lift = !p.weapon.has_flag( flag_NO_UNWIELD ) && p.can_pickVolume( craft ) &&
-                    p.can_pickWeight( craft );
+    bool can_lift = p.can_wield( craft ).success() && p.weight_capacity() >= craft.weight();
     std::pair<bench_type, float> bench_here = best_bench_here( craft, p.pos(), can_lift );
     bench_type best_type = bench_here.first;
     float best_bench_multi = bench_here.second;
