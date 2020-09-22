@@ -650,10 +650,10 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "50 m",
+    "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 24 ] ],
-    "components": [ [ [ "rag", 30 ] ] ]
+    "reversible": true,
+    "using": [ [ "tailoring_cotton_patchwork", 24 ] ]
   },
   {
     "result": "under_armor_shorts",
@@ -663,11 +663,12 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "25 m",
+    "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "lycra_patch", 5 ] ] ]
+    "proficiencies": [
+      { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 } ],
+    "using": [ [ "tailoring_lycra", 3 ] ]
   },
   {
     "result": "chainmail_legs",
@@ -677,10 +678,12 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "time": "40 m",
+    "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 4 ] ],
-    "components": [ [ [ "link_sheet", 4 ] ], [ [ "chain_link", 100 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
+    "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 }
+    ]
   },
   {
     "result": "legguard_bronze",
@@ -690,10 +693,15 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 120000,
+    "time": "8 h",
     "autolearn": true,
+    "reversible": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "scrap_bronze", 12 ] ] ]
+    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+    ],
+    "components": [ [ [ "scrap_bronze", 12 ] ] ]
   }
 ]
