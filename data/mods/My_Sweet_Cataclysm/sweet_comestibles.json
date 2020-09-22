@@ -39,7 +39,7 @@
     "symbol": "%",
     "container": "null",
     "copy-from": "smores",
-    "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… \alive\?",
+    "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… alive?",
     "rot_spawn": "GROUP_EGG_SMORES",
     "rot_spawn_chance": 100,
     "spoils_in": "15 days"
