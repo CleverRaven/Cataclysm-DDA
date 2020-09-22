@@ -534,6 +534,23 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
+            append_cell( [&p]( const item_location & loc ) {
+                const item &it = *loc;
+                const int charges = std::max( it.charges, 1 );
+                const double converted_weight = convert_weight( it.weight() / charges );
+                if( converted_weight == 0 ) {
+                    return std::string( "---" );
+                }
+                const nutrients nutr = p.compute_effective_nutrients( *loc );
+                const int kcalories = nutr.kcal;
+                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
+                if( kcalories == 0 ) {
+                    return std::string();
+                }
+                const int calpergr = int( std::round( kcalories / converted_weight ) );
+                return string_format( _( "%d" ), calpergr );
+            }, _( "CAL/kg" ) );
+
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
                 time_duration time = player_character.get_consume_time( *loc );
