@@ -98,8 +98,8 @@ struct body_part_type {
         translation name_as_heading;
         translation name_as_heading_multiple;
         translation smash_message;
-        std::string hp_bar_ui_text;
-        std::string encumb_text;
+        translation hp_bar_ui_text;
+        translation encumb_text;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
