@@ -24,6 +24,6 @@
     "name": { "str": "revolver speedloader" },
     "description": "A 'speedloader', a metal block capable of holding and releasing ammunition to aid in loading revolvers.  Accepts 6 standard or magnum pistol cartridges.",
     "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { { "ammo_pistol": 6 }, { "ammo_pistol_magnum": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 6, "ammo_pistol_magnum": 6 } } ]
   }
 ]
