@@ -87,12 +87,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
     "deconstruct": {
-      "items": [ 
-        { "item": "pipe", "count": 6 }, 
-        { "item": "steel_chunk", "count": 2 }, 
-        { "item": "pipe_fittings", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": 10 } 
-      ]
+      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "pipe_fittings", "count": [ 1, 4 ] }, { "item": "cable", "charges": 10 } ]
     },
     "bash": {
       "str_min": 6,
