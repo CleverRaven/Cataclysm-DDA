@@ -596,7 +596,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "byproducts": [ { "item": "rag", "count": [ 4, 8 ] } ],
+    "byproducts": [ [ "rag", 4 ] ],
     "components": [ [ [ "pants_cargo", 1 ] ] ]
   },
   {
@@ -625,7 +625,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "flags": [ "NO_RESIZE" ],
-    "byproducts": [ { "item": "rag", "count": [ 4, 8 ] } ],
+    "byproducts": [ [ "rag", 4 ] ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {
