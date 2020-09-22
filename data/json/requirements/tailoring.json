@@ -160,6 +160,12 @@
     ]
   },
   {
+    "id": "clasps",
+    "type": "requirement",
+    "//": "All kinds of fasteners for strapped-on objects like belts, per single strap.",
+    "components": [ [ [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ], [ "string_6", 2 ] ] ]
+  },
+  {
     "id": "plastic_molding",
     "type": "requirement",
     "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
