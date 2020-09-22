@@ -2,18 +2,18 @@
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore_dino",
-    "neutral": [ "small_animal", "herbivore", "fishing_dino", "robofac" ],
+    "neutral": [ "small_animal", "herbivore", "fishing_dino" ],
     "hate": [ "plant" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "predator_dino",
-    "neutral": [ "small_animal", "fish", "robofac" ]
+    "neutral": [ "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "fishing_dino",
-    "neutral": [ "small_animal", "herbivore_dino", "herbivore", "robofac" ],
+    "neutral": [ "small_animal", "herbivore_dino", "herbivore" ],
     "hate": [ "fish" ]
   },
   {
