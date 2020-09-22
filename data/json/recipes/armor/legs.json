@@ -292,7 +292,7 @@
     "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_armoursmithing", "required": false, "time_multiplier": 2.5 },
+      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2.5 },
       { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -535,7 +535,7 @@
     "skills_required": [ "fabrication", 5 ],
     "time": "14 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar", 4 ], [ "tailoring_cotton", 4 ], [ "waterproofing_plastic_bags", 8 ], [ "fastener_small", 1 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_cotton", 4 ], [ "waterproofing_plastic_bags", 8 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },

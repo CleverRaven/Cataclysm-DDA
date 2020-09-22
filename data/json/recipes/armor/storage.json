@@ -1047,7 +1047,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 7 ], [ "strap_large", 1 ], [ "clasp", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 7 ], [ "strap_large", 1 ], [ "clasps", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ]
   },
   {
