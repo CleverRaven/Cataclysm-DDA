@@ -1595,5 +1595,13 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
+  },
+  {
+    "type": "skill",
+    "id": "lockpick",
+    "name": { "str": "lockpicking" },
+    "description": "OBSOLETE.  See traps & locks.",
+    "display_category": "display_interaction",
+    "obsolete": true
   }
 ]
