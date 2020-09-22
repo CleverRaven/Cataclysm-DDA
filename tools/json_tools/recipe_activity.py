@@ -6,7 +6,7 @@ import os
 
 args = argparse.ArgumentParser()
 args.add_argument("dir", action="store", help="specify json directory")
-args.add_argument("id",  action="store", help="id of recipe to adjust")
+args.add_argument("id", action="store", help="id of recipe to adjust")
 args.add_argument("level", action="store", help="what activity level to shift it to")
 args_dict = vars(args.parse_args())
 
