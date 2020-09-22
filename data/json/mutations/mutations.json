@@ -716,7 +716,7 @@
     "id": "STRICT_HUMANITARIAN",
     "name": { "str": "Strict Humanitarian" },
     "points": 1,
-    "description": "Your culinary definitions were always quite relaxed. You no longer receive a mood malus from eating otherwordly humanoids.",
+    "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people. Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
