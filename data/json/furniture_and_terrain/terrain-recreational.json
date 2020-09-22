@@ -40,14 +40,14 @@
     "looks_like": "t_ladder_up",
     "color": "light_cyan",
     "move_cost": 4,
-    "deconstruct": { 
-	  "ter_set": "t_dirt", 
-	  "items": [ 
-	    { "item": "sheet_metal", "count": 1 }, 
-		{ "item": "pipe_fittings", "count": [ 2, 4 ] },
-	    { "item": "pipe", "count": [ 4, 8 ] } 
-	  ] 
-	},
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 4, 8 ] }
+      ]
+    },
     "flags": [ "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
       "str_min": 16,
@@ -67,13 +67,10 @@
     "symbol": "#",
     "color": "cyan",
     "move_cost": 4,
-    "deconstruct": { 
-	  "ter_set": "t_dirt", 
-	  "items": [ 
-	    { "item": "pipe_fittings", "count": [ 4, 8 ] },
-		{ "item": "pipe", "count": [ 6, 12 ] } 
-	  ] 
-	},
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pipe_fittings", "count": [ 4, 8 ] }, { "item": "pipe", "count": [ 6, 12 ] } ]
+    },
     "flags": [ "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
       "str_min": 16,
