@@ -63,15 +63,7 @@
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 75,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "PERCEPTION", "add": 2 } ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ] },
     "material_thickness": 5,
     "environmental_protection": 20,
     "qualities": [ [ "GLARE", 2 ] ],
