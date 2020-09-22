@@ -181,6 +181,7 @@
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": 1 },
         { "item": "pipe", "count": 2 },
+		{ "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "glass_sheet", "count": 1 },
         { "item": "bearing", "charges": [ 10, 16 ] }
       ]
@@ -223,6 +224,7 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "chain", "count": 1 },
         { "item": "pipe", "count": [ 4, 5 ] },
+		{ "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "saddle", "count": [ 1, 1 ] },
         { "item": "wheel_small", "count": [ 1, 1 ] },
         { "item": "small_lcd_screen", "count": 1 },
@@ -242,6 +244,7 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "chain", "prob": 50 },
         { "item": "pipe", "count": [ 0, 4 ] },
+		{ "item": "pipe_fittings", "count": [ 0, 4 ] },
         { "item": "saddle", "prob": 50 },
         { "item": "wheel_small", "prob": 50 },
         { "item": "small_lcd_screen", "prob": 50 },
@@ -269,6 +272,7 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "chain", "count": 1 },
         { "item": "pipe", "count": [ 4, 5 ] },
+		{ "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "saddle", "count": [ 1, 1 ] },
         { "item": "wheel_small", "count": [ 1, 1 ] },
         { "item": "nail", "charges": [ 6, 8 ] }
@@ -286,6 +290,7 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "chain", "prob": 50 },
         { "item": "pipe", "count": [ 0, 4 ] },
+		{ "item": "pipe_fittings", "count": [ 0, 4 ] },
         { "item": "saddle", "prob": 50 },
         { "item": "wheel_small", "prob": 50 },
         { "item": "nail", "charges": [ 2, 6 ] }
@@ -307,6 +312,7 @@
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
         { "item": "scrap", "count": [ 2, 5 ] },
         { "item": "pipe", "count": [ 4, 3 ] },
+		{ "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "RAM", "count": 1 },
         { "item": "motor_tiny", "count": 1 },
@@ -345,6 +351,7 @@
         { "item": "plastic_chunk", "count": [ 10, 14 ] },
         { "item": "scrap", "count": [ 2, 10 ] },
         { "item": "pipe", "count": [ 4, 6 ] },
+		{ "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "nail", "charges": [ 6, 8 ] }
       ]
     },

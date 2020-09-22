@@ -29,6 +29,8 @@
         { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "antenna", "count": 2 },
+		{ "item": "pipe_fittings", "count": [ 1, 2 ] },
+		{ "item": "pipe", "count": 1 },
         { "item": "amplifier", "count": 1 }
       ]
     }
@@ -48,6 +50,8 @@
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 4, 12 ] },
         { "item": "cable", "charges": [ 10, 15 ] },
+		{ "item": "pipe_fittings", "count": [ 1, 2 ] },
+		{ "item": "pipe", "count": [ 1, 4 ] },
         { "item": "power_supply", "prob": 50 }
       ]
     }
@@ -83,7 +87,12 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT", "BASHABLE" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": 2 }, { "item": "cable", "charges": 10 } ]
+      "items": [ 
+	    { "item": "pipe", "count": 6 }, 
+		{ "item": "steel_chunk", "count": 2 }, 
+		{ "item": "pipe_fittings", "count": [ 1, 4 ] },
+		{ "item": "cable", "charges": 10 } 
+	  ]
     },
     "bash": {
       "str_min": 6,
