@@ -1094,7 +1094,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
             if( is_player() && !type.get_apply_message().empty() ) {
-                add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
+                add_msg( type.gain_game_message_type(), type.get_apply_message() );
             }
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
@@ -1154,7 +1154,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     if( Character *ch = as_character() ) {
         if( is_player() ) {
             if( !type.get_remove_message().empty() ) {
-                add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
+                add_msg( type.lose_game_message_type(), type.get_remove_message() );
             }
         }
         get_event_bus().send<event_type::character_loses_effect>( ch->getID(), eff_id );

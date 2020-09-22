@@ -44,6 +44,11 @@ class effect_type
         friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
+        enum class memorial_gender : int {
+            male,
+            female,
+        };
+
         effect_type() = default;
 
         efftype_id id;
@@ -68,11 +73,11 @@ class effect_type
         /** Returns the message displayed when a new effect is obtained. */
         std::string get_apply_message() const;
         /** Returns the memorial log added when a new effect is obtained. */
-        std::string get_apply_memorial_log() const;
+        std::string get_apply_memorial_log( memorial_gender gender ) const;
         /** Returns the message displayed when an effect is removed. */
         std::string get_remove_message() const;
         /** Returns the memorial log added when an effect is removed. */
-        std::string get_remove_memorial_log() const;
+        std::string get_remove_memorial_log( memorial_gender gender ) const;
         /** Returns the effect's description displayed when character conducts blood analysis. */
         std::string get_blood_analysis_description() const;
 
@@ -129,21 +134,21 @@ class effect_type
         bool impairs_movement = false;
 
         std::vector<translation> name;
-        std::string speed_mod_name;
-        std::vector<std::string> desc;
-        std::vector<std::string> reduced_desc;
+        translation speed_mod_name;
+        std::vector<translation> desc;
+        std::vector<translation> reduced_desc;
         bool part_descs = false;
 
-        std::vector<std::pair<std::string, game_message_type>> decay_msgs;
+        std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
         effect_rating rating = effect_rating::e_neutral;
 
-        std::string apply_message;
+        translation apply_message;
         std::string apply_memorial_log;
-        std::string remove_message;
+        translation remove_message;
         std::string remove_memorial_log;
 
-        std::string blood_analysis_description;
+        translation blood_analysis_description;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <

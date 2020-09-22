@@ -7,6 +7,7 @@
 #include <unordered_set>
 
 #include "bodypart.h"
+#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -446,23 +447,35 @@ game_message_type effect_type::lose_game_message_type() const
 }
 std::string effect_type::get_apply_message() const
 {
-    return apply_message;
+    return apply_message.translated();
 }
-std::string effect_type::get_apply_memorial_log() const
+std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
-    return apply_memorial_log;
+    switch( gender ) {
+        case memorial_gender::male:
+            return pgettext( "memorial_male", apply_memorial_log.c_str() );
+        case memorial_gender::female:
+            return pgettext( "memorial_female", apply_memorial_log.c_str() );
+    }
+    return std::string();
 }
 std::string effect_type::get_remove_message() const
 {
-    return remove_message;
+    return remove_message.translated();
 }
-std::string effect_type::get_remove_memorial_log() const
+std::string effect_type::get_remove_memorial_log( const memorial_gender gender ) const
 {
-    return remove_memorial_log;
+    switch( gender ) {
+        case memorial_gender::male:
+            return pgettext( "memorial_male", remove_memorial_log.c_str() );
+        case memorial_gender::female:
+            return pgettext( "memorial_female", remove_memorial_log.c_str() );
+    }
+    return std::string();
 }
 std::string effect_type::get_blood_analysis_description() const
 {
-    return blood_analysis_description;
+    return blood_analysis_description.translated();
 }
 bool effect_type::get_main_parts() const
 {
@@ -486,7 +499,8 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            std::string msg = inner.get_string( 0 );
+            translation msg;
+            inner.read( 0, msg );
             std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
             if( r == "good" ) {
@@ -689,23 +703,23 @@ std::string effect::disp_desc( bool reduced ) const
     std::string tmp_str;
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
-            tmp_str = eff_type->reduced_desc[intensity - 1];
+            tmp_str = eff_type->reduced_desc[intensity - 1].translated();
         } else {
-            tmp_str = eff_type->desc[intensity - 1];
+            tmp_str = eff_type->desc[intensity - 1].translated();
         }
     } else {
         if( reduced ) {
-            tmp_str = eff_type->reduced_desc[0];
+            tmp_str = eff_type->reduced_desc[0].translated();
         } else {
-            tmp_str = eff_type->desc[0];
+            tmp_str = eff_type->desc[0].translated();
         }
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
+        ret += string_format( tmp_str, body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret += _( tmp_str );
+            ret += tmp_str;
         }
     }
 
@@ -716,15 +730,15 @@ std::string effect::disp_short_desc( bool reduced ) const
 {
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
-            return eff_type->reduced_desc[intensity - 1];
+            return eff_type->reduced_desc[intensity - 1].translated();
         } else {
-            return eff_type->desc[intensity - 1];
+            return eff_type->desc[intensity - 1].translated();
         }
     } else {
         if( reduced ) {
-            return eff_type->reduced_desc[0];
+            return eff_type->reduced_desc[0].translated();
         } else {
-            return eff_type->desc[0];
+            return eff_type->desc[0].translated();
         }
     }
 }
@@ -840,7 +854,7 @@ int effect::set_intensity( int val, bool alert )
 
     if( alert && val < intensity && val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
-                 eff_type->decay_msgs[ val - 1 ].first.c_str() );
+                 eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
     int old_intensity = intensity;
@@ -1191,7 +1205,7 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return _( eff_type->speed_mod_name );
+        return eff_type->speed_mod_name.translated();
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {
@@ -1242,19 +1256,15 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.name.emplace_back();
     }
-    new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
+    jo.read( "speed_name", new_etype.speed_mod_name );
 
     if( jo.has_member( "desc" ) ) {
-        for( const std::string line : jo.get_array( "desc" ) ) {
-            new_etype.desc.push_back( line );
-        }
+        jo.read( "desc", new_etype.desc );
     } else {
-        new_etype.desc.push_back( "" );
+        new_etype.desc.emplace_back();
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
-            new_etype.reduced_desc.push_back( line );
-        }
+        jo.read( "reduced_desc", new_etype.reduced_desc );
     } else {
         new_etype.reduced_desc = new_etype.desc;
     }
@@ -1277,12 +1287,18 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.rating = e_neutral;
     }
-    new_etype.apply_message = jo.get_string( "apply_message", "" );
-    new_etype.remove_message = jo.get_string( "remove_message", "" );
-    new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
-    new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
+    jo.read( "apply_message", new_etype.apply_message );
+    jo.read( "remove_message", new_etype.remove_message );
+    jo.read( "apply_memorial_log", new_etype.apply_memorial_log );
+    jo.read( "remove_memorial_log", new_etype.remove_memorial_log );
+    if( test_mode ) {
+        // HACK: read again using class translation to check text style
+        translation dummy;
+        jo.read( "apply_memorial_log", dummy );
+        jo.read( "remove_memorial_log", dummy );
+    }
 
-    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
+    jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );

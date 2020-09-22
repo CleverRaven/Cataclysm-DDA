@@ -394,7 +394,7 @@ class ma_buff_effect_type : public effect_type
             int_decay_step = -1;
             int_decay_tick = 1;
             int_dur_factor = 0_turns;
-            name.push_back( to_translation( buff.name ) );
+            name.push_back( buff.name );
             desc.push_back( buff.description );
             rating = e_good;
         }
@@ -531,7 +531,7 @@ std::string ma_requirements::get_description( bool buff ) const
         dump += _( "<bold>Requires:</bold> " );
 
         dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name );
+            return bid->name.translated();
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -700,7 +700,7 @@ bool ma_buff::can_melee() const
 std::string ma_buff::get_description( bool passive ) const
 {
     std::string dump;
-    dump += string_format( _( "<bold>Buff technique:</bold> %s" ), _( name ) ) + "\n";
+    dump += string_format( _( "<bold>Buff technique:</bold> %s" ), name ) + "\n";
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {

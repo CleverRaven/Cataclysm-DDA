@@ -179,8 +179,8 @@ class ma_buff
 
         mabuff_id id;
         bool was_loaded = false;
-        std::string name;
-        std::string description;
+        translation name;
+        translation description;
         std::string get_description( bool passive = false ) const;
 
         ma_requirements reqs;
