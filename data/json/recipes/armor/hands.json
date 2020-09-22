@@ -124,11 +124,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_leather_small", 2 ],
-      [ "tailoring_nomex_patchwork", 2 ],
-      [ "tailoring_kevlar_fabric", 1 ]
-    ],
+    "using": [ [ "tailoring_leather_small", 2 ], [ "tailoring_nomex_patchwork", 2 ], [ "tailoring_kevlar_fabric", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
@@ -261,11 +257,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "18 h",
     "autolearn": true,
-    "using": [
-      [ "tailoring_leather_small", 2 ],
-      [ "tailoring_cotton_patchwork", 1 ],
-      [ "tailoring_kevlar_fabric", 1 ]
-    ],
+    "using": [ [ "tailoring_leather_small", 2 ], [ "tailoring_cotton_patchwork", 1 ], [ "tailoring_kevlar_fabric", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
@@ -592,10 +584,6 @@
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [
-      [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
-      [ [ "gloves_leather", 1 ] ],
-      [ [ "scrap", 4 ] ]
-    ]
+    "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "gloves_leather", 1 ] ], [ [ "scrap", 4 ] ] ]
   }
 ]

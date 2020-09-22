@@ -666,8 +666,7 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 } ],
     "using": [ [ "tailoring_lycra", 3 ] ]
   },
   {
@@ -681,9 +680,7 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 } ]
   },
   {
     "result": "legguard_bronze",

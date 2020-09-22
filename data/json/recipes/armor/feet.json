@@ -87,10 +87,7 @@
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [ [ "duct_tape", 50 ] ],
-      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
-    ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
   },
   {
     "result": "boots_fur",
@@ -297,7 +294,12 @@
     "difficulty": 6,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "tailoring_felt_patchwork", 4 ], [ "plastic_molding", 4 ], [ "waterproofing_plastic_bags", 2 ], [ "fastener_small", 2 ] ],
+    "using": [
+      [ "tailoring_felt_patchwork", 4 ],
+      [ "plastic_molding", 4 ],
+      [ "waterproofing_plastic_bags", 2 ],
+      [ "fastener_small", 2 ]
+    ],
     "proficiencies": [
       { "proficiency": "prof_cobbling", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 3 },
@@ -347,10 +349,7 @@
       { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [ [ "scrap", 4 ] ],
-      [ [ "duct_tape", 200 ] ]
-    ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "duct_tape", 200 ] ] ]
   },
   {
     "result": "clogs",

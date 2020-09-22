@@ -366,9 +366,7 @@
     "id_suffix": "from leather",
     "copy-from": "chestpouch",
     "using": [ [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ] ],
-    "extend": { "proficiencies": [
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
-    ] }
+    "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 } ] }
   },
   {
     "result": "tacvest",
@@ -387,10 +385,7 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 }
     ],
-    "components": [
-      [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ]
-    ]
+    "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
     "result": "duffelbag",
@@ -488,7 +483,7 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
-	"components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
     "result": "western_holster",
@@ -558,7 +553,7 @@
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
-	"components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
     "result": "ammo_pouch",
@@ -578,7 +573,7 @@
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 3 }
     ],
-	"components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
     "result": "legpouch",
@@ -597,7 +592,7 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 }
     ],
-	"components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
+    "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
     "result": "legpouch_large",
