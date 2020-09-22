@@ -192,7 +192,6 @@
         { "item": "condensor_coil", "count": 1 },
         { "item": "evaporator_coil", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
-        { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "motor_tiny", "count": 1 }
       ]
     },
@@ -233,7 +232,6 @@
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 50, 75 ] },
         { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "pipe_fittings", "count": [ 4, 8 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
     },
@@ -358,8 +356,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "pipe", "count": [ 0, 1 ] },
-        { "item": "pipe_fittings", "count": [ 0, 1 ] }
+        { "item": "pipe", "count": [ 0, 1 ] }
       ]
     },
     "bash": {
@@ -387,12 +384,7 @@
     "looks_like": "f_rack_coat",
     "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
     "deconstruct": {
-      "items": [
-        { "item": "steel_lump", "count": 1 },
-        { "item": "wheel_caster", "count": 1 },
-        { "item": "pipe_fittings", "count": 1 },
-        { "item": "pipe", "count": 1 }
-      ]
+      "items": [ { "item": "steel_lump", "count": 1 }, { "item": "wheel_caster", "count": 1 }, { "item": "pipe", "count": 1 } ]
     },
     "bash": {
       "str_min": 14,
