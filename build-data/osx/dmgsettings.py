@@ -54,7 +54,7 @@ badge_icon = icon_from_app(application)
 
 # Where to put the icons
 icon_locations = {
-    appname:        (240, 400),
+    appname: (240, 400),
     'Applications': (430, 400)
 }
 
