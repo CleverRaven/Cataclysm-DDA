@@ -186,7 +186,7 @@
     "time": "6 h",
     "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
     "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ],
-    "using": [ [ "tailoring_felt", 11 ], [ "clasps", 1 ] ]
+    "using": [ [ "tailoring_felt", 11 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "knee_pads",
