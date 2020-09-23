@@ -854,7 +854,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 6 ), COL_STAT_ACT, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Str further costs 2 points." ) );
+                               _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
@@ -873,7 +873,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 7 ), COL_STAT_ACT, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Dex further costs 2 points." ) );
+                               _( "Increasing Dex further costs 2 points" ) );
                 }
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
                            u.get_melee_hit_base() );
@@ -894,7 +894,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 8 ), COL_STAT_ACT, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Int further costs 2 points." ) );
+                               _( "Increasing Int further costs 2 points" ) );
                 }
                 const int read_spd = u.read_speed( false );
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
@@ -915,7 +915,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 9 ), COL_STAT_ACT, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Per further costs 2 points." ) );
+                               _( "Increasing Per further costs 2 points" ) );
                 }
                 if( u.ranged_per_mod() > 0 ) {
                     mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
@@ -2646,7 +2646,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_location );
 
         werase( w_vehicle );
-        mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting Vehicle: " ) );
+        mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
         const vproto_id scen_veh = get_scenario()->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
         if( scen_veh ) {
@@ -3064,7 +3064,7 @@ void avatar::save_template( const std::string &name, const points_left &points )
                               "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
                               "\x1C\x1D\x1E\x1F"
                             ) != std::string::npos ) {
-        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead" ) );
+        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead." ) );
         return;
     }
 #endif
