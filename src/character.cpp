@@ -4853,13 +4853,14 @@ void weariness_tracker::clear()
 
 void Character::mod_stored_kcal( int nkcal )
 {
+    const float mult = get_option<float>( "WEARY_INCREASE_MULT" );
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
-        weary.intake += nkcal;
+        weary.intake += nkcal * mult;
     } else {
         add_spent_calories( -nkcal );
         // nkcal is negative, we need positive
-        weary.tracker -= nkcal;
+        weary.tracker -= nkcal * mult;
     }
     set_stored_kcal( stored_calories + nkcal );
 }
