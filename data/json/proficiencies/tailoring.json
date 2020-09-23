@@ -27,12 +27,20 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_elastics",
+    "name": { "str": "Stretch Fabric" },
+    "description": "Making elastic bands is easy enough, but making a whole garment from stretchy cloth takes a bit of finesse.  You're good at it.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_cobbling",
     "name": { "str": "Cobbling" },
     "description": "Like a magical elf, you've learned how to construct footwear by hand.",
     "can_learn": true,
     "time_to_learn": "10 h",
-    "required_proficiencies": [ "prof_closures", "prof_leatherworking" ]
+    "required_proficiencies": [ "prof_closures", "prof_leatherworking_basic" ]
   },
   {
     "type": "proficiency",
@@ -53,11 +61,29 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_leatherworking_basic",
+    "name": { "str": "Principles of Leatherworking" },
+    "description": "You've got a basic familiarity with how to work with leather, furs, hides, and similar materials.",
+    "can_learn": true,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_leatherworking",
     "name": { "str": "Leatherworking" },
     "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
-    "time_to_learn": "10 h"
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_furriery",
+    "name": { "str": "Furriery" },
+    "description": "Working with fur and faux fur is a skill all its own.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
   },
   {
     "type": "proficiency",
