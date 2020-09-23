@@ -1755,7 +1755,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
-    "skills_required": [ [ "mechanics", 3 ], [ "fabrication", 3 ]
+    "skills_required": [ [ "mechanics", 3 ], [ "fabrication", 3 ] ],
     "difficulty": 2,
     "time": "3 h",
     "reversible": true,
