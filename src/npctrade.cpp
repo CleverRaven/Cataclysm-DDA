@@ -38,7 +38,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
@@ -116,7 +116,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
 double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
 {
-    // Adjust the prices based on your barter skill.
+    // Adjust the prices based on your social skill.
     // cap adjustment so nothing is ever sold below value
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
@@ -126,8 +126,8 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
-                    price_adjustment( seller.get_skill_level( skill_barter ) -
-                                      buyer.get_skill_level( skill_barter ) );
+                    price_adjustment( seller.get_skill_level( skill_speech ) -
+                                      buyer.get_skill_level( skill_speech ) );
     return( std::max( adjust, 1.0 ) );
 }
 
@@ -254,7 +254,7 @@ void trading_window::setup_trade( int cost, npc &np )
 {
     avatar &player_character = get_avatar();
     // Populate the list of what the NPC is willing to buy, and the prices they pay
-    // Note that the NPC's barter skill is factored into these prices.
+    // Note that the NPC's social skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
     theirs = npc_trading::init_buying( player_character, np, true );
@@ -716,7 +716,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            player_character.practice( skill_barter, practice / 10000 );
+            player_character.practice( skill_speech, practice / 10000 );
         }
     }
     return traded;

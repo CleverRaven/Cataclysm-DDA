@@ -636,21 +636,6 @@
     ]
   },
   {
-    "id": "achievement_lvl_7_barter",
-    "type": "achievement",
-    "name": "Free Trader",
-    "description": "Extraordinary gizmos for obscenely low prices!",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_7", "is": ">=", "target": 1 } ]
-  },
-  {
-    "id": "achievement_lvl_10_barter",
-    "type": "achievement",
-    "name": "Cut-Me-Own-Throat Dibbler",
-    "description": "My Inuit friend, I'm selling you this ice for such a low price, that it's cutting me own throat.",
-    "requirements": [ { "event_statistic": "num_gains_barter_level_10", "is": ">=", "target": 1 } ],
-    "hidden_by": [ "achievement_lvl_7_barter" ]
-  },
-  {
     "id": "achievement_lvl_7_speech",
     "type": "achievement",
     "name": "Eloquent",
