@@ -484,8 +484,8 @@
     "time": "7 h",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ], [ "fastener_large", 1 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 3 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
