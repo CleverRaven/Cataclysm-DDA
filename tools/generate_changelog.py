@@ -837,7 +837,7 @@ def read_personal_token(filename):
 
     try:
         with open(pathlib.Path(str(filename)).expanduser()) as token_file:
-            match = re.search('(?P<token>\S+)', token_file.read(), flags=re.MULTILINE)
+            match = re.search('(?P<token>\\S+)', token_file.read(), flags=re.MULTILINE)
             if match is not None:
                 return match.group('token')
     except IOError:
