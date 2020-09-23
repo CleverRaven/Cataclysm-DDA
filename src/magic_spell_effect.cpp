@@ -190,7 +190,7 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     return targets;
 }
 
-static std::set<tripoint> spell_effect_cone_range_override( const spell &sp, const tripoint &source,
+static std::set<tripoint> spell_effect_cone_range_override( const tripoint &source,
         const tripoint &target, const int aoe_radius, const bool ignore_walls, const int range )
 {
     std::set<tripoint> targets;
@@ -222,7 +222,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
 {
     // cones go all the way to end (if they don't hit an obstacle)
     const int range = sp.range() + 1;
-    return spell_effect_cone_range_override( sp, source, target, aoe_radius, ignore_walls, range );
+    return spell_effect_cone_range_override( source, target, aoe_radius, ignore_walls, range );
 }
 
 static bool test_always_true( const tripoint & )
@@ -1151,6 +1151,6 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
                   far_target );
     const std::set<tripoint> hit_area = spell_effect_cone_range_override(
-                                            sp, source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
+                                            source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
     damage_targets( sp, caster, hit_area );
 }
