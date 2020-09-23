@@ -374,7 +374,7 @@
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 3 },
       { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
-      { "proficiency": "leatherworking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
     ]
   },
   {
