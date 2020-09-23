@@ -93,7 +93,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": [ "traps", 1 ],
     "difficulty": 1,
     "time": "4 m",
     "autolearn": true,

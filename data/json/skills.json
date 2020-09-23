@@ -44,8 +44,8 @@
   {
     "type": "skill",
     "id": "traps",
-    "name": { "str": "traps & locks" },
-    "description": "Your skill in creating, setting, finding and disarming traps safely and effectively, as well as disabling security systems and locks and other precision tasks.  This skill does not affect the evasion of traps that are triggered.",
+    "name": { "str": "devices" },
+    "description": "Your skill in manipulating fine devices like security systems, traps, locks and other precision tasks.  This skill does not affect the evasion of traps that are triggered.",
     "companion_survival_rank_factor": 1,
     "display_category": "display_interaction",
     "companion_skill_practice": [ { "skill": "", "weight": 15 }, { "skill": "gathering", "weight": 15 }, { "skill": "trapping", "weight": 80 } ]
