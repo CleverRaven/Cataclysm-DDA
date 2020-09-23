@@ -1258,10 +1258,6 @@ void Character::modify_morale( item &food, const int nutr )
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
     const nutrients food_nutrients = compute_effective_nutrients( food );
-    // TODO: Move quench values to mL and remove the magic number here
-    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
-                              5_ml : 0_ml;
-    units::volume food_vol = food.base_volume() - water_vol;
     units::mass food_weight = ( food.weight() / food.count() );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
