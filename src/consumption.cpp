@@ -1254,6 +1254,24 @@ void Character::modify_morale( item &food, const int nutr )
     }
 }
 
+//computes effective food volume ratio. Used when determining stomach fullness from eating.
+double Character::compute_effective_food_volume_ratio(const item& food) const{
+    const nutrients food_nutrients = compute_effective_nutrients(food);
+    // TODO: Move quench values to mL and remove the magic number here
+    units::volume water_vol = (food.type->comestible->quench > 0) ? food.type->comestible->quench *
+        5_ml : 0_ml;
+    units::volume food_vol = food.base_volume() - water_vol;
+    units::mass food_weight = (food.weight() / food.count());
+    double ratio = 1.0f;
+    if (units::to_gram(food_weight) != 0) {
+        ratio = std::max(static_cast<double>(food_nutrients.kcal) / units::to_gram(food_weight), 1.0);
+        if (ratio > 3.0f) {
+            ratio = std::sqrt(3 * ratio);
+        }
+    }
+    return ratio;
+}
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
@@ -1378,14 +1396,7 @@ bool Character::consume_effects( item &food )
                               5_ml : 0_ml;
     units::volume food_vol = food.base_volume() - water_vol;
     units::mass food_weight = ( food.weight() / food.count() );
-    double ratio = 1.0f;
-    if( units::to_gram( food_weight ) != 0 ) {
-        ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
-        if( ratio > 3.0f ) {
-            ratio = std::sqrt( 3 * ratio );
-        }
-    }
-
+    const double ratio = compute_effective_food_volume_ratio(food);
     food_summary ingested{
         water_vol,
         food_vol * ratio,
