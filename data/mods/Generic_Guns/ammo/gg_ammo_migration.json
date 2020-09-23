@@ -385,7 +385,7 @@
     "replace": "reloaded_shot_pyro"
   },
   {
-    "id": [ "reloaded_shot_flechette" ],
+    "id": [ "shot_flechette", "reloaded_shot_flechette" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_dart"
   },
