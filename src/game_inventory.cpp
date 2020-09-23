@@ -548,7 +548,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                                           5_ml : 0_ml;
                 units::volume food_vol = it.volume() - water_vol; //water volume is ignored.
                 const double converted_volume = round_up( convert_volume( food_vol.value() / it.count() ), 2 );
-                const double energy_density_ratio = p.compute_effective_food_volume_ratio(it);
+                const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
                 return string_format( _( "%d" ), calories_per_effective_volume );
