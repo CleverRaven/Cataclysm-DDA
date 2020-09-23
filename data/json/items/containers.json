@@ -278,7 +278,7 @@
     "category": "container",
     "name": { "str": "sealed plastic bottle" },
     "copy-from": "bottle_plastic",
-    "description": "A watertight plastic bottle, holds 500 ml of liquid. This one has a tamper-evident cap and foil seal, which is still intact.",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid. Preserves content from rot until opened.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1155,7 +1155,7 @@
     "category": "container",
     "name": { "str": "sealed gallon jug" },
     "looks_like": "bottle_plastic",
-    "description": "A standard plastic jug used for milk and household cleaning chemicals. This one still has an intact tamper-evident seal.",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals. Preserves content from rot until opened.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
