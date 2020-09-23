@@ -49,7 +49,9 @@ static std::string getHeaderGuard( StringRef Filename )
     bool Found = false;
     while( std::string::npos != ( LastSlash = TopDir.find_last_of( "/\\" ) ) ) {
         TopDir = TopDir.substr( 0, LastSlash );
-        if( pathExists( TopDir + "/.travis.yml" ) ) {
+        // Either the root source dir (containing .travis.yml) or the root build
+        // dir (containing CMakeCache.txt)
+        if( pathExists( TopDir + "/.travis.yml" ) || pathExists( TopDir + "/CMakeCache.txt" ) ) {
             Found = true;
             break;
         }
@@ -161,6 +163,10 @@ class HeaderGuardPPCallbacks : public PPCallbacks
             std::unordered_set<std::string> GuardlessHeaders = Files;
 
             for( const std::string &FileName : Files ) {
+                if( !isHeaderFileName( FileName ) ) {
+                    continue;
+                }
+
                 const FileInfo &Info = FileInfos[FileName];
 
                 if( Info.Macros.empty() || Info.Ifndefs.empty() || Info.EndIfs.empty() ) {

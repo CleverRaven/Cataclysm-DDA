@@ -1,6 +1,6 @@
 #include "gamemode_defense.h" // IWYU pragma: associated
 
-#include <cassert>
+#include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <ostream>
@@ -8,9 +8,10 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cata_assert.h"
+#include "character.h"
 #include "color.h"
 #include "construction.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +19,7 @@
 #include "input.h"
 #include "item.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -27,10 +29,10 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "popup.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -58,22 +60,22 @@ static constexpr int SPECIAL_WAVE_MIN = 5;
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
-std::string caravan_category_name( caravan_category cat );
-std::vector<itype_id> caravan_items( caravan_category cat );
-std::set<m_flag> monflags_to_add;
+static std::string caravan_category_name( caravan_category cat );
+static std::vector<itype_id> caravan_items( caravan_category cat );
+static std::set<m_flag> monflags_to_add;
 
-int caravan_price( Character &u, int price );
+static int caravan_price( Character &u, int price );
 
-void draw_caravan_borders( const catacurses::window &w, int current_window );
-void draw_caravan_categories( const catacurses::window &w, int category_selected,
-                              int total_price, int cash );
-void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
-                         std::vector<int> *counts, int offset, int item_selected );
+static void draw_caravan_borders( const catacurses::window &w, int current_window );
+static void draw_caravan_categories( const catacurses::window &w, int category_selected,
+                                     int total_price, int cash );
+static void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
+                                std::vector<int> *counts, int offset, int item_selected );
 
-std::string defense_style_name( defense_style style );
-std::string defense_style_description( defense_style style );
-std::string defense_location_name( defense_location location );
-std::string defense_location_description( defense_location location );
+static std::string defense_style_name( defense_style style );
+static std::string defense_style_description( defense_style style );
+static std::string defense_location_name( defense_location location );
+static std::string defense_location_description( defense_location location );
 
 defense_game::defense_game()
     : time_between_waves( 0_turns )
@@ -174,12 +176,12 @@ void defense_game::pre_action( action_id &act )
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT: {
             Character &player_character = get_player_character();
+            const tripoint abs_sub = get_map().get_abs_sub();
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
-            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 )
-                || ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 )
-                || ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && g->get_levx() <= 93 )
-                || ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
-                     g->get_levx() >= 98 ) ) {
+            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y <= 93 ) ||
+                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y >= 98 ) ||
+                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x <= 93 ) ||
+                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x >= 98 ) ) {
                 action_error_message = string_format( _( "You cannot leave the %s behind!" ),
                                                       defense_location_name( location ) );
             }
@@ -205,7 +207,7 @@ void defense_game::game_over()
 
 void defense_game::init_mtypes()
 {
-    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
         t->difficulty += static_cast<int>( t->difficulty / 5 );
@@ -296,7 +298,7 @@ void defense_game::init_map()
 
     // For this mode assume we always want overmap zero.
     tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
-    g->load_map( project_to<coords::scale::submap>( abs_defloc_pos ) );
+    g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
     player_character.setx( SEEX );
     player_character.sety( SEEY );
@@ -304,7 +306,7 @@ void defense_game::init_map()
     g->update_map( player_character );
     monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ),
                                player_character.pos(), 2 );
-    assert( generator );
+    cata_assert( generator );
     generator->friendly = -1;
 }
 
@@ -1358,6 +1360,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
     tripoint player_pos = get_player_character().pos();
+    map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
@@ -1374,7 +1377,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        monster *const mon = g->place_critter_at( type, tripoint( pnt, g->get_levz() ) );
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z ) );
         if( !mon ) {
             continue;
         }

@@ -52,7 +52,13 @@
       "ccpmag",
       "px4mag",
       "90two40mag",
-      "px4_40mag"
+      "px4_40mag",
+      "glock_20mag",
+      "glock_29mag",
+      "m1911_10mag",
+      "p220_10_mag",
+      "xd_10_mag",
+      "witness_mag_10"
     ],
     "type": "MIGRATION",
     "replace": "pistol_mag"
@@ -99,7 +105,9 @@
       "tec9mag",
       "uzimag",
       "cz75mag_26rd",
-      "skorpion82mag"
+      "skorpion82mag",
+      "mp5_10_mag",
+      "tdi_10mm_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag"

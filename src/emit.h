@@ -6,6 +6,8 @@
 #include <string>
 
 #include "field_type.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;

@@ -103,6 +103,8 @@ class item_location
          **/
         bool has_parent() const;
 
+        bool parents_can_contain_recursive( item *it ) const;
+
     private:
         class impl;
 

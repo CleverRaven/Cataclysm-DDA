@@ -3,12 +3,9 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdint>
 #include <cstdlib>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
@@ -16,41 +13,45 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "achievement.h"
 #include "action.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
-#include "cursesdef.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
+#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -76,12 +77,10 @@
 #include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
-#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -92,12 +91,14 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "vehicle.h"
 #include "veh_type.h"
+#include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_flu( "flu" );
@@ -105,9 +106,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -157,6 +155,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
+        case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -175,6 +174,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VEHICLE_AI: return "DISPLAY_VEHICLE_AI";
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
+        case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
@@ -251,6 +251,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -295,6 +296,7 @@ static int teleport_uilist()
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
+        { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
 
     return uilist( _( "Teleport…" ), uilist_initializer );
@@ -408,12 +410,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    Character &player_character = get_player_character();
-    if( !where || *where == player_character.pos() ) {
+    location &player_location = get_player_location();
+    if( !where || *where == player_location.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint new_pos( player_location.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -427,21 +429,36 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
-void teleport_overmap()
+void teleport_overmap( bool specific_coordinates )
 {
-    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
-    if( !dir_ ) {
-        return;
-    }
-
     Character &player_character = get_player_character();
-    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
-
+    tripoint_abs_omt where;
+    if( specific_coordinates ) {
+        const std::string text = string_input_popup()
+                                 .title( "Teleport where?" )
+                                 .width( 20 )
+                                 .query_string();
+        if( text.empty() ) {
+            return;
+        }
+        const std::vector<std::string> coord_strings = string_split( text, ',' );
+        tripoint coord;
+        coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
+        coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
+        coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+    } else {
+        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        if( !dir_ ) {
+            return;
+        }
+        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        where = player_character.global_omt_location() + offset;
+    }
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
-        project_to<coords::scale::overmap>( player_character.global_omt_location() );
+        project_to<coords::om>( player_character.global_omt_location() );
     add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
@@ -463,8 +480,8 @@ void spawn_nested_mapgen()
 
         map &here = get_map();
         const tripoint_abs_ms abs_ms( here.getabs( *where ) );
-        const tripoint_abs_omt abs_omt = project_to<coords::scale::overmap_terrain>( abs_ms );
-        const tripoint_abs_sm abs_sub = project_to<coords::scale::submap>( abs_ms );
+        const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
+        const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
@@ -478,7 +495,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( here.get_abs_sub().z );
     }
 }
 
@@ -550,7 +567,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -566,9 +583,11 @@ void character_edit_menu()
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
     nmenu.addentry( D_NEEDS, true, 'n', "%s", _( "Set [n]eeds" ) );
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
-    nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
+    nmenu.addentry( D_STATUS, true,
+                    hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
+                    "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -627,7 +646,7 @@ void character_edit_menu()
                 it.on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
+            p.inv->clear();
             p.remove_weapon();
             break;
         case D_ITEM_WORN: {
@@ -933,7 +952,7 @@ void character_edit_menu()
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
-            for( auto &cl : npc_class::get_all() ) {
+            for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
                 classes.addentry( i, true, -1, cl.get_name() );
                 i++;
@@ -966,8 +985,24 @@ void character_edit_menu()
             }
         }
         break;
-        case D_FLU: {
-            p.add_effect( effect_flu, 1000_minutes );
+        case D_ADD_EFFECT: {
+            const auto text = string_input_popup()
+                              .title( _( "Choose an effect to add." ) )
+                              .width( 20 )
+                              .text( "" )
+                              .only_digits( false )
+                              .query_string();
+            efftype_id effect( text );
+            int intensity = 0;
+            int seconds = 0;
+            query_int( intensity, _( "What intensity?" ) );
+            query_int( seconds, _( "How many seconds?" ), 600 );
+
+            if( effect.is_valid() ) {
+                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
+            } else {
+                add_msg( _( "Invalid effect" ) );
+            }
             break;
         }
         case D_ASTHMA: {
@@ -1116,7 +1151,7 @@ void mission_debug::remove_mission( mission &m )
         add_msg( _( "Unsetting active mission" ) );
     }
 
-    const auto giver = g->find_npc( m.npc_id );
+    npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
             add_msg( _( "Removing from %s missions_assigned" ), giver->name );
@@ -1196,7 +1231,8 @@ void draw_benchmark( const int max_difference )
 
 void debug()
 {
-    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
+    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
+                                 /*maximum_modifier_count=*/ -1, false ).has_value();
     cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
@@ -1210,7 +1246,7 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1225,6 +1261,7 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
+    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -1255,8 +1292,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, player_character.pos() + point( -4,
-                                    -4 ) );
+            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -1296,9 +1332,32 @@ void debug()
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+
+            std::unordered_map<std::string, int> creature_counts;
+            for( Creature &critter : g->all_creatures() ) {
+                std::string this_name = critter.get_name();
+                creature_counts[this_name]++;
+            }
+
+            if( !creature_counts.empty() ) {
+                std::vector<std::pair<std::string, int>> creature_names_sorted;
+                for( const std::pair<const std::string, int> &it : creature_counts ) {
+                    creature_names_sorted.emplace_back( it );
+                }
+
+                std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+                    return a.second > b.second;
+                } );
+
+                s += _( "\nSpecific creature type list:\n" );
+                for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
+                    s += string_format( "%i %s\n", crit_name.second, crit_name.first );
+                }
+            }
+
             popup_top(
                 s.c_str(),
-                player_character.posx(), player_character.posy(), g->get_levx(), g->get_levy(),
+                player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
                 overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
                 g->num_creatures() );
@@ -1398,7 +1457,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    player_character.martial_arts_data.add_martialart( style );
+                    player_character.martial_arts_data->add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1656,6 +1715,9 @@ void debug()
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
             break;
+        case debug_menu_index::DISPLAY_TRANSPARENCY:
+            g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
         case debug_menu_index::CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
                 const auto text = string_input_popup()
@@ -1758,6 +1820,9 @@ void debug()
         case debug_menu_index::OM_TELEPORT:
             debug_menu::teleport_overmap();
             break;
+        case debug_menu_index::OM_TELEPORT_COORDINATES:
+            debug_menu::teleport_overmap( true );
+            break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();
             break;
@@ -1788,13 +1853,12 @@ void debug()
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                 const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::scale::submap>( where_omt );
+                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    // TODO: fix point types
-                    mx_map.load( where_sm.raw(), false );
+                    mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
-                    here.invalidate_map_cache( g->get_levz() );
+                    here.invalidate_map_cache( here.get_abs_sub().z );
                 }
             }
             break;
@@ -1821,7 +1885,7 @@ void debug()
         }
         case debug_menu_index::PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
-                const std::vector<spell_id> spells = guy.magic.spells();
+                const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
                     std::cout << guy.disp_name() << " does not know any spells." << std::endl;
                     continue;
@@ -1848,7 +1912,8 @@ void debug()
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
-            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
+            get_weather().get_cur_weather_gen().test_weather( g->get_seed(),
+                    get_weather().next_instance_allowed );
         }
         break;
 
@@ -1904,14 +1969,14 @@ void debug()
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    player_character.magic.learn_spell( &learn, player_character, true );
+                    player_character.magic->learn_spell( &learn, player_character, true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
             }
             break;
         case debug_menu_index::LEVEL_SPELLS: {
-            std::vector<spell *> spells = player_character.magic.get_spells();
+            std::vector<spell *> spells = player_character.magic->get_spells();
             if( spells.empty() ) {
                 add_msg( m_bad, _( "Try learning some spells first." ) );
                 return;
@@ -1983,7 +2048,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 } // namespace debug_menu

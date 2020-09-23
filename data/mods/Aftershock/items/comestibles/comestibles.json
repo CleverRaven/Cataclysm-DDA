@@ -1,0 +1,66 @@
+[
+  {
+    "id": "afs_sungel",
+    "type": "COMESTIBLE",
+    "name": "sungel",
+    "copy-from": "afs_sundew",
+    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
+    "stim": 50,
+    "phase": "solid",
+    "charges": 2,
+    "fun": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
+      "effects": [
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 }
+      ]
+    }
+  },
+  {
+    "id": "afs_sunesthesia",
+    "type": "COMESTIBLE",
+    "name": "sunesthesia",
+    "copy-from": "afs_sungel",
+    "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
+    "stim": -30,
+    "phase": "solid",
+    "color": "light_red",
+    "flags": [ "ANESTHESIA", "LIGHT_4", "EATEN_HOT" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
+      "effects": [
+        { "id": "pkill3", "duration": 480 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 },
+        { "id": "downed", "duration": 1 }
+      ]
+    }
+  },
+  {
+    "id": "panacea",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "Panaceus", "str_pl": "Panaceii" },
+    "symbol": "!",
+    "color": "red",
+    "copy-from": "panacea",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You feel AMAZING!",
+      "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ],
+      "damage_over_time": [
+        {
+          "damage_type": "pure",
+          "duration": "1 m",
+          "amount": -10,
+          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ]
+        }
+      ]
+    },
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  }
+]

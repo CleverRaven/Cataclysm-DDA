@@ -14,7 +14,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_BLOB",
+    "name": "GROUP_SLIME",
     "default": "mon_blob",
     "//": "GROUP_GOO has a shoggoth, which isn't even the same faction as blobs. Also removes brain blob.",
     "monsters": [

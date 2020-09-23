@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_saltworks_0",
     "description": "Survey land for a saltworks area.",
     "category": "CC_BUILDING",
@@ -16,8 +17,9 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_brewery1_southwest",
-    "description": "We could uprade the workspace in the brewery to add a still, wood stove and work table.",
+    "description": "We could upgrade the workspace in the brewery to add a still, wood stove and work table.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -47,6 +49,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_brewery2_southwest",
     "description": "We could use fill out the space with extra kegs and storage racks.",
     "category": "CC_BUILDING",

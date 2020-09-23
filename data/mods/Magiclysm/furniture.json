@@ -227,5 +227,23 @@
       "sound_fail": "whump.",
       "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_candelabra",
+    "name": "candelabra of everlasting candles",
+    "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "light_emitted": 40,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "str_min": 20,
+      "str_max": 40,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   }
 ]

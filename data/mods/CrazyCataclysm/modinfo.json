@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "crazy_cataclysm",
+    "id": "crazy_cataclysm",
     "name": "Crazy Cataclysm",
     "authors": [ "Kevin" ],
     "description": "Want a little crazy in your Cataclysm?  Try this one.",

@@ -19,11 +19,11 @@
         "_sssssssss|V|kkk   kkk|,",
         "_||=======|||         |,",
         "_| th       +  kkkk   |,",
-        "_|hth   lll |  rrrr  F|,",
-        "_|      |||+|        F|,",
-        "_|h h   |r  c        F|,",
-        "_|ddd   |r  c        F|,",
-        "_| h    |r  |  kkkk  F|,",
+        "_|hth   lll |  rrrr  ñ|,",
+        "_|      |||+|        ñ|,",
+        "_|h h   |r  c        ñ|,",
+        "_|ddd   |r  c        ñ|,",
+        "_| h    |r  |  kkkk  ñ|,",
         "_||||||3|||||  kkkk   |,",
         "________:& i|        r|,",
         "________|   +  rrrr  r|,",
@@ -42,20 +42,20 @@
       "toilets": { "&": {  } },
       "gaspumps": { "G": {  } },
       "items": {
-        "F": { "item": "fridgesnacks", "chance": 50, "repeat": [ 1, 2 ] },
         "d": { "item": "office", "chance": 33, "repeat": [ 1, 2 ] },
         "k": { "item": "snacks", "chance": 33, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
-        { "item": "plut_cell", "x": 10, "y": 9, "chance": 80 },
-        { "item": "plut_cell", "x": 10, "y": 9, "chance": 20, "repeat": [ 0, 1 ] },
-        { "item": "plut_cell", "x": 10, "y": 9, "chance": 3, "repeat": [ 2, 5 ] },
+        { "item": "plut_cell", "x": 11, "y": 9, "chance": 80 },
+        { "item": "plut_cell", "x": 11, "y": 9, "chance": 20, "repeat": [ 0, 1 ] },
+        { "item": "plut_cell", "x": 11, "y": 9, "chance": 3, "repeat": [ 2, 5 ] },
         { "group": "behindcounter", "x": 9, "y": [ 14, 16 ], "chance": 80, "repeat": [ 0, 2 ] },
         { "group": "road", "x": [ 15, 18 ], "y": 12, "chance": 33, "repeat": [ 0, 1 ] },
         { "group": "magazines", "x": 9, "y": [ 14, 16 ], "chance": 90 },
         { "group": "softdrugs", "x": [ 15, 18 ], "y": [ 20, 19 ], "chance": 80, "repeat": [ 0, 2 ] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "vendingmachines": { "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true } }
     }
   }
 ]

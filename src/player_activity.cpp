@@ -7,6 +7,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "construction.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +21,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -124,12 +126,19 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         return cata::optional<std::string>();
     }
 
+    if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
+        type == activity_id( "ACT_AIM" ) ||
+        type == activity_id( "ACT_ARMOR_LAYERS" ) ||
+        type == activity_id( "ACT_ATM" ) ||
+        type == activity_id( "ACT_CONSUME_DRINK_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
+        type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
+        type == activity_id( "ACT_EAT_MENU" ) ) {
+        return cata::nullopt;
+    }
+
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
-        if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
-        }
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -151,9 +160,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
             type == activity_id( "ACT_DISASSEMBLE" ) ||
+            type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
-            type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
@@ -172,6 +180,10 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                 extra_info = string_format( "%d%%", percentage );
             }
         }
+    }
+
+    if( actor ) {
+        extra_info = actor->get_progress_message( *this );
     }
 
     return extra_info.empty() ? string_format( _( "%s…" ),
@@ -193,6 +205,12 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    // Specifically call the do turn function for the cancellation activity early
+    // This is because the game can get stuck trying to fuel a fire when it's not...
+    if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        actor->do_turn( *this, p );
+        return;
+    }
     // first to ensure sync with actor
     sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
@@ -223,9 +241,10 @@ void player_activity::do_turn( player &p )
             }
         }
     }
+    const float activity_mult = p.exertion_adjusted_move_multiplier();
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
-            moves_left -= 100;
+            moves_left -= 100 * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= p.moves * moves_left / 100;
@@ -233,7 +252,7 @@ void player_activity::do_turn( player &p )
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
+            moves_left -= p.moves * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= moves_left;
@@ -250,9 +269,9 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
+    p.increase_activity_level( exertion_level() );
     // This might finish the activity (set it to null)
     if( actor ) {
-        p.increase_activity_level( actor->get_type()->exertion_level() );
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
@@ -298,7 +317,6 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
-        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
@@ -318,6 +336,14 @@ void player_activity::canceled( Character &who )
     }
 }
 
+float player_activity::exertion_level() const
+{
+    if( actor ) {
+        return actor->exertion_level();
+    }
+    return type->exertion_level();
+}
+
 template <typename T>
 bool containers_equal( const T &left, const T &right )
 {
@@ -334,6 +360,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // And to forbid resuming now-invalid crafting
 
     if( !*this || !other || type->no_resume() ) {
+        return false;
+    }
+
+    if( id() != other.id() ) {
         return false;
     }
 
@@ -361,9 +391,13 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+        if( values != other.values || str_values != other.str_values ) {
+            return false;
+        }
     }
 
-    return !auto_resume && id() == other.id() && index == other.index &&
+    return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 
@@ -390,7 +424,7 @@ void player_activity::allow_distractions()
 
 void player_activity::inherit_distractions( const player_activity &other )
 {
-    for( auto &type : other.ignored_distractions ) {
+    for( const distraction_type &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
 }

@@ -1,5 +1,6 @@
 #include "monfaction.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <queue>
@@ -13,13 +14,11 @@
 #include "json.h"
 #include "string_id.h"
 
-std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
-std::vector< monfaction > faction_list;
+static std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
+static std::vector< monfaction > faction_list;
 
-void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
-                          mf_attitude value );
-
-void apply_base_faction( const monfaction &base, monfaction &faction );
+static void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
+                                 mf_attitude value );
 
 /** @relates int_id */
 template<>
@@ -191,7 +190,7 @@ void monfactions::finalize()
     // Bad json
     if( !unloaded.empty() ) {
         std::string names;
-        for( auto &fac : unloaded ) {
+        for( const auto &fac : unloaded ) {
             names.append( fac.id().str() );
             names.append( " " );
             auto &the_faction = faction_list[fac.to_i()];

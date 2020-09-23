@@ -3,13 +3,15 @@
 #define CATA_SRC_AUTO_NOTE_H
 
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
-#include <unordered_map>
 #include <vector>
 
-#include "string_id.h"
 #include "map_extras.h"
+#include "string_id.h"
+
+class map_extra;
 
 namespace auto_notes
 {

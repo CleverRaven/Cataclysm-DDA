@@ -76,7 +76,6 @@ struct WORLD {
 
         void load_options( JsonIn &jsin );
         bool load_options();
-        void load_legacy_options( std::istream &fin );
 };
 
 class mod_manager;

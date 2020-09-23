@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAPDATA_H
 #define CATA_SRC_MAPDATA_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cstddef>
@@ -11,10 +12,16 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "int_id.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
+
+struct ter_t;
+using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
 class player;
@@ -223,6 +230,8 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+    TERCONN_COUNTER,
+    TERCONN_CANVAS_WALL,
 };
 
 struct map_data_common_t {
@@ -241,6 +250,13 @@ struct map_data_common_t {
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
         std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
+
+    public:
+        ter_str_id curtain_transform;
+
+        bool has_curtains() const {
+            return !( curtain_transform.is_empty() || curtain_transform.is_null() );
+        }
 
     public:
         std::string name() const;
@@ -572,7 +588,7 @@ extern furn_id f_null,
        f_tourist_table,
        f_camp_chair,
        f_sign,
-       f_gunsafe_ml;
+       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

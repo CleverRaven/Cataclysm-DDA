@@ -1,39 +1,40 @@
 #include "inventory.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdint>
 #include <cstdlib>
-#include <algorithm>
-#include <iterator>
 #include <memory>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "colony.h"
+#include "damage.h"
 #include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
 #include "game.h"
 #include "iexamine.h"
+#include "int_id.h"
+#include "inventory_ui.h" // auto inventory blocking
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
+#include "point.h"
+#include "ret_val.h"
+#include "rng.h"
 #include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "calendar.h"
-#include "character.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
-#include "material.h"
-#include "type_id.h"
-#include "colony.h"
-#include "flat_set.h"
-#include "point.h"
-#include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_codeine( "codeine" );
@@ -263,7 +264,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
     Character &player_character = get_player_character();
     // Some of our preferred letters might already be used.
-    for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
+    for( char invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
         if( assigned_invlet.count( invlet ) ) {
             continue;
@@ -449,6 +450,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 {
     items.clear();
     for( const tripoint &p : pts ) {
+        // a temporary hack while trees are terrain
+        if( m.ter( p )->has_flag( "TREE" ) ) {
+            item tree_pseudo( "butchery_tree_pseudo" );
+            tree_pseudo.item_tags.insert( "PSEUDO" );
+            add_item( tree_pseudo );
+        }
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -536,7 +543,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( "CARGO", true );
 
         if( cargo ) {
-            const auto items = veh->get_items( cargo->part_index() );
+            const vehicle_stack items = veh->get_items( cargo->part_index() );
             *this += std::list<item>( items.begin(), items.end() );
         }
 
@@ -585,7 +592,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item food_processor = item_with_battery( "food_processor", veh_battery );
             add_item( food_processor );
 
-            item press = item_with_battery( "press", veh_battery );
+            item press = item( "press" );
+            press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {
@@ -754,7 +762,7 @@ int inventory::position_by_item( const item *it ) const
 int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
-    for( auto &elem : items ) {
+    for( const auto &elem : items ) {
         if( elem.front().typeId() == type ) {
             return i;
         }
@@ -899,7 +907,7 @@ void inventory::rust_iron_items()
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
                 here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
-                elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
+                elem_stack_iter.inc_damage( damage_type::ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
         }
@@ -1026,6 +1034,20 @@ enchantment inventory::get_active_enchantment_cache( const Character &owner ) co
     return temp_cache;
 }
 
+int inventory::count_item( const itype_id &item_type ) const
+{
+    int num = 0;
+    const itype_bin bin = get_binned_items();
+    if( bin.find( item_type ) == bin.end() ) {
+        return num;
+    }
+    const std::list<const item *> items = get_binned_items().find( item_type )->second;
+    for( const item *it : items ) {
+        num += it->count();
+    }
+    return num;
+}
+
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
@@ -1051,7 +1073,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
                 // don't overwrite assigned keys
                 continue;
             }
-            if( !selector.action_bound_to_key( inv_char ).empty() ) {
+            if( selector.action_bound_to_key( inv_char ) != "ERROR" ) {
                 // don't auto-assign bound keys
                 continue;
             }
@@ -1127,13 +1149,6 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     }
 }
 
-void inventory::set_stack_favorite( const int position, const bool favorite )
-{
-    for( auto &e : *std::next( items.begin(), position ) ) {
-        e.set_favorite( favorite );
-    }
-}
-
 invlets_bitset inventory::allocated_invlets() const
 {
     invlets_bitset invlets;
@@ -1158,6 +1173,9 @@ const itype_bin &inventory::get_binned_items() const
     inventory *this_nonconst = const_cast<inventory *>( this );
     this_nonconst->visit_items( [ this ]( item * e ) {
         binned_items[ e->typeId() ].push_back( e );
+        for( const item *it : e->softwares() ) {
+            binned_items[it->typeId()].push_back( it );
+        }
         return VisitResponse::NEXT;
     } );
 

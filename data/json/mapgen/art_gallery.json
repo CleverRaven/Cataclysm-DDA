@@ -68,7 +68,7 @@
         "w": "f_wreckage"
       },
       "toilets": { "&": {  } },
-      "place_item": [ { "item": "jar_glass", "x": 5, "y": 3 } ],
+      "place_item": [ { "item": "jar_glass_sealed", "x": 5, "y": 3 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 4, "y": 16, "chance": 2 },
         { "monster": "GROUP_ZOMBIE", "x": 19, "y": 14, "chance": 2 }

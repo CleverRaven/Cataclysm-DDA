@@ -104,6 +104,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
       "target": "candle_lit",
       "msg": "You light the candle.",
@@ -112,30 +113,20 @@
       "menu_text": "Light",
       "type": "transform"
     },
-    "flags": [ "BURNOUT" ]
+    "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "candle_lit",
     "type": "TOOL",
+    "copy-from": "candle",
     "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
-    "weight": "225 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
-    "material": [ "veggy" ],
-    "symbol": ",",
-    "color": "white",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": [
       { "type": "firestarter", "moves": 100 },
       { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "BURNOUT" ]
+    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
   },
   {
     "id": "electric_lantern",
@@ -355,7 +346,6 @@
     "price_postapoc": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
     "ammo": "flare_nitrate",
-    "initial_charges": 300,
     "use_action": {
       "menu_text": "Strike the striker",
       "type": "transform",
@@ -539,7 +529,7 @@
     "id": "oxylamp",
     "type": "TOOL",
     "name": { "str": "acetylene lamp (off)", "str_pl": "acetylene lamps (off)" },
-    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
+    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if somewhat dangerous, light source.",
     "weight": "800 g",
     "volume": "500 ml",
     "price": 6500,

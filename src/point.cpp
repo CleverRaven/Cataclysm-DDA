@@ -4,7 +4,7 @@
 #include <sstream>
 #include <utility>
 
-#include "cata_utility.h"
+#include "debug.h"
 
 point point::from_string( const std::string &s )
 {
@@ -68,16 +68,6 @@ std::istream &operator>>( std::istream &is, tripoint &pos )
     is.get( c ) &&c == '(' &&is >> pos.x &&is.get( c ) &&c == ',' &&is >> pos.y &&
                                 is.get( c ) &&c == ',' &&is >> pos.z &&is.get( c ) &&c == ')';
     return is;
-}
-
-point clamp( const point &p, const half_open_rectangle &r )
-{
-    return point( clamp( p.x, r.p_min.x, r.p_max.x - 1 ), clamp( p.y, r.p_min.y, r.p_max.y - 1 ) );
-}
-
-point clamp( const point &p, const inclusive_rectangle &r )
-{
-    return point( clamp( p.x, r.p_min.x, r.p_max.x ), clamp( p.y, r.p_min.y, r.p_max.y ) );
 }
 
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )

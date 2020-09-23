@@ -1,10 +1,24 @@
 #include "achievement.h"
 
-#include "avatar.h"
+#include <cstdlib>
+#include <set>
+#include <tuple>
+#include <utility>
+
+#include "cata_assert.h"
+#include "color.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "past_games_info.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+
+template <typename E> struct enum_traits;
 
 // Some details about how achievements work
 // ========================================
@@ -147,7 +161,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false;
+    bool becomes_false = false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -194,6 +208,12 @@ struct achievement_requirement {
             debugmsg( "Achievement %s has a non-integer requirement which is sometimes visible.  "
                       "Such requirements must have a description, but this one does not.",
                       id.str() );
+        }
+
+        if( !target.is_valid() ) {
+            debugmsg( "Achievement %s has a requirement target %s of type %s, but that is not "
+                      "a valid value of that type.",
+                      id.str(), target.get_string(), io::enum_to_string( target.type() ) );
         }
     }
 
@@ -645,7 +665,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
     if( sorted_watchers_[is_satisfied].insert( watcher ).second ) {
         // Remove from other
         sorted_watchers_[!is_satisfied].erase( watcher );
-        assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
+        cata_assert( sorted_watchers_[0].size() + sorted_watchers_[1].size() == watchers_.size() );
     }
 
     achievement_completion time_comp =
@@ -707,6 +727,23 @@ std::string achievement_tracker::ui_text() const
         result += "  " + colorize( achievement_->description(), c ) + "\n";
     }
 
+    // Note if it's been completed in other games
+    const achievement_completion_info *other_games =
+        get_past_games().achievement( achievement_->id );
+    if( other_games && !other_games->games_completed.empty() ) {
+        std::string message =
+            string_format( _( "Previously completed by %s" ),
+                           other_games->games_completed.front()->avatar_name() );
+        size_t num_completions = other_games->games_completed.size();
+        if( num_completions > 1 ) {
+            message +=
+                string_format(
+                    ngettext( " and %d other", " and %d others", num_completions - 1 ),
+                    num_completions - 1 );
+        }
+        result += "  " + colorize( message, c_blue ) + "\n";
+    }
+
     // Next: the time constraint
     if( achievement_->time_constraint() ) {
         result += "  " + achievement_->time_constraint()->ui_text( achievement_->is_conduct() ) +
@@ -748,8 +785,8 @@ std::vector<const achievement *> achievements_tracker::valid_achievements() cons
 
 void achievements_tracker::report_achievement( const achievement *a, achievement_completion comp )
 {
-    assert( comp != achievement_completion::pending );
-    assert( !achievements_status_.count( a->id ) );
+    cata_assert( comp != achievement_completion::pending );
+    cata_assert( !achievements_status_.count( a->id ) );
 
     auto tracker_it = trackers_.find( a->id );
     achievements_status_.emplace(
@@ -823,7 +860,7 @@ void achievements_tracker::clear()
 void achievements_tracker::notify( const cata::event &e )
 {
     if( e.type() == event_type::game_start ) {
-        assert( initial_achievements_.empty() );
+        cata_assert( initial_achievements_.empty() );
         for( const achievement &ach : achievement::get_all() ) {
             initial_achievements_.insert( ach.id );
         }

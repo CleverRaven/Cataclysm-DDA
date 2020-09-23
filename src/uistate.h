@@ -140,6 +140,8 @@ class uistatedata
         std::set<recipe_id> favorite_recipes;
         std::vector<recipe_id> recent_recipes;
 
+        bionic_ui_sort_mode bionic_sort_mode = bionic_ui_sort_mode::POWER;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
@@ -197,6 +199,7 @@ class uistatedata
             json.member( "hidden_recipes", hidden_recipes );
             json.member( "favorite_recipes", favorite_recipes );
             json.member( "recent_recipes", recent_recipes );
+            json.member( "bionic_ui_sort_mode", bionic_sort_mode );
 
             json.member( "input_history" );
             json.start_object();
@@ -240,6 +243,7 @@ class uistatedata
             jo.read( "hidden_recipes", hidden_recipes );
             jo.read( "favorite_recipes", favorite_recipes );
             jo.read( "recent_recipes", recent_recipes );
+            jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,

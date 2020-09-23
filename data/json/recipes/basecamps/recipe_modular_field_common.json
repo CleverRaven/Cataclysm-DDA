@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_field_0",
     "description": "We should survey the base site and set up a bulletin board.",
     "category": "CC_BUILDING",
@@ -25,6 +26,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_mallroof_0",
     "description": "We should survey the roof top and set up a bulletin board.",
     "category": "CC_BUILDING",
@@ -50,6 +52,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_fireplace_northeast",
     "description": "Now that we have some cover, we should build a fireplace in the northeast shack.",
     "category": "CC_BUILDING",
@@ -73,6 +76,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_brazier_northeast",
     "description": "Now that we have some cover, we should set up a brazier in the northeast shack.",
     "category": "CC_BUILDING",
@@ -90,6 +94,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_stove_northeast",
     "description": "Now that we have some cover, we should build a stove in the northeast shack.",
     "category": "CC_BUILDING",
@@ -110,6 +115,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_strawbed1_northeast",
     "description": "A straw bed in the northeast shack will make sleeping easier.",
     "category": "CC_BUILDING",
@@ -133,6 +139,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_bed1_northeast",
     "description": "A proper bed in the northeast shack will give one of us a place to sleep soundly.",
     "category": "CC_BUILDING",
@@ -161,6 +168,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_strawbed2_northeast",
     "description": "Another straw bed in the northeast shack will make sleeping easier.",
     "category": "CC_BUILDING",
@@ -184,6 +192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_bed2_northeast",
     "description": "Another proper bed in the northeast shack will give one of us a place to sleep soundly.",
     "category": "CC_BUILDING",
@@ -212,6 +221,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_strawbed3_east",
     "description": "A pair of straw beds in the east tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -235,6 +245,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_bed3_east",
     "description": "A pair of proper beds in the east tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -263,6 +274,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_strawbed3_east",
     "description": "A pair of straw beds in the east room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -286,6 +298,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_bed3_east",
     "description": "A pair of proper beds in the east room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -314,6 +327,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_strawbed3_southeast",
     "description": "A pair of straw beds in the southeast tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -337,6 +351,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_bed3_southeast",
     "description": "A pair of proper beds in the southeast tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -365,6 +380,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_strawbed3_southeast",
     "description": "A pair of straw beds in the southeast room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -388,6 +404,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_bed3_southeast",
     "description": "A pair of proper beds in the southeast room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -416,6 +433,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_strawbed3_northwest",
     "description": "A pair of straw beds in the northwest building will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -439,6 +457,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_bed3_northwest",
     "description": "A pair of proper beds in the northwest building will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -467,6 +486,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_strawbed3_west",
     "description": "A pair of straw beds in the west tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -490,6 +510,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_bed3_west",
     "description": "A pair of proper beds in the west tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -518,6 +539,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_strawbed3_west",
     "description": "A pair of straw beds in the west room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -541,6 +563,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_bed3_west",
     "description": "A pair of proper beds in the west room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -569,6 +592,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_strawbed3_southwest",
     "description": "A pair of straw beds in the southwest tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -592,6 +616,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_bed3_southwest",
     "description": "A pair of proper beds in the southwest tent will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -620,6 +645,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_strawbed3_southwest",
     "description": "A pair of straw beds in the southwest room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -643,6 +669,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room_bed3_southwest",
     "description": "A pair of proper beds in the southwest room will allow us to house two more people and expand the camp.",
     "category": "CC_BUILDING",
@@ -671,6 +698,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_fireplace_center",
     "description": "A fireplace, counter, and some pots and pans in the central building will allow us to cook simple recipes and organize hunting expeditions.",
     "category": "CC_BUILDING",
@@ -694,6 +722,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_butchery_center",
     "description": "We need a butchery rack to maximize the harvest from our hunting and trapping efforts.",
     "category": "CC_BUILDING",
@@ -733,6 +762,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_toolrack_center",
     "description": "A tool rack in the central building will give us a place to store tools.",
     "category": "CC_BUILDING",
@@ -755,6 +785,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_table_center",
     "description": "Setting up some tables and chairs will make the central building into a dining area, and we can also use them as a workspace to organize the camp.",
     "category": "CC_BUILDING",
@@ -777,6 +808,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_table_south",
     "description": "Setting up some tables and chairs will make the central building into a dining area, and we can also use them as a workspace to organize the camp.",
     "category": "CC_BUILDING",
@@ -800,6 +832,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_kitchen_stove_south",
     "description": "A wood stove, counter, and some pots and pans in the south half of the central building will allow us to cook simple recipes and organize hunting expeditions.  The stove will be more efficient than a fireplace.",
     "category": "CC_BUILDING",
@@ -829,6 +862,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_well_north",
     "description": "Digging a well will give us easy access to water.",
     "category": "CC_BUILDING",
@@ -851,6 +885,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_root_cellar_north",
     "description": "Digging a root cellar will give us a way to preserve food.",
     "category": "CC_BUILDING",
@@ -873,6 +908,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_radio_tower_north",
     "description": "We could build a radio tower to improve the range of our radios.",
     "category": "CC_BUILDING",
@@ -909,6 +945,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_radio_console_north",
     "description": "Adding a console to control the radio tower will help with recruiting more survivors.",
     "category": "CC_BUILDING",
@@ -920,7 +957,7 @@
     "time": "24 h",
     "construction_blueprint": "fbmh_radio_console_north",
     "blueprint_name": "north radio console",
-    "blueprint_provides": [ { "id": "fbmh_radio_console_north" }, { "id": "radio" } ],
+    "blueprint_provides": [ { "id": "fbmh_radio_console_north" }, { "id": "recruiting" }, { "id": "radio" } ],
     "blueprint_requires": [ { "id": "fbmh_radio_tower_north" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -936,61 +973,5 @@
       [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
     ],
     "check_blueprint_needs": false
-  },
-  {
-    "type": "recipe",
-    "result": "faction_base_new_farm_0",
-    "description": "We should survey the base site and set up a bulletin board.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
-    "autolearn": false,
-    "never_learn": true,
-    "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
-    "blueprint_name": "basic survey",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
-  },
-  {
-    "type": "recipe",
-    "result": "faction_base_new_blacksmith_0",
-    "description": "We should survey the base site and set up a bulletin board.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
-    "autolearn": false,
-    "never_learn": true,
-    "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
-    "blueprint_name": "basic survey",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
-  },
-  {
-    "type": "recipe",
-    "result": "faction_base_new_garage_0",
-    "description": "We should survey the base site and set up a bulletin board.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
-    "autolearn": false,
-    "never_learn": true,
-    "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
-    "blueprint_name": "basic survey",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
-  },
-  {
-    "type": "recipe",
-    "result": "faction_base_new_kitchen_0",
-    "description": "We should survey the base site and set up a bulletin board.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
-    "autolearn": false,
-    "never_learn": true,
-    "time": "1 m",
-    "construction_blueprint": "faction_base_modular_hub_0",
-    "blueprint_name": "basic survey",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ]
   }
 ]

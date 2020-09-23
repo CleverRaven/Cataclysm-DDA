@@ -68,6 +68,7 @@
       { "item": "arm", "prob": 4 },
       { "item": "leg", "prob": 4 },
       { "item": "rock", "prob": 40 },
+      { "item": "rock_large", "prob": 5 },
       { "item": "stick", "prob": 95 },
       { "item": "bio_metabolics", "prob": 10 },
       { "item": "survivormap", "prob": 1 },

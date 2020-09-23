@@ -89,6 +89,7 @@
         "faux_fur",
         "nomex",
         "kevlar",
+        "kevlar_layered",
         "gutskin",
         "demon_chitin",
         "black_dragon_hide"
@@ -118,6 +119,7 @@
           "faux_fur",
           "nomex",
           "kevlar",
+          "kevlar_layered",
           "neoprene",
           "gutskin",
           "black_dragon_hide",
@@ -149,5 +151,15 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ]
+  },
+  {
+    "type": "TOOL",
+    "id": "glassteel_shard",
+    "copy-from": "glass_shard",
+    "name": { "str": "glassteel shard" },
+    "category": "other",
+    "description": "A broken shard of glassteel covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
+    "material": [ "glassteel" ],
+    "cutting": 7
   }
 ]

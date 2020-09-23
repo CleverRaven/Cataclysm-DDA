@@ -4,14 +4,11 @@
 #include <map>
 #include <string>
 
-#include "cursesdef.h"
 #include "iuse_software_kitten.h"
 #include "iuse_software_lightson.h"
 #include "iuse_software_minesweeper.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
-#include "output.h"
-#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
 

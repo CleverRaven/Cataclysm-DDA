@@ -420,5 +420,26 @@
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "young_yeast",
+    "name": "growing wild yeast",
+    "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
+    "weight": "250 g",
+    "color": "yellow",
+    "container": "jug_plastic",
+    "symbol": "~",
+    "calories": 9,
+    "quench": 6,
+    "fun": -10,
+    "price": 0,
+    "volume": "250 ml",
+    "price_postapoc": 10,
+    "charges": 16,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "brewable": { "time": "3 days", "results": [ "yeast" ] }
   }
 ]

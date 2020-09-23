@@ -10,11 +10,11 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "flat_set.h"
@@ -28,7 +28,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -609,7 +608,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     const tripoint &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
-    if( get_map().check_vehicle_zones( g->get_levz() ) ) {
+    map &here = get_map();
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
@@ -666,7 +666,7 @@ void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( project_to<coords::scale::submap>( omt_pos ), false );
+        target_map.load( project_to<coords::sm>( omt_pos ), false );
         form_crafting_inventory( target_map );
     } else {
         form_crafting_inventory( get_map() );
@@ -735,7 +735,7 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+            player_character.select_tool_component( it, batch_size_, base_._inv, true,
                     !base_.by_radio );
         if( ts.use_from == usage_from::cancel ) {
             return false;
@@ -750,8 +750,7 @@ void basecamp_action_components::consume_components()
     map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
-        // TODO: fix point types
-        map_->load( project_to<coords::scale::submap>( base_.camp_omt_pos() ).raw(), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );

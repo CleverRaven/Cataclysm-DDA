@@ -14,8 +14,8 @@
 class JsonObject;
 class map;
 struct tripoint;
-template<typename T> struct enum_traits;
 template<typename T> class generic_factory;
+template<typename T> struct enum_traits;
 
 enum class map_extra_method : int {
     null = 0,

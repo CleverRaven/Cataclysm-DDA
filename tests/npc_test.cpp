@@ -1,3 +1,6 @@
+#include "catch/catch.hpp"
+#include "npc.h"
+
 #include <memory>
 #include <set>
 #include <sstream>
@@ -6,7 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
@@ -16,7 +19,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
-#include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "overmapbuffer.h"
@@ -97,7 +99,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
     SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
         npc test_npc = create_model();
-        const auto five_min_ticks = 2_days / 5_minutes;
+        const double five_min_ticks = 2_days / 5_minutes;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
         const int margin = 20;
@@ -112,7 +114,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
         npc test_npc = create_model();
         test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
         test_npc.set_fatigue( 1000 );
-        const auto five_min_ticks = 6_hours / 5_minutes;
+        const double five_min_ticks = 6_hours / 5_minutes;
         /*
         // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
         const int expected_fatigue_change =
@@ -153,7 +155,7 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
     SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
-        const auto five_min_ticks = 6_hours / 5_minutes;
+        const double five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
             iterated_npc.update_body( calendar::turn_zero + turn,
@@ -213,8 +215,8 @@ TEST_CASE( "snippet-tag-test" )
  * A is acid with NPC on it, W/M is vehicle & acid with (follower/non-follower) NPC on it,
  * B/C is acid with (follower/non-follower) NPC on it.
  */
-constexpr int height = 5, width = 17;
-constexpr char setup[height][width + 1] = {
+static constexpr int height = 5, width = 17;
+static constexpr char setup[height][width + 1] = {
     "U ###############",
     "V #R#AAA#W# # #C#",
     "  #A#A#A# #M#B# #",
@@ -305,7 +307,7 @@ TEST_CASE( "npc-movement" )
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
-    const vpart_id vpart_frame_vertical( "frame_vertical" );
+    const vpart_id vpart_frame_vertical( "frame" );
     const vpart_id vpart_seat( "seat" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
@@ -333,7 +335,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                here.add_field( p, fd_acid, 3 );
+                here.add_field( p, field_type_id( "fd_acid" ), 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -358,8 +360,8 @@ TEST_CASE( "npc-movement" )
                     guy->normalize();
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
-                } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                } while( guy->is_immune_field( field_type_id( "fd_acid" ) ) );
+                guy->spawn_at_precise( get_map().get_abs_sub().xy(), p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.

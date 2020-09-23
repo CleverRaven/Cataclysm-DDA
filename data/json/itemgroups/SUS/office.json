@@ -16,6 +16,7 @@
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
       { "item": "pen", "count": [ 1, 10 ], "prob": 95 },
       { "item": "stapler", "prob": 60 },
+      { "item": "office_holepunch", "prob": 35 },
       { "item": "scissors", "prob": 35 },
       { "item": "phonebook", "prob": 10 },
       { "item": "family_photo", "prob": 10 },

@@ -34,7 +34,8 @@ enum class butcher_type : int {
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
     DISMEMBER,      // destroy a corpse
-    DISSECT         // dissect a corpse for CBMs
+    DISSECT,        // dissect a corpse for CBMs
+    NUM_TYPES       // always keep at the end, number of butchery types
 };
 
 enum class do_activity_reason : int {
@@ -125,7 +126,6 @@ namespace activity_handlers
 bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
-void craft_do_turn( player_activity *act, player *p );
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void drop_do_turn( player_activity *act, player *p );

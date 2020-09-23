@@ -121,6 +121,11 @@ class generic_factory
 
     private:
         DynamicDataLoader::deferred_json deferred;
+        // generation or "modification count" of this factory
+        // it's incremented when any changes to the inner id containers occur
+        // version value corresponds to the string_id::_version,
+        // so incrementing the version here effectively invalidates all cached string_id::_cid
+        int version = 0;
 
     protected:
         std::vector<T> list;
@@ -130,18 +135,24 @@ class generic_factory
         std::string type_name;
         std::string id_member_name;
         std::string alias_member_name;
+        // TEMPORARY until 0.G: Remove "ident" support
+        const std::string legacy_id_member_name = "ident";
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
-            result = id.get_cid();
-            if( is_valid( result ) && list[result.to_i()].id == id ) {
-                return true;
+            if( id._version == version ) {
+                result = int_id<T>( id._cid );
+                return is_valid( result );
             }
             const auto iter = map.find( id );
+            // map lookup happens at most once per string_id instance per generic_factory::version
+            id._version = version;
+            // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
+                id._cid = -1;
                 return false;
             }
             result = iter->second;
-            id.set_cid( result );
+            id._cid = result.to_i();
             return true;
         }
 
@@ -152,7 +163,7 @@ class generic_factory
             }
             auto iter = map.begin();
             const auto end = map.end();
-            for( ; iter != end; ) {
+            while( iter != end ) {
                 if( iter->second == i_id && iter->first != id ) {
                     map.erase( iter++ );
                 } else {
@@ -214,9 +225,9 @@ class generic_factory
             }
 
             if( jo.has_string( abstract_member_name ) ) {
-                if( jo.has_string( id_member_name ) ) {
-                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'",
-                                                   abstract_member_name, id_member_name ) );
+                if( jo.has_string( id_member_name ) || jo.has_string( legacy_id_member_name ) ) {
+                    jo.throw_error( string_format( "cannot specify both '%s' and '%s'/'%s'",
+                                                   abstract_member_name, id_member_name, legacy_id_member_name ) );
                 }
                 def.load( jo, src );
                 abstracts[jo.get_string( abstract_member_name )] = def;
@@ -258,7 +269,7 @@ class generic_factory
                     }
                 }
 
-            } else  if( jo.has_array( id_member_name ) ) {
+            } else if( jo.has_array( id_member_name ) ) {
                 for( const auto &e : jo.get_array( id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
@@ -273,9 +284,39 @@ class generic_factory
                                                    alias_member_name, id_member_name ) );
                 }
 
+            } else if( jo.has_string( legacy_id_member_name ) ) {
+                def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
+                def.load( jo, src );
+                insert( def );
+
+                if( jo.has_member( alias_member_name ) ) {
+                    std::set<string_id<T>> aliases;
+                    assign( jo, alias_member_name, aliases, strict );
+
+                    const int_id<T> ref = map[def.id];
+                    for( const auto &e : aliases ) {
+                        map[e] = ref;
+                    }
+                }
+
+            } else if( jo.has_array( legacy_id_member_name ) ) {
+                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                    T def;
+                    if( !handle_inheritance( def, jo, src ) ) {
+                        break;
+                    }
+                    def.id = string_id<T>( e );
+                    def.load( jo, src );
+                    insert( def );
+                }
+                if( jo.has_member( alias_member_name ) ) {
+                    jo.throw_error( string_format( "can not specify '%s' when '%s' is array",
+                                                   alias_member_name, legacy_id_member_name ) );
+                }
+
             } else if( !jo.has_string( abstract_member_name ) ) {
-                jo.throw_error( string_format( "must specify either '%s' or '%s'",
-                                               abstract_member_name, id_member_name ) );
+                jo.throw_error( string_format( "must specify either '%s' or '%s'/'%s'",
+                                               abstract_member_name, id_member_name, legacy_id_member_name ) );
             }
         }
         /**
@@ -284,11 +325,18 @@ class generic_factory
          * The function returns the actual object reference.
          */
         T &insert( const T &obj ) {
+            // this invalidates `_cid` cache for all previously added string_ids,
+            // but! it's necessary to invalidate cache for all possibly cached "missed" lookups
+            // (lookups for not-yet-inserted elements)
+            // in the common scenario there is no loss of performance, as `finalize` will make cache
+            // for all ids valid again
+            version++;
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second.to_i()];
                 result = obj;
-                result.id.set_cid( iter->second );
+                result.id._cid = iter->second.to_i();
+                result.id._version = version;
                 return result;
             }
 
@@ -296,7 +344,8 @@ class generic_factory
             list.push_back( obj );
 
             T &result = list.back();
-            result.id.set_cid( cid );
+            result.id._cid = cid.to_i();
+            result.id._version = version;
             map[result.id] = cid;
             return result;
         }
@@ -305,6 +354,12 @@ class generic_factory
         virtual void finalize() {
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
+
+            version++;
+            for( size_t i = 0; i < list.size(); i++ ) {
+                list[i].id._cid = static_cast<int>( i );
+                list[i].id._version = version;
+            }
         }
 
         /**
@@ -334,6 +389,7 @@ class generic_factory
         void reset() {
             list.clear();
             map.clear();
+            version++;
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
@@ -383,7 +439,7 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return static_cast<size_t>( id.to_i() ) < list.size();
+            return id.to_i() >= 0 && static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -425,8 +481,8 @@ Loading (inside a `T::load(JsonObject &jo)` function) can be done with two funct
   value that will be used if the JSON data does not contain the requested data. It may
   throw an error if the existing data is not valid (e.g. string instead of requested int).
 
-The functions are designed to work with the `generic_factory` and therefor support the
-`was_loaded` parameter (set be `generic_factory::load`). If that parameter is `true`, it
+The functions are designed to work with the `generic_factory` and therefore support the
+`was_loaded` parameter (set by `generic_factory::load`). If that parameter is `true`, it
 is assumed the object has already been loaded and missing JSON data is simply ignored
 (the default value is not applied and no error is thrown upon missing mandatory data).
 
@@ -947,7 +1003,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         }
 
         E get_next( JsonIn &jin ) const {
-            const auto position = jin.tell();
+            const int position = jin.tell();
             const std::string flag = jin.get_string();
             try {
                 return io::string_to_enum<E>( flag );

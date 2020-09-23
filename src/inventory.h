@@ -18,7 +18,10 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
-#include "units.h"
+#include "magic_enchantment.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
@@ -214,8 +217,6 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        void set_stack_favorite( int position, bool favorite );
-
         invlets_bitset allocated_invlets() const;
 
         /**
@@ -230,6 +231,8 @@ class inventory : public visitable<inventory>
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
+
+        int count_item( const itype_id &item_type ) const;
 
     private:
         invlet_favorites invlet_cache;

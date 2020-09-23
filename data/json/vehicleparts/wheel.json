@@ -283,7 +283,7 @@
     "damage_reduction": { "bash": 10 }
   },
   {
-    "id": "wheel_bicycle",
+    "abstract": "wheel_bicycle_abstract",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel" },
     "item": "wheel_bicycle",
@@ -312,9 +312,33 @@
     "damage_reduction": { "bash": 6 }
   },
   {
+    "copy-from": "wheel_bicycle_abstract",
+    "id": "wheel_bicycle",
+    "looks_like": "wheel",
+    "symbol": "|",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_bicycle_abstract",
+    "id": "wheel_bicycle_rear",
+    "looks_like": "wheel_bicycle",
+    "symbol": "|",
+    "type": "vehicle_part"
+  },
+  {
     "id": "wheel_bicycle_or",
-    "copy-from": "wheel_bicycle",
+    "copy-from": "wheel_bicycle_abstract",
     "type": "vehicle_part",
+    "name": { "str": "off-road bicycle wheel" },
+    "item": "wheel_bicycle_or",
+    "contact_area": 36,
+    "wheel_type": "off-road"
+  },
+  {
+    "id": "wheel_bicycle_or_rear",
+    "copy-from": "wheel_bicycle_abstract",
+    "type": "vehicle_part",
+    "looks_like": "wheel_bicycle_rear",
     "name": { "str": "off-road bicycle wheel" },
     "item": "wheel_bicycle_or",
     "contact_area": 36,

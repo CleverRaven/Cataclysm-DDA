@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -14,6 +15,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -28,6 +30,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_beans",
     "charges": 1,
     "category": "CC_FOOD",
@@ -42,6 +45,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_beans",
     "charges": 1,
     "category": "CC_FOOD",
@@ -57,6 +61,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_tofu",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -70,6 +75,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_tofu",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -84,6 +90,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -97,6 +104,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_fruit",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -111,6 +119,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -125,6 +134,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_meat",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -140,6 +150,7 @@
   {
     "result": "dry_meat_tainted",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -153,6 +164,7 @@
   {
     "result": "dry_meat_tainted",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -166,6 +178,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -179,6 +192,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_mushroom",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -193,6 +207,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -209,6 +224,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
@@ -228,6 +244,7 @@
     "result": "dry_veggy_tainted",
     "charges": 1,
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -242,6 +259,7 @@
     "result": "dry_veggy_tainted",
     "charges": 1,
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
     "subcategory": "CSC_FOOD_DRY",
@@ -255,6 +273,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -269,6 +288,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "milk_powder",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -284,6 +304,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "powder_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -294,10 +315,11 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ], [ "egg_roach", 4 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "powder_eggs",
     "category": "CC_FOOD",
     "id_suffix": "frozen_ingredients",
@@ -309,11 +331,12 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ], [ "egg_roach", 4 ] ] ]
   },
   {
     "result": "protein_powder",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
@@ -329,6 +352,7 @@
   {
     "result": "protein_powder",
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "with_from_food_processor",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
@@ -344,6 +368,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_lentils",
     "charges": 1,
     "category": "CC_FOOD",
@@ -358,6 +383,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_lentils",
     "charges": 1,
     "category": "CC_FOOD",

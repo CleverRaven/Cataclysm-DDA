@@ -1,0 +1,219 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_met_cyrus"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_cyrus",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "What brings you here today?", "Hello.", "How are you?", "Welcome!", "Are you ready to leave this marble?" ],
+      "no": "You look like one of my niece's lab assistants."
+    },
+    "responses": [
+      {
+        "text": "Who are you?",
+        "effect": { "u_add_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_CYRUS_firstmeet"
+      },
+      {
+        "text": "What is this place?",
+        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_CYRUS_place"
+      },
+      {
+        "text": "How did you get here?",
+        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_CYRUS_ask_past"
+      },
+      {
+        "text": "How are things here?",
+        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_CYRUS_ask_mood"
+      },
+      {
+        "text": "Can I do anything for you?  Are you as crazy as your niece?",
+        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I'm going on my way now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_firstmeet",
+    "dynamic_line": "Are you here because you are morally flexible and willing to take questionable directions from obviously insane people.",
+    "responses": [
+      { "text": "Your niece is looking for you.", "topic": "TALK_CYRUS_millyficent" },
+      { "text": "How did you survive the Cataclysm?", "topic": "TALK_CYRUS_cataclysm" },
+      { "text": "Quite the setup you have here.", "topic": "TALK_CYRUS_1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_place",
+    "dynamic_line": "This is a Whately family property.  And you are an intruder.",
+    "responses": [
+      { "text": "I've met your niece.", "topic": "TALK_CYRUS_millyficent" },
+      { "text": "I didn't mean to intrude.", "topic": "TALK_CYRUS_1" },
+      { "text": "I think there's been a mistake.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_millyficent",
+    "dynamic_line": "She's always been so precocious!  I knew that she was going places and we'd see great things from her.",
+    "responses": [
+      { "text": "She needed a lab assistant, do you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "This whole family is deranged.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_ask_past",
+    "dynamic_line": "The Whately family has been part of the fabric of New England since before the Revolutionary War.  And I have been growing our interests for the last few decades.",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_CYRUS_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_cataclysm",
+    "dynamic_line": "Muttering 'They whispered of a prison.  Ragnarok engine humming.  Wrapped they in darkness dreaming'.  He shakes himself, 'Anyway it looks like something woke up, for at least a little bit.'",
+    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_CYRUS_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CYRUS_ask_mood",
+    "dynamic_line": "This is a time of great danger and great opportunity and it must not be squandered.",
+    "responses": [ { "text": "This is not reassuring.", "topic": "TALK_CYRUS_1" } ]
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_1",
+    "type": "mission_definition",
+    "name": "In the absence of life",
+    "description": "Find self healing polymers.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 0,
+    "item": "afs_biomaterial_4",
+    "count": 4,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FRANKENSTEIN_2",
+    "dialogue": {
+      "describe": "I need 4 self healing polymers from wherever you can find them.",
+      "offer": "My experiments are at a critical point.  Could you find about… 4 self healing polymers for me?",
+      "accepted": "Don't forget to tell me when you have them.",
+      "rejected": "Then why are you even here?  Just let me know if you reconsider.",
+      "advice": "Hospitals, DIY geneticists.",
+      "inquire": "Why aren't you done yet?",
+      "success": "My niece shared her research, show me if it works.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "Put a stopper in death?  No you never will."
+    },
+    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_2",
+    "type": "mission_definition",
+    "name": "Making Connections",
+    "description": "I need a neurosynaptic interface matrix.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 6,
+    "value": 0,
+    "item": "afs_neural_io_5",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FRANKENSTEIN_3",
+    "dialogue": {
+      "describe": "I need one neurosynaptic interface matrix.",
+      "offer": "I want to test something and I need a viable version to reverse engineer.  Bring me one neurosynaptic interface matrix.",
+      "accepted": "Without this all that's possible is 'Ye liveliest awfulness'.",
+      "rejected": "You'd give up a new world just to bring back Foodplace!",
+      "advice": "You're going to have to hunt this down.",
+      "inquire": "Have you found my matrix?",
+      "success": "Have this.",
+      "success_lie": "How could you possibly lie to me about an object you have not put in my hands.",
+      "failure": "Do you have any head cybernetics?  I could possibly salvage one out of your skull."
+    },
+    "end": { "effect": [ { "u_buy_item": "afs_energy_storage_4", "count": 4 } ] }
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_3",
+    "type": "mission_definition",
+    "name": "Alpha Mutagen",
+    "description": "Bring me 3 alpha mutagen.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 4,
+    "value": 0,
+    "item": "mutagen",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FRANKENSTEIN_4",
+    "dialogue": {
+      "describe": "I need three alpha mutagen.",
+      "offer": "I know that one of the corporations were creating a so called Alpha mutagen.  I need three doses to prepare the body.",
+      "accepted": "Better living through chemistry.",
+      "rejected": "Would you take it yourself?",
+      "advice": "If you can't make it yourself go hit up a lab.  Be prepared for anything in there.",
+      "inquire": "Did you get taller since the last time I saw you?",
+      "success": "I've got something more potent for you this time.",
+      "success_lie": "Lies and the lying liars who tell them.",
+      "failure": "You are keeping me from my experiments.  Would you like to become one?"
+    },
+    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_4",
+    "type": "mission_definition",
+    "name": "Broken Cyborg",
+    "description": "We need a strong base for our experiment.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 6,
+    "value": 0,
+    "item": "bot_broken_cyborg",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FRANKENSTEIN_5",
+    "dialogue": {
+      "describe": "I need an unconscious broken cyborg.  They are already brain dead so it won't be murder.",
+      "offer": "If you go to labs you should find some broken cyborg experiments.  Bring an inactive one to me.",
+      "accepted": "Are you ready for a little necromancy?",
+      "rejected": "I'm telling you they're already brain dead.",
+      "advice": "Look for surgical centers inside the labs.",
+      "inquire": "So where are my fresh parts?",
+      "success": "I've got something more potent for you this time.",
+      "success_lie": "Lies and the lying liars who tell them.",
+      "failure": "What kinds of body modifications do you have?"
+    },
+    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_5",
+    "type": "mission_definition",
+    "name": "A-Mi-go, You-go find me some brains",
+    "description": "Find 6 living brains in jars.",
+    "//": "Sometime consider changing the end effect of this item and making the test site it's own quest.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 8,
+    "value": 0,
+    "item": "living_brain_jar",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need some brains, but brains that are still living.  We've got our own brain blasters, but I won't risk them in experiments.",
+      "offer": "If this works I may be able to give some of these poor souls bodies again.  Six should do.",
+      "accepted": "I knew I could count on your generosity.",
+      "rejected": "I would have given you the title of Whately family Igor.",
+      "advice": "Brain blasters, that's what I call them.  Some kind of automated weapon system the mi-go use.",
+      "inquire": "They speak sometimes.  I wonder if they still think.",
+      "success": "Go somewhere, far away, and then connect the power system.  Come back and tell me how things went.",
+      "success_lie": "Thanks for trying…  I guess.",
+      "failure": "I can't be Dr Frankenstein unless you get me these."
+    },
+    "end": { "effect": [ { "u_buy_item": "inactive_frankenstein", "count": 1 } ] }
+  }
+]

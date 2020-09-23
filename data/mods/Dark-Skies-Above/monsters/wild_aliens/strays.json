@@ -894,7 +894,7 @@
   {
     "id": "dks_mon_stray_wretch_tendrils",
     "type": "MONSTER",
-    "name": { "str": "flailing wretch" },
+    "name": { "str": "flailing wretch", "str_pl": "flailing wretches" },
     "description": "A person-sized mass of writhing, barbed tendrils that barely seems like it was even any terrestrial animal anymore, originating from a barely visible mass of central crystal.  It slithers across the ground, snatching up organic matter to bring back to feed to its smaller companions so that they too may grow larger.",
     "default_faction": "stray",
     "bodytype": "blob",
@@ -941,7 +941,7 @@
   {
     "id": "dks_mon_stray_wretch_elec",
     "type": "MONSTER",
-    "name": { "str": "crackling wretch" },
+    "name": { "str": "crackling wretch", "str_pl": "crackling wretches" },
     "description": "A flailing mass of tendrils and burnt hair that quickly skirts across the ground like an insect, arched back bristling with loudly arcing crystal spears.",
     "default_faction": "stray",
     "bodytype": "human",

@@ -20,7 +20,6 @@
 #include "enums.h"
 #include "filesystem.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
@@ -29,7 +28,6 @@
 #include "path_info.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -233,7 +231,7 @@ bool WORLD::save( const bool is_conversion ) const
 
             jout.start_array();
 
-            for( auto &elem : WORLD_OPTIONS ) {
+            for( const auto &elem : WORLD_OPTIONS ) {
                 // Skip hidden option because it is set by mod and should not be saved
                 if( !elem.second.getDefaultText().empty() ) {
                     jout.start_object();
@@ -268,7 +266,6 @@ void worldfactory::init()
     // option files or the master save file.
     static const auto is_save_dir = []( const std::string & maybe_save_dir ) {
         return file_exist( maybe_save_dir + "/" + PATH_INFO::worldoptions() ) ||
-               file_exist( maybe_save_dir + "/" + PATH_INFO::legacy_worldoptions() ) ||
                file_exist( maybe_save_dir + "/" + SAVE_MASTER );
     };
 
@@ -355,7 +352,7 @@ bool worldfactory::has_world( const std::string &name ) const
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
-    for( auto &elem : all_worlds ) {
+    for( const auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }
     return result;
@@ -383,7 +380,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     // If we're skipping prompts, return the world with 0 save if there is one
     else if( !show_prompt ) {
-        for( const auto &name : world_names ) {
+        for( const std::string &name : world_names ) {
             if( get_world( name )->world_saves.empty() ) {
                 return get_world( name );
             }
@@ -1033,8 +1030,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             int num_lines = fold_and_print( w_description, point( 1, 0 ),
                                             getmaxx( w_description ) - 1,
                                             c_white, mman_ui->get_information( selmod ) );
-            auto window_height = catacurses::getmaxy( w_description );
-            auto window_width = catacurses::getmaxx( w_description );
+            int window_height = catacurses::getmaxy( w_description );
+            int window_width = catacurses::getmaxx( w_description );
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
@@ -1093,8 +1090,6 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
-        ime_sentry sentry;
-
         // On next redraw, call resize callback which will configure how popup is rendered
         ui.mark_resize();
 
@@ -1110,7 +1105,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             } else {
                 apply_filter( fpopup->text() );
             }
-        };
+        }
 
         fpopup.reset();
     };
@@ -1261,7 +1256,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     int namebar_x = 3 + utf8_width( _( "World Name:" ) );
 
     bool noname = false;
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
@@ -1270,9 +1265,6 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
 
     std::string worldname = world->world_name;
-
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );
@@ -1497,55 +1489,20 @@ void WORLD::load_options( JsonIn &jsin )
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
 
-void WORLD::load_legacy_options( std::istream &fin )
-{
-    auto &opts = get_options();
-
-    //load legacy txt
-    std::string sLine;
-    while( !fin.eof() ) {
-        getline( fin, sLine );
-        if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            size_t ipos = sLine.find( ' ' );
-            // make sure that the option being loaded is part of the world_default page in OPTIONS
-            // In 0.C some lines consisted of a space and nothing else
-            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
-                const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                          sLine.length() ) );
-                WORLD_OPTIONS[name].setValue( value );
-            }
-        }
-    }
-}
-
 bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     using namespace std::placeholders;
-    const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
-    load_options( jsin );
-    } ) ) {
-        return true;
-    }
-
-    const auto legacy_path = folder_path() + "/" + PATH_INFO::legacy_worldoptions();
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
-        if( save() ) {
-            // Remove old file as the options have been saved to the new file.
-            remove_file( legacy_path );
-        }
-        return true;
-    }
-
-    return false;
+    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
+    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+        this->load_options( jsin );
+    } );
 }
 
 void load_world_option( const JsonObject &jo )
 {
-    auto arr = jo.get_array( "options" );
+    JsonArray arr = jo.get_array( "options" );
     if( arr.empty() ) {
         jo.throw_error( "no options specified", "options" );
     }

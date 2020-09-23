@@ -4,10 +4,10 @@
 #include <clocale>
 #include <cstdlib>
 #include <functional>
+#include <locale>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
-#include <cstdlib>
 
 #define __STRICT_ANSI__
 #endif
@@ -21,9 +21,9 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "cursesdef.h"
 #include "json.h"
 #include "name.h"
 #include "output.h"
@@ -31,7 +31,14 @@
 #include "rng.h"
 #include "text_style_check.h"
 
-extern bool test_mode;
+#if defined(MACOSX)
+#include <CoreFoundation/CFLocale.h>
+#include <CoreFoundation/CoreFoundation.h>
+
+#include "cata_utility.h"
+
+std::string getOSXSystemLang();
+#endif
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -53,15 +60,6 @@ static bool sanity_checked_genders = false;
 #   include "platform_win.h"
 #endif
 #   include "mmsystem.h"
-#endif
-
-#if defined(MACOSX)
-#   include <CoreFoundation/CFLocale.h>
-#   include <CoreFoundation/CoreFoundation.h>
-
-#include "cata_utility.h"
-
-std::string getOSXSystemLang();
 #endif
 
 const char *pgettext( const char *context, const char *msgid )
@@ -191,7 +189,7 @@ void set_language()
         }
 #endif
         else {
-            const auto env = getenv( "LANGUAGE" );
+            const char *env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {
@@ -459,7 +457,7 @@ void translation::deserialize( JsonIn &jsin )
                     jsin.seek( origin );
                     jsin.error( msg, offset );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
@@ -490,7 +488,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         } else {
@@ -507,7 +505,7 @@ void translation::deserialize( JsonIn &jsin )
                 try {
                     jsobj.throw_error( "str_pl not supported here", "str_pl" );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -524,7 +522,7 @@ void translation::deserialize( JsonIn &jsin )
                         jsobj.get_raw( "str_sp" )->error( msg, offset );
                     }
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             };
         }
@@ -728,3 +726,8 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
     return std::locale()( l, r );
 #endif
 }
+
+// silence -Wunused-macro
+#ifdef __STRICT_ANSI__
+#undef __STRICT_ANSI__
+#endif

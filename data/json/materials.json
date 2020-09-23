@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "alcohol",
+    "id": "alcohol",
     "name": "Alcohol",
     "density": 1,
     "specific_heat_liquid": 4,
@@ -26,7 +26,7 @@
   },
   {
     "type": "material",
-    "ident": "alien_resin",
+    "id": "alien_resin",
     "name": "Resin",
     "density": 10,
     "specific_heat_liquid": 1.8,
@@ -48,7 +48,7 @@
   },
   {
     "type": "material",
-    "ident": "aluminum",
+    "id": "aluminum",
     "name": "Aluminum",
     "density": 10,
     "specific_heat_liquid": 1.18,
@@ -69,7 +69,7 @@
   },
   {
     "type": "material",
-    "ident": "acidchitin",
+    "id": "acidchitin",
     "name": "Biosilicified Chitin",
     "density": 15,
     "specific_heat_liquid": 4.186,
@@ -95,7 +95,7 @@
   },
   {
     "type": "material",
-    "ident": "bone",
+    "id": "bone",
     "name": "Bone",
     "density": 7,
     "specific_heat_liquid": 1.2,
@@ -124,7 +124,7 @@
   },
   {
     "type": "material",
-    "ident": "brass",
+    "id": "brass",
     "name": "Brass",
     "density": 30,
     "specific_heat_liquid": 0.49,
@@ -143,7 +143,7 @@
   },
   {
     "type": "material",
-    "ident": "bronze",
+    "id": "bronze",
     "name": "Bronze",
     "density": 58,
     "bash_resist": 4,
@@ -162,7 +162,7 @@
   },
   {
     "type": "material",
-    "ident": "budget_steel",
+    "id": "budget_steel",
     "name": "Budget Steel",
     "density": 30,
     "specific_heat_liquid": 0.82,
@@ -182,7 +182,7 @@
   },
   {
     "type": "material",
-    "ident": "cardboard",
+    "id": "cardboard",
     "name": "Cardboard",
     "density": 2,
     "specific_heat_liquid": 1.34,
@@ -205,7 +205,7 @@
   },
   {
     "type": "material",
-    "ident": "ceramic",
+    "id": "ceramic",
     "name": "Ceramic",
     "density": 8,
     "specific_heat_liquid": 1,
@@ -224,7 +224,7 @@
   },
   {
     "type": "material",
-    "ident": "lightceramic",
+    "id": "lightceramic",
     "name": "Dragon Scale",
     "density": 4,
     "bash_resist": 4,
@@ -240,7 +240,7 @@
   },
   {
     "type": "material",
-    "ident": "chitin",
+    "id": "chitin",
     "name": "Chitin",
     "density": 10,
     "specific_heat_liquid": 4.186,
@@ -266,7 +266,7 @@
   },
   {
     "type": "material",
-    "ident": "clay",
+    "id": "clay",
     "name": "Clay",
     "density": 8,
     "specific_heat_liquid": 1,
@@ -286,7 +286,7 @@
   },
   {
     "type": "material",
-    "ident": "copper",
+    "id": "copper",
     "name": "Copper",
     "density": 59,
     "specific_heat_liquid": 0.49,
@@ -308,7 +308,7 @@
   },
   {
     "type": "material",
-    "ident": "cotton",
+    "id": "cotton",
     "name": "Cotton",
     "density": 3,
     "specific_heat_liquid": 0.02,
@@ -336,7 +336,7 @@
   },
   {
     "type": "material",
-    "ident": "diamond",
+    "id": "diamond",
     "name": "Diamond",
     "density": 14,
     "specific_heat_liquid": 0.52,
@@ -355,7 +355,7 @@
   },
   {
     "type": "material",
-    "ident": "gemstone",
+    "id": "gemstone",
     "name": "Gemstone",
     "density": 14,
     "specific_heat_liquid": 0.52,
@@ -374,7 +374,7 @@
   },
   {
     "type": "material",
-    "ident": "egg",
+    "id": "egg",
     "name": "Egg",
     "density": 3,
     "specific_heat_liquid": 3.63,
@@ -396,7 +396,7 @@
   },
   {
     "type": "material",
-    "ident": "flesh",
+    "id": "flesh",
     "name": "Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -423,7 +423,7 @@
   },
   {
     "type": "material",
-    "ident": "gutskin",
+    "id": "gutskin",
     "name": "Gutskin",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -449,7 +449,7 @@
   },
   {
     "type": "material",
-    "ident": "freshclay",
+    "id": "freshclay",
     "name": "Fresh Clay",
     "density": 4,
     "specific_heat_liquid": 4.186,
@@ -469,7 +469,7 @@
   },
   {
     "type": "material",
-    "ident": "fruit",
+    "id": "fruit",
     "name": "Fruit Matter",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -496,7 +496,7 @@
   },
   {
     "type": "material",
-    "ident": "fur",
+    "id": "fur",
     "name": "Fur",
     "density": 9,
     "specific_heat_liquid": 0.02,
@@ -523,7 +523,7 @@
   },
   {
     "type": "material",
-    "ident": "faux_fur",
+    "id": "faux_fur",
     "name": "Faux Fur",
     "density": 8,
     "specific_heat_liquid": 0.02,
@@ -550,7 +550,7 @@
   },
   {
     "type": "material",
-    "ident": "glass",
+    "id": "glass",
     "name": "Glass",
     "density": 14,
     "specific_heat_liquid": 0.2,
@@ -575,7 +575,7 @@
   },
   {
     "type": "material",
-    "ident": "gold",
+    "id": "gold",
     "name": "Gold",
     "density": 130,
     "specific_heat_liquid": 0.15,
@@ -597,7 +597,7 @@
   },
   {
     "type": "material",
-    "ident": "hardsteel",
+    "id": "hardsteel",
     "name": "Hard Steel",
     "density": 40,
     "specific_heat_liquid": 0.82,
@@ -618,7 +618,7 @@
   },
   {
     "type": "material",
-    "ident": "hflesh",
+    "id": "hflesh",
     "name": "Human Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -645,7 +645,7 @@
   },
   {
     "type": "material",
-    "ident": "honey",
+    "id": "honey",
     "name": "Honey",
     "density": 1,
     "specific_heat_liquid": 2.03,
@@ -668,7 +668,7 @@
   },
   {
     "type": "material",
-    "ident": "hydrocarbons",
+    "id": "hydrocarbons",
     "name": "Hydrocarbons",
     "density": 1,
     "specific_heat_liquid": 0.5,
@@ -692,7 +692,7 @@
   },
   {
     "type": "material",
-    "ident": "iflesh",
+    "id": "iflesh",
     "name": "Insect Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -719,7 +719,7 @@
   },
   {
     "type": "material",
-    "ident": "iron",
+    "id": "iron",
     "name": "Iron",
     "density": 52,
     "specific_heat_liquid": 0.82,
@@ -740,7 +740,7 @@
   },
   {
     "type": "material",
-    "ident": "junk",
+    "id": "junk",
     "name": "Junk Food",
     "density": 4,
     "specific_heat_liquid": 3.3,
@@ -762,13 +762,13 @@
   },
   {
     "type": "material",
-    "ident": "foodplace_foodstuff",
+    "id": "foodplace_foodstuff",
     "name": "Foodplace's delicious foodstuff",
     "copy-from": "junk"
   },
   {
     "type": "material",
-    "ident": "kevlar",
+    "id": "kevlar",
     "name": "Kevlar",
     "density": 9,
     "soft": true,
@@ -791,7 +791,7 @@
   },
   {
     "type": "material",
-    "ident": "kevlar_layered",
+    "id": "kevlar_layered",
     "name": "Layered Kevlar",
     "density": 10,
     "specific_heat_liquid": 0.82,
@@ -813,7 +813,7 @@
   },
   {
     "type": "material",
-    "ident": "kevlar_rigid",
+    "id": "kevlar_rigid",
     "name": "Rigid Kevlar",
     "density": 10,
     "specific_heat_liquid": 0.82,
@@ -834,7 +834,7 @@
   },
   {
     "type": "material",
-    "ident": "lead",
+    "id": "lead",
     "name": "Lead",
     "density": 100,
     "specific_heat_liquid": 0.13,
@@ -856,7 +856,7 @@
   },
   {
     "type": "material",
-    "ident": "leather",
+    "id": "leather",
     "name": "Leather",
     "density": 6,
     "specific_heat_liquid": 1.5,
@@ -884,7 +884,7 @@
   },
   {
     "type": "material",
-    "ident": "lycra",
+    "id": "lycra",
     "name": "Lycra",
     "//": "not actually pure Lycra, but poly/nylon and Lycra blend",
     "density": 2,
@@ -913,7 +913,7 @@
   },
   {
     "type": "material",
-    "ident": "milk",
+    "id": "milk",
     "name": "Dairy",
     "density": 1,
     "specific_heat_liquid": 3.89,
@@ -940,7 +940,7 @@
   },
   {
     "type": "material",
-    "ident": "neoprene",
+    "id": "neoprene",
     "name": "Neoprene",
     "density": 4,
     "specific_heat_liquid": 1.1,
@@ -967,7 +967,7 @@
   },
   {
     "type": "material",
-    "ident": "nomex",
+    "id": "nomex",
     "name": "Nomex",
     "density": 4,
     "specific_heat_liquid": 1.2,
@@ -991,7 +991,7 @@
   },
   {
     "type": "material",
-    "ident": "null",
+    "id": "null",
     "name": "Unknown",
     "density": 1,
     "specific_heat_liquid": 4.186,
@@ -1010,7 +1010,7 @@
   },
   {
     "type": "material",
-    "ident": "oil",
+    "id": "oil",
     "name": "Oil",
     "density": 1,
     "specific_heat_liquid": 2,
@@ -1035,7 +1035,7 @@
   },
   {
     "type": "material",
-    "ident": "paper",
+    "id": "paper",
     "name": "Paper",
     "density": 4,
     "specific_heat_liquid": 1.34,
@@ -1058,7 +1058,7 @@
   },
   {
     "type": "material",
-    "ident": "dry_plant",
+    "id": "dry_plant",
     "name": "Dry Plant",
     "density": 4,
     "specific_heat_liquid": 1.34,
@@ -1079,7 +1079,7 @@
   },
   {
     "type": "material",
-    "ident": "plastic",
+    "id": "plastic",
     "name": "Plastic",
     "density": 8,
     "specific_heat_liquid": 1.6,
@@ -1105,7 +1105,7 @@
   },
   {
     "type": "material",
-    "ident": "powder",
+    "id": "powder",
     "name": "Powder",
     "density": 1,
     "specific_heat_liquid": 1.5,
@@ -1130,7 +1130,7 @@
   },
   {
     "type": "material",
-    "ident": "powder_nonflam",
+    "id": "powder_nonflam",
     "name": "Powder",
     "density": 1,
     "specific_heat_liquid": 1.5,
@@ -1150,7 +1150,7 @@
   },
   {
     "type": "material",
-    "ident": "cac2powder",
+    "id": "cac2powder",
     "name": "Powder",
     "density": 1,
     "specific_heat_liquid": 1.5,
@@ -1170,7 +1170,7 @@
   },
   {
     "type": "material",
-    "ident": "silver",
+    "id": "silver",
     "name": "Silver",
     "density": 70,
     "specific_heat_liquid": 0.28,
@@ -1192,7 +1192,7 @@
   },
   {
     "type": "material",
-    "ident": "platinum",
+    "id": "platinum",
     "name": "Platinum",
     "density": 140,
     "specific_heat_liquid": 0.18,
@@ -1214,7 +1214,7 @@
   },
   {
     "type": "material",
-    "ident": "rubber",
+    "id": "rubber",
     "name": "Rubber",
     "//1": "this is sythetic rubber, which is much different than natural, but called rubber for ease of use",
     "density": 10,
@@ -1243,7 +1243,7 @@
   },
   {
     "type": "material",
-    "ident": "steel",
+    "id": "steel",
     "name": "Steel",
     "density": 30,
     "bash_resist": 6,
@@ -1266,7 +1266,7 @@
   },
   {
     "type": "material",
-    "ident": "stone",
+    "id": "stone",
     "name": "Stone",
     "density": 17,
     "specific_heat_liquid": 0.82,
@@ -1286,7 +1286,7 @@
   },
   {
     "type": "material",
-    "ident": "superalloy",
+    "id": "superalloy",
     "name": "Superalloy",
     "density": 26,
     "specific_heat_liquid": 0.82,
@@ -1308,7 +1308,7 @@
   },
   {
     "type": "material",
-    "ident": "carbide",
+    "id": "carbide",
     "name": "layered carbide",
     "density": 30,
     "specific_heat_liquid": 0.82,
@@ -1327,7 +1327,7 @@
   },
   {
     "type": "material",
-    "ident": "nylon",
+    "id": "nylon",
     "name": "Synthetic Fabric",
     "//": "blend between nylon 6 and 6,6",
     "density": 2,
@@ -1356,7 +1356,7 @@
   },
   {
     "type": "material",
-    "ident": "tin",
+    "id": "tin",
     "name": "Tin",
     "//": "Tin's density is a little more than half that of silver.",
     "density": 50,
@@ -1383,7 +1383,7 @@
   },
   {
     "type": "material",
-    "ident": "veggy",
+    "id": "veggy",
     "name": "Vegetable Matter",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -1410,7 +1410,7 @@
   },
   {
     "type": "material",
-    "ident": "tomato",
+    "id": "tomato",
     "name": "Tomato",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -1437,7 +1437,7 @@
   },
   {
     "type": "material",
-    "ident": "bean",
+    "id": "bean",
     "name": "Bean",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -1464,7 +1464,7 @@
   },
   {
     "type": "material",
-    "ident": "garlic",
+    "id": "garlic",
     "name": "Garlic",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -1491,7 +1491,7 @@
   },
   {
     "type": "material",
-    "ident": "nut",
+    "id": "nut",
     "name": "Nut",
     "density": 5,
     "specific_heat_liquid": 2.2,
@@ -1518,7 +1518,7 @@
   },
   {
     "type": "material",
-    "ident": "mushroom",
+    "id": "mushroom",
     "name": "Mushroom",
     "density": 4,
     "specific_heat_liquid": 3.9,
@@ -1545,7 +1545,7 @@
   },
   {
     "type": "material",
-    "ident": "water",
+    "id": "water",
     "name": "Water",
     "density": 1,
     "specific_heat_liquid": 4.186,
@@ -1570,7 +1570,7 @@
   },
   {
     "type": "material",
-    "ident": "wheat",
+    "id": "wheat",
     "name": "Wheat",
     "density": 4,
     "specific_heat_liquid": 2,
@@ -1593,7 +1593,7 @@
   },
   {
     "type": "material",
-    "ident": "wood",
+    "id": "wood",
     "name": "Wood",
     "density": 4,
     "specific_heat_liquid": 1.7,
@@ -1620,7 +1620,7 @@
   },
   {
     "type": "material",
-    "ident": "wool",
+    "id": "wool",
     "name": "Wool",
     "density": 9,
     "specific_heat_liquid": 0.02,
@@ -1648,7 +1648,7 @@
   },
   {
     "type": "material",
-    "ident": "feces",
+    "id": "feces",
     "name": "Feces",
     "density": 4,
     "specific_heat_liquid": 1.7,
@@ -1672,7 +1672,7 @@
   },
   {
     "type": "material",
-    "ident": "dried_vegetable",
+    "id": "dried_vegetable",
     "name": "Dried Vegetable",
     "density": 4,
     "specific_heat_liquid": 2.5,
@@ -1699,7 +1699,7 @@
   },
   {
     "type": "material",
-    "ident": "cured_meat",
+    "id": "cured_meat",
     "name": "Cured Meat",
     "density": 5,
     "specific_heat_liquid": 3.16,
@@ -1726,7 +1726,7 @@
   },
   {
     "type": "material",
-    "ident": "processed_food",
+    "id": "processed_food",
     "name": "Processed Food",
     "density": 4,
     "specific_heat_liquid": 3,
@@ -1748,7 +1748,7 @@
   },
   {
     "type": "material",
-    "ident": "cheese",
+    "id": "cheese",
     "name": "Cheese",
     "density": 1,
     "specific_heat_liquid": 3,
@@ -1775,7 +1775,7 @@
   },
   {
     "type": "material",
-    "ident": "ice_cream",
+    "id": "ice_cream",
     "name": "Ice Cream",
     "density": 1,
     "specific_heat_liquid": 3.15,
@@ -1801,7 +1801,7 @@
   },
   {
     "type": "material",
-    "ident": "soil",
+    "id": "soil",
     "name": "Soil",
     "density": 4,
     "specific_heat_liquid": 1.7,
@@ -1821,7 +1821,7 @@
   },
   {
     "type": "material",
-    "ident": "zinc",
+    "id": "zinc",
     "name": "Zinc",
     "density": 10,
     "specific_heat_liquid": 1.18,

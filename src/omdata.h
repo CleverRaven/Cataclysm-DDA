@@ -2,38 +2,42 @@
 #ifndef CATA_SRC_OMDATA_H
 #define CATA_SRC_OMDATA_H
 
+#include <algorithm>
+#include <array>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
 #include <list>
 #include <set>
-#include <vector>
-#include <array>
 #include <string>
+#include <vector>
 
+#include "assign.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "enum_bitset.h"
 #include "int_id.h"
+#include "optional.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "optional.h"
 
-struct city;
 class overmap_land_use_code;
 struct MonsterGroup;
+struct city;
+template <typename E> struct enum_traits;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-struct oter_t;
-struct overmap_location;
 class JsonObject;
 class overmap_connection;
-class overmap_special_batch;
 class overmap_special;
+class overmap_special_batch;
+struct oter_t;
+struct overmap_location;
 
 using overmap_special_id = string_id<overmap_special>;
 
@@ -194,7 +198,7 @@ enum class oter_flags : int {
 
 template<>
 struct enum_traits<oter_flags> {
-    static constexpr auto last = oter_flags::num_oter_flags;
+    static constexpr oter_flags last = oter_flags::num_oter_flags;
 };
 
 struct oter_type_t {
@@ -459,8 +463,6 @@ class overmap_special
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
-        // Minimum size of the box that can contain whole overmap special
-        box dimensions;
     private:
         // These locations are the default values if ones are not specified for the individual OMTs.
         std::set<string_id<overmap_location>> default_locations;

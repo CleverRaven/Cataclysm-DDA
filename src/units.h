@@ -19,6 +19,7 @@
 #include "compatibility.h"
 #include "json.h"
 #include "translations.h"
+#include "units_fwd.h" // IWYU pragma: export
 
 namespace units
 {
@@ -99,8 +100,8 @@ class quantity
          *   quantity<int, foo> a( 10, foo{} );
          *   quantity<double, foo> b( 0.5, foo{} );
          *   a += b;
-         *   assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
-         *   assert( a == quantity<int, foo>( 10, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10 + 0.5, foo{} ) );
+         *   cata_assert( a == quantity<int, foo>( 10, foo{} ) );
          * \endcode
          */
         /**@{*/
@@ -155,9 +156,9 @@ class quantity
  * \code
  *   quantity<int, foo> a{ 10, foo{} };
  *   a *= 4.52;
- *   assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
- *   assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
- *   assert( a == quantity<int, foo>( 45, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 10 * 4.52, foo{} ) );
+ *   cata_assert( a != quantity<int, foo>( 10 * (int)4.52, foo{} ) );
+ *   cata_assert( a == quantity<int, foo>( 45, foo{} ) );
  * \endcode
  *
  * Division of a quantity with a quantity of the same unit yields a dimensionless
@@ -167,7 +168,7 @@ class quantity
  *   quantity<double, foo> b{ 20, foo{} };
  *   auto proportion = a / b;
  *   static_assert(std::is_same<decltype(proportion), double>::value);
- *   assert( proportion == 10 / 20.0 );
+ *   cata_assert( proportion == 10 / 20.0 );
  * \endcode
  *
  */
@@ -278,12 +279,6 @@ operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 }
 /**@}*/
 
-class volume_in_milliliter_tag
-{
-};
-
-using volume = quantity<int, volume_in_milliliter_tag>;
-
 const volume volume_min = units::volume( std::numeric_limits<units::volume::value_type>::min(),
                           units::volume::unit_type{} );
 
@@ -317,12 +312,6 @@ inline constexpr double to_liter( const volume &v )
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
-
-class mass_in_milligram_tag
-{
-};
-
-using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -367,12 +356,6 @@ inline constexpr double to_kilogram( const mass &v )
 {
     return v.value() / 1000000.0;
 }
-
-class energy_in_millijoule_tag
-{
-};
-
-using energy = quantity<int, energy_in_millijoule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );
@@ -426,12 +409,6 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
     return to_joule( v ) / 1000.0;
 }
 
-class money_in_cent_tag
-{
-};
-
-using money = quantity<int, money_in_cent_tag>;
-
 const money money_min = units::money( std::numeric_limits<units::money::value_type>::min(),
                                       units::money::unit_type{} );
 
@@ -474,12 +451,6 @@ inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_ta
 {
     return to_usd( v ) / 1000.0;
 }
-
-class length_in_millimeter_tag
-{
-};
-
-using length = quantity<int, length_in_millimeter_tag>;
 
 const length length_min = units::length( std::numeric_limits<units::length::value_type>::min(),
                           units::length::unit_type{} );

@@ -53,7 +53,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 30;
+const int savegame_version = 31;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -120,8 +120,8 @@ std::string scent_map::serialize( bool is_type ) const
     } else {
         int rle_lastval = -1;
         int rle_count = 0;
-        for( auto &elem : grscent ) {
-            for( auto &val : elem ) {
+        for( const auto &elem : grscent ) {
+            for( const int &val : elem ) {
                 if( val == rle_lastval ) {
                     rle_count++;
                 } else {
@@ -165,8 +165,8 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    tripoint lev;
-    point com;
+    tripoint_om_sm lev;
+    point_abs_om com;
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -175,19 +175,15 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
-        // 0.E stable
-        if( savegame_loading_version < 26 ) {
-            tmpturn *= 6;
-            tmpcalstart *= 6;
-        }
+
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
-        data.read( "levx", lev.x );
-        data.read( "levy", lev.y );
-        data.read( "levz", lev.z );
-        data.read( "om_x", com.x );
-        data.read( "om_y", com.y );
+        data.read( "levx", lev.x() );
+        data.read( "levy", lev.y() );
+        data.read( "levz", lev.z() );
+        data.read( "om_x", com.x() );
+        data.read( "om_y", com.y() );
 
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
@@ -196,7 +192,7 @@ void game::unserialize( std::istream &fin )
             calendar::start_of_game = calendar::start_of_cataclysm;
         }
 
-        load_map( lev + point( com.x * OMAPX * 2, com.y * OMAPY * 2 ) );
+        load_map( project_combine( com, lev ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -214,7 +210,7 @@ void game::unserialize( std::istream &fin )
         data.read( "active_monsters", *critter_tracker );
 
         coming_to_stairs.clear();
-        for( auto elem : data.get_array( "stair_monsters" ) ) {
+        for( JsonValue elem : data.get_array( "stair_monsters" ) ) {
             monster stairtmp;
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
@@ -283,7 +279,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard_char ) );
                 }
             }
         }
@@ -316,7 +312,7 @@ void game::save_shortcuts( std::ostream &fout )
 }
 #endif
 
-std::unordered_set<std::string> obsolete_terrains;
+static std::unordered_set<std::string> obsolete_terrains;
 
 void overmap::load_obsolete_terrains( const JsonObject &jo )
 {
@@ -786,7 +782,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        for( auto &i : layer[z].notes ) {
+        for( const om_note &i : layer[z].notes ) {
             json.start_array();
             json.write( i.p.x() );
             json.write( i.p.y() );
@@ -804,7 +800,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        for( auto &i : layer[z].extras ) {
+        for( const om_map_extra &i : layer[z].extras ) {
             json.start_array();
             json.write( i.p.x() );
             json.write( i.p.y() );
@@ -892,7 +888,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-        auto &layer_terrain = layer[z].terrain;
+        const auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
@@ -933,7 +929,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "cities" );
     json.start_array();
-    for( auto &i : cities ) {
+    for( const city &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
         json.member( "x", i.pos.x() );
@@ -949,7 +945,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "radios" );
     json.start_array();
-    for( auto &i : radios ) {
+    for( const radio_tower &i : radios ) {
         json.start_object();
         json.member( "x", i.pos.x() );
         json.member( "y", i.pos.y() );
@@ -963,7 +959,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "monster_map" );
     json.start_array();
-    for( auto &i : monster_map ) {
+    for( const auto &i : monster_map ) {
         i.first.serialize( json );
         i.second.serialize( json );
     }
@@ -997,7 +993,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "npcs" );
     json.start_array();
-    for( auto &i : npcs ) {
+    for( const auto &i : npcs ) {
         json.write( *i );
     }
     json.end_array();
@@ -1005,7 +1001,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( auto &i : camps ) {
+    for( const auto &i : camps ) {
         json.write( i );
     }
     json.end_array();
@@ -1134,14 +1130,6 @@ void game::unserialize_master( std::istream &fin )
 {
     savegame_loading_version = 0;
     chkversion( fin );
-    if( savegame_loading_version < 11 ) {
-        std::unique_ptr<static_popup>popup = std::make_unique<static_popup>();
-        popup->message(
-            _( "Cannot find loader for save data in old version %d, attempting to load as current version %d." ),
-            savegame_loading_version, savegame_version );
-        ui_manager::redraw();
-        refresh_display();
-    }
     try {
         // single-pass parsing example
         JsonIn jsin( fin );
@@ -1159,8 +1147,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
-                JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                weather_manager::unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1178,6 +1165,17 @@ void mission::serialize_all( JsonOut &json )
         e->serialize( json );
     }
     json.end_array();
+}
+
+void weather_manager::unserialize_all( JsonIn &jsin )
+{
+    JsonObject w = jsin.get_object();
+    w.read( "lightning", get_weather().lightning_active );
+    w.read( "weather_id", get_weather().weather_id );
+    w.read( "next_weather", get_weather().nextweather );
+    w.read( "temperature", get_weather().temperature );
+    w.read( "winddirection", get_weather().winddirection );
+    w.read( "windspeed", get_weather().windspeed );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1199,6 +1197,11 @@ void game::serialize_master( std::ostream &fout )
         json.member( "weather" );
         json.start_object();
         json.member( "lightning", weather.lightning_active );
+        json.member( "weather_id", weather.weather_id );
+        json.member( "next_weather", weather.nextweather );
+        json.member( "temperature", weather.temperature );
+        json.member( "winddirection", weather.winddirection );
+        json.member( "windspeed", weather.windspeed );
         json.end_object();
 
         json.end_object();
@@ -1210,7 +1213,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
-    for( auto &elem : factions ) {
+    for( const auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
     jsout.write( local_facs );

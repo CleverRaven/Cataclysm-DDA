@@ -33,5 +33,23 @@
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m"
+  },
+  {
+    "id": "manual_knives",
+    "type": "BOOK",
+    "name": { "str": "Spetsnaz Knife Techniques", "str_pl": "copies of Spetsnaz Knife Techniques" },
+    "description": "A classic Soviet text on the art of attacking with a blade.",
+    "weight": "454 g",
+    "volume": "250 ml",
+    "price": 5200,
+    "price_postapoc": 1250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "stabbing",
+    "required_level": 1,
+    "max_level": 4,
+    "intelligence": 4,
+    "time": "18 m"
   }
 ]

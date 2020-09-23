@@ -9,13 +9,15 @@
 #include <utility>
 
 #include "action.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "color.h"
 #include "construction_category.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -33,6 +35,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -1074,7 +1077,7 @@ bool construct::check_empty( const tripoint &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+static inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
             p + point_north,
@@ -1118,13 +1121,13 @@ bool construct::check_empty_up_OK( const tripoint &p )
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return ( g->get_levz() < OVERMAP_HEIGHT );
+    return ( get_map().get_abs_sub().z < OVERMAP_HEIGHT );
 }
 
 bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return ( g->get_levz() > -OVERMAP_DEPTH );
+    return ( get_map().get_abs_sub().z > -OVERMAP_DEPTH );
 }
 
 bool construct::check_no_trap( const tripoint &p )
@@ -1334,11 +1337,13 @@ static void unroll_digging( const int numer_of_2x4s )
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_below, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1391,11 +1396,13 @@ void construct::done_mine_downstair( const tripoint &p )
 void construct::done_mine_upstair( const tripoint &p )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z + 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_above, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
@@ -1770,11 +1777,8 @@ void finalize_constructions()
             debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
                       con.description );
         }
-        requirement_data requirements_ = std::accumulate( con.reqs_using.begin(), con.reqs_using.end(),
-                                         *con.requirements,
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
+        requirement_data requirements_ = std::accumulate(
+                                             con.reqs_using.begin(), con.reqs_using.end(), *con.requirements );
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
@@ -1794,13 +1798,14 @@ void finalize_constructions()
     finalized = true;
 }
 
-void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs )
+build_reqs get_build_reqs_for_furn_ter_ids(
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids )
 {
+    build_reqs total_reqs;
+
     if( !finalized ) {
         debugmsg( "get_build_reqs_for_furn_ter_ids called before finalization" );
-        return;
+        return total_reqs;
     }
     std::map<construction_id, int> total_builds;
 
@@ -1874,6 +1879,8 @@ void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
             }
         }
     }
+
+    return total_reqs;
 }
 
 static const construction null_construction {};

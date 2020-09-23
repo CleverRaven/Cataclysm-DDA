@@ -2,16 +2,12 @@
 
 #include <algorithm>
 #include <climits>
-#include <memory>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "enum_conversions.h"
-#include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -24,7 +20,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -41,6 +36,13 @@ template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_start_locations.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( -1 ) );
 }
 
 /** @relates string_id */
@@ -209,17 +211,17 @@ tripoint_abs_omt start_location::find_player_initial_location() const
         }
     }
     // Should never happen, if it does we messed up.
-    popup( _( "Unable to generate a valid starting location, please report this failure." ) );
+    popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
+           name(), id.str(), radius );
     return overmap::invalid_tripoint;
 }
 
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
-    // TODO: fix point types
-    player_start.load( player_location.raw(), false );
+    player_start.load( player_location, false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -295,7 +297,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
-    u.setz( g->get_levz() );
+    u.setz( here.get_abs_sub().z );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -355,7 +357,7 @@ void start_location::place_player( player &u ) const
 void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
                            const int rad ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
@@ -374,7 +376,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     }
     std::shuffle( valid.begin(), valid.end(), rng_get_engine() );
     for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
-        m.add_field( valid[i], fd_fire, 3 );
+        m.add_field( valid[i], field_type_id( "fd_fire" ), 3 );
     }
     m.save();
 }
@@ -382,7 +384,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
                                     const std::string &map_extra ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
 
@@ -394,7 +396,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
@@ -425,7 +427,7 @@ void start_location::handle_heli_crash( player &u ) const
 static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                           float expected_points )
 {
-    const tripoint_abs_sm spawn_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm spawn_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)

@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_WEATHER_GEN_H
 #define CATA_SRC_WEATHER_GEN_H
 
-#include <string>
 #include <climits>
+#include <map>
+#include <string>
+#include <vector>
 
 #include "calendar.h"
 #include "color.h"
+#include "type_id.h"
 #include "weather_type.h"
 
-struct tripoint;
 class JsonObject;
+struct tripoint;
 
 struct w_point {
     double temperature = 0;
@@ -19,7 +22,7 @@ struct w_point {
     double windpower = 0;
     std::string wind_desc;
     int winddirection = 0;
-    bool acidic = false;
+    time_point time;
 };
 
 class weather_generator
@@ -31,7 +34,6 @@ class weather_generator
         double base_humidity = 0;
         // Average atmospheric pressure
         double base_pressure = 0;
-        double base_acid = 0;
         //Average yearly windspeed
         double base_wind = 0;
         //How much the wind peaks above average
@@ -57,12 +59,14 @@ class weather_generator
          */
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
         weather_type_id get_weather_conditions( const tripoint &, const time_point &,
-                                                unsigned seed ) const;
-        weather_type_id get_weather_conditions( const w_point & ) const;
+                                                unsigned seed, std::map<weather_type_id, time_point> &next_instance_allowed ) const;
+        weather_type_id get_weather_conditions( const w_point &,
+                                                std::map<weather_type_id, time_point> &next_instance_allowed ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
         int get_water_temperature() const;
-        void test_weather( unsigned ) const;
+        void test_weather( unsigned seed,
+                           std::map<weather_type_id, time_point> &next_instance_allowed ) const;
 
         double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 

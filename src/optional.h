@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_OPTIONAL_H
 #define CATA_SRC_OPTIONAL_H
 
-#include <cassert>
 #include <initializer_list>
 #include <stdexcept>
 #include <type_traits>
+
+#include "cata_assert.h"
 
 namespace cata
 {
@@ -38,17 +39,17 @@ class optional
         bool full;
 
         T &get() {
-            assert( full );
+            cata_assert( full );
             return data;
         }
         const T &get() const {
-            assert( full );
+            cata_assert( full );
             return data;
         }
 
         template<typename... Args>
         void construct( Args &&... args ) {
-            assert( !full );
+            cata_assert( !full );
             new( &data )StoredType( std::forward<Args>( args )... );
             full = true;
         }

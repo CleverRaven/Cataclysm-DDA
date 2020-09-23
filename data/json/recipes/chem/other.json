@@ -2,6 +2,7 @@
   {
     "result": "bone_glue",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "survival",
@@ -13,11 +14,12 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ] ] ]
   },
   {
     "result": "superglue",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
@@ -31,9 +33,7 @@
       [
         [ "bleach", 1 ],
         [ "lye_powder", 100 ],
-        [ "bone", 20 ],
-        [ "bone_human", 20 ],
-        [ "bone_tainted", 40 ],
+        [ "bone_any", 20, "LIST" ],
         [ "cured_hide", 2 ],
         [ "pine_bough", 10 ],
         [ "raw_dandelion", 20 ],
@@ -46,6 +46,7 @@
   {
     "result": "rosin",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",

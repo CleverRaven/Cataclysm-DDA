@@ -6,6 +6,7 @@
     "monsters": [
       { "monster": "mon_zpinosaurus_fungus", "freq": 0, "cost_multiplier": 0 },
       { "monster": "mon_zyrannosaurus_fungus", "freq": 0, "cost_multiplier": 0 },
+      { "monster": "mon_zankylosaurus_fungus", "freq": 0, "cost_multiplier": 0 },
       { "monster": "mon_zeinonychus_fungus", "freq": 0, "cost_multiplier": 0 }
     ]
   },
@@ -16,6 +17,7 @@
     "monsters": [
       { "monster": "mon_zpinosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zankylosaurus_fungus", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_zeinonychus_fungus", "freq": 75, "cost_multiplier": 0 }
     ]
   },
@@ -26,6 +28,7 @@
     "monsters": [
       { "monster": "mon_zpinosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_zyrannosaurus_fungus", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zankylosaurus_fungus", "freq": 250, "cost_multiplier": 0 },
       { "monster": "mon_zeinonychus_fungus", "freq": 75, "cost_multiplier": 0 }
     ]
   }

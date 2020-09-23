@@ -1,0 +1,9 @@
+[
+  {
+    "id": "test_cargo_space",
+    "type": "vehicle",
+    "name": "TEST cargo space",
+    "blueprint": [ "o" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_vertical", "cargo_space" ] } ]
+  }
+]
