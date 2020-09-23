@@ -1600,8 +1600,6 @@
     "type": "skill",
     "id": "barter",
     "name": { "str": "bartering" },
-    "description": "Deprecated.",
-    "display_category": "display_social",
-    "obsolete": true
+    "description": "Deprecated."
   }
 ]
