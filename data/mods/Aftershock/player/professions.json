@@ -44,7 +44,7 @@
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 3,
-    "skills": [ { "level": 1, "name": "barter" } ],
+    "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
       "both": [
         "dress_shirt",
