@@ -273,6 +273,21 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
+    "id": "bottle_plastic_sealed",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "sealed plastic bottle" },
+    "copy-from": "bottle_plastic",
+    "description": "A watertight plastic bottle, holds 500 ml of liquid. This one has a tamper-evident cap and foil seal, which is still intact.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "spoil_multiplier": 0.5,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+      }
+    ]
+  },
+  {
     "id": "bottle_plastic",
     "type": "GENERIC",
     "category": "container",
@@ -1132,6 +1147,27 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+  },
+  {
+    "id": "jug_plastic_sealed",
+    "copy-from": "jug_plastic"
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "sealed gallon jug" },
+    "looks_like": "bottle_plastic",
+    "description": "A standard plastic jug used for milk and household cleaning chemicals. This one still has an intact tamper-evident seal.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "spoil_multiplier": 0.5,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "max_contains_volume": "3750 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "8 kg"
+      }
+    ]
   },
   {
     "id": "jug_plastic",
