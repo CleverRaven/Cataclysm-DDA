@@ -320,8 +320,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                 const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
-                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                              inserted.str() );
+                    debugmsg( "error: item %s cannot fit into pocket while loading: %s",
+                              it->typeId().str(), inserted.str() );
                 }
             }
 
