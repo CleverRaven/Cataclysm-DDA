@@ -4141,10 +4141,10 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
     } else if( thirst > 240 ) {
         hydration_color = c_light_red;
         hydration_string = _( "Dehydrated" );
-    } else if( thirst > 80 ) {
+    } else if( thirst > 120 ) {
         hydration_color = c_yellow;
         hydration_string = _( "Very thirsty" );
-    } else if( thirst > 40 ) {
+    } else if( thirst > 60 ) {
         hydration_color = c_yellow;
         hydration_string = _( "Thirsty" );
     } else if( thirst < -60 ) {
