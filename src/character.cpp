@@ -105,9 +105,7 @@
 
 struct dealt_projectile_attack;
 
-static const activity_id ACT_DROP( "ACT_DROP" );
 static const activity_id ACT_MOVE_ITEMS( "ACT_MOVE_ITEMS" );
-static const activity_id ACT_STASH( "ACT_STASH" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
@@ -854,17 +852,18 @@ int Character::clairvoyance() const
 
 bool Character::sight_impaired() const
 {
+    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
     return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                  has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
              ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
                !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
-             ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
+             ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
                !worn_with_flag( "FIX_NEARSIGHT" ) &&
                !has_effect( effect_contacts ) &&
                !has_bionic( bio_eye_optic ) ) ||
-             has_trait( trait_PER_SLIME ) );
+             has_trait( trait_PER_SLIME ) || is_blind() );
 }
 
 bool Character::has_alarm_clock() const
@@ -1965,6 +1964,7 @@ void Character::recalc_sight_limits()
 {
     sight_max = 9999;
     vision_mode_cache.reset();
+    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
 
     // Set sight_max.
     if( is_blind() || ( in_sleep_state() && !has_trait( trait_SEESLEEP ) ) ||
@@ -1981,7 +1981,7 @@ void Character::recalc_sight_limits()
     } else if( has_active_mutation( trait_SHELL2 ) ) {
         // You can kinda see out a bit.
         sight_max = 2;
-    } else if( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
+    } else if( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) && !has_effect( effect_contacts ) ) {
         sight_max = 4;
     } else if( has_trait( trait_PER_SLIME ) ) {
@@ -2066,7 +2066,13 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
-    float range = get_per() / 3.0f - encumb( bodypart_id( "eyes" ) ) / 10.0f;
+    int eyes_encumb = 0;
+    const bodypart_id eyes( "eyes" );
+    if( has_part( eyes ) ) {
+        eyes_encumb = encumb( eyes );
+    }
+
+    float range = get_per() / 3.0f - eyes_encumb / 10.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
@@ -2567,7 +2573,7 @@ int Character::get_standard_stamina_cost( item *thrown_item )
 }
 
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
-        bool interactive )
+        bool interactive, bool do_calc_encumbrance )
 {
     invalidate_inventory_validity_cache();
     const auto ret = can_wear( to_wear );
@@ -2623,8 +2629,10 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     inv->update_invlet( *new_item_it );
     inv->update_cache_with_item( *new_item_it );
 
-    recalc_sight_limits();
-    calc_encumbrance();
+    if( do_calc_encumbrance ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 
     return new_item_it;
 }
@@ -2780,12 +2788,10 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
 std::vector<item_location> Character::all_items_loc()
 {
     std::vector<item_location> ret;
-    if( has_weapon() ) {
-        item_location weap_loc( *this, &weapon );
-        std::vector<item_location> weapon_internal_items;
-        recur_internal_locations( weap_loc, weapon_internal_items );
-        ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
-    }
+    item_location weap_loc( *this, &weapon );
+    std::vector<item_location> weapon_internal_items;
+    recur_internal_locations( weap_loc, weapon_internal_items );
+    ret.insert( ret.end(), weapon_internal_items.begin(), weapon_internal_items.end() );
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
         std::vector<item_location> worn_internal_items;
@@ -2899,11 +2905,136 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid );
+            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!is_armed() );
         }
     }
 
     return retval;
+}
+
+void Character::handle_contents_changed( const std::vector<item_location> &containers )
+{
+    class item_loc_with_depth
+    {
+        public:
+            item_loc_with_depth( const item_location &_loc )
+                : _loc( _loc ), _depth( 0 ) {
+                item_location ancestor = _loc;
+                while( ancestor.has_parent() ) {
+                    ++_depth;
+                    ancestor = ancestor.parent_item();
+                }
+            }
+
+            const item_location &loc() const {
+                return _loc;
+            }
+
+            int depth() const {
+                return _depth;
+            }
+
+        private:
+            item_location _loc;
+            int _depth = 0;
+    };
+
+    class sort_by_depth
+    {
+        public:
+            bool operator()( const item_loc_with_depth &lhs, const item_loc_with_depth &rhs ) const {
+                return lhs.depth() < rhs.depth();
+            }
+    };
+
+    std::multiset<item_loc_with_depth, sort_by_depth> sorted_containers(
+        containers.begin(), containers.end() );
+    map &m = get_map();
+
+    // unseal and handle containers, from innermost (max depth) to outermost (min depth)
+    // so inner containers are always handled before outer containers are possibly removed.
+    while( !sorted_containers.empty() ) {
+        item_location loc = std::prev( sorted_containers.end() )->loc();
+        sorted_containers.erase( std::prev( sorted_containers.end() ) );
+        if( !loc ) {
+            debugmsg( "invalid item location" );
+            continue;
+        }
+        loc->on_contents_changed();
+        bool drop_unhandled = false;
+        if( loc.where() != item_location::type::map && !is_wielding( *loc ) ) {
+            for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+                if( pocket && pocket->will_spill() ) {
+                    // the pocket's contents (with a larger depth value) are not
+                    // inside `sorted_containers` and can be safely disposed of.
+                    pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
+                    // drop the container instead if canceled.
+                    if( !pocket->empty() ) {
+                        // drop later since we still need to access the container item
+                        drop_unhandled = true;
+                        // canceling one pocket cancels spilling for the whole container
+                        break;
+                    }
+                }
+            }
+        }
+
+        if( loc.has_parent() ) {
+            item_location parent_loc = loc.parent_item();
+            item_loc_with_depth parent( parent_loc );
+            item_pocket *const pocket = parent_loc->contained_where( *loc );
+            pocket->on_contents_changed();
+            bool exists = false;
+            auto it = sorted_containers.lower_bound( parent );
+            for( ; it != sorted_containers.end() && it->depth() == parent.depth(); ++it ) {
+                if( it->loc() == parent_loc ) {
+                    exists = true;
+                    break;
+                }
+            }
+            if( !exists ) {
+                sorted_containers.emplace_hint( it, parent );
+            }
+        }
+
+        if( drop_unhandled ) {
+            // We can drop the unhandled container now since the container and
+            // its contents (with a larger depth) are not inside `sorted_containers`.
+            add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                loc->display_name(), m.name( pos() )
+            );
+            item it_copy( *loc );
+            loc.remove_item();
+            // target item of `loc` is invalidated and should not be used from now on
+            m.add_item_or_charges( pos(), it_copy );
+        }
+    }
+}
+
+handle_contents_changed_helper::handle_contents_changed_helper(
+    Character &guy, const item_location &content )
+    : guy( &guy )
+{
+    if( content.has_parent() ) {
+        parent = content.parent_item();
+        pocket = parent->contained_where( *content );
+    } else {
+        parent = item_location::nowhere;
+        pocket = nullptr;
+    }
+}
+
+void handle_contents_changed_helper::handle()
+{
+    if( guy && parent && pocket ) {
+        pocket->on_contents_changed();
+        guy->handle_contents_changed( { parent } );
+    }
+    guy = nullptr;
+    parent = item_location::nowhere;
+    pocket = nullptr;
 }
 
 std::list<item *> Character::get_dependent_worn_items( const item &it )
@@ -2942,8 +3073,6 @@ void Character::drop( item_location loc, const tripoint &where )
 void Character::drop( const drop_locations &what, const tripoint &target,
                       bool stash )
 {
-    const activity_id type =  stash ? ACT_STASH : ACT_DROP;
-
     if( what.empty() ) {
         return;
     }
@@ -2954,14 +3083,21 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    assign_activity( type );
-    activity.placement = target - pos();
-
+    const tripoint placement = target - pos();
+    std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
         if( can_drop( *item_pair.first ).success() ) {
-            activity.targets.push_back( item_pair.first );
-            activity.values.push_back( item_pair.second );
+            items.emplace_back( item_pair.first, item_pair.second );
         }
+    }
+    if( stash ) {
+        assign_activity( player_activity( stash_activity_actor(
+                                              items, placement
+                                          ) ) );
+    } else {
+        assign_activity( player_activity( drop_activity_actor(
+                                              items, placement, /*force_ground=*/false
+                                          ) ) );
     }
 }
 
@@ -3056,9 +3192,8 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         std::set<ammotype> ammo = obj.ammo_types();
-        const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src, &nested, &out, &mags, ammo]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, ammo]( item * node, item * parent ) {
             if( node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
@@ -3082,7 +3217,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
             }
             if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
-                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                if( node->ammo_remaining() ) {
                     out = item_location( src, node );
                 }
             }
@@ -3875,6 +4010,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
+    weary.clear();
     martial_arts_data->reset_style();
     weapon   = item( "null", 0 );
 
@@ -4674,12 +4810,56 @@ int Character::get_stored_kcal() const
     return stored_calories;
 }
 
+static std::string exert_lvl_to_str( float level )
+{
+    if( level <= NO_EXERCISE ) {
+        return _( "NO_EXERCISE" );
+    } else if( level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    } else if( level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    } else if( level <= BRISK_EXERCISE ) {
+        return _( "BRISK_EXERCISE" );
+    } else if( level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    } else {
+        return _( "EXTRA_EXERCISE" );
+    }
+}
+std::string Character::debug_weary_info() const
+{
+    int amt = weariness();
+    std::string max_act = exert_lvl_to_str( maximum_exertion_level() );
+    float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+
+    int bmr = base_bmr();
+    int intake = weary.intake;
+    int input = weary.tracker;
+    int thresh = weary_threshold();
+    int current = weariness_level();
+
+    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCalories: %d",
+                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories );
+}
+
+void weariness_tracker::clear()
+{
+    tracker = 0;
+    intake = 0;
+    low_activity_ticks = 0;
+    tick_counter = 0;
+    ticks_since_decrease = 0;
+}
+
 void Character::mod_stored_kcal( int nkcal )
 {
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
+        weary.intake += nkcal;
     } else {
         add_spent_calories( -nkcal );
+        // nkcal is negative, we need positive
+        weary.tracker -= nkcal;
     }
     set_stored_kcal( stored_calories + nkcal );
 }
@@ -4758,45 +4938,45 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
         hydration_color = c_light_red;
-        hydration_string = _( "Parched" );
+        hydration_string = translate_marker( "Parched" );
     } else if( thirst > 240 ) {
         hydration_color = c_light_red;
-        hydration_string = _( "Dehydrated" );
+        hydration_string = translate_marker( "Dehydrated" );
     } else if( thirst > 80 ) {
         hydration_color = c_yellow;
-        hydration_string = _( "Very thirsty" );
+        hydration_string = translate_marker( "Very thirsty" );
     } else if( thirst > 40 ) {
         hydration_color = c_yellow;
-        hydration_string = _( "Thirsty" );
+        hydration_string = translate_marker( "Thirsty" );
     } else if( thirst < -60 ) {
         hydration_color = c_green;
-        hydration_string = _( "Turgid" );
+        hydration_string = translate_marker( "Turgid" );
     } else if( thirst < -20 ) {
         hydration_color = c_green;
-        hydration_string = _( "Hydrated" );
+        hydration_string = translate_marker( "Hydrated" );
     } else if( thirst < 0 ) {
         hydration_color = c_green;
-        hydration_string = _( "Slaked" );
+        hydration_string = translate_marker( "Slaked" );
     }
-    return std::make_pair( hydration_string, hydration_color );
+    return std::make_pair( _( hydration_string ), hydration_color );
 }
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
     std::map<efftype_id, std::pair<std::string, nc_color> > hunger_states = {
-        { effect_hunger_engorged, std::make_pair( _( "Engorged" ), c_red ) },
-        { effect_hunger_full, std::make_pair( _( "Full" ), c_yellow ) },
-        { effect_hunger_satisfied, std::make_pair( _( "Satisfied" ), c_green ) },
+        { effect_hunger_engorged, std::make_pair( translate_marker( "Engorged" ), c_red ) },
+        { effect_hunger_full, std::make_pair( translate_marker( "Full" ), c_yellow ) },
+        { effect_hunger_satisfied, std::make_pair( translate_marker( "Satisfied" ), c_green ) },
         { effect_hunger_blank, std::make_pair( "", c_white ) },
-        { effect_hunger_hungry, std::make_pair( _( "Hungry" ), c_yellow ) },
-        { effect_hunger_very_hungry, std::make_pair( _( "Very Hungry" ), c_yellow ) },
-        { effect_hunger_near_starving, std::make_pair( _( "Near starving" ), c_red ) },
-        { effect_hunger_starving, std::make_pair( _( "Starving!" ), c_red ) },
-        { effect_hunger_famished, std::make_pair( _( "Famished" ), c_light_red ) }
+        { effect_hunger_hungry, std::make_pair( translate_marker( "Hungry" ), c_yellow ) },
+        { effect_hunger_very_hungry, std::make_pair( translate_marker( "Very Hungry" ), c_yellow ) },
+        { effect_hunger_near_starving, std::make_pair( translate_marker( "Near starving" ), c_red ) },
+        { effect_hunger_starving, std::make_pair( translate_marker( "Starving!" ), c_red ) },
+        { effect_hunger_famished, std::make_pair( translate_marker( "Famished" ), c_light_red ) }
     };
     for( auto &hunger_state : hunger_states ) {
         if( has_effect( hunger_state.first ) ) {
-            return hunger_state.second;
+            return std::make_pair( _( hunger_state.second.first ), hunger_state.second.second );
         }
     }
     return std::make_pair( _( "ERROR!" ), c_light_red );
@@ -4809,20 +4989,20 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
     nc_color fatigue_color = c_white;
     if( fatigue > fatigue_levels::EXHAUSTED ) {
         fatigue_color = c_red;
-        fatigue_string = _( "Exhausted" );
+        fatigue_string = translate_marker( "Exhausted" );
     } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
         fatigue_color = c_light_red;
-        fatigue_string = _( "Dead Tired" );
+        fatigue_string = translate_marker( "Dead Tired" );
     } else if( fatigue > fatigue_levels::TIRED ) {
         fatigue_color = c_yellow;
-        fatigue_string = _( "Tired" );
+        fatigue_string = translate_marker( "Tired" );
     }
-    return std::make_pair( fatigue_string, fatigue_color );
+    return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( "NO_THIRST" ) ) {
+    if( has_trait_flag( "NO_THIRST" ) || ( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -5056,8 +5236,8 @@ void Character::update_health( int external_modifiers )
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_between( const time_point &from, const time_point &to,
-                          const time_duration &tick_length )
+static inline int ticks_between( const time_point &from, const time_point &to,
+                                 const time_duration &tick_length )
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -5080,6 +5260,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
+        try_reduce_weariness( attempted_activity_level );
         if( !activity.is_null() ) {
             decrease_activity_level( activity.exertion_level() );
         } else {
@@ -5147,6 +5328,131 @@ item *Character::best_quality_item( const quality_id &qual )
     return best_qual;
 }
 
+int Character::weary_threshold() const
+{
+    const int bmr = base_bmr();
+    int threshold = bmr * get_option<float>( "WEARY_BMR_MULT" );
+    // reduce by 1% per 14 points of fatigue after 150 points
+    threshold *= 1.0f - ( ( fatigue - 150 ) / 1400.0f );
+    // Each 2 points of morale increase or decrease by 1%
+    threshold *= 1.0f + ( get_morale_level() / 200.0f );
+    // TODO: Hunger effects this
+
+    return std::max( threshold, bmr / 10 );
+}
+
+int Character::weariness() const
+{
+    if( weary.intake > weary.tracker ) {
+        return weary.tracker * 0.5;
+    }
+    return weary.tracker - weary.intake * 0.5;
+}
+
+int Character::weariness_level() const
+{
+    int amount = weariness();
+    int threshold = weary_threshold();
+    int level = 0;
+    amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
+    while( amount >= 0 ) {
+        amount -= threshold;
+        if( threshold > 20 ) {
+            threshold *= get_option<float>( "WEARY_THRESH_SCALING" );
+        }
+        ++level;
+    }
+
+    return level;
+}
+
+float Character::maximum_exertion_level() const
+{
+    switch( weariness_level() ) {
+        case 0:
+            return EXTRA_EXERCISE;
+        case 1:
+            return ACTIVE_EXERCISE;
+        case 2:
+            return BRISK_EXERCISE;
+        case 3:
+            return MODERATE_EXERCISE;
+        case 4:
+            return LIGHT_EXERCISE;
+        case 5:
+        default:
+            return NO_EXERCISE;
+    }
+}
+
+float Character::exertion_adjusted_move_multiplier( float level ) const
+{
+    // The default value for level is -1.0
+    // And any values we get that are negative or 0
+    // will cause incorrect behavior
+    if( level <= 0 ) {
+        level = attempted_activity_level;
+    }
+    const float max = maximum_exertion_level();
+    if( level < max ) {
+        return 1.0f;
+    }
+    return max / level;
+}
+
+// Called every 5 minutes, when activity level is logged
+void Character::try_reduce_weariness( const float exertion )
+{
+    weary.ticks_since_decrease++;
+    if( exertion == NO_EXERCISE ) {
+        weary.low_activity_ticks++;
+        if( activity.id() == activity_id( "SLEEP" ) ) {
+            weary.low_activity_ticks++;
+        }
+    } else {
+        weary.tick_counter++;
+    }
+
+    // If more than 20 minutes have passed with no rest
+    if( weary.tick_counter >= 4 ) {
+        weary.low_activity_ticks--;
+        weary.tick_counter = 0;
+    }
+
+    const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
+
+    if( weary.low_activity_ticks >= 6 ) {
+        int reduction = weary.tracker;
+        const int bmr = base_bmr();
+        // 1/20 of whichever's bigger
+        if( bmr > reduction ) {
+            reduction = bmr * recovery_mult;
+        } else {
+            reduction *= recovery_mult;
+        }
+        weary.low_activity_ticks = 0;
+
+        weary.tracker -= reduction;
+    }
+
+    if( weary.ticks_since_decrease > 12 ) {
+        weary.intake *= 1 - recovery_mult;
+        weary.ticks_since_decrease = 0;
+    }
+
+    weary.intake = std::max( weary.intake, 0 );
+    weary.tracker = std::max( weary.tracker, 0 );
+}
+
+float Character::activity_level() const
+{
+    float max = maximum_exertion_level();
+    if( attempted_activity_level > max ) {
+        return max;
+    }
+    return attempted_activity_level;
+}
+
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();
@@ -5171,9 +5477,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
+        if( !npc_no_food ) {
             mod_stored_kcal( digested_to_body.nutr.kcal );
-            log_activity_level( activity_level );
+            log_activity_level( activity_level() );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
         if( !foodless && rates.hunger > 0.0f ) {
@@ -5181,6 +5487,10 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             // instead of hunger keeping track of how you're living, burn calories instead
             mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
         }
+    }
+    // if npc_no_food no need to calc hunger, and set hunger_effect
+    if( npc_no_food ) {
+        return;
     }
     if( stomach.time_since_ate() > 10_minutes ) {
         if( stomach.contains() >= stomach_capacity && get_hunger() > -61 ) {
@@ -7251,8 +7561,9 @@ hint_rating Character::rate_action_unload( const item &it ) const
     }
 
     for( const item *e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+        if( ( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+              ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) ||
+            ( e->has_flag( "BRASS_CATCHER" ) && !e->is_container_empty() ) ) {
             return hint_rating::good;
         }
     }
@@ -7416,6 +7727,8 @@ mutation_value_map = {
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
+    { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
+    { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
     { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> }
 };
 
@@ -7694,47 +8007,54 @@ int Character::height() const
     abort();
 }
 
-int Character::get_bmr() const
+int Character::base_bmr() const
 {
     /**
     Values are for males, and average!
     */
     const int equation_constant = 5;
-    const double base_bmr_calc = metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                                 ( bodyweight() / 100.0 ) +
-                                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant );
+    const int weight_factor = units::to_gram<int>( bodyweight() / 100.0 );
+    const int height_factor = 6.25 * height();
+    const int age_factor = 5 * age();
+    return metabolic_rate_base() * ( weight_factor + height_factor - age_factor + equation_constant );
+}
+
+int Character::get_bmr() const
+{
+    int base_bmr_calc = base_bmr();
+    base_bmr_calc *= activity_level();
     return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::increase_activity_level( float new_level )
 {
-    if( activity_level < new_level ) {
-        activity_level = new_level;
+    if( attempted_activity_level < new_level ) {
+        attempted_activity_level = new_level;
     }
 }
 
 void Character::decrease_activity_level( float new_level )
 {
-    if( activity_level > new_level ) {
-        activity_level = new_level;
+    if( attempted_activity_level > new_level ) {
+        attempted_activity_level = new_level;
     }
 }
 void Character::reset_activity_level()
 {
-    activity_level = NO_EXERCISE;
+    attempted_activity_level = NO_EXERCISE;
 }
 
 std::string Character::activity_level_str() const
 {
-    if( activity_level <= NO_EXERCISE ) {
+    if( attempted_activity_level <= NO_EXERCISE ) {
         return _( "NO_EXERCISE" );
-    } else if( activity_level <= LIGHT_EXERCISE ) {
+    } else if( attempted_activity_level <= LIGHT_EXERCISE ) {
         return _( "LIGHT_EXERCISE" );
-    } else if( activity_level <= MODERATE_EXERCISE ) {
+    } else if( attempted_activity_level <= MODERATE_EXERCISE ) {
         return _( "MODERATE_EXERCISE" );
-    } else if( activity_level <= BRISK_EXERCISE ) {
+    } else if( attempted_activity_level <= BRISK_EXERCISE ) {
         return _( "BRISK_EXERCISE" );
-    } else if( activity_level <= ACTIVE_EXERCISE ) {
+    } else if( attempted_activity_level <= ACTIVE_EXERCISE ) {
         return _( "ACTIVE_EXERCISE" );
     } else {
         return _( "EXTRA_EXERCISE" );
@@ -10240,7 +10560,11 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            i_add( *it );
+            item &added = i_add( *it, true, /*avoid=*/nullptr,
+                                 /*allow_drop=*/false, /*allow_wield=*/!is_armed() );
+            if( added.is_null() ) {
+                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
+            }
         }
         return VisitResponse::SKIP;
     } );

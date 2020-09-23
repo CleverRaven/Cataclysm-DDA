@@ -248,6 +248,10 @@ struct mutation_branch {
         cata::optional<float> stamina_regen_modifier = cata::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
         cata::optional<float> obtain_cost_multiplier = cata::nullopt;
+        // the modifier for the stomach size
+        cata::optional<float> stomach_size_multiplier = cata::nullopt;
+        // the modifier for the vomit chance
+        cata::optional<float> vomit_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
         cata::optional<float> overmap_sight = cata::nullopt;
@@ -514,6 +518,8 @@ struct mutation_category_trait {
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
+        // Meta-label indicating that the category isn't finished yet.
+        bool wip = false;
         // Determines if you make a sound when you inject mutagen
         bool iv_sound = false;
         // The amount of noise produced by the sound

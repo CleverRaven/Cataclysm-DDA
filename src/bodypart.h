@@ -140,7 +140,7 @@ struct body_part_type {
 
         bool is_limb = false;
 
-        int drench_max;
+        int drench_max = 0;
 
         cata::flat_set<std::string> flags;
         bool has_flag( const std::string &flag ) const;

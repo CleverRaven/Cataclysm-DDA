@@ -2667,7 +2667,7 @@ void Character::add_bionic( const bionic_id &b )
         return;
     }
 
-    my_bionics->push_back( bionic( b, get_free_invlet( *this->as_player() ) ) );
+    my_bionics->push_back( bionic( b, get_free_invlet( *this ) ) );
     if( b == bio_tools || b == bio_ears ) {
         activate_bionic( my_bionics->size() - 1 );
     }

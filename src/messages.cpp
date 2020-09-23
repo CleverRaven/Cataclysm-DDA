@@ -1,5 +1,6 @@
 #include "messages.h"
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -28,11 +29,6 @@
 #include <deque>
 #include <iterator>
 #include <memory>
-
-// sidebar messages flow direction
-extern bool log_from_top;
-extern int message_ttl;
-extern int message_cooldown;
 
 namespace
 {

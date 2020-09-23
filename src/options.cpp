@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <type_traits>
 
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -48,15 +49,6 @@
 #include <memory>
 #include <sstream>
 #include <string>
-
-bool use_tiles;
-bool log_from_top;
-int message_ttl;
-int message_cooldown;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
-bool keycode_mode;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -1440,6 +1432,17 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "INVENTORY_HIGHLIGHT", "interface",
+         translate_marker( "Inventory highlight mode" ),
+         translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
+    "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
+        { "symbol", translate_marker( "Symbol" ) },
+        { "highlight", translate_marker( "Highlight" ) },
+        { "disable", translate_marker( "Disable" ) }
+    },
+    "symbol"
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
@@ -2027,32 +2030,32 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-         translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
+         translate_marker( "A number determining how large cities are.  A higher number means larger cities.  0 disables cities, roads and any scenario requiring a city start." ),
          0, 16, 8
        );
 
     add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
-         translate_marker( "A number determining how far apart cities are.  Warning, small numbers lead to very slow mapgen." ),
+         translate_marker( "A number determining how far apart cities are.  A higher number means cities are further apart.  Warning, small numbers lead to very slow mapgen." ),
          0, 8, 4
        );
 
     add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of monster spawns." ),
+         translate_marker( "A scaling factor that determines density of monster spawns.  A higher number means more monsters." ),
          0.0, 50.0, 1.0, 0.1
        );
 
     add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material.  A higher number means more carrion spawned." ),
          0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
        );
 
     add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
-         translate_marker( "A scaling factor that determines density of item spawns." ),
+         translate_marker( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
          0.01, 10.0, 1.0, 0.01
        );
 
     add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
-         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  Set to 0 days to disable random NPCs." ),
+         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
          0.0, 100.0, 4.0, 0.01
        );
 

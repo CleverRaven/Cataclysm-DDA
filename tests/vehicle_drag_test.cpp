@@ -138,7 +138,7 @@ static void test_vehicle_drag(
                expected_safe, expected_max, true );
 }
 
-std::vector<std::string> vehs_to_test_drag = {
+static std::vector<std::string> vehs_to_test_drag = {
     {
         "bicycle",
         "bicycle_electric",

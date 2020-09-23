@@ -159,7 +159,8 @@
       { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
       { "monster": "mon_albino_penguin", "freq": 10, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
       { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_nakedmolerat_giant", "freq": 25, "cost_multiplier": 3 }
+      { "monster": "mon_nakedmolerat_giant", "freq": 25, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mother", "freq": 10, "cost_multiplier": 3 }
     ]
   },
   {

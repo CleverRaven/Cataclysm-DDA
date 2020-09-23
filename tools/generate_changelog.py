@@ -837,7 +837,7 @@ def read_personal_token(filename):
 
     try:
         with open(pathlib.Path(str(filename)).expanduser()) as token_file:
-            match = re.search('(?P<token>\S+)', token_file.read(), flags=re.MULTILINE)
+            match = re.search('(?P<token>\\S+)', token_file.read(), flags=re.MULTILINE)
             if match is not None:
                 return match.group('token')
     except IOError:
@@ -863,8 +863,8 @@ def smart_open(filename=None, *args, **kwargs):
 def validate_file_for_writing(filepath):
     if (filepath is not None and
         filepath != sys.stdout and
-            (not filepath.parent.exists()
-             or not filepath.parent.is_dir())):
+            (not filepath.parent.exists() or
+             not filepath.parent.is_dir())):
         return False
 
 

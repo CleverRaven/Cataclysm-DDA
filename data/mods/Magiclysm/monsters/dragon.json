@@ -102,19 +102,7 @@
       [ "scratch", 7 ],
       { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 20 }
     ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "KEENNOSE",
-      "PATH_AVOID_DANGER_2",
-      "WARM",
-      "SWIMS",
-      "ATTACKMON",
-      "ACIDPROOF",
-      "PUSH_MON",
-      "FLIES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_2", "WARM", "SWIMS", "ACIDPROOF", "PUSH_MON", "FLIES" ]
   },
   {
     "id": "mon_dragon_black_young",

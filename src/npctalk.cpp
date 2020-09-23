@@ -15,6 +15,7 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -94,11 +95,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const talk_topic &the_topic );
+static int topic_category( const talk_topic &the_topic );
 
-const talk_topic &special_talk( const std::string &action );
-
-std::string give_item_to( npc &p, bool allow_use );
+static const talk_topic &special_talk( const std::string &action );
 
 std::string talk_trial::name() const
 {
@@ -2774,7 +2773,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().get_id() == category_id;
+                    return it.get_category_of_contents().get_id() == category_id;
                 }
                 return it.type && it.type->category_force == category_id;
             } );

@@ -14,11 +14,11 @@
     "id": "wizard_tower_1",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_north" },
-      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
-      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_south" },
+      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_south" },
+      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_south" }
     ]
   },
   {

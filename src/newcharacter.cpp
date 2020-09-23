@@ -112,16 +112,16 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( avatar &u, points_left &points );
-tab_direction set_stats( avatar &u, points_left &points );
-tab_direction set_traits( avatar &u, points_left &points );
-tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-tab_direction set_skills( avatar &u, points_left &points );
-tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
+static tab_direction set_points( avatar &u, points_left &points );
+static tab_direction set_stats( avatar &u, points_left &points );
+static tab_direction set_traits( avatar &u, points_left &points );
+static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_skills( avatar &u, points_left &points );
+static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-void reset_scenario( avatar &u, const scenario *scen );
+static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -394,7 +394,7 @@ void avatar::add_profession_items()
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
-            wear_item( it, false );
+            wear_item( it, false, false );
         } else {
             inv->push_back( it );
         }
@@ -402,6 +402,8 @@ void avatar::add_profession_items()
             items_identified.insert( it.typeId() );
         }
     }
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 bool avatar::create( character_type type, const std::string &tempname )
@@ -1317,7 +1319,7 @@ tab_direction set_traits( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
@@ -1944,7 +1946,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     } while( true );
 }
 
-struct {
+static struct {
     bool sort_by_points = true;
     bool male = false;
     bool cities_enabled = false;
@@ -2427,12 +2429,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                                           loc_name, loc.targets_count() );
             }
 
-            uilist_entry entry( loc.id.get_cid().to_i(), true, -1, loc_name );
+            uilist_entry entry( loc.id.id().to_i(), true, -1, loc_name );
 
             select_location.entries.emplace_back( entry );
 
-            if( !you.random_start_location &&
-                loc.id.get_cid() == you.start_location.get_cid() ) {
+            if( !you.random_start_location && loc.id.id() == you.start_location.id() ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2809,7 +2810,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 you.random_start_location = true;
             } else if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_locations::get_all() ) {
-                    if( loc.id.get_cid().to_i() == select_location.ret ) {
+                    if( loc.id.id().to_i() == select_location.ret ) {
                         you.random_start_location = false;
                         you.start_location = loc.id;
                         break;
@@ -2888,35 +2889,14 @@ std::vector<trait_id> Character::get_base_traits() const
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden, mutation_filter filter ) const
+std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
         if( include_hidden || t.first.obj().player_display ) {
-            bool is_suitable = true;
-            switch( filter ) {
-                case mutation_filter::all:
-                    break;
-                case mutation_filter::debug:
-                    is_suitable = t.first.obj().debug;
-                    break;
-                case mutation_filter::anger_relations:
-                    is_suitable = !t.first.obj().anger_relations.empty();
-                    break;
-                case mutation_filter::social_mods:
-                    is_suitable = !t.first.obj().social_mods.empty();
-                    break;
-                case mutation_filter::ignored_by:
-                    is_suitable = !t.first.obj().ignored_by.empty();
-                    break;
-            }
-            if( !is_suitable ) {
-                continue;
-            }
             result.push_back( t.first );
         }
     }
-
     for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;
@@ -2937,12 +2917,16 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden, mutation_fi
 void Character::clear_mutations()
 {
     while( !my_traits.empty() ) {
-        toggle_trait( *my_traits.begin() );
+        my_traits.erase( *my_traits.begin() );
     }
     while( !my_mutations.empty() ) {
-        unset_mutation( my_mutations.begin()->first );
+        const trait_id trait = my_mutations.begin()->first;
+        my_mutations.erase( my_mutations.begin() );
+        mutation_loss_effect( trait );
     }
     cached_mutations.clear();
+    recalc_sight_limits();
+    calc_encumbrance();
 }
 
 void Character::empty_skills()

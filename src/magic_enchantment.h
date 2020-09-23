@@ -168,7 +168,7 @@ class enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
 
-        std::set<trait_id> get_mutations() const {
+        const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
     private:

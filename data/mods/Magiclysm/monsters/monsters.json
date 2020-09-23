@@ -68,7 +68,7 @@
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_krabgek",

@@ -225,6 +225,7 @@
       [ "mag_traps", 20 ],
       [ "manual_cutting", 12 ],
       [ "manual_knives", 8 ],
+      [ "manual_swords", 8 ],
       [ "manual_gun", 8 ],
       [ "manual_shotgun", 6 ],
       [ "manual_pistol", 4 ],

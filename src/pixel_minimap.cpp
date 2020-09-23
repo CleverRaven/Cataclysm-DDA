@@ -15,6 +15,7 @@
 
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_tiles.h"
 #include "character.h"
 #include "color.h"
 #include "coordinate_conversions.h"
@@ -33,8 +34,6 @@
 #include "sdl_utils.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-extern void set_displaybuffer_rendertarget();
 
 namespace
 {

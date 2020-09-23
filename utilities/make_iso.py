@@ -48,14 +48,14 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
             'convert -background transparent ' + new_tileset_name + '/tiles/' + tile_png +
             ' -rotate ' + str(initial_rotation) + ' ' +
             '-rotate -45 +repage -resize 100%x50% ' +
-            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' + #TODO: get correct offsets
+            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  #TODO: get correct offsets
             '+repage -extent ' + str(nwidth) + 'x' + str(nheight) + '+0-' + str(nheight - int(nwidth / 2)) + ' ' +
             new_tileset_name + '/tiles/to_merge/' + tile_png)
         print(command)
         if os.system(command):
             raise RuntimeError("iso-ization failed for %s" % tile_png)
         else:
-            converted_tile_ids[(tile_num,initial_rotation)] = True
+            converted_tile_ids[(tile_num, initial_rotation)] = True
             return True
     return False
 
@@ -242,7 +242,7 @@ for otn in otc['tiles-new']:
     if 'fallback' in base_filename:
         continue
     if first_filename == '':
-        first_filename = base_filename # remember this for tileset.txt
+        first_filename = base_filename  # remember this for tileset.txt
     ntc['tiles-new'].append(dict())
     ntn = ntc['tiles-new'][-1]
     ntn['file'] = os.path.join(new_tileset_name, base_filename)
@@ -263,7 +263,7 @@ for otn in otc['tiles-new']:
 
     for otile in otn['tiles']:
         print(" handling '%s'" % otile['id'])
-        tile = tile_convert(otile,otile['id'],new_tile_number)
+        tile = tile_convert(otile, otile['id'], new_tile_number)
         new_tile_number = tile['ntn']
         del tile['ntn']
         ntn['tiles'].append(tile)

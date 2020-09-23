@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"

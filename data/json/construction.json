@@ -6,7 +6,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "qualities": [ [ { "id": "PRY", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
@@ -3007,7 +3007,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "rock", 40 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",

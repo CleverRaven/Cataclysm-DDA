@@ -241,9 +241,10 @@ void player_activity::do_turn( player &p )
             }
         }
     }
+    const float activity_mult = p.exertion_adjusted_move_multiplier();
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
-            moves_left -= 100;
+            moves_left -= 100 * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= p.moves * moves_left / 100;
@@ -251,7 +252,7 @@ void player_activity::do_turn( player &p )
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
         if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
+            moves_left -= p.moves * activity_mult;
             p.moves = 0;
         } else {
             p.moves -= moves_left;
@@ -316,7 +317,6 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
-        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
@@ -363,6 +363,10 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         return false;
     }
 
+    if( id() != other.id() ) {
+        return false;
+    }
+
     // if actor XOR other.actor then id() != other.id() so
     // we will correctly return false based on final return statement
     if( actor && other.actor ) {
@@ -387,9 +391,13 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
+    } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
+        if( values != other.values || str_values != other.str_values ) {
+            return false;
+        }
     }
 
-    return !auto_resume && id() == other.id() && index == other.index &&
+    return !auto_resume && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
 

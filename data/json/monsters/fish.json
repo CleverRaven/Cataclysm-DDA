@@ -640,7 +640,24 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "mon_crayfish_mega",
+    "type": "MONSTER",
+    "name": { "str": "colossal crayfish" },
+    "description": "An enormous mutated gray crayfish with pincer claws and long antennae.",
+    "copy-from": "mon_giant_crayfish",
+    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "armor_cut": 2, "armor_bullet": 2 },
+    "volume": "625 L",
+    "weight": "815 kg",
+    "melee_dice": 2,
+    "special_attacks": [
+      [ "PARROT", 20 ],
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_razorclaw",

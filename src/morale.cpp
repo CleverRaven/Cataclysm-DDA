@@ -84,23 +84,12 @@ struct morale_mult {
     }
 };
 
-inline double operator * ( double morale, const morale_mult &mult )
+static inline double operator * ( double morale, const morale_mult &mult )
 {
     return morale * ( ( morale >= 0.0 ) ? mult.good : mult.bad );
 }
 
-inline double operator * ( const morale_mult &mult, double morale )
-{
-    return morale * mult;
-}
-
-inline double operator *= ( double &morale, const morale_mult &mult )
-{
-    morale = morale * mult;
-    return morale;
-}
-
-inline int operator *= ( int &morale, const morale_mult &mult )
+static inline int operator *= ( int &morale, const morale_mult &mult )
 {
     morale = morale * mult;
     return morale;
