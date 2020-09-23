@@ -535,21 +535,33 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "VOLUME" ) );
 
             append_cell( [&p]( const item_location & loc ) {
+                /* Understanding how Calories Per Effective Volume are calculated requires a dive into the 
+                stomach fullness source code. Look at issue #44365*/
                 const item &it = *loc;
                 const int charges = std::max( it.charges, 1 );
                 const double converted_weight = convert_weight( it.weight() / charges );
-                if( converted_weight == 0 ) {
-                    return std::string( "---" );
+                if (converted_weight == 0) {
+                    return std::string("NaN"); //this should never happen.
                 }
-                const nutrients nutr = p.compute_effective_nutrients( *loc );
+                const nutrients nutr = p.compute_effective_nutrients(it);
                 const int kcalories = nutr.kcal;
-                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
-                if( kcalories == 0 ) {
+                if (kcalories == 0 || !it.type->comestible) { //quit prematurely if there is no caloric content/the item is not food.
                     return std::string();
                 }
-                const int calpergr = int( std::round( kcalories / converted_weight ) );
-                return string_format( _( "%d" ), calpergr );
-            }, _( "CAL/kg" ) );
+                units::volume water_vol = (it.type->comestible->quench > 0) ? it.type->comestible->quench *
+                    5_ml : 0_ml;
+                units::volume food_vol = it.base_volume() - water_vol; //water volume is ignored.
+                int converted_volume_scale = 0;
+                const double converted_volume = round_up(convert_volume(it.volume().value() / charges,
+                    &converted_volume_scale), 2);
+                double energy_density_ratio = std::max(static_cast<double>(nutr.kcal) / converted_weight, 1.0);
+                if (energy_density_ratio > 3.0f) {
+                    energy_density_ratio = std::sqrt(3 * energy_density_ratio);
+                }
+                const double effective_volume = converted_volume * energy_density_ratio;
+                const int calories_per_effective_volume = std::round(kcalories / effective_volume);
+                return string_format( _( "%d" ), calories_per_effective_volume );
+            }, _( "EFFCALPVOL" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
