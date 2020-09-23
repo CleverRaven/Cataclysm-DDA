@@ -539,7 +539,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 stomach fullness source code. Look at issue #44365*/
                 const item &it = *loc;
                 const int charges = std::max( it.charges, 1 );
-                units::mass food_weight = (it.weight() / it.count());
+                units::mass food_weight = ( it.weight() / it.count() );
                 if( food_weight.value() == 0 ) {
                     return std::string( "NaN" ); //this should never happen.
                 }
@@ -553,13 +553,14 @@ class comestible_inventory_preset : public inventory_selector_preset
                                           5_ml : 0_ml;
                 units::volume food_vol = it.volume() - water_vol; //water volume is ignored.
                 const double converted_volume = round_up( convert_volume( food_vol.value() / charges ), 2 );
-                double energy_density_ratio = std::max(static_cast<double>(nutr.kcal) / units::to_gram(food_weight), 1.0);
+                double energy_density_ratio = std::max( static_cast<double>( nutr.kcal ) / units::to_gram(
+                        food_weight ), 1.0 );
                 if( energy_density_ratio > 3.0f ) {
                     energy_density_ratio = std::sqrt( 3 * energy_density_ratio );
                 }
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                return string_format( _( "%d_%.2f" ), calories_per_effective_volume, effective_volume);
+                return string_format( _( "%d_%.2f" ), calories_per_effective_volume, effective_volume );
             }, _( "EFFCALPVOL" ) );
 
             Character &player_character = get_player_character();
