@@ -33,7 +33,7 @@ def main(argv):
         if opt == "--compile-db":
             compile_db = arg
 
-    starts_with_drive_letter = re.compile("^/(\w)/(.*)$")
+    starts_with_drive_letter = re.compile("^/(\\w)/(.*)$")
 
     data = None
     with open(compile_db, 'r', encoding="utf-8") as fs:

@@ -8,7 +8,7 @@ Limits a target process to a given amount of memory.
 If the process use more memory than the given limit, the process allocations will start to fail.
 
 ```
-$ python .\windows_limit_memory.py --help
+$ python .\\windows_limit_memory.py --help
 usage: windows_limit_memory.py [-h]
                                [-l {NOTSET,DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                                [-m MEMORY]
@@ -34,7 +34,7 @@ Examples:
     $ python windows_limit_memory.py -m 50 pid 22764
 
     ; starting process "cataclysm-tiles.exe" and limiting its memory to 1GiB.
-    $ python windows_limit_memory.py -m 1024 process z:\CDDA\Cataclysm-tiles.exe
+    $ python windows_limit_memory.py -m 1024 process z:\\CDDA\\Cataclysm-tiles.exe
 """
 
 import argparse
