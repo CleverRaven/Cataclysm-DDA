@@ -412,7 +412,7 @@ void spell_type::serialize( JsonOut &json ) const
         json.member( "learn_spells" );
         json.start_object();
 
-        for( const std::pair<std::string, int> &sp : learn_spells ) {
+        for( const std::pair<const std::string, int> &sp : learn_spells ) {
             json.member( sp.first, sp.second );
         }
 
