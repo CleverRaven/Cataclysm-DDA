@@ -529,7 +529,7 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-   "type": "COMESTIBLE",
+    "type": "COMESTIBLE",
     "id": "juice_pasteurized",
     "name": "pasteurized fruit juice",
     "copy-from": "juice",
