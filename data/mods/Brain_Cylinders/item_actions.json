@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_action",
+    "id": "TALK_TO",
+    "name": { "str": "Talk to" }
+  }
+]

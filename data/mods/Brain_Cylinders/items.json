@@ -1,0 +1,17 @@
+[
+  {
+    "id": "brain_cylinder_1",
+    "type": "GENERIC",
+    "name": "Brain Cylinder",
+    "description": "This is a glass cylinder containing a brain. Strange organic-looking growths of resin caps both ends. There apears to be a button on the bottom.",
+    "weight": "1000 g",
+    "volume": "1000 ml",
+    "price": 30000,
+    "bashing": 9,
+    "to_hit": -1,
+    "material": [ "glass", "alien_resin" ],
+    "symbol": "▯",
+    "color": "light_blue",
+    "use_action": { "type": "TALK_TO" }
+  }
+]

@@ -94,6 +94,8 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "talker.h"
+#include "talker_npc.h"
 #include "teleport.h"
 #include "text_snippets.h"
 #include "timed_event.h"
@@ -5755,6 +5757,20 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "Your vision is fine already." ) );
         return 0;
     }
+}
+
+int iuse::talk_to(player *p, item *it, bool, const tripoint &)
+{
+    if (!it->units_sufficient(*p)) {
+        p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname());
+        return 0;
+    }
+
+    shared_ptr_fast<npc> talker = it->get_talker();
+    get_avatar().talk_to(get_talker_for(talker.get()));
+    it->set_talker(talker); // Saves changes done to the NPC
+
+    return it->type->charges_to_use();
 }
 
 int iuse::talking_doll( player *p, item *it, bool, const tripoint & )

@@ -184,6 +184,7 @@ int solarpack_off( player *, item *, bool, const tripoint & );
 int spray_can( player *, item *, bool, const tripoint & );
 int stimpack( player *, item *, bool, const tripoint & );
 int strong_antibiotic( player *, item *, bool, const tripoint & );
+int talk_to(player *, item *, bool, const tripoint &);
 int talking_doll( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );

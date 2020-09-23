@@ -1,0 +1,12 @@
+[
+  {
+    "type": "npc",
+    "id": "brain_cylinder_1_talker",
+    "name_suffix": "cylinder",
+    "class": "NC_BRAIN_CYLINDER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_BRAIN_CYLINDER",
+    "faction": "no_faction"
+  }
+]

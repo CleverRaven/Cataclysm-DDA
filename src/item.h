@@ -24,6 +24,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
+#include "memory_fast.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -50,6 +51,7 @@ class nc_color;
 class player;
 class recipe;
 class relic;
+class npc;
 struct armor_portion_data;
 struct islot_comestible;
 struct itype;
@@ -569,6 +571,11 @@ class item : public visitable<item>
 
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
+
+        /** Remember to use set_talker() after modifications to the NPC to save changes. */
+        shared_ptr_fast<npc> get_talker();
+
+        void set_talker(shared_ptr_fast<npc> talker);
 
         /**
          * @name Melee

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "brain_cylinders",
+    "name": "Brain Cylinders",
+    "authors": [ "Lightwave_" ],
+    "maintainers": [ "Lightwave_" ],
+    "description": "Adds brain cylinders to Mi-Go outposts",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]
