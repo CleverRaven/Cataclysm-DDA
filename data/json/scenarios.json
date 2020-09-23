@@ -41,7 +41,7 @@
       "sloc_cemetery"
     ],
     "start_name": "In Town",
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
