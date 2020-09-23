@@ -553,7 +553,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                                           5_ml : 0_ml;
                 units::volume food_vol = it.base_volume() - water_vol; //water volume is ignored.
                 int converted_volume_scale = 0;
-                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
+                const double converted_volume = round_up( convert_volume( food_vol.value() / charges,
                                                 &converted_volume_scale ), 2 );
                 double energy_density_ratio = std::max( static_cast<double>( nutr.kcal ) / converted_weight, 1.0 );
                 if( energy_density_ratio > 3.0f ) {
