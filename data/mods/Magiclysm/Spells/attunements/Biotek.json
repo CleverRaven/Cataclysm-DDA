@@ -20,7 +20,7 @@
     "base_casting_time": 300,
     "base_energy_cost": 350,
     "max_level": 35,
-    "energy_type": "BIONIC"
+    "energy_source": "BIONIC"
   },
   {
     "id": "jury_rig",
@@ -40,7 +40,7 @@
     "effect": "target_attack",
     "base_casting_time": 500,
     "base_energy_cost": 800,
-    "energy_cost_increment": -20,
+    "energy_increment": -20,
     "final_energy_cost": 100,
     "components": "jury_rig",
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE" ],
