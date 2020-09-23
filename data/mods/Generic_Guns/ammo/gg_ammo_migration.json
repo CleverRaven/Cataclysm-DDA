@@ -360,6 +360,11 @@
     "replace": "shot_pyro"
   },
   {
+    "id": [ "shot_he" ],
+    "type": "MIGRATION",
+    "replace": "shot_explosive"
+  },
+  {
     "id": [ "reloaded_shot_00", "reloaded_410shot_000", "20x66_bootleg_shot", "20x66_bootleg_flechette", "shot_scrap" ],
     "type": "MIGRATION",
     "replace": "reloaded_shot_buck"

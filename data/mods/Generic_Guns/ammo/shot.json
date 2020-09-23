@@ -61,6 +61,13 @@
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
+    "id": "shot_explosive",
+    "copy-from": "shot_he",
+    "type": "AMMO",
+    "name": { "str_sp": "shotshell, explosive" },
+    "ammo_type": "ammo_shot"
+  },
+  {
     "id": "reloaded_shot_junk",
     "copy-from": "shot_buck",
     "type": "AMMO",
