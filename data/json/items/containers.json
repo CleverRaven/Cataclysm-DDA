@@ -1150,7 +1150,7 @@
   },
   {
     "id": "jug_plastic_sealed",
-    "copy-from": "jug_plastic"
+    "copy-from": "jug_plastic",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "sealed gallon jug" },
