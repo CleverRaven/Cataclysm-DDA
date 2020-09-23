@@ -6,7 +6,7 @@ import os.path
 
 # defines is provided by dmgbuild, but pretend to define it here for the
 # beneit of linting tools.
-defines = defines # noqa: F821
+defines = defines  # noqa: F821
 
 # .. Useful stuff ..............................................................
 
@@ -115,7 +115,7 @@ arrange_by = None
 grid_offset = (0, 0)
 grid_spacing = 100
 scroll_position = (0, 0)
-label_pos = 'bottom' # or 'right'
+label_pos = 'bottom'  # or 'right'
 text_size = 16
 icon_size = 64
 
