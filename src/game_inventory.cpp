@@ -556,9 +556,13 @@ class comestible_inventory_preset : public inventory_selector_preset
                 constexpr int max_cal_per_effective_vol = 1500;
                 const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
                 const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
-                // TODO: find a way to make this rtl aligned!
-                return get_hp_bar( std::min( scaled_max, scaled_cal ),
-                                   scaled_max ).first;
+                std::string nourishment_bar = get_hp_bar( std::min( scaled_max, scaled_cal ),
+                                              scaled_max ).first;
+                // Padding nourishment bar to make it seem rtl aligned.
+                while( nourishment_bar.length() < 5 ) {
+                    nourishment_bar.push_back( '.' );
+                }
+                return nourishment_bar;
             }, _( "NOURISHMENT" ) );
 
             Character &player_character = get_player_character();
