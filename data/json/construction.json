@@ -66,7 +66,7 @@
     "category": "FARM_WOOD",
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+    "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "pre_terrain": "t_trunk",
     "post_terrain": "t_dirt",
     "post_special": "done_trunk_plank"
