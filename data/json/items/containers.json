@@ -279,17 +279,20 @@
     "name": { "str": "plastic bottle" },
     "copy-from": "bottle_plastic",
     "description": "A watertight plastic bottle, holds 500 ml of liquid. Preserves content from rot until opened.",
-    "pocket_data": [ { "pocket_type": "CONTAINER",
-                              "pocket_type": "CONTAINER",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "pocket_type": "CONTAINER",
         "airtight": true,
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "17 ml",
         "max_contains_weight": "1250 g",
-                      "sealed_data": { "spoil_multiplier": 0.5 },  
+        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 400
-                       } ]
+      }
+    ]
   },
   {
     "id": "bottle_plastic",
@@ -1160,13 +1163,17 @@
     "name": { "str": "gallon jug" },
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals. Preserves content from rot until opened.",
-    "pocket_data": [ { 
-              "pocket_type": "CONTAINER",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
         "rigid": true,
         "watertight": true,
         "max_contains_volume": "3750 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "8 kg","sealed_data": { "spoil_multiplier": 0.5 } } ]
+        "max_contains_weight": "8 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 }
+      }
+    ]
   },
   {
     "id": "jug_plastic",
