@@ -551,8 +551,20 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                return string_format( _( "%d" ), calories_per_effective_volume );
-            }, _( "EFFCALPVOL" ) );
+                if( p.has_bionic(
+                        bionic_id( "bio_digestion" ) ) ) { //change to specific trait/bionic/skill condition
+                    return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
+                } //else compute "vague" values to display.
+                if( calories_per_effective_volume < 150 ) { //placeholder thresholds
+                    return std::string( "+" );
+                } else if( calories_per_effective_volume < 500 ) {
+                    return std::string( "++" );
+                } else if( calories_per_effective_volume < 1000 ) {
+                    return std::string( "+++" );
+                } else {
+                    return std::string( "++++" );
+                }
+            }, _( "CALORIE DENSITY" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
