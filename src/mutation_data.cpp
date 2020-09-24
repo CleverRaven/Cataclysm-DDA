@@ -453,7 +453,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
-
+    optional( jo, was_loaded, "crafting_speed_multiplier", crafting_speed_multiplier );
     optional( jo, was_loaded, "mana_modifier", mana_modifier, cata::nullopt );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, cata::nullopt );
