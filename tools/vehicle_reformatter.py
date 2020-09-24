@@ -8,6 +8,7 @@ import subprocess
 
 LINE_LIMIT = 58
 
+
 def get_data(argsDict, resource_name):
     resource = []
     resource_sources = argsDict.get(resource_name, [])

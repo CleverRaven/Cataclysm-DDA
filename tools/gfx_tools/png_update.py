@@ -101,6 +101,7 @@ def convert_tile_entry_file(file_path, old_name, new_name):
             new_tile_data = new_tile_data[0]
         write_to_json(file_path, new_tile_data)
 
+
 if __name__ == '__main__':
     args = argparse.ArgumentParser(description="Rename a png file, its associated tile_entry.json, and update all other tile_entry.json in the tileset dir to reflect the new name.")
     args.add_argument("tileset_dir", action="store",
