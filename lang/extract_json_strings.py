@@ -218,6 +218,7 @@ def gender_options(subject):
 #  SPECIALIZED EXTRACTION FUNCTIONS
 #
 
+
 def extract_achievement(a):
     outfile = get_outfile(a["type"])
     for f in ("name", "description"):
@@ -949,7 +950,8 @@ for filename in os.listdir(to_dir):
 
 #
 #  FUNCTIONS
-##
+#
+
 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
@@ -1290,6 +1292,7 @@ def prepare_git_file_list():
     for f in output:
         if len(f) > 0:
             git_files_list.add(os.path.normpath(f[:-1].decode('utf8')))
+
 
 #
 #  EXTRACTION

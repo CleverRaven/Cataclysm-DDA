@@ -10,12 +10,14 @@ import re
 import shlex
 import sys
 
+
 def print_help():
     print("\n"
           "Fix compilation database used by run-clang-tidy.py on Windows.\n"
           "\n"
           "    --help              prints this message\n"
           "    --compile-db=<path> specify the path to compilation database. Defaults to build/compile_commands.json\n")
+
 
 def main(argv):
     compile_db = "build/compile_commands.json"
@@ -59,6 +61,7 @@ def main(argv):
 
     with open(compile_db, 'w', encoding="utf-8") as fs:
         json.dump(data, fs, indent=2)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

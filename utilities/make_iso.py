@@ -38,6 +38,7 @@ args = parser.parse_args()
 # Indexed by (tile_num, initial_rotation) tuple, True if iso-converted
 converted_tile_ids = dict()
 
+
 def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
     if override or (tile_num, initial_rotation) not in converted_tile_ids:
         print("  iso-izing " + str(tile_num))

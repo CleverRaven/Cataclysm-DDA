@@ -13,6 +13,7 @@ defines = defines  # noqa: F821
 application = defines.get('app', 'Cataclysm.app')
 appname = os.path.basename(application)
 
+
 def icon_from_app(app_path):
     plist_path = os.path.join(app_path, 'Contents', 'Info.plist')
     plist = biplist.readPlist(plist_path)
@@ -22,6 +23,7 @@ def icon_from_app(app_path):
         icon_ext = '.icns'
     icon_name = icon_root + icon_ext
     return os.path.join(app_path, 'Contents', 'Resources', icon_name)
+
 
 # .. Basics ....................................................................
 
