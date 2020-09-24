@@ -383,9 +383,9 @@ CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt $(JSON_FORMATTER_BIN)
-BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
-W32BINDIST = $(BUILD_PREFIX)cataclysmdda-$(VERSION).zip
-BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
+BINDIST    = $(BUILD_PREFIX)cataclysmbn-$(VERSION).tar.gz
+W32BINDIST = $(BUILD_PREFIX)cataclysmbn-$(VERSION).zip
+BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmbn-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
 
@@ -467,7 +467,7 @@ ifeq ($(NATIVE), osx)
   endif
   TARGETSYSTEM=LINUX
   ifneq ($(OS), Linux)
-    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
+    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmbn-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
   endif
 endif
 
@@ -883,7 +883,7 @@ clean: clean-tests
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
-	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
+	rm -rf *$(BINDIST_DIR) *cataclysmbn-*.tar.gz *cataclysmbn-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
 
