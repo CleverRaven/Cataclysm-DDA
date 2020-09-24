@@ -95,13 +95,19 @@ class string_id
          * The usual comparator, compares the string id as usual.
          */
         bool operator==( const This &rhs ) const {
-            return _id == rhs._id;
+            bool can_compare_cid = ( _cid != -1 || rhs._cid != -1 ) &&
+                                   _version == rhs._version && _version != -1;
+            return ( can_compare_cid && _cid == rhs._cid ) ||
+                   ( !can_compare_cid && _id == rhs._id );
+            // else returns false, when:
+            //      can_compare_cid && _cid != rhs._cid
+            //  OR  !can_compare_cid && _id != rhs._id
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
         bool operator!=( const This &rhs ) const {
-            return _id != rhs._id;
+            return ! operator==( rhs );
         }
         /**
          * Interface to the plain C-string of the id. This function mimics the std::string
@@ -197,7 +203,12 @@ class string_id
         // cached int_id counterpart of this string_id
         mutable int _cid;
         // generic_factory version that corresponds to the _cid
-        mutable int _version;
+        mutable signed long long int _version;
+
+        inline void set_cid_version( int cid, signed long long int version ) const {
+            _cid = cid;
+            _version = version;
+        }
 
         friend class generic_factory<T>;
 };
