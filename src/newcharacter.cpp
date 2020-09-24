@@ -101,7 +101,7 @@ static const trait_id trait_XXXL( "XXXL" );
 static constexpr int HIGH_STAT = 12;
 
 // The ID of the rightmost tab
-static constexpr int NEWCHAR_TAB_MAX = 6 ;
+static constexpr int NEWCHAR_TAB_MAX = 6;
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -659,9 +659,9 @@ static void draw_points( const catacurses::window &w, points_left &points, int n
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
     if( netPointCost > 0 ) {
-        mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, "(-%d)", std::abs( netPointCost ) );
+        mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, " (-%d)", std::abs( netPointCost ) );
     } else if( netPointCost < 0 ) {
-        mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, "(+%d)", std::abs( netPointCost ) );
+        mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
     }
 }
 
@@ -709,20 +709,20 @@ tab_direction set_points( avatar &, points_left &points )
                                          _( "Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill point pool" ) );
+                                            "Scenarios and professions affect skill points." ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
 
     const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                                       _( "No point limits are enforced" ) );
+                                       _( "No point limits are enforced." ) );
 
     if( point_pool == "multi_pool" ) {
-        opts = {{ multi_pool }};
+        opts = { { multi_pool } };
     } else if( point_pool == "no_freeform" ) {
-        opts = {{ multi_pool, one_pool }};
+        opts = { { multi_pool, one_pool } };
     } else {
-        opts = {{ multi_pool, one_pool, freeform }};
+        opts = { { multi_pool, one_pool, freeform } };
     }
 
     int highlighted = 0;
@@ -856,7 +856,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 6 ), COL_STAT_ACT, "%2d", u.str_max );
                 if( u.str_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Str further costs 2 points." ) );
+                               _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
@@ -875,7 +875,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 7 ), COL_STAT_ACT, "%2d", u.dex_max );
                 if( u.dex_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Dex further costs 2 points." ) );
+                               _( "Increasing Dex further costs 2 points" ) );
                 }
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
                            u.get_melee_hit_base() );
@@ -896,7 +896,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 8 ), COL_STAT_ACT, "%2d", u.int_max );
                 if( u.int_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Int further costs 2 points." ) );
+                               _( "Increasing Int further costs 2 points" ) );
                 }
                 const int read_spd = u.read_speed( false );
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
@@ -917,7 +917,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                 mvwprintz( w, point( 16, 9 ), COL_STAT_ACT, "%2d", u.per_max );
                 if( u.per_max >= HIGH_STAT ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
-                               _( "Increasing Per further costs 2 points." ) );
+                               _( "Increasing Per further costs 2 points" ) );
                 }
                 if( u.ranged_per_mod() > 0 ) {
                     mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
@@ -1820,7 +1820,7 @@ tab_direction set_skills( avatar &u, points_left &points )
 
             if( !would_autolearn_recipe && !r.never_learn &&
                 ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
-                with_prof_skills.has_recipe_requirements( r ) )  {
+                with_prof_skills.has_recipe_requirements( r ) ) {
 
                 recipes[r.skill_used->name()].emplace_back(
                     r.result_name(),
@@ -2316,10 +2316,28 @@ namespace char_creation
 {
 enum description_selector {
     NAME,
+    GENDER,
     HEIGHT,
     AGE,
     BLOOD
 };
+
+
+static void draw_gender( const catacurses::window &w_gender, const avatar &you,
+                         const bool highlight )
+{
+
+    unsigned male_pos = 1 + utf8_width( _( "Gender:" ) );
+    unsigned female_pos = 2 + male_pos + utf8_width( _( "Male" ) );
+
+    werase( w_gender );
+    mvwprintz( w_gender, point_zero, highlight ? h_light_gray : c_light_gray, _( "Gender:" ) );
+    mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_cyan : c_light_gray ),
+               _( "Male" ) );
+    mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_pink ),
+               _( "Female" ) );
+    wnoutrefresh( w_gender );
+}
 
 static void draw_height( const catacurses::window &w_height, const avatar &you,
                          const bool highlight )
@@ -2374,27 +2392,25 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_blood;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_name = catacurses::newwin( 3, 42, point( 2, 5 ) );
-        w_gender = catacurses::newwin( 2, 33, point( 46, 5 ) );
-        w_location = catacurses::newwin( 2, 60, point( 100, 5 ) );
-        w_vehicle = catacurses::newwin( 2, 60, point( 160, 5 ) );
+        w_name = catacurses::newwin( 3, 58, point( 2, 5 ) );
+        w_gender = catacurses::newwin( 2, 33, point( 2, 6 ) );
+        w_location = catacurses::newwin( 2, 60, point( 80, 5 ) );
+        w_vehicle = catacurses::newwin( 2, 60, point( 80, 6 ) );
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
         w_scenario = catacurses::newwin( 1, TERMX - 47, point( 46, 9 ) );
         w_profession = catacurses::newwin( 1, TERMX - 47, point( 46, 10 ) );
         w_skills = catacurses::newwin( TERMY - 12, 33, point( 46, 11 ) );
-        w_guide = catacurses::newwin( 6, TERMX - 3, point( 2, TERMY - 7 ) );
-        w_height = catacurses::newwin( 1, 20, point( 80, 5 ) );
-        w_age = catacurses::newwin( 1, 12, point( 80, 6 ) );
-        w_blood = catacurses::newwin( 1, 20, point( 80, 7 ) );
+        w_guide = catacurses::newwin( 9, TERMX - 3, point( 2, TERMY - 10 ) );
+        w_height = catacurses::newwin( 1, 20, point( 62, 5 ) );
+        w_age = catacurses::newwin( 1, 12, point( 62, 6 ) );
+        w_blood = catacurses::newwin( 1, 20, point( 62, 7 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
     const unsigned namebar_pos = 1 + utf8_width( _( "Name:" ) );
-    unsigned male_pos = 1 + utf8_width( _( "Gender:" ) );
-    unsigned female_pos = 2 + male_pos + utf8_width( _( "Male" ) );
 
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
     ctxt.register_cardinal();
@@ -2546,19 +2562,20 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wnoutrefresh( w_skills );
 
+        // Helptext description window
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), ( TERMX / 2 ), c_light_gray,
                         _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
-                           "to cycle through name, height, and age." ),
+                           "to cycle through editable values." ),
                         ctxt.get_desc( "LEFT" ),
                         ctxt.get_desc( "RIGHT" ) );
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), ( TERMX / 2 ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change height and age." ),
+                        _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
                         ctxt.get_desc( "UP" ),
                         ctxt.get_desc( "DOWN" ) );
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), ( TERMX / 2 ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to enter popup input." ),
+                        _( "Press <color_light_green>%s</color> to edit value via popup input." ),
                         ctxt.get_desc( "CONFIRM" ) );
 
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), ( TERMX / 2 ), c_light_gray,
@@ -2566,18 +2583,38 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                            "or <color_light_green>%s</color> to go back." ),
                         ctxt.get_desc( "NEXT_TAB" ),
                         ctxt.get_desc( "PREV_TAB" ) );
-        if( allow_reroll ) {
+
+        if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX / 2 ), c_light_gray,
+                            _( "Press <color_light_green>%s</color> to randomize description values." ),
+                            ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+        }
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to select a specific starting location." ),
+                        ctxt.get_desc( "CHOOSE_LOCATION" ) );
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to switch gender." ),
+                        ctxt.get_desc( "CHANGE_GENDER" ) );
+
+        if( allow_reroll ) {
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to save character template, "
                                "<color_light_green>%s</color> to re-roll or <color_light_green>%s</color> for random scenario." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ),
                             ctxt.get_desc( "REROLL_CHARACTER" ),
                             ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
         } else {
-            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), ( TERMX / 2 ), c_light_gray,
+            fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), ( TERMX / 2 ), c_light_gray,
                             _( "Press <color_light_green>%s</color> to save a template of this character." ),
                             ctxt.get_desc( "SAVE_TEMPLATE" ) );
         }
+
+        fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), ( TERMX / 2 ), c_light_gray,
+                        _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
+                        ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+
         wnoutrefresh( w_guide );
 
         wclear( w_name );
@@ -2591,36 +2628,14 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_name, point( namebar_pos, 0 ), c_white, you.name );
         }
 
-        if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
-            // NOLINTNEXTLINE(cata-use-named-point-constants)
-            fold_and_print( w_name, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to edit.\nPress <color_light_green>%s</color> to randomize description." ),
-                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
-        }
         wnoutrefresh( w_name );
 
-        mvwprintz( w_gender, point_zero, c_light_gray, _( "Gender:" ) );
-        mvwprintz( w_gender, point( male_pos, 0 ), ( you.male ? c_light_cyan : c_light_gray ),
-                   _( "Male" ) );
-        mvwprintz( w_gender, point( female_pos, 0 ), ( you.male ? c_light_gray : c_pink ),
-                   _( "Female" ) );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_gender, point( 0, 1 ), ( TERMX / 2 ), c_light_gray,
-                        _( "Press <color_light_green>%s</color> to switch gender" ),
-                        ctxt.get_desc( "CHANGE_GENDER" ) );
-        wnoutrefresh( w_gender );
-
+        char_creation::draw_gender( w_gender, you, current_selector == char_creation::GENDER );
         char_creation::draw_age( w_age, you, current_selector == char_creation::AGE );
         char_creation::draw_height( w_height, you, current_selector == char_creation::HEIGHT );
         char_creation::draw_blood( w_blood, you, current_selector == char_creation::BLOOD );
 
-        const std::string location_prompt = string_format(
-                                                _( "Press <color_light_green>%s</color> to select location." ),
-                                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
-
         werase( w_location );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_location, point( 0, 1 ), ( TERMX / 2 ), c_light_gray, location_prompt );
         mvwprintz( w_location, point_zero, c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, point( utf8_width( _( "Starting location:" ) ) + 1, 0 ),
@@ -2632,13 +2647,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wnoutrefresh( w_location );
 
         werase( w_vehicle );
-        mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting Vehicle: " ) );
+        mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
         const vproto_id scen_veh = get_scenario()->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
         if( scen_veh ) {
-            wprintz( w_vehicle, c_light_green, scen_veh->name );
+            wprintz( w_vehicle, c_white, scen_veh->name );
         } else if( prof_veh ) {
-            wprintz( w_vehicle, c_light_green, prof_veh->name );
+            wprintz( w_vehicle, c_white, prof_veh->name );
         }
         wnoutrefresh( w_vehicle );
 
@@ -2696,6 +2711,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else if( action == "RIGHT" ) {
             switch( current_selector ) {
                 case char_creation::NAME:
+                    current_selector = char_creation::GENDER;
+                    break;
+                case char_creation::GENDER:
                     current_selector = char_creation::HEIGHT;
                     break;
                 case char_creation::HEIGHT:
@@ -2714,6 +2732,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     current_selector = char_creation::BLOOD;
                     break;
                 case char_creation::HEIGHT:
+                    current_selector = char_creation::GENDER;
+                    break;
+                case char_creation::GENDER:
                     current_selector = char_creation::NAME;
                     break;
                 case char_creation::AGE:
@@ -2748,6 +2769,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         you.blood_rh_factor = false;
                     }
                     break;
+                case char_creation::GENDER:
+                    you.male = !you.male;
+                    break;
                 default:
                     break;
             }
@@ -2775,6 +2799,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                         you.my_blood_type = static_cast<blood_type>( static_cast<int>( blood_type::num_bt ) - 1 );
                         you.blood_rh_factor = true;
                     }
+                    break;
+                case char_creation::GENDER:
+                    you.male = !you.male;
                     break;
                 default:
                     break;
@@ -2874,6 +2901,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
                     you.my_blood_type = static_cast<blood_type>( btype.ret );
                     you.blood_rh_factor = static_cast<bool>( bfac.ret );
+                    break;
+                }
+                case char_creation::GENDER: {
+                    uilist gselect;
+                    gselect.text = _( "Select gender" );
+                    gselect.addentry( 0, true, '1', _( "Female" ) );
+                    gselect.addentry( 1, true, '2', _( "Male" ) );
+                    gselect.query();
+                    if( gselect.ret < 0 ) {
+                        break;
+                    }
+
+                    you.male = static_cast<bool>( gselect.ret );
                     break;
                 }
             }
@@ -3006,7 +3046,7 @@ cata::optional<std::string> query_for_template_name()
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
     for( int character : fname_char_blacklist ) {
-        spop.callbacks[ character ] = []() {
+        spop.callbacks[character] = []() {
             return true;
         };
     }
@@ -3029,7 +3069,7 @@ void avatar::save_template( const std::string &name, const points_left &points )
                               "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
                               "\x1C\x1D\x1E\x1F"
                             ) != std::string::npos ) {
-        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead" ) );
+        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead." ) );
         return;
     }
 #endif
