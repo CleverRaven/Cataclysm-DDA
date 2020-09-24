@@ -135,6 +135,16 @@ struct fake_spell {
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
+    bool operator==( const fake_spell &rhs ) const {
+        return id == rhs.id &&
+               max_level == rhs.max_level &&
+               level == rhs.level &&
+               self == rhs.self &&
+               trigger_once_in == rhs.trigger_once_in &&
+               trigger_message == rhs.trigger_message &&
+               npc_trigger_message == rhs.npc_trigger_message;
+    }
+
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
 
@@ -183,7 +193,7 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field;
+        cata::optional<field_type_id> field = cata::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance = 0;
         // field intensity at spell level 0
@@ -293,6 +303,7 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
+        void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.
          */
@@ -331,7 +342,7 @@ class spell_type
         static const float dot_increment_default;
         static const int max_dot_default;
         static const int min_duration_default;
-        static const float duration_increment_default;
+        static const int duration_increment_default;
         static const int max_duration_default;
         static const int min_pierce_default;
         static const float pierce_increment_default;
