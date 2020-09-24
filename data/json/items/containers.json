@@ -282,7 +282,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "pocket_type": "CONTAINER",
         "airtight": true,
         "watertight": true,
         "rigid": true,
