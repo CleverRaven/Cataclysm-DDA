@@ -214,9 +214,9 @@ all_genders = ["f", "m", "n"]
 def gender_options(subject):
     return [subject + ":" + g for g in all_genders]
 
-##
-##  SPECIALIZED EXTRACTION FUNCTIONS
-##
+#
+#  SPECIALIZED EXTRACTION FUNCTIONS
+#
 
 def extract_achievement(a):
     outfile = get_outfile(a["type"])
@@ -915,9 +915,9 @@ extract_specials = {
     "skill_display_type": extract_skill_display_type,
 }
 
-##
-##  PREPARATION
-##
+#
+#  PREPARATION
+#
 
 directories = {os.path.normpath(i) for i in {
     "data/raw",
@@ -947,8 +947,8 @@ for filename in os.listdir(to_dir):
     f = os.path.join(to_dir, filename)
     os.remove(f)
 
-##
-##  FUNCTIONS
+#
+#  FUNCTIONS
 ##
 
 def tlcomment(fs, string):
@@ -1291,9 +1291,9 @@ def prepare_git_file_list():
         if len(f) > 0:
             git_files_list.add(os.path.normpath(f[:-1].decode('utf8')))
 
-##
-##  EXTRACTION
-##
+#
+#  EXTRACTION
+#
 
 print("==> Generating the list of all Git tracked files")
 prepare_git_file_list()

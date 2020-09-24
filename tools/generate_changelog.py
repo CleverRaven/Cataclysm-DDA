@@ -174,9 +174,9 @@ class CDDAPullRequest(PullRequest):
 
     def _get_summary(self, body):
         matches = list(re.finditer(self.SUMMARY_REGEX, body))
-        ### fix weird cases where a PR have multiple SUMMARY
-        ### coming mostly from template lines that weren't removed by the pull requester
-        ### example: https://api.github.com/repos/CleverRaven/Cataclysm-DDA/pulls/25604
+        # fix weird cases where a PR have multiple SUMMARY
+        # coming mostly from template lines that weren't removed by the pull requester
+        # example: https://api.github.com/repos/CleverRaven/Cataclysm-DDA/pulls/25604
 
         def summary_filter(x):
             return (x.group('pr_type'), x.group('pr_desc')) not in self.EXAMPLE_SUMMARIES_IN_TEMPLATE
@@ -283,8 +283,8 @@ class CommitRepository:
             if commit.hash == oldest_hash:
                 return
             yield commit
-        ### consumed the whole commit list in the Repo and didn't find oldest_hash
-        ### so returned commit list is incomplete
+        # consumed the whole commit list in the Repo and didn't find oldest_hash
+        # so returned commit list is incomplete
         raise MissingCommitException(
             "Can't generate commit list for specified hash range."
             " There are missing Commits in CommitRepository."
@@ -293,13 +293,13 @@ class CommitRepository:
     def get_commit_range_by_date(self, latest_dttm, oldest_dttm):
         """Return Commits between latest_dttm (including) and oldest_dttm (excluding) connected by the first Parent."""
         for commit in self.traverse_commits_by_first_parent():
-            ### assuming that traversing by first parent have chronological order (should be DESC BY commit_dttm)
+            # assuming that traversing by first parent have chronological order (should be DESC BY commit_dttm)
             if commit.commit_dttm <= oldest_dttm:
                 return
             if latest_dttm >= commit.commit_dttm > oldest_dttm:
                 yield commit
-        ### consumed the whole commit list and didn't find a commit past our build.
-        ### so returned commit list *could be* incomplete
+        # consumed the whole commit list and didn't find a commit past our build.
+        # so returned commit list *could be* incomplete
         raise MissingCommitException(
             "Can't generate commit list for specified date range."
             " There are missing Commits in CommitRepository."
@@ -501,12 +501,12 @@ class CommitApi:
         if commit_data is None:
             return None
         commit_sha = commit_data['sha']
-        ### some commits have null in author.login :S like:
-        ### https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits/569bef1891a843ec71654530a64d51939aabb3e2
-        ### I try to use author.login when possible or fallback to "commit.author" which doesn't match
-        ### with usernames in pull requests API (I guess it comes from the distinction between "name" and "username".
-        ### I rather have a name that doesn't match that leave it empty.
-        ### Anyways, I'm surprised but GitHub API sucks, is super inconsistent and not well thought or documented.
+        # some commits have null in author.login :S like:
+        # https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits/569bef1891a843ec71654530a64d51939aabb3e2
+        # I try to use author.login when possible or fallback to "commit.author" which doesn't match
+        # with usernames in pull requests API (I guess it comes from the distinction between "name" and "username".
+        # I rather have a name that doesn't match that leave it empty.
+        # Anyways, I'm surprised but GitHub API sucks, is super inconsistent and not well thought or documented.
         if commit_data['author'] is not None:
             if 'login' in commit_data['author']:
                 commit_author = commit_data['author']['login']
@@ -544,16 +544,16 @@ class PullRequestApi:
 
         api_data = do_github_request(api_request)
 
-        ### I found some cases where the search found multiple PRs because of a reference of the commit hash
-        ### in another PR description. But it had a huge difference in score, it seems the engine scores
-        ### over 100 the one that actually has the commit hash as "Merge Commit SHA".
-        ### Output example:
-        ### https://api.github.com/search/issues
-        ### ?q=is%3Apr+is%3Amerged+repo%3ACleverRaven%2FCataclysm-DDA+f0c6908d154cd0fb190c2116de2bf2d3131458c3
+        # I found some cases where the search found multiple PRs because of a reference of the commit hash
+        # in another PR description. But it had a huge difference in score, it seems the engine scores
+        # over 100 the one that actually has the commit hash as "Merge Commit SHA".
+        # Output example:
+        # https://api.github.com/search/issues
+        # ?q=is%3Apr+is%3Amerged+repo%3ACleverRaven%2FCataclysm-DDA+f0c6908d154cd0fb190c2116de2bf2d3131458c3
 
-        ### If the API don't return a score of 100 or more for the highest score item (the first item),
-        ### then the commit is probably not part of any pull request
-        ### This assumption was backed up by checking ~9 months of commits
+        # If the API don't return a score of 100 or more for the highest score item (the first item),
+        # then the commit is probably not part of any pull request
+        # This assumption was backed up by checking ~9 months of commits
         if api_data['total_count'] == 0 or api_data['items'][0]['score'] < 100:
             return None
         else:
@@ -595,8 +595,8 @@ class PullRequestApi:
             for pr in pull_request_list:
                 results_queue.append(pr)
 
-            ### this check on update date makes sure we get the GitHub API pages we need
-            ### a more precise PR filter of the result is made from results_queue later
+            # this check on update date makes sure we get the GitHub API pages we need
+            # a more precise PR filter of the result is made from results_queue later
             target_page_found = not any(pr.updated_after(min_dttm) for pr in pull_request_list)
 
             if len(pull_request_list) == 0 or target_page_found:
@@ -616,10 +616,10 @@ class PullRequestApi:
         pr_title = pr_data['title']
         pr_state = pr_data['state']
         pr_merge_hash = pr_data['merge_commit_sha']
-        ### python expects an ISO date with the Z to properly parse it, so I strip it.
+        # python expects an ISO date with the Z to properly parse it, so I strip it.
         pr_merge_dttm = datetime.fromisoformat(pr_data['merged_at'].rstrip('Z')) if pr_data['merged_at'] else None
         pr_update_dttm = datetime.fromisoformat(pr_data['updated_at'].rstrip('Z')) if pr_data['updated_at'] else None
-        ### PR description can be empty :S example: https://github.com/CleverRaven/Cataclysm-DDA/pull/24213
+        # PR description can be empty :S example: https://github.com/CleverRaven/Cataclysm-DDA/pull/24213
         pr_body = pr_data['body'] if pr_data['body'] else ''
 
         return self.pr_factory.create(pr_number, pr_title, pr_author, pr_state, pr_body,
@@ -634,7 +634,7 @@ class MultiThreadedGitHubApi:
             params:
                 callback = executed when data is available, should expect two params: (json data, request_generator)
         """
-        ### start threads
+        # start threads
         threads = []
         for x in range(1, max_threads + 1):
             t = threading.Thread(target=exit_on_exception(self._process_api_requests_on_threads),
@@ -645,7 +645,7 @@ class MultiThreadedGitHubApi:
             t.start()
             time.sleep(0.1)
 
-        ### block waiting until threads get all results
+        # block waiting until threads get all results
         for t in threads:
             t.join()
         log.debug('Threads have finished processing all the required GitHub API Requests!!!')
@@ -811,7 +811,7 @@ def do_github_request(api_request, retry_on_limit=3):
             with urllib.request.urlopen(api_request) as api_response:
                 return json.load(api_response)
         except urllib.error.HTTPError as err:
-            ### hit rate limit, wait and retry
+            # hit rate limit, wait and retry
             if err.code == 403 and err.getheader('Retry-After'):
                 wait = int(err.getheader('Retry-After')) + 5
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, waiting {wait} secs...')
@@ -822,7 +822,7 @@ def do_github_request(api_request, retry_on_limit=3):
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, waiting {wait} secs...')
                 time.sleep(wait)
             else:
-                ### other kind of http error, just implode
+                # other kind of http error, just implode
                 log.exception(f'Unhandled Exception: {err} - HTTP Headers: {err.getheaders()}')
                 raise
     raise Exception(f'Retry limit reached')
@@ -1009,13 +1009,13 @@ def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, includ
 
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
                          include_summary_none, flatten):
-    ### group commits with no PR by date
+    # group commits with no PR by date
     commits_with_no_pr = collections.defaultdict(list)
     for commit in commit_repo.traverse_commits_by_first_parent():
         if not pr_repo.get_pr_by_merge_hash(commit.hash):
             commits_with_no_pr[commit.commit_date].append(commit)
 
-    ### group PRs by date
+    # group PRs by date
     pr_with_summary = collections.defaultdict(list)
     pr_with_invalid_summary = collections.defaultdict(list)
     pr_with_summary_none = collections.defaultdict(list)
@@ -1027,7 +1027,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
         elif not pr.has_valid_summary:
             pr_with_invalid_summary[pr.merge_date].append(pr)
 
-    ### build main changelog output
+    # build main changelog output
     for curr_date in (end_dttm.date() - timedelta(days=x) for x in itertools.count()):
         if curr_date < target_dttm.date():
             break
@@ -1081,12 +1081,12 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
 
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
-    ### "ABORTED" builds have no "hash" and fucks up the logic here... but just to be sure, ignore builds without hash
-    ### and changes will be atributed to next build availiable that does have a hash
+    # "ABORTED" builds have no "hash" and fucks up the logic here... but just to be sure, ignore builds without hash
+    # and changes will be atributed to next build availiable that does have a hash
     for build in build_repo.get_all_builds(filter_by=lambda x: x.last_hash is not None,
                                            sort_by=lambda x: -x.build_dttm.timestamp()):
-        ### we need the previous build a hash/date hash
-        ### to find commits / pull requests that got into the build
+        # we need the previous build a hash/date hash
+        # to find commits / pull requests that got into the build
         prev_build = build_repo.get_previous_build(build.number, lambda x: x.last_hash is not None)
         if prev_build is None:
             break
@@ -1094,32 +1094,32 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
         try:
             commits = list(commit_repo.get_commit_range_by_hash(build.last_hash, prev_build.last_hash))
         except MissingCommitException:
-            ### we obtained half of the build's commit with our GitHub API request
-            ### just avoid showing this build's partial data
+            # we obtained half of the build's commit with our GitHub API request
+            # just avoid showing this build's partial data
             break
 
         print(f'BUILD {build.number} / {build.build_dttm} UTC+0 / {build.last_hash[:7]}', file=output_file, end='\n\n')
         if build.last_hash == prev_build.last_hash:
             print(f'  * No changes. Same code as BUILD {prev_build.number}.', file=output_file)
-            ### I could skip to next build here, but letting the go continue could help spot bugs in the logic
-            ### the code should not generate any output lines for these Builds.
+            # I could skip to next build here, but letting the go continue could help spot bugs in the logic
+            # the code should not generate any output lines for these Builds.
             #continue
 
-        ### I can get PRs by matching Build Commits to PRs by Merge Hash
-        ### This is precise, but may fail to associate some Commits to PRs leaving few "Summaries" out
+        # I can get PRs by matching Build Commits to PRs by Merge Hash
+        # This is precise, but may fail to associate some Commits to PRs leaving few "Summaries" out
         # pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash)
         #                  for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
-        ### Another option is to find a proper Date range for the Build and find PRs by date
-        ### But I found some issues here:
-        ### * Jenkins Build Date don't end up matching the correct PRs because git fetch could be delayed like 15mins
-        ### * Using Build Commit Dates is better, but a few times it incorrectly match the PR one build later
-        ###   The worst ofender seem to be merges with message like "Merge remote-tracking branch 'origin/pr/25005'"
+        # Another option is to find a proper Date range for the Build and find PRs by date
+        # But I found some issues here:
+        # * Jenkins Build Date don't end up matching the correct PRs because git fetch could be delayed like 15mins
+        # * Using Build Commit Dates is better, but a few times it incorrectly match the PR one build later
+        #   The worst ofender seem to be merges with message like "Merge remote-tracking branch 'origin/pr/25005'"
         # build_commit = commit_repo.get_commit(build.last_hash)
         # prev_build_commit = commit_repo.get_commit(prev_build.last_hash)
         # pull_requests = pr_repo.get_merged_pr_list_by_date(build_commit.commit_dttm + timedelta(seconds=2),
         #                                                    prev_build_commit.commit_dttm + timedelta(seconds=2))
 
-        ### I'll go with the safe method, this will show some COMMIT messages instead of the proper Summary from the PR.
+        # I'll go with the safe method, this will show some COMMIT messages instead of the proper Summary from the PR.
         pull_requests = (pr_repo.get_pr_by_merge_hash(c.hash) for c in commits if pr_repo.get_pr_by_merge_hash(c.hash))
 
         commits_with_no_pr = [c for c in commits if not pr_repo.get_pr_by_merge_hash(c.hash)]
