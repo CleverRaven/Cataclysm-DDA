@@ -553,10 +553,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
                 if( p.has_bionic(
                         bionic_id( "bio_digestion" ) ) ||
-                    p.has_trait( trait_id( "SELFAWARE" ) ) ) { //change to specific trait/bionic/skill condition
+                    p.has_trait( trait_id( "SELFAWARE" ) ) ) { // change to also have a skill condition??
                     return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
                 } //else compute "vague" values to display.
-                if( calories_per_effective_volume < 50 ) { //placeholder thresholds
+                if( calories_per_effective_volume < 50 ) { //placeholder threshholds
                     return std::string( "+" ); // Someone who knows how to do this,please add support for screen readers!
                 } else if( calories_per_effective_volume < 150 ) {
                     return std::string( "++" );
