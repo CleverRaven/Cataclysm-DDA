@@ -46,6 +46,7 @@ class Skill
         int _companion_combat_rank_factor = 0;
         int _companion_survival_rank_factor = 0;
         int _companion_industry_rank_factor = 0;
+        bool _obsolete = false;
     public:
         static std::vector<Skill> skills;
         static void load_skill( const JsonObject &jsobj );
@@ -102,6 +103,8 @@ class Skill
         bool operator!=( const Skill &b ) const {
             return !( *this == b );
         }
+        
+        bool obsolete() const { return _obsolete; }
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
