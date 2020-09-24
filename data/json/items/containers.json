@@ -1154,6 +1154,7 @@
   },
   {
     "id": "jug_plastic_sealed",
+    "type": "GENERIC",
     "copy-from": "jug_plastic",
     "name": { "str": "gallon jug" },
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Preserves content from rot until opened.",
