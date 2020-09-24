@@ -125,12 +125,12 @@ class generic_factory
         // it's incremented when any changes to the inner id containers occur
         // version value corresponds to the string_id::_version,
         // so incrementing the version here effectively invalidates all cached string_id::_cid
-        signed long long  version = 0;
+        int64_t  version = 0;
 
         void inc_version() {
             do {
                 version++;
-            } while( version == -1 );
+            } while( version == INVALID_VERSION );
         }
 
     protected:
@@ -153,8 +153,7 @@ class generic_factory
             // map lookup happens at most once per string_id instance per generic_factory::version
             // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
-                id._cid = -1;
-                id.set_cid_version( -1, version );
+                id.set_cid_version( INVALID_CID, version );
                 return false;
             }
             result = iter->second;

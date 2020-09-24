@@ -132,10 +132,11 @@ TEST_CASE( "string_ids_comparison", "[generic_factory][string_id]" )
         test_factory.insert( { id2, "value" } );
     }
     if( first_cached ) {
-        test_factory.convert( id1, int_id<test_obj>( -1 ) );
+        // is_valid should update cache internally
+        test_factory.is_valid( id1 );
     }
     if( second_cached ) {
-        test_factory.convert( id2, int_id<test_obj>( -1 ) );
+        test_factory.is_valid( id2 );
     }
 
     const auto id_info = []( bool cached, bool valid ) {
@@ -156,9 +157,8 @@ TEST_CASE( "string_ids_comparison", "[generic_factory][string_id]" )
     }
 }
 
-#ifdef CATCH_CONFIG_ENABLE_BENCHMARKING
-
-TEST_CASE( "generic_factory_lookup_benchmark", "[generic_factory][benchmark]" )
+// Benchmarks are skipped by default by using [.] tag
+TEST_CASE( "generic_factory_lookup_benchmark", "[.][generic_factory][benchmark]" )
 {
     test_obj_id id_200( "id_200" );
 
@@ -175,7 +175,7 @@ TEST_CASE( "generic_factory_lookup_benchmark", "[generic_factory][benchmark]" )
     };
 }
 
-TEST_CASE( "string_id_compare_benchmark", "[generic_factory][string_id][benchmark]" )
+TEST_CASE( "string_id_compare_benchmark", "[.][generic_factory][string_id][benchmark]" )
 {
     std::string prefix;
     SECTION( "short id" ) {
@@ -204,9 +204,9 @@ TEST_CASE( "string_id_compare_benchmark", "[generic_factory][string_id][benchmar
     test_factory.insert( {test_obj_id( id_200_ ), "value_200_"} );
     test_factory.insert( {test_obj_id( id_300 ), "value_300"} );
     // make _version inside the ids valid
-    test_factory.obj( id_200 );
-    test_factory.obj( id_200_ );
-    test_factory.obj( id_300 );
+    test_factory.is_valid( id_200 );
+    test_factory.is_valid( id_200_ );
+    test_factory.is_valid( id_300 );
 
     CHECK( id_200 == id_200_ );
     BENCHMARK( "ids are equal, valid version" ) {
@@ -218,5 +218,3 @@ TEST_CASE( "string_id_compare_benchmark", "[generic_factory][string_id][benchmar
         return id_200 == id_300;
     };
 }
-
-#endif // CATCH_CONFIG_ENABLE_BENCHMARKING

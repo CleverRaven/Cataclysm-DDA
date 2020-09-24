@@ -15,8 +15,8 @@ ODIR ?= obj
 
 LDFLAGS += -L.
 
-# Uncomment to compile benchmarks
-# DEFINES = -DCATCH_CONFIG_ENABLE_BENCHMARKING
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
