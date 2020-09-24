@@ -556,16 +556,18 @@ class comestible_inventory_preset : public inventory_selector_preset
                     p.has_trait( trait_id( "SELFAWARE" ) ) ) { //change to specific trait/bionic/skill condition
                     return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
                 } //else compute "vague" values to display.
-                if( calories_per_effective_volume < 150 ) { //placeholder thresholds
-                    return std::string( "+" );
-                } else if( calories_per_effective_volume < 500 ) {
+                if( calories_per_effective_volume < 50 ) { //placeholder thresholds
+                    return std::string( "+" ); // Someone who knows how to do this,please add support for screen readers!
+                } else if( calories_per_effective_volume < 150 ) {
                     return std::string( "++" );
-                } else if( calories_per_effective_volume < 1000 ) {
+                } else if( calories_per_effective_volume < 500 ) {
                     return std::string( "+++" );
-                } else {
+                } else if( calories_per_effective_volume < 800 ) {
                     return std::string( "++++" );
+                } else {
+                    return std::string( "+++++" );
                 }
-            }, _( "CALORIE DENSITY" ) );
+            }, _( "NOURISHMENT" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
