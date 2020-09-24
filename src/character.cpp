@@ -4848,7 +4848,6 @@ void weariness_tracker::clear()
     intake = 0;
     low_activity_ticks = 0;
     tick_counter = 0;
-    ticks_since_decrease = 0;
 }
 
 void Character::mod_stored_kcal( int nkcal )
@@ -5403,21 +5402,15 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
 // Called every 5 minutes, when activity level is logged
 void Character::try_reduce_weariness( const float exertion )
 {
-    weary.ticks_since_decrease++;
+    weary.tick_counter++;
     if( exertion == NO_EXERCISE ) {
         weary.low_activity_ticks++;
-        if( activity.id() == activity_id( "SLEEP" ) ) {
+        // Recover twice as fast at rest
+        if( in_sleep_state() ) {
             weary.low_activity_ticks++;
         }
-    } else {
-        weary.tick_counter++;
     }
 
-    // If more than 20 minutes have passed with no rest
-    if( weary.tick_counter >= 4 ) {
-        weary.low_activity_ticks--;
-        weary.tick_counter = 0;
-    }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
@@ -5435,13 +5428,16 @@ void Character::try_reduce_weariness( const float exertion )
         weary.tracker -= reduction;
     }
 
-    if( weary.ticks_since_decrease > 12 ) {
+    if( weary.tick_counter >= 12 ) {
         weary.intake *= 1 - recovery_mult;
-        weary.ticks_since_decrease = 0;
+        weary.tick_counter = 0;
     }
 
+    // Normalize values, make sure we stay above 0
     weary.intake = std::max( weary.intake, 0 );
     weary.tracker = std::max( weary.tracker, 0 );
+    weary.tick_counter = std::max( weary.tick_counter, 0 );
+    weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
 }
 
 float Character::activity_level() const

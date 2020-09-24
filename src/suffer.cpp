@@ -1402,6 +1402,34 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
 }
 
+static void apply_weary_message( const Character &you, int level, int old )
+{
+    if( level - old > 0 ) {
+        std::string msg;
+        switch( level ) {
+            case 1:
+                msg = _( "You're beginning to feel like you've exerted yourself a bit." );
+                break;
+            case 2:
+                msg = _( "You're tiring out mildly, and slowing down as a result" );
+                break;
+            case 3:
+                msg = _( "The day's labors are taking their toll, and slowing you down." );
+                break;
+            case 4:
+                msg = _( "You're getting very tired from all this hard work." );
+                break;
+            case 5:
+            default:
+                msg = _( "You're exhausted." );
+                break;
+        }
+        you.add_msg_if_player( m_info, msg );
+    } else {
+        you.add_msg_if_player( m_good, _( "You're feeling a bit better rested from your exertions." ) );
+    }
+}
+
 static void apply_weariness( Character &you, int level, int old )
 {
     // Exertion cannot be negative!
@@ -1410,7 +1438,7 @@ static void apply_weariness( Character &you, int level, int old )
                   level, old );
     }
     // A mapping of weariness level to the effect to be applied
-    static std::array<efftype_id, 9> weary_effects { {
+    static const std::array<efftype_id, 9> weary_effects { {
             efftype_id( "weary_0" ),
             efftype_id( "weary_1" ),
             efftype_id( "weary_2" ),
@@ -1439,6 +1467,7 @@ static void apply_weariness( Character &you, int level, int old )
      */
     you.remove_effect( weary_effects[old] );
     you.add_effect( weary_effects[level], 1_turns, true );
+    apply_weary_message( you, level, old );
 }
 
 void Character::suffer_from_exertion()
@@ -1453,7 +1482,7 @@ void Character::suffer_from_exertion()
 
     // Significantly slow the rate of messaging when in an activity
     int chance = activity ? 2000 : 60;
-    if( attempted_activity_level > max_activity && one_in( chance ) ) {
+    if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg( m_bad, _( "You're tiring out, continuing to work at this rate will be slower." ) );
     }
 
