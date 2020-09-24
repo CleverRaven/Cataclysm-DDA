@@ -556,17 +556,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                     p.has_trait( trait_id( "SELFAWARE" ) ) ) { // change to also have a skill condition??
                     return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
                 } //else compute "vague" values to display.
-                if( calories_per_effective_volume < 50 ) { //placeholder threshholds
-                    return std::string( "+" ); // Someone who knows how to do this,please add support for screen readers!
-                } else if( calories_per_effective_volume < 150 ) {
-                    return std::string( "++" );
-                } else if( calories_per_effective_volume < 500 ) {
-                    return std::string( "+++" );
-                } else if( calories_per_effective_volume < 800 ) {
-                    return std::string( "++++" );
-                } else {
-                    return std::string( "+++++" );
-                }
+                constexpr int max_cal_per_effective_vol =
+                    1400; //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much, since those will be edge cases.
+                return get_hp_bar( std::min( max_cal_per_effective_vol, calories_per_effective_volume ),
+                                   max_cal_per_effective_vol ).first;
             }, _( "NOURISHMENT" ) );
 
             Character &player_character = get_player_character();
