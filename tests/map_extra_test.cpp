@@ -16,7 +16,7 @@
 #include "string_id.h"
 #include "type_id.h"
 
-TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
+TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
