@@ -1282,7 +1282,7 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     const std::string title = ( actor ? actor->holster_prompt.empty() : true )
                               ? string_format( _( "Put item into %s" ), holster->tname() )
-                              : _( actor->holster_prompt );
+                              : actor->holster_prompt.translated();
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
