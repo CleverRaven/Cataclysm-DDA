@@ -492,7 +492,7 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : p( p ) {
 
-            _indent_entries = false;
+            _indent_entries = true;
 
             append_cell( [&p]( const item_location & loc ) {
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
@@ -557,9 +557,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                     return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
                 } //else compute "vague" values to display.
                 constexpr int max_cal_per_effective_vol =
-                    1400; //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much, since those will be edge cases.
-                return get_hp_bar( std::min( max_cal_per_effective_vol, calories_per_effective_volume ),
-                                   max_cal_per_effective_vol ).first;
+                    1500; //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much.
+                const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
+                const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
+                return get_hp_bar( std::min( scaled_max, scaled_cal ),
+                                   scaled_max ).first;
             }, _( "NOURISHMENT" ) );
 
             Character &player_character = get_player_character();
