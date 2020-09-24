@@ -540,21 +540,23 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = *loc;
                 const nutrients nutr = p.compute_effective_nutrients( it );
                 const int kcalories = nutr.kcal;
-                //quit prematurely if there is no caloric content/the item is not food.
+                // Quit prematurely if there is no caloric content/the item is not food.
                 if( kcalories == 0 || !it.type->comestible ) {
                     return std::string();
                 }
                 units::volume water_vol = ( it.type->comestible->quench > 0 ) ? it.type->comestible->quench *
                                           5_ml : 0_ml;
-                units::volume food_vol = it.volume() - water_vol; //water volume is ignored.
+                // Water volume is ignored.
+                units::volume food_vol = it.volume() - water_vol;
                 const double converted_volume = round_up( convert_volume( food_vol.value() / it.count() ), 2 );
                 const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much.
-                constexpr int max_cal_per_effective_vol =1500;
+                // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
+                constexpr int max_cal_per_effective_vol = 1500;
                 const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
                 const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
+                // TODO: find a way to make this rtl aligned!
                 return get_hp_bar( std::min( scaled_max, scaled_cal ),
                                    scaled_max ).first;
             }, _( "NOURISHMENT" ) );
