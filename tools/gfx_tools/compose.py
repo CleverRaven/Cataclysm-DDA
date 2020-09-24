@@ -284,7 +284,7 @@ class TilesheetData(object):
                     with open(filepath, "r") as fp:
                         try:
                             tile_entry = json.load(fp)
-                        except:
+                        except Exception:
                             print("error loading {}".format(filepath))
                             raise
 

@@ -99,7 +99,7 @@ def main(argv):
                     try:
                         with open(json_path, 'r', encoding='utf-8') as fs:
                             content = json.load(fs)
-                    except:
+                    except Exception:
                         sys.stderr.write('Error parsing %r\n' % json_path)
                         raise
                 if type(content) is list:
