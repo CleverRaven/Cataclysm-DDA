@@ -773,7 +773,7 @@ int item_location::max_charges_by_parent_recursive( item it ) const
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
-                       parent.max_charges_by_parent_recursive( it ) } );
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
 }
 
 item_location::type item_location::where() const
