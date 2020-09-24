@@ -188,19 +188,19 @@ os.system('rm -rf ' + new_tiles_dir)
 
 try:
     os.mkdir(new_tileset_name)
-except:
+except OSError:
     pass
 
 try:
     os.mkdir(os.path.join(new_tileset_name, 'tiles'))
-except:
+except OSError:
     pass
 
 os.system('rm -rf ' + new_tileset_name + '/tiles/*')
 
 try:
     os.mkdir(os.path.join(new_tiles_dir, 'to_merge'))
-except:
+except OSError:
     pass
 
 print('reading ' + old_tileset_name + '/tile_config.json')
