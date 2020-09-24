@@ -250,5 +250,52 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
     "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
+  },
+  {
+    "id": "laser_cannon_xray",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "handheld x-ray cannon" },
+    "description": "This is an x-ray laser stripped a TX-5LR Cerberus laser turret that has been modified to use UPS power for firing.  Single shot then requires reloading.  Nicknamed the 'Tin Can Killer' for it's ability to destroy power armor.",
+    "weight": "5140 g",
+    "volume": "1500 ml",
+    "price": 400000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ammo": "xray_laser_barrel",
+    "ranged_damage": { "damage_type": "heat", "amount": 40, "armor_penetration": 30 },
+    "dispersion": 90,
+    "durability": 7,
+    "loudness": 8,
+    "ups_charges": 25,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "lens", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "xray_laser_barrel" ]
+      }
+    ],
+    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]
