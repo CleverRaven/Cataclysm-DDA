@@ -191,7 +191,7 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "tazer hack" },
-    "description": "An automated drone, this small quadcopter robot appears to have a tazer strapped to the front. While extrememly fast, it is very fragile.",
+    "description": "An automated drone, this small quadcopter robot appears to have a tazer strapped to the front.  While extrememly fast, it is very fragile.",
     "hp": 5,
     "diff": 10,
     "speed": 300,
@@ -199,6 +199,6 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "revert_to_itype": "bot_tazer_hack",
-    "special_attacks": [ [ "ZAPBACK" ], [ "TAZER", 5 ] ]
+    "special_attacks": [ "special_when_hit": [ "ZAPBACK", 50 ], [ "TAZER", 5 ] ]
   }
 ]
