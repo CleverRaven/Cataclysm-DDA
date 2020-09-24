@@ -558,10 +558,10 @@ class comestible_inventory_preset : public inventory_selector_preset
                 constexpr int max_cal_per_effective_vol = 1500;
                 const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
                 const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
-                const std::pair<std::string, nc_color> nourishment_bar = get_bar( std::min( scaled_max,
-                        scaled_cal ),
-                        scaled_max, 5, true );
-                // This colorizes the bar, after padding it to 5 spaces using dots and up to nourishment_title.length() spaces using spaces, to preserve rtl alignment.
+                const std::pair<std::string, nc_color> nourishment_bar = get_bar(
+                            scaled_cal,
+                            scaled_max, 5, true );
+                // This colorizes the bar, after padding it to 5 spaces using dots and up to nourishment_title.length() using spaces, to preserve rtl alignment.
                 return colorize( nourishment_bar.first + std::string( 5 - nourishment_bar.first.length(),
                                  '.' ) + std::string( std::string( nourishment_title ).length() - 5, ' ' ), nourishment_bar.second );
             }, _( nourishment_title ) );
