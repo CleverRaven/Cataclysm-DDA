@@ -103,8 +103,10 @@ class Skill
         bool operator!=( const Skill &b ) const {
             return !( *this == b );
         }
-        
-        bool obsolete() const { return _obsolete; }
+
+        bool obsolete() const {
+            return _obsolete;
+        }
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
