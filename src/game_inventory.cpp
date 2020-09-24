@@ -535,8 +535,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "VOLUME" ) );
 
             // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
-            constexpr char *nourishment_title = "NOURISHMENT";
-            append_cell( [&p, nourishment_title]( const item_location & loc ) {
+            constexpr char *nourishment_title = (char*)"NOURISHMENT";
+            append_cell( [&p, &nourishment_title]( const item_location & loc ) {
                 /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
                 stomach fullness source code. Look at issue #44365*/
                 const item &it = *loc;
