@@ -536,7 +536,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
             const std::string nourishment_title = _( "NOURISHMENT" );
-            append_cell( [&p]( const item_location & loc ) {
+            append_cell( [&p, &nourishment_title]( const item_location & loc ) {
                 /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
                 stomach fullness source code. Look at issue #44365*/
                 const item &it = *loc;
@@ -562,7 +562,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                             scaled_cal, scaled_max, 5, true );
                 // This colorizes the bar, after padding it to 5 spaces using dots and up to nourishment_title.length() using spaces, to preserve rtl alignment.
                 return colorize( nourishment_bar.first + std::string( 5 - nourishment_bar.first.length(),
-                                 '.' ) + std::string( std::string( nourishment_title ).length() - 5, ' ' ), nourishment_bar.second );
+                                 '.' ) + std::string( nourishment_title.length() - 5, ' ' ), nourishment_bar.second );
             }, _( nourishment_title ) );
 
             Character &player_character = get_player_character();
