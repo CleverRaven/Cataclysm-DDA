@@ -168,6 +168,8 @@ enum class oter_flags : int {
     subway_connection,
     lake,
     lake_shore,
+    ravine,
+    ravine_edge,
     generic_loot,
     risk_high,
     risk_low,
@@ -352,6 +354,14 @@ struct oter_t {
 
         bool is_lake_shore() const {
             return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ravine() const {
+            return type->has_flag( oter_flags::ravine );
+        }
+
+        bool is_ravine_edge() const {
+            return type->has_flag( oter_flags::ravine_edge );
         }
 
     private:

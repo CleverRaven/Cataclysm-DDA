@@ -204,6 +204,16 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct overmap_ravine_settings {
+    int num_ravines = 0;
+    int ravine_range = 45;
+    int ravine_width = 1;
+    int ravine_depth = -3;
+
+    void finalize();
+    overmap_ravine_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
@@ -243,6 +253,7 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ravine_settings overmap_ravine;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
