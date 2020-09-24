@@ -34,7 +34,7 @@
       {
         "id": "crt_cqb_static",
         "name": "Tactful Initiative",
-        "description": "You have gained an advantage by always remaining mindful of common weaknesses. DEX provides dodge ability, accuracy and armor penetration.",
+        "description": "You have gained an advantage by always remaining mindful of common weaknesses.  DEX provides dodge ability, accuracy and armor penetration.",
         "unarmed_allowed": true,
         "melee_allowed": false,
         "flat_bonuses": [

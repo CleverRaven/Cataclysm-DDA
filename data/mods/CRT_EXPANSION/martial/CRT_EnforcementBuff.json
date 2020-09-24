@@ -24,7 +24,7 @@
       {
         "id": "crt_enforcement_static",
         "name": "Unyielding Front",
-        "description": "Stand strong in the face of adversity. +1 armor.  STR provides accuracy and minor bash arpen.",
+        "description": "Stand strong in the face of adversity.  +1 armor.  STR provides accuracy and minor bash arpen.",
         "unarmed_allowed": false,
         "melee_allowed": true,
         "flat_bonuses": [
