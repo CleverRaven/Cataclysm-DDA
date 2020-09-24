@@ -8,7 +8,6 @@ ignore =
     E302,
     E305,
     E501,
-    E713,
     # W503 and W504 require line breaks after or before binary operators; you
     # can only have one enabled
     W504

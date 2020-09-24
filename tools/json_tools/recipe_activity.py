@@ -21,7 +21,7 @@ def gen_new(path):
                 return None
 
             # We need a type to discriminate
-            if not "type" in jo:
+            if "type" not in jo:
                 return None
 
             # specifically, only recipes and uncrafts
@@ -30,7 +30,7 @@ def gen_new(path):
                 return None
 
             # Also, make sure it has a 'result'
-            if not "result" in jo:
+            if "result" not in jo:
                 return None
 
             # We don't want to change obsolete recipes
