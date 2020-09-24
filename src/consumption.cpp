@@ -1254,7 +1254,7 @@ void Character::modify_morale( item &food, const int nutr )
     }
 }
 
-//computes effective food volume ratio. Used when determining stomach fullness from eating.
+// Used when determining stomach fullness from eating.
 double Character::compute_effective_food_volume_ratio( const item &food ) const
 {
     const nutrients food_nutrients = compute_effective_nutrients( food );
