@@ -133,16 +133,19 @@ void Character::toggle_trait( const trait_id &trait_ )
     const trait_id trait = trait_;
     const auto titer = my_traits.find( trait );
     const auto miter = my_mutations.find( trait );
-    if( titer == my_traits.end() ) {
+    // These shouldn't be inlined, otherwise the sync check uses invalid iterators
+    bool no_trait = titer == my_traits.end();
+    bool no_mutation = miter == my_mutations.end();
+    if( no_trait ) {
         my_traits.insert( trait );
     } else {
         my_traits.erase( titer );
     }
-    if( ( titer == my_traits.end() ) != ( miter == my_mutations.end() ) ) {
+    if( no_trait != no_mutation ) {
         debugmsg( "my_traits and my_mutations were out of sync for %s\n", trait.str() );
         return;
     }
-    if( miter == my_mutations.end() ) {
+    if( no_mutation ) {
         set_mutation( trait );
     } else {
         unset_mutation( trait );
