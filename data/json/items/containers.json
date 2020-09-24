@@ -274,6 +274,7 @@
   },
   {
     "id": "bottle_plastic_sealed",
+    "type": "GENERIC",
     "copy-from": "bottle_plastic",
     "name": { "str": "plastic bottle" },
     "description": "A watertight plastic bottle, holds 500 ml of liquid.  Preserves content from rot until opened.",
