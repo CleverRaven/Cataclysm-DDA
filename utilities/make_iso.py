@@ -48,7 +48,7 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
             'convert -background transparent ' + new_tileset_name + '/tiles/' + tile_png +
             ' -rotate ' + str(initial_rotation) + ' ' +
             '-rotate -45 +repage -resize 100%x50% ' +
-            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  #TODO: get correct offsets
+            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  # TODO: get correct offsets
             '+repage -extent ' + str(nwidth) + 'x' + str(nheight) + '+0-' + str(nheight - int(nwidth / 2)) + ' ' +
             new_tileset_name + '/tiles/to_merge/' + tile_png)
         print(command)
