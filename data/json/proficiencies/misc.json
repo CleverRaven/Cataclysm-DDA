@@ -57,40 +57,6 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_blacksmithing",
-    "name": { "str": "Blacksmithing" },
-    "description": "The craft of working metal into tools and other items of use.",
-    "can_learn": true,
-    "time_to_learn": "10 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_redsmithing",
-    "name": { "str": "Redsmithing" },
-    "description": "Working copper and bronze shares a lot of techniques with blacksmithing, but the more ductile copper-containing metals have a trick all their own.",
-    "can_learn": true,
-    "time_to_learn": "10 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_armorsmithing",
-    "name": { "str": "Armorsmithing" },
-    "description": "How to make articulated armor from pieces of metal.",
-    "can_learn": true,
-    "time_to_learn": "12 h",
-    "required_proficiencies": [ "prof_blacksmithing", "prof_articulation" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_bladesmith",
-    "name": { "str": "Bladesmithing" },
-    "description": "How to fabricate sharp and reliable blades from scratch.",
-    "can_learn": true,
-    "time_to_learn": "12 h",
-    "required_proficiencies": [ "prof_blacksmithing" ]
-  },
-  {
-    "type": "proficiency",
     "id": "prof_helicopter_pilot",
     "name": { "str": "Helicopter Piloting" },
     "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
