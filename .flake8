@@ -11,7 +11,6 @@ ignore =
     E501,
     E713,
     E722,
-    E731,
     # W503 and W504 require line breaks after or before binary operators; you
     # can only have one enabled
     W504
