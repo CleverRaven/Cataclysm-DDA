@@ -540,8 +540,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const item &it = *loc;
                 const nutrients nutr = p.compute_effective_nutrients( it );
                 const int kcalories = nutr.kcal;
-                if( kcalories == 0 ||
-                    !it.type->comestible ) { //quit prematurely if there is no caloric content/the item is not food.
+                //quit prematurely if there is no caloric content/the item is not food.
+                if( kcalories == 0 || !it.type->comestible ) {
                     return std::string();
                 }
                 units::volume water_vol = ( it.type->comestible->quench > 0 ) ? it.type->comestible->quench *
