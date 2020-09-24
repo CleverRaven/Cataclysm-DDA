@@ -551,8 +551,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                constexpr int max_cal_per_effective_vol =
-                    1500; //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much.
+                //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much.
+                constexpr int max_cal_per_effective_vol =1500;
                 const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
                 const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
                 return get_hp_bar( std::min( scaled_max, scaled_cal ),
