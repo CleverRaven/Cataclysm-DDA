@@ -492,7 +492,7 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : p( p ) {
 
-            _indent_entries = true;
+            _indent_entries = false;
 
             append_cell( [&p]( const item_location & loc ) {
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
