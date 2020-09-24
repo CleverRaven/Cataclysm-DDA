@@ -177,7 +177,9 @@ class CDDAPullRequest(PullRequest):
         ### fix weird cases where a PR have multiple SUMMARY
         ### coming mostly from template lines that weren't removed by the pull requester
         ### example: https://api.github.com/repos/CleverRaven/Cataclysm-DDA/pulls/25604
-        summary_filter = lambda x: (x.group('pr_type'), x.group('pr_desc')) not in self.EXAMPLE_SUMMARIES_IN_TEMPLATE
+
+        def summary_filter(x):
+            return (x.group('pr_type'), x.group('pr_desc')) not in self.EXAMPLE_SUMMARIES_IN_TEMPLATE
         matches = list(filter(summary_filter, matches))
         if len(matches) > 1:
             log.warning(f'More than one SUMMARY defined in PR {self.id}!')
@@ -1033,7 +1035,10 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
             continue
 
         print(f"{curr_date}", file=output_file, end='\n\n')
-        sort_by_type = lambda pr: pr.summ_type
+
+        def sort_by_type(pr):
+            return pr.summ_type
+
         sorted_pr_list_by_category = sorted(pr_with_summary[curr_date], key=sort_by_type)
         for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
             if not flatten:
@@ -1130,7 +1135,8 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include
             elif not pr.has_valid_summary:
                 pr_with_invalid_summary.append(pr)
 
-        sort_by_type = lambda pr: pr.summ_type
+        def sort_by_type(pr):
+            return pr.summ_type
         sorted_pr_list_by_category = sorted(pr_with_summary, key=sort_by_type)
         for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
             print(f"    {pr_type}", file=output_file)
