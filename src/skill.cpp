@@ -70,9 +70,11 @@ std::vector<const Skill *> Skill::get_skills_sorted_by(
     std::vector<const Skill *> result;
     result.reserve( skills.size() );
 
-    std::transform( begin( skills ), end( skills ), back_inserter( result ), []( const Skill & s ) {
-        return &s;
-    } );
+    for( const Skill &sk : skills ) { 
+      if( !sk.obsolete() ) {
+        result.push_back( &sk );
+      }
+    }
 
     std::sort( begin( result ), end( result ), [&]( const Skill * lhs, const Skill * rhs ) {
         return pred( *lhs, *rhs );
