@@ -551,11 +551,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
                 const double effective_volume = converted_volume * energy_density_ratio;
                 const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                if( p.has_bionic(
-                        bionic_id( "bio_digestion" ) ) ||
-                    p.has_trait( trait_id( "SELFAWARE" ) ) ) { // change to also have a skill condition??
-                    return string_format( _( "%d" ), calories_per_effective_volume ); //return exact value
-                } //else compute "vague" values to display.
                 constexpr int max_cal_per_effective_vol =
                     1500; //arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but it doesn't matter that much.
                 const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
