@@ -212,7 +212,6 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -2581,14 +2580,12 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
 
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    /** @EFFECT_LOCKPICK greatly improves chances of successfully picking door lock, reduces chances of bad outcomes */
-    int pick_roll = std::pow( 1.5, p->get_skill_level( skill_lockpick ) ) *
+    int pick_roll = 5 *
                     ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
                       it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
                     p->dex_cur / 4.0;
     int lock_roll = rng( 1, 120 );
     if( pick_roll >= lock_roll ) {
-        p->practice( skill_lockpick, lock_roll );
         g->m.has_furn( act->placement ) ?
         g->m.furn_set( act->placement, new_furn_type ) :
         static_cast<void>( g->m.ter_set( act->placement, new_ter_type ) );

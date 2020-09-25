@@ -110,7 +110,6 @@ static const bionic_id bio_syringe( "bio_syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
@@ -1055,28 +1054,14 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    const std::set<ter_id> allowed_ter_id {
-        t_chaingate_l,
-        t_door_locked,
-        t_door_locked_alarm,
-        t_door_locked_interior,
-        t_door_locked_peep,
-        t_door_metal_pickable,
-        t_door_bar_locked
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_gunsafe_ml
-    };
-
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
         const furn_id furn = g->m.furn( pnt );
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end() ||
-                                allowed_furn_id.find( furn ) != allowed_furn_id.end();
+        lockpicking_open_result result = get_lockpicking_open_result( ter, furn );
+        const bool is_allowed = result.new_ter_type || result.new_furn_type;
         return is_allowed;
     };
 
@@ -1105,8 +1090,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     /** @EFFECT_LOCKPICK speeds up door lock picking */
     const int duration = std::max( 0,
                                    to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
-                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    p.practice( skill_lockpick, std::pow( 2, p.get_skill_level( skill_lockpick ) ) + 1 );
+                                   ( p.dex_cur + 5 ) * 2300 );
 
     p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
     p.activity.targets.push_back( item_location( p, &it ) );

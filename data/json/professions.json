@@ -384,7 +384,6 @@
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
       { "level": 2, "name": "melee" },
-      { "level": 2, "name": "lockpick" },
       { "level": 2, "name": "cutting" },
       { "level": 1, "name": "bashing" }
     ],
@@ -611,8 +610,7 @@
       { "level": 1, "name": "stabbing" },
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "dodge" },
-      { "level": 1, "name": "barter" },
-      { "level": 1, "name": "lockpick" }
+      { "level": 1, "name": "barter" }
     ],
     "items": {
       "both": {
@@ -789,7 +787,6 @@
       { "level": 2, "name": "cutting" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "lockpick" },
       { "level": 1, "name": "firstaid" },
       { "level": 1, "name": "swimming" },
       { "level": 1, "name": "survival" }
@@ -1012,8 +1009,7 @@
       { "level": 2, "name": "fabrication" },
       { "level": 2, "name": "cooking" },
       { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "swimming" },
-      { "level": 1, "name": "lockpick" }
+      { "level": 2, "name": "swimming" }
     ],
     "items": {
       "both": {
@@ -1492,7 +1488,7 @@
     "name": { "male": "Handy Man", "female": "Handy Woman" },
     "description": "You used to work at a local hardware store, and you did a lot of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help it rebuild?",
     "points": 1,
-    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "lockpick" } ],
+    "skills": [ { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch" ],
@@ -1670,7 +1666,7 @@
     "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
     "points": 4,
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 3, "name": "lockpick" } ],
+    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" } ],
     "items": {
       "both": {
         "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch", "smart_phone" ],
@@ -2427,7 +2423,7 @@
     "name": "Convict",
     "description": "The Cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "lockpick" } ],
+    "skills": [ { "level": 1, "name": "melee" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
@@ -2517,8 +2513,7 @@
     "ident": "burglar",
     "name": "Burglar",
     "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
-    "points": 3,
-    "skills": [ { "level": 4, "name": "lockpick" } ],
+    "points": 1,
     "//": "A ski mask would fit the stereotype better, but wool allergy breaks this.",
     "items": {
       "both": [
@@ -3401,12 +3396,7 @@
     "name": "Survivalist Jr.",
     "description": "Your parents were crazy preppers who thought some \"Cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
-    "skills": [
-      { "level": 1, "name": "survival" },
-      { "level": 1, "name": "fabrication" },
-      { "level": 1, "name": "firstaid" },
-      { "level": 1, "name": "lockpick" }
-    ],
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [
