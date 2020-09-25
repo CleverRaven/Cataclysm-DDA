@@ -495,7 +495,7 @@
     "type": "overmap_terrain",
     "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "generic_city_building",
-    "name": "mil. surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "i_light_gray",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
@@ -504,7 +504,7 @@
     "type": "overmap_terrain",
     "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ],
     "copy-from": "generic_city_building",
-    "name": "mil. surplus roof",
+    "name": { "str": "mil. surplus roof", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "i_light_gray"
   },
