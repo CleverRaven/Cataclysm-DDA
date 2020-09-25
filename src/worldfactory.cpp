@@ -652,7 +652,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         for( size_t i = 0; i < mods.size(); ++i ) {
             std::string category_name = _( "MISSING MODS" );
             if( mods[i].is_valid() ) {
-                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : _( mods[i]->category.second );
+                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : mods[i]->category.second.translated();
             }
             if( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
@@ -925,7 +925,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     };
     std::vector<mod_tab> all_tabs;
 
-    for( const std::pair<std::string, std::string> &tab : get_mod_list_tabs() ) {
+    for( const std::pair<std::string, translation> &tab : get_mod_list_tabs() ) {
         all_tabs.push_back( {
             tab.first,
             std::vector<mod_id>(),
@@ -1048,7 +1048,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
             wprintz( win, c_white, "[" );
             wprintz( win, ( iCurrentTab == i ) ? hilite( c_light_green ) : c_light_green,
-                     _( get_mod_list_tabs()[i].second ) );
+                     "%s", get_mod_list_tabs()[i].second );
             wprintz( win, c_white, "]" );
             wputch( win, BORDER_COLOR, LINE_OXOX );
         }
