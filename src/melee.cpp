@@ -2063,9 +2063,9 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             // Can't use <npcname> here
             // TODO: Fix
             if( is_player() ) {
-                tmp.text = string_format( _( mut_atk.attack_text_u ), target );
+                tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
-                tmp.text = string_format( _( mut_atk.attack_text_npc ), name, target );
+                tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
             }
 
             // Attack starts here
