@@ -3019,7 +3019,7 @@ std::string repair_item_actor::get_name() const
 {
     const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
     []( const material_id & mid ) {
-        return _( mid->name() );
+        return mid->name();
     } );
     return string_format( _( "Repair %s" ), mats );
 }
