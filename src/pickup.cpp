@@ -132,6 +132,7 @@ enum pickup_answer : int {
     WEAR,
     SPILL,
     STASH,
+    HAUL,
     NUM_ANSWERS
 };
 
@@ -164,6 +165,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
+    amenu.addentry( HAUL, true, 'h', _( "Drag %s and haul it along the ground" ), it.display_name() );
 
     amenu.query();
     int choice = amenu.ret;
@@ -355,6 +357,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 picked_up = true;
             }
             break;
+        }
+        case HAUL: {
+            //TODO: add code to move item to player
+            player_character.start_hauling();
         }
     }
 
