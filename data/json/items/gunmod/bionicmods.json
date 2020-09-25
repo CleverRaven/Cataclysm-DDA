@@ -8,6 +8,7 @@
     "volume": "0 ml",
     "price": 85000,
     "price_postapoc": 0,
+    "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
