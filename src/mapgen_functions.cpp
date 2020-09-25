@@ -3293,14 +3293,15 @@ void mapgen_ravine_edge( mapgendata &dat )
         m->draw_fill_background( t_rock );
     }
 
-    auto is_ravine = [&]( const oter_id & id ) {
+    const auto is_ravine = [&]( const oter_id & id ) {
         return id.obj().is_ravine();
     };
 
     const auto is_ravine_edge = [&]( const oter_id & id ) {
         return id.obj().is_ravine_edge();
     };
-
+    // Since this terrain is directionless, we look at its inmediate neighbors to derermine wheter a straight
+    // or curved ravine edge should be generated. And to then apply the correct rotation.
     const bool n_ravine  = is_ravine( dat.north() );
     const bool e_ravine  = is_ravine( dat.east() );
     const bool s_ravine  = is_ravine( dat.south() );
@@ -3314,12 +3315,16 @@ void mapgen_ravine_edge( mapgendata &dat )
     const bool s_ravine_edge = is_ravine_edge( dat.south() );
     const bool w_ravine_edge = is_ravine_edge( dat.west() );
 
-    const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&
-                            w_ravine_edge ) ) &&
-                          ( n_ravine || s_ravine || w_ravine || e_ravine );
-    const bool interior_corner = !straight && !( n_ravine || s_ravine || w_ravine || e_ravine );
-    const bool exterior_corner = !straight && ( n_ravine || s_ravine || w_ravine || e_ravine );
+    const auto any_orthogonal_ravine = [&]() {
+        return ( n_ravine || s_ravine || w_ravine || e_ravine );
+    };
 
+    const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&
+                            w_ravine_edge ) ) && any_orthogonal_ravine();
+    const bool interior_corner = !straight && !any_orthogonal_ravine();
+    const bool exterior_corner = !straight && any_orthogonal_ravine();
+
+    //With that done, we generate the maps.
     if( straight ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 );
@@ -3363,6 +3368,8 @@ void mapgen_ravine_edge( mapgendata &dat )
             m->rotate( 3 );
         }
     }
+    // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
+    // in the other levels they are converted into open air to generate the cliffside.
     if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
         m->translate( t_null, dat.groundcover() );
     } else {
