@@ -1414,10 +1414,12 @@ class jmapgen_spawn_item : public jmapgen_piece
         itype_id type;
         jmapgen_int amount;
         jmapgen_int chance;
+        std::set<std::string> flags;
         jmapgen_spawn_item( const JsonObject &jsi ) :
             type( jsi.get_string( "item" ) )
             , amount( jsi, "amount", 1, 1 )
-            , chance( jsi, "chance", 100, 100 ) {
+            , chance( jsi, "chance", 100, 100 )
+            , flags( jsi.get_tags( "custom-flags" ) ) {
             if( !item::type_is_defined( type ) ) {
                 set_mapgen_defer( jsi, "item", "no such item" );
             }
@@ -1431,7 +1433,8 @@ class jmapgen_spawn_item : public jmapgen_piece
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
             int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
-                dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get() );
+                dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get(),
+                                  0, calendar::start_of_cataclysm, 0, flags );
             }
         }
 };

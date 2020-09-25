@@ -161,7 +161,7 @@ const int spell_type::min_dot_default = 0;
 const float spell_type::dot_increment_default = 0.0f;
 const int spell_type::max_dot_default = 0;
 const int spell_type::min_duration_default = 0;
-const float spell_type::duration_increment_default = 0.0f;
+const int spell_type::duration_increment_default = 0;
 const int spell_type::max_duration_default = 0;
 const int spell_type::min_pierce_default = 0;
 const float spell_type::pierce_increment_default = 0.0f;
@@ -241,6 +241,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
         { "bash", spell_effect::bash },
+        { "dash", spell_effect::dash },
+        { "banishment", spell_effect::banishment },
         { "none", spell_effect::none }
     };
 
@@ -274,13 +276,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     const auto trigger_reader = enum_flags_reader<spell_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
-    if( jo.has_array( "extra_effects" ) ) {
-        for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
-            fake_spell temp;
-            temp.load( fake_spell_obj );
-            additional_spells.emplace_back( temp );
-        }
-    }
+    optional( jo, was_loaded, "extra_effects", additional_spells );
 
     optional( jo, was_loaded, "affected_body_parts", affected_bps );
     const auto flag_reader = enum_flags_reader<spell_flag> { "flags" };
@@ -343,6 +339,89 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     for( const JsonMember member : jo.get_object( "learn_spells" ) ) {
         learn_spells.insert( std::pair<std::string, int>( member.name(), member.get_int() ) );
     }
+}
+
+void spell_type::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "type", "SPELL" );
+    json.member( "id", id );
+    json.member( "name", name.translated() );
+    json.member( "description", description.translated() );
+    json.member( "effect", effect_name );
+    json.member( "valid_targets", valid_targets, enum_bitset<spell_target> {} );
+    json.member( "effect_str", effect_str, effect_str_default );
+    json.member( "skill", skill, skill_default );
+    json.member( "components", spell_components, spell_components_default );
+    json.member( "message", message.translated(), message_default.translated() );
+    json.member( "sound_description", sound_description.translated(),
+                 sound_description_default.translated() );
+    json.member( "sound_type", io::enum_to_string( sound_type ),
+                 io::enum_to_string( sound_type_default ) );
+    json.member( "sound_ambient", sound_ambient, sound_ambient_default );
+    json.member( "sound_id", sound_id, sound_id_default );
+    json.member( "sound_variant", sound_variant, sound_variant_default );
+    json.member( "effect_filter", effect_targets, enum_bitset<spell_target> {} );
+    json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
+    json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
+    if( !affected_bps.none() ) {
+        json.member( "affected_body_parts", affected_bps );
+    }
+    json.member( "flags", spell_tags, enum_bitset<spell_flag> {} );
+    if( field ) {
+        json.member( "field_id", field->id().str() );
+        json.member( "field_chance", field_chance, field_chance_default );
+        json.member( "max_field_intensity", max_field_intensity, max_field_intensity_default );
+        json.member( "min_field_intensity", min_field_intensity, min_field_intensity_default );
+        json.member( "field_intensity_increment", field_intensity_increment,
+                     field_intensity_increment_default );
+        json.member( "field_intensity_variance", field_intensity_variance,
+                     field_intensity_variance_default );
+    }
+    json.member( "min_damage", min_damage, min_damage_default );
+    json.member( "max_damage", max_damage, max_damage_default );
+    json.member( "damage_increment", damage_increment, damage_increment_default );
+    json.member( "min_range", min_range, min_range_default );
+    json.member( "max_range", max_range, min_range_default );
+    json.member( "range_increment", range_increment, range_increment_default );
+    json.member( "min_aoe", min_aoe, min_aoe_default );
+    json.member( "max_aoe", max_aoe, max_aoe_default );
+    json.member( "aoe_increment", aoe_increment, aoe_increment_default );
+    json.member( "min_dot", min_dot, min_dot_default );
+    json.member( "max_dot", max_dot, max_dot_default );
+    json.member( "dot_increment", dot_increment, dot_increment_default );
+    json.member( "min_duration", min_duration, min_duration_default );
+    json.member( "max_duration", max_duration, max_duration_default );
+    json.member( "duration_increment", duration_increment, duration_increment_default );
+    json.member( "min_pierce", min_pierce, min_pierce_default );
+    json.member( "max_pierce", max_pierce, max_pierce_default );
+    json.member( "pierce_increment", pierce_increment, pierce_increment_default );
+    json.member( "base_energy_cost", base_energy_cost, base_energy_cost_default );
+    json.member( "final_energy_cost", final_energy_cost, base_energy_cost );
+    json.member( "energy_increment", energy_increment, energy_increment_default );
+    json.member( "spell_class", spell_class, spell_class_default );
+    json.member( "energy_source", io::enum_to_string( energy_source ),
+                 io::enum_to_string( energy_source_default ) );
+    json.member( "damage_type", io::enum_to_string( dmg_type ),
+                 io::enum_to_string( dmg_type_default ) );
+    json.member( "difficulty", difficulty, difficulty_default );
+    json.member( "max_level", max_level, max_level_default );
+    json.member( "base_casting_time", base_casting_time, base_casting_time_default );
+    json.member( "final_casting_time", final_casting_time, base_casting_time );
+    json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+    if( !learn_spells.empty() ) {
+        json.member( "learn_spells" );
+        json.start_object();
+
+        for( const std::pair<const std::string, int> &sp : learn_spells ) {
+            json.member( sp.first, sp.second );
+        }
+
+        json.end_object();
+    }
+
+    json.end_object();
 }
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
@@ -701,6 +780,10 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
+    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+        return false;
+    }
+
     if( !type->spell_components.is_empty() &&
         !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
                 return_true<item> ) ) {
@@ -1502,9 +1585,12 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    const int bionic_penalty = std::round( std::max( 0.0f,
+                                           units::to_kilojoule( guy.get_power_level() ) *
+                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
     const float unaugmented_mana = std::max( 0.0f,
                                    ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
+                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
@@ -1850,6 +1936,13 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                        monster_name );
     } else if( fx == "ter_transform" ) {
         aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
+    } else if( fx == "banishment" ) {
+        damage_string = string_format( "%s: %s %s", _( "Damage" ), sp.damage_string(),
+                                       sp.damage_type_string() );
+        if( sp.aoe() > 0 ) {
+            ;
+            aoe_string = string_format( _( "Spell Radius: %d" ), sp.aoe() );
+        }
     }
 
     range_string = string_format( "%s: %s", _( "Range" ),

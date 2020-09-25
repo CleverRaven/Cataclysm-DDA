@@ -4282,7 +4282,7 @@ void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
                       const unsigned quantity, const int charges,
-                      const time_point &birthday, const int damlevel )
+                      const time_point &birthday, const int damlevel, const std::set<std::string> &flags )
 {
     if( type_id.is_null() ) {
         return;
@@ -4293,7 +4293,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
     // recurse to spawn (quantity - 1) items
     for( size_t i = 1; i < quantity; i++ ) {
-        spawn_item( p, type_id, 1, charges, birthday, damlevel );
+        spawn_item( p, type_id, 1, charges, birthday, damlevel, flags );
     }
     // spawn the item
     item new_item( type_id, birthday );
@@ -4312,6 +4312,9 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
 
     new_item.set_damage( damlevel );
+    for( const std::string &flag : flags ) {
+        new_item.set_flag( flag );
+    }
 
     add_item_or_charges( p, new_item );
 }

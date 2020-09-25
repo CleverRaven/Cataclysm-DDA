@@ -231,6 +231,8 @@ struct mutation_branch {
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
+        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
+
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         cata::optional<float> stealth_modifier = cata::nullopt;
 
@@ -300,6 +302,8 @@ struct mutation_branch {
         cata::optional<float> mana_modifier = cata::nullopt;
         cata::optional<float> mana_multiplier = cata::nullopt;
         cata::optional<float> mana_regen_multiplier = cata::nullopt;
+        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
+        cata::optional<float> bionic_mana_penalty = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
@@ -347,6 +351,7 @@ struct mutation_branch {
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
+        std::map<bodypart_str_id, int> bionic_slot_bonuses;
         translation raw_name;
         translation raw_desc;
     public:
@@ -365,6 +370,10 @@ struct mutation_branch {
          * Returns damage resistance on a given body part granted by this mutation.
          */
         const resistances &damage_resistance( const bodypart_id &bp ) const;
+        /**
+         * Returns bionic slot bonus on a given body part granted by this mutation
+         */
+        int bionic_slot_bonus( const bodypart_str_id &part ) const;
         /**
          * Shortcut for getting the name of a (translated) mutation, same as
          * @code get( mutation_id ).name @endcode

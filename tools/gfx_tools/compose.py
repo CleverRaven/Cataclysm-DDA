@@ -284,7 +284,7 @@ class TilesheetData(object):
                     with open(filepath, "r") as fp:
                         try:
                             tile_entry = json.load(fp)
-                        except:
+                        except Exception:
                             print("error loading {}".format(filepath))
                             raise
 
@@ -299,6 +299,7 @@ class TilesheetData(object):
     def finalize_merges(self, merge_pngs):
         out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
         out_image.pngsave(self.ts_path)
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser(description="Merge all the individal tile_entries and pngs in a tileset's directory into a tile_config.json and 1 or more tilesheet pngs.")

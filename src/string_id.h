@@ -5,6 +5,9 @@
 #include <string>
 #include <type_traits>
 
+static constexpr int64_t INVALID_VERSION = -1;
+static constexpr int INVALID_CID = -1;
+
 template<typename T>
 class int_id;
 
@@ -77,13 +80,14 @@ class string_id
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = typename
                  std::enable_if< std::is_convertible<S, std::string >::value>::type >
-        explicit string_id( S && id ) : _id( std::forward<S>( id ) ), _cid( -1 ), _version( -1 ) {}
+        explicit string_id( S &&
+                            id ) : _id( std::forward<S>( id ) ), _cid( INVALID_CID ), _version( INVALID_VERSION ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
-        string_id() : _cid( -1 ), _version( -1 ) {}
+        string_id() : _cid( INVALID_CID ), _version( INVALID_VERSION ) {}
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key. Compares
          * the string id as with the strings comparison.
@@ -95,13 +99,19 @@ class string_id
          * The usual comparator, compares the string id as usual.
          */
         bool operator==( const This &rhs ) const {
-            return _id == rhs._id;
+            bool can_compare_cid = ( _cid != INVALID_CID || rhs._cid != INVALID_CID ) &&
+                                   _version == rhs._version && _version != INVALID_VERSION;
+            return ( can_compare_cid && _cid == rhs._cid ) ||
+                   ( !can_compare_cid && _id == rhs._id );
+            // else returns false, when:
+            //      can_compare_cid && _cid != rhs._cid
+            //  OR  !can_compare_cid && _id != rhs._id
         }
         /**
          * The usual comparator, compares the string id as usual.
          */
         bool operator!=( const This &rhs ) const {
-            return _id != rhs._id;
+            return ! operator==( rhs );
         }
         /**
          * Interface to the plain C-string of the id. This function mimics the std::string
@@ -197,7 +207,12 @@ class string_id
         // cached int_id counterpart of this string_id
         mutable int _cid;
         // generic_factory version that corresponds to the _cid
-        mutable int _version;
+        mutable int64_t _version;
+
+        inline void set_cid_version( int cid, int64_t version ) const {
+            _cid = cid;
+            _version = version;
+        }
 
         friend class generic_factory<T>;
 };

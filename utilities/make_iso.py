@@ -38,6 +38,7 @@ args = parser.parse_args()
 # Indexed by (tile_num, initial_rotation) tuple, True if iso-converted
 converted_tile_ids = dict()
 
+
 def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
     if override or (tile_num, initial_rotation) not in converted_tile_ids:
         print("  iso-izing " + str(tile_num))
@@ -48,7 +49,7 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
             'convert -background transparent ' + new_tileset_name + '/tiles/' + tile_png +
             ' -rotate ' + str(initial_rotation) + ' ' +
             '-rotate -45 +repage -resize 100%x50% ' +
-            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  #TODO: get correct offsets
+            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  # TODO: get correct offsets
             '+repage -extent ' + str(nwidth) + 'x' + str(nheight) + '+0-' + str(nheight - int(nwidth / 2)) + ' ' +
             new_tileset_name + '/tiles/to_merge/' + tile_png)
         print(command)
@@ -188,19 +189,19 @@ os.system('rm -rf ' + new_tiles_dir)
 
 try:
     os.mkdir(new_tileset_name)
-except:
+except OSError:
     pass
 
 try:
     os.mkdir(os.path.join(new_tileset_name, 'tiles'))
-except:
+except OSError:
     pass
 
 os.system('rm -rf ' + new_tileset_name + '/tiles/*')
 
 try:
     os.mkdir(os.path.join(new_tiles_dir, 'to_merge'))
-except:
+except OSError:
     pass
 
 print('reading ' + old_tileset_name + '/tile_config.json')

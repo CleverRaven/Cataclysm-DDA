@@ -17,6 +17,7 @@
 #include "optional.h"
 #include "point.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -34,15 +35,15 @@ const std::string type_fac_hash_str = "__FAC__";
 class zone_type
 {
     private:
-        std::string name_;
-        std::string desc_;
+        translation name_;
+        translation desc_;
     public:
 
         zone_type_id id;
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const std::string &name, const std::string &desc ) : name_( name ),
+        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
             desc_( desc ) {}
 
         std::string name() const;

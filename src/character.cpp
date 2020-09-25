@@ -1371,13 +1371,29 @@ float Character::get_melee() const
 
 bool Character::uncanny_dodge()
 {
+
     bool is_u = is_avatar();
     bool seen = get_player_view().sees( *this );
-    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
+
+    const bool can_dodge_bio = get_power_level() >= 75_kJ && has_active_bionic( bio_uncanny_dodge );
+    const bool can_dodge_mut = get_stamina() >= 2400 && has_trait_flag( "UNCANNY_DODGE" );
+    const bool can_dodge_both = get_power_level() >= 37500_J &&
+                                has_active_bionic( bio_uncanny_dodge ) &&
+                                get_stamina() >= 1200 && has_trait_flag( "UNCANNY_DODGE" );
+
+    if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
     }
     tripoint adjacent = adjacent_tile();
-    mod_power_level( -75_kJ );
+
+    if( can_dodge_both ) {
+        mod_power_level( -37500_J );
+        mod_stamina( -1200 );
+    } else if( can_dodge_bio ) {
+        mod_power_level( -75_kJ );
+    } else if( can_dodge_mut ) {
+        mod_stamina( -2400 );
+    }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
@@ -4848,7 +4864,6 @@ void weariness_tracker::clear()
     intake = 0;
     low_activity_ticks = 0;
     tick_counter = 0;
-    ticks_since_decrease = 0;
 }
 
 void Character::mod_stored_kcal( int nkcal )
@@ -5403,21 +5418,15 @@ float Character::exertion_adjusted_move_multiplier( float level ) const
 // Called every 5 minutes, when activity level is logged
 void Character::try_reduce_weariness( const float exertion )
 {
-    weary.ticks_since_decrease++;
+    weary.tick_counter++;
     if( exertion == NO_EXERCISE ) {
         weary.low_activity_ticks++;
-        if( activity.id() == activity_id( "SLEEP" ) ) {
+        // Recover twice as fast at rest
+        if( in_sleep_state() ) {
             weary.low_activity_ticks++;
         }
-    } else {
-        weary.tick_counter++;
     }
 
-    // If more than 20 minutes have passed with no rest
-    if( weary.tick_counter >= 4 ) {
-        weary.low_activity_ticks--;
-        weary.tick_counter = 0;
-    }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
@@ -5435,13 +5444,16 @@ void Character::try_reduce_weariness( const float exertion )
         weary.tracker -= reduction;
     }
 
-    if( weary.ticks_since_decrease > 12 ) {
+    if( weary.tick_counter >= 12 ) {
         weary.intake *= 1 - recovery_mult;
-        weary.ticks_since_decrease = 0;
+        weary.tick_counter = 0;
     }
 
+    // Normalize values, make sure we stay above 0
     weary.intake = std::max( weary.intake, 0 );
     weary.tracker = std::max( weary.tracker, 0 );
+    weary.tick_counter = std::max( weary.tick_counter, 0 );
+    weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
 }
 
 float Character::activity_level() const
@@ -7711,6 +7723,7 @@ mutation_value_map = {
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
+    { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
     { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
     { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
@@ -7726,6 +7739,7 @@ mutation_value_map = {
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
+    { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },

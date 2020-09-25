@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -189,12 +190,10 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
     return targets;
 }
 
-std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
-        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+static std::set<tripoint> spell_effect_cone_range_override( const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls, const int range )
 {
     std::set<tripoint> targets;
-    // cones go all the way to end (if they don't hit an obstacle)
-    const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - std::floor( aoe_radius / 2.0 );
@@ -216,6 +215,14 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
     // we don't want to hit ourselves in the blast!
     targets.erase( source );
     return targets;
+}
+
+std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripoint &source,
+        const tripoint &target, const int aoe_radius, const bool ignore_walls )
+{
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range() + 1;
+    return spell_effect_cone_range_override( source, target, aoe_radius, ignore_walls, range );
 }
 
 static bool test_always_true( const tripoint & )
@@ -1101,5 +1108,124 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
         }
         // the bash already makes noise, so no need for spell::make_sound()
         here.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
+    }
+}
+
+void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const tripoint &source = caster.pos();
+    const std::vector<tripoint> trajectory_local = line_to( source, target );
+    ::map &here = get_map();
+    // uses abs() coordinates
+    std::vector<tripoint> trajectory;
+    for( const tripoint &local_point : trajectory_local ) {
+        trajectory.push_back( here.getabs( local_point ) );
+    }
+    avatar *caster_you = caster.as_avatar();
+    auto walk_point = trajectory.begin();
+    if( *walk_point == source ) {
+        ++walk_point;
+    }
+    // save the amount of moves the caster has so we can restore them after the dash
+    const int cur_moves = caster.moves;
+    while( walk_point != trajectory.end() ) {
+        if( caster_you != nullptr ) {
+            if( g->critter_at( here.getlocal( *walk_point ) ) ||
+                !g->walk_move( here.getlocal( *walk_point ), false ) ) {
+                --walk_point;
+                break;
+            } else {
+                sp.create_field( here.getlocal( *( walk_point - 1 ) ) );
+                g->draw_ter();
+            }
+        }
+        ++walk_point;
+    }
+    if( walk_point == trajectory.end() ) {
+        // we want the last tripoint in the actually reached trajectory
+        --walk_point;
+    }
+    caster.moves = cur_moves;
+
+    tripoint far_target;
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
+                  far_target );
+    const std::set<tripoint> hit_area = spell_effect_cone_range_override(
+                                            source, far_target, 45, sp.has_flag( spell_flag::IGNORE_WALLS ), sp.aoe() );
+    damage_targets( sp, caster, hit_area );
+}
+
+void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint &target )
+{
+    int total_dam = sp.damage();
+    if( total_dam <= 0 ) {
+        debugmsg( "ERROR: Banishment has negative or 0 damage value" );
+    }
+
+    const std::set<tripoint> area = spell_effect_blast(
+                                        sp, caster.pos(), target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) );
+
+    std::vector<monster *> target_mons;
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        // you can't banish npcs.
+        monster *mon = g->critter_at<monster>( potential_target );
+        if( mon != nullptr ) {
+            target_mons.push_back( mon );
+        }
+    }
+
+    if( target_mons.empty() ) {
+        return;
+    }
+
+    for( monster *mon : target_mons ) {
+        int overflow = -( total_dam -= mon->get_hp() );
+        // reset overflow in case we have more monsters to do
+        total_dam = 0;
+        while( overflow > 0 ) {
+            int caster_total_hp = 0;
+            int unbroken_parts = 0;
+            for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                const int cur_part_hp = caster.as_character()->get_part_hp_cur( part );
+                if( cur_part_hp != 0 ) {
+                    caster_total_hp += cur_part_hp;
+                    unbroken_parts++;
+                }
+            }
+            // we wannt to leave 1 hp on each already unbroken limb
+            caster_total_hp -= unbroken_parts;
+            if( overflow > caster_total_hp ) {
+                caster.add_msg_if_player( m_bad, _( "Banishment failed, you are too weak!" ) );
+                return;
+            } else {
+                // can change if a part has less hp than this
+                float damage_per_part = static_cast<float>( overflow ) / static_cast<float>( unbroken_parts );
+                int parts_checked = 0;
+
+                for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                    Character &char_caster = *caster.as_character();
+                    const int cur_part_hp = char_caster.get_part_hp_cur( part );
+                    if( cur_part_hp > std::ceil( damage_per_part ) ) {
+                        const int rolled_dam = roll_remainder( damage_per_part );
+                        char_caster.mod_part_hp_cur( part, -rolled_dam );
+                        overflow -= rolled_dam;
+                    } else {
+                        char_caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
+                        overflow -= cur_part_hp - 1;
+                        damage_per_part = static_cast<float>( overflow ) /
+                                          static_cast<float>( unbroken_parts - parts_checked );
+                    }
+                    parts_checked++;
+                }
+            }
+        }
+
+        caster.add_msg_if_player( m_good, string_format( _( "%s banished." ), mon->name() ) );
+        // banished monsters take their stuff with them
+        mon->death_drops = false;
+        mon->die( &caster );
     }
 }

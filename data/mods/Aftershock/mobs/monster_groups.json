@@ -2,18 +2,20 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
-    "monsters": [ { "monster": "mon_afs_headless_zombie", "freq": 20, "cost_multiplier": 2 } ]
+    "monsters": [
+      { "monster": "mon_afs_headless_horror", "freq": 20, "cost_multiplier": 20 },
+      { "monster": "mon_zombie_upliftedbear", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_MID",
-    "monsters": [ { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_ROBOT",
-    "default": "mon_manhack",
-    "monsters": [ { "monster": "mon_bloodhound_drone", "freq": 220, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 },
+      { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 5, "cost_multiplier": 10, "starts": 1086 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -50,8 +52,8 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_uplifted_bear", "freq": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
-      { "monster": "mon_zombie_upliftedbear", "freq": 1, "cost_multiplier": 10, "starts": 72 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 1, "cost_multiplier": 10, "starts": 72 },
+      { "monster": "mon_zombie_upliftedbear", "freq": 1, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "freq": 1, "cost_multiplier": 10, "starts": 1086 },
       {
         "monster": "mon_uplifted_bear",
         "freq": 3,

@@ -48,22 +48,19 @@ enum art_effect_passive : int;
 class gun_modifier_data
 {
     private:
-        std::string name_;
+        translation name_;
         int qty_;
         std::set<std::string> flags_;
 
     public:
-        /**
-         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
-         */
-        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
+        gun_modifier_data( const translation &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        std::string name() const {
+        const translation &name() const {
             return name_;
         }
         /// @returns The translated name of the gun mode.
         std::string tname() const {
-            return _( name_ );
+            return name_.translated();
         }
         int qty() const {
             return qty_;

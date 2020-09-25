@@ -2168,8 +2168,8 @@ These values apply to crafting tasks performed at the WORKBENCH.
   "y" : 8,   // The y placement. Can be a single value or a range of possibilities. Not needed if placement is specified.
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
-  "fuel" : -1, // The fuel of the new vehicles.
-  "status" : 1  // The status of the new vehicles.
+  "fuel" : -1, // The fuel of the new vehicles. Defined in percentage. 0 is empty, 100 is full tank, -1 is random from 7% to 35% (default).
+  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled, destroyed tires OR engine.
 } } ]
 ```
 

@@ -125,7 +125,13 @@ class generic_factory
         // it's incremented when any changes to the inner id containers occur
         // version value corresponds to the string_id::_version,
         // so incrementing the version here effectively invalidates all cached string_id::_cid
-        int version = 0;
+        int64_t  version = 0;
+
+        void inc_version() {
+            do {
+                version++;
+            } while( version == INVALID_VERSION );
+        }
 
     protected:
         std::vector<T> list;
@@ -145,14 +151,13 @@ class generic_factory
             }
             const auto iter = map.find( id );
             // map lookup happens at most once per string_id instance per generic_factory::version
-            id._version = version;
             // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
-                id._cid = -1;
+                id.set_cid_version( INVALID_CID, version );
                 return false;
             }
             result = iter->second;
-            id._cid = result.to_i();
+            id.set_cid_version( result.to_i(), version );
             return true;
         }
 
@@ -330,13 +335,12 @@ class generic_factory
             // (lookups for not-yet-inserted elements)
             // in the common scenario there is no loss of performance, as `finalize` will make cache
             // for all ids valid again
-            version++;
+            inc_version();
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second.to_i()];
                 result = obj;
-                result.id._cid = iter->second.to_i();
-                result.id._version = version;
+                result.id.set_cid_version( iter->second.to_i(), version );
                 return result;
             }
 
@@ -344,8 +348,7 @@ class generic_factory
             list.push_back( obj );
 
             T &result = list.back();
-            result.id._cid = cid.to_i();
-            result.id._version = version;
+            result.id.set_cid_version( cid.to_i(), version );
             map[result.id] = cid;
             return result;
         }
@@ -355,10 +358,9 @@ class generic_factory
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
 
-            version++;
+            inc_version();
             for( size_t i = 0; i < list.size(); i++ ) {
-                list[i].id._cid = static_cast<int>( i );
-                list[i].id._version = version;
+                list[i].id.set_cid_version( static_cast<int>( i ), version );
             }
         }
 
@@ -389,7 +391,7 @@ class generic_factory
         void reset() {
             list.clear();
             map.clear();
-            version++;
+            inc_version();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
