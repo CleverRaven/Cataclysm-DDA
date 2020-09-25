@@ -2725,7 +2725,8 @@ bool mattack::grab( monster *z )
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
             ma_technique tech = pl->martial_arts_data->get_grab_break_tec( cur_weapon );
-            target->add_msg_player_or_npc( m_info, _( tech.avatar_message ), _( tech.npc_message ), z->name() );
+            target->add_msg_player_or_npc( m_info, tech.avatar_message.translated(),
+                                           tech.npc_message.translated(), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
                                            _( "The %s tries to grab <npcname>, but they break its grab!" ),

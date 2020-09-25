@@ -3591,8 +3591,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
-                                      _( tid.obj().description ) );
+                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
+                                      tid.obj().description );
             } ) ) );
         }
     }

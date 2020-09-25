@@ -74,9 +74,9 @@ class ma_technique
 
         matec_id id;
         bool was_loaded = false;
-        std::string name;
+        translation name;
 
-        std::string description;
+        translation description;
         std::string get_description() const;
 
         std::string goal; // the melee goal this achieves
@@ -87,8 +87,8 @@ class ma_technique
         std::set<std::string> flags;
 
         // message to be displayed when Character or npc uses the technique
-        std::string avatar_message;
-        std::string npc_message;
+        translation avatar_message;
+        translation npc_message;
 
         bool defensive = false;
         bool side_switch = false; // moves the target behind user
@@ -250,7 +250,7 @@ class martialart
         bool was_loaded = false;
         translation name;
         translation description;
-        std::vector<std::string> initiate;
+        std::vector<translation> initiate;
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
         int learn_difficulty = 0;
