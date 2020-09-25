@@ -296,10 +296,7 @@
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
     "spells_learned": [ [ "quake", 5 ] ],
     "armor": [
-      {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ],
-        "cut": 15
-      }
+      { "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ], "cut": 15 }
     ],
     "passive_mods": { "str_mod": 5 },
     "cancels": [
