@@ -287,7 +287,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
-    if( qualities_needed.size() == 0 ) {
+    if( qualities_needed.empty() ) {
         return ret_val<bool>::make_success();
     }
 
