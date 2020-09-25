@@ -1597,8 +1597,8 @@ int known_magic::max_mana( const Character &guy ) const
 void known_magic::update_mana( const Character &guy, float turns )
 {
     // mana should replenish in 8 hours.
-    const float full_replenish = to_turns<float>( 8_hours );
-    const float ratio = turns / full_replenish;
+    const double full_replenish = to_turns<double>( 8_hours );
+    const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
                                guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
 }
