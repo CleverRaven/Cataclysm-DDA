@@ -4279,28 +4279,31 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( !it.ammo_sufficient( thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        tolower( obj.implement_prompt ), thread_needed );
+                                        tolower( obj.implement_prompt.translated() ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
-                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else if( obj.restricted &&
                        std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 
         } else {
             // Mod already present, give option to destroy
             enab = true;
-            prompt = _( obj.destroy_prompt );
+            prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
         desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
