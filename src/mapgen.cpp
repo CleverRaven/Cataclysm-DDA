@@ -918,11 +918,11 @@ class jmapgen_faction : public jmapgen_piece
 class jmapgen_sign : public jmapgen_piece
 {
     public:
-        std::string signage;
+        translation signage;
         std::string snippet;
         jmapgen_sign( const JsonObject &jsi ) :
-            signage( jsi.get_string( "signage", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "signage", signage );
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
             }
@@ -939,12 +939,10 @@ class jmapgen_sign : public jmapgen_piece
                 // select a snippet from the category
                 signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
-                signtext = signage;
+                signtext = signage.translated();
             }
             if( !signtext.empty() ) {
                 // replace tags
-                signtext = _( signtext );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
@@ -973,11 +971,11 @@ class jmapgen_sign : public jmapgen_piece
 class jmapgen_graffiti : public jmapgen_piece
 {
     public:
-        std::string text;
+        translation text;
         std::string snippet;
         jmapgen_graffiti( const JsonObject &jsi ) :
-            text( jsi.get_string( "text", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "text", text );
             if( text.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
             }
@@ -992,12 +990,10 @@ class jmapgen_graffiti : public jmapgen_piece
                 // select a snippet from the category
                 graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
-                graffiti = text;
+                graffiti = text.translated();
             }
             if( !graffiti.empty() ) {
                 // replace tags
-                graffiti = _( graffiti );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
