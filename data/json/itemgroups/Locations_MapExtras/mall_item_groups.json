@@ -22,7 +22,7 @@
       [ "wire", 5 ],
       [ "splinter", 10 ],
       [ "rag", 15 ],
-      [ "rag_bloody", 10 ],
+      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "plastic_shopping_bag", 10 ]
     ]
   },
