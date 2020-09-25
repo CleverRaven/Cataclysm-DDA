@@ -199,6 +199,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "revert_to_itype": "bot_tazer_hack",
-    "special_attacks": [ "special_when_hit": [ "ZAPBACK", 50 ], [ "TAZER", 5 ] ]
+    "special_when_hit": [ "ZAPBACK", 50 ],
+    "special_attacks": [ [ "TAZER", 5 ] ]
   }
 ]
