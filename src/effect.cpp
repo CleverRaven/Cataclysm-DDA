@@ -487,13 +487,7 @@ bool effect_type::is_show_in_info() const
 }
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
-    if( jo.has_array( member ) ) {
-        for( JsonArray inner : jo.get_array( member ) ) {
-            miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
-        }
-        return true;
-    }
-    return false;
+    return jo.read( member, miss_msgs );
 }
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
@@ -1196,7 +1190,7 @@ int effect::get_int_add_val() const
     return eff_type->int_add_val;
 }
 
-std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
+const std::vector<std::pair<translation, int>> &effect::get_miss_msgs() const
 {
     return eff_type->miss_msgs;
 }
