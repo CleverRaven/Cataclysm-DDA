@@ -1327,6 +1327,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 
                 if( success ) {
                     it.charges -= result;
+                    if( it.charges == 0 ) {
+                        holstered_item.first.remove_item();
+                    }
                 }
             }
         }
