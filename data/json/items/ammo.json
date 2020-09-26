@@ -1245,5 +1245,17 @@
     "symbol": ",",
     "color": "yellow",
     "ammo_type": "components"
+  },
+  {
+    "type": "AMMO",
+    "id": "glowstick_juice",
+    "name": { "str_sp": "glowstick juice" },
+    "symbol": "~",
+    "description": "A mix of blue dye, base catalyst, and diphenyl oxalate used in glowsticks.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "glowstick_juice"
   }
 ]

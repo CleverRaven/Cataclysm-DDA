@@ -335,7 +335,7 @@
       { "item": "handflare", "prob": 50, "charges": 300 },
       [ "flashlight", 100 ],
       [ "gasoline_lantern", 10 ],
-      [ "glowstick", 60 ],
+      { "item": "glowstick", "prob": 60, "charges": 1400 },
       [ "heavy_flashlight", 30 ],
       [ "oil_lamp", 10 ],
       [ "wearable_light", 15 ]

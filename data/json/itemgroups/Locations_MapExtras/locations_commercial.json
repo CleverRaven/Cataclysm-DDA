@@ -838,7 +838,7 @@
       { "item": "marble", "prob": 15 },
       { "item": "creepy_doll", "prob": 1 },
       { "item": "jedi_cloak", "prob": 5 },
-      { "item": "glowstick", "prob": 15 },
+      { "item": "glowstick", "prob": 15, "charges": 1400 },
       { "item": "clown_suit", "prob": 5 },
       { "item": "clownshoes", "prob": 5 },
       { "item": "l-stick", "prob": 1 }
