@@ -51,19 +51,5 @@
     "range": 25,
     "flags": [ "NEVER_JAMS" ],
     "ammo_effects": [ "DKS_RELAXGAS", "DKS_RELAXTRAIL" ]
-  },
-  {
-    "id": "dks_mon_heatgun",
-    "type": "GUN",
-    "copy-from": "fake_item",
-    "name": { "str": "alien plasma gun" },
-    "description": "Fake gun that fires beams of heat.  Eventually will contain a slug component, but it's pure fire for now to prevent friendly fire.",
-    "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
-    "skill": "rifle",
-    "durability": 10,
-    "range": 100,
-    "dispersion": 500,
-    "ranged_damage": [ { "damage_type": "fire", "amount": 12 } ]
   }
 ]
