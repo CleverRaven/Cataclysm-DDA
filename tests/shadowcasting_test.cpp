@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
@@ -446,19 +447,19 @@ struct grid_overlay {
         return offset + tripoint( width(), height(), depth() );
     }
 
-    float get_global( const tripoint &p ) const {
-        if( p.y >= offset.y && p.y < offset.y + height() &&
-            p.x >= offset.x && p.x < offset.x + width() &&
-            p.z >= offset.z && p.z < offset.z + depth() ) {
+    float get_transparency_global( const tripoint &p ) const {
+        const half_open_cuboid<tripoint> bounds( offset, get_max() );
+        if( bounds.contains( p ) ) {
             return data[ p.z - offset.z ][ p.y - offset.y ][ p.x - offset.x ];
         }
         return default_value;
     }
-    bool get_floor( const tripoint &p ) const {
-        if( !floor.empty() &&
-            p.y >= offset.y && p.y < offset.y + height() &&
-            p.x >= offset.x && p.x < offset.x + width() &&
-            p.z >= offset.z && p.z < offset.z + depth() ) {
+    bool get_floor_global( const tripoint &p ) const {
+        if( floor.empty() ) {
+            return default_floor;
+        }
+        const half_open_cuboid<tripoint> bounds( offset, get_max() );
+        if( bounds.contains( p ) ) {
             return data[ p.z - offset.z ][ p.y - offset.y ][ p.x - offset.x ];
         }
         return default_floor;
@@ -478,22 +479,23 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_cache;
 
     const int upper_bound = fov_3d ? OVERMAP_LAYERS : 12;
-    for( int z = fov_3d ? 0 : 11; z < upper_bound; ++z ) {
+    const int lower_bound = fov_3d ? 0 : 11;
+    for( int z = lower_bound; z < upper_bound; ++z ) {
         caches[z] = new level_cache();
         seen_squares[z] = &caches[z]->seen_cache;
         transparency_cache[z] = &caches[z]->transparency_cache;
         floor_cache[z] = &caches[z]->floor_cache;
         for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
             for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
-                caches[z]->transparency_cache[x][y] = test_case.get_global( { x, y, z } );
-                caches[z]->floor_cache[x][y] = test_case.get_floor( { x, y, z } );
+                caches[z]->transparency_cache[x][y] = test_case.get_transparency_global( { x, y, z } );
+                caches[z]->floor_cache[x][y] = test_case.get_floor_global( { x, y, z } );
             }
         }
     }
 
     if( fov_3d ) {
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>( seen_squares,
-                transparency_cache, floor_cache, { ORIGIN.x, ORIGIN.y, ORIGIN.z - OVERMAP_DEPTH }, 0, 1.0 );
+                transparency_cache, floor_cache, ORIGIN - tripoint( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
     } else {
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             *seen_squares[11], *transparency_cache[11], ORIGIN.xy() );
@@ -507,11 +509,12 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         for( int gy = expected.offset.y; gy < expected.get_max().y; ++gy ) {
             for( int gx = expected.offset.x; gx < expected.get_max().x; ++gx ) {
                 trans_grid << caches[gz]->transparency_cache[gx][gy];
-                expected_grid << ( expected.get_global( { gx, gy, gz } ) > 0 ? 'V' : 'O' );
+                expected_grid << ( expected.get_transparency_global( { gx, gy, gz } ) > 0 ? 'V' : 'O' );
                 actual_grid << ( ( *seen_squares[gz] )[gx][gy] > 0 ? 'V' : 'O' );
-                if( V == expected.get_global( { gx, gy, gz } ) && ( *seen_squares[gz] )[gx][gy] == 0 ) {
+                if( V == expected.get_transparency_global( { gx, gy, gz } ) &&
+                    ( *seen_squares[gz] )[gx][gy] == 0 ) {
                     passed = false;
-                } else if( O == expected.get_global( { gx, gy, gz } ) &&
+                } else if( O == expected.get_transparency_global( { gx, gy, gz } ) &&
                            ( *seen_squares[gz] )[gx][gy] > 0 ) {
                     passed = false;
                 }
@@ -525,7 +528,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         actual_grid << '\n';
     }
 
-    for( int z = fov_3d ? 0 : 11; z < upper_bound; ++z ) {
+    for( int z = lower_bound; z < upper_bound; ++z ) {
         delete caches[z];
     }
 
@@ -570,8 +573,8 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
         }
     };
 
-    run_spot_check( test_case, expected_results, true );
-    run_spot_check( test_case, expected_results, false );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]" )
@@ -604,8 +607,8 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
         }
     };
 
-    run_spot_check( test_case, expected_results, true );
-    run_spot_check( test_case, expected_results, false );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
@@ -640,8 +643,8 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
         }
     };
 
-    run_spot_check( test_case, expected_results, true );
-    run_spot_check( test_case, expected_results, false );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
@@ -673,8 +676,8 @@ TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
         }
     };
 
-    run_spot_check( test_case, expected_results, true );
-    run_spot_check( test_case, expected_results, false );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
@@ -700,8 +703,8 @@ TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
         }
     };
 
-    run_spot_check( test_case, expected_results, true );
-    run_spot_check( test_case, expected_results, false );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
