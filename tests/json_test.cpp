@@ -73,7 +73,6 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.sound_ambient == true );
         CHECK( test_spell.sound_id == "test_sound" );
         CHECK( test_spell.sound_variant == "not_default" );
-        CHECK( test_spell.effect_targets.test( spell_target::none ) );
         CHECK( test_spell.targeted_monster_ids == test_fake_mon );
         CHECK( test_spell.additional_spells == test_fake_spell_vec );
         CHECK( test_spell.affected_bps.test( bodypart_str_id( "head" ) ) );
@@ -135,7 +134,6 @@ TEST_CASE( "spell_type handles all members", "[json]" )
             R"("sound_ambient":true,)"
             R"("sound_id":"test_sound",)"
             R"("sound_variant":"not_default",)"
-            R"("effect_filter":["none"],)"
             R"("targeted_monster_ids":["mon_test"],)"
             R"("extra_effects":[{"id":"test_fake_spell"}],)"
             R"("affected_body_parts":["head"],)"
