@@ -44,7 +44,6 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "sheet_metal", "count": 1 },
-        { "item": "pipe_fittings", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
@@ -69,7 +68,7 @@
     "move_cost": 4,
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "pipe_fittings", "count": [ 4, 8 ] }, { "item": "pipe", "count": [ 6, 12 ] } ]
+      "items": [ { "item": "pipe", "count": [ 6, 12 ] } ]
     },
     "flags": [ "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
