@@ -792,16 +792,16 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             if( !long_descrip.empty() ) {
                 long_descrip += "  ";
             }
-            long_descrip += _( flag.info() );
+            long_descrip += flag.info();
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && !has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip += "  " + _( nobelt.info() );
+        long_descrip += "  " + nobelt.info();
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag door = json_flag::get( "DOOR" );
-        long_descrip += "  " + _( door.info() );
+        long_descrip += "  " + door.info();
     }
     if( has_flag( "TURRET" ) ) {
         class::item base( item );
@@ -821,11 +821,11 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
     if( has_flag( "ENABLED_DRAINS_EPOWER" ) ) {
         json_flag drains = json_flag::get( "ENABLED_DRAINS_EPOWER" );
-        long_descrip += "  " + string_format( _( drains.info() ), std::to_string( -epower ) );
+        long_descrip += "  " + string_format( drains.info(), std::to_string( -epower ) );
     }
     if( has_flag( "SOLAR_PANEL" ) ) {
         json_flag solar_panel = json_flag::get( "SOLAR_PANEL" );
-        long_descrip += "  " + string_format( _( solar_panel.info() ), std::to_string( epower ) );
+        long_descrip += "  " + string_format( solar_panel.info(), std::to_string( epower ) );
     }
 
     if( !long_descrip.empty() ) {

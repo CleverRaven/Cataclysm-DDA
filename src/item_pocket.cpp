@@ -864,10 +864,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
             const json_flag &f = json_flag::get( e );
             if( !f.restriction().empty() ) {
                 if( first ) {
-                    info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.restriction() ) ) );
+                    info.emplace_back( "DESCRIPTION", string_format( "* %s", f.restriction() ) );
                     first = false;
                 } else {
-                    info.emplace_back( "DESCRIPTION", string_format( "* <bold>or</bold> %s", _( f.restriction() ) ) );
+                    info.emplace_back( "DESCRIPTION", string_format( "* <bold>or</bold> %s", f.restriction() ) );
                 }
             }
         }
