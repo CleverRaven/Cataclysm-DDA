@@ -2,11 +2,11 @@
 
 #include <list>
 
+#include "cached_options.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
-
-extern int fov_3d_z_range;
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -25,31 +25,19 @@ struct slope {
     int_least8_t run;
 };
 
-inline bool operator<( const slope &lhs, const slope &rhs )
+static bool operator<( const slope &lhs, const slope &rhs )
 {
     // a/b < c/d <=> a*d < c*b if b and d have the same sign.
     return lhs.rise * rhs.run < rhs.rise * lhs.run;
 }
-inline bool operator>( const slope &lhs, const slope &rhs )
+static bool operator>( const slope &lhs, const slope &rhs )
 {
     return rhs < lhs;
 }
-inline bool operator<=( const slope &lhs, const slope &rhs )
-{
-    return !( lhs > rhs );
-}
-inline bool operator>=( const slope &lhs, const slope &rhs )
-{
-    return !( lhs < rhs );
-}
-inline bool operator==( const slope &lhs, const slope &rhs )
+static bool operator==( const slope &lhs, const slope &rhs )
 {
     // a/b == c/d <=> a*d == c*b
     return lhs.rise * rhs.run == rhs.rise * lhs.run;
-}
-inline bool operator!=( const slope &lhs, const slope &rhs )
-{
-    return !( lhs == rhs );
 }
 
 template<typename T>
@@ -165,12 +153,13 @@ void cast_horizontal_zlight_segment(
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
+    static half_open_rectangle<point> bounds( point_zero, point( MAPSIZE_X, MAPSIZE_Y ) );
 
     slope new_start_minor( 1, 1 );
 
     T last_intensity = 0.0;
-    tripoint delta( 0, 0, 0 );
-    tripoint current( 0, 0, 0 );
+    tripoint delta;
+    tripoint current;
 
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
@@ -192,6 +181,22 @@ void cast_horizontal_zlight_segment(
             bool started_block = false;
             // TODO: Precalculate min/max delta.z based on start/end and distance
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+                // Shadowcasting sweeps from the cardinal to the most extreme edge of the octant
+                // XXXX
+                // --->
+                // XXX
+                // -->
+                // XX
+                // ->
+                // X
+                // @
+                //
+                // Trailing edge -> +-
+                //                  |+| <- Center of tile
+                //                   -+ <- Leading Edge
+                //  Direction of sweep --->
+                // Use corners of given tile as above to determine angles of
+                // leading and trailing edges being considered.
                 const slope trailing_edge_major( delta.z * 2 - 1, delta.y * 2 + 1 );
                 const slope leading_edge_major( delta.z * 2 + 1, delta.y * 2 - 1 );
                 current.z = offset.z + delta.z * z_transform;
@@ -222,27 +227,11 @@ void cast_horizontal_zlight_segment(
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * xx_transform + delta.y * xy_transform;
                     current.y = offset.y + delta.x * yx_transform + delta.y * yy_transform;
-                    // Shadowcasting sweeps from the cardinal to the most extreme edge of the octant
-                    // XXXX
-                    // --->
-                    // XXX
-                    // -->
-                    // XX
-                    // ->
-                    // X
-                    // @
-                    //
-                    // Trailing edge -> +-
-                    //                  |+| <- Center of tile
-                    //                   -+ <- Leading Edge
-                    //  Direction of sweep --->
-                    // Use corners of given tile as above to determine angles of
-                    // leading and trailing edges being considered.
+                    // See definition of trailing_edge_major and leading_edge_major for clarification.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.y * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.y * 2 - 1 );
 
-                    if( current.x < 0 || current.x >= MAPSIZE_X ||
-                        current.y < 0 || current.y >= MAPSIZE_Y ) {
+                    if( !bounds.contains( current.xy() ) ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;
                     } else if( this_span->start_minor > leading_edge_minor ) {
@@ -257,10 +246,11 @@ void cast_horizontal_zlight_segment(
 
                     // If we're looking at a tile with floor or roof from the floor/roof side,
                     // that tile is actually invisible to us.
+                    // TODO: Revisit this logic and differentiate between "can see bottom of tile"
+                    // and "can see majority of tile".
                     bool floor_block = false;
                     if( current.z < offset.z ) {
-                        if( z_index < ( OVERMAP_LAYERS - 1 ) &&
-                            ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
@@ -350,9 +340,8 @@ void cast_vertical_zlight_segment(
     slope new_start_minor( 1, 1 );
 
     T last_intensity = 0.0;
-    static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
-    tripoint current( 0, 0, 0 );
+    tripoint delta;
+    tripoint current;
 
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
@@ -373,6 +362,7 @@ void cast_vertical_zlight_segment(
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
             for( delta.y = 0; delta.y <= distance; delta.y++ ) {
+                // See comment above trailing_edge_major and leading_edge_major in above function.
                 const slope trailing_edge_major( delta.y * 2 - 1, delta.z * 2 + 1 );
                 const slope leading_edge_major( delta.y * 2 + 1, delta.z * 2 - 1 );
                 current.y = offset.y + delta.y * y_transform;
@@ -402,22 +392,7 @@ void cast_vertical_zlight_segment(
                 for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                     current.x = offset.x + delta.x * x_transform;
                     current.z = offset.z + delta.z * z_transform;
-                    // Shadowcasting sweeps from the cardinal to the most extreme edge of the octant
-                    // XXXX
-                    // --->
-                    // XXX
-                    // -->
-                    // XX
-                    // ->
-                    // X
-                    // @
-                    //
-                    // Trailing edge -> +-
-                    //                  |+| <- Center of tile
-                    //                   -+ <- Leading Edge
-                    //  Direction of sweep --->
-                    // Use corners of given tile as above to determine angles of
-                    // leading and trailing edges being considered.
+                    // See comment above trailing_edge_major and leading_edge_major in above function.
                     const slope trailing_edge_minor( delta.x * 2 - 1, delta.z * 2 + 1 );
                     const slope leading_edge_minor( delta.x * 2 + 1, delta.z * 2 - 1 );
 
@@ -441,8 +416,7 @@ void cast_vertical_zlight_segment(
                     // that tile is actually invisible to us.
                     bool floor_block = false;
                     if( current.z < offset.z ) {
-                        if( z_index < ( OVERMAP_LAYERS - 1 ) &&
-                            ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
+                        if( ( *floor_caches[z_index + 1] )[current.x][current.y] ) {
                             floor_block = true;
                             new_transparency = LIGHT_TRANSPARENCY_SOLID;
                         }
@@ -458,7 +432,7 @@ void cast_vertical_zlight_segment(
                         current_transparency = new_transparency;
                     }
 
-                    const int dist = rl_dist( origin, delta ) + offset_distance;
+                    const int dist = rl_dist( tripoint_zero, delta ) + offset_distance;
                     last_intensity = calc( numerator, this_span->cumulative_value, dist );
 
                     if( !floor_block ) {
