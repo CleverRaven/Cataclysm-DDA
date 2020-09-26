@@ -536,7 +536,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
             const std::string nourishment_title = _( "NOURISHMENT" );
-            append_cell( [&p, &nourishment_title]( const item_location & loc ) {
+            append_cell( [&p, nourishment_title]( const item_location & loc ) {
                 /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
                 stomach fullness source code. Look at issue #44365*/
                 const item &it = *loc;
@@ -560,9 +560,16 @@ class comestible_inventory_preset : public inventory_selector_preset
                 const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
                 const std::pair<std::string, nc_color> nourishment_bar = get_bar(
                             scaled_cal, scaled_max, 5, true );
-                // This colorizes the bar, after padding it to 5 spaces using dots and up to nourishment_title.length() using spaces, to preserve rtl alignment.
-                return colorize( nourishment_bar.first + std::string( 5 - nourishment_bar.first.length(),
-                                 '.' ) + std::string( nourishment_title.length() - 5, ' ' ), nourishment_bar.second );
+                // Colorize the bar
+                std::string result = colorize( nourishment_bar.first, nourishment_bar.second );
+                // Pad to 5 characters with dots
+                result += std::string( 5 - nourishment_bar.first.length(), '.' );
+                // if nourishment_title is larger than 5 characters, pad to match its length, preserving alignment.
+                debugmsg(to_string(utf8_width(nourishment_title)));
+                if( utf8_width( nourishment_title ) > 5 ) {
+                    result += std::string( utf8_width( nourishment_title ) - 5, ' ' );
+                }
+                return result;
             }, _( nourishment_title ) );
 
             Character &player_character = get_player_character();
