@@ -207,7 +207,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        translation name;               // Untranslated name
+        translation name;
         uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();

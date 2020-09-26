@@ -754,7 +754,7 @@ class iuse_function_wrapper : public iuse_actor
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
 {
     private:
-        translation info_string; // Untranslated
+        translation info_string;
     public:
         iuse_function_wrapper_with_info(
             const std::string &type, const use_function_pointer f, const translation &info )
