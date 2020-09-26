@@ -55,6 +55,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
+#include <activity_handlers.h>
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -359,28 +360,48 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             break;
         }
         case HAUL: {
+            debugmsg("PHASE 0");
             // Find target items and quantities thereof for the new activity
             std::vector<item_location> target_items;
             std::vector<int> quantities;
-            // Liquid cannot be picked up
-            if (it.made_of_from_type(phase_id::LIQUID)) {
+            target_items.push_back(loc);
+            quantities.push_back(0);
+            item_location target = std::move(target_items.back());
+            const int quantity = quantities.back();
+            if (!target) {
+                debugmsg("Lost target item of ACT_MOVE_ITEMS");
                 break;
             }
-            target_items.emplace_back(map_cursor(newloc.position()), &it);
-            quantities.push_back(0);
-            item *testit = target_items[0].get_item();
-            debugmsg(testit->display_name());
-            // Whether the destination is inside a vehicle (not supported)
-            const bool to_vehicle = false;
-            // Destination relative to the player
-            const tripoint relative_destination = target_items[0].position()-player_character.pos();
-            player_character.assign_activity(player_activity(move_items_activity_actor(
-                target_items,
-                quantities,
-                to_vehicle,
-                relative_destination
-            )));
-            //player_character.start_hauling();
+            target_items.pop_back();
+            quantities.pop_back();
+            debugmsg("PHASE 1");
+            tripoint dest = player_character.pos();
+            // Liquid cannot be picked up
+            if (!target->made_of_from_type(phase_id::LIQUID)) {
+                // Don't need to make a copy here since movement can't be canceled
+                item& leftovers = *target;
+                // Make a copy to be put in the destination location
+                item newit = leftovers;
+
+                // This is for hauling across zlevels, remove when going up and down stairs
+                // is no longer teleportation
+                if (newit.is_owned_by(player_character, true)) {
+                    newit.set_owner(player_character);
+                }
+                else {
+                    break;
+                }
+                debugmsg("SECOND PHASE");
+                const tripoint src = target.position();
+                const int distance = src.z == dest.z ? std::max(rl_dist(src, dest), 1) : 1;
+                // Yuck, I'm sticking weariness scaling based on activity level here
+                //const float weary_mult = who.exertion_adjusted_move_multiplier(exertion_level());
+                //who.mod_moves(-Pickup::cost_to_move_item(who, newit) * distance * weary_mult);
+                drop_on_map(player_character, item_drop_reason::deliberate, { newit }, dest);
+                leftovers.charges = 0;
+                // If we picked up a whole stack, remove the leftover item
+            }
+            player_character.start_hauling();
             break;
         }
     }
