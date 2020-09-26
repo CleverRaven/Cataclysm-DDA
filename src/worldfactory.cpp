@@ -882,21 +882,21 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                                             point( 1 + iOffsetX, 3 ) );
         w_header2     = catacurses::newwin( 1, iMinScreenWidth / 2 - 4,
                                             point( iMinScreenWidth / 2 + 3 + iOffsetX, 3 ) );
-        w_shift       = catacurses::newwin( TERMY - 11, 5,
+        w_shift       = catacurses::newwin( TERMY - 14, 5,
                                             point( iMinScreenWidth / 2 - 3 + iOffsetX, 3 ) );
-        w_list        = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+        w_list        = catacurses::newwin( TERMY - 16, iMinScreenWidth / 2 - 4,
                                             point( iOffsetX, 5 ) );
-        w_active      = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
+        w_active      = catacurses::newwin( TERMY - 16, iMinScreenWidth / 2 - 4,
                                             point( iMinScreenWidth / 2 + 2 + iOffsetX, 5 ) );
-        w_description = catacurses::newwin( 4, iMinScreenWidth - 4,
-                                            point( 1 + iOffsetX, TERMY - 5 ) );
+        w_description = catacurses::newwin( 5, iMinScreenWidth - 4,
+                                            point( 1 + iOffsetX, TERMY - 6 ) );
 
         header_windows.clear();
         header_windows.push_back( w_header1 );
         header_windows.push_back( w_header2 );
 
         // Specify where the popup's string would be printed
-        filter_pos = point( 2, TERMY - 8 );
+        filter_pos = point( 2, TERMY - 11 );
         filter_view_len = iMinScreenWidth / 2 - 11;
         if( fpopup ) {
             point inner_pos = filter_pos + point( 2, 0 );
@@ -1366,7 +1366,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
 
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{1, 1, iMinScreenWidth / 2 + 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 + 2}};
-    std::array<int, 5> ys = {{TERMY - 8, 4, 4, 3, 3}};
+    std::array<int, 5> ys = {{TERMY - 11, 4, 4, 3, 3}};
     std::array<int, 5> ls = {{iMinScreenWidth - 2, iMinScreenWidth / 2 - 4, iMinScreenWidth / 2 - 2, TERMY - 11, 1}};
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
@@ -1386,28 +1386,28 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
 
     // Add in connective characters
     mvwputch( win, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( win, point( 0, TERMY - 8 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( 0, TERMY - 11 ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( win, point( iMinScreenWidth / 2 + 2, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
 
     mvwputch( win, point( iMinScreenWidth - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 8 ), BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( win, point( iMinScreenWidth - 1, TERMY - 11 ), BORDER_COLOR, LINE_XOXX ); // -|
     mvwputch( win, point( iMinScreenWidth / 2 - 4, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 
     mvwputch( win, point( iMinScreenWidth / 2 - 4, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
     mvwputch( win, point( iMinScreenWidth / 2 + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // -.-
 
-    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( iMinScreenWidth / 2 - 4, TERMY - 11 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
-    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 8 ), BORDER_COLOR,
+    mvwputch( win, point( iMinScreenWidth / 2 + 2, TERMY - 11 ), BORDER_COLOR,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
-    fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray,
-                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab  "
+    fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
+                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default <color_red>|</color> "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab <color_red>|</color> "
                        "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
-                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color>  "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab  "
+                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color> <color_red>|</color> "
+                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab <color_red>|</color> "
                        "[<color_yellow>%s</color>] = keybindings" ),
                     ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
                     ctxtp.get_desc( "PREV_TAB" ),
