@@ -384,6 +384,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 relative_destination
             )));
             player_character.start_hauling();
+            break;
         }
     }
 
