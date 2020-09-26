@@ -547,7 +547,7 @@
       [ "rebreather", 2 ],
       [ "rebreather_filter", 4 ],
       [ "glowstick", 60 ],
-      [ "handflare", 40 ],
+      { "item": "handflare", "prob": 40, "charges": 300 },
       [ "grapnel", 40 ],
       [ "fishing_rod_professional", 60 ],
       [ "fishing_rod_basic", 60 ],

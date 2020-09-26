@@ -111,7 +111,7 @@
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
-      [ "handflare", 20 ],
+      { "item": "handflare", "prob": 20, "charges": 300 },
       [ "heavy_flashlight", 30 ],
       [ "glowstick", 10 ],
       [ "two_way_radio", 20 ],

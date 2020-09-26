@@ -916,7 +916,7 @@
       { "item": "dinosuit", "prob": 4 },
       { "item": "zentai", "prob": 4 },
       { "item": "glowstick", "prob": 60 },
-      { "item": "handflare", "prob": 40 },
+      { "item": "handflare", "prob": 40, "charges": 300 },
       { "item": "blanket", "prob": 10 },
       { "item": "electric_blanket", "prob": 4 },
       { "item": "house_coat", "prob": 25 },

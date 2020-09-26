@@ -83,7 +83,7 @@
       [ "rope_6", 20 ],
       [ "string_36", 25 ],
       [ "toilet_paper", 10 ],
-      [ "handflare", 15 ],
+      { "item": "handflare", "prob": 15, "charges": 300 },
       [ "duct_tape", 25 ],
       [ "flashlight", 25 ],
       [ "thread", 20 ],
