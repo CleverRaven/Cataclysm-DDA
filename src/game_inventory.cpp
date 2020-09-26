@@ -565,7 +565,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 // Pad to 5 characters with dots
                 result += std::string( 5 - nourishment_bar.first.length(), '.' );
                 // if nourishment_title is larger than 5 characters, pad to match its length, preserving alignment.
-                debugmsg(to_string(utf8_width(nourishment_title)));
+                debugmsg( to_string( utf8_width( nourishment_title ) ) );
                 if( utf8_width( nourishment_title ) > 5 ) {
                     result += std::string( utf8_width( nourishment_title ) - 5, ' ' );
                 }
