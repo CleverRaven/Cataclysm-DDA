@@ -256,6 +256,9 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
+        // The game language may have changed after the blueprint was created,
+        // so translated the prototype name again.
+        name = proto.name.translated();
         init_state( init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
