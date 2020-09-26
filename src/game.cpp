@@ -3594,13 +3594,13 @@ void game::draw_panels( bool force_draw )
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
     int log_height = 0;
-    for( const window_panel &panel : mgr.get_current_layout() ) {
+    for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
-    for( const window_panel &panel : mgr.get_current_layout() ) {
+    for( const window_panel &panel : mgr.get_current_layout().panels() ) {
         if( panel.render() ) {
             // height clamped to window height.
             int h = std::min( panel.get_height(), TERMY - y );
@@ -3614,7 +3614,7 @@ void game::draw_panels( bool force_draw )
                                                        point( sidebar_right ? TERMX - panel.get_width() : 0, y ) ) );
                 }
                 if( show_panel_adm ) {
-                    const std::string panel_name = _( panel.get_name() );
+                    const std::string panel_name = panel.get_name();
                     const int panel_name_width = utf8_width( panel_name );
                     catacurses::window label = catacurses::newwin( 1, panel_name_width, point( sidebar_right ?
                                                TERMX - panel.get_width() - panel_name_width - 1 : panel.get_width() + 1, y ) );
@@ -6972,7 +6972,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     if( show_window ) {
         ui = std::make_unique<ui_adaptor>();
         ui->on_screen_resize( [&]( ui_adaptor & ui ) {
-            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int panel_width = panel_manager::get_manager().get_current_layout().panels().begin()->get_width();
             int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
             // If particularly small, base height on panel width irrespective of other elements.
