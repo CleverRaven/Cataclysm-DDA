@@ -287,7 +287,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
     "ammo": "glowstick_juice",
     "use_action": {
       "target": "glowstick_lit",
@@ -326,7 +326,7 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
@@ -344,7 +344,7 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 }, "rigid": true } ],
     "ammo": "flare_nitrate",
     "use_action": {
       "menu_text": "Strike the striker",
