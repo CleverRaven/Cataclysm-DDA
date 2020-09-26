@@ -651,9 +651,9 @@ void static create_lab_consoles(
 
         tripoint comppoint = find_potential_computer_point( compmap );
 
-        computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
+        computer *tmpcomp = compmap.add_computer( comppoint, comp_name, security );
         tmpcomp->set_mission( miss->get_id() );
-        tmpcomp->add_option( _( download_name ), COMPACT_DOWNLOAD_SOFTWARE, security );
+        tmpcomp->add_option( download_name, COMPACT_DOWNLOAD_SOFTWARE, security );
         tmpcomp->add_failure( COMPFAIL_ALARM );
         tmpcomp->add_failure( COMPFAIL_DAMAGE );
         tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -670,8 +670,8 @@ void mission_start::create_lab_console( mission *miss )
     loc.z() = -1;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab", 0, false );
 
-    create_lab_consoles( miss, place, "lab", 2, translate_marker( "Workstation" ),
-                         translate_marker( "Download Memory Contents" ) );
+    create_lab_consoles( miss, place, "lab", 2, _( "Workstation" ),
+                         _( "Download Memory Contents" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -688,8 +688,8 @@ void mission_start::create_hidden_lab_console( mission *miss )
         mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
     place.z() = -2;  // then go down 1 z-level to place consoles.
 
-    create_lab_consoles( miss, place, "lab", 3, translate_marker( "Workstation" ),
-                         translate_marker( "Download Encryption Routines" ) );
+    create_lab_consoles( miss, place, "lab", 3, _( "Workstation" ),
+                         _( "Download Encryption Routines" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
@@ -704,8 +704,8 @@ void mission_start::create_ice_lab_console( mission *miss )
     loc.z() = -4;
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
 
-    create_lab_consoles( miss, place, "ice_lab", 3, translate_marker( "Durable Storage Archive" ),
-                         translate_marker( "Download Archives" ) );
+    create_lab_consoles( miss, place, "ice_lab", 3, _( "Durable Storage Archive" ),
+                         _( "Download Archives" ) );
 
     // Target the lab entrance.
     const tripoint_abs_omt target = mission_util::target_closest_lab_entrance( place, 2, miss );
