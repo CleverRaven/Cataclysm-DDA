@@ -762,7 +762,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     return false;
 }
 
-int item_location::max_charges_by_parent_recursive( item it ) const
+int item_location::max_charges_by_parent_recursive( const item &it ) const
 {
     if( !has_parent() ) {
         return item::INFINITE_CHARGES;
