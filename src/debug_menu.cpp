@@ -565,11 +565,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_NAME, D_AGE, D_HEIGHT, D_BLOOD, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
+    nmenu.addentry( D_AGE, true, 'A', "%s", _( "Edit [A]ge" ) );
+    nmenu.addentry( D_HEIGHT, true, 'H', "%s", _( "Edit [H]eight" ) );
+    nmenu.addentry( D_BLOOD, true, 'B', "%s", _( "Edit [B]lood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
@@ -806,6 +809,52 @@ void character_edit_menu()
             if( popup.confirmed() ) {
                 p.name = filterstring;
             }
+        }
+        break;
+        case D_AGE: {
+            string_input_popup popup;
+            popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+            .text( string_format( "%d", p.base_age() ) )
+            .only_digits( true );
+            const int result = popup.query_int();
+            if( result != 0 ) {
+                p.set_base_age( clamp( result, 16, 55 ) );
+            }
+        }
+        break;
+        case D_HEIGHT: {
+            string_input_popup popup;
+            popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+            .text( string_format( "%d", p.base_height() ) )
+            .only_digits( true );
+            const int result = popup.query_int();
+            if( result != 0 ) {
+                p.set_base_height( clamp( result, 145, 200 ) );
+            }
+        }
+        break;
+        case D_BLOOD: {
+            uilist btype;
+            btype.text = _( "Select blood type" );
+            btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+            btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+            btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+            btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+            btype.query();
+            if( btype.ret < 0 ) {
+                break;
+            }
+            uilist bfac;
+            bfac.text = _( "Select Rh factor" );
+            bfac.addentry( 0, true, '-', _( "negative" ) );
+            bfac.addentry( 1, true, '+', _( "positive" ) );
+            bfac.query();
+            if( bfac.ret < 0 ) {
+                break;
+            }
+            p.my_blood_type = static_cast<blood_type>( btype.ret );
+            p.blood_rh_factor = static_cast<bool>( bfac.ret );
+            break;
         }
         break;
         case D_PAIN: {
