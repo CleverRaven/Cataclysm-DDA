@@ -3271,10 +3271,10 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
     if( is_craft() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
-                                  _( components_to_string() ) ) ) );
+                                  components_to_string() ) ) );
     } else {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
-                                  _( components_to_string() ) ) ) );
+                                  components_to_string() ) ) );
     }
 }
 
@@ -3793,7 +3793,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         for( const std::string &e : flags ) {
             const json_flag &f = json_flag::get( e );
             if( !f.info().empty() ) {
-                info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.info() ) ) );
+                info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
             }
         }
     }
