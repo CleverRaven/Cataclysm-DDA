@@ -18,9 +18,15 @@ struct effect_on_condition {
         friend class generic_factory<effect_on_condition>;
         bool was_loaded = false;
         effect_on_condition_id id;
-        json_dynamic_line_effect jdle;
+
+        std::function<bool( const dialogue & )> condition;
         std::function<bool( const dialogue & )> deactivate_condition;
+        talk_effect_t true_effect;
+        talk_effect_t false_effect;
         bool has_deactivate_condition = false;
+        bool has_condition = false;
+        bool has_false_effect = false;
+
         time_duration once_every = 1_seconds;
         bool activate() const;
         bool check_deactivate() const;
@@ -44,6 +50,7 @@ void check_consistency();
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
 void process_effect_on_conditions();
 void process_reactivate();
+void write_eocs();
 } // namespace effect_on_conditions
 
 #endif // CATA_SRC_EFFECT_ON_CONDITION_H

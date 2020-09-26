@@ -119,13 +119,11 @@ struct weather_type {
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
-        time_duration time_between_min = 0_turns;
-        time_duration time_between_max = 0_turns;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
         std::string get_symbol() const {
-            return utf32_to_utf8(symbol);
+            return utf32_to_utf8( symbol );
         }
         weather_type() = default;
 };

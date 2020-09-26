@@ -231,13 +231,13 @@ void talker_character::deal_damage( const damage_instance &damage,
     }
 }
 
-void talker_character::mod_add_morale( morale_type new_morale, int bonus, int max_bonus,
-                                       time_duration duration, time_duration decay_start, bool capped )
+void talker_character::add_morale( const morale_type &new_morale, int bonus, int max_bonus,
+                                   time_duration duration, time_duration decay_start, bool capped )
 {
     me_chr->add_morale( new_morale, bonus, max_bonus, duration, decay_start, capped );
 }
 
-void talker_character::mod_remove_morale( morale_type old_morale )
+void talker_character::remove_morale( const morale_type &old_morale )
 {
     me_chr->rem_morale( old_morale );
 }
@@ -262,12 +262,12 @@ bool talker_character::is_wearing( const itype_id &item_id ) const
     return me_chr->is_wearing( item_id );
 }
 
-bool talker_character::worn_with_flag( const std::string &flag ) const
+bool talker_character::worn_with_flag( const flag_id &flag ) const
 {
     return me_chr->worn_with_flag( flag );
 }
 
-bool talker_character::wielded_with_flag( const std::string &flag ) const
+bool talker_character::wielded_with_flag( const flag_id &flag ) const
 {
     return me_chr->weapon.has_flag( flag );
 }

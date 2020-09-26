@@ -167,6 +167,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
+        case debug_menu::debug_menu_index::WRITE_EOCS: return "WRITE_EOCS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -265,6 +266,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_EOCS, true, 'E', _( "Write effect_on_conditions to file" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -2020,6 +2022,10 @@ void debug()
         }
         break;
 
+        case debug_menu_index::WRITE_EOCS: {
+            effect_on_conditions::write_eocs();
+        }
+        break;
         case debug_menu_index::SAVE_SCREENSHOT: {
 #if defined(TILES)
             // check that the current '<world>/screenshots' directory exists

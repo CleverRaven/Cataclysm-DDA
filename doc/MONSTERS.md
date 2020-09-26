@@ -67,12 +67,15 @@ Monsters may also have any of these optional properties:
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 | `luminance`              | (integer) Amount of light passively emitted by the monster, from `0-10`
 | `death_drops`            | (string or item group) Item group to spawn when the monster dies
-| `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS
+| `death_function`         | (array of strings) How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md)
+| `death_eocs`             | (array of strings) An array of effect_on_conditions to be activated when this monster dies. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)
 | `emit_field`             | (array of objects) What field the monster emits, and how frequently
 | `regenerates`            | (integer) Number of hit points the monster regenerates per turn
 | `regenerates_in_dark`    | (boolean) True if monster regenerates quickly in the dark
 | `regen_morale`           | (bool) True if monster will stop fleeing at max HP to regenerate anger and morale
 | `special_attacks`        | (array of objects) Special attacks the monster has
+| `special_attack_eocs`    | (array of strings) If the monster has the EFFECT_ON_CONDITIONS special attack what effect_on_conditions will be activated when it is used. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)
+| `special_attack_eoc_range`| int If the monster has the EFFECT_ON_CONDITIONS special attack what its range will be.
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
 | `fear_triggers`          | (array of strings) What makes the monster afraid, ex. FIRE, HURT, PLAYER_CLOSE, SOUND
 | `anger_triggers`         | (array of strings) What makes the monster angry (same flags as fear)

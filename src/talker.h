@@ -189,10 +189,10 @@ class talker
         virtual bool is_wearing( const itype_id & ) const {
             return false;
         }
-        virtual bool worn_with_flag( const std::string & ) const {
+        virtual bool worn_with_flag( const flag_id & ) const {
             return false;
         }
-        virtual bool wielded_with_flag( const std::string & ) const {
+        virtual bool wielded_with_flag( const flag_id & ) const {
             return false;
         }
         virtual int charges_of( const itype_id & ) const {

@@ -11,8 +11,8 @@
       ]
     },
     "effect": [
-      { "sound_message": "You hear a distant rumble of thunder.", "outdoor_only": true },
-      { "sound_effect": "thunder_far" }
+      { "message": "You hear a distant rumble of thunder.", "sound": true },
+      { "sound_effect": "thunder_far", "outdoor_event": true }
     ]
   },
   {
@@ -52,14 +52,14 @@
   {
     "id": "snow",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "once_every": 6,
     "condition": { "and": [ { "is_weather": "snow" }, "u_is_outside" ] },
     "effect": [ { "u_add_wet": 10 } ]
   },
   {
     "id": "snowstorm",
     "type": "effect_on_condition",
-    "once_every": 1,
+    "once_every": 6,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
     "effect": [ { "u_add_wet": 40 } ]
   }

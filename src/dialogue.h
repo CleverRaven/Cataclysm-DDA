@@ -100,10 +100,9 @@ struct talk_effect_fun_t {
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_remove_bionic( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_lose_bionic( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_remove_morale( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_sound_message( const JsonObject &jo, const std::string &member );
+        void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_message( const JsonObject &jo, const std::string &member );
         void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -117,7 +116,7 @@ struct talk_effect_fun_t {
         void set_weather( const JsonObject &jo, const std::string &member );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_queue_effect( const JsonObject &jo, const std::string &member );
+        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member );
         void set_deal_damage( const JsonObject &jo, const std::string &, bool is_npc );
         void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -193,12 +192,12 @@ struct talk_effect_t {
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
-        void load_effect( const JsonObject &jo );
+        void load_effect( const JsonObject &jo, const std::string &member_name );
         void parse_sub_effect( const JsonObject &jo );
         void parse_string_effect( const std::string &effect_id, const JsonObject &jo );
 
         talk_effect_t() = default;
-        talk_effect_t( const JsonObject & );
+        talk_effect_t( const JsonObject &, const std::string & );
 
         /**
          * Functions that are called when the response is chosen.

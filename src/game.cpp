@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cassert>
 #include <chrono>
 #include <climits>
 #include <cmath>
@@ -2979,8 +2978,10 @@ bool game::load( const save_t &name )
     // worldoptions
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
     u.reset();
+    const weather_generator &weather_gen = weather.get_cur_weather_gen();
+    *weather.weather_precise = weather_gen.get_weather( u.global_square_location(), calendar::turn,
+                               g->get_seed() );
 
     events().send<event_type::game_load>( getVersionString() );
     time_of_last_load = std::chrono::steady_clock::now();
@@ -4401,7 +4402,7 @@ void game::mon_info_update( )
             }
         }
 
-        rule_state safemode_state = rule_state::NONE;
+        bool need_processing = false;
         const bool safemode_empty = get_safemode().empty();
 
         if( m != nullptr ) {
@@ -4410,10 +4411,15 @@ void game::mon_info_update( )
 
             const monster_attitude matt = critter.attitude( &u );
             const int mon_dist = rl_dist( u.pos(), critter.pos() );
-            safemode_state = get_safemode().check_monster( critter.name(), critter.attitude_to( u ), mon_dist );
-
-            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
-                    ( MATT_ATTACK == matt || MATT_FOLLOW == matt ) ) ) {
+            if( !safemode_empty ) {
+                need_processing = get_safemode().check_monster(
+                                      critter.name(),
+                                      critter.attitude_to( u ),
+                                      mon_dist ) == rule_state::BLACKLISTED;
+            } else {
+                need_processing =  MATT_ATTACK == matt || MATT_FOLLOW == matt;
+            }
+            if( need_processing ) {
                 if( index < 8 && critter.sees( get_player_character() ) ) {
                     dangerous[index] = true;
                 }
@@ -4447,14 +4453,17 @@ void game::mon_info_update( )
             //Safe mode NPC check
 
             const int npc_dist = rl_dist( u.pos(), p->pos() );
-            safemode_state = get_safemode().check_monster( get_safemode().npc_type_name(), p->attitude_to( u ),
-                             npc_dist );
-
-            if( ( !safemode_empty && safemode_state == rule_state::BLACKLISTED ) || ( safemode_empty &&
-                    p->get_attitude() == NPCATT_KILL ) ) {
-                if( !safemode_empty || npc_dist <= iProxyDist ) {
-                    newseen++;
-                }
+            if( !safemode_empty ) {
+                need_processing = get_safemode().check_monster(
+                                      get_safemode().npc_type_name(),
+                                      p->attitude_to( u ),
+                                      npc_dist ) == rule_state::BLACKLISTED ;
+            } else {
+                need_processing = npc_dist <= iProxyDist &&
+                                  p->get_attitude() == NPCATT_KILL;
+            }
+            if( need_processing ) {
+                newseen++;
             }
             unique_types[index].push_back( p );
         }
@@ -5186,16 +5195,16 @@ void game::clear_zombies()
 }
 
 bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point )
+                                    int max_radius, tripoint &point, bool outdoors_only )
 {
     tripoint target_point;
-    //find a legal outdoor place to spawn based on the specified radius,
+    //find a legal place to spawn based on the specified radius, and outdoors_only
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
-    for( int attempts = 0; attempts < 15; attempts++ ) {
+    for( int attempts = 0; attempts < 30; attempts++ ) {
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( mt->id, target_point ) &&
-            get_map().is_outside( target_point ) &&
+            ( !outdoors_only || get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, get_player_character().pos() ) > min_radius ) {
             point = target_point;
             return true;
@@ -8567,16 +8576,24 @@ static void add_disassemblables( uilist &menu,
 }
 
 // Butchery sub-menu and time calculation
-static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
+static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int index = -1 )
 {
     avatar &player_character = get_avatar();
     auto cut_time = [&]( butcher_type bt ) {
         int time_to_cut = 0;
-        if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( player_character, *corpses[corpse], bt );
+        if( index != -1 ) {
+            const mtype &corpse = *corpses[index]->get_mtype();
+            const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                     player_character.crafting_inventory(),
+                                     corpse.size, bt ).first;
+            time_to_cut = butcher_time_to_cut( player_character, *corpses[index], bt ) * factor;
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( player_character, *it, bt );
+                const mtype &corpse = *it->get_mtype();
+                const float factor = corpse.harvest->get_butchery_requirements().get_fastest_requirements(
+                                         player_character.crafting_inventory(),
+                                         corpse.size, bt ).first;
+                time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8596,8 +8613,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_skin = false;
     bool has_organs = false;
 
-    if( corpse != -1 ) {
-        const mtype *dead_mon = corpses[corpse]->get_mtype();
+    if( index != -1 ) {
+        const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
                 if( entry.type == "skin" ) {
@@ -9738,6 +9755,51 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
         }
+    }
+
+    if( !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+        int volume = u.is_stealthy() ? 3 : 6;
+        volume *= u.mutation_value( "noise_modifier" );
+        if( volume > 0 ) {
+            if( u.is_wearing( itype_rm13_armor_on ) ) {
+                volume = 2;
+            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
+                volume = 12;
+            }
+
+            volume *= u.current_movement_mode()->sound_mult();
+            if( u.is_mounted() ) {
+                monster *mons = u.mounted_creature.get();
+                switch( mons->get_size() ) {
+                    case creature_size::tiny:
+                        volume = 0; // No sound for the tinies
+                        break;
+                    case creature_size::small:
+                        volume /= 3;
+                        break;
+                    case creature_size::medium:
+                        break;
+                    case creature_size::large:
+                        volume *= 1.5;
+                        break;
+                    case creature_size::huge:
+                        volume *= 2;
+                        break;
+                    default:
+                        break;
+                }
+                if( mons->has_flag( MF_LOUDMOVES ) ) {
+                    volume += 6;
+                }
+                sounds::sound( dest_loc, volume, sounds::sound_t::movement, mons->type->get_footsteps(), false,
+                               "none", "none" );
+            } else {
+                sounds::sound( dest_loc, volume, sounds::sound_t::movement, _( "footsteps" ), true,
+                               "none", "none" );    // Sound of footsteps may awaken nearby monsters
+            }
+            sfx::do_footstep();
+        }
+
     }
 
     if( m.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, dest_loc ) ) {
@@ -10987,17 +11049,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( !force ) {
         submap_shift = update_map( stairs.x, stairs.y );
     }
-    if( u.is_mounted() ) {
-        if( stored_mount ) {
-            assert( !here.has_zlevels() );
-            stored_mount->spawn( u.pos() );
-            if( critter_tracker->add( stored_mount ) ) {
-                u.mounted_creature = stored_mount;
-            }
-        } else {
-            u.mounted_creature->setpos( u.pos() );
-        }
-    }
+
     // if an NPC or monster is on the stiars when player ascends/descends
     // they may end up merged on th esame tile, do some displacement to resolve that.
     // if, in the weird case of it not being possible to displace;

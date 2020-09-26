@@ -475,10 +475,14 @@ Effect | Description
 
 Effect | Description
 ---|---
-`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`), Optional: `target_part: target_part_string` Optional: `intensity: intensity_int` | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns.  If `duration_string` is `"PERMANENT"`, the effect will be added permanently. 
-`u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
+`u_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`),(*optional* `target_part: target_part_string`, `intensity: intensity_int`)<br/>`npc_add_effect: effect_string`, (*one of* `duration: duration_string`, `duration: duration_int`), (*optional* `target_part: target_part_string`, `intensity: intensity_int`) | Your character or the NPC will gain the effect for `duration_string` or `duration_int` turns at intensity `intensity_int` or 1 if it was not supplied.  If `target_part` is supplied that part will get the effect otherwise its a whole body effect.  If `duration_string` is `"PERMANENT"`, the effect will be added permanently. 
 `u_lose_effect: effect_string`<br/>`npc_lose_effect: effect_string` | Your character or the NPC will lose the effect if they have it.
+`u_add_trait: trait_string`<br/>`npc_add_trait: trait_string` | Your character or the NPC will gain the trait.
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
+`u_add_bionic: bionic_string`<br/>`npc_add_bionic: bionic_string` | Your character or the NPC will gain the bionic.
+`u_lose_bionic: bionic_string`<br/>`npc_lose_bionic: bionic_string` | Your character or the NPC will lose the bionic.
+`u_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional* `decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)<br/> `npc_add_morale: morale_string`, (*optional* `bonus: bonus_int` ), (*optional* `max_bonus: max_bonus_int` ), (*optional* `duration: duration_int`), (*optional*`decay_start` : `decay_int`), (*optional* `capped`: `capped_bool`)| Your character of the NPC will gain a morale bonus of type `morale_string`. The Morale bonus will be for 1 or `bonus_int` amount up to 1 or `max_bonus_int`. It will last for `duration: duration_int` seconds or 1 hour. It will begin to decay after `decay_int` seconds or a half hour. `capped_bool` Whether this morale is capped or not, defaults to false.
+`u_lose_morale: morale_string`<br/>`npc_lose_morale: morale_string` | Your character or the NPC will lose any morale of type `morale_string`.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true`  | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num` | Your character or the NPC will adjust the stored variable by `adjustment_num`.
@@ -486,7 +490,15 @@ Effect | Description
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
 `npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
-
+`u_mod_pain: pain_int`<br/>`npc_mod_pain: pain_int` | Your character or the NPC will have `pain_int` added or subtracted from its pain.
+`u_mod_focus: focus_int`<br/>`npc_mod_focus: focus_int` | Your character or the NPC will have `focus_int` added or subtracted from its focus.
+`u_mod_fatigue: fatigue_int`<br/>`npc_mod_fatigue: fatigue_int` | Your character or the NPC will have `fatigue_int` added or subtracted from its fatigue.
+`u_mod_radiation: radiation_int`<br/>`npc_mod_radiation: radiation_int` | Your character or the NPC will have `radiation_int` added or subtracted from its radiation.
+`u_add_wet: wet_int`<br/>`npc_add_wet: wet_int` | Your character or the NPC will be wet `wet_int` as if they were in the rain.
+`u_mod_healthy: healthy_int`<br/>`npc_mod_healthy: healthy_int` | Your character or the NPC will have `healthy_int` added or subtracted from its healthy.
+`u_mod_sleep_deprivation: sleep_deprivation_int`<br/>`npc_mod_sleep_deprivation: sleep_deprivation_int` | Your character or the NPC will have `sleep_deprivation_int` added or subtracted from its sleep_deprivation.
+`u_mod_stored_kcal: stored_kcal_int`<br/>`npc_mod_stored_kcal: stored_kcal_int` | Your character or the NPC will have `stored_kcal_int` added or subtracted from its stored_kcal.
+`u_deal_damage: damage_instance`,(*optional* `target_part: target_part_id`)<br/>`npc_deal_damage: damage_instance`,(*optional* `target_part: target_part_id`) | Your character or the NPC will take `damage_instance` damage to `target_part_id`(defaults to targeting whole body). `damage_instance` is an array of damage_instances. Refer to the melee_damage section of the [monsters documentation](MONSTERS.md) for the format.
 #### Trade / Items
 
 Effect | Description
@@ -548,7 +560,19 @@ Effect | Description
 `npc_die` | The NPC will die at the end of the conversation.
 
 #### Map Updates
+Effect | Description
+---|---
 `mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`.
+`lightning` | Lights up the map as if its day time.  
+`set_weather: weather_type_id_string` | Sets the weather to be `weather_type_id_string`
+`u_set_field: field_id_string`,(*optional* `intensity: intensity_int`, *optional* `age: age_int`,*optional* `radius: radius_int`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `hit_player : hit_player_bool`)<br/>`npc_set_field: field_id_string`(*optional* `intensity: intensity_int`, *optional* `age: age_int`,*optional* `radius: radius_int`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `hit_player : hit_player_bool`) | Add a field centered on you or the npc of type `field_type_id_string`, of intensity `intensity_int` or defaults to 1, of radius `radius_int` or defaults to 10000000.  It will only happen outdoors if `outdoor_only` is true, it defaults to false.  It will hit the player as if they entered it if `hit_player` it true, it defaults to true.
+`u_set_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int`, *optional* `real_count: real_count_int`,*optional* `min_radius: min_radius_int`,*optional* `max_radius: max_radius_int`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int`)<br/>`npc_u_set_spawn_monster: mtype_id_string`),(*optional* `group: group_bool`,*optional* `hallucination_count: hallucination_count_int`, *optional* `real_count: real_count_int`,*optional* `min_radius: min_radius_int`,*optional* `max_radius: max_radius_int`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int`) | Spawns `real_count_int`(defaults to 0) monsters and `hallucination_count_int`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false,if it is true a randome monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int` spaces of you.  The spawns will happen between `min_radius_int`(defaults to 1) and `max_radius_int`(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces.
+#### General
+Effect | Description
+---|---
+`message: message_string`, (*optional* `sound: sound_bool`),(*optional* `outdoor_only: outdoor_only_bool`),(*optional* `snippet: snippet_bool`) | Displays a message to the player of `message_string`. If `snippet_bool` is true(defaults to false) it will instead display a random snippet from `message_string` category.  If `sound` is true(defaults to false) it will only display the message if the player is not deaf.  `outdoor_only`(defaults to false) only matters when `sound` is true and will make the message less likely to be heard if the player is underground.
+`set_queue_effect_on_condition: effect_on_condition_id_string`, `time_in_future: time_in_future_int` | Will queue up `effect_on_condition_id_string` effect_on_condition to be run in `time_in_future_int` seconds in the future.
+`sound_effect: sound_effect_id_string`, *optional* `outdoor_event: outdoor_event` | Will play a sound effect of type `sound_effect_id_string`. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
 
 #### Deprecated
 
@@ -623,6 +647,14 @@ Condition | Type | Description
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
 `"u_has_skill"`<br/>`"npc_has_skill"` | dictionary | `u_has_skill` or `npc_has_skill` must be a dictionary with a `skill` string and a `level` int.<br/>`true` if the player character or NPC has at least the value of `level` in `skill`.
 `"u_know_recipe"` | string | `true` if the player character knows the recipe specified in `u_know_recipe`.  It only counts as known if it is actually memorized--holding a book with the recipe in it will not count.
+`"u_has_pain"`<br/>`"npc_has_pain"` | int | `true` if the player character's or NPC's pain is at least the value of `u_has_pain` or `npc_has_pain`.
+`"u_has_focus"`<br/>`"npc_has_focus"` | int | `true` if the player character's or NPC's focus is at least the value of `u_has_focus` or `npc_has_focus`.
+`"u_has_morale"`<br/>`"npc_has_morale"` | int | `true` if the player character's or NPC's morale is at least the value of `u_has_morale` or `npc_has_morale`.
+`"u_is_height"`<br/>`"npc_is_height"` | int | `true` if the player character's or NPC's elevation is at least the value of `u_is_height` or `npc_is_height`.
+`"u_has_worn_with_flag"`<br/>`"npc_has_worn_with_flag"` | string | `true` if the player character or NPC is wearing something with the `u_has_worn_with_flag` or `npc_has_worn_with_flag` flag.
+`"u_has_wielded_with_flag"`<br/>`"npc_has_wielded_with_flag"` | string | `true` if the player character or NPC is wielding something with the `u_has_wielded_with_flag` or `npc_has_wielded_with_flag` flag.
+`"u_need"`<br/>`"npc_need"` | string, string or int | `true` if the player character or NPC has need `u_need` or `npc_need` of at least `amount`(int) or `level`(string). Supported needs are: fatigue, hunger, thirst, sleep_deprivation, and stored_kcal. `Examples: {"u_need":"thirst","amount":50},{"u_need":"fatigue","level":TIRED}`
+
 
 #### Player Only conditions
 
@@ -678,8 +710,13 @@ Condition | Type | Description
 `"days_since_cataclysm"` | int | `true` if at least `days_since_cataclysm` days have passed since the Cataclysm.
 `"is_season"` | string | `true` if the current season matches `is_season`, which must be one of "`spring"`, `"summer"`, `"autumn"`, or `"winter"`.
 `"is_day"` | simple string | `true` if it is currently daytime.
-`"is_outside"` | simple string | `true` if the NPC is on a tile without a roof.
-
+`"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
+`"one_in_chance"` | int | `true` if a one in `one_in_chance` random chance occurs.
+`"is_temperature"` | int | `true` if it is currently at least `"is_temperature"` degrees fahrenheit.
+`"is_windpower"` | int | `true` if current windpower is at least `"is_windpower"`.
+`"is_humidity"` | int | `true` if current humidity is at least `"is_humidity"`.
+`"is_pressure"` | int | `true` if current pressure is at least `"is_pressure"`.
+`"is_weather"` | int | `true` if current weather is `"is_weather"`.
 
 #### Sample responses with conditions and effects
 ```json

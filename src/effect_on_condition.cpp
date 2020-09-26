@@ -1,6 +1,7 @@
 #include "effect_on_condition.h"
 
 #include "avatar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "condition.h"
 #include "game.h"
@@ -31,16 +32,25 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string &src )
+void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
     bool activate_only = false;
     optional( jo, was_loaded, "activate_only", activate_only, false );
-    optional( jo, was_loaded, "once_every", once_every, 6000_seconds );
+    optional( jo, was_loaded, "once_every", once_every, 600_seconds );
     if( jo.has_member( "deactivate_condition" ) ) {
         read_condition<dialogue>( jo, "deactivate_condition", deactivate_condition, false );
         has_deactivate_condition = true;
     }
-    jdle = json_dynamic_line_effect( jo, src );
+    if( jo.has_member( "condition" ) ) {
+        read_condition<dialogue>( jo, "condition", condition, false );
+        has_condition = true;
+    }
+    true_effect.load_effect( jo, "effect" );
+
+    if( jo.has_member( "false_effect" ) ) {
+        false_effect.load_effect( jo, "false_effect" );
+        has_false_effect = true;
+    }
     if( !activate_only ) {
         g->active_effect_on_condition_vector.push_back( id );
     }
@@ -97,8 +107,8 @@ void effect_on_conditions::process_reactivate()
     for( const effect_on_condition_id &eoc : ids_to_reactivate ) {
         g->active_effect_on_condition_vector.push_back( eoc );
         g->inactive_effect_on_condition_vector.erase( std::remove(
-                    g->active_effect_on_condition_vector.begin(), g->active_effect_on_condition_vector.end(), eoc ),
-                g->active_effect_on_condition_vector.end() );
+                    g->inactive_effect_on_condition_vector.begin(), g->inactive_effect_on_condition_vector.end(), eoc ),
+                g->inactive_effect_on_condition_vector.end() );
     }
 }
 
@@ -108,8 +118,11 @@ bool effect_on_condition::activate() const
     standard_npc default_npc( "Default" );
     d.alpha = get_talker_for( get_avatar() );
     d.beta = get_talker_for( default_npc );
-    if( jdle.test_condition( d ) ) {
-        jdle.apply( d );
+    if( !has_condition || condition( d ) ) {
+        true_effect.apply( d );
+        return true;
+    } else {
+        false_effect.apply( d );
         return true;
     }
     return false;
@@ -117,7 +130,7 @@ bool effect_on_condition::activate() const
 
 bool effect_on_condition::check_deactivate() const
 {
-    if( !has_deactivate_condition ) {
+    if( !has_deactivate_condition || has_false_effect ) {
         return false;
     }
     dialogue d;
@@ -125,6 +138,37 @@ bool effect_on_condition::check_deactivate() const
     d.alpha = get_talker_for( get_avatar() );
     d.beta = get_talker_for( default_npc );
     return deactivate_condition( d );
+}
+
+void effect_on_conditions::write_eocs()
+{
+    write_to_file( "eocs.output", [&]( std::ostream & testfile ) {
+        testfile << "id;timepoint" << std::endl;
+        testfile << "active eocs:" << std::endl;
+        for( const effect_on_condition_id &eoc : g->active_effect_on_condition_vector ) {
+            testfile << eoc.c_str() << std::endl;
+        }
+
+        testfile << "inactive eocs:" << std::endl;
+        for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
+            testfile << eoc.c_str() << std::endl;
+        }
+        testfile << "queued eocs:" << std::endl;
+        std::vector<std::pair<time_point, effect_on_condition_id>> temp_queue;
+        while( !g->queued_effect_on_conditions.empty() ) {
+            temp_queue.push_back( g->queued_effect_on_conditions.top() );
+            g->queued_effect_on_conditions.pop();
+        }
+        for( const auto &eoc : temp_queue ) {
+            time_duration temp = eoc.first - calendar::turn;
+            testfile << eoc.second.c_str() << ";" << to_string( temp ) << std::endl ;
+        }
+
+        for( const auto &queued : temp_queue ) {
+            g->queued_effect_on_conditions.push( queued );
+        }
+
+    }, "eocs test file" );
 }
 
 void effect_on_condition::finalize()

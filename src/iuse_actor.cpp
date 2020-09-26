@@ -4497,3 +4497,30 @@ std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
 {
     return std::make_unique<change_scent_iuse>( *this );
 }
+
+
+std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
+{
+    return std::make_unique<effect_on_conditons_actor>( *this );
+}
+
+void effect_on_conditons_actor::load( const JsonObject &obj )
+{
+    description = obj.get_string( "description" );
+    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
+        eocs.push_back( effect_on_condition_id( eoc ) );
+    }
+}
+
+void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "DESCRIPTION", description );
+}
+
+int effect_on_conditons_actor::use( player &, item &it, bool, const tripoint & ) const
+{
+    for( const effect_on_condition_id &eoc : eocs ) {
+        eoc->activate();
+    }
+    return it.type->charges_to_use();
+}

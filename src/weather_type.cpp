@@ -73,7 +73,7 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
         case weather_sound_category::last:
             break;
     }
-    debugmsg( "Invalid time_of_day" );
+    debugmsg( "Invalid weather sound category." );
     abort();
 }
 
@@ -134,12 +134,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
-    optional( jo, was_loaded, "time_between_min", time_between_min, 0_seconds );
-    optional( jo, was_loaded, "time_between_max", time_between_max, 0_seconds );
-    if( time_between_min > time_between_max ) {
-        jo.throw_error( "time_between_min must be less than or equal to time_between_max" );
-    }
-    weather_animation = { 0.0f, c_white, '?' };
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
         mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );

@@ -293,9 +293,9 @@ template<class T>
 void conditional_t<T>::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string flag = jo.get_string( member );
+    const std::string flag( jo.get_string( member ) );
     condition = [flag, is_npc]( const T & d ) {
-        return d.actor( is_npc )->worn_with_flag( flag );
+        return d.actor( is_npc )->worn_with_flag( flag_id( flag ) );
     };
 }
 
@@ -303,9 +303,9 @@ template<class T>
 void conditional_t<T>::set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    std::string flag = jo.get_string( member );
+    const std::string flag( jo.get_string( member ) );
     condition = [flag, is_npc]( const T & d ) {
-        return d.actor( is_npc )->wielded_with_flag( flag );
+        return d.actor( is_npc )->wielded_with_flag( flag_id( flag ) );
     };
 }
 

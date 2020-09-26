@@ -91,11 +91,9 @@ class talker_character: public talker
         void mod_stored_kcal( int amount ) override;
 
         void deal_damage( const damage_instance &damage, const bodypart_str_id &target_part ) override;
-
-        void mod_add_morale( morale_type new_morale, int bonus, int max_bonus, time_duration duration,
-                             time_duration decay_start, bool capped );
-
-        void mod_remove_morale( morale_type old_morale );
+        void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
+                         time_duration decay_started, bool capped ) override;
+        void remove_morale( const morale_type &old_morale ) override;
 
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
@@ -103,8 +101,8 @@ class talker_character: public talker
 
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;
-        bool worn_with_flag( const std::string &flag ) const override;
-        bool wielded_with_flag( const std::string &flag ) const override;
+        bool worn_with_flag( const flag_id &flag ) const override;
+        bool wielded_with_flag( const flag_id &flag ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;

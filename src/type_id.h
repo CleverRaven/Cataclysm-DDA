@@ -86,8 +86,7 @@ struct itype;
 using itype_id = string_id<itype>;
 
 class json_flag;
-using flag_id = int_id<json_flag>;
-using flag_str_id = string_id<json_flag>;
+using flag_id = string_id<json_flag>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
