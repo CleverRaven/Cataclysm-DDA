@@ -848,7 +848,10 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_knapping", "required": true } ],
+    "proficiencies": [
+      { "proficiency": "prof_knapping", "required": false, "time_multiplier": 2, "fail_multiplier": 10 },
+      { "proficiency": "prof_knapping_speed", "required": false, "time_multiplier": 2 }
+    ],
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
@@ -4998,7 +5001,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "time": "30 s",
+    "time": "45 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -5084,9 +5087,8 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "plastics_book", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "using": [ [ "plastic_molding", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ]
   },
   {
     "type": "recipe",
