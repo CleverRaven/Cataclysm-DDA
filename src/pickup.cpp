@@ -366,24 +366,21 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if (it.made_of_from_type(phase_id::LIQUID)) {
                 break;
             }
+            target_items.emplace_back(map_cursor(newloc.position()), &it);
             quantities.push_back(0);
-
-            //THIS DOES NOT WORK -- EMPLACES LINOLEUM_TILE, NOT THE ITEM ON THE TILE.
-            target_items.emplace_back(loc);
-
-            debugmsg(target_items[0].describe());
+            item *testit = target_items[0].get_item();
+            debugmsg(testit->display_name());
             // Whether the destination is inside a vehicle (not supported)
             const bool to_vehicle = false;
             // Destination relative to the player
-            const tripoint relative_destination{};
-
+            const tripoint relative_destination = target_items[0].position()-player_character.pos();
             player_character.assign_activity(player_activity(move_items_activity_actor(
                 target_items,
                 quantities,
                 to_vehicle,
                 relative_destination
             )));
-            player_character.start_hauling();
+            //player_character.start_hauling();
             break;
         }
     }
