@@ -60,7 +60,7 @@
   <PropertyGroup>
     <TargetName>$(ProjectName)-$(Configuration)-$(Platform)</TargetName>
     <TargetExt>.exe</TargetExt>
-    <OutDir>..</OutDir>
+    <OutDir>$(SolutionDir)..\</OutDir>
     <IntDir>$(SolutionDir)$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
