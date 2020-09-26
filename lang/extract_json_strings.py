@@ -38,6 +38,7 @@ git_files_list = {os.path.normpath(i) for i in {
 
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
+    "data/json/flags.json",
     "data/json/overmap_terrain.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
@@ -109,6 +110,7 @@ ignorable = {
     "rotatable_symbol",
     "SCENARIO_BLACKLIST",
     "scent_type",
+    "score",
     "skill_boost",
     "TRAIT_BLACKLIST",
     "trait_group",
@@ -136,7 +138,6 @@ automatically_convertible = {
     "BOOK",
     "COMESTIBLE",
     "construction_category",
-    "CONTAINER",
     "dream",
     "ENGINE",
     "event_statistic",
@@ -159,7 +160,6 @@ automatically_convertible = {
     "overmap_land_use_code",
     "overmap_terrain",
     "PET_ARMOR",
-    "score",
     "skill",
     "SPECIES",
     "speech",
@@ -188,7 +188,6 @@ needs_plural = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
-    "CONTAINER",
     "ENGINE",
     "GENERIC",
     "GUN",
@@ -766,6 +765,9 @@ def extract_mutation(item):
     if "spawn_item" in item:
         writestr(outfile, item.get("spawn_item").get("message"))
 
+    if "ranged_mutation" in item:
+        writestr(outfile, item.get("ranged_mutation").get("message"))
+
 
 def extract_mutation_category(item):
     outfile = get_outfile("mutation_category")
@@ -1223,6 +1225,9 @@ def extract(item, infilename):
                 wrote = True
     if "footsteps" in item:
         writestr(outfile, item["footsteps"], **kwargs)
+        wrote = True
+    if "revert_msg" in item:
+        writestr(outfile, item["revert_msg"], **kwargs)
         wrote = True
     if not wrote and "copy-from" not in item:
         if not warning_supressed(infilename):
