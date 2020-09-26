@@ -649,6 +649,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "EFFECT_ON_CONDITIONS", mattack::effect_on_conditions );
 }
 
 void MonsterGenerator::init_defense()
@@ -871,6 +872,10 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
+
+    optional( jo, was_loaded, "special_attack_eocs", special_attack_eocs );
+    optional( jo, was_loaded, "special_attack_eoc_range", special_attack_eoc_range, 1 );
+    optional( jo, was_loaded, "death_eocs", death_eocs );
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.

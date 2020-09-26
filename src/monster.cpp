@@ -2327,6 +2327,10 @@ void monster::die( Creature *nkiller )
         deathfunction( *this );
     }
 
+    //Not a hallucination, go process the death effect on conditions.
+    for( const effect_on_condition_id &eoc : type->death_eocs ) {
+        eoc->activate();
+    }
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0;
     int morale_adjust = 0;

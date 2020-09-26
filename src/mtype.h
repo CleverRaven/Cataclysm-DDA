@@ -298,6 +298,10 @@ struct mtype {
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
+        std::vector<effect_on_condition_id>
+        special_attack_eocs; //effect on conditions to be used by special attack effect_on_conditions
+        int special_attack_eoc_range; //how close monster has to be to use special attack eocs
+        std::vector<effect_on_condition_id> death_eocs; //effect on conditions to be used on monster death
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
 

@@ -5797,3 +5797,24 @@ bool mattack::speaker( monster *z )
                    SNIPPET.random_from_category( "speaker_warning" ).value_or( translation() ) );
     return true;
 }
+
+bool mattack::effect_on_conditions( monster *z )
+{
+    bool retval = false;
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+
+    int distance = rl_dist( z->pos(), target->pos() );
+    if( distance > z->type->special_attack_eoc_range || !z->sees( *target ) ) {
+        return false;
+    }
+    for( const effect_on_condition_id &eoc : z->type->special_attack_eocs ) {
+        if( eoc->activate() ) {
+            retval = true;
+        }
+    }
+    return retval;
+}
+
