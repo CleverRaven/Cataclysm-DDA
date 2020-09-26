@@ -359,7 +359,30 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             break;
         }
         case HAUL: {
-            //TODO: add code to move item to player
+            // Find target items and quantities thereof for the new activity
+            std::vector<item_location> target_items;
+            std::vector<int> quantities;
+            // Liquid cannot be picked up
+            if (it.made_of_from_type(phase_id::LIQUID)) {
+                break;
+            }
+            quantities.push_back(0);
+
+            //THIS DOES NOT WORK -- EMPLACES LINOLEUM_TILE, NOT THE ITEM ON THE TILE.
+            target_items.emplace_back(loc);
+
+            debugmsg(target_items[0].describe());
+            // Whether the destination is inside a vehicle (not supported)
+            const bool to_vehicle = false;
+            // Destination relative to the player
+            const tripoint relative_destination{};
+
+            player_character.assign_activity(player_activity(move_items_activity_actor(
+                target_items,
+                quantities,
+                to_vehicle,
+                relative_destination
+            )));
             player_character.start_hauling();
         }
     }
