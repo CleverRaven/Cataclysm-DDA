@@ -46,7 +46,7 @@
       [ "ref_lighter", 2 ],
       { "group": "tobacco_products", "prob": 26 },
       [ "gum", 13 ],
-      [ "glowstick", 2 ],
+      { "item": "glowstick", "prob": 2, "charges": 1400 },
       [ "flashlight", 5 ],
       [ "umbrella", 10 ],
       [ "teleumbrella", 3 ],

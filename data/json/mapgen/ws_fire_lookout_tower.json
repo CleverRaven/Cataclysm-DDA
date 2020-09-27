@@ -101,7 +101,7 @@
       [ "cell_phone", 20 ],
       [ "radio", 20 ],
       [ "two_way_radio", 20 ],
-      [ "handflare", 20 ],
+      { "item": "handflare", "prob": 20, "charges": 300 },
       [ "signal_flare", 20 ],
       [ "flaregun", 20 ],
       [ "holster", 20 ],
