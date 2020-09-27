@@ -44,6 +44,15 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_millinery",
+    "name": { "str": "Millinery" },
+    "description": "Like a solitary mouse, you've learned how to construct hats by hand.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_knitting",
     "name": { "str": "Knitting" },
     "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",

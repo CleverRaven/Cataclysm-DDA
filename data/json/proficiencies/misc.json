@@ -95,5 +95,22 @@
     "name": { "str": "Helicopter Piloting" },
     "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
     "can_learn": false
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fine_metalsmithing",
+    "name": { "str": "Fine Metalsmithing" },
+    "description": "How to make jewelry from precious metals like gold and silver.",
+    "can_learn": true,
+    "time_to_learn": "14 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_gem_setting",
+    "name": { "str": "Gem Setting" },
+    "description": "How to add gemstones to jewelry.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_fine_metalsmithing", "prof_redsmithing" ]
   }
 ]
