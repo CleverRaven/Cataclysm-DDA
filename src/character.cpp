@@ -993,7 +993,11 @@ bool Character::is_on_ground() const
 
 bool Character::can_stash( const item &it )
 {
-    return best_pocket( it, nullptr ).second != nullptr;
+    item copy = it;
+    if( it.count_by_charges() ) {
+        copy.charges = 1;
+    }
+    return best_pocket( copy, nullptr ).second != nullptr;
 }
 
 void Character::cancel_stashed_activity()
