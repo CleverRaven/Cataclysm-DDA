@@ -11,7 +11,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
-    "skill": "lockpick",
+    "skill": "mechanics",
     "max_level": 2,
     "intelligence": 8,
     "time": "20 m"
