@@ -109,18 +109,6 @@ extern time_point start_of_game;
 extern time_point turn;
 extern season_type initial_season;
 
-/**
- * A time point that is always before the current turn, even when the game has
- * just started. This implies `before_time_starts < calendar::turn` is always
- * true. It can be used to initialize `time_point` values that denote that last
- * time a cache was update.
- */
-extern const time_point before_time_starts;
-/**
- * Represents time point 0.
- * TODO: flesh out the documentation
- */
-extern const time_point turn_zero;
 } // namespace calendar
 
 template<typename T>
@@ -503,6 +491,25 @@ class time_point
 
         // TODO: implement minutes_of_hour and so on and use it.
 };
+
+namespace calendar
+{
+
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote that last
+ * time a cache was update.
+ */
+constexpr time_point before_time_starts = time_point::from_turn( -1 );
+/**
+ * Represents time point 0.
+ * TODO: flesh out the documentation
+ */
+
+constexpr time_point turn_zero = time_point::from_turn( 0 );
+
+} // namespace calendar
 
 inline time_duration time_past_midnight( const time_point &p )
 {

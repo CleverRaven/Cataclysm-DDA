@@ -24,9 +24,6 @@ const time_duration calendar::INDEFINITELY_LONG_DURATION(
 static bool is_eternal_season = false;
 static int cur_season_length = 1;
 
-const time_point calendar::before_time_starts = time_point::from_turn( -1 );
-const time_point calendar::turn_zero = time_point::from_turn( 0 );
-
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
 time_point calendar::start_of_game = calendar::turn_zero;
 time_point calendar::turn = calendar::turn_zero;
