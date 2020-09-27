@@ -1585,7 +1585,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             if( sorted_profs[cur_id]->vehicle() ) {
                 buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
-                buffer += veh_id->name;
+                buffer += veh_id->name.translated();
             }
             // Profession spells
             if( !sorted_profs[cur_id]->spells().empty() ) {
@@ -2160,7 +2160,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Scenario Vehicle:" ) );
             wprintz( w_vehicle, c_light_gray, ( "\n" ) );
             if( sorted_scens[cur_id]->vehicle() ) {
-                wprintz( w_vehicle, c_light_gray, sorted_scens[cur_id]->vehicle()->name );
+                wprintz( w_vehicle, c_light_gray, "%s", sorted_scens[cur_id]->vehicle()->name );
             }
 
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
@@ -2693,8 +2693,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
             wprintz( w_vehicle, c_white, scen_veh->name );
         } else if( prof_veh ) {
-            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
-            wprintz( w_vehicle, c_white, prof_veh->name );
+            wprintz( w_vehicle, c_white, "%s", prof_veh->name );
         }
         wnoutrefresh( w_vehicle );
 
