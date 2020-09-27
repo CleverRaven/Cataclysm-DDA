@@ -1181,10 +1181,10 @@ void player::process_one_effect( effect &it, bool is_new )
     };
 
     // Handle miss messages
-    auto msgs = it.get_miss_msgs();
+    const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
         for( const auto &i : msgs ) {
-            add_miss_reason( _( i.first ), static_cast<unsigned>( i.second ) );
+            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
         }
     }
 

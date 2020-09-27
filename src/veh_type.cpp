@@ -999,12 +999,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     const auto iter = vtypes.find( *this );
     if( iter == vtypes.end() ) {
         debugmsg( "invalid vehicle prototype id %s", c_str() );
-        static const vehicle_prototype dummy = {
-            "",
-            std::vector<vehicle_prototype::part_def>{},
-            std::vector<vehicle_item_spawn>{},
-            nullptr
-        };
+        static const vehicle_prototype dummy;
         return dummy;
     }
     return iter->second;
@@ -1018,16 +1013,6 @@ bool string_id<vehicle_prototype>::is_valid() const
 }
 
 vehicle_prototype::vehicle_prototype() = default;
-
-vehicle_prototype::vehicle_prototype( const std::string &name,
-                                      const std::vector<part_def> &parts,
-                                      const std::vector<vehicle_item_spawn> &item_spawns,
-                                      std::unique_ptr<vehicle> &&blueprint )
-    : name( name ), parts( parts ), item_spawns( item_spawns ),
-      blueprint( std::move( blueprint ) )
-{
-}
-
 vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
@@ -1049,7 +1034,7 @@ void vehicle_prototype::load( const JsonObject &jo )
         vproto = vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
-        vproto.name = jo.get_string( "name" );
+        jo.get_member( "name" ).read( vproto.name );
     }
 
     vgroups[ vgroup_id( vid.str() ) ].add_vehicle( vid, 100 );
@@ -1151,7 +1136,7 @@ void vehicle_prototype::finalize()
         proto.blueprint = std::make_unique<vehicle>();
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
-        blueprint.name = _( proto.name );
+        blueprint.name = proto.name.translated();
 
         blueprint.suspend_refresh();
         for( part_def &pt : proto.parts ) {

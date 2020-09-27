@@ -98,7 +98,7 @@ struct islot_tool {
     std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
-    std::string revert_msg;
+    translation revert_msg;
 
     itype_id subtype;
 
@@ -364,7 +364,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::string name;
+        cata::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -375,6 +375,7 @@ struct islot_book {
         bool is_hidden() const {
             return hidden;
         }
+        std::string name() const;
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
@@ -498,7 +499,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = translate_marker( "click." );
+    translation reload_noise = to_translation( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */

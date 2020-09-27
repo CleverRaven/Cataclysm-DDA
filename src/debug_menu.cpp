@@ -1412,7 +1412,7 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( _( elem->name ), elem );
+                    veh_strings.emplace_back( elem->name.translated(), elem );
                 }
                 std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;

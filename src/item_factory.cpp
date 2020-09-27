@@ -387,8 +387,6 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
-        obj.gun->reload_noise = _( obj.gun->reload_noise );
-
         // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
@@ -756,14 +754,14 @@ class iuse_function_wrapper : public iuse_actor
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
 {
     private:
-        std::string info_string; // Untranslated
+        translation info_string;
     public:
         iuse_function_wrapper_with_info(
-            const std::string &type, const use_function_pointer f, const std::string &info )
+            const std::string &type, const use_function_pointer f, const translation &info )
             : iuse_function_wrapper( type, f ), info_string( info ) { }
 
         void info( const item &, std::vector<iteminfo> &info ) const override {
-            info.emplace_back( "DESCRIPTION", _( info_string ) );
+            info.emplace_back( "DESCRIPTION", info_string.translated() );
         }
         std::unique_ptr<iuse_actor> clone() const override {
             return std::make_unique<iuse_function_wrapper_with_info>( *this );
@@ -779,7 +777,7 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
 }
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f,
-                             const std::string &info )
+                             const translation &info )
 {
     iuse_function_list[ type ] =
         use_function( std::make_unique<iuse_function_wrapper_with_info>( type, f, info ) );
@@ -888,11 +886,11 @@ void Item_factory::init()
     add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
-              translate_marker( "Can be activated to <good>increase environmental "
-                                "protection</good>.  Will consume charges when active, "
-                                "but <info>only when environmental hazards are "
-                                "present</info>."
-                              ) );
+              to_translation( "Can be activated to <good>increase environmental "
+                              "protection</good>.  Will consume charges when active, "
+                              "but <info>only when environmental hazards are "
+                              "present</info>."
+                            ) );
     add_iuse( "GEIGER", &iuse::geiger );
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );

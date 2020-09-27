@@ -727,6 +727,11 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
 #endif
 }
 
+bool localized_comparator::operator()( const translation &l, const translation &r ) const
+{
+    return l.translated_lt( r );
+}
+
 // silence -Wunused-macro
 #ifdef __STRICT_ANSI__
 #undef __STRICT_ANSI__

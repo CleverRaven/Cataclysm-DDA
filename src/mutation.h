@@ -44,7 +44,7 @@ extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category
 
 struct dream {
     private:
-        std::vector<std::string> raw_messages; // The messages that the dream will give
+        std::vector<translation> raw_messages; // The messages that the dream will give
 
     public:
         std::vector<std::string> messages() const;
@@ -61,9 +61,9 @@ struct dream {
 
 struct mut_attack {
     /** Text printed when the attack is proced by you */
-    std::string attack_text_u;
+    translation attack_text_u;
     /** As above, but for npc */
-    std::string attack_text_npc;
+    translation attack_text_npc;
     /** Need all of those to qualify for this attack */
     std::set<trait_id> required_mutations;
     /** Need none of those to qualify for this attack */
@@ -309,14 +309,14 @@ struct mutation_branch {
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
     private:
-        std::string raw_spawn_item_message;
+        translation raw_spawn_item_message;
     public:
         std::string spawn_item_message() const;
 
         /** The fake gun, if any, spawned and fired by the ranged mutation */
         itype_id ranged_mutation;
     private:
-        std::string raw_ranged_mutation_message;
+        translation raw_ranged_mutation_message;
     public:
         std::string ranged_mutation_message() const;
 
@@ -482,16 +482,16 @@ struct mutation_branch {
 
 struct mutation_category_trait {
     private:
-        std::string raw_name;
+        translation raw_name;
         // Message when you consume mutagen
-        std::string raw_mutagen_message;
+        translation raw_mutagen_message;
         // Message when you inject an iv
-        std::string raw_iv_message;
-        std::string raw_iv_sound_message = "NULL";
+        translation raw_iv_message;
+        translation raw_iv_sound_message = no_translation( "NULL" );
         std::string raw_iv_sound_id = "shout";
         std::string raw_iv_sound_variant = "default";
-        std::string raw_iv_sleep_message = "NULL";
-        std::string raw_junkie_message;
+        translation raw_iv_sleep_message = no_translation( "NULL" );
+        translation raw_junkie_message;
         // Memorial message when you cross a threshold
         std::string raw_memorial_message;
 

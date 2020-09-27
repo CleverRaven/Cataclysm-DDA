@@ -140,27 +140,39 @@ struct transform_terrain_data {
     time_duration post_field_age = 0_turns;
 };
 
-const std::vector<std::pair<std::string, std::string>> vpart_variants = {
-    { "cover", "Cover" }, { "cross_unconnected", "Unconnected Cross" }, { "cross", "Cross" },
-    { "horizontal_front", "Front Horizontal" },
-    { "horizontal_front_edge", "Front Edge Horizontal" },
-    { "horizontal_rear", "Rear Horizontal" },
-    { "horizontal_rear_edge", "Rear Edge Horizontal" },
-    { "horizontal_2_front", "Front Thick Horizontal" },
-    { "horizontal_2_rear", "Rear Thick Horizontal" },
-    { "ne_edge", "Front Right Corner" }, { "nw_edge", "Front Left Corner" },
-    { "se_edge", "Rear Right Corner" }, { "sw_edge", "Rear Left Corner" },
-    { "vertical_right", "Right Vertical", }, { "vertical_left", "Left Vertical" },
-    { "vertical_2_right", "Right Thick Vertical" },
-    { "vertical_2_left", "Left Thick Vertical" },
-    { "vertical_T_right", "Right T Joint" }, { "vertical_T_left", "Left T Joint" },
+const std::vector<std::pair<std::string, translation>> vpart_variants = {
+    { "cover", to_translation( "vpart_variants", "Cover" ) },
+    { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
+    { "cross", to_translation( "vpart_variants", "Cross" ) },
+    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
+    { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
+    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
+    { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
+    { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
+    { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
+    { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
+    { "nw_edge", to_translation( "vpart_variants", "Front Left Corner" ) },
+    { "se_edge", to_translation( "vpart_variants", "Rear Right Corner" ) },
+    { "sw_edge", to_translation( "vpart_variants", "Rear Left Corner" ) },
+    { "vertical_right", to_translation( "vpart_variants", "Right Vertical" ) },
+    { "vertical_left", to_translation( "vpart_variants", "Left Vertical" ) },
+    { "vertical_2_right", to_translation( "vpart_variants", "Right Thick Vertical" ) },
+    { "vertical_2_left", to_translation( "vpart_variants", "Left Thick Vertical" ) },
+    { "vertical_T_right", to_translation( "vpart_variants", "Right T Joint" ) },
+    { "vertical_T_left", to_translation( "vpart_variants", "Left T Joint" ) },
     // these have to be last to avoid false positives
-    { "vertical", "Vertical" }, { "horizontal", "Horizontal" },
-    { "vertical_2", "Thick Vertical" }, { "horizontal_2", "Thick Horizontal" },
-    { "ne", "Front Right" }, { "nw", "Front Left" },
-    { "se", "Rear Right" }, { "sw", "Rear Left" },
-    { "front", "Front" }, { "rear", "Rear" },
-    { "left", "Left" }, { "right", "Right" }
+    { "vertical", to_translation( "vpart_variants", "Vertical" ) },
+    { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
+    { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },
+    { "horizontal_2", to_translation( "vpart_variants", "Thick Horizontal" ) },
+    { "ne", to_translation( "vpart_variants", "Front Right" ) },
+    { "nw", to_translation( "vpart_variants", "Front Left" ) },
+    { "se", to_translation( "vpart_variants", "Rear Right" ) },
+    { "sw", to_translation( "vpart_variants", "Rear Left" ) },
+    { "front", to_translation( "vpart_variants", "Front" ) },
+    { "rear", to_translation( "vpart_variants", "Rear" ) },
+    { "left", to_translation( "vpart_variants", "Left" ) },
+    { "right", to_translation( "vpart_variants", "Right" ) }
 };
 
 const std::map<std::string, int> vpart_variants_standard = {
@@ -428,15 +440,12 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
-                       const std::vector<vehicle_item_spawn> &item_spawns,
-                       std::unique_ptr<vehicle> &&blueprint );
     vehicle_prototype( vehicle_prototype && );
     ~vehicle_prototype();
 
     vehicle_prototype &operator=( vehicle_prototype && );
 
-    std::string name;
+    translation name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
 

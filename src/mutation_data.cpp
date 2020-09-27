@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -85,16 +86,16 @@ void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
     jsobj.read( "id", new_category.id, true );
-    new_category.raw_name = jsobj.get_string( "name" );
+    jsobj.get_member( "name" ).read( new_category.raw_name );
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
-    new_category.raw_mutagen_message = jsobj.get_string( "mutagen_message" );
+    jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
     new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
     new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
     new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
     new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
     new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
-    new_category.raw_iv_message = jsobj.get_string( "iv_message" );
+    jsobj.get_member( "iv_message" ).read( new_category.raw_iv_message );
     new_category.iv_min_mutations    = jsobj.get_int( "iv_min_mutations", 1 );
     new_category.iv_additional_mutations = jsobj.get_int( "iv_additional_mutations", 2 );
     new_category.iv_additional_mutations_chance = jsobj.get_int( "iv_additional_mutations_chance", 3 );
@@ -106,63 +107,77 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.iv_morale_max   = jsobj.get_int( "iv_morale_max", 0 );
     new_category.wip = jsobj.get_bool( "wip", false );
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
-    new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
-                                        translate_marker( "You inject yoursel-arRGH!" ) );
+    if( jsobj.has_member( "iv_sound_message" ) ) {
+        jsobj.read( "iv_sound_message", new_category.raw_iv_sound_message );
+    } else {
+        new_category.raw_iv_sound_message = to_translation( "You inject yoursel-arRGH!" );
+    }
     new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
     new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
-    new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
-                                        translate_marker( "You fall asleep." ) );
+    if( jsobj.has_member( "iv_sleep_message" ) ) {
+        jsobj.read( "iv_sleep_message", new_category.raw_iv_sleep_message );
+    } else {
+        new_category.raw_iv_sleep_message = to_translation( "You fall asleep." );
+    }
     new_category.iv_sleep_dur = jsobj.get_int( "iv_sleep_dur", 0 );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     new_category.raw_memorial_message = jsobj.get_string( "memorial_message",
                                         "Crossed a threshold" );
-    new_category.raw_junkie_message = jsobj.get_string( "junkie_message",
-                                      translate_marker( "Oh, yeah!  That's the stuff!" ) );
+    // HACK: read using class translation for text style check
+    if( test_mode ) {
+        translation dummy;
+        jsobj.read( "memorial_message", dummy );
+    }
+    if( jsobj.has_member( "junkie_message" ) ) {
+        jsobj.read( "junkie_message", new_category.raw_junkie_message );
+    } else {
+        new_category.raw_junkie_message = to_translation( "Oh, yeah!  That's the stuff!" );
+    }
 
     mutation_category_traits[new_category.id] = new_category;
 }
 
 std::string mutation_category_trait::name() const
 {
-    return _( raw_name );
+    return raw_name.translated();
 }
 
 std::string mutation_category_trait::mutagen_message() const
 {
-    return _( raw_mutagen_message );
+    return raw_mutagen_message.translated();
 }
 
 std::string mutation_category_trait::iv_message() const
 {
-    return _( raw_iv_message );
+    return raw_iv_message.translated();
 }
 
 std::string mutation_category_trait::iv_sound_message() const
 {
-    return _( raw_iv_sound_message );
+    return raw_iv_sound_message.translated();
 }
 
 std::string mutation_category_trait::iv_sound_id() const
 {
-    return _( raw_iv_sound_id );
+    return raw_iv_sound_id;
 }
 
 std::string mutation_category_trait::iv_sound_variant() const
 {
-    return _( raw_iv_sound_variant );
+    return raw_iv_sound_variant;
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
 {
-    return _( raw_iv_sleep_message );
+    return raw_iv_sleep_message.translated();
 }
 
 std::string mutation_category_trait::junkie_message() const
 {
-    return _( raw_junkie_message );
+    return raw_junkie_message.translated();
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -584,12 +599,12 @@ int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
 
 std::string mutation_branch::spawn_item_message() const
 {
-    return _( raw_spawn_item_message );
+    return raw_spawn_item_message.translated();
 }
 
 std::string mutation_branch::ranged_mutation_message() const
 {
-    return _( raw_ranged_mutation_message );
+    return raw_ranged_mutation_message.translated();
 }
 
 std::string mutation_branch::name() const
@@ -694,7 +709,7 @@ std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
     for( const auto &msg : raw_messages ) {
-        ret.push_back( _( msg ) );
+        ret.push_back( msg.translated() );
     }
     return ret;
 }
@@ -705,10 +720,7 @@ void dream::load( const JsonObject &jsobj )
 
     newdream.strength = jsobj.get_int( "strength" );
     jsobj.read( "category", newdream.category, true );
-
-    for( const std::string line : jsobj.get_array( "messages" ) ) {
-        newdream.raw_messages.push_back( line );
-    }
+    jsobj.read( "messages", newdream.raw_messages );
 
     dreams.push_back( newdream );
 }
