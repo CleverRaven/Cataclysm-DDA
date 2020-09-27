@@ -5344,8 +5344,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_success_chance( true, -1, std::max( 0,
-                            difficulty - 4 * assist_bonus ), installer );
+    int chance_of_success = bionic_success_chance( true, -1, difficulty, installer );
     int success = chance_of_success - rng( 1, 100 );
 
     if( !get_avatar().query_yn(
