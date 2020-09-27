@@ -98,6 +98,7 @@ static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
 static const std::string flag_VEHICLE( "VEHICLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
+static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_attack( const Character &p, const itype &firing );
@@ -475,8 +476,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
                                     pos() ) ) : nullptr;
-
-        auto shot = projectile_attack( make_gun_projectile( gun ), pos(), aim, dispersion, this, in_veh );
+        projectile projectile = make_gun_projectile( gun );
+        if( has_trait( trait_NORANGEDCRIT ) ) {
+            projectile.proj_effects.insert( "NO_CRIT" );
+        }
+        auto shot = projectile_attack( projectile, pos(), aim, dispersion, this, in_veh );
         curshot++;
 
         int qty = gun.gun_recoil( *this, bipod );

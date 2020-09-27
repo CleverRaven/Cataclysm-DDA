@@ -177,6 +177,8 @@ class gun_actor : public mattack_actor
         int targeting_volume = 6; /** If set to zero don't emit any targeting sounds */
 
         bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
+        bool no_crits =
+            false; /** If true then ranged shots no longer able to crit and your shots more likely going to hit body or limbs rather then head. */
         /*@}*/
 
         /** If true then disable this attack completely if not brightly lit */

@@ -528,6 +528,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                                        bool print_messages )
 {
     const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
+    const bool targetted_crit_allowed = attack.proj.proj_effects.count( "NO_CRIT" ) == 0;
     const double missed_by = attack.missed_by;
     if( missed_by >= 1.0 && !magic ) {
         // Total miss
@@ -586,23 +587,42 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
-        bp_hit = bp_head;
-    } else if( hit_value <= 0.4 || magic ) {
-        bp_hit = bp_torso;
-    } else if( one_in( 4 ) ) {
-        if( one_in( 2 ) ) {
-            bp_hit = bp_leg_l;
+    if( targetted_crit_allowed || magic ) { //default logic for selecting bodypart
+        if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
+            bp_hit = bp_head;
+        } else if( hit_value <= 0.4 || magic ) {
+            bp_hit = bp_torso;
+        } else if( one_in( 4 ) ) {
+            if( one_in( 2 ) ) {
+                bp_hit = bp_leg_l;
+            } else {
+                bp_hit = bp_leg_r;
+            }
         } else {
-            bp_hit = bp_leg_r;
+            if( one_in( 2 ) ) {
+                bp_hit = bp_arm_l;
+            } else {
+                bp_hit = bp_arm_r;
+            }
         }
-    } else {
-        if( one_in( 2 ) ) {
-            bp_hit = bp_arm_l;
+    } else { // no crit logic for selecting bodypart
+        if( hit_value <= 0.4 && !one_in( 4 ) ) {
+            bp_hit = one_in( 3 ) ? bp_head : bp_torso;
+        } else if( one_in( 4 ) ) {
+            if( one_in( 2 ) ) {
+                bp_hit = bp_leg_l;
+            } else {
+                bp_hit = bp_leg_r;
+            }
         } else {
-            bp_hit = bp_arm_r;
+            if( one_in( 2 ) ) {
+                bp_hit = bp_arm_l;
+            } else {
+                bp_hit = bp_arm_r;
+            }
         }
     }
+
 
     double damage_mult = 1.0;
 
@@ -610,7 +630,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_critical ) {
+    } else if( targetted_crit_allowed && goodhit < accuracy_critical ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= 1.5;

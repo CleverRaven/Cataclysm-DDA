@@ -6471,5 +6471,15 @@
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_RANGED_CRIT",
+    "name": { "str": "No ranged crit" },
+    "points": 0,
+    "description": "You are not intellectual shooter.  Your ranged shots no longer able to crit and you more likely going to hit body or limbs rather than head.",
+    "valid": false,
+    "purifiable": false,
+    "profession": false
   }
 ]
