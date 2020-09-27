@@ -1,0 +1,50 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "quake_transform",
+    "furniture": [ { "result": "f_rubble", "valid_furniture": [ "f_null" ], "message": "The earth is upheaved!" } ]
+  },
+  {
+    "id": "quake",
+    "type": "SPELL",
+    "name": "Quake",
+    "description": "Cause a localized earthquake, knocking down enemies and overturning the earth.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "LOUD" ],
+    "effect": "target_attack",
+    "effect_str": "downed",
+    "damage_type": "bash",
+    "min_damage": 20,
+    "damage_increment": 4.0,
+    "max_damage": 160,
+    "min_aoe": 0,
+    "max_aoe": 35,
+    "aoe_increment": 1,
+    "base_energy_cost": 550,
+    "spell_class": "EARTH_ELEMENTAL",
+    "difficulty": 4,
+    "max_level": 35,
+    "base_casting_time": 150,
+    "sound_description": "a deep rumbling",
+    "sound_id": "earth_spell",
+    "sound_variant": "strong",
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "quake_transform" } ]
+  },
+  {
+    "id": "quake_transform",
+    "type": "SPELL",
+    "name": "Quake Transform",
+    "description": "causes rubble to be spawned occasionally",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SILENT" ],
+    "effect": "ter_transform",
+    "effect_str": "quake_transform",
+    "min_damage": 12,
+    "max_damage": 12,
+    "min_aoe": 0,
+    "max_aoe": 35,
+    "aoe_increment": 1,
+    "max_level": 35
+  }
+]

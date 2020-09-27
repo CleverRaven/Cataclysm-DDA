@@ -94,6 +94,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
         case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
+        case spell_flag::RANDOM_CRITTER: return "RANDOM_CRITTER";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
         case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
@@ -1385,10 +1386,12 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
         const tripoint &caster_pos ) const
 {
+    const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
     std::set<tripoint> valid_area;
     for( const tripoint &target : spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
             range(), false ) ) {
-        if( is_valid_target( caster, target ) ) {
+        if( target != caster_pos && is_valid_target( caster, target ) &&
+            ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
         }
     }

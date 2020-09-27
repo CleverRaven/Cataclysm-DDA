@@ -4522,17 +4522,31 @@ int Character::encumb( const bodypart_id &bp ) const
 }
 
 static void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals,
-                                   const trait_id &mut,
+                                   const std::vector<trait_id> &all_muts,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first.id()].encumbrance += enc.second;
+    std::map<bodypart_str_id, float> total_enc;
+
+    for( const trait_id &mut : all_muts ) {
+        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
+            total_enc[enc.first] += enc.second;
+        }
+
+        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+            if( !oversize.test( enc.first ) ) {
+                total_enc[enc.first] += enc.second;
+            }
+        }
     }
 
-    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( enc.first ) ) {
-            vals[enc.first.id()].encumbrance += enc.second;
+    for( const trait_id &mut : all_muts ) {
+        for( const std::pair<const bodypart_str_id, float> &enc : mut->encumbrance_multiplier_always ) {
+            total_enc[enc.first] *= enc.second;
         }
+    }
+
+    for( const std::pair<const bodypart_str_id, float> &enc : total_enc ) {
+        vals[enc.first.id()].encumbrance += enc.second;
     }
 }
 
@@ -4554,9 +4568,7 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
 
     // Lower penalty for bps covered only by XL armor
     const body_part_set oversize = exclusive_flag_coverage( flag_OVERSIZE );
-    for( const trait_id &mut : get_mutations() ) {
-        apply_mut_encumbrance( vals, mut, oversize );
-    }
+    apply_mut_encumbrance( vals, get_mutations(), oversize );
 }
 
 body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
@@ -4642,6 +4654,10 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( has_trait_flag( "STEADY" ) ) {
+        return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
+                get_speedydex_bonus( get_dex() ) );
+    }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
