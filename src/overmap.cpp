@@ -1456,6 +1456,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_lakes();
     place_forests();
     place_swamps();
+    place_ravines();
     place_cities();
     place_forest_trails();
     place_roads( north, east, south, west );
@@ -3400,6 +3401,78 @@ void overmap::build_mine( const tripoint_om_omt &origin, int s )
         built++;
     }
     ter_set( p, mine_finale_or_down );
+}
+
+void overmap::place_ravines()
+{
+    if( settings.overmap_ravine.num_ravines == 0 ) {
+        return;
+    }
+
+    const oter_id rift( "ravine" );
+    const oter_id rift_edge( "ravine_edge" );
+    const oter_id rift_floor( "ravine_floor" );
+    const oter_id rift_floor_edge( "ravine_floor_edge" );
+
+    std::set<point_om_omt> rift_points;
+
+    // We dont really care about the paths each ravine takes, so this can be whatever
+    // The random return value was chosen because it easily produces decent looking windy ravines
+    const auto estimate =
+    [&]( const pf::node<point> &, const pf::node<point> * ) {
+        return rng( 1, 2 );
+    };
+    // A path is generated for each of ravine, and all its constituent points are stored within the
+    // rift_points set. In the code block below, the set is then used to determine edges and place the
+    // actual terrain pieces of the ravine.
+    for( int n = 0; n < settings.overmap_ravine.num_ravines; n++ ) {
+        const point offset( rng( -settings.overmap_ravine.ravine_range,
+                                 settings.overmap_ravine.ravine_range ),
+                            rng( -settings.overmap_ravine.ravine_range, settings.overmap_ravine.ravine_range ) );
+        const point origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
+        const point destination = origin + offset;
+        if( !inbounds( point_om_omt( destination.x, destination.y ),
+                       settings.overmap_ravine.ravine_width * 3 ) ) {
+            continue;
+        }
+        const auto path = pf::find_path( origin, destination, point( OMAPX, OMAPY ), estimate );
+        for( const auto &node : path.nodes ) {
+            const point_om_omt p( node.pos.x, node.pos.y );
+            for( int i = 1 - settings.overmap_ravine.ravine_width; i < settings.overmap_ravine.ravine_width;
+                 i++ ) {
+                for( int j = 1 - settings.overmap_ravine.ravine_width; j < settings.overmap_ravine.ravine_width;
+                     j++ ) {
+                    const point_om_omt n = p + point( j, i );
+                    if( inbounds( n ), 1 ) {
+                        rift_points.emplace( n );
+                    }
+                }
+            }
+        }
+    }
+    // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
+    // ravine, if at least one of them isnt, the location is part of the ravine's edge. Wathever the
+    // case, the chosen ravine terrain is then propagated downwards until the ravinE_depth specified
+    // by the region settings.
+    for( auto &p : rift_points ) {
+        bool edge = false;
+        for( int ni = -1; ni <= 1 && !edge; ni++ ) {
+            for( int nj = -1; nj <= 1 && !edge; nj++ ) {
+                const point_om_omt n = p + point( ni, nj );
+                if( rift_points.find( n ) == rift_points.end() || !inbounds( n ) ) {
+                    edge = true;
+                }
+            }
+        }
+        for( int z = 0; z >= settings.overmap_ravine.ravine_depth; z-- ) {
+            if( z == settings.overmap_ravine.ravine_depth ) {
+                ter_set( tripoint_om_omt( p, z ), edge ? rift_floor_edge : rift_floor );
+            } else {
+                ter_set( tripoint_om_omt( p, z ), edge ? rift_edge : rift );
+            }
+        }
+    }
+
 }
 
 pf::path<point_om_omt> overmap::lay_out_connection(
