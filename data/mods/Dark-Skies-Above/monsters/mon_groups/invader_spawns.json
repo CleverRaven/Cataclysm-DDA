@@ -68,5 +68,28 @@
       { "monster": "mon_dks_emissary_plague", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_dks_emissary_flame", "freq": 5, "cost_multiplier": 20 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "default": "mon_sewer_rat",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_lurker_rectified", "freq": 1, "cost_multiplier": 10, "pack_size": [ 1, 3 ], "starts": 264 },
+      { "monster": "dks_mon_lurker_rectified", "freq": 2, "cost_multiplier": 25, "pack_size": [ 1, 4 ], "starts": 840 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "default": "mon_worm",
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_bileworm_rectified", "freq": 30, "cost_multiplier": 20, "starts": 264 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "default": "mon_null",
+    "monsters": [ { "monster": "dks_mon_bileworm_rectified", "freq": 10, "cost_multiplier": 1, "starts": 216 } ]
   }
 ]
