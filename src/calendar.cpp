@@ -9,10 +9,15 @@
 
 #include "cata_assert.h"
 #include "debug.h"
+#include "enum_conversions.h"
+#include "line.h"
+#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
+#include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
 static constexpr double moonlight_per_quarter = 2.25;
@@ -642,4 +647,90 @@ std::string to_string( const time_point &p )
 time_point::time_point()
 {
     turn_ = 0;
+}
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude(
+    time_point t, lat_long location, float timezone )
+{
+    // This derivation mostly from
+    // https://en.wikipedia.org/wiki/Position_of_the_Sun
+    // https://en.wikipedia.org/wiki/Celestial_coordinate_system#Notes_on_conversion
+
+    // Want to compute number of days since J2000 (Greenwich noon, 2000-01-01)
+    // If turn_zero is midnight EST on the day of the vernal equinox for 2000,
+    // That's 2000-03-20 0500 UTC
+    // 2000 was a leap year, so there were 31+29+19=79 days before 2000-03-20
+    // So turn_zero is 79 + (5-12) / 24.0 = 78.7 days since J2000
+    const float days_since_j2000 =
+        to_days<float>( t - calendar::turn_zero ) + 79 + ( -timezone - 12 ) / 24.0;
+    const units::angle mean_long = 280.460_degrees + 0.985647352_degrees * days_since_j2000;
+    const units::angle mean_anomaly = 357.528_degrees + 0.9856002585_degrees * days_since_j2000;
+    const units::angle ecliptic_longitude =
+        mean_long + 1.915_degrees * sin( mean_anomaly ) + 0.020_degrees * sin( 2 * mean_anomaly );
+    const units::angle obliquity = 23.439279_degrees - 3.56e-7_degrees * days_since_j2000;
+
+    // ecliptic rectangular coordinates
+    const rl_vec2d eclip( cos( ecliptic_longitude ), sin( ecliptic_longitude ) );
+    // rotate to equatorial coordinates
+    const rl_vec3d rot( eclip.x, eclip.y * cos( obliquity ), eclip.y * sin( obliquity ) );
+    const units::angle RA = atan2( rot.xy() );
+    const units::angle declination = units::asin( rot.z );
+
+    // sidereal time at GMT +0
+    //const float hour = to_hours<float>( time_past_midnight( t ) );
+    const float delta_J = days_since_j2000 + 0.5;
+    const units::angle L0 = 99.967794687_degrees;
+    const units::angle L1 = 360.98564736628603_degrees;
+    const units::angle SIDTIME = L0 + L1 * delta_J + location.longitude;
+
+    const units::angle hour_angle = SIDTIME - RA;
+
+    const rl_vec3d intermediate(
+        cos( hour_angle ) * cos( declination ),
+        sin( hour_angle ) * cos( declination ),
+        sin( declination ) );
+
+    const rl_vec3d hor(
+        -intermediate.x * sin( location.latitude ) +
+        intermediate.z * cos( location.latitude ),
+        intermediate.y,
+        intermediate.x * cos( location.latitude ) +
+        intermediate.z * sin( location.latitude )
+    );
+
+    // Azimuth is from the South, turning positive to the west
+    const units::angle azimuth = normalize( -atan2( hor.xy() ) + 180_degrees );
+    const units::angle altitude = units::asin( hor.z );
+
+    /*printf(
+        "\n"
+        "days_since_j2000 = %f, ecliptic_longitude = %f\n"
+        "RA = %f, declination = %f\n"
+        "SIDTIME = %f, hour_angle = %f\n"
+        "aziumth = %f, altitude = %f\n",
+        days_since_j2000, to_degrees( ecliptic_longitude ),
+        to_degrees( RA ), to_degrees( declination ),
+        to_degrees( SIDTIME ), to_degrees( hour_angle ),
+        to_degrees( azimuth ), to_degrees( altitude ) );*/
+
+    return std::make_pair( azimuth, altitude );
+}
+
+cata::optional<rl_vec2d> sunlight_angle( const time_point &p, lat_long location )
+{
+    constexpr float timezone = -5;
+    units::angle azimuth, altitude;
+    std::tie( azimuth, altitude ) = sun_azimuth_altitude( p, location, timezone );
+    if( altitude <= 0_degrees ) {
+        return cata::nullopt;
+    }
+    rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
+    rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
+    direction /= -direction.z;
+    return direction.xy();
+}
+
+cata::optional<rl_vec2d> sunlight_angle( const time_point &p )
+{
+    return sunlight_angle( p, location_boston );
 }

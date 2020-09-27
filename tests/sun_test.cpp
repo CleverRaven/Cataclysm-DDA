@@ -1,7 +1,16 @@
 #include "cata_catch.h"
 #include "calendar.h" // IWYU pragma: associated
 
+#include <iomanip>
 #include <string>
+#include <unordered_set>
+
+#include "hash_utils.h"
+#include "line.h"
+#include "optional.h"
+#include "output.h"
+#include "stringmaker.h"
+#include "units_utility.h"
 
 // SUN TESTS
 
@@ -320,3 +329,205 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
     }
 }
 
+static rl_vec2d checked_sunlight_angle( const time_point &t )
+{
+    const cata::optional<rl_vec2d> opt_angle = sunlight_angle( t );
+    REQUIRE( opt_angle );
+    return *opt_angle;
+}
+
+static constexpr time_point first_midnight = calendar::turn_zero;
+static constexpr time_point first_noon = first_midnight + 12_hours;
+
+TEST_CASE( "sun_highest_at_noon", "[sun]" )
+{
+    for( int i = 0; i < 100; ++i ) {
+        CAPTURE( i );
+
+        const time_point midnight = first_midnight + i * 1_days;
+        CHECK_FALSE( sunlight_angle( midnight ) );
+
+        const time_point noon = first_noon + i * 1_days;
+        const time_point before_noon = noon - 2_hours;
+        const time_point after_noon = noon + 2_hours;
+
+        const rl_vec2d before_noon_angle = checked_sunlight_angle( before_noon );
+        const rl_vec2d noon_angle = checked_sunlight_angle( noon );
+        const rl_vec2d after_noon_angle = checked_sunlight_angle( after_noon );
+
+        CAPTURE( before_noon_angle );
+        CAPTURE( noon_angle );
+        CAPTURE( after_noon_angle );
+        // Sun should be highest around noon
+        CHECK( noon_angle.magnitude() < before_noon_angle.magnitude() );
+        CHECK( noon_angle.magnitude() < after_noon_angle.magnitude() );
+
+        // Sun should always be in the South, meaning angle points North
+        // (negative)
+        CHECK( before_noon_angle.y < 0 );
+        CHECK( noon_angle.y < 0 );
+        CHECK( after_noon_angle.y < 0 );
+
+        // Sun should be moving westwards across the sky, so its angle points
+        // more eastwards, which means it's increasing
+        CHECK( noon_angle.x > before_noon_angle.x );
+        CHECK( after_noon_angle.x > noon_angle.x );
+
+        CHECK( before_noon_angle.magnitude() ==
+               Approx( after_noon_angle.magnitude() ).epsilon( 0.25 ) );
+    }
+}
+
+TEST_CASE( "noon_sun_doesn't_move_much", "[sun]" )
+{
+    rl_vec2d noon_angle = checked_sunlight_angle( first_noon );
+    for( int i = 1; i < 1000; ++i ) {
+        CAPTURE( i );
+        const time_point later_noon = first_noon + i * 1_days;
+        const rl_vec2d later_noon_angle = checked_sunlight_angle( later_noon );
+        CHECK( noon_angle.x == Approx( later_noon_angle.x ).epsilon( 0.1 ) );
+        CHECK( noon_angle.y == Approx( later_noon_angle.y ).epsilon( 0.05 ) );
+        noon_angle = later_noon_angle;
+    }
+}
+
+using PointSet = std::unordered_set<std::pair<int, int>, cata::tuple_hash>;
+
+static PointSet sun_positions_regular( time_point start, time_point end, time_duration interval )
+{
+    CAPTURE( to_days<int>( start - calendar::turn_zero ) );
+    std::unordered_set<std::pair<int, int>, cata::tuple_hash> plot_points;
+
+    for( time_point t = start; t < end; t += interval ) {
+        CAPTURE( to_minutes<int>( t - start ) );
+        units::angle azimuth, altitude;
+        std::tie( azimuth, altitude ) = sun_azimuth_altitude( t, location_boston, -5 );
+        if( altitude < 0_degrees ) {
+            continue;
+        }
+        // Convert to ASCII-art plot
+        // x-axis is azimuth, 4 degrees per column
+        // y-axis is altitude, 3 degrees per column
+        azimuth += 180_degrees;
+        azimuth = fmod( azimuth, 360.0_degrees );
+        REQUIRE( azimuth >= 0_degrees );
+        REQUIRE( azimuth <= 360_degrees );
+        REQUIRE( altitude >= 0_degrees );
+        REQUIRE( altitude <= 90_degrees );
+        plot_points.emplace( azimuth / 4_degrees, altitude / 3_degrees );
+    }
+
+    return plot_points;
+}
+
+static PointSet sun_throughout_day( time_point day_start )
+{
+    REQUIRE( time_past_midnight( day_start ) == 0_seconds );
+    // Calculate the Sun's position every few minutes thourhgout the day
+    time_point day_end = day_start + 1_days;
+    return sun_positions_regular( day_start, day_end, 5_minutes );
+}
+
+static void check_sun_plot( const std::vector<PointSet> &points, const std::string &reference )
+{
+    static constexpr std::array<char, 3> symbols = { '#', '*', '.' };
+    REQUIRE( points.size() <= symbols.size() );
+
+    std::ostringstream os;
+    os << "Altitude\n";
+
+    for( int rough_altitude = 30; rough_altitude >= 0; --rough_altitude ) {
+        for( int rough_azimuth = 0; rough_azimuth <= 90; ++rough_azimuth ) {
+            std::pair<int, int> p{ rough_azimuth, rough_altitude };
+            char c = ' ';
+            for( size_t i = 0; i < points.size(); ++i ) {
+                if( points[i].count( p ) ) {
+                    c = symbols[i];
+                    break;
+                }
+            }
+            os << c;
+        }
+        os << '\n';
+    }
+    os << std::setw( 92 ) << "Azimuth\n";
+    std::string result = os.str();
+    CHECK( result == reference );
+    // When the test fails, print out something to copy-paste as a new
+    // reference output:
+    if( result != reference ) {
+        result.pop_back();
+        for( const std::string &line : string_split( result, '\n' ) ) {
+            printf( R"("%s\n")" "\n", line.c_str() );
+        }
+    }
+}
+
+TEST_CASE( "movement_of_sun_through_day", "[sun]" )
+{
+    PointSet equinox_points = sun_throughout_day( calendar::turn_zero );
+    PointSet summer_points =
+        sun_throughout_day( calendar::turn_zero + calendar::season_length() );
+    PointSet winter_points =
+        sun_throughout_day( calendar::turn_zero + calendar::season_length() * 3 );
+    std::string reference =
+// *INDENT-OFF*
+"Altitude\n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                                                                           \n"
+"                                      ##############                                       \n"
+"                                  ####              ####                                   \n"
+"                                ##                      ##                                 \n"
+"                              ##                          ##                               \n"
+"                            ##                              ##                             \n"
+"                           ##                                ##                            \n"
+"                          ##                                  ##                           \n"
+"                         ##                                    ##                          \n"
+"                        ##             *************            ##                         \n"
+"                        #           ***            ***           ##                        \n"
+"                       #          ***                ***          #                        \n"
+"                      #          **                    ***        ##                       \n"
+"                     ##        **                        **        ##                      \n"
+"                     #        **                          **        #                      \n"
+"                    ##       **                            **        #                     \n"
+"                   ##       **             ....             **       ##                    \n"
+"                   #       **          .....  .....          **       #                    \n"
+"                  ##       *         ...          ...         **      ##                   \n"
+"                  #       *        ...              ...        **      #                   \n"
+"                 #       *        ..                  ..        *       #                  \n"
+"                ##      **       ..                    ..       **      ##                 \n"
+"               ##      **       ..                      ..       **      ##                \n"
+"               #       *       ..                        ..       *       #                \n"
+"              ##      **      ..                          ..       *      ##               \n"
+"                                                                                    Azimuth\n";
+// *INDENT-ON*
+    check_sun_plot( { summer_points, equinox_points, winter_points }, reference );
+}
+
+TEST_CASE( "noon_rises_towards_solsitice", "[sun]" )
+{
+    static constexpr time_point first_noon = calendar::turn_zero + 12_hours;
+    const time_point end_of_spring = calendar::turn_zero + calendar::season_length();
+    rl_vec2d last_noon_angle;
+
+    for( time_point noon = first_noon; noon < end_of_spring; noon += 1_days ) {
+        CAPTURE( to_days<int>( noon - first_noon ) );
+
+        const rl_vec2d noon_angle = checked_sunlight_angle( noon );
+
+        if( last_noon_angle.magnitude() != 0 ) {
+            CAPTURE( last_noon_angle );
+            CAPTURE( noon_angle );
+
+            // Sun should be higher than yesterday
+            CHECK( noon_angle.magnitude() < last_noon_angle.magnitude() );
+        }
+
+        last_noon_angle = noon_angle;
+    }
+}

@@ -6,11 +6,22 @@
 #include <utility>
 #include <vector>
 
+#include "units_fwd.h"
+
 class JsonIn;
 class JsonOut;
+struct lat_long;
+struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
+
+namespace cata
+{
+template<typename T>
+class optional;
+} // namespace cata
+
 
 /** Real world seasons */
 enum season_type {
@@ -576,6 +587,17 @@ double default_daylight_level();
  *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
  *  provides 0 light */
 float sunlight( const time_point &p, bool vision = true );
+
+std::pair<units::angle, units::angle> sun_azimuth_altitude(
+    time_point, lat_long, float timezone );
+
+/** Returns the offset by which a ray of sunlight would move when shifting down
+ * one z-level, or nullopt if the sun is below the horizon.
+ *
+ * If lat_long not provided it defaults to Boston.
+ */
+cata::optional<rl_vec2d> sunlight_angle( const time_point &, lat_long );
+cata::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,
