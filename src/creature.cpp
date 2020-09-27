@@ -549,7 +549,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
             if( source->is_avatar() ) {
                 add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
             }
-
         }
     }
 
