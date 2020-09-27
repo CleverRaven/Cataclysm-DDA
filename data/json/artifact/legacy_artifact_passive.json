@@ -1,0 +1,97 @@
+[
+  {
+    "type": "enchantment",
+    "id": "AEP_STR_UP",
+    "values": [ { "value": "STRENGTH", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_STR_DOWN",
+    "values": [ { "value": "STRENGTH", "add": -3 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_DEX_UP",
+    "values": [ { "value": "DEXTERITY", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_DEX_DOWN",
+    "values": [ { "value": "STRENGTH", "add": -3 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_PER_UP",
+    "values": [ { "value": "PERCEPTION", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_PER_DOWN",
+    "values": [ { "value": "STRENGTH", "add": -3 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_INT_UP",
+    "values": [ { "value": "INTELLIGENCE", "add": 4 } ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_ALL_UP",
+    "values": [
+      { "value": "STRENGTH", "add": 2 },
+      { "value": "DEXTERITY", "add": 2 },
+      { "value": "PERCEPTION", "add": 2 },
+      { "value": "INTELLIGENCE", "add": 2 }
+    ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_ALL_DOWN",
+    "values": [
+      { "value": "STRENGTH", "add": -2 },
+      { "value": "DEXTERITY", "add": -2 },
+      { "value": "PERCEPTION", "add": -2 },
+      { "value": "INTELLIGENCE", "add": -2 }
+    ],
+    "has": "WIELD"
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SPEED_UP",
+    "values": [ { "value": "SPEED", "add": 20 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SPEED_DOWN",
+    "values": [ { "value": "SPEED", "add": -20 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_SMOKE",
+    "emitter": "emit_AEP_SMOKE"
+  },
+  {
+    "type": "SPELL",
+    "id": "AEP_EVIL_SPELL",
+    "name": "EEEEEEVVVVVIIIIILLLL!",
+    "description": "You debugged in this spell!  It makes you evil for 30 minutes.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "target_attack",
+    "effect_str": "evil",
+    "min_duration": 180000,
+    "max_duration": 180000
+  },
+  {
+    "type": "enchantment",
+    "id": "AEP_EVIL",
+    "intermittent_activation": { "effects": [ { "frequency": "15 minutes", "spell_effects": [ { "id": "AEP_EVIL_SPELL" } ] } ] }
+  }
+]

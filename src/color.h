@@ -1,13 +1,17 @@
 #pragma once
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef CATA_SRC_COLOR_H
+#define CATA_SRC_COLOR_H
 
 #include <array>
-#include <functional>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <unordered_map>
 #include <utility>
+
+#include "translations.h"
+
+class nc_color;
 
 #define all_colors get_all_colors()
 
@@ -325,8 +329,8 @@ enum color_id {
     num_colors
 };
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 void init_colors();
 
@@ -356,7 +360,7 @@ class nc_color
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).
 
-        static nc_color from_color_pair_index( const int index );
+        static nc_color from_color_pair_index( int index );
         int to_color_pair_index() const;
 
         operator int() const {
@@ -379,17 +383,17 @@ namespace std
 {
 template<>
 struct hash<nc_color> {
-    std::size_t operator()( const nc_color &v ) const {
+    std::size_t operator()( const nc_color &v ) const noexcept {
         return hash<int>()( v.operator int() );
     }
 };
-}
+} // namespace std
 
 class color_manager
 {
     private:
-        void add_color( const color_id col, const std::string &name,
-                        const nc_color &color_pair, const color_id inv_id );
+        void add_color( color_id col, const std::string &name,
+                        const nc_color &color_pair, color_id inv_id );
         void clear();
         void finalize(); // Caches colors properly
 
@@ -417,17 +421,17 @@ class color_manager
     public:
         color_manager() = default;
 
-        nc_color get( const color_id id ) const;
+        nc_color get( color_id id ) const;
 
         nc_color get_invert( const nc_color &color ) const;
-        nc_color get_highlight( const nc_color &color, const hl_enum bg ) const;
+        nc_color get_highlight( const nc_color &color, hl_enum bg ) const;
         nc_color get_random() const;
 
         color_id color_to_id( const nc_color &color ) const;
         color_id name_to_id( const std::string &name ) const;
 
         std::string get_name( const nc_color &color ) const;
-        std::string id_to_name( const color_id id ) const;
+        std::string id_to_name( color_id id ) const;
 
         nc_color name_to_color( const std::string &name ) const;
 
@@ -465,7 +469,7 @@ class deferred_color
 
 struct note_color {
     nc_color color;
-    std::string name;
+    translation name;
 };
 
 struct color_tag_parse_result {
@@ -477,9 +481,6 @@ struct color_tag_parse_result {
     tag_type type;
     nc_color color;
 };
-
-extern std::unordered_map<std::string, note_color> color_by_string_map;
-extern std::unordered_map<std::string, note_color> color_shortcuts;
 
 nc_color hilite( const nc_color &c );
 nc_color invert_color( const nc_color &c );
@@ -496,8 +497,10 @@ nc_color bgcolor_from_string( const std::string &color );
 color_tag_parse_result get_color_from_tag( const std::string &s );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
+std::string colorize( const translation &text, const nc_color &color );
 
+std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );
-std::list<std::pair<std::string, std::string>> get_note_color_names();
+const std::unordered_map<std::string, note_color> &get_note_color_names();
 
-#endif
+#endif // CATA_SRC_COLOR_H

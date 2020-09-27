@@ -1,46 +1,46 @@
 #include "mapgenformat.h"
 
 #include <algorithm>
+#include <cctype>
 #include <string>
 
 #include "map.h"
 #include "mapdata.h"
-#include "output.h"
+#include "point.h"
 
 namespace mapf
 {
 
-void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+void formatted_set_simple( map *m, const point &start, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b )
 {
     const char *p = cstr;
-    int x = startx;
-    int y = starty;
+    point p2( start );
     while( *p != 0 ) {
         if( *p == '\n' ) {
-            y++;
-            x = startx;
+            p2.y++;
+            p2.x = start.x;
         } else {
             const ter_id ter = ter_b.translate( *p );
             const furn_id furn = furn_b.translate( *p );
             if( ter != t_null ) {
-                m->ter_set( x, y, ter );
+                m->ter_set( p2, ter );
             }
             if( furn != f_null ) {
                 if( furn == f_toilet ) {
-                    m->place_toilet( x, y );
+                    m->place_toilet( p2 );
                 } else {
-                    m->furn_set( x, y, furn );
+                    m->furn_set( p2, furn );
                 }
             }
-            x++;
+            p2.x++;
         }
         p++;
     }
 }
 
 template<typename ID>
-format_effect<ID>::format_effect( std::string chars, std::vector<ID> dets )
+format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets )
     : characters( chars ), determiners( dets )
 {
     characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ),

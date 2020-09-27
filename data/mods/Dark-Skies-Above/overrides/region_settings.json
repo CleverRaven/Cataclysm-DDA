@@ -1,0 +1,88 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ROBOT_RESPONSE",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [ "BLOB", "BEE", "ANT", "FUNGAL", "SLIME", "TRIFFID", "MI-GO", "LAB" ],
+      "clear_whitelist": false,
+      "whitelist": [  ]
+    },
+    "city": { "shops": { "office_tower_hiddenlab": 0, "office_tower_collapsed": 0 } },
+    "map_extras": {
+      "forest": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0 } },
+      "forest_thick": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 } },
+      "forest_water": { "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0, "mx_nest_dermatik": 0 } },
+      "field": {
+        "extras": {
+          "mx_nest_wasp": 0,
+          "mx_portal": 0,
+          "mx_portal_in": 0,
+          "mx_helicopter": 3,
+          "mx_military": 1,
+          "mx_science": 1,
+          "mx_crater": 5,
+          "mx_trees": 200,
+          "mx_casings": 300,
+          "mx_corpses": 100
+        }
+      },
+      "road": {
+        "extras": {
+          "mx_mayhem": 0,
+          "mx_portal": 0,
+          "mx_portal_in": 0,
+          "mx_helicopter": 15,
+          "mx_military": 15,
+          "mx_science": 25,
+          "mx_collegekids": 50,
+          "mx_roadblock": 200,
+          "mx_bandits_block": 5,
+          "mx_drugdeal": 20,
+          "mx_supplydrop": 5,
+          "mx_minefield": 80,
+          "mx_crater": 10,
+          "mx_roadworks": 100,
+          "mx_casings": 100,
+          "mx_corpses": 100,
+          "mx_prison_bus": 15
+        }
+      },
+      "build": {
+        "chance": 2,
+        "extras": {
+          "mx_house_spider": 0,
+          "mx_house_wasp": 0,
+          "mx_military": 1,
+          "mx_science": 1,
+          "mx_collegekids": 35,
+          "mx_portal": 0,
+          "mx_crater": 70,
+          "mx_portal_in": 0,
+          "mx_point_burned_ground": 200,
+          "mx_casings": 60,
+          "mx_looters": 2,
+          "mx_corpses": 50
+        }
+      },
+      "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
+      "subway": {
+        "extras": {
+          "mx_military": 0,
+          "mx_science": 0,
+          "mx_collegekids": 5,
+          "mx_corpses": 10,
+          "mx_portal": 0,
+          "mx_portal_in": 0,
+          "mx_casings": 20
+        }
+      }
+    }
+  }
+]

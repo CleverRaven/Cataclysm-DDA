@@ -1,16 +1,18 @@
 #pragma once
-#ifndef GUN_MODE_H
-#define GUN_MODE_H
+#ifndef CATA_SRC_GUN_MODE_H
+#define CATA_SRC_GUN_MODE_H
 
 #include <set>
 #include <string>
+
+#include "translations.h"
 
 class item;
 
 class gun_mode
 {
     private:
-        std::string name_;
+        translation name_;
 
     public:
         /** pointer to item providing this mode - base gun or attached gunmod */
@@ -21,7 +23,7 @@ class gun_mode
         std::set<std::string> flags;
 
         gun_mode() = default;
-        gun_mode( const std::string &n, item *target, int qty, const std::set<std::string> &flags ) :
+        gun_mode( const translation &n, item *target, int qty, const std::set<std::string> &flags ) :
             name_( n ),
             target( target ),
             qty( qty ),
@@ -50,9 +52,9 @@ class gun_mode
             return target;
         }
 
-        std::string name() const {
-            return name_;
+        std::string tname() const {
+            return name_.translated();
         }
 };
 
-#endif
+#endif // CATA_SRC_GUN_MODE_H

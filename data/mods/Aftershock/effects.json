@@ -1,0 +1,96 @@
+[
+  {
+    "id": "fd_migo_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "foul-smelling air",
+        "sym": "8",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "5 seconds",
+            "max_duration": "10 seconds",
+            "immune_inside_vehicle": true
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "10 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      {
+        "name": "foul-smelling air",
+        "effects": [
+          {
+            "effect_id": "migo_atmosphere",
+            "body_part": "mouth",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
+  },
+  {
+    "type": "effect_type",
+    "id": "foamcrete_slow",
+    "name": [
+      "Slowed",
+      "Slowed",
+      "Slowed",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Sluggish",
+      "Encased in foamcrete"
+    ],
+    "desc": [ "A partial covering of foamcrete is slowing you down." ],
+    "miss_messages": [ [ "You feel stiff.", 3 ] ],
+    "rating": "bad",
+    "max_intensity": 10,
+    "int_add_val": 1,
+    "int_decay_tick": 600,
+    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_generic_speed_bonus",
+    "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
+    "desc": [ "You move with machine-guided precision." ],
+    "rating": "good",
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "int_decay_tick": 500,
+    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "scaling_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "show_in_info": true
+  }
+]

@@ -38,7 +38,7 @@
         "d": "t_wall",
         "e": "t_shrub",
         "f": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "g": "t_concrete_floor"
+        "g": "t_thconc_floor"
       },
       "furniture": {  },
       "place_loot": [ { "group": "road", "chance": 60, "repeat": [ 10 ], "x": [ 1, 22 ], "y": [ 1, 20 ] } ]

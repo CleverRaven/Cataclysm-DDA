@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_IO_TAGS_H
-#define CATA_IO_TAGS_H
+#ifndef CATA_SRC_IO_TAGS_H
+#define CATA_SRC_IO_TAGS_H
 
 namespace io
 {
@@ -26,6 +26,6 @@ struct object_archive_tag {
     using OutputArchive = JsonObjectOutputArchive;
 };
 
-}
+} // namespace io
 
-#endif // CATA_IO_TAGS_H
+#endif // CATA_SRC_IO_TAGS_H

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "forage_spring",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "egg_dino", "prob": 3, "count-min": 2, "count-max": 5 } ]
+  },
+  {
+    "id": "forage_summer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "egg_dino", "prob": 3, "count-min": 2, "count-max": 5 } ]
+  }
+]

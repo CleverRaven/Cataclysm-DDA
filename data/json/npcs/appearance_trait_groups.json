@@ -1,6 +1,6 @@
 [
   {
-    "//": "This assigns characters a random appearance based on racial demographics in Massachussets - numbers rounded out a bit.",
+    "//": "This assigns characters a random appearance based on racial demographics in Massachusetts - numbers rounded out a bit.",
     "type": "trait_group",
     "id": "Appearance_demographics",
     "subtype": "distribution",

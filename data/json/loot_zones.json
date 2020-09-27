@@ -1,0 +1,188 @@
+[
+  {
+    "id": "LOOT_UNSORTED",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Unsorted",
+    "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
+  },
+  {
+    "id": "LOOT_FOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Food",
+    "description": "Destination for comestibles.  If more specific food zone is not defined, all food is moved here."
+  },
+  {
+    "id": "LOOT_PFOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: P.Food",
+    "description": "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_DRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drink",
+    "description": "Destination for drinks.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_PDRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: P.Drink",
+    "description": "Destination for perishable drinks."
+  },
+  {
+    "id": "LOOT_CONTAINERS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Containers",
+    "description": "Destination for empty containers."
+  },
+  {
+    "id": "LOOT_GUNS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Guns",
+    "description": "Destination for guns, bows and similar weapons."
+  },
+  {
+    "id": "LOOT_MAGAZINES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Magazines",
+    "description": "Destination for gun magazines."
+  },
+  {
+    "id": "LOOT_AMMO",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ammo",
+    "description": "Destination for ammo."
+  },
+  {
+    "id": "LOOT_WEAPONS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Weapons",
+    "description": "Destination for melee weapons."
+  },
+  {
+    "id": "LOOT_TOOLS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tools",
+    "description": "Destination for tools."
+  },
+  {
+    "id": "LOOT_CLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Clothing",
+    "description": "Destination for clothing.  Does include filthy clothing if such zone is not specified."
+  },
+  {
+    "id": "LOOT_FCLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: F.Clothing",
+    "description": "Destination for filthy clothing."
+  },
+  {
+    "id": "LOOT_DRUGS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drugs",
+    "description": "Destination for drugs and other medical items."
+  },
+  {
+    "id": "LOOT_BOOKS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Books",
+    "description": "Destination for books and magazines."
+  },
+  {
+    "id": "LOOT_MODS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mods",
+    "description": "Destination for firearm modifications and similar items."
+  },
+  {
+    "id": "LOOT_MUTAGENS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mutagens",
+    "description": "Destination for mutagens, serums, and purifiers."
+  },
+  {
+    "id": "LOOT_BIONICS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Bionics",
+    "description": "Destination for Compact Bionics Modules, a.k.a. CBMS."
+  },
+  {
+    "id": "LOOT_VEHICLE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: V.Parts",
+    "description": "Destination for vehicle parts."
+  },
+  {
+    "id": "LOOT_OTHER",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Other",
+    "description": "Destination for other miscellaneous items."
+  },
+  {
+    "id": "LOOT_FUEL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Fuel",
+    "description": "Destination for gasoline, diesel, lamp oil and other substances used as a fuel."
+  },
+  {
+    "id": "LOOT_SEEDS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Seeds",
+    "description": "Destination for seeds, stems and similar items."
+  },
+  {
+    "id": "LOOT_CHEMICAL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Chemical",
+    "description": "Destination for chemicals."
+  },
+  {
+    "id": "LOOT_SPARE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: S.Parts",
+    "description": "Destination for spare parts."
+  },
+  {
+    "id": "LOOT_ARTIFACTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Artifacts",
+    "description": "Destination for artifacts"
+  },
+  {
+    "id": "LOOT_CORPSE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Corpses",
+    "description": "Destination for corpses"
+  },
+  {
+    "id": "LOOT_ARMOR",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Armor",
+    "description": "Destination for armor.  Does include filthy armor if such zone is not specified."
+  },
+  {
+    "id": "LOOT_FARMOR",
+    "type": "LOOT_ZONE",
+    "name": "Loot: F.Armor",
+    "description": "Destination for filthy armor."
+  },
+  {
+    "id": "LOOT_WOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Wood",
+    "description": "Destination for firewood and items that can be used as such."
+  },
+  {
+    "id": "LOOT_CUSTOM",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Custom",
+    "description": "Destination for loot with a custom filter that you can modify"
+  },
+  {
+    "id": "LOOT_IGNORE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Ignore",
+    "description": "Items inside of this zone are ignored by \"sort out loot\" zone-action."
+  }
+]

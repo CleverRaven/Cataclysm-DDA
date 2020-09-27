@@ -7,6 +7,6 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_BUNKER_MERCHANT",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   }
 ]

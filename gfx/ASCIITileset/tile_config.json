@@ -1,0 +1,121 @@
+{
+  "tile_info": [
+    { "height": 10, "width": 10 }
+  ],
+  "tiles-new": [
+    {
+      "file": "ASCIITiles.png",
+      "transparency": { "R": 0, "G": 0, "B": 0 },
+      "tiles": [
+        { "id": [ "!nothing", "tr_ledge" ], "fg": 0, "rotates": false },
+        { "id": "lighting_boomered_light", "fg": 1, "rotates": false },
+        { "id": "lighting_boomered_dark", "fg": 2, "rotates": false },
+        { "id": "lighting_lowlight_light", "fg": 3, "rotates": false },
+        { "id": "lighting_lowlight_dark", "fg": 4, "rotates": false },
+        { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 5 },
+        { "id": "highlight_item", "fg": 6, "rotates": false },
+        { "id": "animation_line", "bg": 7 },
+        { "id": "ruined_chunks", "fg": 8 },
+        { "id": [ "t_shrub_blackberry" ], "fg": 67, "bg": 2603 },
+        { "id": [ "t_shrub_blackberry_harvested" ], "fg": 68, "bg": 2603 },
+        { "id": [ "t_shrub_strawberry", "t_shrub_raspberry", "t_shrub_ruse" ], "fg": 69, "bg": 2603 },
+        {
+          "id": [ "t_shrub_strawberry_harvested", "t_shrub_raspberry_harvested", "t_shrub_rose_harvested" ],
+          "fg": 70,
+          "bg": 2603
+        },
+        { "id": [ "t_shrub_peanut" ], "fg": 71, "bg": 2603 },
+        { "id": [ "t_shrub_peanut_harvested" ], "fg": 72, "bg": 2603 },
+        { "id": [ "t_shrub_grape" ], "fg": 73, "bg": 2603 },
+        { "id": [ "t_shrub_grape_harvested" ], "fg": 74, "bg": 2603 },
+        { "id": [ "t_shrub_blueberry", "t_shrub_huckleberry", "t_shrub_hydrangea" ], "fg": 75, "bg": 2603 },
+        {
+          "id": [ "t_shrub_blueberry_harvested", "t_shrub_huckleberry_harvested", "t_shrub_hydrangea_harvested" ],
+          "fg": 76,
+          "bg": 2603
+        },
+        { "id": [ "t_shrub_lilac" ], "fg": 77, "bg": 2603 },
+        { "id": [ "t_shrub_lilac_harvested" ], "fg": 78, "bg": 2603 },
+        { "id": "unknown", "fg": 79, "rotates": false },
+        { "id": "weather_snowflake", "bg": 95 },
+        { "id": [ "player_female", "player_male" ], "fg": 144, "rotates": false },
+        { "id": [ "t_open_air", "t_open_air_rooved" ], "bg": 811 },
+        { "id": "lighting_hidden", "fg": 1067, "bg": 1067, "rotates": false },
+        {
+          "id": "explosion_weak",
+          "fg": 1290,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 1290 },
+            { "id": "corner", "fg": 1305 },
+            { "id": "edge", "fg": 1290 },
+            { "id": "end_piece", "fg": 1290 },
+            { "id": "t_connection", "fg": 1290 },
+            { "id": "unconnected", "fg": 1290 }
+          ]
+        },
+        { "id": [ "animation_bullet_normal", "animation_bullet_shrapnel" ], "fg": 1375 },
+        { "id": "infrared_creature", "fg": 1423 },
+        {
+          "id": "explosion",
+          "fg": 1546,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 1546 },
+            { "id": "corner", "fg": 1561 },
+            { "id": "edge", "fg": 1546 },
+            { "id": "end_piece", "fg": 1546 },
+            { "id": "t_connection", "fg": 1546 },
+            { "id": "unconnected", "fg": 1546 }
+          ]
+        },
+        { "id": "animation_hit", "bg": 1579 },
+        { "id": "footstep", "fg": 1679, "rotates": false },
+        {
+          "id": "explosion_medium",
+          "fg": 1802,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 1802 },
+            { "id": "corner", "fg": 1817 },
+            { "id": "edge", "fg": 1802 },
+            { "id": "end_piece", "fg": 1802 },
+            { "id": "t_connection", "fg": 1802 },
+            { "id": "unconnected", "fg": 1802 }
+          ]
+        },
+        { "id": "weather_acid_drop", "bg": 2167 },
+        { "id": "t_grass_tall", "bg": 2403 },
+        { "id": "t_grass_long", "bg": 2418 },
+        { "id": "weather_rain_drop", "bg": 3191 },
+        { "id": [ "npc_female", "npc_male" ], "fg": 3728 }
+      ]
+    },
+    {
+      "file": "fallback.png",
+      "tiles": [  ],
+      "ascii": [
+        { "offset": 0, "bold": true, "color": "WHITE" },
+        { "offset": 256, "bold": false, "color": "WHITE" },
+        { "offset": 512, "bold": true, "color": "BLACK" },
+        { "offset": 768, "bold": false, "color": "BLACK" },
+        { "offset": 1024, "bold": true, "color": "RED" },
+        { "offset": 1280, "bold": false, "color": "RED" },
+        { "offset": 1536, "bold": true, "color": "YELLOW" },
+        { "offset": 1792, "bold": false, "color": "YELLOW" },
+        { "offset": 2048, "bold": true, "color": "GREEN" },
+        { "offset": 2304, "bold": false, "color": "GREEN" },
+        { "offset": 2560, "bold": true, "color": "CYAN" },
+        { "offset": 2816, "bold": false, "color": "CYAN" },
+        { "offset": 3072, "bold": true, "color": "BLUE" },
+        { "offset": 3328, "bold": false, "color": "BLUE" },
+        { "offset": 3584, "bold": true, "color": "MAGENTA" },
+        { "offset": 3840, "bold": false, "color": "MAGENTA" }
+      ]
+    }
+  ]
+}
+

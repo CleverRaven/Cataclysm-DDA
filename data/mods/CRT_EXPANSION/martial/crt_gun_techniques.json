@@ -1,0 +1,42 @@
+[
+  {
+    "type": "technique",
+    "id": "Pistol Whip",
+    "name": "HOOK",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.95 },
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "per", "scale": -0.25 } ],
+    "stun_dur": 2,
+    "messages": [ "Your pistol whip sends %s careening", "<npcname> smacks %s" ],
+    "description": "95% moves, 88% Bash, 66% Cut, 66% Stab, Down two turns, STR (C) greatly reduces action cost"
+  },
+  {
+    "type": "technique",
+    "id": "INERTIAL",
+    "name": "Crowd Control",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.6 },
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.15 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.1 }
+    ],
+    "messages": [ "Your swing the stock of your weapon at %s", "<npcname> strikes at %s" ],
+    "aoe": "wide",
+    "description": "60% moves, 50% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
+  }
+]

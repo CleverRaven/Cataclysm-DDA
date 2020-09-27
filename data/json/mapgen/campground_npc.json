@@ -1,0 +1,129 @@
+[
+  {
+    "method": "json",
+    "object": {
+      "items": {
+        ";": [
+          { "item": "dresser", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "camping", "chance": 5 },
+          { "item": "archery", "chance": 2 }
+        ],
+        ",": [
+          { "item": "dresser", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "camping", "chance": 5 },
+          { "item": "archery", "chance": 2 }
+        ],
+        "t": [ { "item": "misc_smoking", "chance": 2 }, { "item": "cannedfood", "chance": 2, "repeat": [ 1, 2 ] } ]
+      },
+      "place_vehicles": [
+        { "chance": 5, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 2 },
+        { "chance": 5, "fuel": -1, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 5, "y": 19 },
+        { "chance": 20, "fuel": 20, "rotation": 0, "status": 0, "vehicle": "lux_rv", "x": 43, "y": 18 },
+        { "chance": 5, "fuel": 15, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 26, "y": 14 },
+        { "chance": 5, "fuel": 15, "rotation": 360, "status": -1, "vehicle": "campground_vehicles", "x": 18, "y": 32 },
+        { "chance": 5, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "campground_vehicles", "x": 7, "y": 34 },
+        { "chance": 5, "fuel": -1, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 17, "y": 40 },
+        { "chance": 5, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "rv", "x": 42, "y": 27 },
+        { "chance": 5, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "campground_vehicles", "x": 35, "y": 43 }
+      ],
+      "rows": [
+        "_____________________ssssss_ss_......sssssssss__",
+        "_______sssssssssssssssbbbbs__ss......|ww||||||||",
+        "________#####ss....ssstttts__ss......+ff|&+TT+&|",
+        "________#;;;#s......sstttts__ss......wDh|||TT|||",
+        "________#;,;cs......ssbbbbs__ss......|ww|&+TT+&|",
+        "________#;;;#s......sssssss__ss......TTT|||TT|||",
+        "_s#####s#####ss......sBs____sss......TTT+TTTTTT|",
+        "_s#;;;#ssssss_s......sss____ss.......TTT|SSTTSS|",
+        "_s#;,;#s______s......................ssO|||TT|||",
+        "_s#;;;#s_____ss......................s__|&+TT+&|",
+        "_s##c##s____s........................s__|||TT|||",
+        "_sssssss___s.........................s__|&+TT+&|",
+        "_sbttbsss_s..........................s__||||||||",
+        "_sbttbsBsss...._ss...................ss_________",
+        "_sbttbssss....____s...................s_________",
+        "_sbttbsss....s_#####.......sss.........sHssHss__",
+        "_ssssssss....__#;;;#.......s__s.............nH__",
+        "_s...........__#;,;c.......ss__...............__",
+        "_s...........__#;;;#..bbbb..s__...............__",
+        "_s...........__#####..tttt..s__...............__",
+        "_s...........s_sssss..tttt..___...............__",
+        "_s............__sss...bbbb..._s...............__",
+        "_sssssss......__sss.......H.s__...............__",
+        "________s.....___s.H........s__......ss_________",
+        "________s.....s__s.n...o..nHs__......s__________",
+        "__sssssss.....s__H.........ss__s.....sssssssss__",
+        "__sbbbbss......__.....H...ssss__..............__",
+        "__sttttss......___.......H#####_s.............__",
+        "__sttttss......s__......ss#;;;#__.............__",
+        "__sbbbbss......s__......ssc;,;#__.............__",
+        "_ssssssss.......___.....ss#;;;#__.............__",
+        "_sBsssss.........__s....ss#####__....ssssssss___",
+        "_sssss..........._......._______s....sbttbsBs___",
+        "__ss.......................____.....ssbttbsss___",
+        "__s.................................ssbttbs_____",
+        "__s................................._sbttbs_____",
+        "__s.......ss.......................s_ssssss_____",
+        "__ss....s____s.....................s____________",
+        "ssssssss__ssss......................s___________",
+        "s##c##s_sssBsss......................s__________",
+        "s#;;;#s_sssssss.......................sssssss___",
+        "s#;,;#s_sbttbss.....sssssssssss........s#####___",
+        "s#;;;#s_sbttbss.....s#####sbbbbs.......s#;;;#___",
+        "s#####s_sbttbss.....s#;;;#sttttss.....ssc;,;#___",
+        "________sbttbss.....sc;,;#sttttsss...sss#;;;#___",
+        "________sssssss.....s#;;;#sbbbbssBssssss#####___",
+        "______________sssssss#####sssssssss____ssssss___",
+        "____________________ssssss______________________"
+      ],
+      "palettes": [ "campground_palette" ],
+      "place_npcs": [  ]
+    },
+    "om_terrain": [ [ "campground_1a_npc", "campground_1b_npc" ], [ "campground_2a_npc", "campground_2b_npc" ] ],
+    "type": "mapgen",
+    "weight": 100
+  },
+  {
+    "method": "json",
+    "om_terrain": [ "campground_roof_npc" ],
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                        ",
+        "             ___________",
+        "             |.........I",
+        "             |.........I",
+        "             |.........I",
+        "             |.........I",
+        "             |.........I",
+        "             ---o......I",
+        "                |......I",
+        "                |......I",
+        "                |......I",
+        "                |......I",
+        "                --------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "_": "t_gutter_north",
+        "-": "t_gutter_south",
+        "|": "t_gutter_west",
+        "I": "t_gutter_east",
+        "o": "t_gutter_drop"
+      }
+    }
+  }
+]

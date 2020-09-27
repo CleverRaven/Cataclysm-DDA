@@ -1,0 +1,82 @@
+[
+  {
+    "//": "Currently unused, here for save compatibility",
+    "type": "overmap_terrain",
+    "id": "fieldoffice",
+    "sym": "^",
+    "name": "wildlife field office",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "mapgen": [
+      {
+        "method": "json",
+        "weight": 10000,
+        "object": {
+          "rows": [
+            "rrrrrrrrrrrrrrrrrrrrrrrr",
+            "yrrryrrryrrryrrryrrryrrr",
+            "yrrryrrryrrryrrryrrryrrr",
+            "yrrryrrryrrryrrryrrryrrr",
+            "yrrryrrryrrryrrryrrryrrr",
+            "yrrryrrryrrryrrryrrryrrr",
+            "yyyyyyyyyyyyyyyyyyyyyyyy",
+            "222222222222222---1+111-",
+            "3..............|B|F    |",
+            "3.2222222222222| |CCC A|",
+            "3.3...3...3...3|D+ F  A|",
+            "3.3I..3...3.I.3--|-+---|",
+            "3.3...3..I3...3.E......3",
+            "3.2242224222422........3",
+            "3......................3",
+            "3.2222422222422..     .3",
+            "3.3.....3.....3..HH   .3",
+            "3.3.....3.....3..HH   .3",
+            "3.3.....3.....3.5555+553",
+            "3.3.....3.....3.5.....53",
+            "3.3....I3...I.3.5GGGGG53",
+            "3.2222222222222.55555553",
+            "3......................3",
+            "222222222222222222222222"
+          ],
+          "terrain": {
+            "r": "t_pavement",
+            "y": "t_pavement_y",
+            ".": "t_dirtfloor",
+            "-": "t_wall",
+            "1": "t_window",
+            "|": "t_wall",
+            "+": "t_door_c",
+            "2": "t_chainfence_h",
+            "3": "t_chainfence_v",
+            "4": "t_chaingate_l",
+            "5": "t_wall_wood",
+            " ": "t_floor",
+            "A": "t_floor",
+            "B": "t_floor",
+            "C": "t_floor",
+            "D": "t_floor",
+            "E": "t_dirtfloor",
+            "F": "t_floor",
+            "G": "t_dirtfloor",
+            "H": "t_floor",
+            "I": "t_dirtfloor"
+          },
+          "furniture": {
+            "A": "f_rack",
+            "C": "f_counter",
+            "D": "f_sink",
+            "E": "f_sink",
+            "F": "f_chair",
+            "G": "f_locker",
+            "H": "f_hay",
+            "I": "f_hay"
+          },
+          "toilets": { "B": {  } }
+        }
+      }
+    ],
+    "flags": [ "SIDEWALK" ]
+  }
+]

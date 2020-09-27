@@ -85,11 +85,23 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "ammo-group": "<group-id>",
 "container-item": "<container-item-id>",
 "container-group": "<group-id>",
+"sealed": <boolean>
+"artifact": <object>
 ```
 
 `contents` is added as contents of the created item. It is not checked if they can be put into the item. This allows water, that contains a book, that contains a steel frame, that contains a corpse.
 
 `count` makes the item spawn repeat to create more items, each time creating a new item.
+
+`charges`: Setting only min, not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to maximum capacity. Not setting min will set it to 0 when max is set.
+
+`sealed`: If true, container will be sealed when the item spawns. Default is `true`.
+
+`artifact`: This object determines that the item or group that is spawned by this entry will become an artifact. Here is an example:
+```json
+"artifact": { "procgen_id": "cult", "rules": { "power_level": 1000, "max_attributes": 5, "max_negative_power": -2000 } }
+```
+The procgen_id relates directly to a `relic_procgen_data` object's id. The `rules` object has three parts: `power_level`, which is the target power level of the spawned artifact. The power level of an artifact is the sum of all power levels of the parts. `max_negative_power` is the sum of only negative power levels of the parts. `max_attributes` is the number of parts.
 
 ```json
 "damage-min": 0,
@@ -220,6 +232,8 @@ Instead of a full JSON object, one can also write a JSON array. The default subt
 
 ### Notes
 
+#### Testing
+
 You can test your item groups in the game:
 
 1. Load a game and call the debug menu
@@ -234,3 +248,9 @@ You can test your item groups in the game:
     > *TIP*: You can filter anything in the debug menu using <kbd>/</kbd>
 
 You should not add items to the item group `EMPTY_GROUP`. This group can be used when the game requires a group id, but you don't want to spawn any items there. The group will never spawn items.
+
+#### SUS
+
+When adding items to item groups, attempt to locate or create **SUS item groups.** SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture. SUS stands for "specific use storage." One of the aims of organizing item groups into specific use storage is to promote reusable tables that can be maintained and extended.
+
+You can find SUS item groups at /data/json/itemgroups/SUS

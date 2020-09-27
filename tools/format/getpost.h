@@ -25,13 +25,13 @@ THE SOFTWARE.
 #ifndef __GETPOST_H__
 #define __GETPOST_H__
 
+#include <cstdlib>
 #include <cstring>
 #include <string>
-#include <stdlib.h>
 #include <map>
 #include <new>
 
-std::string urlDecode( std::string str )
+inline std::string urlDecode( const std::string &str )
 {
     std::string temp;
     int i;
@@ -44,7 +44,7 @@ std::string urlDecode( std::string str )
                 tmp[2] = str[i + 1];
                 tmp[3] = str[i + 2];
                 tmp[4] = '\0';
-                tmpchar = ( char )strtol( tmp, NULL, 0 );
+                tmpchar = static_cast<char>( strtol( tmp, nullptr, 0 ) );
                 temp += tmpchar;
                 i += 2;
                 continue;
@@ -60,18 +60,18 @@ std::string urlDecode( std::string str )
     return temp;
 }
 
-void initializeGet( std::map <std::string, std::string> &Get )
+inline void initializeGet( std::map <std::string, std::string> &Get )
 {
     std::string tmpkey, tmpvalue;
     std::string *tmpstr = &tmpkey;
     char *raw_get = getenv( "QUERY_STRING" );
-    if( raw_get == NULL ) {
+    if( raw_get == nullptr ) {
         Get.clear();
         return;
     }
     while( *raw_get != '\0' ) {
         if( *raw_get == '&' ) {
-            if( tmpkey != "" ) {
+            if( !tmpkey.empty() ) {
                 Get[urlDecode( tmpkey )] = urlDecode( tmpvalue );
             }
             tmpkey.clear();
@@ -85,22 +85,22 @@ void initializeGet( std::map <std::string, std::string> &Get )
         raw_get++;
     }
     //enter the last pair to the map
-    if( tmpkey != "" ) {
+    if( !tmpkey.empty() ) {
         Get[urlDecode( tmpkey )] = urlDecode( tmpvalue );
         tmpkey.clear();
         tmpvalue.clear();
     }
 }
 
-void initializePost( std::map <std::string, std::string> &Post )
+inline void initializePost( std::map <std::string, std::string> &Post )
 {
     std::string tmpkey, tmpvalue;
     std::string *tmpstr = &tmpkey;
     int content_length;
     char *ibuffer;
-    char *buffer = NULL;
+    char *buffer = nullptr;
     char *strlength = getenv( "CONTENT_LENGTH" );
-    if( strlength == NULL ) {
+    if( strlength == nullptr ) {
         Post.clear();
         return;
     }
@@ -112,11 +112,12 @@ void initializePost( std::map <std::string, std::string> &Post )
 
     try {
         buffer = new char[content_length * sizeof( char )];
-    } catch( std::bad_alloc &xa ) {
+    } catch( std::bad_alloc & ) {
         Post.clear();
         return;
     }
-    if( fread( buffer, sizeof( char ), content_length, stdin ) != ( unsigned int )content_length ) {
+    if( fread( buffer, sizeof( char ), content_length,
+               stdin ) != static_cast<unsigned int>( content_length ) ) {
         Post.clear();
         return;
     }
@@ -124,7 +125,7 @@ void initializePost( std::map <std::string, std::string> &Post )
     ibuffer = buffer;
     while( *ibuffer != '\0' ) {
         if( *ibuffer == '&' ) {
-            if( tmpkey != "" ) {
+            if( !tmpkey.empty() ) {
                 Post[urlDecode( tmpkey )] = urlDecode( tmpvalue );
             }
             tmpkey.clear();
@@ -138,7 +139,7 @@ void initializePost( std::map <std::string, std::string> &Post )
         ibuffer++;
     }
     //enter the last pair to the map
-    if( tmpkey != "" ) {
+    if( !tmpkey.empty() ) {
         Post[urlDecode( tmpkey )] = urlDecode( tmpvalue );
         tmpkey.clear();
         tmpvalue.clear();

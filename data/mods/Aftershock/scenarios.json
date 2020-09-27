@@ -1,0 +1,86 @@
+[
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [
+        "afs_affluent_executive",
+        "afs_wraitheon_executive",
+        "afs_vatgrown_bodyguard",
+        "afs_bio_operator",
+        "afs_holo_fighter"
+      ]
+    },
+    "id": "heli_crash"
+  },
+  {
+    "copy-from": "lab_staff",
+    "name": "Challenge - Anomalous Materials",
+    "type": "scenario",
+    "allowed_locs": [ "sloc_lab_finale", "sloc_ice_lab_finale" ],
+    "professions": [ "afs_planar_frontiersman" ],
+    "id": "labFreeman"
+  },
+  {
+    "copy-from": "lab_chal",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_cryosleep_survivor", "afs_holo_fighter", "afs_mastadon_swat" ] },
+    "id": "lab_chal"
+  },
+  {
+    "copy-from": "lab_staff",
+    "type": "scenario",
+    "extend": {
+      "professions": [
+        "afs_affluent_executive",
+        "afs_vatgrown_bodyguard",
+        "afs_radio_technician",
+        "afs_cbm_engineer",
+        "afs_holo_fighter",
+        "afs_mastadon_swat"
+      ]
+    },
+    "id": "lab_staff"
+  },
+  {
+    "copy-from": "prisonbreak",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
+    "id": "prisonbreak"
+  },
+  {
+    "copy-from": "alcatraz",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
+    "id": "alcatraz"
+  },
+  {
+    "copy-from": "mutant",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_vatgrown_bodyguard" ] },
+    "id": "mutant"
+  },
+  {
+    "copy-from": "overrun",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_bio_operator", "afs_mastadon_swat" ] },
+    "id": "overrun"
+  },
+  {
+    "copy-from": "presort",
+    "type": "scenario",
+    "extend": { "professions": [ "afs_affluent_executive", "afs_wraitheon_executive" ] },
+    "id": "presort"
+  },
+  {
+    "type": "scenario",
+    "id": "robot_dispatch",
+    "name": "Robots",
+    "points": 1,
+    "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
+    "allowed_locs": [ "sloc_robot_dispatch" ],
+    "flags": [ "CITY_START" ],
+    "start_name": "Robot Dispatch"
+  }
+]

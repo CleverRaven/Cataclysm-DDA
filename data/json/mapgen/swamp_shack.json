@@ -2,11 +2,26 @@
   {
     "type": "palette",
     "id": "swamp_background",
-    "furniture": {
-      "i": "f_cattails"
-    },
+    "furniture": { "i": "f_cattails" },
     "terrain": {
-      " ": [ "t_swater_dp", "t_swater_sh", "t_swater_sh", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_underbrush", "t_tree", "t_tree_young" ],
+      " ": [
+        "t_swater_dp",
+        "t_swater_sh",
+        "t_swater_sh",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt",
+        "t_dirt",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_grass",
+        "t_underbrush",
+        "t_tree",
+        "t_tree_young"
+      ],
       "i": "t_water_sh"
     }
   },
@@ -52,9 +67,9 @@
         "b": { "items": { "item": "bed", "chance": 60 } },
         "d": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "s": { "items": { "item": "traveler", "chance": 15 } },
-        "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ]
-        }
+        "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
       },
+      "place_loot": [ { "item": "net", "x": 11, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 11, "y": 16, "chance": 50 } ],
       "terrain": {
         "&": "t_dirt",
         "+": "t_door_c",
@@ -89,16 +104,45 @@
       },
       "place_nested": [
         { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
-        { "chunks": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" }, "repeat": 4 },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 7, 17 ],
+          "y": [ 0, 6 ],
+          "neighbors": { "north": "forest_water" },
+          "repeat": 4
+        },
         { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
         { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "east": "forest_water" } },
-        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 7, 17 ], "neighbors": { "east": "forest_water" }, "repeat": 4 },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 18, 23 ],
+          "y": [ 7, 17 ],
+          "neighbors": { "east": "forest_water" },
+          "repeat": 4
+        },
         { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "east": "forest_water" } },
         { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
-        { "chunks": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" }, "repeat": 4 },
-        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 7, 17 ],
+          "y": [ 18, 23 ],
+          "neighbors": { "south": "forest_water" },
+          "repeat": 4
+        },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 18, 23 ],
+          "y": [ 18, 23 ],
+          "neighbors": { "south": "forest_water" }
+        },
         { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "west": "forest_water" } },
-        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 7, 17 ], "neighbors": { "west": "forest_water" }, "repeat": 4 },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 0, 6 ],
+          "y": [ 7, 17 ],
+          "neighbors": { "west": "forest_water" },
+          "repeat": 4
+        },
         { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "west": "forest_water" } }
       ]
     }
@@ -107,16 +151,49 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "cattail",
+    "object": { "rows": [ "i" ], "palettes": [ "swamp_background" ], "mapgensize": [ 1, 1 ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "hunter_shack_roof",
     "object": {
-      "rows": [ "i" ],
-      "palettes": [ "swamp_background" ],
-      "mapgensize": [ 1, 1 ]
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ...........      ",
+        "       ..%........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "       ...........      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { "%": "f_chimney" },
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hunter_shack" ],
+    "om_terrain": [ "hunter_shack_1" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -135,8 +212,8 @@
         " ,#,#,#,,+...L..bb-,;;  ",
         " ,,,,,,,,----------,;;  ",
         "  ;;,,,,,;-llNNxX-;;;;  ",
-        "  ;X-+--,;-.....X-^;;,  ",
-        "  ;X-.C-;;;;;;;;;;;;;;  ",
+        "  ;1-+--,;-.....X-^;;,  ",
+        "  ;1-.C-;;;;;;;;;;;;;;  ",
         "   --.x-;;;;;;;;;;;;;;; ",
         "  ;-V.X-;;;;;;;;;;;;;;;;",
         "  ;on.X-;;;;;;;;;;;;;;;;",
@@ -150,7 +227,7 @@
       "mapping": {
         "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
-        "D": { "items": { "item": "NC_HUNTER_misc", "chance": 50} },
+        "D": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "L": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
         "N": { "items": { "item": "cleaning", "chance": 60 } },
         "X": { "items": [ { "item": "hardware", "chance": 30 }, { "item": "mischw", "chance": 30 } ] },
@@ -159,9 +236,9 @@
         "l": { "items": { "item": "hardware", "chance": 60 } },
         "n": { "items": { "item": "NC_HUNTER_misc", "chance": 60 } },
         "s": { "items": { "item": "traveler", "chance": 15 } },
-        "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ]
-        }
+        "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
       },
+      "place_loot": [ { "item": "net", "x": 4, "y": 18, "chance": 100 }, { "item": "stepladder", "x": 13, "y": 4, "chance": 50 } ],
       "terrain": {
         "#": "t_dirtmound",
         "&": "t_dirt",
@@ -171,6 +248,7 @@
         ".": "t_floor",
         ";": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
         "R": "t_dirt",
+        "1": "t_dirt",
         "^": "t_dirt",
         "o": "t_window_domestic"
       },
@@ -187,6 +265,7 @@
         "T": "f_table",
         "V": "f_fvat_empty",
         "X": "f_crate_c",
+        "1": "f_crate_c",
         "^": "f_bulletin",
         "b": "f_makeshift_bed",
         "c": "f_chair",
@@ -196,6 +275,43 @@
         "s": "f_counter",
         "x": "f_crate_o"
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "hunter_shack_roof_1",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          .........     ",
+        "          .........     ",
+        "          ..........    ",
+        "          ..........    ",
+        "          .%........    ",
+        "          ..........    ",
+        "          .........     ",
+        "         ..........     ",
+        "         ..........     ",
+        "         ..........     ",
+        "          ........      ",
+        "    ....  ........      ",
+        "    ....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "   .....                ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { "%": "f_chimney" },
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]

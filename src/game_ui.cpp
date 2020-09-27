@@ -1,8 +1,33 @@
 #include "game_ui.h"
 
-#include "game.h"
+#if !defined(TILES)
 
-void game_ui::init_ui()
+void reinitialize_framebuffer()
 {
-    g->init_ui( true );
+    return;
 }
+
+void to_map_font_dim_width( int & )
+{
+    return;
+}
+
+void to_map_font_dim_height( int & )
+{
+    return;
+}
+
+void to_map_font_dimension( int &, int & )
+{
+    return;
+}
+void from_map_font_dimension( int &, int & )
+{
+    return;
+}
+void to_overmap_font_dimension( int &, int & )
+{
+    return;
+}
+
+#endif

@@ -1,0 +1,64 @@
+[
+  {
+    "//": "Aftershock - vehicle testing",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_1side" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "|--------|....|--------|",
+        "|llllllllg...6gllllllll|",
+        "|#.......-gLLg-.......#|",
+        "|#....................#|",
+        "|......................|",
+        "|......................|",
+        "|......................|",
+        "|...pppppppppppppppp...|",
+        "|..pppppppppppppppppp..|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|.pppppppppppppppppppp.|",
+        "|..pppppppppppppppppp..|",
+        "|...pppppppppppppppp...|",
+        "|r....................r|",
+        "|r....................r|",
+        "|rrrrrrrr.....rrrrrrrrr|",
+        "|----------------------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "furniture": { "#": "f_bench" },
+      "terrain": { "p": "t_pavement" },
+      "mapping": {
+        "l": { "items": [ { "item": "clothing_work_set", "chance": 33 } ] },
+        "r": {
+          "items": [
+            { "item": "mechanics", "chance": 30, "repeat": [ 0, 2 ] },
+            { "item": "hardware", "chance": 30 },
+            { "item": "afs_lab_mechanics_books", "chance": 10 }
+          ]
+        }
+      },
+      "computers": {
+        "6": {
+          "name": "Vehicle Testing Track",
+          "security": 4,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      },
+      "place_vehicles": [
+        { "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "vehicle": "afs_lab_cars", "x": [ 11, 14 ], "y": [ 12, 17 ] },
+        { "chance": 75, "fuel": 80, "status": 0, "vehicle": "afs_lab_utility", "x": [ 3, 7 ], "y": [ 2, 5 ] },
+        { "chance": 75, "fuel": 80, "vehicle": "afs_lab_utility", "x": [ 19, 23 ], "y": [ 2, 5 ] }
+      ]
+    }
+  }
+]

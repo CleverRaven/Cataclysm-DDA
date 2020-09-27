@@ -19,9 +19,14 @@
     "type": "overmap_terrain",
     "name": "noname",
     "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
-    "sym": 37,
+    "sym": "%",
     "color": "white",
     "mondensity": 1
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "mapgen_test",
+    "terrain": [ { "result": "t_dirt", "valid_terrain": [ "t_grass" ] } ]
   },
   {
     "type": "mapgen",
@@ -31,7 +36,7 @@
       "//": "Some of the squares should have a frame, but not all.",
       "fill_ter": "t_grass",
       "rows": [
-        "                        ",
+        "                       r",
         "                        ",
         "                        ",
         "                        ",
@@ -61,10 +66,7 @@
           "terrain": "t_dirt",
           "traps": "tr_pit",
           "fields": { "field": "fd_fire" },
-          "items": {
-            "item": "survivorzed_boots",
-            "chance": 30
-          },
+          "items": { "item": "survivorzed_boots", "chance": 30 },
           "item": { "item": "2x4" }
         }
       },
@@ -74,8 +76,8 @@
       "place_furniture": [ { "furn": "f_rack", "x": 9, "y": 3 } ],
       "place_traps": [ { "trap": "tr_funnel", "x": 7, "y": 3 } ],
       "traps": { "F": "tr_cot", "f": { "trap": "tr_funnel" }, "g": { "trap": "tr_funnel" } },
-      "fields": { "B": { "field": "fd_blood", "density": 1, "age": 10 } },
-      "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "density": 2, "age": 20 } ],
+      "fields": { "B": { "field": "fd_blood", "intensity": 1, "age": 10 } },
+      "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "intensity": 2, "age": 20 } ],
       "place_signs": [
         { "signage": "it works again.", "x": 7, "y": 1 },
         { "signage": "<given_name> <family_name> owned <full_name> at <city>", "x": 7, "y": 2 },
@@ -90,18 +92,34 @@
       "gaspumps": { "O": { "amount": [ 110, 112 ] } },
       "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ] } ],
       "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics_tech", "chance": 70 } },
-      "place_items": [ { "item": "bionics_tech", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
+      "place_items": [
+        { "item": "bionics_tech", "x": 1, "y": 3, "chance": 70 },
+        { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 }
+      ],
       "place_item": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
-      "item": { "t": { "item": "television", "chance": 4 }, "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ] },
+      "item": {
+        "t": { "item": "television", "chance": 4 },
+        "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ]
+      },
       "npcs": { "T": { "class": "guard" } },
       "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],
-      "monsters": { "B": { "monster": "GROUP_BEE", "chance": 4, "density": 1 }, "S": { "monster": "GROUP_ANT", "chance": 1, "density": 0.1 } },
-      "place_monsters": [ { "monster": "GROUP_BEE", "x": 5, "y": 1, "chance": 4, "density": 1 }, { "monster": "GROUP_ANT", "x": 7, "y": 1, "chance": 1, "density": 0.1 } ],
+      "monsters": {
+        "B": { "monster": "GROUP_BEE", "chance": 4, "density": 1 },
+        "S": { "monster": "GROUP_ANT", "chance": 1, "density": 0.1 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_BEE", "x": 5, "y": 1, "chance": 4, "density": 1 },
+        { "monster": "GROUP_ANT", "x": 7, "y": 1, "chance": 1, "density": 0.1 }
+      ],
       "monster": { "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" } },
       "place_monster": [ { "monster": "mon_deer", "x": 13, "y": 3, "friendly": true, "name": "THE OTHER DEER" } ],
       "place_vehicles": [ { "vehicle": "unicycle", "x": 5, "y": 3, "chance": 100, "status": 1 } ],
-      "vehicles": { "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 }, "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
-      }
+      "vehicles": {
+        "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 },
+        "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
+      },
+      "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ],
+      "ter_furn_transforms": { "r": { "transform": "mapgen_test" } }
     }
   }
 ]

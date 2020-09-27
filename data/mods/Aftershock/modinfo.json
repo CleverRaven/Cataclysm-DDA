@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "aftershock",
+    "name": "Aftershock",
+    "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury" ],
+    "maintainers": [ "Maleclypse", "Candlebury" ],
+    "description": "Drifts the game away from realism and more towards sci-fi.  Long term goal of being a significantly different experience that remains compatible with other mods.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "//": "We have our own headless zombies that were added first!",
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_zombie_brainless", "mon_zombie_ears", "mon_zombie_skull" ]
+  }
+]

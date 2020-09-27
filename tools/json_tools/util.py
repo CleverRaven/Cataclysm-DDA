@@ -1,29 +1,27 @@
 """Utility stuff for json tools.
 """
 
-from __future__ import print_function
-
 import argparse
 from collections import Counter, OrderedDict
 from fnmatch import fnmatch
 import json
 import re
 import os
-from StringIO import StringIO
-import sys
+from io import StringIO
 
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
-JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
+JSON_DIR = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
 JSON_FNMATCH = "*.json"
-
 
 
 def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     """Use a UNIX like file match expression to weed out the JSON files.
 
-    returns tuple, first element containing json read, second element containing
-    list of any errors found. error list will be empty if no errors
+    returns tuple, first element containing json read, second element
+    containing list of any errors found. error list will be empty if
+    no errors
     """
     data = []
     errors = []
@@ -35,23 +33,31 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                 json_file = os.path.join(d, f)
                 with open(json_file, "r") as file:
                     try:
-                        candidates = json.load(file, object_pairs_hook=OrderedDict)
+                        candidates = json.load(
+                            file, object_pairs_hook=OrderedDict)
                     except Exception as err:
-                        errors.append("Problem reading file %s, reason: %s" % (json_file, err))
+                        errors.append(
+                            "Problem reading file {},".format(json_file) +
+                            " reason: {}".format(err))
                     if type(candidates) != list:
-                        errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
+                        if type(candidates) == OrderedDict:
+                            data.append(candidates)
+                        else:
+                            errors.append(
+                                "Problem parsing data from" +
+                                " file {},".format(json_file) +
+                                " reason: expected a list.")
                     else:
                         data += candidates
     return (data, errors)
-
 
 
 def match_primitive_values(item_value, where_value):
     """Perform any odd logic on item matching.
     """
     # Matching interpolation for keyboard constrained input.
-    if type(item_value) == str or type(item_value) == unicode:
-        # Direct match, and don't convert unicode in Python 2.
+    if type(item_value) == str:
+        # Direct match
         return bool(re.match(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
@@ -61,7 +67,6 @@ def match_primitive_values(item_value, where_value):
         return bool(re.match(where_value, str(item_value).lower()))
     else:
         return False
-
 
 
 def matches_where(item, where_key, where_value):
@@ -100,7 +105,6 @@ def matches_where(item, where_key, where_value):
         return match_primitive_values(item_value, where_value)
 
 
-
 def matches_all_wheres(item, where_fn_list):
     """Takes a list of where functions and attempts to match against them.
 
@@ -120,7 +124,6 @@ def matches_all_wheres(item, where_fn_list):
     return True
 
 
-
 class WhereAction(argparse.Action):
     """An argparse action callback.
 
@@ -131,7 +134,8 @@ class WhereAction(argparse.Action):
     """
 
     def where_test_factory(self, where_key, where_value):
-        """Wrap the where test we are using and return it as a callable function.
+        """Wrap the where test we are using and return it as a callable
+        function.
 
         item in the callback is assumed to be what we're testing against.
         """
@@ -142,18 +146,20 @@ class WhereAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if not nargs:
             raise ValueError("nargs must be declared")
-        super(WhereAction, self).__init__(option_strings, dest, nargs=nargs, **kwargs)
+        super(WhereAction, self).__init__(
+            option_strings, dest, nargs=nargs, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
         try:
             where_functions = []
             for w in values:
-                where_key, where_value = w.split("=")
-                where_functions.append(self.where_test_factory(where_key, where_value))
+                w_key, w_value = w.split("=")
+                where_functions.append(self.where_test_factory(w_key, w_value))
             setattr(namespace, self.dest, where_functions)
         except Exception:
-            raise ValueError("Where options are strict. Must be in the form of 'where_key=where_value'")
-
+            raise ValueError(
+                "Where options are strict. Must be in the form of"
+                " 'where_key=where_value'")
 
 
 def key_counter(data, where_fn_list):
@@ -163,15 +169,67 @@ def key_counter(data, where_fn_list):
     Returns a tuple of data.
     """
     stats = Counter()
-    # Which blobs had our search key?
-    blobs_matched = 0
-    for item in data:
-        if matches_all_wheres(item, where_fn_list):
-            # We assume we are working with JSON data and that all keys are
-            # strings
-            stats.update(item.keys())
-    return stats, blobs_matched
+    matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
+    for item in matching_data:
+        # Check each key for nested data
+        for key in item.keys():
+            # Skip comments
+            if key.startswith('//'):
+                continue
 
+            val = item[key]
+            # If value is an object, tally key.subkey for all object subkeys
+            if type(val) == OrderedDict:
+                for subkey in val.keys():
+                    if not subkey.startswith('//'):
+                        stats[key + '.' + subkey] += 1
+
+            # If value is a list of objects, tally key.subkey for each
+            elif type(val) == list:
+                if all(type(e) == OrderedDict for e in val):
+                    for obj in val:
+                        for subkey in obj.keys():
+                            if not subkey.startswith('//'):
+                                stats[key + '.' + subkey] += 1
+
+            # For anything else, it only counts as one
+            else:
+                stats[key] += 1
+
+    return stats, len(matching_data)
+
+
+def item_value_counter(_value):
+    """Return a Counter for a single value (int, float, string, dict)
+    recursing into nested dicts and lists.
+    """
+    stats = Counter()
+    # String or unicode
+    if isinstance(_value, str):
+        stats[_value] += 1
+    # Cast numbers to strings
+    elif type(_value) == int or type(_value) == float:
+        stats[str(_value)] += 1
+    # Pull all values from objects
+    elif type(_value) == OrderedDict:
+        stats += list_value_counter(list(_value.values()))
+    # Pull values from list of objects or strings
+    elif type(_value) == list:
+        stats += list_value_counter(_value)
+    else:
+        raise ValueError("Value '%s' has unknown type %s" %
+                         (_value, type(_value)))
+    return stats
+
+
+def list_value_counter(_list):
+    """Return a Counter tallying all values in the given {list of dicts}
+    or {list of strs}, recursing into nested dicts and lists.
+    """
+    stats = Counter()
+    for elem in _list:
+        stats += item_value_counter(elem)
+    return stats
 
 
 def value_counter(data, search_key, where_fn_list):
@@ -182,29 +240,59 @@ def value_counter(data, search_key, where_fn_list):
     Returns a tuple of data.
     """
     stats = Counter()
-    # Which blobs had our search key?
-    blobs_matched = 0
-    for item in data:
-        if search_key in item and matches_all_wheres(item, where_fn_list):
-            v = item[search_key]
-            blobs_matched += 1
-            if type(v) == list:
-                stats.update(v)
-            elif type(v) == int or type(v) == float:
-                # Cast to string.
-                stats[str(v)] += 1
-            else:
-                # assume string
-                stats[v] += 1
-    return stats, blobs_matched
+    matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
 
+    # Search key may use one level of dotted notation to descend into an
+    # dict or list-of-dict in the matching data
+
+    # Exactly one dot is allowed to look in parent_key.child_key
+    if search_key.count('.') == 1:
+        parent_key, child_key = search_key.split('.')
+    # With no dots, just use the plain key
+    elif search_key.count('.') == 0:
+        parent_key = search_key
+        child_key = None
+    else:
+        raise argparse.ArgumentError("Only one '.' allowed in search key")
+
+    for item in matching_data:
+        if parent_key not in item:
+            stats['MISSING'] += 1
+            continue
+
+        parent_val = item[parent_key]
+
+        # List of values within this item to tally stats on
+        stat_vals = []
+
+        # If this value is a list of objects, pull parent_key.child_key
+        # values from all of them to include in stats
+        if type(parent_val) == list and all(type(e) == OrderedDict
+                                            for e in parent_val):
+            for od in parent_val:
+                if child_key in od:
+                    stat_vals.append(od[child_key])
+
+        # If this value is a single object, get value at parent_key.child_key
+        elif type(parent_val) == OrderedDict and child_key in parent_val:
+            stat_vals.append(parent_val[child_key])
+
+        # Other kinds of data cannot be indexed by parent_key.child_key
+        else:
+            stat_vals.append(parent_val)
+
+        # Tally all stats, recursing into nested values
+        for val in stat_vals:
+            stats += item_value_counter(val)
+
+    return stats, len(matching_data)
 
 
 def ui_values_to_columns(values, screen_width=80):
     """Take a list of strings and output in fixed width columns.
     """
-    max_val_len = len(max(values, key=len))+1
-    cols = screen_width/max_val_len
+    max_val_len = len(max(values, key=len)) + 1
+    cols = screen_width / max_val_len
     iters = 0
     for v in values:
         print(v.ljust(max_val_len), end=' ')
@@ -214,18 +302,17 @@ def ui_values_to_columns(values, screen_width=80):
     print("")
 
 
-
 def ui_counts_to_columns(counts):
     """Take a Counter instance and display in single fixed width key:value
     column.
     """
-    # Values in left column, counts in right, left column as wide as longest string length.
+    # Values in left column, counts in right, left
+    # column as wide as longest string length.
     key_vals = counts.most_common()
-    key_field_len = len(max(list(counts.keys()), key=len))+1
+    key_field_len = len(max(list(counts.keys()), key=len)) + 1
     output_template = "%%-%ds: %%s" % key_field_len
     for k_v in key_vals:
         print(output_template % k_v)
-
 
 
 class CDDAJSONWriter(object):
@@ -248,7 +335,7 @@ class CDDAJSONWriter(object):
         # buf is initialized on a call to dumps
 
     def indented_write(self, s):
-        self.buf.write(self.indent*self.indent_multiplier + s)
+        self.buf.write(self.indent * self.indent_multiplier + s)
 
     def write_key(self, k):
         self.indented_write("\"%s\": " % k)
@@ -279,7 +366,7 @@ class CDDAJSONWriter(object):
                 self.buf.write(",\n")
             else:
                 self.buf.write("\n")
-            self.indent_multiplier -=1
+            self.indent_multiplier -= 1
         self.indented_write("]")
 
     def dumps(self):
@@ -290,7 +377,7 @@ class CDDAJSONWriter(object):
             self.buf = None
 
         self.buf = StringIO()
-        items = self.d.items()
+        items = list(self.d.items())
         global indent_multiplier
         self.indented_write("{\n")
         self.indent_multiplier += 1

@@ -1,21 +1,17 @@
 #pragma once
-#ifndef VPART_RANGE_H
-#define VPART_RANGE_H
+#ifndef CATA_SRC_VPART_RANGE_H
+#define CATA_SRC_VPART_RANGE_H
 
-#include <algorithm>
-#include <cassert>
 #include <functional>
+#include <cstddef>
+#include <iterator>
+#include <utility>
 
+#include "cata_assert.h"
 #include "optional.h"
-#include "vpart_reference.h"
+#include "vpart_position.h"
+#include "vehicle.h"
 
-// Some functions have templates with default values that may seem pointless,
-// but they allow to use the type in question without including the header
-// of it. (The header must still be included *if* you use the function template.)
-// Example: `some_range.begin() == some_range.end()` works without including
-// "vpart_reference.h", but `*some_range.begin()` requires it.
-
-class vpart_reference;
 enum class part_status_flag : int;
 
 /**
@@ -49,22 +45,22 @@ class vehicle_part_iterator
 
     public:
         vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ) {
-            assert( i <= range().part_count() );
+            cata_assert( i <= range().part_count() );
             skip_to_next_valid( i );
         }
         vehicle_part_iterator( const vehicle_part_iterator & ) = default;
 
         const vpart_reference &operator*() const {
-            assert( vp_ );
+            cata_assert( vp_ );
             return *vp_;
         }
         const vpart_reference *operator->() const {
-            assert( vp_ );
+            cata_assert( vp_ );
             return &*vp_;
         }
 
         vehicle_part_iterator &operator++() {
-            assert( vp_ );
+            cata_assert( vp_ );
             skip_to_next_valid( vp_->part_index() + 1 );
             return *this;
         }
@@ -88,7 +84,7 @@ namespace std
 template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using difference_type = size_t;
     using value_type = vpart_reference;
-    // @todo maybe change into random access iterator? This requires adding
+    // TODO: maybe change into random access iterator? This requires adding
     // more operators to the iterator, which may not be efficient.
     using iterator_category = std::forward_iterator_tag;
 };
@@ -112,7 +108,7 @@ class generic_vehicle_part_range
         // Templated because see top of file.
         template<typename T = ::vehicle>
         size_t part_count() const {
-            return static_cast<const T &>( vehicle_.get() ).parts.size();
+            return static_cast<const T &>( vehicle_.get() ).part_count();
         }
 
         using iterator = vehicle_part_iterator<range_type>;
@@ -142,7 +138,6 @@ class generic_vehicle_part_range
         }
 };
 
-class vehicle_part_range;
 /** A range that contains all parts of the vehicle. */
 class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
 {
@@ -154,8 +149,6 @@ class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
         }
 };
 
-template<typename feature_type>
-class vehicle_part_with_feature_range;
 /** A range that contains parts that have a given feature and (optionally) are not broken. */
 template<typename feature_type>
 class vehicle_part_with_feature_range : public
@@ -170,7 +163,7 @@ class vehicle_part_with_feature_range : public
             generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
                     feature_( std::move( f ) ), required_( r ) { }
 
-        bool matches( const size_t part ) const;
+        bool matches( size_t part ) const;
 };
 
-#endif
+#endif // CATA_SRC_VPART_RANGE_H

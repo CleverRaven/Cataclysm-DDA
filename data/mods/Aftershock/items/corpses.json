@@ -1,0 +1,69 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_afs_mon_sentinel_lx",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken sentinel-lx", "str_pl": "broken sentinels-lx" },
+    "category": "other",
+    "description": "The irreparably broken remains of a Sentinel-lx.  Could be gutted for valuable parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_bloodhound_drone",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken bloodhound drone" },
+    "category": "other",
+    "description": "This bloodhound won't be chasing anyone anymore.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "31520 g",
+    "volume": "15 L",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_cleanerbot",
+    "name": "broken utility robot",
+    "category": "other",
+    "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_beehive",
+    "name": "broken beehive robot",
+    "copy-from": "broken_utilibot"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret_xray",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken xray laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
+  }
+]

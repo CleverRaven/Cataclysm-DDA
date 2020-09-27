@@ -1,13 +1,13 @@
 #include "mod_tileset.h"
 
 #include <algorithm>
-#include <iterator>
+#include <memory>
 
 #include "json.h"
 
 std::vector<mod_tileset> all_mod_tilesets;
 
-void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string &base_path,
+void load_mod_tileset( const JsonObject &jsobj, const std::string &, const std::string &base_path,
                        const std::string &full_path )
 {
     // This function didn't loads image data actually, loads when tileset loading.
@@ -24,6 +24,11 @@ void load_mod_tileset( JsonObject &jsobj, const std::string &, const std::string
     for( const std::string &compatible_tileset_id : compatibility ) {
         all_mod_tilesets.back().add_compatible_tileset( compatible_tileset_id );
     }
+    if( jsobj.has_member( "tiles-new" ) ) {
+        // tiles-new is read when initializing graphics, inside `tileset_loader::load`.
+        // calling get_array here to suppress warnings in the unit test.
+        jsobj.get_array( "tiles-new" );
+    }
 }
 
 void reset_mod_tileset()
@@ -33,11 +38,8 @@ void reset_mod_tileset()
 
 bool mod_tileset::is_compatible( const std::string &tileset_id ) const
 {
-    auto iter = std::find( compatibility.begin(), compatibility.end(), tileset_id );
-    if( iter == compatibility.end() ) {
-        return false;
-    }
-    return true;
+    const auto iter = std::find( compatibility.begin(), compatibility.end(), tileset_id );
+    return iter != compatibility.end();
 }
 
 void mod_tileset::add_compatible_tileset( const std::string &tileset_id )

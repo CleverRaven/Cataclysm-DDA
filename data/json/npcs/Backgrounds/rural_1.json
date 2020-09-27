@@ -4,8 +4,9 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "npc_female": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
-        "npc_male": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
+        "npc_female": true,
+        "yes": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started…  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+        "no": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started…  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
       }
     ],
     "responses": [
@@ -17,7 +18,7 @@
   {
     "id": "BGSS_RURAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up one of my tractors.  Not that I'd been working the fields since...  well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and choppers overhead.  I was scared, kept the curtains drawn, kept changing the channels.  Then, one day, there were no channels to change to.  Just the emergency broadcast, over and over.",
+    "dynamic_line": "Well, it built up a bit.  There was that acid rain, it burnt up one of my tractors.  Not that I'd been working the fields since…  well, it'd been a <shitty> year and I hadn't done much worth doing.  There were explosions and things, and choppers overhead.  I was scared, kept the curtains drawn, kept changing the channels.  Then, one day, there were no channels to change to.  Just the emergency broadcast, over and over.",
     "responses": [
       { "text": "What happened next?", "topic": "BGSS_RURAL_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

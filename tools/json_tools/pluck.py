@@ -1,33 +1,32 @@
-#!/usr/bin/env python
-"""Run this script with -h for usage info and docs.
-"""
-
-from __future__ import print_function
-
-import sys
-import os
-import json
-import argparse
-from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
-
-parser = argparse.ArgumentParser(description="""Search for matches within the json data.
+#!/usr/bin/env python3
+"""Search for matches within the json data.
 
 Example usages:
 
     %(prog)s --all type=dream strength=2
 
     %(prog)s material=plastic material=steel
-""", formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("--all",
-        action="store_true",
-        help="if set, includes all matches. if not set, includes first match in the stream.")
-parser.add_argument("where",
-        action=WhereAction, nargs='+', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
 
+"""
+
+import sys
+import argparse
+from util import import_data, matches_all_wheres, CDDAJSONWriter, WhereAction
+
+parser = argparse.ArgumentParser(
+    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "--all",
+    action="store_true",
+    help="includes all matches. by default, include only the first match.")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='+', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":
@@ -38,7 +37,7 @@ if __name__ == "__main__":
         # If we start getting unexpected JSON or other things, might need to
         # revisit quitting on load_errors
         print("Error loading JSON data.")
-        for e in load_errrors:
+        for e in load_errors:
             print(e)
         sys.exit(1)
     elif not json_data:
@@ -47,7 +46,8 @@ if __name__ == "__main__":
 
     # Wasteful iteration, but less code to maintain on a tool that will likely
     # change again.
-    plucked = [item for item in json_data if matches_all_wheres(item, args.where)]
+    plucked = [
+        item for item in json_data if matches_all_wheres(item, args.where)]
 
     if not plucked:
         print("Nothing found.")
@@ -60,6 +60,6 @@ if __name__ == "__main__":
         # TODO: get rid of ugh
         print("[")
         for i, p in enumerate(plucked):
-            eol = ",\n" if i < len(plucked)-1 else "\n"
+            eol = ",\n" if i < len(plucked) - 1 else "\n"
             print(CDDAJSONWriter(p, 1).dumps(), end=eol)
         print("]")

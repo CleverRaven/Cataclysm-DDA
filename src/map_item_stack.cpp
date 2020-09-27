@@ -1,13 +1,16 @@
 #include "map_item_stack.h"
 
 #include <algorithm>
+#include <functional>
+#include <iterator>
+#include <memory>
 
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "line.h"
 
-map_item_stack::item_group::item_group() : pos( 0, 0, 0 ), count( 0 )
+map_item_stack::item_group::item_group() : count( 0 )
 {
 }
 
@@ -42,12 +45,15 @@ void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
 
 bool map_item_stack::map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs )
 {
-    if( lhs.example->get_category() == rhs.example->get_category() ) {
+    const item_category &lhs_cat = lhs.example->get_category_of_contents();
+    const item_category &rhs_cat = rhs.example->get_category_of_contents();
+
+    if( lhs_cat == rhs_cat ) {
         return square_dist( tripoint_zero, lhs.vIG[0].pos ) <
                square_dist( tripoint_zero, rhs.vIG[0].pos );
     }
 
-    return lhs.example->get_category() < rhs.example->get_category();
+    return lhs_cat < rhs_cat;
 }
 
 std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack> &stack,
@@ -70,7 +76,7 @@ std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack
 //returns the first non priority items.
 int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities )
 {
-    //TODO:optimize if necessary
+    // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
     const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin(); it != stack.end(); ) {
@@ -92,7 +98,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
 int list_filter_low_priority( std::vector<map_item_stack> &stack, const int start,
                               const std::string &priorities )
 {
-    //TODO:optimize if necessary
+    // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
     const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin() + start; it != stack.end(); ) {

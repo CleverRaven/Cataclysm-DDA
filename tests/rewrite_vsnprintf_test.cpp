@@ -1,16 +1,17 @@
 #if !defined(_MSC_VER)
 // the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
-
 #include "catch/catch.hpp"
 
-std::string rewrite_vsnprintf( const char *msg );
+#include <string>
+
+#include "output.h"
 
 TEST_CASE( "Test vsnprintf_rewrite" )
 {
     CHECK( rewrite_vsnprintf( "%%hello%%" ) == "%%hello%%" );
     CHECK( rewrite_vsnprintf( "hello" ) == "hello" );
     CHECK( rewrite_vsnprintf( "%%" ) == "%%" );
-    CHECK( rewrite_vsnprintf( "" ) == "" );
+    CHECK( rewrite_vsnprintf( "" ).empty() );
     CHECK( rewrite_vsnprintf( "%s" ) == "%s" );
     CHECK( rewrite_vsnprintf( "%1s" ) == "%1s" );
     CHECK( rewrite_vsnprintf( "%27s" ) == "%27s" );

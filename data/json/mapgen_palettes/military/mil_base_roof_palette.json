@@ -1,0 +1,43 @@
+[
+  {
+    "type": "palette",
+    "id": "mil_base_roof_palette",
+    "terrain": {
+      ".": "t_flat_roof",
+      "&": "t_flat_roof",
+      "X": "t_flat_roof",
+      "=": "t_flat_roof",
+      "A": "t_flat_roof",
+      " ": "t_open_air",
+      "o": "t_glass_roof",
+      ",": "t_thconc_floor",
+      ":": "t_concrete",
+      "'": "t_metal_floor_no_roof",
+      "x": "t_metal_floor_no_roof",
+      "/": "t_strconc_wall",
+      "w": "t_window",
+      "+": [ [ "t_door_c", 2 ], "t_door_o" ],
+      "d": "t_door_metal_c",
+      "D": "t_door_metal_locked",
+      "e": "t_gates_mech_control",
+      "F": "t_fence_barbed",
+      "2": "t_gutter_north",
+      "-": "t_gutter_south",
+      "3": "t_gutter_east",
+      "|": "t_gutter_west",
+      "5": "t_gutter_drop",
+      "#": "t_grate",
+      "Z": "t_radio_tower",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up"
+    },
+    "furniture": {
+      "&": "f_roof_turbine_vent",
+      "X": "f_small_satelitte_dish",
+      "x": "f_small_satelitte_dish",
+      "~": "f_chimney",
+      "=": "f_vent_pipe",
+      "A": "f_air_conditioner"
+    }
+  }
+]

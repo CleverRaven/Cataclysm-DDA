@@ -1,6 +1,9 @@
 #include "string_formatter.h"
 
 #include <stdexcept>
+#include <exception>
+
+#include "cata_assert.h"
 
 char cata::string_formatter::consume_next_input()
 {
@@ -48,7 +51,8 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         const int result = parse_integer() - 1; // arguments are 1-based
         // We already know this is true because of the `find_first_not_of` check above.
         const bool had_next = consume_next_input_if( '$' );
-        assert( had_next );
+        ( void ) had_next;
+        cata_assert( had_next );
         return result;
     } else {
         return cata::nullopt;
@@ -59,7 +63,7 @@ int cata::string_formatter::parse_integer( )
 {
     int result = 0;
     while( has_digit() ) {
-        //@todo: Check for overflow
+        // TODO: Check for overflow
         result = result * 10 + ( consume_next_input() - '0' );
     }
     return result;
@@ -75,7 +79,7 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
         if( !consume_next_input_if( '$' ) ) {
             throw_error( "expected '$' after field precision" );
         }
-        return index ;
+        return index;
     }
     while( has_digit() ) {
         current_format.push_back( consume_next_input() );

@@ -5,6 +5,7 @@
     "om_terrain": [ "cs_private_park" ],
     "weight": 1000,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "..xxxxxxxxxxxxxxxxxxxx.,",
         ".WWWWWWWWW-XX-WWWWWWWWW.",
@@ -54,16 +55,7 @@
         "f": "t_grass",
         "o": "t_grass",
         "p": "t_grass",
-        "s": "t_grass",
-        "1": "t_floor",
-        "2": "t_floor",
-        "a": "t_floor",
-        "t": "t_floor",
-        "B": "t_floor",
-        "E": "t_floor",
-        "F": "t_floor",
-        "L": "t_floor",
-        "S": "t_floor"
+        "s": "t_grass"
       },
       "furniture": {
         "~": "f_dahlia",
@@ -102,6 +94,41 @@
         { "item": "trash", "chance": 50, "x": 11, "y": 21 }
       ],
       "place_signs": [ { "signage": "Private Property: No Trespassing", "x": 8, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_private_park_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ........              ",
+        "  ........              ",
+        "  ........              ",
+        "  ........              ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

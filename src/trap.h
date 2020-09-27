@@ -1,95 +1,185 @@
 #pragma once
-#ifndef TRAP_H
-#define TRAP_H
+#ifndef CATA_SRC_TRAP_H
+#define CATA_SRC_TRAP_H
 
+#include <algorithm>
+#include <cstddef>
 #include <functional>
+#include <string>
+#include <tuple>
+#include <utility>
 #include <vector>
 
 #include "color.h"
 #include "int_id.h"
+#include "magic.h"
 #include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
+class Character;
 class Creature;
-class item;
-class player;
-class map;
-struct trap;
-struct tripoint;
 class JsonObject;
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
+class item;
+class map;
+struct tripoint;
 
 namespace trapfunc
 {
-// creature is the creature that triggered the trap,
 // p is the point where the trap is (not where the creature is)
-// creature can be NULL.
-void none( Creature *, const tripoint & );
-void bubble( Creature *creature, const tripoint &p );
-void cot( Creature *creature, const tripoint &p );
-void beartrap( Creature *creature, const tripoint &p );
-void snare_light( Creature *creature, const tripoint &p );
-void snare_heavy( Creature *creature, const tripoint &p );
-void board( Creature *creature, const tripoint &p );
-void caltrops( Creature *creature, const tripoint &p );
-void tripwire( Creature *creature, const tripoint &p );
-void crossbow( Creature *creature, const tripoint &p );
-void shotgun( Creature *creature, const tripoint &p );
-void blade( Creature *creature, const tripoint &p );
-void landmine( Creature *creature, const tripoint &p );
-void telepad( Creature *creature, const tripoint &p );
-void goo( Creature *creature, const tripoint &p );
-void dissector( Creature *creature, const tripoint &p );
-void sinkhole( Creature *creature, const tripoint &p );
-void pit( Creature *creature, const tripoint &p );
-void pit_spikes( Creature *creature, const tripoint &p );
-void pit_glass( Creature *creature, const tripoint &p );
-void lava( Creature *creature, const tripoint &p );
-void portal( Creature *creature, const tripoint &p );
-void ledge( Creature *creature, const tripoint &p );
-void boobytrap( Creature *creature, const tripoint &p );
-void temple_flood( Creature *creature, const tripoint &p );
-void temple_toggle( Creature *creature, const tripoint &p );
-void glow( Creature *creature, const tripoint &p );
-void hum( Creature *creature, const tripoint &p );
-void shadow( Creature *creature, const tripoint &p );
-void drain( Creature *creature, const tripoint &p );
-void snake( Creature *creature, const tripoint &p );
-}
+// creature is the creature that triggered the trap,
+// item is the item that triggered the trap,
+// creature and item can be nullptr.
+bool none( const tripoint &, Creature *, item * );
+bool bubble( const tripoint &p, Creature *c, item *i );
+bool glass( const tripoint &p, Creature *c, item *i );
+bool cot( const tripoint &p, Creature *c, item *i );
+bool beartrap( const tripoint &p, Creature *c, item *i );
+bool snare_light( const tripoint &p, Creature *c, item *i );
+bool snare_heavy( const tripoint &p, Creature *c, item *i );
+bool board( const tripoint &p, Creature *c, item *i );
+bool caltrops( const tripoint &p, Creature *c, item *i );
+bool caltrops_glass( const tripoint &p, Creature *c, item *i );
+bool tripwire( const tripoint &p, Creature *c, item *i );
+bool crossbow( const tripoint &p, Creature *c, item *i );
+bool shotgun( const tripoint &p, Creature *c, item *i );
+bool blade( const tripoint &p, Creature *c, item *i );
+bool landmine( const tripoint &p, Creature *c, item *i );
+bool telepad( const tripoint &p, Creature *c, item *i );
+bool goo( const tripoint &p, Creature *c, item *i );
+bool dissector( const tripoint &p, Creature *c, item *i );
+bool sinkhole( const tripoint &p, Creature *c, item *i );
+bool pit( const tripoint &p, Creature *c, item *i );
+bool pit_spikes( const tripoint &p, Creature *c, item *i );
+bool pit_glass( const tripoint &p, Creature *c, item *i );
+bool lava( const tripoint &p, Creature *c, item *i );
+bool portal( const tripoint &p, Creature *c, item *i );
+bool ledge( const tripoint &p, Creature *c, item *i );
+bool boobytrap( const tripoint &p, Creature *c, item *i );
+bool temple_flood( const tripoint &p, Creature *c, item *i );
+bool temple_toggle( const tripoint &p, Creature *c, item *i );
+bool glow( const tripoint &p, Creature *c, item *i );
+bool hum( const tripoint &p, Creature *c, item *i );
+bool shadow( const tripoint &p, Creature *c, item *i );
+bool map_regen( const tripoint &p, Creature *c, item *i );
+bool drain( const tripoint &p, Creature *c, item *i );
+bool snake( const tripoint &p, Creature *c, item *i );
+bool cast_spell( const tripoint &p, Creature *critter, item * );
+} // namespace trapfunc
 
-using trap_function = std::function<void( Creature *, const tripoint & )>;
+struct vehicle_handle_trap_data {
+    bool remove_trap = false;
+    bool do_explosion = false;
+    bool is_falling = false;
+    int chance = 100;
+    int damage = 0;
+    int shrapnel = 0;
+    int sound_volume = 0;
+    translation sound;
+    std::string sound_type;
+    std::string sound_variant;
+    // the double represents the count or chance to spawn.
+    std::vector<std::pair<itype_id, double>> spawn_items;
+    trap_str_id set_trap = trap_str_id::NULL_ID();
+};
 
+using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
+
+/**
+ * Some traps aren't actually traps in the usual sense of the word. We use traps to implement
+ * funnels (the main map keeps a list of traps and we iterate over that list during rain
+ * in order to fill the containers with water).
+ * Use @ref is_benign to check for that kind of "non-dangerous" traps. Traps that are not benign
+ * are considered dangerous.
+ *
+ * Some traps are always invisible. They are never revealed as such to the player.
+ * They can still be triggered. Use @ref is_always_invisible to check for that.
+ *
+ * Traps names can be empty. This usually applies to always invisible traps.
+ *
+ * Some traps are always revealed to the player (e.g. funnels). Other traps can be spotted when
+ * the player is close (also needs perception stat).
+ *
+ * Use @ref map::can_see_trap_at or @ref trap::can_see to check whether a creature knows about a
+ * given trap. Monsters / NPCs should base their behavior on that information and not on a simple
+ * check for any trap being there (e.g. don't use `map::tr_at(...).is_null()` - that would reveal
+ * the existence of the trap).
+ */
 struct trap {
-        using itype_id = std::string;
         trap_str_id id;
         trap_id loadid;
 
         bool was_loaded = false;
 
-        long sym;
+        int sym = 0;
         nc_color color;
     private:
-        int visibility; // 1 to ??, affects detection
-        int avoidance;  // 0 to ??, affects avoidance
-        int difficulty; // 0 to ??, difficulty of assembly & disassembly
+        /**
+         * How easy it is to spot the trap. Smaller values means it's easier to spot.
+         * 1 to ??, affects detection
+         */
+        // @TODO it can be negative (?)
+        // @TODO Add checks for it having proper values
+        // @TODO check usage in combination with is_always_invisible
+        int visibility = 1;
+        // 0 to ??, affects avoidance
+        int avoidance = 0;
+        /*
+         * This is used when disarming the trap. A value of 0 means disarming will always work
+         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
+         * makes it easier to disarm the trap.
+         */
+        int difficulty = 0;
+        // 0 to ??, trap radius
+        int trap_radius = 0;
         bool benign = false;
+        bool always_invisible = false;
+        // a valid overmap id, for map_regen action traps
+        std::string map_regen;
         trap_function act;
-        std::string name_;
+        translation name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
-        int funnel_radius_mm;
-        std::vector<itype_id> components; // For disassembly?
+        int funnel_radius_mm = 0;
+        // For disassembly?
+        std::vector<std::tuple<itype_id, int, int>> components;
     public:
+        // data required for trapfunc::spell()
+        fake_spell spell_data;
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+    public:
+        vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
-         * How easy it is to spot the trap. Smaller values means it's easier to spot.
+         * There are special always invisible traps. See player::search_surroundings
          */
-        int get_visibility() const {
-            return visibility;
+        bool is_always_invisible() const {
+            return always_invisible;
         }
+
+        bool operator==( const trap_id &id ) const {
+            return loadid == id;
+        }
+        bool operator!=( const trap_id &id ) const {
+            return loadid != id;
+        }
+
+        /**
+         * Called when the player examines a tile. This is supposed to handled
+         * all kind of interaction of the player with the trap, including removal.
+         * It also handles visibility of the trap, and it does nothing when
+         * called on the null trap.
+         */
+        // Implemented for historical reasons in iexamine.cpp
+        void examine( const tripoint &examp ) const;
+
+        std::string  map_regen_target() const;
+
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
          * compared to dodge skill (with some adjustments). Smaller values means it's easier
@@ -99,28 +189,39 @@ struct trap {
             return avoidance;
         }
         /**
-         * This is used when disarming the trap. A value of 0 means disarming will always work
-         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
-         * makes it easier to disarm the trap.
-         */
-        int get_difficulty() const {
-            return difficulty;
-        }
-        /**
          * If true, this is not really a trap and there won't be any safety queries before stepping
          * onto it (e.g. for funnels).
          */
         bool is_benign() const {
             return benign;
         }
+        /**
+         * @return True for traps that can simply be taken down without any skill check or similar.
+         * This usually applies to traps like funnels, rollmat.
+         */
+        bool easy_take_down() const;
+
+        bool is_trivial_to_spot() const;
+
+        /**
+         * Some traps are part of the terrain (e.g. pits) and can therefor not be disarmed
+         * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
+         */
+        bool can_not_be_disarmed() const;
+
+        /**
+         * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
+         */
+        bool detected_by_ground_sonar() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap( const tripoint &pos, const player &p ) const;
+        bool detect_trap( const tripoint &pos, const Character &p ) const;
         /**
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        bool can_see( const tripoint &pos, const player &p ) const;
+        bool can_see( const tripoint &pos, const Character &p ) const;
+    private:
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to
@@ -128,12 +229,29 @@ struct trap {
          * them). This can also be a null pointer if the trap has been triggered by some thrown
          * item (which must have the @ref trigger_weight).
          * @param pos The location of the trap in the main map.
+         * @param item The item that triggered the trap
          */
-        void trigger( const tripoint &pos, Creature *creature ) const;
+        // Don't call from outside this class. Add a wrapper like the ones below instead.
+        void trigger( const tripoint &pos, Creature *creature, item *item ) const;
+    public:
+        /*@{*/
+        /**
+         * This applies the effects of the trap to the world and
+         * possibly to the triggering object (creature, item).
+         *
+         * The function assumes the
+         * caller has already checked whether the trap should be activated
+         * (e.g. the creature has had a chance to avoid the trap, but it failed).
+         */
+        void trigger( const tripoint &pos, Creature &creature ) const;
+        void trigger( const tripoint &pos, item &item ) const;
+        /*@}*/
+
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via
@@ -141,10 +259,11 @@ struct trap {
          */
         void on_disarmed( map &m, const tripoint &p ) const;
         /**
-         * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
-         * do so.
+         * This is used when defining area this trap occupies. A value of 0 means trap occupies exactly 1 tile.
          */
-        bool is_3x3_trap() const;
+        int get_trap_radius() const {
+            return trap_radius;
+        }
         /**
          * Whether this is the null-traps, aka no trap at all.
          */
@@ -152,7 +271,9 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
+
+        std::string debug_describe() const;
 
         /*@{*/
         /**
@@ -181,9 +302,9 @@ struct trap {
          */
         /**
          * Loads the trap and adds it to the trapmap, and the traplist.
-         * @throw std::string if the json is invalid as usual.
+         * @throw JsonError if the json is invalid as usual.
          */
-        static void load_trap( JsonObject &jo, const std::string &src );
+        static void load_trap( const JsonObject &jo, const std::string &src );
         /**
          * Releases the loaded trap objects in trapmap and traplist.
          */
@@ -206,23 +327,9 @@ const trap_function &trap_function_from_string( const std::string &function_name
 
 extern trap_id
 tr_null,
-tr_bubblewrap,
-tr_cot,
-tr_funnel,
-tr_metal_funnel,
-tr_makeshift_funnel,
-tr_leather_funnel,
-tr_rollmat,
-tr_fur_rollmat,
-tr_beartrap,
 tr_beartrap_buried,
-tr_nailboard,
-tr_caltrops,
-tr_tripwire,
-tr_crossbow,
 tr_shotgun_2,
 tr_shotgun_1,
-tr_engine,
 tr_blade,
 tr_landmine,
 tr_landmine_buried,
@@ -231,12 +338,9 @@ tr_goo,
 tr_dissector,
 tr_sinkhole,
 tr_pit,
-tr_spike_pit,
-tr_glass_pit,
 tr_lava,
 tr_portal,
 tr_ledge,
-tr_boobytrap,
 tr_temple_flood,
 tr_temple_toggle,
 tr_glow,
@@ -245,4 +349,4 @@ tr_shadow,
 tr_drain,
 tr_snake;
 
-#endif
+#endif // CATA_SRC_TRAP_H

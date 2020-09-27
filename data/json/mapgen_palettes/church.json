@@ -5,15 +5,14 @@
     "terrain": {
       "#": "t_floor",
       "+": "t_door_c",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_floor",
-      "6": "t_console",
       "=": "t_door_locked_alarm",
       "D": "t_door_locked",
       "O": "t_column",
       "S": "t_floor",
       "T": "t_floor",
-      "^": "t_shrub",
+      "^": "t_region_shrub",
       "c": "t_floor",
       "b": "t_floor",
       "d": "t_floor",
@@ -24,9 +23,10 @@
       "s": "t_sidewalk",
       "t": "t_floor",
       "w": "t_window",
-      "|": "t_wall"
+      "|": "t_wall_w"
     },
     "furniture": {
+      "6": "f_console",
       "#": "f_bench",
       "S": "f_sink",
       "T": "f_toilet",
@@ -37,7 +37,8 @@
       "l": "f_locker",
       "o": "f_bookcase",
       "t": "f_table",
-      "C": "f_crate_c"
+      "C": "f_crate_c",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     }
   }
 ]

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_magnet_1",
+    "copy-from": "afs_scrap_1",
+    "name": { "str": "high quality electromagnet" },
+    "description": "A sturdy, industrially crafted electromagnet.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_magnet_2",
+    "copy-from": "afs_scrap_2",
+    "name": { "str": "cryo electromagnet" },
+    "description": "A powerful super conductive electromagnet, that must be kept  at very low temperatures to operate.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_magnet_3",
+    "copy-from": "afs_scrap_3",
+    "name": { "str": "super conductive electromagnet" },
+    "description": "A powerful electromagnet made from a room temperature superconductor.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_magnet_4",
+    "copy-from": "afs_scrap_3",
+    "name": { "str": "ferrofluid dynamo" },
+    "description": "Black metallic fluid, harmonically flowing from one fractal shape to the next.",
+    "looks_like": "scrap"
+  }
+]

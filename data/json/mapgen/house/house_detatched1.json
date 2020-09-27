@@ -1,0 +1,177 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_detatched1",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..!!!!!!p``!!!`..______$",
+        ".##o#####*#o##`[.______$",
+        ".#,,,,@|  xxx#`..______$",
+        ".#I,,,@|E ,,,o`.%______$",
+        ".oI(,,,|s ,,,#```______$",
+        "%#,,,,,|E ,,,o`.%______$",
+        ".#,,,db|  HHH#`..______$",
+        ".#+|+|||  |||#`..______$",
+        ".#D|      123#`!!______$",
+        ".#||||R     F#`!##=====#",
+        "^#>  +    J 5o`!#&~~~~~#",
+        ".#UZW|    J O#`!#~~~~~~#",
+        ".#|||| hh J 4#;$#~~~~~~#",
+        ".#9-Q| ff   7#`.#~~~~~~#",
+        "%#---+ hh   Y#`%#~~~~~~#",
+        "%#8St|y    66#`.#~~~~~~#",
+        ".#######])####`.#~~~~~q#",
+        ".$^!jj.`````````#~~~~~q#",
+        ".$!....````.....*~~ANNq#",
+        ".$%.............########",
+        ".$!.[.u...........%..!$.",
+        ".$........%%%..!...%!!$%",
+        ".$$$$$$$$$$$$$$$$$$$$$$.",
+        ".......%...%........%..."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        ",": "t_carpet_purple",
+        "@": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "D": "t_carpet_purple",
+        "I": "t_carpet_purple",
+        "(": "t_carpet_purple",
+        "b": "t_carpet_purple",
+        "`": "t_concrete",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "-": "t_linoleum_gray",
+        "_": "t_pavement",
+        "$": "t_privacy_fence",
+        ";": "t_privacy_fencegate_c",
+        "=": "t_door_metal_locked",
+        "&": "t_gates_control_brick",
+        "~": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        ")": "t_wall_glass",
+        "]": "t_door_glass_c"
+      },
+      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", "(": "f_chair" },
+      "place_item": [
+        { "item": "television", "repeat": 1, "x": 11, "y": 2 },
+        { "item": "toaster", "repeat": 1, "x": 12, "y": 11 },
+        { "item": "lawnmower", "repeat": 1, "x": 17, "y": 20 }
+      ],
+      "place_items": [
+        { "chance": 25, "item": "tools_mechanic", "x": 20, "y": 18 },
+        { "chance": 15, "item": "stoner", "x": 10, "y": 6 },
+        { "chance": 15, "item": "stoner", "x": 2, "y": 4 },
+        { "chance": 45, "item": "tools_common", "x": 21, "y": 18 },
+        { "chance": 35, "item": "tools_earthworking", "x": 19, "y": 20 },
+        { "chance": 35, "item": "alcohol", "x": 10, "y": 15 },
+        { "chance": 35, "item": "alcohol", "x": 10, "y": 13 }
+      ],
+      "place_monsters": [ { "chance": 5, "density": 1, "monster": "GROUP_ZOMBIE", "x": 7, "y": 10 } ],
+      "place_vehicles": [ { "vehicle": "bikeshop", "x": 19, "y": 14, "rotation": 270, "chance": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched1_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222222223          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3          ",
+        " |...........3  ........",
+        " 5...........3  ........",
+        " |...........3  ........",
+        " |...........3  ........",
+        " |...........3  ........",
+        " |...........3  ........",
+        " |...........3  ........",
+        " |5----------3  ........",
+        "                ........",
+        "                ........",
+        "                ........",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_detatched1_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        " |||||||||||||          ",
+        " |...1.......|          ",
+        " |...........|          ",
+        " |...........|          ",
+        " |...........|          ",
+        " |F..........|          ",
+        " |g..........|          ",
+        " |...........|          ",
+        " |...........|          ",
+        " |<..........|          ",
+        " |%%..2......|          ",
+        " |W+.........|          ",
+        " |Z+.........|          ",
+        " |%%.........|          ",
+        " |...........|          ",
+        " |||||||||||||          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [ [ "null", 60 ], [ "8x8_gym_W", 20 ], [ "8x8_gym_S", 20 ], [ "room_8x8_hobby_S", 30 ], [ "room_8x8_hobby_W", 30 ] ]
+        },
+        "2": {
+          "chunks": [
+            [ "null", 50 ],
+            [ "5x5_holdout_N", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 10 ],
+            [ "home_office_4x4_S", 10 ]
+          ]
+        }
+      }
+    }
+  }
+]

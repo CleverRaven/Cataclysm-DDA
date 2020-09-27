@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mon_robofac_laserturret_mk1",
+    "type": "MONSTER",
+    "name": { "str": "prototype laser turret" },
+    "description": "This appears to be a very experimental automated tower.  Plating-less and seemingly half-built, it's little more than an oversized laser emitter and a camera, both welded to a swiveling platform.",
+    "default_faction": "robofac",
+    "species": [ "ROBOT" ],
+    "volume": "30000 ml",
+    "weight": "40750 g",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 2,
+    "armor_cut": 5,
+    "armor_bullet": 2,
+    "vision_day": 50,
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "v29",
+        "fake_skills": [ [ "gun", 4 ], [ "pistol", 4 ] ],
+        "ranges": [ [ 0, 30, "DEFAULT" ] ]
+      }
+    ],
+    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "death_drops": {  },
+    "death_function": [ "BROKEN" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
+  }
+]

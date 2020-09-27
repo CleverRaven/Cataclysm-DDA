@@ -1,71 +1,67 @@
-#ifndef RANGED_H
-#define RANGED_H
+#ifndef CATA_SRC_RANGED_H
+#define CATA_SRC_RANGED_H
 
-#include <functional>
 #include <vector>
 
+#include "point.h"
+
+class aim_activity_actor;
+class avatar;
+class gun_mode;
 class item;
+class map;
 class player;
+class spell;
+class turret_data;
+class vehicle;
 struct itype;
 struct tripoint;
+struct vehicle_part;
+
+namespace target_handler
+{
+// Trajectory to target. Empty if selection was aborted or player ran out of moves
+using trajectory = std::vector<tripoint>;
 
 /**
- * Targeting UI callback is passed the item being targeted (if any)
- * and should return pointer to effective ammo data (if any)
+ * Firing ranged weapon. This mode allows spending moves on aiming.
  */
-using target_callback = std::function<const itype *( item *obj )>;
-using firing_callback = std::function<void( const int )>;
+trajectory mode_fire( avatar &you, aim_activity_actor &activity );
 
-enum target_mode : int {
-    TARGET_MODE_FIRE,
-    TARGET_MODE_THROW,
-    TARGET_MODE_TURRET,
-    TARGET_MODE_TURRET_MANUAL,
-    TARGET_MODE_REACH,
-    TARGET_MODE_THROW_BLIND
-};
+/** Throwing item */
+trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 
-// @todo: move callbacks to a new struct and define some constructors for ease of use
-struct targeting_data {
-    target_mode mode;
-    item *relevant;
-    int range;
-    int power_cost;
-    bool held;
-    const itype *ammo;
-    target_callback on_mode_change;
-    target_callback on_ammo_change;
-    firing_callback pre_fire;
-    firing_callback post_fire;
-};
+/** Reach attacking */
+trajectory mode_reach( avatar &you, item &weapon );
 
-class target_handler
-{
-        // @todo: alias return type of target_ui
-    public:
-        /**
-         *  Prompts for target and returns trajectory to it.
-         *  @param pc The player doing the targeting
-         *  @param args structure containing arguments passed to the overloaded form.
-         */
-        std::vector<tripoint> target_ui( player &pc, const targeting_data &args );
-        /**
-         *  Prompts for target and returns trajectory to it.
-         *  @param pc The player doing the targeting
-         *  @param mode targeting mode, which affects UI display among other things.
-         *  @param relevant active item, if any (for instance, a weapon to be aimed).
-         *  @param range the maximum distance to which we're allowed to draw a target.
-         *  @param ammo effective ammo data (derived from @param relevant if unspecified).
-         *  @param on_mode_change callback when user attempts changing firing mode.
-         *  @param on_ammo_change callback when user attempts changing ammo.
-         */
-        std::vector<tripoint> target_ui( player &pc, target_mode mode,
-                                         item *relevant, int range,
-                                         const itype *ammo = nullptr,
-                                         const target_callback &on_mode_change = target_callback(),
-                                         const target_callback &on_ammo_change = target_callback() );
-};
+/** Manually firing vehicle turret */
+trajectory mode_turret_manual( avatar &you, turret_data &turret );
+
+/** Selecting target for turrets (when using vehicle controls) */
+trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets );
+
+/** Casting a spell */
+trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+} // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
 
-#endif // RANGED_H
+/**
+ * Common checks for gunmode (when firing a weapon / manually firing turret)
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode );
+
+/**
+ * Various checks for gunmode when firing a weapon
+ * @param messages Used to store messages describing failed checks
+ * @return True if all conditions are true
+ */
+bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
+                            const gun_mode &gmode );
+
+int throw_cost( const player &c, const item &to_throw );
+
+#endif // CATA_SRC_RANGED_H

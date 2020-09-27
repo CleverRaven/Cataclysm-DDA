@@ -1,27 +1,28 @@
 #pragma once
-#ifndef SIMPLE_PATHFINDINDING_H
-#define SIMPLE_PATHFINDINDING_H
+#ifndef CATA_SRC_SIMPLE_PATHFINDING_H
+#define CATA_SRC_SIMPLE_PATHFINDING_H
 
 #include <limits>
 #include <queue>
 #include <vector>
 
 #include "enums.h"
+#include "point.h"
+#include "point_traits.h"
 
 namespace pf
 {
 
 static const int rejected = std::numeric_limits<int>::min();
 
+template<typename Point>
 struct node {
-    int x;
-    int y;
+    Point pos;
     int dir;
     int priority;
 
-    node( int x, int y, int dir, int priority = 0 ) :
-        x( x ),
-        y( y ),
+    node( const Point &p, int dir, int priority = 0 ) :
+        pos( p ),
         dir( dir ),
         priority( priority ) {}
 
@@ -29,115 +30,104 @@ struct node {
     bool operator< ( const node &n ) const {
         return priority > n.priority;
     }
-
-    point pos() const {
-        return point( x, y );
-    }
 };
 
+template<typename Point>
 struct path {
-    std::vector<node> nodes;
+    std::vector<node<Point>> nodes;
 };
 
 /**
  * @param source Starting point of path
  * @param dest End point of path
- * @param max_x Max permissible x coordinate for a point on the path
- * @param max_y Max permissible y coordinate for a point on the path
+ * @param max Max permissible coordinates for a point on the path
  * @param estimator BinaryPredicate( node &previous, node *current ) returns
  * integer estimation (smaller - better) for the current node or a negative value
  * if the node is unsuitable.
  */
-template<class BinaryPredicate>
-path find_path( const point &source,
-                const point &dest,
-                const int max_x,
-                const int max_y,
-                BinaryPredicate estimator )
+template<typename Point, class BinaryPredicate>
+path<Point> find_path( const Point &source,
+                       const Point &dest,
+                       const Point &max,
+                       BinaryPredicate estimator )
 {
-    static const int dx[4] = {  0, 1, 0, -1 };
-    static const int dy[4] = { -1, 0, 1,  0 };
+    static_assert( Point::dimension == 2, "This pathfinding function doesn't work for tripoints" );
+    using Traits = point_traits<Point>;
+    using Node = node<Point>;
 
-    const auto inbounds = [ max_x, max_y ]( const int x, const int y ) {
-        return x >= 0 && x < max_x && y >= 0 && y <= max_y;
+    const auto inbounds = [ max ]( const Point & p ) {
+        return Traits::x( p ) >= 0 && Traits::x( p ) < Traits::x( max ) &&
+               Traits::y( p ) >= 0 && Traits::y( p ) < Traits::y( max );
     };
 
-    const auto map_index = [ max_x ]( const int x, const int y ) {
-        return y * max_x + x;
+    const auto map_index = [ max ]( const Point & p ) {
+        return Traits::y( p ) * Traits::x( max ) + Traits::x( p );
     };
 
-    path res;
+    path<Point> res;
 
     if( source == dest ) {
         return res;
     }
 
-    const int x1 = source.x;
-    const int y1 = source.y;
-    const int x2 = dest.x;
-    const int y2 = dest.y;
-
-    if( !inbounds( x1, y1 ) || !inbounds( x2, y2 ) ) {
+    if( !inbounds( source ) || !inbounds( dest ) ) {
         return res;
     }
 
-    const node first_node( x1, y1, 5, 1000 );
+    const Node first_node( source, 5, 1000 );
 
     if( estimator( first_node, nullptr ) == rejected ) {
         return res;
     }
 
-    const size_t map_size = max_x * max_y;
+    const size_t map_size = Traits::x( max ) * Traits::y( max );
 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<node, std::vector<node>> nodes[2];
+    std::priority_queue<Node, std::vector<Node>> nodes[2];
 
     int i = 0;
     nodes[i].push( first_node );
-    open[map_index( x1, y1 )] = std::numeric_limits<int>::max();
+    open[map_index( source )] = std::numeric_limits<int>::max();
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
-        const node mn( nodes[i].top() ); // get the best-looking node
+        const Node mn( nodes[i].top() ); // get the best-looking node
 
         nodes[i].pop();
         // mark it visited
-        closed[map_index( mn.x, mn.y )] = true;
+        closed[map_index( mn.pos )] = true;
 
         // if we've reached the end, draw the path and return
-        if( mn.x == x2 && mn.y == y2 ) {
-            int x = mn.x;
-            int y = mn.y;
+        if( mn.pos == dest ) {
+            Point p = mn.pos;
 
             res.nodes.reserve( nodes[i].size() );
 
-            while( x != x1 || y != y1 ) {
-                const int n = map_index( x, y );
-                const int d = dirs[n];
-                res.nodes.emplace_back( x, y, d );
-                x += dx[d];
-                y += dy[d];
+            while( p != source ) {
+                const int n = map_index( p );
+                const int dir = dirs[n];
+                res.nodes.emplace_back( p, dir );
+                p += four_adjacent_offsets[dir];
             }
 
-            res.nodes.emplace_back( x, y, -1 );
+            res.nodes.emplace_back( p, -1 );
 
             return res;
         }
 
-        for( int d = 0; d < 4; d++ ) {
-            const int x = mn.x + dx[d];
-            const int y = mn.y + dy[d];
-            const int n = map_index( x, y );
+        for( int dir = 0; dir < 4; dir++ ) {
+            const Point p = mn.pos + four_adjacent_offsets[dir];
+            const int n = map_index( p );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            if( x < 1 || x + 1 >= max_x || y < 1 || y + 1 >= max_y || closed[n] ) {
+            if( !inbounds( p ) || closed[n] ) {
                 continue;
             }
 
-            node cn( x, y, d );
+            Node cn( p, dir );
             cn.priority = estimator( cn, &mn );
 
             if( cn.priority == rejected ) {
@@ -145,10 +135,10 @@ path find_path( const point &source,
             }
             // record direction to shortest path
             if( open[n] == 0 || open[n] > cn.priority ) {
-                dirs[n] = ( d + 2 ) % 4;
+                dirs[n] = ( dir + 2 ) % 4;
 
                 if( open[n] != 0 ) {
-                    while( nodes[i].top().x != x || nodes[i].top().y != y ) {
+                    while( nodes[i].top().pos != p ) {
                         nodes[1 - i].push( nodes[i].top() );
                         nodes[i].pop();
                     }
@@ -172,36 +162,30 @@ path find_path( const point &source,
     return res;
 }
 
-inline path straight_path( const point &source,
-                           int dir,
-                           size_t len )
+template<typename Point = point>
+inline path<Point> straight_path( const Point &source, int dir, size_t len )
 {
-    static const int dx[4] = {  0, 1, 0, -1 };
-    static const int dy[4] = { -1, 0, 1,  0 };
-
-    path res;
+    path<Point> res;
 
     if( len == 0 ) {
         return res;
     }
 
-    int x = source.x;
-    int y = source.y;
+    Point p = source;
 
     res.nodes.reserve( len );
 
     for( size_t i = 0; i + 1 < len; ++i ) {
-        res.nodes.emplace_back( x, y, dir );
+        res.nodes.emplace_back( p, dir );
 
-        x += dx[dir];
-        y += dy[dir];
+        p += four_adjacent_offsets[dir];
     }
 
-    res.nodes.emplace_back( x, y, -1 );
+    res.nodes.emplace_back( p, -1 );
 
     return res;
 }
 
-}
+} // namespace pf
 
-#endif
+#endif // CATA_SRC_SIMPLE_PATHFINDING_H

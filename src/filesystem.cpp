@@ -2,19 +2,22 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cerrno>
-#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "debug.h"
+#include "cata_utility.h"
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #   include <direct.h>
 
 #   include "wdirent.h"
@@ -23,30 +26,17 @@
 #   include <unistd.h>
 #endif
 
-#if defined(_WIN32) || defined (__WIN32__)
+#if defined(_WIN32)
 #   include "platform_win.h"
-#endif
-
-//--------------------------------------------------------------------------------------------------
-// HACK: mingw only issue as of 14/01/2015
-// TODO: move elsewhere
-//--------------------------------------------------------------------------------------------------
-#if (defined __MINGW32__ || defined __CYGWIN__)
-size_t strnlen( const char *const start, const size_t maxlen )
-{
-    const auto end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
-    return ( end ) ? static_cast<size_t>( end - start ) : maxlen;
-}
 #endif
 
 namespace
 {
 
-#if (defined _WIN32 || defined __WIN32__)
-bool do_mkdir( const std::string &path, const int mode )
+#if defined(_WIN32)
+bool do_mkdir( const std::string &path, const int /*mode*/ )
 {
-    ( void )mode; //not used on windows
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     return _mkdir( path.c_str() ) == 0;
 #else
     return mkdir( path.c_str() ) == 0;
@@ -63,7 +53,7 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
-    return dir_exist( path ) || do_mkdir( path, 0777 );
+    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
 }
 
 bool dir_exist( const std::string &path )
@@ -82,7 +72,7 @@ bool file_exist( const std::string &path )
     return ( stat( path.c_str(), &buffer ) == 0 );
 }
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
     return DeleteFile( path.c_str() ) != 0;
@@ -94,7 +84,7 @@ bool remove_file( const std::string &path )
 }
 #endif
 
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
     // Windows rename function does not override existing targets, so we
@@ -116,7 +106,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 
 bool remove_directory( const std::string &path )
 {
-#if (defined _WIN32 || defined __WIN32__)
+#if defined(_WIN32)
     return RemoveDirectory( path.c_str() );
 #else
     return remove( path.c_str() ) == 0;
@@ -125,7 +115,8 @@ bool remove_directory( const std::string &path )
 
 const char *cata_files::eol()
 {
-#ifdef _WIN32
+#if defined(_WIN32)
+    // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
     static const char local_eol[] = "\r\n";
 #else
     static const char local_eol[] = "\n";
@@ -133,16 +124,15 @@ const char *cata_files::eol()
     return local_eol;
 }
 
-namespace
+std::string read_entire_file( const std::string &path )
 {
-
-//TODO move elsewhere.
-template <typename T, size_t N>
-inline size_t sizeof_array( T const( & )[N] ) noexcept
-{
-    return N;
+    std::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
+    return std::string( std::istreambuf_iterator<char>( infile ),
+                        std::istreambuf_iterator<char>() );
 }
 
+namespace
+{
 //--------------------------------------------------------------------------------------------------
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
@@ -155,26 +145,26 @@ void for_each_dir_entry( const std::string &path, Function function )
         return;
     }
 
-    dir_ptr root = opendir( path.c_str() );
+    const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( const auto entry = readdir( root ) ) {
+    while( const dirent *entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
 }
 
 //--------------------------------------------------------------------------------------------------
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
 std::string resolve_path( const std::string &full_path )
 {
-    const auto result_str = realpath( full_path.c_str(), nullptr );
+    char *const result_str = realpath( full_path.c_str(), nullptr );
     if( !result_str ) {
-        const auto e_str = strerror( errno );
+        char *const e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
         return {};
     }
@@ -194,16 +184,17 @@ bool is_directory_stat( const std::string &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
 
     if( S_ISDIR( result.st_mode ) ) {
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
         return true;
     }
 
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
     if( S_ISLNK( result.st_mode ) ) {
         return is_directory_stat( resolve_path( full_path ) );
     }
@@ -215,11 +206,10 @@ bool is_directory_stat( const std::string &full_path )
 //--------------------------------------------------------------------------------------------------
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
-#if defined (__MINGW32__)
-bool is_directory( const dirent &entry, const std::string &full_path )
+#if defined(__MINGW32__)
+bool is_directory( const dirent &/*entry*/, const std::string &full_path )
 {
     // no dirent::d_type
-    ( void )entry; //not used for mingw
     return is_directory_stat( full_path );
 }
 #else
@@ -229,7 +219,7 @@ bool is_directory( const dirent &entry, const std::string &full_path )
         return true;
     }
 
-#if !defined (_WIN32) && !defined (__WIN32__)
+#if !defined(_WIN32)
     if( entry.d_type == DT_LNK ) {
         return is_directory_stat( resolve_path( full_path ) );
     }
@@ -258,15 +248,15 @@ bool is_special_dir( const dirent &entry )
 //--------------------------------------------------------------------------------------------------
 bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
 {
-    const auto len_fname = strnlen( entry.d_name, sizeof_array( entry.d_name ) );
-    const auto len_match = match.length();
+    const size_t len_fname = strlen( entry.d_name );
+    const size_t len_match = match.length();
 
     if( len_match > len_fname ) {
         return false;
     }
 
-    const auto offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != 0;
+    const size_t offset = at_end ? ( len_fname - len_match ) : 0;
+    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -292,8 +282,8 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const auto path = std::move( directories.front() );
         directories.pop_front();
 
-        const auto n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
-        const auto n_results = static_cast<std::ptrdiff_t>( results.size() );
+        const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
+        const std::ptrdiff_t n_results = static_cast<std::ptrdiff_t>( results.size() );
 
         for_each_dir_entry( path, [&]( const dirent & entry ) {
             // exclude special directories.
@@ -309,7 +299,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
             }
 
             // add sub directories to recursive_search if requested
-            const auto is_dir = is_directory( entry, full_path );
+            const bool is_dir = is_directory( entry, full_path );
             if( recursive_search && is_dir ) {
                 directories.emplace_back( full_path );
             }
@@ -324,7 +314,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( directories ) + n_dirs,    std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( results )     + n_results, std::end( results ) );
     }
 
@@ -407,10 +399,28 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
     std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
-    std::ofstream dest_stream( dest_path.c_str(), std::ofstream::out | std::ofstream::binary );
+    if( !source_stream ) {
+        return false;
+    }
+    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream.rdbuf();
+    }, nullptr ) &&source_stream;
+}
 
-    dest_stream << source_stream.rdbuf();
-    dest_stream.close();
+std::string ensure_valid_file_name( const std::string &file_name )
+{
+    const char replacement_char = ' ';
+    const std::string invalid_chars = "\\/:?\"<>|";
 
-    return dest_stream && source_stream;
+    // do any replacement in the file name, if needed.
+    std::string new_file_name = file_name;
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&]( const char c ) {
+        if( invalid_chars.find( c ) != std::string::npos ) {
+            return replacement_char;
+        }
+        return c;
+    } );
+
+    return new_file_name;
 }

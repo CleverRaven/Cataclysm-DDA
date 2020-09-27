@@ -1,0 +1,76 @@
+[
+  {
+    "id": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "name": { "str": "feral human" },
+    "description": "Pupils dilated and what remains to be seen of the iris and sclera are bloodshot.  It still breathes but the zombies treat it like one of them.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 80,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "@",
+    "color": "magenta",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_cut": 0,
+    "dodge": 1,
+    "harvest": "human",
+    "vision_day": 30,
+    "vision_night": 3,
+    "starting_ammo": { "rock": 6 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The feral human throws a rock!"
+      }
+    ],
+    "death_drops": "feral_humans_death_drops_pipe",
+    "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombie",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_2",
+      "DROPS_AMMO"
+    ]
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "death_drops": "feral_humans_death_drops_crowbar"
+  },
+  {
+    "id": "mon_feral_human_axe",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_human_pipe",
+    "melee_dice": 3,
+    "melee_dice_sides": 8,
+    "death_drops": "feral_humans_death_drops_axe"
+  }
+]

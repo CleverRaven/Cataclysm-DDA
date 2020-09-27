@@ -1,0 +1,16 @@
+[
+  {
+    "id": "decontamination_room",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hazmat_suit", "prob": 60 },
+      { "item": "mask_gas", "prob": 60 },
+      { "item": "gasfilter_m", "prob": 60 },
+      { "item": "rad_monitor", "prob": 33 },
+      { "item": "iodine", "prob": 33 },
+      { "item": "1st_aid", "prob": 15 },
+      { "item": "geiger_off", "prob": 15 }
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmh_tent_palette",
+    "terrain": { " ": "t_dirt", ".": "t_dirtfloor", "+": "t_dirtfloor", "w": "t_dirtfloor" },
+    "furniture": { "+": "f_canvas_door", "w": "f_canvas_wall" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_large_tent_east",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        " wwwww",
+        " w...w",
+        " +...w",
+        " w...w",
+        " wwwww"
+      ],
+      "palettes": [ "fbmh_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_east" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_east",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_east" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_east" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_large_tent_west",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "wwwww ",
+        "w...w ",
+        "w...+ ",
+        "w...w ",
+        "wwwww "
+      ],
+      "palettes": [ "fbmh_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_northwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_west" ], "x": 3, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_west",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_west" ], "x": 3, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_tent_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_large_tent_west" ], "x": 3, "y": 15 } ] }
+  }
+]

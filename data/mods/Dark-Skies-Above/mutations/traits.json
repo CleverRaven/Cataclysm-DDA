@@ -1,0 +1,33 @@
+[
+  {
+    "//": "RP traits that help define your character in the world. allows you to indicate your character's background, affecting some NPC interactions. somewhat experimental",
+    "type": "mutation",
+    "id": "DKS_COMBAT",
+    "name": "RP: Combatant",
+    "points": 0,
+    "description": "You've seen your fair share of scruffs and scrapes, and when the Cataclysm hit, you fought the Occupiers and managed to survive to tell the tale.  Has no direct skill benefit, but allows you to present yourself as a fighter to certain NPCs.  Some might even recognize you.",
+    "valid": false,
+    "starting_trait": true,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "DKS_MED",
+    "name": "RP: Medic",
+    "points": 0,
+    "description": "Your job or experiences had you seeing all sorts of trauma, both physical and mental, and you were trusted during the Cataclysm to provide life-saving care.  Has no direct skill benefit, but allows you to present yourself as a healer to certain NPCs.  Some might even recognize you.",
+    "valid": false,
+    "starting_trait": true,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "DKS_LEADER",
+    "name": "RP: Leader",
+    "points": 0,
+    "description": "Whether or not you like it, you've always had a knack for managing people and have some hard-won skill in doing so.  During the arrival and the ensuing chaos, you helped lead people around you to safety.  Has no direct skill benefit, but allows you to present yourself as a leader to certain NPCs.  Some might even recognize you.",
+    "valid": false,
+    "starting_trait": true,
+    "purifiable": false
+  }
+]

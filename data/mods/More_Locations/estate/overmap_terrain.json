@@ -1,287 +1,318 @@
 [
-    {
-        "type" : "overmap_terrain",
-        "id" : "estate_umid",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 99,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_ube",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 99
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_ule",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 99
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_ure",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 99
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_ute",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5
-    },{
-    "type" : "overmap_terrain",
-        "id" : "estate_mid",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1be",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1bloc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1broc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1by",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1ica",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1icb",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1icc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1icd",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1le",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1re",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1te",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1tloc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1troc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_1ty",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2be",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2bloc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-       "type" : "overmap_terrain",
-        "id" : "estate_2broc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "spawns" : { "group": "GROUP_ZOMBIE", "population": [4, 9], "chance": 50 }
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2ica",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2icb",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2icc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2icd",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2le",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2re",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2te",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2tloc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    },{
-        "type" : "overmap_terrain",
-        "id" : "estate_2troc",
-        "name" : "mansion",
-        "sym" : 109,
-        "color" : "i_light_green",
-        "extras" : "build",
-        "see_cost" : 5,
-        "mondensity" : 1
-    }
+  {
+    "type": "overmap_terrain",
+    "id": "estate_umid",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 99,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_ube",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 99
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_ule",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 99
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_ure",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 99
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_ute",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_mid",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1be",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1bloc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1broc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1by",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1ica",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1icb",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1icc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1icd",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1le",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1re",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1te",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1tloc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1troc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_1ty",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2be",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2bloc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2broc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 4, 9 ], "chance": 50 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2ica",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2icb",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2icc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2icd",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2le",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2re",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2te",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2tloc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "estate_2troc",
+    "name": "mansion",
+    "sym": "m",
+    "color": "i_light_green",
+    "extras": "build",
+    "see_cost": 5,
+    "mondensity": 1
+  }
 ]

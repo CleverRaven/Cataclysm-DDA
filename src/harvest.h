@@ -1,38 +1,49 @@
 #pragma once
-#ifndef HARVEST_H
-#define HARVEST_H
+#ifndef CATA_SRC_HARVEST_H
+#define CATA_SRC_HARVEST_H
 
+#include <algorithm>
 #include <list>
 #include <map>
 #include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
-typedef std::string itype_id;
+class butchery_requirements;
 class JsonObject;
-class harvest_list;
 
-using harvest_id = string_id<harvest_list>;
+using butchery_requirements_id = string_id<butchery_requirements>;
 
 // Could be reused for butchery
 struct harvest_entry {
-    itype_id drop = "null";
+    // drop can be either an itype_id or a group id
+    std::string drop = "null";
     std::pair<float, float> base_num = { 1.0f, 1.0f };
     // This is multiplied by survival and added to the above
-    // @todo: Make it a map: skill->scaling
+    // TODO: Make it a map: skill->scaling
     std::pair<float, float> scale_num = { 0.0f, 0.0f };
 
     int max = 1000;
     std::string type = "null";
     float mass_ratio = 0.00f;
 
-    static harvest_entry load( JsonObject &jo, const std::string &src );
+    static harvest_entry load( const JsonObject &jo, const std::string &src );
+
+    std::vector<std::string> flags;
+    std::vector<fault_id> faults;
 };
 
 class harvest_list
 {
     public:
         harvest_list();
+
+        itype_id leftovers = itype_id( "ruined_chunks" );
 
         const harvest_id &id() const;
 
@@ -56,6 +67,10 @@ class harvest_list
             return names_;
         }
 
+        const butchery_requirements &get_butchery_requirements() const {
+            return butchery_requirements_.obj();
+        }
+
         std::string describe( int at_skill = -1 ) const;
 
         std::list<harvest_entry>::const_iterator begin() const;
@@ -64,7 +79,7 @@ class harvest_list
         std::list<harvest_entry>::const_reverse_iterator rend() const;
 
         /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( JsonObject &jo, const std::string &src,
+        static const harvest_id &load( const JsonObject &jo, const std::string &src,
                                        const std::string &force_id = "" );
 
         /** Get all currently loaded harvest data */
@@ -82,9 +97,10 @@ class harvest_list
         harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
-        std::string message_;
+        translation message_;
+        butchery_requirements_id butchery_requirements_;
 
         void finalize();
 };
 
-#endif
+#endif // CATA_SRC_HARVEST_H

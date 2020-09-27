@@ -1,14 +1,15 @@
-#include "mutation.h" // IWYU pragma: associated
+#include <algorithm>
 
 #include "json.h"
+#include "mutation.h" // IWYU pragma: associated
 
 struct mutation_type {
     std::string id;
 };
 
-std::map<std::string, mutation_type> mutation_types;
+static std::map<std::string, mutation_type> mutation_types;
 
-void load_mutation_type( JsonObject &jsobj )
+void load_mutation_type( const JsonObject &jsobj )
 {
     mutation_type new_type;
     new_type.id = jsobj.get_string( "id" );
@@ -24,7 +25,7 @@ bool mutation_type_exists( const std::string &id )
 std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
-    for( auto it : mutation_branch::get_all() ) {
+    for( mutation_branch it : mutation_branch::get_all() ) {
         if( it.types.find( id ) != it.types.end() ) {
             ret.push_back( it.id );
         }

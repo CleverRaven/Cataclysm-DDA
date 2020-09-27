@@ -1,8 +1,12 @@
 #include "fault.h"
 
+#include <utility>
+
 #include "debug.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "requirements.h"
+#include "string_id.h"
 #include "translations.h"
 
 static std::map<fault_id, fault> faults_all;
@@ -27,36 +31,49 @@ const fault &string_id<fault>::obj() const
     return found->second;
 }
 
-void fault::load_fault( JsonObject &jo )
+void fault::load_fault( const JsonObject &jo )
 {
     fault f;
 
-    f.id_ = fault_id( jo.get_string( "id" ) );
-    f.name_ = _( jo.get_string( "name" ).c_str() );
-    f.description_ = _( jo.get_string( "description" ).c_str() );
+    mandatory( jo, false, "id", f.id_ );
+    mandatory( jo, false, "name", f.name_ );
+    mandatory( jo, false, "description", f.description_ );
 
-    f.time_ = jo.get_int( "time" );
+    for( const JsonObject jo_method : jo.get_array( "mending_methods" ) ) {
+        mending_method m;
 
-    auto sk = jo.get_array( "skills" );
-    while( sk.has_more() ) {
-        auto cur = sk.next_array();
-        f.skills_.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        mandatory( jo_method, false, "id", m.id );
+        optional( jo_method, false, "name", m.name, f.name_ );
+        optional( jo_method, false, "description", m.description, f.description_ );
+        mandatory( jo_method, false, "success_msg", m.success_msg );
+        mandatory( jo_method, false, "time", m.time );
+
+        for( const JsonObject jo_skill : jo_method.get_array( "skills" ) ) {
+            skill_id sk_id;
+            mandatory( jo_skill, false, "id", sk_id );
+            m.skills.emplace( sk_id, jo_skill.get_int( "level" ) );
+        }
+
+        if( jo_method.has_string( "requirements" ) ) {
+            mandatory( jo_method, false, "requirements", m.requirements );
+        } else {
+            JsonObject jo_req = jo_method.get_object( "requirements" );
+            m.requirements = requirement_id( m.id );
+            requirement_data::load_requirement( jo_req, m.requirements );
+        }
+
+        optional( jo_method, false, "turns_into", m.turns_into, cata::nullopt );
+        optional( jo_method, false, "also_mends", m.also_mends, cata::nullopt );
+
+        f.mending_methods_.emplace( m.id, m );
     }
 
-    if( jo.has_string( "requirements" ) ) {
-        f.requirements_ = requirement_id( jo.get_string( "requirements" ) );
-
-    } else {
-        auto req = jo.get_object( "requirements" );
-        const requirement_id req_id( std::string( "inline_fault_" ) + f.id_.str() );
-        requirement_data::load_requirement( req, req_id );
-        f.requirements_ = req_id;
-    }
+    optional( jo, false, "flags", f.flags );
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {
         jo.throw_error( "parsed fault overwrites existing definition", "id" );
     } else {
-        faults_all[ f.id_ ] = f;
+        faults_all[f.id_] = f;
     }
 }
 
@@ -73,17 +90,33 @@ void fault::reset()
 void fault::check_consistency()
 {
     for( const auto &f : faults_all ) {
-        if( f.second.time_ < 0 ) {
-            debugmsg( "fault %s has negative time requirement", f.second.id_.c_str() );
-        }
-        for( auto &e : f.second.skills_ ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "fault %s has unknown skill %s", f.second.id_.c_str(), e.first.c_str() );
+        for( const auto &m : f.second.mending_methods_ ) {
+            if( !m.second.requirements.is_valid() ) {
+                debugmsg( "fault %s has invalid requirement id %s for mending method %s",
+                          f.second.id_.str(), m.second.requirements.str(), m.first );
             }
-        }
-        if( !f.second.requirements_.is_valid() ) {
-            debugmsg( "fault %s has missing requirement data %s",
-                      f.second.id_.c_str(), f.second.requirements_.c_str() );
+            if( m.second.time < 0_turns ) {
+                debugmsg( "fault %s requires negative mending time for mending method %s",
+                          f.second.id_.str(), m.first );
+            }
+            for( const auto &sk : m.second.skills ) {
+                if( !sk.first.is_valid() ) {
+                    debugmsg( "fault %s requires unknown skill %s for mending method %s",
+                              f.second.id_.str(), sk.first.str(), m.first );
+                }
+                if( sk.second <= 0 ) {
+                    debugmsg( "fault %s requires non-positive level of skill %s for mending method %s",
+                              f.second.id_.str(), sk.first.str(), m.first );
+                }
+            }
+            if( m.second.turns_into && !m.second.turns_into->is_valid() ) {
+                debugmsg( "fault %s has invalid turns_into fault id %s for mending method %s",
+                          f.second.id_.str(), m.second.turns_into->str(), m.first );
+            }
+            if( m.second.also_mends && !m.second.also_mends->is_valid() ) {
+                debugmsg( "fault %s has invalid also_mends fault id %s for mending method %s",
+                          f.second.id_.str(), m.second.also_mends->str(), m.first );
+            }
         }
     }
 }

@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_type",
+    "id": "debugged",
+    "name": [ "Debugged" ],
+    "speed_name": "Optimized",
+    "desc": [ "You have been debugged!\nEverything is working perfectly now." ],
+    "apply_message": "Diving into your source, you find a rubber duck, and talk it to death.",
+    "show_in_info": true,
+    "rating": "good",
+    "max_duration": "1 h",
+    "max_intensity": 10,
+    "base_mods": {
+      "str_mod": [ 1 ],
+      "dex_mod": [ 2 ],
+      "per_mod": [ 3 ],
+      "int_mod": [ 4 ],
+      "speed_mod": [ 5 ],
+      "healing_rate": [ 2 ],
+      "healing_head": [ 200 ],
+      "healing_torso": [ 150 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "minmaxed",
+    "name": [ "Min-Maxed" ],
+    "desc": [ "All the benefits of being the worst with none of the drawbacks of being the best!" ],
+    "apply_message": "You feel your internal metrics stretch like a fun-house mirror.",
+    "show_in_info": true,
+    "rating": "neutral",
+    "max_duration": "1 h",
+    "base_mods": {
+      "pain_min": [ 1 ],
+      "hurt_min": [ 1 ],
+      "sleep_min": [ 1 ],
+      "pkill_min": [ 1 ],
+      "stim_min": [ 1 ],
+      "health_min": [ 1 ],
+      "h_mod_min": [ 1 ],
+      "rad_min": [ 1 ],
+      "hunger_min": [ 1 ],
+      "thirst_min": [ 1 ],
+      "fatigue_min": [ 1 ],
+      "stamina_min": [ 1 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "intensified",
+    "name": [ "Whoa", "Wut?", "Wow!" ],
+    "desc": [ "Everything is just way too intense, man!\nYou feel confused and disoriented." ],
+    "apply_message": "!!Intensity intensifies!!",
+    "show_in_info": true,
+    "rating": "bad",
+    "int_dur_factor": "1 m",
+    "max_duration": "10 m",
+    "max_intensity": 3,
+    "scaling_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "speed_mod": [ -5 ] }
+  }
+]

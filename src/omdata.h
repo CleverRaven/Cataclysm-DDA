@@ -1,32 +1,50 @@
 #pragma once
-#ifndef OMDATA_H
-#define OMDATA_H
+#ifndef CATA_SRC_OMDATA_H
+#define CATA_SRC_OMDATA_H
 
-#include <bitset>
+#include <algorithm>
+#include <array>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <list>
 #include <set>
+#include <string>
 #include <vector>
 
+#include "assign.h"
+#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
-#include "enums.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
+#include "enum_bitset.h"
 #include "int_id.h"
+#include "optional.h"
+#include "point.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
-struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
+struct city;
+template <typename E> struct enum_traits;
+
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
-struct oter_t;
-struct oter_type_t;
-struct overmap_location;
 class JsonObject;
 class overmap_connection;
-class overmap_special_batch;
 class overmap_special;
+class overmap_special_batch;
+struct oter_t;
+struct overmap_location;
+
 using overmap_special_id = string_id<overmap_special>;
+
+static const overmap_land_use_code_id land_use_code_forest( "forest" );
+static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -46,18 +64,18 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
 
 /** Get Human readable name of a direction */
-const std::string &name( type dir );
+std::string name( type dir );
 
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-long rotate_symbol( long sym, type dir );
+uint32_t rotate_symbol( uint32_t sym, type dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
  * @param dir Direction of displacement
@@ -84,22 +102,24 @@ type random();
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
 
-}
+} // namespace om_direction
 
 class overmap_land_use_code
 {
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
 
-        int land_use_code;
-        std::string name;
-        std::string detailed_definition;
-        long sym = '\0';                // This is a long, so we can support curses line drawing
+        int land_use_code = 0;
+        translation name;
+        translation detailed_definition;
+        uint32_t symbol = 0;
         nc_color color = c_black;
+
+        std::string get_symbol() const;
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 };
@@ -138,7 +158,7 @@ struct overmap_static_spawns : public overmap_spawns {
 };
 
 //terrain flags enum! this is for tracking the indices of each flag.
-enum oter_flags {
+enum class oter_flags : int {
     known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
@@ -146,11 +166,42 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    lake,
+    lake_shore,
+    ravine,
+    ravine_edge,
+    generic_loot,
+    risk_high,
+    risk_low,
+    source_ammo,
+    source_animals,
+    source_books,
+    source_chemistry,
+    source_clothing,
+    source_construction,
+    source_cooking,
+    source_drink,
+    source_electronics,
+    source_fabrication,
+    source_farming,
+    source_food,
+    source_forage,
+    source_fuel,
+    source_gun,
+    source_luxury,
+    source_medicine,
+    source_people,
+    source_safety,
+    source_tailoring,
+    source_vehicles,
+    source_weapon,
     num_oter_flags
 };
 
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
+template<>
+struct enum_traits<oter_flags> {
+    static constexpr oter_flags last = oter_flags::num_oter_flags;
+};
 
 struct oter_type_t {
     public:
@@ -158,18 +209,21 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        std::string name;               // Untranslated name
-        long sym = '\0';                // This is a long, so we can support curses line drawing
+        translation name;
+        uint32_t symbol = 0;
         nc_color color = c_black;
         overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
 
-        oter_type_t() {}
+        std::string get_symbol() const;
+
+        oter_type_t() = default;
 
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
@@ -180,23 +234,23 @@ struct oter_type_t {
         }
 
         void set_flag( oter_flags flag, bool value = true ) {
-            flags[flag] = value;
+            flags.set( flag, value );
         }
 
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
         bool is_rotatable() const {
-            return !has_flag( no_rotate ) && !has_flag( line_drawing );
+            return !has_flag( oter_flags::no_rotate ) && !has_flag( oter_flags::line_drawing );
         }
 
         bool is_linear() const {
-            return has_flag( line_drawing );
+            return has_flag( oter_flags::line_drawing );
         }
 
     private:
-        std::bitset<num_oter_flags> flags;
+        enum_bitset<oter_flags> flags;
         std::vector<oter_id> directional_peers;
 
         void register_terrain( const oter_t &peer, size_t n, size_t max_n );
@@ -221,12 +275,12 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        const std::string get_name() const {
-            return _( type->name.c_str() );
+        std::string get_name() const {
+            return type->name.translated();
         }
 
-        long get_sym( const bool from_land_use_code = false ) const {
-            return from_land_use_code ? sym_alt : sym;
+        std::string get_symbol( const bool from_land_use_code = false ) const {
+            return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
         nc_color get_color( const bool from_land_use_code = false ) const {
@@ -244,6 +298,9 @@ struct oter_t {
         unsigned char get_see_cost() const {
             return type->see_cost;
         }
+        unsigned char get_travel_cost() const {
+            return type->travel_cost;
+        }
 
         const std::string &get_extras() const {
             return type->extras;
@@ -255,6 +312,10 @@ struct oter_t {
 
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
+        }
+
+        overmap_land_use_code_id get_land_use_code() const {
+            return type->land_use_code;
         }
 
         bool type_is( const int_id<oter_type_t> &type_id ) const;
@@ -277,17 +338,40 @@ struct oter_t {
         }
 
         bool is_river() const {
-            return type->has_flag( river_tile );
+            return type->has_flag( oter_flags::river_tile );
+        }
+
+        bool is_wooded() const {
+            return type->land_use_code == land_use_code_forest ||
+                   type->land_use_code == land_use_code_wetland ||
+                   type->land_use_code == land_use_code_wetland_forest ||
+                   type->land_use_code == land_use_code_wetland_saltwater;
+        }
+
+        bool is_lake() const {
+            return type->has_flag( oter_flags::lake );
+        }
+
+        bool is_lake_shore() const {
+            return type->has_flag( oter_flags::lake_shore );
+        }
+
+        bool is_ravine() const {
+            return type->has_flag( oter_flags::ravine );
+        }
+
+        bool is_ravine_edge() const {
+            return type->has_flag( oter_flags::ravine_edge );
         }
 
     private:
         om_direction::type dir = om_direction::type::none;
-        long sym = '\0';         // This is a long, so we can support curses line drawing.
-        long sym_alt = '\0';     // This is a long, so we can support curses line drawing.
+        uint32_t symbol;
+        uint32_t symbol_alt;
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// @todo: Deprecate these operators
+// TODO: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
@@ -302,7 +386,7 @@ bool operator!=( const oter_id &lhs, const char *rhs );
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 15
+static constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -320,10 +404,11 @@ struct overmap_special_spawns : public overmap_spawns {
 };
 
 struct overmap_special_terrain {
-    overmap_special_terrain() {}
+    overmap_special_terrain() = default;
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
+    std::set<string_id<overmap_location>> locations;
 
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
@@ -331,12 +416,22 @@ struct overmap_special_terrain {
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
+        om.read( "locations", locations );
     }
+
+    /**
+     * Returns whether this terrain of the special can be placed on the specified terrain.
+     * It's true if oter meets any of locations.
+     */
+    bool can_be_placed_on( const oter_id &oter ) const;
 };
 
 struct overmap_special_connection {
     tripoint p;
-    string_id<oter_type_t> terrain; // TODO: Remove it.
+    cata::optional<tripoint> from;
+    om_direction::type initial_dir = om_direction::type::invalid;
+    // TODO: Remove it.
+    string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;
     bool existing = false;
 
@@ -347,6 +442,7 @@ struct overmap_special_connection {
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
         jo.read( "connection", connection );
+        assign( jo, "from", from );
     }
 };
 
@@ -355,15 +451,10 @@ class overmap_special
     public:
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /**
-         * Returns whether the special can be placed on the specified terrain.
-         * It's true if oter meets any of locations.
-         */
-        bool can_be_placed_on( const oter_id &oter ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
@@ -375,64 +466,65 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
+    private:
+        // These locations are the default values if ones are not specified for the individual OMTs.
+        std::set<string_id<overmap_location>> default_locations;
 };
 
 namespace overmap_terrains
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 void finalize();
 void reset();
 
 const std::vector<oter_t> &get_all();
 
-}
+} // namespace overmap_terrains
 
 namespace overmap_land_use_codes
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
 
 const std::vector<overmap_land_use_code> &get_all();
 
-}
-
+} // namespace overmap_land_use_codes
 
 namespace overmap_specials
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
 
 const std::vector<overmap_special> &get_all();
 
-overmap_special_batch get_default_batch( const point &origin );
+overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**
  * Generates a simple special from a building id.
  */
 overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
-}
+} // namespace overmap_specials
 
 namespace city_buildings
 {
 
-void load( JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src );
 
-}
+} // namespace city_buildings
 
-#endif
+#endif // CATA_SRC_OMDATA_H

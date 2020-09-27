@@ -1,40 +1,41 @@
+#include "catch/catch.hpp"
+
+#include <array>
 #include <string>
 
-#include "catch/catch.hpp"
-#include "game.h"
-#include "player.h"
+#include "character.h"
+#include "item.h"
+#include "type_id.h"
 #include "weather.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
-void temperature_check( player *p, const int ambient_temp, const int target_temp )
+static void temperature_check( Character *p, const int ambient_temp, const int target_temp )
 {
-    g->temperature = ambient_temp;
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p->temp_cur[i] = BODYTEMP_NORM;
-    }
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p->temp_conv[i] = BODYTEMP_NORM;
-    }
+    p->set_body();
+    get_weather().temperature = ambient_temp;
+    p->set_all_parts_temp_cur( BODYTEMP_NORM );
+    p->set_all_parts_temp_conv( BODYTEMP_NORM );
 
     int prev_temp = 0;
     int prev_diff = 0;
     for( int i = 0; i < 10000; i++ ) {
-        if( prev_diff != prev_temp - p->temp_cur[0] ) {
-            prev_diff = prev_temp - p->temp_cur[0];
-        } else if( prev_temp == p->temp_cur[0] ) {
+        const int torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
+        if( prev_diff != prev_temp - torso_temp_cur ) {
+            prev_diff = prev_temp - torso_temp_cur;
+        } else if( prev_temp == torso_temp_cur ) {
             break;
         }
-        prev_temp = p->temp_cur[0];
+        prev_temp = torso_temp_cur;
         p->update_bodytemp();
     }
     int high = target_temp + 100;
     int low = target_temp - 100;
-    CHECK( low < p->temp_cur[0] );
-    CHECK( high > p->temp_cur[0] );
+    CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
+    CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
 
-void equip_clothing( player *p, const std::string &clothing )
+static void equip_clothing( Character *p, const std::string &clothing )
 {
     const item article( clothing, 0 );
     p->wear_item( article );
@@ -42,7 +43,7 @@ void equip_clothing( player *p, const std::string &clothing )
 
 // Run the tests for each of the temperature setpoints.
 // ambient_temps MUST have 7 values or we'll segfault.
-void test_temperature_spread( player *p, const std::array<int, 7> &ambient_temps )
+static void test_temperature_spread( Character *p, const std::array<int, 7> &ambient_temps )
 {
     temperature_check( p, ambient_temps[0], BODYTEMP_FREEZING );
     temperature_check( p, ambient_temps[1], BODYTEMP_VERY_COLD );
@@ -53,14 +54,15 @@ void test_temperature_spread( player *p, const std::array<int, 7> &ambient_temps
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]" )
+TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]" )
 {
 
-    player &dummy = g->u;
+    Character &dummy = get_player_character();
 
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    // Strip off any potentially encumbering clothing.
+    dummy.remove_worn_items_with( []( item & ) {
+        return true;
+    } );
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
     // As we aren't modeling metabolic rate, assume 2 METS when not sleeping.
