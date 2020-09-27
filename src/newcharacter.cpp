@@ -467,6 +467,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             if( nameExists( name ) ) {
                 return false;
             }
+
             break;
         }
 
