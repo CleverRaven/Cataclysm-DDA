@@ -5329,8 +5329,6 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
 {
-    int assist_bonus = installer.get_effect_int( effect_assisted );
-
     int damage = cyborg->damage();
     int dmg_lvl = cyborg->damage_level( 4 );
     int difficulty = 12;
