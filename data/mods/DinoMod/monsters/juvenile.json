@@ -175,6 +175,9 @@
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_magenta",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 1000,
     "upgrades": { "age_grow": 365, "into": "mon_diplodocus" }
   },
   {
@@ -184,6 +187,9 @@
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_magenta",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 1000,
     "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
   },
   {
@@ -193,6 +199,9 @@
     "description": "A small four-legged plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "color": "brown_magenta",
+    "volume": "1000 L",
+    "weight": "1000 kg",
+    "hp": 1000,
     "upgrades": { "age_grow": 365, "into": "mon_apatosaurus" }
   },
   {
