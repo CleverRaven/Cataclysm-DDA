@@ -807,7 +807,6 @@ void character_edit_menu()
             smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
             smenu.query();
-            int value;
             switch( smenu.ret ) {
                 case 0: {
                     std::string filterstring = p.name;
