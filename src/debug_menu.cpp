@@ -796,7 +796,6 @@ void character_edit_menu()
             }
         }
         break;
-
         case D_DESC: {
             uilist smenu;
             std::string current_bloodt = io::enum_to_string( p.my_blood_type ) + ( p.blood_rh_factor ? "+" :
