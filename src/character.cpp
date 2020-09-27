@@ -294,7 +294,6 @@ static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -3441,10 +3440,6 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
 
 units::mass Character::weight_capacity() const
 {
-    if( has_trait( trait_DEBUG_STORAGE ) ) {
-        // Infinite enough
-        return units::mass_max;
-    }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     units::mass ret = Creature::weight_capacity();
@@ -3498,8 +3493,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_DEBUG_STORAGE ) ?
-                 units::mass_max : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
