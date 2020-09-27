@@ -58,7 +58,6 @@ class window_panel
     private:
         int height;
         int width;
-        bool default_toggle;
         std::string id;
         translation name;
 };

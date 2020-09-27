@@ -72,8 +72,7 @@ window_panel::window_panel(
     const bool default_toggle_, const std::function<bool()> &render_func,
     const bool force_draw )
     : draw( draw_func ), render( render_func ), toggle( default_toggle_ ),
-      always_draw( force_draw ), height( ht ), width( wd ),
-      default_toggle( default_toggle_ ), id( id ), name( nm )
+      always_draw( force_draw ), height( ht ), width( wd ), id( id ), name( nm )
 {
 }
 
