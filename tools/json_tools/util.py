@@ -11,15 +11,17 @@ from io import StringIO
 
 
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
-JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
+JSON_DIR = os.path.normpath(
+    os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
 JSON_FNMATCH = "*.json"
 
 
 def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
     """Use a UNIX like file match expression to weed out the JSON files.
 
-    returns tuple, first element containing json read, second element containing
-    list of any errors found. error list will be empty if no errors
+    returns tuple, first element containing json read, second element
+    containing list of any errors found. error list will be empty if
+    no errors
     """
     data = []
     errors = []
@@ -31,14 +33,20 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                 json_file = os.path.join(d, f)
                 with open(json_file, "r") as file:
                     try:
-                        candidates = json.load(file, object_pairs_hook=OrderedDict)
+                        candidates = json.load(
+                            file, object_pairs_hook=OrderedDict)
                     except Exception as err:
-                        errors.append("Problem reading file %s, reason: %s" % (json_file, err))
+                        errors.append(
+                            "Problem reading file {},".format(json_file) +
+                            " reason: {}".format(err))
                     if type(candidates) != list:
                         if type(candidates) == OrderedDict:
                             data.append(candidates)
                         else:
-                            errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
+                            errors.append(
+                                "Problem parsing data from" +
+                                " file {},".format(json_file) +
+                                " reason: expected a list.")
                     else:
                         data += candidates
     return (data, errors)
@@ -126,7 +134,8 @@ class WhereAction(argparse.Action):
     """
 
     def where_test_factory(self, where_key, where_value):
-        """Wrap the where test we are using and return it as a callable function.
+        """Wrap the where test we are using and return it as a callable
+        function.
 
         item in the callback is assumed to be what we're testing against.
         """
@@ -137,17 +146,20 @@ class WhereAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if not nargs:
             raise ValueError("nargs must be declared")
-        super(WhereAction, self).__init__(option_strings, dest, nargs=nargs, **kwargs)
+        super(WhereAction, self).__init__(
+            option_strings, dest, nargs=nargs, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
         try:
             where_functions = []
             for w in values:
-                where_key, where_value = w.split("=")
-                where_functions.append(self.where_test_factory(where_key, where_value))
+                w_key, w_value = w.split("=")
+                where_functions.append(self.where_test_factory(w_key, w_value))
             setattr(namespace, self.dest, where_functions)
         except Exception:
-            raise ValueError("Where options are strict. Must be in the form of 'where_key=where_value'")
+            raise ValueError(
+                "Where options are strict. Must be in the form of"
+                " 'where_key=where_value'")
 
 
 def key_counter(data, where_fn_list):
@@ -173,11 +185,12 @@ def key_counter(data, where_fn_list):
                         stats[key + '.' + subkey] += 1
 
             # If value is a list of objects, tally key.subkey for each
-            elif type(val) == list and all(type(e) == OrderedDict for e in val):
-                for obj in val:
-                    for subkey in obj.keys():
-                        if not subkey.startswith('//'):
-                            stats[key + '.' + subkey] += 1
+            elif type(val) == list:
+                if all(type(e) == OrderedDict for e in val):
+                    for obj in val:
+                        for subkey in obj.keys():
+                            if not subkey.startswith('//'):
+                                stats[key + '.' + subkey] += 1
 
             # For anything else, it only counts as one
             else:
@@ -293,7 +306,8 @@ def ui_counts_to_columns(counts):
     """Take a Counter instance and display in single fixed width key:value
     column.
     """
-    # Values in left column, counts in right, left column as wide as longest string length.
+    # Values in left column, counts in right, left
+    # column as wide as longest string length.
     key_vals = counts.most_common()
     key_field_len = len(max(list(counts.keys()), key=len)) + 1
     output_template = "%%-%ds: %%s" % key_field_len
