@@ -1700,8 +1700,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 2: {
             m.add_field( portal_location, field_type_id( "fd_fatigue" ), 3 );
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
-                                true );
+                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
             break;
         }
@@ -1720,7 +1719,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Radiation from the portal killed the vegetation
         case 4: {
             m.add_field( portal_location, field_type_id( "fd_fatigue" ), 3 );
-            const int rad = 10;
+            const int rad = 5;
             for( int i = p.x - rad; i <= p.x + rad; i++ ) {
                 for( int j = p.y - rad; j <= p.y + rad; j++ ) {
                     if( trig_dist( p, point( i, j ) ) + rng( 0, 3 ) <= rad ) {
@@ -1735,7 +1734,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Lava seams originating from the portal
         case 5: {
             if( abs_sub.z <= 0 ) {
-                point p1( rng( 0,    SEEX     - 3 ), rng( 0,    SEEY     - 3 ) );
+                point p1( rng( 1,    SEEX     - 3 ), rng( 1,    SEEY     - 3 ) );
                 point p2( rng( SEEX, SEEX * 2 - 3 ), rng( SEEY, SEEY * 2 - 3 ) );
                 // Pick a random cardinal direction to also spawn lava in
                 // This will make the lava a single connected line, not just on diagonals
@@ -1782,10 +1781,12 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             //Mi-go went through the portal and began constructing their base of operations
             m.add_field( portal_location, field_type_id( "fd_fatigue" ), 3 );
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
-                                true );
+                m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
-            const point pos( p + point( rng( -5, 5 ), rng( -5, 5 ) ) );
+            point pos;
+            do {
+                pos = p + point( rng( -5, 5 ), rng( -5, 5 ) );
+            } while( pos.x >= 1 && pos.y >= 1 && pos.x < SEEX * 2 - 1 && pos.y < SEEY * 2 - 1 );
             circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
             rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
             break;
