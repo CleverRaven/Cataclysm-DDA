@@ -562,6 +562,11 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 )
     return adjacent_squares;
 }
 
+rl_vec2d rl_vec3d::xy() const
+{
+    return rl_vec2d( x, y );
+}
+
 float rl_vec2d::magnitude() const
 {
     return std::sqrt( x * x + y * y );
@@ -661,13 +666,17 @@ rl_vec2d rl_vec2d::operator*( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator*=( const float rhs )
+{
+    x *= rhs;
+    y *= rhs;
+    z *= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator*( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x * rhs;
-    ret.y = y * rhs;
-    ret.z = z * rhs;
-    return ret;
+    return rl_vec3d( *this ) *= rhs;
 }
 
 // subtract
@@ -731,13 +740,17 @@ rl_vec2d rl_vec2d::operator/( const float rhs ) const
     return ret;
 }
 
+rl_vec3d &rl_vec3d::operator/=( const float rhs )
+{
+    x /= rhs;
+    y /= rhs;
+    z /= rhs;
+    return *this;
+}
+
 rl_vec3d rl_vec3d::operator/( const float rhs ) const
 {
-    rl_vec3d ret;
-    ret.x = x / rhs;
-    ret.y = y / rhs;
-    ret.z = z / rhs;
-    return ret;
+    return rl_vec3d( *this ) /= rhs;
 }
 
 void calc_ray_end( units::angle angle, const int range, const tripoint &p, tripoint &out )

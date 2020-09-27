@@ -282,7 +282,10 @@ struct rl_vec3d {
     float z;
 
     explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
+    explicit rl_vec3d( const rl_vec2d &xy, float z = 0 ) : x( xy.x ), y( xy.y ), z( z ) {}
     explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
+
+    rl_vec2d xy() const;
 
     float magnitude() const;
     rl_vec3d normalized() const;
@@ -293,13 +296,15 @@ struct rl_vec3d {
     tripoint as_point() const;
 
     // scale.
-    rl_vec3d operator* ( float rhs ) const;
-    rl_vec3d operator/ ( float rhs ) const;
+    rl_vec3d &operator*=( float rhs );
+    rl_vec3d &operator/=( float rhs );
+    rl_vec3d operator*( float rhs ) const;
+    rl_vec3d operator/( float rhs ) const;
     // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
+    rl_vec3d operator-( const rl_vec3d &rhs ) const;
     // unary negation
-    rl_vec3d operator- () const;
-    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
+    rl_vec3d operator-() const;
+    rl_vec3d operator+( const rl_vec3d &rhs ) const;
 };
 
 #endif // CATA_SRC_LINE_H
