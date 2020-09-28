@@ -84,17 +84,17 @@ jobs:
           packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: *apt_sources
 
-    - env: CLANG=clang++-10
+    - env: CLANG=clang++-10 TILES=1 SOUND=1
       name: "Clang 10 Make build"
       compiler: clang
       dist: bionic
       addons: &clang10
         apt:
-          packages:
-            - clang-10
+          packages: ["clang-10", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources:
             - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
               key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
+            - ubuntu-toolchain-r-test
 
     - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
