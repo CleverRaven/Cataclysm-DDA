@@ -134,7 +134,7 @@
     "armor_bash": 20,
     "armor_cut": 45,
     "armor_bullet": 36,
-    "vision_day": 50,
+    "vision_day": 60,
     "vision_night": 4,
     "harvest": "mr_bones",
     "special_attacks": [
