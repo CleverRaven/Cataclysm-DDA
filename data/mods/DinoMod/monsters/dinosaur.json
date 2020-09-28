@@ -1046,6 +1046,7 @@
     "name": { "str_sp": "Ceratosaurus" },
     "species": "DINOSAUR",
     "default_faction": "Ceratosaurus",
+    "looks_like": "mon_dilophosaurus",
     "symbol": "D",
     "color": "brown_white",
     "volume": "540 L",
