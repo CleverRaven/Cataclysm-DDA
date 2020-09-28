@@ -714,12 +714,16 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( sp.is_valid_target( spell_target::field ) ) {
         map &here = get_map();
         field &src_field = here.field_at( from );
+        std::map<field_type_id, int> moving_fields;
         for( const std::pair<const field_type_id, field_entry> &fd : src_field ) {
             if( fd.first.is_valid() && !fd.first.id().is_null() ) {
                 const int intensity = fd.second.get_field_intensity();
-                here.remove_field( from, fd.first );
-                here.set_field_intensity( to, fd.first, intensity );
+                moving_fields.emplace( fd.first, intensity );
             }
+        }
+        for( const std::pair<const field_type_id, int> &fd : moving_fields ) {
+            here.remove_field( from, fd.first );
+            here.set_field_intensity( to, fd.first, fd.second );
         }
     }
 }
