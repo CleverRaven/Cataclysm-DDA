@@ -419,7 +419,7 @@
     "id": "mon_cow_calf_choc",
     "type": "MONSTER",
     "name": { "str": "chocolate calf", "str_pl": "chocolate calves" },
-    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns. This one is chocolate-brown, and smells of chocolate as well.",
+    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one is chocolate-brown, and smells of chocolate as well.",
     "copy-from": "mon_cow_calf",
     "upgrades": { "age_grow": 180, "into": "mon_cow_choc" }
   },
@@ -427,7 +427,7 @@
     "id": "mon_cow_choc",
     "type": "MONSTER",
     "name": { "str": "chocolate cow" },
-    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns. This one is chocolate-brown, and smells of chocolate as well.",
+    "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one is chocolate-brown, and smells of chocolate as well.",
     "copy-from": "mon_cow",
     "starting_ammo": { "milk_raw_choc": 40 },
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 }
