@@ -49,7 +49,7 @@
       [ "gold_watch", 20 ],
       [ "pocketwatch", 20 ],
       [ "collarpin", 10 ],
-      [ "tailors_kit", 40 ]
+      { "item": "tailors_kit", "prob": 40, "charges-min": 0 }
     ]
   },
   {
@@ -202,8 +202,8 @@
     "type": "item_group",
     "items": [
       [ "awl_steel", 40 ],
-      [ "sewing_kit", 5 ],
-      [ "tailors_kit", 50 ],
+      { "item": "sewing_kit", "prob": 5, "charges-min": 0 },
+      { "item": "tailors_kit", "prob": 50, "charges-min": 0 },
       [ "thread", 10 ],
       [ "string_6", 50 ],
       [ "leather", 10 ],
@@ -289,7 +289,7 @@
       [ "candle", 50 ],
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "tailors_kit", 25 ],
+      { "item": "tailors_kit", "prob": 25, "charges-min": 0 },
       [ "shavingkit", 20 ],
       [ "elec_hairtrimmer", 20 ],
       [ "razor_shaving", 20 ],

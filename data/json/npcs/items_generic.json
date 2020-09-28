@@ -995,7 +995,7 @@
       [ "seed_weed", 3 ],
       [ "seed_tobacco", 3 ],
       [ "seed_wheat", 3 ],
-      [ "sewing_kit", 15 ],
+      { "item": "sewing_kit", "prob": 15, "charges-min": 0 },
       [ "sheath", 8 ],
       [ "shot_hull", 1 ],
       [ "shotgun_primer", 2 ],

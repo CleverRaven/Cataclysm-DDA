@@ -1153,7 +1153,7 @@
       [ "photo_album", 10 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 2 ],
-      [ "sewing_kit", 30 ],
+      { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       [ "thread", 40 ],
       [ "flashlight", 40 ],
       [ "suit", 60 ],
