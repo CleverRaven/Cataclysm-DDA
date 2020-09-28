@@ -183,7 +183,7 @@
       { "item": "rope_30", "prob": 35 },
       { "item": "stick", "prob": 95 },
       { "item": "hatchet", "prob": 10 },
-      { "item": "misc_repairkit", "prob": 5 },
+      { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "ax", "prob": 8 },
       { "item": "bee_sting", "prob": 5 },
       { "item": "chitin_piece", "prob": 10 },

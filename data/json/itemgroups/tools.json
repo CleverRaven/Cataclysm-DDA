@@ -53,7 +53,7 @@
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
-      [ "misc_repairkit", 25 ],
+      { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "saw", 60 ],
       [ "screwdriver", 100 ],
@@ -490,7 +490,7 @@
       [ "matches", 10 ],
       [ "glasses_safety", 20 ],
       [ "duct_tape", 8 ],
-      [ "misc_repairkit", 15 ],
+      { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       [ "welder", 10 ],
       [ "soldering_iron", 8 ],
       { "item": "extinguisher", "prob": 10, "charges": 100 },

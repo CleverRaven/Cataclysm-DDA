@@ -793,7 +793,7 @@
       [ "milk_powder", 3 ],
       [ "minispeargun", 1 ],
       [ "mintpatties", 3 ],
-      [ "misc_repairkit", 5 ],
+      { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       [ "ballistic_vest_empty", 1 ],
       [ "molasses", 3 ],
       [ "money_bundle", 10 ],

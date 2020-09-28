@@ -230,7 +230,7 @@
       [ "puller", 20 ],
       [ "boltcutters", 35 ],
       [ "chisel", 20 ],
-      [ "misc_repairkit", 45 ],
+      { "item": "misc_repairkit", "prob": 45, "charges": 200 },
       [ "tool_belt", 35 ],
       [ "multitool", 20 ]
     ]

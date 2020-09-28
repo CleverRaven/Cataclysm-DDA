@@ -180,7 +180,7 @@
       [ "daypack", 20 ],
       [ "rope_30", 35 ],
       [ "hatchet", 10 ],
-      [ "misc_repairkit", 5 ],
+      { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       [ "mess_kit", 10 ],
       [ "pot", 20 ],
       [ "inflatable_boat", 25 ],

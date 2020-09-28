@@ -1627,7 +1627,7 @@
       [ "wearable_light", 10 ],
       [ "antiparasitic", 5 ],
       [ "diazepam", 5 ],
-      [ "misc_repairkit", 5 ],
+      { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "group": "tools_toolbox", "prob": 2 },
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 3 ],
