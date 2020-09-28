@@ -29,19 +29,19 @@ then
             # but due to a libintl bug (https://savannah.gnu.org/bugs/index.php?58006),
             # gettext would be extremely slow on MinGW targets if we do not compile
             # a .mo file.
-            msgen lang/po/cataclysm-dda.pot --output-file=${f}
+            msgen lang/po/cataclysm-bn.pot --output-file=${f}
         fi
         mkdir -p $LOCALE_DIR/${n}/LC_MESSAGES
-        msgfmt -f -o $LOCALE_DIR/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
+        msgfmt -f -o $LOCALE_DIR/${n}/LC_MESSAGES/cataclysm-bn.mo ${f}
     done
 else
     # if nothing specified, compile .mo file for every .po file in lang/po
     # English is special: see comments above
-    msgen lang/po/cataclysm-dda.pot --output-file=lang/po/en.po
+    msgen lang/po/cataclysm-bn.pot --output-file=lang/po/en.po
     for f in lang/po/*.po
     do
         n=`basename $f .po`
         mkdir -p $LOCALE_DIR/${n}/LC_MESSAGES
-        msgfmt -f -o $LOCALE_DIR/${n}/LC_MESSAGES/cataclysm-dda.mo ${f}
+        msgfmt -f -o $LOCALE_DIR/${n}/LC_MESSAGES/cataclysm-bn.mo ${f}
     done
 fi

@@ -46,19 +46,19 @@ then
     done
 fi
 
-# merge lang/po/cataclysm-dda.pot with .po file for each specified language
+# merge lang/po/cataclysm-bn.pot with .po file for each specified language
 if [ $# -gt 0 ]
 then
     for n in $@
     do
         echo "updating lang/po/${n}.po"
-        msgmerge --sort-by-file --no-fuzzy-matching lang/po/${n}.po lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete -o lang/po/${n}.po
+        msgmerge --sort-by-file --no-fuzzy-matching lang/po/${n}.po lang/po/cataclysm-bn.pot | msgattrib --sort-by-file --no-obsolete -o lang/po/${n}.po
     done
-# otherwise merge lang/po/cataclysm-dda.pot with all .po files in lang/po
+# otherwise merge lang/po/cataclysm-bn.pot with all .po files in lang/po
 else
     for f in lang/po/*.po
     do
         echo "updating $f"
-        msgmerge --sort-by-file --no-fuzzy-matching $f lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete -o $f
+        msgmerge --sort-by-file --no-fuzzy-matching $f lang/po/cataclysm-bn.pot | msgattrib --sort-by-file --no-obsolete -o $f
     done
 fi

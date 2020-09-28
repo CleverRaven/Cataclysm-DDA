@@ -104,6 +104,7 @@ ignorable = {
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
+    "WORLD_OPTION",
 }
 
 # these objects can have their strings automatically extracted.
