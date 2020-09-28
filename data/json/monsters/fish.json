@@ -639,7 +639,6 @@
     "harvest": "shellfish",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "vision_day": 100,
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
@@ -658,6 +657,7 @@
       [ "PARROT", 20 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
+    "vision_day": 84,
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
