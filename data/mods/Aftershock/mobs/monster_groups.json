@@ -3,7 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
     "monsters": [
-      { "monster": "mon_afs_headless_horror", "freq": 20, "cost_multiplier": 2, "starts":400 },
+      { "monster": "mon_afs_headless_horror", "freq": 20, "cost_multiplier": 2, "starts": 400 },
       { "monster": "mon_zombie_upliftedbear", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
       { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 }
     ]
