@@ -57,7 +57,6 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -214,9 +213,10 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
+            const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
-            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
+                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+            scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
@@ -241,7 +241,7 @@ void mdeath::acid( monster &z )
             add_msg( m_warning, _( "The %s's body leaks acid." ), z.name() );
         }
     }
-    get_map().add_field( z.pos(), fd_acid, 3 );
+    get_map().add_field( z.pos(), field_type_id( "fd_acid" ), 3 );
 }
 
 void mdeath::boomer( monster &z )
@@ -262,7 +262,7 @@ void mdeath::boomer( monster &z )
         player_character.add_env_effect( effect_boomered, bodypart_id( "eyes" ), 2, 24_turns );
     }
 
-    here.propagate_field( z.pos(), fd_bile, 15, 1 );
+    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 15, 1 );
 }
 
 void mdeath::boomer_glow( monster &z )
@@ -280,8 +280,8 @@ void mdeath::boomer_glow( monster &z )
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = critter->random_body_part();
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -289,7 +289,7 @@ void mdeath::boomer_glow( monster &z )
         }
     }
 
-    here.propagate_field( z.pos(), fd_bile, 30, 2 );
+    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 30, 2 );
 }
 
 void mdeath::kill_vines( monster &z )
@@ -603,7 +603,7 @@ void mdeath::focused_beam( monster &z )
             if( !here.is_transparent( elem ) ) {
                 break;
             }
-            here.add_field( elem, fd_dazzling, 2 );
+            here.add_field( elem, field_type_id( "fd_dazzling" ), 2 );
         }
     }
 
@@ -716,7 +716,7 @@ void mdeath::fungalburst( monster &z )
 {
     map &here = get_map();
     // If the fungus died from anti-fungal poison, don't pouf
-    if( here.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
+    if( here.get_field_intensity( z.pos(), field_type_id( "fd_fungicidal_gas" ) ) ) {
         add_msg_if_player_sees( z, m_good, _( "The %s inflates and melts away." ), z.name() );
         return;
     }
@@ -800,7 +800,7 @@ void mdeath::preg_roach( monster &z )
 void mdeath::fireball( monster &z )
 {
     if( one_in( 10 ) ) {
-        get_map().propagate_field( z.pos(), fd_fire, 15, 3 );
+        get_map().propagate_field( z.pos(), field_type_id( "fd_fire" ), 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name() );
         sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "default" );
@@ -814,7 +814,7 @@ void mdeath::conflagration( monster &z )
 {
     map &here = get_map();
     for( const auto &dest : here.points_in_radius( z.pos(), 1 ) ) {
-        here.propagate_field( dest, fd_fire, 18, 3 );
+        here.propagate_field( dest, field_type_id( "fd_fire" ), 18, 3 );
     }
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );

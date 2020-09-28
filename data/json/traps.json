@@ -1,18 +1,6 @@
 [
   {
     "type": "trap",
-    "id": "tr_null",
-    "name": "none",
-    "color": "white",
-    "symbol": "?",
-    "visibility": 20,
-    "avoidance": 0,
-    "difficulty": 0,
-    "action": "none",
-    "benign": true
-  },
-  {
-    "type": "trap",
     "id": "tr_bubblewrap",
     "name": "bubble wrap",
     "color": "light_cyan",

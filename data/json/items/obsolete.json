@@ -81,16 +81,8 @@
   },
   {
     "type": "recipe",
-    "result": "barrel_big",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
-    "difficulty": 6,
-    "time": 30000,
-    "autolearn": false,
-    "tools": [ [ [ "large_repairkit", 100 ], [ "small_repairkit", 300 ] ] ],
-    "components": [ [ [ "pipe", 2 ] ] ]
+    "obsolete": true,
+    "result": "barrel_big"
   },
   {
     "id": "barrel_rifled",
@@ -334,15 +326,7 @@
   {
     "result": "beltfeed",
     "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "skills_required": [ "rifle", 2 ],
-    "time": 200000,
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 4 ] ] ]
+    "obsolete": true
   },
   {
     "id": "tuned_mechanism",
@@ -380,13 +364,6 @@
     "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flammable": 100 }, "watertight": true } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "magnesium",
-    "name": [ "Magnesium Supplements" ],
-    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
-    "rating": "good"
   },
   {
     "id": "bio_furnace",
@@ -640,7 +617,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 120 }
     },
@@ -1058,7 +1035,7 @@
       "type": "place_monster",
       "monster_id": "mon_chickenbot",
       "friendly_msg": "The chicken walker rises to its feet, sways away from you and begins surveying the area.",
-      "hostile_msg": "The chicken walker whirrs and aims directly at you. Take cover!",
+      "hostile_msg": "The chicken walker whirrs and aims directly at you.  Take cover!",
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
@@ -1084,7 +1061,7 @@
       "type": "place_monster",
       "monster_id": "mon_tankbot",
       "friendly_msg": "The tank drone rolls out and begins acquiring targets.",
-      "hostile_msg": "The tank drone swivels its turret and aims directly at you. Don your brown pants!",
+      "hostile_msg": "The tank drone swivels its turret and aims directly at you.  Don your brown pants!",
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
@@ -1136,7 +1113,7 @@
       "type": "place_monster",
       "monster_id": "mon_tripod",
       "friendly_msg": "The tribot rises to its feet and scans the area for contaminants.",
-      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower. Turns out you hate the smell of napalm.",
+      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower.  Turns out you hate the smell of napalm.",
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
@@ -2755,5 +2732,47 @@
     "bashing": 8,
     "to_hit": -4,
     "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "rag_bloody",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str": "blood soaked rag" },
+    "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
+    "material": [ "cotton" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "weight": "80 g",
+    "volume": "250 ml"
+  },
+  {
+    "id": "hybridbow",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "hybrid longbow" },
+    "description": "A modernized, six-foot longbow that curves away from the archer at the tips for increased power.  It can be used effectively by those of somewhat above-average strength.  Designed for archers that appreciate the smoothness of a traditional longbow, but desire the superior power of a modern recurve.",
+    "price": 38000,
+    "material": [ "steel", "plastic", "wood" ],
+    "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "skill": "archery",
+    "min_strength": 11,
+    "ammo": [ "arrow" ],
+    "weight": "600 g",
+    "volume": "3500 ml",
+    "price_postapoc": 5000,
+    "bashing": 12,
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "reload_noise_volume": 3,
+    "loudness": 8,
+    "ranged_damage": { "damage_type": "stab", "amount": 10 },
+    "range": 14,
+    "dispersion": 850,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   }
 ]

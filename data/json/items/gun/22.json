@@ -89,16 +89,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } },
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "marlin_tubeloader" ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 }, "allowed_speedloaders": [ "marlin_tubeloader" ] } ]
   },
   {
     "id": "moss_brownie",
@@ -233,8 +224,9 @@
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
     "name": { "str_sp": "Ruger LCR .22" },
-    "weight": "420 g",
+    "weight": "422 g",
     "ammo": [ "22" ],
+    "longest_side": "192 mm",
     "clip_size": 8,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "22": 8 } } ]
   },
@@ -246,7 +238,7 @@
     "name": { "str_sp": "SIG Mosquito" },
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",
     "weight": "720 g",
-    "volume": "450 ml",
+    "volume": "467 ml",
     "longest_side": "214 mm",
     "price": 36000,
     "price_postapoc": 750,

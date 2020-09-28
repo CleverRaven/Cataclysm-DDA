@@ -21,6 +21,7 @@
 #else
 #include <csignal>
 #endif
+#include "cached_options.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"

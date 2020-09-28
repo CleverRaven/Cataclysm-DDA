@@ -105,7 +105,6 @@ void activity_type::check_consistency()
 
 void activity_type::call_do_turn( player_activity *act, player *p ) const
 {
-    p->increase_activity_level( activity_level );
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
         pair->second( act, p );

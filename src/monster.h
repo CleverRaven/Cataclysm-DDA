@@ -556,11 +556,12 @@ class monster : public Creature
         bool biosignatures = false;
         cata::optional<time_point> biosig_timer;
         time_point udder_timer;
-        monster_horde_attraction horde_attraction;
+        monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        int turns_since_target = 0;
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

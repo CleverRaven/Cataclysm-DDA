@@ -592,6 +592,7 @@ Example:
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+| custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 
 ## Extra map features with specials

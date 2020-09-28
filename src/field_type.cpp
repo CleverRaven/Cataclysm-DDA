@@ -11,6 +11,8 @@
 #include "json.h"
 #include "string_id.h"
 
+field_type_id fd_null;
+
 namespace io
 {
 
@@ -177,7 +179,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
                 optional( joe, was_loaded, "max_duration", fe.max_duration );
                 optional( joe, was_loaded, "intensity", fe.intensity );
-                optional( joe, was_loaded, "body_part", fe.bp );
+                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id( "bp_null" ) );
                 optional( joe, was_loaded, "is_environmental", fe.is_environmental );
                 optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
                 optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );
@@ -221,9 +223,10 @@ void field_type::load( const JsonObject &jo, const std::string & )
         immunity_data_traits.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
+
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
@@ -269,6 +272,7 @@ void field_type::finalize()
             debugmsg( "Invalid mtype_id %s in immune_mtypes for field %s.", m_id.c_str(), id.c_str() );
         }
     }
+    fd_null = field_type_id( "fd_null" );
 }
 
 void field_type::check() const
@@ -294,7 +298,6 @@ void field_types::load( const JsonObject &jo, const std::string &src )
 
 void field_types::finalize_all()
 {
-    set_field_type_ids();
     all_field_types.finalize();
     for( const field_type &fd : all_field_types.get_all() ) {
         const_cast<field_type &>( fd ).finalize();
@@ -314,109 +317,6 @@ void field_types::reset()
 const std::vector<field_type> &field_types::get_all()
 {
     return all_field_types.get_all();
-}
-
-field_type_id fd_null,
-              fd_blood,
-              fd_bile,
-              fd_extinguisher,
-              fd_gibs_flesh,
-              fd_gibs_veggy,
-              fd_web,
-              fd_slime,
-              fd_acid,
-              fd_sap,
-              fd_sludge,
-              fd_fire,
-              fd_smoke,
-              fd_toxic_gas,
-              fd_tear_gas,
-              fd_nuke_gas,
-              fd_gas_vent,
-              fd_fire_vent,
-              fd_flame_burst,
-              fd_electricity,
-              fd_fatigue,
-              fd_push_items,
-              fd_shock_vent,
-              fd_acid_vent,
-              fd_plasma,
-              fd_laser,
-              fd_dazzling,
-              fd_blood_veggy,
-              fd_blood_insect,
-              fd_blood_invertebrate,
-              fd_gibs_insect,
-              fd_gibs_invertebrate,
-              fd_bees,
-              fd_incendiary,
-              fd_relax_gas,
-              fd_fungal_haze,
-              fd_cold_air1,
-              fd_cold_air2,
-              fd_cold_air3,
-              fd_cold_air4,
-              fd_hot_air1,
-              fd_hot_air2,
-              fd_hot_air3,
-              fd_hot_air4,
-              fd_fungicidal_gas,
-              fd_insecticidal_gas,
-              fd_smoke_vent,
-              fd_tindalos_rift
-              ;
-
-void field_types::set_field_type_ids()
-{
-    fd_null = field_type_id( "fd_null" );
-    fd_blood = field_type_id( "fd_blood" );
-    fd_bile = field_type_id( "fd_bile" );
-    fd_extinguisher = field_type_id( "fd_extinguisher" );
-    fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
-    fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
-    fd_web = field_type_id( "fd_web" );
-    fd_slime = field_type_id( "fd_slime" );
-    fd_acid = field_type_id( "fd_acid" );
-    fd_sap = field_type_id( "fd_sap" );
-    fd_sludge = field_type_id( "fd_sludge" );
-    fd_fire = field_type_id( "fd_fire" );
-    fd_smoke = field_type_id( "fd_smoke" );
-    fd_toxic_gas = field_type_id( "fd_toxic_gas" );
-    fd_tear_gas = field_type_id( "fd_tear_gas" );
-    fd_nuke_gas = field_type_id( "fd_nuke_gas" );
-    fd_gas_vent = field_type_id( "fd_gas_vent" );
-    fd_fire_vent = field_type_id( "fd_fire_vent" );
-    fd_flame_burst = field_type_id( "fd_flame_burst" );
-    fd_electricity = field_type_id( "fd_electricity" );
-    fd_fatigue = field_type_id( "fd_fatigue" );
-    fd_push_items = field_type_id( "fd_push_items" );
-    fd_shock_vent = field_type_id( "fd_shock_vent" );
-    fd_acid_vent = field_type_id( "fd_acid_vent" );
-    fd_plasma = field_type_id( "fd_plasma" );
-    fd_laser = field_type_id( "fd_laser" );
-    fd_dazzling = field_type_id( "fd_dazzling" );
-    fd_blood_veggy = field_type_id( "fd_blood_veggy" );
-    fd_blood_insect = field_type_id( "fd_blood_insect" );
-    fd_blood_invertebrate = field_type_id( "fd_blood_invertebrate" );
-    fd_gibs_insect = field_type_id( "fd_gibs_insect" );
-    fd_gibs_invertebrate = field_type_id( "fd_gibs_invertebrate" );
-    fd_bees = field_type_id( "fd_bees" );
-    fd_incendiary = field_type_id( "fd_incendiary" );
-    fd_relax_gas = field_type_id( "fd_relax_gas" );
-    fd_fungal_haze = field_type_id( "fd_fungal_haze" );
-    fd_cold_air1 = field_type_id( "fd_cold_air1" );
-    fd_cold_air2 = field_type_id( "fd_cold_air2" );
-    fd_cold_air3 = field_type_id( "fd_cold_air3" );
-    fd_cold_air4 = field_type_id( "fd_cold_air4" );
-    fd_hot_air1 = field_type_id( "fd_hot_air1" );
-    fd_hot_air2 = field_type_id( "fd_hot_air2" );
-    fd_hot_air3 = field_type_id( "fd_hot_air3" );
-    fd_hot_air4 = field_type_id( "fd_hot_air4" );
-    fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
-    fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
-    fd_smoke_vent = field_type_id( "fd_smoke_vent" );
-    fd_tindalos_rift = field_type_id( "fd_tindalos_rift" );
-
 }
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )

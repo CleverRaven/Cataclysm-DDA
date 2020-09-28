@@ -16,6 +16,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 8,
     "max_level": 15,
+    "damage_type": "pure",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
     "energy_source": "MANA"
   },
@@ -164,7 +165,7 @@
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 2,
-    "damage_type": "bio"
+    "damage_type": "biological"
   },
   {
     "id": "create_rune_animist",

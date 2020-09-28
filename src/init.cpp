@@ -1,6 +1,5 @@
 #include "init.h"
 
-#include <cassert>
 #include <cstddef>
 #include <fstream>
 #include <iterator>
@@ -19,6 +18,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
+#include "cata_assert.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -190,8 +190,6 @@ void DynamicDataLoader::add( const std::string &type,
         debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
     }
 }
-
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 void DynamicDataLoader::initialize()
 {
@@ -410,14 +408,15 @@ void DynamicDataLoader::initialize()
     add( "mod_tileset", &load_mod_tileset );
 #else
     // Dummy function
-    add( "mod_tileset", []( const JsonObject &, const std::string & ) { } );
+    add( "mod_tileset", load_ignored_type );
 #endif
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
         loading_ui &ui )
 {
-    assert( !finalized && "Can't load additional data after finalization.  Must be unloaded first." );
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
     // We assume that each folder is consistent in itself,
     // and all the previously loaded folders.
     // E.g. the core might provide a vpart "frame-x"
@@ -440,10 +439,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonIn jsin( iss );
+            JsonIn jsin( iss, file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
-            throw std::runtime_error( file + ": " + err.what() );
+            throw std::runtime_error( err.what() );
         }
     }
 }
@@ -564,7 +563,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
-    assert( !finalized && "Can't finalize the data twice." );
+    cata_assert( !finalized && "Can't finalize the data twice." );
     ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
@@ -677,6 +676,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
             { _( "Furniture and terrain" ), &check_furniture_and_terrain },
             { _( "Constructions" ), &check_constructions },
+            { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },

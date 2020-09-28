@@ -468,7 +468,7 @@
       [ "box_medium", 3 ],
       [ "box_large", 2 ],
       [ "plastic_sheet", 3 ],
-      [ "glowstick", 10 ],
+      { "item": "glowstick", "prob": 10, "charges": 1400 },
       [ "radio", 2 ],
       [ "fan", 5 ],
       [ "fan", 5 ],

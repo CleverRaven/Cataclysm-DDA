@@ -745,10 +745,6 @@ void computer_session::action_amigara_log()
 void computer_session::action_amigara_start()
 {
     get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
-    Character &player_character = get_player_character();
-    if( !player_character.has_artifact_with( AEP_PSYSHIELD ) ) {
-        player_character.add_effect( effect_amigara, 2_minutes );
-    }
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -820,7 +816,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -1076,7 +1072,7 @@ void computer_session::action_irradiator()
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
-                        here.propagate_field( dest, fd_nuke_gas, 100, 3 );
+                        here.propagate_field( dest, field_type_id( "fd_nuke_gas" ), 100, 3 );
                         here.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint &radorigin : here.points_in_radius( dest, 5 ) ) {
@@ -1264,13 +1260,13 @@ void computer_session::action_deactivate_shock_vent()
     bool has_generator = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-        if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
+        if( here.get_field( dest, field_type_id( "fd_shock_vent" ) ) != nullptr ) {
             has_vent = true;
         }
         if( here.ter( dest ) == t_plut_generator ) {
             has_generator = true;
         }
-        here.remove_field( dest, fd_shock_vent );
+        here.remove_field( dest, field_type_id( "fd_shock_vent" ) );
     }
     print_line( _( "Initiating POWER-DIAG ver.2.34…" ) );
     if( has_vent ) {
@@ -1452,7 +1448,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );

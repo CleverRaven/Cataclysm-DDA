@@ -50,17 +50,11 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
 
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -91,7 +85,6 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
 
 class achievements_tracker;
@@ -118,6 +111,7 @@ class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
 class ui_adaptor;
 struct visibility_variables;
@@ -569,10 +563,6 @@ class game
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
-
         void peek();
         void peek( const tripoint &p );
         cata::optional<tripoint> look_debug();
@@ -937,6 +927,7 @@ class game
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
             { ACTION_DISPLAY_RADIATION, false },
+            { ACTION_DISPLAY_TRANSPARENCY, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
@@ -944,6 +935,7 @@ class game
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
+        void display_transparency(); // Displays transparency map
 
         Creature *is_hostile_within( int distance );
 
@@ -1084,6 +1076,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.

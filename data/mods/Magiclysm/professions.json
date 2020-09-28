@@ -4,7 +4,7 @@
     "id": "wizard_novice",
     "name": "Would-be Wizard",
     "description": "You found a pamphlet with bright colors claiming you can be a Wizard, oddly serene with the world falling down around you.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner" ],
       "male": [ "boxer_briefs" ],

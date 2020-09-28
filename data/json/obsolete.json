@@ -1,5 +1,18 @@
 [
   {
+    "result": "plastic_shopping_bag",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bag_plastic", 8 ] ] ]
+  },
+  {
     "id": "pipe_combination_gun",
     "looks_like": "ar15",
     "type": "GUN",
@@ -412,7 +425,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 160, "fragment_mass": 0.4, "drop": "nail", "recovery": 16 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -460,7 +473,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 240, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -617,7 +630,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 175 }
     },
@@ -888,6 +901,15 @@
     "valid": false
   },
   {
+    "type": "mutation",
+    "id": "DEBUG_STORAGE",
+    "name": { "str": "Debug Very Strong Back" },
+    "points": 99,
+    "valid": false,
+    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
+    "debug": true
+  },
+  {
     "id": "metal_wheel",
     "type": "vehicle_part",
     "name": { "str": "metal wheel" },
@@ -1017,7 +1039,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 175, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1123,6 +1145,54 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
+  },
+  {
+    "abstract": "door_abstract",
+    "breaks_into": "ig_vp_frame",
+    "broken_color": "cyan",
+    "broken_symbol": "&",
+    "color": "cyan",
+    "damage_modifier": 80,
+    "damage_reduction": { "all": 21 },
+    "description": "A door.  Has a window so you can see out of it, even when closed.",
+    "durability": 225,
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW" ],
+    "item": "frame",
+    "location": "center",
+    "looks_like": "t_door_metal_c",
+    "name": { "str": "door" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 10,
+    "symbol": "+",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_front_left",
+    "symbol": "y",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_front_right",
+    "symbol": "u",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_rear_left",
+    "symbol": "b",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "door_abstract",
+    "id": "door_rear_right",
+    "symbol": "n",
+    "type": "vehicle_part"
   },
   {
     "type": "terrain",

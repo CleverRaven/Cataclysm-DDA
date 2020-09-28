@@ -67,7 +67,7 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
-        response.create_option_line( d, ' ' );
+        response.create_option_line( d, input_event() );
     }
     if( d.responses.size() != expected_count ) {
         printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );
@@ -585,8 +585,8 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     player &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
-        return it.get_category().get_id() == item_category_id( "books" ) ||
-               it.get_category().get_id() == item_category_id( "food" ) ||
+        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
+               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
     } );
     d.add_topic( "TALK_TEST_HAS_ITEM" );

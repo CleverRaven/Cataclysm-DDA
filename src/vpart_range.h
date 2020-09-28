@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_VPART_RANGE_H
 #define CATA_SRC_VPART_RANGE_H
 
-#include <cassert>
 #include <functional>
 #include <cstddef>
 #include <iterator>
 #include <utility>
 
+#include "cata_assert.h"
 #include "optional.h"
 #include "vpart_position.h"
 #include "vehicle.h"
@@ -45,22 +45,22 @@ class vehicle_part_iterator
 
     public:
         vehicle_part_iterator( const range_type &r, size_t i ) : range_( r ) {
-            assert( i <= range().part_count() );
+            cata_assert( i <= range().part_count() );
             skip_to_next_valid( i );
         }
         vehicle_part_iterator( const vehicle_part_iterator & ) = default;
 
         const vpart_reference &operator*() const {
-            assert( vp_ );
+            cata_assert( vp_ );
             return *vp_;
         }
         const vpart_reference *operator->() const {
-            assert( vp_ );
+            cata_assert( vp_ );
             return &*vp_;
         }
 
         vehicle_part_iterator &operator++() {
-            assert( vp_ );
+            cata_assert( vp_ );
             skip_to_next_valid( vp_->part_index() + 1 );
             return *this;
         }

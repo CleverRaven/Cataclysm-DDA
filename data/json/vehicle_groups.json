@@ -6,6 +6,7 @@
       [ "car", 2000 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 400 ],
       [ "electric_car", 500 ],
       [ "car_sports", 300 ],
       [ "car_sports_electric", 60 ],
@@ -87,6 +88,7 @@
       [ "car", 7000 ],
       [ "car_anmlcmpt", 600 ],
       [ "car_hatch", 3500 ],
+      [ "car_luxury", 1400 ],
       [ "electric_car", 1000 ],
       [ "car_sports", 500 ],
       [ "suv", 1000 ],
@@ -116,6 +118,7 @@
       [ "car", 3000 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 600 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 500 ],
       [ "car_sports", 1000 ],
@@ -163,6 +166,7 @@
       [ "car", 1000 ],
       [ "car_anmlcmpt", 150 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 300 ],
       [ "car_mini", 250 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
@@ -234,6 +238,7 @@
       [ "car", 1000 ],
       [ "car_anmlcmpt", 100 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 200 ],
       [ "electric_car", 750 ],
       [ "car_hybrid", 500 ],
       [ "hippie_van", 750 ],
@@ -338,6 +343,7 @@
     "vehicles": [
       [ "car", 1500 ],
       [ "car_hatch", 750 ],
+      [ "car_luxury", 100 ],
       [ "car_chassis", 2000 ],
       [ "electric_car", 400 ],
       [ "car_hybrid", 400 ],
@@ -360,6 +366,7 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "car_chassis", 1200 ],
       [ "car_sports", 200 ],
       [ "suv", 400 ],
@@ -385,6 +392,7 @@
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 100 ],
       [ "car_hybrid", 100 ],
+      [ "car_luxury", 50 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
@@ -404,6 +412,7 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "car_anmlcmpt", 100 ],
       [ "suv", 400 ],
       [ "rv", 200 ],
@@ -424,6 +433,7 @@
       [ "beetle", 750 ],
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 200 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
       [ "car_hybrid", 500 ],
@@ -548,6 +558,7 @@
       [ "suv_electric", 70 ],
       [ "rara_x", 40 ],
       [ "car_sports", 30 ],
+      [ "car_luxury", 40 ],
       [ "car_sports_electric", 20 ]
     ]
   },
@@ -588,6 +599,7 @@
     "vehicles": [
       [ "car", 2000 ],
       [ "car_hatch", 1000 ],
+      [ "car_luxury", 1000 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 500 ],
       [ "suv", 800 ],
@@ -624,6 +636,7 @@
       [ "beetle", 750 ],
       [ "car", 1500 ],
       [ "car_hatch", 750 ],
+      [ "car_luxury", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
       [ "suv_electric_rack", 100 ],
@@ -651,6 +664,7 @@
     "vehicles": [
       [ "car", 1000 ],
       [ "car_hatch", 500 ],
+      [ "car_luxury", 100 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
       [ "suv", 800 ],
@@ -687,6 +701,7 @@
     "id": "oa_vg_ts_vehicles",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_luxury", 200 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
@@ -714,6 +729,7 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_luxury", 400 ],
       [ "car_hatch", 1000 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
@@ -735,6 +751,7 @@
     "id": "dealership",
     "vehicles": [
       [ "car", 500 ],
+      [ "car_luxury", 500 ],
       [ "electric_car", 100 ],
       [ "car_hybrid", 100 ],
       [ "car_sports", 300 ],

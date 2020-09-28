@@ -27,7 +27,7 @@ class proficiency
         proficiency_id id;
         bool was_loaded = false;
 
-        bool _can_learn;
+        bool _can_learn = false;
 
         translation _name;
         translation _description;
@@ -61,8 +61,8 @@ class proficiency_set
     public:
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
-        bool practice( const proficiency_id &practicing, time_duration amount,
-                       cata::optional<time_duration> max );
+        bool practice( const proficiency_id &practicing, const time_duration &amount,
+                       const cata::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
 
@@ -88,7 +88,7 @@ struct learning_proficiency {
     time_duration practiced;
 
     learning_proficiency() = default;
-    learning_proficiency( const proficiency_id &id, const time_duration practiced ) : id( id ),
+    learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),
         practiced( practiced ) {}
 
     void serialize( JsonOut &jsout ) const;
@@ -103,13 +103,13 @@ struct display_proficiency {
     nc_color color;
 
     // What percentage we are towards knowing it
-    float practice;
+    float practice = 0.0f;
 
     // How much time we've spent practicing it
-    time_duration spent;
+    time_duration spent = 0_turns;
 
     // If we already know it
-    bool known;
+    bool known = false;
 };
 
 #endif // CATA_SRC_PROFICIENCY_H

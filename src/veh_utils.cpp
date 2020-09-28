@@ -112,9 +112,9 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
-    const auto reqs = pt.is_broken() ?
-                      vp.install_requirements() :
-                      vp.repair_requirements() * pt.damage_level( 4 );
+    const requirement_data reqs = pt.is_broken() ?
+                                  vp.install_requirements() :
+                                  vp.repair_requirements() * pt.damage_level( 4 );
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;

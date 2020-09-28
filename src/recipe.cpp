@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -36,8 +37,6 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
-
-extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -135,6 +134,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     abstract = jo.has_string( "abstract" );
 
+    const std::string type = jo.get_string( "type" );
+
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
@@ -142,8 +143,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         ident_ = recipe_id( result_.str() );
     }
 
+    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
+        if( abstract ) {
+            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+        }
+        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+    }
+
     if( jo.has_bool( "obsolete" ) ) {
         assign( jo, "obsolete", obsolete );
+    }
+
+    // If it's an obsolete recipe, we don't need any more data, skip loading
+    if( obsolete ) {
+        return;
     }
 
     if( jo.has_int( "time" ) ) {
@@ -162,7 +175,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
-        auto batch = jo.get_array( "batch_time_factors" );
+        JsonArray batch = jo.get_array( "batch_time_factors" );
         batch_rscale = batch.get_int( 0 ) / 100.0;
         batch_rsize  = batch.get_int( 1 );
     }
@@ -173,7 +186,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "skill_used", skill_used, strict );
 
     if( jo.has_member( "skills_required" ) ) {
-        auto sk = jo.get_array( "skills_required" );
+        JsonArray sk = jo.get_array( "skills_required" );
         required_skills.clear();
 
         if( sk.empty() ) {
@@ -203,6 +216,19 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
+
+    // Mandatory: This recipe's exertion level
+    // TODO: Make this mandatory, no default or 'fake' exception
+    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    // For making scripting that needs to be broken up over multiple PRs easier
+    if( exert == "fake" ) {
+        exert = "MODERATE_EXERCISE";
+    }
+    const auto it = activity_levels.find( exert );
+    if( it == activity_levels.end() ) {
+        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+    }
+    exertion = it->second;
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
@@ -251,25 +277,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    const std::string type = jo.get_string( "type" );
-
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();
 
     // These cannot be inherited
+    bp_autocalc = false;
     check_blueprint_needs = false;
-    has_blueprint_needs = false;
-    time_blueprint = 0;
-    skills_blueprint.clear();
-    reqs_blueprint.clear();
+    blueprint_reqs.reset();
 
     if( type == "recipe" ) {
-        if( jo.has_string( "id_suffix" ) ) {
-            if( abstract ) {
-                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
-            }
-            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
-        }
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
@@ -309,40 +325,33 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
+            check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
             if( jo.has_member( "blueprint_needs" ) ) {
-                has_blueprint_needs = true;
+                blueprint_reqs = cata::make_value<build_reqs>();
                 const JsonObject jneeds = jo.get_object( "blueprint_needs" );
                 if( jneeds.has_member( "time" ) ) {
                     if( jneeds.has_int( "time" ) ) {
                         // so we can specify moves that is not a multiple of 100
-                        time_blueprint = jneeds.get_int( "time" );
+                        blueprint_reqs->time = jneeds.get_int( "time" );
                     } else {
-                        time_blueprint = to_moves<int>( read_from_json_string<time_duration>( *jneeds.get_raw( "time" ),
-                                                        time_duration::units ) );
+                        blueprint_reqs->time =
+                            to_moves<int>( read_from_json_string<time_duration>(
+                                               *jneeds.get_raw( "time" ), time_duration::units ) );
                     }
-                    time += time_blueprint;
                 }
                 if( jneeds.has_member( "skills" ) ) {
-                    for( JsonArray cur : jneeds.get_array( "skills" ) ) {
-                        skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
-                    }
-                    for( const std::pair<const skill_id, int> &p : skills_blueprint ) {
-                        const auto it = required_skills.find( p.first );
-                        if( it == required_skills.end() ) {
-                            required_skills.emplace( p );
-                        } else {
-                            it->second = std::max( it->second, p.second );
-                        }
-                    }
+                    std::vector<std::pair<skill_id, int>> blueprint_skills;
+                    jneeds.read( "skills", blueprint_skills );
+                    blueprint_reqs->skills = { blueprint_skills.begin(), blueprint_skills.end() };
                 }
                 if( jneeds.has_member( "inline" ) ) {
                     const requirement_id req_id( "inline_blueprint_" + type + "_" + ident_.str() );
                     requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
-                    reqs_blueprint.emplace_back( req_id, 1 );
-                    reqs_internal.emplace_back( req_id, 1 );
+                    blueprint_reqs->reqs.emplace( req_id, 1 );
                 }
+            } else if( check_blueprint_needs ) {
+                bp_autocalc = true;
             }
-            check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -357,9 +366,16 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
-    if( test_mode && check_blueprint_needs ) {
+    if( bp_autocalc ) {
+        blueprint_reqs =
+            cata::make_value<build_reqs>( get_build_reqs_for_furn_ter_ids(
+                                              get_changed_ids_from_update( blueprint ) ) );
+    } else if( test_mode && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
+
+    incorporate_build_reqs();
+    blueprint_reqs.reset();
 
     // concatenate both external and inline requirements
     add_requirements( reqs_external );
@@ -367,12 +383,6 @@ void recipe::finalize()
 
     reqs_external.clear();
     reqs_internal.clear();
-
-    if( has_blueprint_needs ) {
-        time_blueprint = 0;
-        skills_blueprint.clear();
-        reqs_blueprint.clear();
-    }
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
@@ -423,10 +433,7 @@ void recipe::finalize()
 
 void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
 {
-    requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_,
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_ );
 }
 
 std::string recipe::get_consistency_error() const
@@ -492,7 +499,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items
+        // TODO: Make it work for charge-less items (update makes amount)
         newit.charges *= result_mult;
     }
 
@@ -644,6 +651,11 @@ float recipe::proficiency_maluses( const Character &guy ) const
     return malus;
 }
 
+float recipe::exertion_level() const
+{
+    return exertion;
+}
+
 // Format a std::pair<skill_id, int> for the crafting menu.
 // skill colored green (or yellow if beyond characters skill)
 // optionally with the skill level (player / difficulty)
@@ -719,8 +731,7 @@ std::string recipe::required_all_skills_string() const
 
     std::vector< std::pair<skill_id, int> > skillList;
     skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(),
-               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
+    std::copy( required_skills.begin(), required_skills.end(), std::back_inserter( skillList ) );
 
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
@@ -845,22 +856,14 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() co
 
 void recipe::check_blueprint_requirements()
 {
-    build_reqs total_reqs;
-    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
-    requirement_data req_data_blueprint = std::accumulate(
-            reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
-    requirement_data req_data_calc = std::accumulate(
-                                         total_reqs.reqs.begin(), total_reqs.reqs.end(), requirement_data(),
-    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-        return lhs + ( *rhs.first * rhs.second );
-    } );
+    build_reqs total_reqs =
+        get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ) );
+    requirement_data req_data_blueprint( blueprint_reqs->reqs );
+    requirement_data req_data_calc( total_reqs.reqs );
     // do not consolidate req_data_blueprint: it actually changes the meaning of the requirement.
     // instead we enforce specifying the exact consolidated requirement.
     req_data_calc.consolidate();
-    if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
+    if( blueprint_reqs->time != total_reqs.time || blueprint_reqs->skills != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
         std::ostringstream os;
         JsonOut jsout( os, /*pretty_print=*/true );
@@ -892,9 +895,11 @@ void recipe::check_blueprint_requirements()
 
         jsout.end_object();
 
-        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
-                  "Specify \"check_blueprint_needs\": false to disable the check or "
-                  "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
+        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.\n"
+                  "Make one of the following changes to resolve this issue:\n"
+                  "- Specify \"check_blueprint_needs\": false to disable the check.\n"
+                  "- Remove \"blueprint_needs\" from the recipe json to have the requirements be autocalculated.\n"
+                  "- Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
@@ -928,6 +933,38 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+int recipe::makes_amount() const
+{
+    int makes;
+    if( charges.has_value() ) {
+        makes = charges.value();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
+    }
+    // return either charges * mult or 1
+    return makes ? makes * result_mult : 1 ;
+}
+
+void recipe::incorporate_build_reqs()
+{
+    if( !blueprint_reqs ) {
+        return;
+    }
+
+    time += blueprint_reqs->time;
+
+    for( const std::pair<const skill_id, int> &p : blueprint_reqs->skills ) {
+        int &val = required_skills[p.first];
+        val = std::max( val, p.second );
+    }
+
+    requirement_data req_data( blueprint_reqs->reqs );
+    req_data.consolidate();
+    const requirement_id req_id( "autocalc_blueprint_" + ident_.str() );
+    requirement_data::save_requirement( req_data, req_id );
+    reqs_internal.emplace_back( req_id, 1 );
 }
 
 void recipe_proficiency::deserialize( JsonIn &jsin )

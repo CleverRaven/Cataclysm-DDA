@@ -1,5 +1,6 @@
 [
   {
+    "//": "All dinos over 23 kg should have a zombie version to zombify into",
     "type": "MONSTER",
     "id": "mon_zallimimus",
     "name": { "str": "Gallimimus zombie" },
@@ -172,6 +173,42 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zachyrhinosaurus",
+    "name": { "str": "Pachyrhinosaurus zombie" },
+    "copy-from": "mon_zriceratops",
+    "weight": "4000 kg",
+    "hp": 400,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears.",
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zentaceratops",
+    "name": { "str": "Pentaceraterror" },
+    "copy-from": "mon_zriceratops",
+    "weight": "5000 kg",
+    "armor_cut": 9,
+    "armor_bash": 8,
+    "hp": 500,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which four long horns and a short nose horn emerge.  Its black eyes ooze like tears."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zorosaurus",
+    "name": { "str": "Torosaurus zombie" },
+    "copy-from": "mon_zriceratops",
+    "weight": "5000 kg",
+    "armor_cut": 9,
+    "armor_bash": 8,
+    "hp": 500,
+    "description": "A massive shambling rhino-like dinosaur corpse with a tall bony crest from which two wicked looking horns emerge.  Its black eyes ooze like tears.",
+    "special_attacks": [ { "id": "impale" }, [ "STRETCH_ATTACK", 5 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zriceratops",
     "name": { "str": "Triceraterror" },
     "copy-from": "mon_zamptosaurus",
@@ -185,11 +222,12 @@
     "melee_dice_sides": 8,
     "melee_cut": 15,
     "armor_bash": 5,
-    "armor_cut": 5,
+    "armor_cut": 7,
     "armor_bullet": 3,
-    "hp": 250,
+    "hp": 600,
     "description": "A massive shambling rhino-like dinosaur corpse with a bony crest from which three wicked looking horns emerge.  Its black eyes ooze like tears.",
-    "upgrades": { "half_life": 14, "into": "mon_zriceratops_brute" }
+    "upgrades": { "half_life": 14, "into": "mon_zriceratops_brute" },
+    "special_attacks": [ { "id": "impale" } ]
   },
   {
     "type": "MONSTER",
@@ -312,7 +350,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "speed": 90,
-    "melee_skill": 10,
+    "melee_skill": 9,
     "melee_dice": 3,
     "melee_dice_sides": 4,
     "melee_cut": 6,
@@ -320,8 +358,51 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 200,
+    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shambling corpse of a large predatory bipedal dinosaur, with tiger-like stripes on its broad, scaled back.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zallosaurus_UPGRADE" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zacrocanthosaurus",
+    "name": { "str": "Acrocanthosaurus zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "looks_like": "mon_allosaurus",
+    "volume": "1000 L",
+    "weight": "6000 kg",
+    "speed": 60,
+    "melee_skill": 9,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "melee_cut": 8,
+    "armor_bash": 11,
+    "armor_cut": 4,
+    "armor_bullet": 2,
+    "hp": 1200,
+    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "description": "The shambling corpse of a huge predatory bipedal dinosaur, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ziats",
+    "name": { "str": "Siats zombie" },
+    "copy-from": "mon_zyrannosaurus",
+    "looks_like": "mon_allosaurus",
+    "volume": "1000 L",
+    "weight": "5000 kg",
+    "speed": 60,
+    "melee_skill": 9,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "melee_cut": 6,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_bullet": 2,
+    "hp": 1000,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "description": "The shambling corpse of a huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -417,6 +498,16 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zaiasaura",
+    "name": { "str": "Maiasaura zombie" },
+    "copy-from": "mon_zarasaurolophus",
+    "weight": "2500 kg",
+    "hp": 400,
+    "description": "A huge mottled dinosaur with hooves and heavy tail, dead and walking, eyes vacant and swollen.  Has a flat beak, thick nose, and small spiky head crest.",
+    "upgrades": { "half_life": 14, "into": "mon_zaiasaura_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zarasaurolophus",
     "name": { "str": "Parasaurolophus zombie" },
     "copy-from": "mon_zamptosaurus",
@@ -496,7 +587,28 @@
     "hp": 70,
     "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long pointy head crest.",
     "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
-    "extend": { "flags": [ "FLIES" ] }
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zuetzalcoatlus",
+    "name": { "str": "Quetzalcoatlus zombie" },
+    "copy-from": "mon_zamptosaurus",
+    "looks_like": "mon_pteranodon",
+    "volume": "190 L",
+    "weight": "250 kg",
+    "bodytype": "bird",
+    "speed": 120,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_cut": 0,
+    "armor_bash": 4,
+    "armor_cut": 4,
+    "armor_bullet": 1,
+    "hp": 332,
+    "description": "The raggedly flying corpse of a large feathered reptile with a long pointed toothless beak and a long rigid neck.",
+    "extend": { "flags": [ "FLIES", "HIT_AND_RUN" ] }
   },
   {
     "type": "MONSTER",
@@ -558,6 +670,19 @@
     "armor_bullet": 7,
     "hp": 580,
     "description": "The ragged bloated corpse of a huge aquatic dinosaur the size of a house, with a crocodile-like head and swimming fins.",
-    "flags": [ "SEES", "HEARS", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "DESTROYS",
+      "WARM",
+      "SWIMS",
+      "AQUATIC",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "HIT_AND_RUN"
+    ]
   }
 ]

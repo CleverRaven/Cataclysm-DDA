@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <functional>
@@ -16,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -134,6 +134,8 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
+        bool highlight_as_parent = false;
+        bool highlight_as_child = false;
 
     private:
         const item_category *custom_category = nullptr;
@@ -240,7 +242,8 @@ class inventory_holster_preset : public inventory_selector_preset
             item item_copy( *contained );
             item_copy.charges = 1;
             return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
-                   !contained->is_bucket_nonempty() && holster.parents_can_contain_recursive( &item_copy );
+                   !contained->is_bucket_nonempty() && ( holster->contents.all_pockets_rigid() ||
+                           holster.parents_can_contain_recursive( &item_copy ) );
         }
     private:
         // this is the item that we are putting something into
@@ -588,7 +591,7 @@ class inventory_selector
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
-        inventory_entry *find_entry_by_coordinate( point coordinate ) const;
+        inventory_entry *find_entry_by_coordinate( const point &coordinate ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;
@@ -596,6 +599,9 @@ class inventory_selector
         std::vector<inventory_column *> get_visible_columns() const;
 
         std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
+        /** Highlight parent and contents of selected item.
+        */
+        void highlight();
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

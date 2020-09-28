@@ -602,6 +602,27 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE" ]
   },
   {
+    "id": "poleaxe",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "poleaxe" },
+    "description": "This is a polearm with an axe head, a small hammer on the back, and a short dagger-like spike on top.  It's less heavy than most polearms and has a smaller head, making it slightly quicker.",
+    "price": 40000,
+    "material": [ "wood", "steel" ],
+    "ascii_picture": "poleaxe",
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
+    "weight": "2200 g",
+    "volume": "3000 ml",
+    "longest_side": "160 cm",
+    "bashing": 25,
+    "cutting": 27,
+    "to_hit": 2,
+    "price_postapoc": 5000,
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
     "id": "ji",
     "type": "GENERIC",
     "name": { "str_sp": "ji" },

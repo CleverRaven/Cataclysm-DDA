@@ -680,7 +680,7 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( JsonIn &js )
 {
-    auto obj = js.get_object();
+    JsonObject obj = js.get_object();
     auto type = obj.get_string( "type" );
 
     int idx = -1;
@@ -718,9 +718,14 @@ void item_location::deserialize( JsonIn &js )
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
-        auto iter = parent_contents.begin();
-        std::advance( iter, idx );
-        ptr.reset( new impl::item_in_container( parent, *iter ) );
+        if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
+            auto iter = parent_contents.begin();
+            std::advance( iter, idx );
+            ptr.reset( new impl::item_in_container( parent, *iter ) );
+        } else {
+            // probably pointing to the wrong item
+            debugmsg( "contents index greater than contents size" );
+        }
     }
 }
 
@@ -755,6 +760,20 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     return false;
+}
+
+int item_location::max_charges_by_parent_recursive( const item &it ) const
+{
+    if( !has_parent() ) {
+        return item::INFINITE_CHARGES;
+    }
+
+    item_location parent = parent_item();
+    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+
+    return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
+                       it.charges_per_weight( pocket->remaining_weight() ),
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
 }
 
 item_location::type item_location::where() const

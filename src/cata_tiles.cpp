@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
-#include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
@@ -16,7 +15,9 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "cached_options.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -89,8 +90,6 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int fontwidth;
-extern int fontheight;
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -186,7 +185,7 @@ cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer
     geometry( geometry ),
     minimap( renderer, geometry )
 {
-    assert( renderer );
+    cata_assert( renderer );
 
     tile_height = 0;
     tile_width = 0;
@@ -317,9 +316,9 @@ template<typename PixelConverter>
 static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
         PixelConverter pixel_converter )
 {
-    assert( original );
+    cata_assert( original );
     SDL_Surface_Ptr surf = create_surface_32( original->w, original->h );
-    assert( surf );
+    cata_assert( surf );
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
@@ -350,24 +349,24 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
 void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
         std::vector<texture> &target )
 {
-    assert( surf );
+    cata_assert( surf );
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height,
                                             point( surf->w / sprite_width,
                                                     surf->h / sprite_height ) );
 
     const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
-    assert( texture_ptr );
+    cata_assert( texture_ptr );
 
     for( const SDL_Rect rect : input_range ) {
-        assert( offset.x % sprite_width == 0 );
-        assert( offset.y % sprite_height == 0 );
+        cata_assert( offset.x % sprite_width == 0 );
+        cata_assert( offset.y % sprite_height == 0 );
         const point pos( offset + point( rect.x, rect.y ) );
-        assert( pos.x % sprite_width == 0 );
-        assert( pos.y % sprite_height == 0 );
+        cata_assert( pos.x % sprite_width == 0 );
+        cata_assert( pos.y % sprite_height == 0 );
         const size_t index = this->offset + ( pos.x / sprite_width ) + ( pos.y / sprite_height ) *
                              ( tile_atlas_width / sprite_width );
-        assert( index < target.size() );
-        assert( target[index].dimension() == std::make_pair( 0, 0 ) );
+        cata_assert( index < target.size() );
+        cata_assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
     }
 }
@@ -375,7 +374,7 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
 void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
         const point &offset )
 {
-    assert( tile_atlas );
+    cata_assert( tile_atlas );
 
     /** perform color filter conversion here */
     using tiles_pixel_color_entry = std::tuple<std::vector<texture>*, std::string>;
@@ -410,7 +409,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 void tileset_loader::load_tileset( const std::string &img_path )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
-    assert( tile_atlas );
+    cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
 
     if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
@@ -481,10 +480,10 @@ void tileset_loader::load_tileset( const std::string &img_path )
     extend_vector_by( ts.memory_tile_values, expected_tilecount );
 
     for( const SDL_Rect sub_rect : output_range ) {
-        assert( sub_rect.x % sprite_width == 0 );
-        assert( sub_rect.y % sprite_height == 0 );
-        assert( sub_rect.w % sprite_width == 0 );
-        assert( sub_rect.h % sprite_height == 0 );
+        cata_assert( sub_rect.x % sprite_width == 0 );
+        cata_assert( sub_rect.y % sprite_height == 0 );
+        cata_assert( sub_rect.w % sprite_width == 0 );
+        cata_assert( sub_rect.h % sprite_height == 0 );
         SDL_Surface_Ptr smaller_surf;
 
         if( is_contained( SDL_Rect{ 0, 0, tile_atlas->w, tile_atlas->h }, sub_rect ) ) {
@@ -495,13 +494,13 @@ void tileset_loader::load_tileset( const std::string &img_path )
             const int w = std::min( tile_atlas->w - sub_rect.x, sub_rect.w );
             const int h = std::min( tile_atlas->h - sub_rect.y, sub_rect.h );
             smaller_surf = ::create_surface_32( w, h );
-            assert( smaller_surf );
+            cata_assert( smaller_surf );
             const SDL_Rect inp{ sub_rect.x, sub_rect.y, w, h };
             throwErrorIf( SDL_BlitSurface( tile_atlas.get(), &inp, smaller_surf.get(),
                                            nullptr ) != 0, "SDL_BlitSurface failed" );
         }
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
-        assert( surf_to_use );
+        cata_assert( surf_to_use );
 
         create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) );
     }
@@ -511,7 +510,7 @@ void tileset_loader::load_tileset( const std::string &img_path )
 
 void cata_tiles::set_draw_scale( int scale )
 {
-    assert( tileset_ptr );
+    cata_assert( tileset_ptr );
     tile_width = tileset_ptr->get_tile_width() * tileset_ptr->get_tile_pixelscale() * scale / 16;
     tile_height = tileset_ptr->get_tile_height() * tileset_ptr->get_tile_pixelscale() * scale / 16;
 
@@ -1021,7 +1020,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     init_light();
     map &here = get_map();
-    here.update_visibility_cache( center.z );
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
     const bool iso_mode = tile_iso;
@@ -1222,8 +1220,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
-                auto block_color = visibility ? windowsPalette[catacurses::green] :
-                                   SDL_Color{ 192, 192, 192, 255 };
+                SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
+                                        SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
                 color_blocks.second.emplace( player_to_screen( point( x, y ) ), block_color );
@@ -1235,33 +1233,41 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                  direction::NORTH ) );
             }
 
-            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-                static std::vector<SDL_Color> lighting_colors;
-                if( g->displaying_lighting_condition == 0 ) {
-                    if( lighting_colors.empty() ) {
-                        SDL_Color white = { 255, 255, 255, 255 };
-                        SDL_Color blue = { 0, 0, 255, 255 };
-                        lighting_colors = color_linear_interpolate( white, blue, 9 );
-                    }
-
-                    // note: lighting will be constrained in the [1.0, 11.0] range.
-                    float ambient = here.ambient_light_at( {x, y, center.z} );
-                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - ambient + 1.0 );
-
-                    auto tile_pos = player_to_screen( point( x, y ) );
-
-                    // color overlay
-                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
-                    color.a = 100;
-                    color_blocks.first = SDL_BLENDMODE_BLEND;
-                    color_blocks.second.emplace( tile_pos, color );
-
-                    // string overlay
-                    overlay_strings.emplace( tile_pos + quarter_tile,
-                                             formatted_text( string_format( "%.1f", ambient ),
-                                                     catacurses::black,
-                                                     direction::NORTH ) );
+            static std::vector<SDL_Color> lighting_colors;
+            // color hue in the range of [0..10], 0 being white,  10 being blue
+            auto draw_debug_tile = [&]( const int color_hue, const std::string & text ) {
+                if( lighting_colors.empty() ) {
+                    SDL_Color white = { 255, 255, 255, 255 };
+                    SDL_Color blue = { 0, 0, 255, 255 };
+                    lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
+                point tile_pos = player_to_screen( point( x, y ) );
+
+                // color overlay
+                SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
+                color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( tile_pos, color );
+
+                // string overlay
+                overlay_strings.emplace( tile_pos + quarter_tile, formatted_text( text, catacurses::black,
+                                         direction::NORTH ) );
+            };
+
+            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                if( g->displaying_lighting_condition == 0 ) {
+                    const float light = here.ambient_light_at( {x, y, center.z} );
+                    // note: lighting will be constrained in the [1.0, 11.0] range.
+                    int intensity = static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
+                    draw_debug_tile( intensity, string_format( "%.1f", light ) );
+                }
+            }
+
+            if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
+                const float tr = here.light_transparency( {x, y, center.z} );
+                int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
+                                 ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
+                draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
@@ -1553,11 +1559,19 @@ const tile_type *cata_tiles::find_tile_looks_like( std::string &id, TILE_CATEGOR
         } else if( category == C_VEHICLE_PART ) {
             // vehicle parts start with vp_ for their tiles, but not their IDs
             const vpart_id new_vpid( looks_like.substr( 3 ) );
-            if( !new_vpid.is_valid() ) {
-                return nullptr;
+            // check the base id for a vehicle with variant parts
+            vpart_id base_vpid;
+            std::string variant_id;
+            std::tie( base_vpid, variant_id ) = get_vpart_id_variant( new_vpid );
+            if( base_vpid.is_valid() ) {
+                looks_like = "vp_" + base_vpid.str();
+            } else {
+                if( !new_vpid.is_valid() ) {
+                    return nullptr;
+                }
+                const vpart_info &new_vpi = new_vpid.obj();
+                looks_like = "vp_" + new_vpi.looks_like;
             }
-            const vpart_info &new_vpi = new_vpid.obj();
-            looks_like = "vp_" + new_vpi.looks_like;
         } else if( category == C_ITEM ) {
             if( !item::type_is_defined( itype_id( looks_like ) ) ) {
                 if( looks_like.substr( 0, 7 ) == "corpse_" ) {
@@ -2587,7 +2601,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
             const auto it = field_override.find( q );
             return it != field_override.end() ? it->second :
-            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
+            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : field_type_id( "fd_null" );
         };
         // for rotation information
         const int neighborhood[4] = {
@@ -2676,10 +2690,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        const vpart_id &vp_id = veh.part_id_string( veh_part, part_mod );
+        const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
         const int rotation = veh.face.dir();
-        const std::string vpname = "vp_" + vp_id.str();
+        const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
         if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
             here.check_seen_cache( p ) ) {
@@ -2824,7 +2838,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         attitude = Creature::Attitude::ANY;
         const monster *m = dynamic_cast<const monster *>( &critter );
         if( m != nullptr ) {
-            const auto ent_category = C_MONSTER;
+            const TILE_CATEGORY ent_category = C_MONSTER;
             std::string ent_subcategory = empty_string;
             if( !m->type->species.empty() ) {
                 ent_subcategory = m->type->species.begin()->str();
@@ -2997,7 +3011,7 @@ void tileset_loader::ensure_default_item_highlight()
     int index = ts.tile_values.size();
 
     const SDL_Surface_Ptr surface = create_surface_32( ts.tile_width, ts.tile_height );
-    assert( surface );
+    cata_assert( surface );
     throwErrorIf( SDL_FillRect( surface.get(), nullptr, SDL_MapRGBA( surface->format, 0, 0, 127,
                                 highlight_alpha ) ) != 0, "SDL_FillRect failed" );
     ts.tile_values.emplace_back( CreateTextureFromSurface( renderer, surface ),
@@ -3405,7 +3419,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const auto direction = iter->getDirecton();
+                const direction direction = iter->getDirecton();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *
@@ -3661,7 +3675,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
             default:   // just in case
                 rotation = 0;
                 break;
-        };
+        }
 
         //
         if( use_furniture ) {

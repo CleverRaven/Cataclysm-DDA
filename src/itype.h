@@ -48,22 +48,19 @@ enum art_effect_passive : int;
 class gun_modifier_data
 {
     private:
-        std::string name_;
+        translation name_;
         int qty_;
         std::set<std::string> flags_;
 
     public:
-        /**
-         * @param n A string that can be translated via @ref _ (must have been extracted for translation).
-         */
-        gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
+        gun_modifier_data( const translation &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        std::string name() const {
+        const translation &name() const {
             return name_;
         }
         /// @returns The translated name of the gun mode.
         std::string tname() const {
-            return _( name_ );
+            return name_.translated();
         }
         int qty() const {
             return qty_;
@@ -101,7 +98,7 @@ struct islot_tool {
     std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
-    std::string revert_msg;
+    translation revert_msg;
 
     itype_id subtype;
 
@@ -367,7 +364,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::string name;
+        cata::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -378,6 +375,7 @@ struct islot_book {
         bool is_hidden() const {
             return hidden;
         }
+        std::string name() const;
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
@@ -501,7 +499,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = translate_marker( "click." );
+    translation reload_noise = to_translation( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -804,19 +802,6 @@ struct islot_seed {
     islot_seed() = default;
 };
 
-struct islot_artifact {
-    art_charge charge_type;
-    art_charge_req charge_req;
-    std::vector<art_effect_passive> effects_wielded;
-    std::vector<art_effect_active>  effects_activated;
-    std::vector<art_effect_passive> effects_carried;
-    std::vector<art_effect_passive> effects_worn;
-    std::vector<std::string> dream_msg_unmet;
-    std::vector<std::string> dream_msg_met;
-    int dream_freq_unmet;
-    int dream_freq_met;
-};
-
 enum condition_type {
     FLAG,
     COMPONENT_ID,
@@ -825,7 +810,7 @@ enum condition_type {
 
 template<>
 struct enum_traits<condition_type> {
-    static constexpr auto last = condition_type::num_condition_types;
+    static constexpr condition_type last = condition_type::num_condition_types;
 };
 
 // A name that is applied under certain conditions.
@@ -876,7 +861,6 @@ struct itype {
         cata::value_ptr<islot_bionic> bionic;
         cata::value_ptr<islot_ammo> ammo;
         cata::value_ptr<islot_seed> seed;
-        cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
         cata::value_ptr<islot_milling> milling_data;
         /*@}*/
@@ -977,7 +961,7 @@ struct itype {
         units::money price_post = -1_cent;
 
         /** Damage output in melee for zero or more damage types */
-        std::array<int, NUM_DT> melee;
+        std::array<int, static_cast<int>( damage_type::NUM )> melee;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1138,5 +1122,7 @@ struct itype {
 
         virtual ~itype() = default;
 };
+
+void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 #endif // CATA_SRC_ITYPE_H

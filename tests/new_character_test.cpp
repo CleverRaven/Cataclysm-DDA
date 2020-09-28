@@ -51,14 +51,16 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     avatar &player_character = get_avatar();
     player_character.clear_mutations();
     player_character.add_traits(); // mandatory prof/scen traits
+    std::vector<trait_id> oked_traits;
     for( const trait_id &tr : traits ) {
         if( player_character.has_conflicting_trait( tr ) ||
             !get_scenario()->traitquery( tr ) ) {
             return false;
         } else if( !player_character.has_trait( tr ) ) {
-            player_character.set_mutation( tr );
+            oked_traits.push_back( tr );
         }
     }
+    player_character.set_mutations( oked_traits );
     return true;
 }
 

@@ -1,0 +1,31 @@
+[
+  {
+    "type": "palette",
+    "id": "sewers",
+    "terrain": {
+      "o": [ "t_sewage_pipe" ],
+      "p": [ "t_sewage_pump" ],
+      "-": [ "t_bridge" ],
+      "#": [ "t_grate" ],
+      "+": [ "t_bars" ],
+      "~": [ "t_sewage" ],
+      "_": [ [ "t_moss", 2 ], [ "t_dirt", 3 ], [ "t_dirtmound", 1 ], [ "t_sewage", 10 ] ],
+      "|": [ "t_concrete_wall" ],
+      "I": [ "t_wall_metal" ],
+      "W": [ "t_rock" ],
+      "r": [ "t_metal_floor" ],
+      "L": [ [ "t_door_bar_o", 1 ], [ "t_door_bar_locked", 5 ] ],
+      "D": [ "t_door_metal_c" ],
+      ".": [ "t_metal_floor" ]
+    },
+    "items": {
+      "_": [
+        { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+        { "item": "sewer", "chance": 5 },
+        { "item": "sewage_plant", "chance": 1 }
+      ],
+      "r": [ { "item": "sewage_plant", "chance": 15 }, { "item": "os_items", "chance": 45, "repeat": [ 1, 3 ] } ]
+    },
+    "furniture": { "r": [ "f_rack" ] }
+  }
+]

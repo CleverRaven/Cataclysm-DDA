@@ -74,10 +74,10 @@
     "name": { "str": "ring of blades", "str_pl": "rings of blades" },
     "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
     "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
-    "initial_charges": 5,
-    "max_charges": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "charges_per_use": 1,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]
   },
   {
     "copy-from": "mring_silver",

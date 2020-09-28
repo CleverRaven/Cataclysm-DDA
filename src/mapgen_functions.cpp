@@ -151,6 +151,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_queen", &mapgen_ants_queen },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
+            { "ravine_edge", &mapgen_ravine_edge },
         }
     };
     const auto iter = pointers.find( ident );
@@ -175,7 +176,7 @@ ter_id clay_or_sand()
 
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
 {
-    const auto dir = terrain_type->get_dir();
+    const om_direction::type dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
@@ -487,7 +488,7 @@ void mapgen_spider_pit( mapgendata &dat )
         }
         for( int x1 = p.x - 3; x1 <= p.x + 3; x1++ ) {
             for( int y1 = p.y - 3; y1 <= p.y + 3; y1++ ) {
-                madd_field( m, point( x1, y1 ), fd_web, rng( 2, 3 ) );
+                madd_field( m, point( x1, y1 ), field_type_id( "fd_web" ), rng( 2, 3 ) );
                 if( m->ter( point( x1, y1 ) ) != t_slope_down ) {
                     m->ter_set( point( x1, y1 ), t_dirt );
                 }
@@ -501,7 +502,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
     int num_dirs = 0;
-    for( const auto dir : om_direction::all ) {
+    for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
     }
     return num_dirs;
@@ -3281,6 +3282,99 @@ void mapgen_lake_shore( mapgendata &dat )
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
     m->translate( t_null, t_water_sh );
+}
+
+void mapgen_ravine_edge( mapgendata &dat )
+{
+    map *const m = &dat.m;
+    if( dat.zlevel() == 0 ) {
+        dat.fill_groundcover();
+    } else {
+        m->draw_fill_background( t_rock );
+    }
+
+    const auto is_ravine = [&]( const oter_id & id ) {
+        return id.obj().is_ravine();
+    };
+
+    const auto is_ravine_edge = [&]( const oter_id & id ) {
+        return id.obj().is_ravine_edge();
+    };
+    // Since this terrain is directionless, we look at its inmediate neighbors to derermine wheter a straight
+    // or curved ravine edge should be generated. And to then apply the correct rotation.
+    const bool n_ravine  = is_ravine( dat.north() );
+    const bool e_ravine  = is_ravine( dat.east() );
+    const bool s_ravine  = is_ravine( dat.south() );
+    const bool w_ravine  = is_ravine( dat.west() );
+    const bool nw_ravine = is_ravine( dat.nwest() );
+    const bool ne_ravine = is_ravine( dat.neast() );
+    const bool se_ravine = is_ravine( dat.seast() );
+
+    const bool n_ravine_edge = is_ravine_edge( dat.north() );
+    const bool e_ravine_edge = is_ravine_edge( dat.east() );
+    const bool s_ravine_edge = is_ravine_edge( dat.south() );
+    const bool w_ravine_edge = is_ravine_edge( dat.west() );
+
+    const auto any_orthogonal_ravine = [&]() {
+        return ( n_ravine || s_ravine || w_ravine || e_ravine );
+    };
+
+    const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&
+                            w_ravine_edge ) ) && any_orthogonal_ravine();
+    const bool interior_corner = !straight && !any_orthogonal_ravine();
+    const bool exterior_corner = !straight && any_orthogonal_ravine();
+
+    //With that done, we generate the maps.
+    if( straight ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge = 12 + rng( 1, 3 );
+            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+        }
+        if( w_ravine ) {
+            m->rotate( 1 );
+        }
+        if( n_ravine ) {
+            m->rotate( 2 );
+        }
+        if( e_ravine ) {
+            m->rotate( 3 );
+        }
+    } else if( interior_corner ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge = 12 + rng( 1, 3 ) + x;
+            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+        }
+        if( nw_ravine ) {
+            m->rotate( 1 );
+        }
+        if( ne_ravine ) {
+            m->rotate( 2 );
+        }
+        if( se_ravine ) {
+            m->rotate( 3 );
+        }
+    } else if( exterior_corner ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge =  12  + rng( 1, 3 ) - x;
+            line( m, t_null, point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+        }
+        if( w_ravine && s_ravine ) {
+            m->rotate( 1 );
+        }
+        if( w_ravine && n_ravine ) {
+            m->rotate( 2 );
+        }
+        if( e_ravine && n_ravine ) {
+            m->rotate( 3 );
+        }
+    }
+    // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
+    // in the other levels they are converted into open air to generate the cliffside.
+    if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
+        m->translate( t_null, dat.groundcover() );
+    } else {
+        m->translate( t_null, t_open_air );
+    }
 }
 
 void mremove_trap( map *m, const point &p )

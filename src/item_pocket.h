@@ -38,7 +38,7 @@ template <typename E> struct enum_traits;
 class item_pocket
 {
     public:
-        enum pocket_type {
+        enum class pocket_type : int {
             CONTAINER,
             MAGAZINE,
             MAGAZINE_WELL, //holds magazines
@@ -124,6 +124,8 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
@@ -145,6 +147,7 @@ class item_pocket
 
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        bool contains_phase( phase_id phase ) const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -193,19 +196,22 @@ class item_pocket
         bool item_has_uses_recursive() const;
         // will the items inside this pocket fall out of this pocket if it is placed into another item?
         bool will_spill() const;
-        /**
-         * if true, this item has data that is different when unsealed than when sealed.
-         */
-        bool resealable() const;
         // seal the pocket. returns false if it fails (pocket does not seal)
         bool seal();
         // unseal the pocket.
         void unseal();
         /**
-         * if the item is resealable then it is never "sealed", otherwise check if sealed and !resealable
-         * if the item is "sealed" then that means you cannot interact with it normally without breaking the seal
+         * A pocket is sealable IFF it has "sealed_data". Sealable pockets are sealed by calling seal().
+         * If a pocket is not sealable, it is never considered "sealed".
+         */
+        bool sealable() const;
+        /**
+         * A pocket is sealed when item spawns if pocket has "sealed_data".
+         * A pocket can never be sealed unless it is sealable (having "sealed_data").
+         * If a pocket is sealed, you cannot interact with it until the seal is broken with unseal().
          */
         bool sealed() const;
+
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
         bool process( const itype &type, player *carrier, const tripoint &pos,
@@ -304,9 +310,9 @@ class item_pocket
  *     Example: Plastic bag with liquid in it, you need to
   *     poke a hole into it to get the liquid, and it's no longer watertight
  */
-struct resealable_data {
+struct sealable_data {
     // required for generic_factory
-    bool was_loaded;
+    bool was_loaded = false;
     /** multiplier for spoilage rate of contained items when sealed */
     float spoil_multiplier = 1.0f;
 
@@ -359,7 +365,7 @@ class pocket_data
         bool open_container = false;
 
         /** Data that is different for sealed pockets than unsealed pockets. This takes priority. */
-        cata::value_ptr<resealable_data> sealed_data;
+        cata::value_ptr<sealable_data> sealed_data;
         // allows only items with at least one of the following flags to be stored inside
         // empty means no restriction
         std::vector<std::string> flag_restriction;
@@ -369,6 +375,7 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
@@ -386,7 +393,7 @@ class pocket_data
 
 template<>
 struct enum_traits<item_pocket::pocket_type> {
-    static constexpr auto last = item_pocket::pocket_type::LAST;
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

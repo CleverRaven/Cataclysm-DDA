@@ -17,6 +17,15 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
+std::string islot_book::recipe_with_description_t::name() const
+{
+    if( optional_name ) {
+        return optional_name->translated();
+    } else {
+        return recipe->result_name();
+    }
+}
+
 namespace io
 {
 template<>
@@ -105,6 +114,7 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         return 0;
     }
 
+    p.invalidate_weight_carried_cache();
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {

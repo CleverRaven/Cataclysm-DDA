@@ -200,8 +200,9 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
         // Sort items by category first, then name.
-        return localized_compare( std::make_pair( a.loc->get_category(), a.loc->display_name() ),
-                                  std::make_pair( b.loc->get_category(), b.loc->display_name() ) );
+        return localized_compare(
+                   std::make_pair( a.loc->get_category_of_contents(), a.loc->display_name() ),
+                   std::make_pair( b.loc->get_category_of_contents(), b.loc->display_name() ) );
     };
 
     std::sort( result.begin(), result.end(), cmp );
@@ -292,7 +293,8 @@ void trading_window::update_win( npc &np, const std::string &deal )
     // Colors for hinting if the trade will be accepted or not.
     const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
-    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
+    input_context ctxt( "NPC_TRADE" );
+    const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
@@ -348,10 +350,12 @@ void trading_window::update_win( npc &np, const std::string &deal )
         int win_w = getmaxx( w_whose );
         // Borders
         win_w -= 2;
+
+        input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
             const item *it = ip.loc.get_item();
-            auto color = it == &person.weapon ? c_yellow : c_light_gray;
+            nc_color color = it == &person.weapon ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();
@@ -376,15 +380,13 @@ void trading_window::update_win( npc &np, const std::string &deal )
                 color = c_white;
             }
 
-            int keychar = i - offset + 'a';
-            if( keychar > 'z' ) {
-                keychar = keychar - 'z' - 1 + 'A';
-            }
-            trim_and_print( w_whose, point( 1, i - offset + 1 ), win_w, color, "%c %c %s",
-                            static_cast<char>( keychar ), ip.selected ? '+' : '-', itname );
+            trim_and_print( w_whose, point( 1, i - offset + 1 ), win_w, color, "%s %c %s",
+                            right_justify( hotkey.short_description(), 2 ),
+                            ip.selected ? '+' : '-', itname );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( keychar, itname );
+            ctxt.register_manual_key( hotkey.get_first_input(), itname );
 #endif
+            hotkey = ctxt.next_unassigned_hotkey( hotkeys, hotkey );
 
             std::string price_str = format_money( ip.price );
             nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
@@ -425,7 +427,7 @@ void trading_window::show_item_data( size_t offset,
         wnoutrefresh( w_tmp );
     } );
 
-    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
+    input_context ctxt( "NPC_TRADE" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -438,15 +440,18 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
+            if( evt.sequence.empty() ) {
                 continue;
             }
-            size_t help = evt.get_first_input();
-            if( help >= 'a' && help <= 'z' ) {
-                help -= 'a';
-            } else if( help >= 'A' && help <= 'Z' ) {
-                help = help - 'A' + 26;
-            } else {
+            size_t help = 0;
+            const hotkey_queue &hotkeys = hotkey_queue::alphabets();
+            input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
+            while( hotkey != input_event() && hotkey != evt ) {
+                hotkey = ctxt.next_unassigned_hotkey( hotkeys, hotkey );
+                ++help;
+            }
+
+            if( hotkey == input_event() ) {
                 continue;
             }
 
@@ -495,7 +500,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         weight_left = 5'000_kilogram;
     }
 
-    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
+    input_context ctxt( "NPC_TRADE" );
     ctxt.register_action( "SWITCH_LISTS" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -573,16 +578,17 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != input_event_t::keyboard_char || evt.sequence.empty() ) {
+            if( evt.sequence.empty() ) {
                 continue;
             }
-            size_t ch = evt.get_first_input();
-            // Letters & such
-            if( ch >= 'a' && ch <= 'z' ) {
-                ch -= 'a';
-            } else if( ch >= 'A' && ch <= 'Z' ) {
-                ch = ch - 'A' + ( 'z' - 'a' ) + 1;
-            } else {
+            size_t ch = 0;
+            const hotkey_queue &hotkeys = hotkey_queue::alphabets();
+            input_event hotkey = ctxt.first_unassigned_hotkey( hotkeys );
+            while( hotkey != input_event() && hotkey != evt ) {
+                hotkey = ctxt.next_unassigned_hotkey( hotkeys, hotkey );
+                ++ch;
+            }
+            if( hotkey == input_event() ) {
                 continue;
             }
 

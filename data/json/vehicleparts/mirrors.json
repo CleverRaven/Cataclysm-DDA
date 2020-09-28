@@ -1,10 +1,11 @@
 [
   {
     "type": "vehicle_part",
-    "abstract": "wing_mirror_abstract",
+    "id": "wing_mirror",
     "name": { "str": "wing mirror" },
     "symbol": "o",
     "color": "light_cyan",
+    "symbols": { "left": "o", "right": "o" },
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
@@ -20,26 +21,6 @@
     },
     "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
     "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
-  },
-  {
-    "copy-from": "wing_mirror_abstract",
-    "id": "wing_mirror",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wing_mirror_abstract",
-    "id": "wing_mirror_left",
-    "looks_like": "wing_mirror",
-    "symbol": "o",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "wing_mirror_abstract",
-    "id": "wing_mirror_right",
-    "looks_like": "wing_mirror",
-    "symbol": "o",
-    "type": "vehicle_part"
   },
   {
     "type": "vehicle_part",

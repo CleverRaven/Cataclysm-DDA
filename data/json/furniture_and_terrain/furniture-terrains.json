@@ -212,6 +212,7 @@
     "coverage": 95,
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -232,6 +233,7 @@
     "coverage": 95,
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -254,6 +256,7 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_canvas_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -274,6 +277,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_canvas_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -295,6 +299,7 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
     "open": "f_large_canvas_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -316,6 +321,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_large_canvas_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -421,6 +427,7 @@
     "coverage": 95,
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -442,6 +449,7 @@
     "required_str": -1,
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
     "open": "f_skin_door_o",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,
@@ -462,6 +470,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
     "close": "f_skin_door",
+    "connects_to": "CANVAS_WALL",
     "bash": {
       "str_min": 1,
       "str_max": 8,

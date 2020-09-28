@@ -1,0 +1,43 @@
+[
+  {
+    "id": "shortwave",
+    "type": "SPELL",
+    "name": "Shortwave",
+    "description": "Cook nearby monsters (and yourself to an extent)",
+    "valid_targets": [ "hostile", "ground", "self" ],
+    "flags": [ "SOMATIC" ],
+    "effect": "projectile_attack",
+    "damage_type": "pure",
+    "min_damage": 20,
+    "max_damage": 20,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "base_energy_cost": 200,
+    "spell_class": "RADIATION_MAGE",
+    "difficulty": 5,
+    "max_level": 35,
+    "base_casting_time": 120,
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "shortwave_2" } ]
+  },
+  {
+    "id": "shortwave_2",
+    "type": "SPELL",
+    "name": "Shortwave 2",
+    "description": "Cook nearby monsters (and yourself to an extent)",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC" ],
+    "effect": "projectile_attack",
+    "damage_type": "heat",
+    "min_damage": 70,
+    "max_damage": 420,
+    "damage_increment": 10,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "max_level": 35
+  }
+]

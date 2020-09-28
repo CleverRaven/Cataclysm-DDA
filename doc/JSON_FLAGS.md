@@ -619,6 +619,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```fswitch``` Flip the switch and the rocks will shift.
 - ```fungus``` Release spores as the terrain crumbles away.
 - ```gaspump``` Use the gas-pump.
+- ```locked_object``` Locked, but can be pried open. Adding 'PICKABLE' flag allows opening with a lockpick as well. Prying/lockpicking results are hardcoded.
+- ```locked_object_pickable``` Locked, but can be opened with a lockpick. Requires 'PICKABLE' flag, lockpicking results are hardcoded.
 - ```none``` None
 - ```pedestal_temple``` Opens the temple if you have a petrified eye.
 - ```pedestal_wyrm``` Spawn wyrms.
@@ -700,6 +702,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
 - ```TACK``` ... Item can be used as tack for a mount.
+- ```TARDIS``` ... Container item with this flag bypasses internal checks for pocket data, so inside it could be bigger than on the outside, and could hold items that otherwise won't fit its dimensions.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
@@ -1444,6 +1447,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
+- ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against diret impacts or other attacks.
 - ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
 - ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
