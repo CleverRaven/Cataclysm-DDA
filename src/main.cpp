@@ -749,6 +749,7 @@ int main( int argc, char *argv[] )
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !world.empty() ) {
