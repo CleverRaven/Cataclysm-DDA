@@ -41,6 +41,13 @@ struct StringMaker<point> {
     }
 };
 
+template<>
+struct StringMaker<rl_vec2d> {
+    static std::string convert( const rl_vec2d &p ) {
+        return string_format( "rl_vec2d( %f, %f )", p.x, p.y );
+    }
+};
+
 template<typename Point>
 struct StringMaker<rectangle<Point>> {
     static std::string convert( const rectangle<Point> &r ) {
