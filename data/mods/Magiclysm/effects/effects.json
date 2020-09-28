@@ -274,7 +274,7 @@
   {
     "type": "effect_type",
     "id": "neuro_boost",
-    "name": [ "Mental Boost"],
+    "name": [ "Mental Boost" ],
     "desc": [ "Your mind is working incredibly fast, but your body cannot keep up" ],
     "rating": "bad",
     "max_duration": "10 s",
