@@ -897,7 +897,7 @@
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
       { "item": "scissors", "prob": 50 },
-      { "item": "soldering_iron", "prob": 70 },
+      { "item": "soldering_iron", "prob": 70, "charges-min": 0 },
       { "item": "solder_wire", "prob": 70 },
       { "item": "radio", "prob": 20 },
       { "item": "syringe", "prob": 8 },

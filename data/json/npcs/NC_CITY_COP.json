@@ -86,7 +86,7 @@
       { "item": "pearl_collar", "prob": 30 },
       { "item": "diamond", "prob": 10 },
       { "item": "holy_symbol", "prob": 20 },
-      { "item": "soldering_iron", "prob": 60 },
+      { "item": "soldering_iron", "prob": 60, "charges-min": 0 },
       { "item": "solder_wire", "prob": 60 },
       { "item": "inhaler", "prob": 14 },
       { "item": "codeine", "prob": 15 },

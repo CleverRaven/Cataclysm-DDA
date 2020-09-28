@@ -152,7 +152,7 @@
       [ "recipe_chimera", 1 ],
       [ "recipe_mil_augs", 1 ],
       [ "recipe_labchem", 1 ],
-      [ "soldering_iron", 70 ],
+      { "item": "soldering_iron", "prob": 70, "charges-min": 0 },
       [ "solder_wire", 70 ],
       [ "textbook_weapwest", 2 ],
       [ "textbook_weapeast", 2 ],

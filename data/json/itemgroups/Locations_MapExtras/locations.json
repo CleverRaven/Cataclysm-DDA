@@ -1721,7 +1721,7 @@
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "scissors", 50 ],
-      [ "soldering_iron", 70 ],
+      { "item": "soldering_iron", "prob": 70, "charges-min": 0 },
       [ "solder_wire", 70 ],
       [ "radio", 20 ],
       [ "syringe", 8 ],
