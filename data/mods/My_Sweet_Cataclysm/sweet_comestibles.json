@@ -103,5 +103,70 @@
     "rot_spawn": "GROUP_EGG_CAFFGUM",
     "rot_spawn_chance": 100,
     "spoils_in": "7 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_raw_choc",
+    "name": { "str": "raw chocolate milk", "str_pl": "raw chocolate milk" },
+    "copy-from": "milk_raw",
+    "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str": "chocolate milk", "str_pl": "chocolate milk" },
+    "copy-from": "milk",
+    "color": "brown",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly.",
+    "calories": 178,
+    "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_reconstituted_choc",
+    "name": { "str_sp": "reconstituted milk" },
+    "copy-from": "milk_choc",
+    "color": "brown",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_powder_choc",
+    "name": { "str_sp": "powdered chocolate milk" },
+    "copy-from": "milk_powder",
+    "color": "brown",
+    "calories": 152,
+    "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
+    "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milkshake_choc",
+    "name": { "str": "chocolate milkshake" },
+    "copy-from": "milkshake",
+    "description": "An all-natural cold beverage made with chocolate milk and sweeteners.  Tastes great when frozen.",
+    "color": "brown",
+    "spoils_in": "1 day",
+    "calories": 170,
+    "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milkshake_deluxe_choc",
+    "name": { "str": "deluxe chocolate milkshake" },
+    "copy-from": "milkshake_deluxe",
+    "description": "This chocolate milkshake has been enhanced with added sweeteners, and even has a cherry on top.  Tastes great, but is fairly awful for your health.",
+    "calories": 285,
+    "fun": 25
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "icecream_choc",
+    "name": { "str": "chocolate ice cream", "str_pl": "chocolate ice cream scoops" },
+    "copy-from": "icecream",
+    "description": "A sweet, frozen food made of chocolate milk with liberal amounts of sugar.",
+    "color": "brown",
+    "calories": 345,
+    "fun": 15
   }
 ]
