@@ -814,8 +814,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ]
   },
   {
@@ -1017,8 +1016,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -1058,8 +1056,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -1120,8 +1117,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
@@ -1190,8 +1186,7 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "hose", 2 ] ], [ [ "gasket_plastic", 2 ] ], [ [ "well_pump", 1 ] ] ]
@@ -1240,8 +1235,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2.5 }
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 }
     ],
     "components": [
       [ [ "metal_tank", 1 ] ],
