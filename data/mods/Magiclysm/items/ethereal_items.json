@@ -727,7 +727,7 @@
   {
     "id": "subzero_talons",
     "type": "GENERIC",
-    "name": { "str": "subzero talons", "str_pl": "subzero talons" },
+    "name": { "str_sp": "subzero talons" },
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
     "volume": "100 ml",
