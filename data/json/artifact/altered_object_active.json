@@ -71,7 +71,7 @@
     "message": "The world shifts blue, and reality accelerates around you.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "artifact_time_slow_aura",
+    "effect_str": "artifact_slow_aura",
     "base_casting_time": 100,
     "min_duration": 900,
     "max_duration": 900
