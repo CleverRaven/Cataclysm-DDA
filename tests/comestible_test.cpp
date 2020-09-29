@@ -178,3 +178,47 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     CHECK( default_nutrition.kcal == predicted_nutrition.first.kcal );
     CHECK( default_nutrition.kcal == predicted_nutrition.second.kcal );
 }
+
+// The Character::compute_effective_food_volume_ratio function returns a floating-point ratio
+// used as a multiplier for the food volume when it is eaten, based on the energy density
+// (kcal/gram) of the food, as follows:
+//
+// - low-energy food     (0.0 < kcal/gram < 1.0)  returns 1.0
+// - medium-energy food  (1.0 < kcal/gram < 3.0)  returns (kcal/gram)
+// - high-energy food    (3.0 < kcal/gram)        returns sqrt( 3 * kcal/gram )
+//
+TEST_CASE( "effective_food_volume_ratio", "[character][food]" )
+{
+    const Character &u = get_player_character();
+    double expect_ratio;
+
+    // Apple: 95 kcal / 200 g (1 serving)
+    const item apple( "test_apple" );
+    const nutrients apple_nutr = u.compute_effective_nutrients( apple );
+    REQUIRE( apple.count() == 1 );
+    REQUIRE( apple.weight() == 200_gram );
+    REQUIRE( apple_nutr.kcal == 95 );
+    // If kcal per gram < 1.0, return 1.0
+    CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
+
+    // Egg: 80 kcal / 40 g (1 serving)
+    const item egg( "test_egg" );
+    const nutrients egg_nutr = u.compute_effective_nutrients( egg );
+    REQUIRE( egg.count() == 1 );
+    REQUIRE( egg.weight() == 40_gram );
+    REQUIRE( egg_nutr.kcal == 80 );
+    // If kcal per gram > 1.0 but less than 3.0, return ( kcal / gram )
+    CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
+
+    // Pine nuts: 202 kcal / 30 g (4 servings)
+    const item nuts( "test_pine_nuts" );
+    const nutrients nuts_nutr = u.compute_effective_nutrients( nuts );
+    // If food count > 1, total weight is divided by count before computing kcal/gram
+    REQUIRE( nuts.count() == 4 );
+    REQUIRE( nuts.weight() == 120_gram );
+    REQUIRE( nuts_nutr.kcal == 202 );
+    // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
+    expect_ratio = std::sqrt( 3.0f * 202 / 30 );
+    CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
+}
+
