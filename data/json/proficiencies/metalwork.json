@@ -9,6 +9,24 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_welding_basic",
+    "name": { "str": "Principles of Welding" },
+    "description": "A basic understanding of the different types of welding, welding tools and fuels, how to weld different materials, and more.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_metalworking" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_welding",
+    "name": { "str": "Welding" },
+    "description": "You are an experienced welder.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_welding_basic" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_blacksmithing",
     "name": { "str": "Blacksmithing" },
     "description": "The craft of working metal into tools and other items of use.",
