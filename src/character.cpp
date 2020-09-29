@@ -459,6 +459,8 @@ Character::Character() :
     reactor_plut = 0;
     slow_rad = 0;
     set_stim( 0 );
+    //TODO - PLACEHOLDER VALUE
+    set_cardio( 1600 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
@@ -8265,8 +8267,12 @@ int Character::get_stamina() const
 int Character::get_stamina_max() const
 {
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    // ^^ this is now base max stamina, name not changed (for now) to avoid code changes.
+    static const std::string player_cardio_stamina_mod( "PLAYER_CARDIO_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    int maxStamina = get_option< int >( player_max_stamina );
+    const int baseStamina = get_option< int >( player_max_stamina );
+    const int staminaMod = get_option< int >( player_cardio_stamina_mod );
+    int maxStamina = baseStamina + staminaMod * get_cardio();
     maxStamina *= Character::mutation_value( max_stamina_modifier );
     maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
@@ -8381,6 +8387,50 @@ void Character::update_stamina( int turns )
     add_msg_debug( "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
+}
+
+int Character::get_cardio() const
+{
+    return cardio;
+}
+
+void Character::set_cardio( int new_cardio )
+{
+    cardio = new_cardio;
+}
+
+void Character::update_cardio()
+{
+    const int bmr = get_bmr();
+    //health scaling constant, value tbd
+    constexpr float health_const = 1;
+    //skill scaling constant, value tbd
+    constexpr float skill_const = 10;
+    //THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
+    const int athletics_mod = get_skill_level( skill_swimming ) * skill_const;
+    const int health_effect = get_healthy() * health_const;
+    //WIP
+    const int trait_mod = 0;
+    //WIP
+    const int prof_mod = 0;
+    const int cardio_acc_mod = get_cardio_acc();
+    set_cardio( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
+}
+
+int Character::get_cardio_acc() const
+{
+    return cardio_acc;
+}
+
+void Character::set_cardio_acc( int new_cardio_acc )
+{
+    cardio_acc = new_cardio_acc;
+}
+
+void Character::update_cardio_acc()
+{
+    //WIP- LATER PR
+    cardio_acc = 0;
 }
 
 bool Character::invoke_item( item *used )
