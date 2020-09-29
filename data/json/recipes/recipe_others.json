@@ -325,6 +325,10 @@
     "decomp_learn": 3,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "reinforced_glass_pane", 4 ] ] ]
   },
@@ -336,11 +340,16 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "5 h",
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
     "using": [ [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "1cyl_combustion_small", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
@@ -352,11 +361,16 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "1 h",
+    "time": "2 h",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -373,11 +387,16 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "1 h 30 m",
+    "time": "2 h 30 m",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -413,6 +432,11 @@
     "difficulty": 5,
     "time": "45 m",
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 2 }
+	],
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_rifle", 2 ], [ "manual_smg", 2 ], [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "element", 2 ], [ "hotplate", 1 ] ], [ [ "cable", 2 ] ] ]
@@ -602,9 +626,14 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "40 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ], [ [ "superglue", 1 ] ] ]
   },
@@ -616,9 +645,14 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "45 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_headlight", 1 ] ], [ [ "wire", 2 ] ], [ [ "superglue", 1 ] ] ]
   },
@@ -630,9 +664,14 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "24 m",
+    "time": "45 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_mechanics", 3 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "car_wide_headlight", 1 ] ], [ [ "wire", 3 ] ], [ [ "superglue", 1 ] ] ]
   },
@@ -644,10 +683,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "solar_panel", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -659,10 +703,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 10,
-    "time": "20 m",
+    "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_robots", 8 ] ],
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
   },
@@ -1108,6 +1157,11 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "frame", 4 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
@@ -1134,11 +1188,16 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "2 h",
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+    ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
@@ -1149,10 +1208,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+    ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "pipe_fittings", 1 ] ] ]
   },
@@ -1164,10 +1228,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+    ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "rag", 20 ], [ "sheet", 1 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
@@ -1178,10 +1247,17 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "6 h",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
+    ],
     "components": [
       [ [ "pipe", 4 ] ],
       [ [ "spring", 2 ] ],
@@ -1308,6 +1384,11 @@
     "time": "30 m",
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_mechanics", 3 ], [ "manual_mechanics", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "pipe", 6 ] ],
@@ -1325,11 +1406,16 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "2 h",
+    "time": "12 h",
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_mechanics", 4 ], [ "textbook_mechanics", 4 ] ],
     "using": [ [ "welding_standard", 30 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "frame", 2 ] ],
@@ -1923,9 +2009,14 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "20 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
@@ -1952,9 +2043,14 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "30 s",
+    "time": "20 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 3 ] ] ]
   },
@@ -2090,9 +2186,14 @@
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "20 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
   },
@@ -2322,11 +2423,15 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "electronics",
     "difficulty": 2,
-    "time": "30 m",
+    "time": "1 h",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -2870,11 +2975,16 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "25 m",
+    "time": "6 h",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "textbook_carpentry", 5 ], [ "book_icef", 6 ] ],
     "using": [ [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "1cyl_combustion", 1 ], [ "1cyl_combustion_small", 1 ] ],
@@ -3050,6 +3160,11 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 1 },
@@ -3072,6 +3187,11 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
     "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 1 },
@@ -3096,11 +3216,16 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "electronics", 3 ] ],
     "difficulty": 7,
-    "time": "2 h 30 m",
+    "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
     "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M", "level": 1 },
@@ -3238,6 +3363,11 @@
     "time": "42 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "components": [ [ [ "sheet_metal", 3 ], [ "sheet_metal_small", 72 ] ] ]
   },
   {
@@ -3252,6 +3382,11 @@
     "time": "26 m 15 s",
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
   },
   {
@@ -3911,6 +4046,11 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
@@ -3926,6 +4066,11 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
@@ -4536,10 +4681,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "10 m",
+    "time": "20 m",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ] ]
   },
@@ -4551,10 +4701,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "10 m",
+    "time": "20 m",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ] ]
   },
@@ -4566,10 +4721,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "10 m",
+    "time": "2 h",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ] ]
   },
@@ -4581,10 +4741,15 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "10 m",
+    "time": "2 h",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
     "using": [ [ "welding_standard", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 2 ] ],
@@ -4893,6 +5058,11 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "welding_standard", 30 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "required": false, "time_multiplier": 2.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_welding", "required": false, "time_multiplier": 2 }
+	],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
