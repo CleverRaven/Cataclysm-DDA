@@ -3300,7 +3300,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const auto is_ravine_edge = [&]( const oter_id & id ) {
         return id.obj().is_ravine_edge();
     };
-    // Since this terrain is directionless, we look at its inmediate neighbors to derermine wheter a straight
+    // Since this terrain is directionless, we look at its inmediate neighbors to determine whether a straight
     // or curved ravine edge should be generated. And to then apply the correct rotation.
     const bool n_ravine  = is_ravine( dat.north() );
     const bool e_ravine  = is_ravine( dat.east() );
