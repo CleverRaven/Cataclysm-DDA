@@ -1269,6 +1269,8 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     return ratio;
 }
 
+
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
