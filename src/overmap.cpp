@@ -3451,8 +3451,8 @@ void overmap::place_ravines()
         }
     }
     // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
-    // ravine, if at least one of them isnt, the location is part of the ravine's edge. Wathever the
-    // case, the chosen ravine terrain is then propagated downwards until the ravinE_depth specified
+    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
+    // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
     // by the region settings.
     for( auto &p : rift_points ) {
         bool edge = false;
