@@ -25,7 +25,7 @@
       [ "duffelbag", 30 ],
       [ "backpack", 40 ],
       [ "energy_drink", 30 ],
-      { "item": "cell_phone", "prob": 20, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 30, "charges-min": 0 },
       [ "mp3", 50 ],
       [ "inhaler", 10 ]

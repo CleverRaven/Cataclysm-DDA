@@ -149,7 +149,7 @@
       [ "lighter", 100 ],
       [ "ref_lighter", 20 ],
       [ "matches", 50 ],
-      { "item": "flashlight", "prob": 100, "charges-min": 0 },
+      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
       [ "radio", 20 ],
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],
@@ -181,7 +181,7 @@
       [ "weed", 10 ],
       [ "joint", 10 ],
       { "item": "smart_phone", "prob": 20, "charges-min": 0 },
-      { "item": "camera", "prob": 20, "charges-min": 0 },
+      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
       [ "chem_hexamine", 5 ]
     ]
   },

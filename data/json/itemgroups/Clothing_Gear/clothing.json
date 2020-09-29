@@ -1155,7 +1155,7 @@
       [ "ref_lighter", 2 ],
       { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       [ "thread", 40 ],
-      { "item": "flashlight", "prob": 40, "charges-min": 0 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       [ "suit", 60 ],
       [ "waistcoat", 30 ],
       [ "tophat", 10 ],
@@ -2084,7 +2084,7 @@
       { "item": "wearable_light", "prob": 5 },
       { "item": "ear_plugs", "prob": 50 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      { "item": "flashlight", "prob": 40, "charges-min": 0 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "boots_rubber", "prob": 20 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "apron_leather", "prob": 10 }

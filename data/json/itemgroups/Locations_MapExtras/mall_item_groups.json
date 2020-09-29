@@ -49,7 +49,7 @@
       [ "gold_watch", 20 ],
       [ "pocketwatch", 20 ],
       [ "collarpin", 10 ],
-      { "item": "tailors_kit", "prob": 40, "charges-min": 0 }
+      { "item": "tailors_kit", "prob": 40, "charges": 400 }
     ]
   },
   {
@@ -202,8 +202,8 @@
     "type": "item_group",
     "items": [
       [ "awl_steel", 40 ],
-      { "item": "sewing_kit", "prob": 5, "charges-min": 0 },
-      { "item": "tailors_kit", "prob": 50, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 5, "charges": 200 },
+      { "item": "tailors_kit", "prob": 50, "charges": 400 },
       [ "thread", 10 ],
       [ "string_6", 50 ],
       [ "leather", 10 ],
@@ -223,7 +223,7 @@
       [ "wrench", 30 ],
       [ "hacksaw", 50 ],
       [ "xacto", 10 ],
-      { "item": "flashlight", "prob": 40, "charges-min": 0 },
+      { "item": "flashlight", "prob": 40, "charges": 300 },
       [ "crowbar", 30 ],
       [ "carver_off", 25 ],
       [ "press", 40 ],
@@ -264,8 +264,8 @@
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      { "item": "cell_phone", "prob": 60, "charges-min": 0 },
-      { "item": "smart_phone", "prob": 60, "charges-min": 0 },
+      { "item": "cell_phone", "prob": 60, "charges": 150 },
+      { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
       [ "mobile_memory_card_used", 10 ],
       [ "fitness_band", 5 ]
@@ -289,7 +289,7 @@
       [ "candle", 50 ],
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      { "item": "tailors_kit", "prob": 25, "charges-min": 0 },
+      { "item": "tailors_kit", "prob": 25, "charges": 400 },
       [ "shavingkit", 20 ],
       [ "elec_hairtrimmer", 20 ],
       [ "razor_shaving", 20 ],
