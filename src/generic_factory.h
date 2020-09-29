@@ -453,13 +453,17 @@ class generic_factory
         }
         /**
          * Converts string_id<T> to int_id<T>. Returns null_id on failure.
+         * When optional flag warn is true, issues a warning if `id` is not found and null_id was returned.
          */
-        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
+        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id,
+                           const bool warn = true ) const {
             int_id<T> result;
             if( find_id( id, result ) ) {
                 return result;
             }
-            debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
+            if( warn ) {
+                debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
+            }
             return null_id;
         }
         /**

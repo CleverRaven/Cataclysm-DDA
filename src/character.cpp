@@ -507,22 +507,22 @@ void Character::randomize_blood()
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
-        return field_type_id( "fd_acid" );
+        return fd_acid;
     }
     if( has_trait( trait_THRESH_PLANT ) ) {
-        return field_type_id( "fd_blood_veggy" );
+        return fd_blood_veggy;
     }
     if( has_trait( trait_THRESH_INSECT ) || has_trait( trait_THRESH_SPIDER ) ) {
-        return field_type_id( "fd_blood_insect" );
+        return fd_blood_insect;
     }
     if( has_trait( trait_THRESH_CEPHALOPOD ) ) {
-        return field_type_id( "fd_blood_invertebrate" );
+        return fd_blood_invertebrate;
     }
-    return field_type_id( "fd_blood" );
+    return fd_blood;
 }
 field_type_id Character::gibType() const
 {
-    return field_type_id( "fd_gibs_flesh" );
+    return fd_gibs_flesh;
 }
 
 bool Character::in_species( const species_id &spec ) const
@@ -6659,7 +6659,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = here.get_field_intensity( p, field_type_id( "fd_web" ) );
+    int web = here.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -8870,7 +8870,7 @@ void Character::vomit()
 
     if( stomach.contains() != 0_ml ) {
         stomach.empty();
-        get_map().add_field( adjacent_tile(), field_type_id( "fd_bile" ), 1 );
+        get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
 
@@ -9985,7 +9985,7 @@ void Character::blossoms()
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
-        here.add_field( tmp, field_type_id( "fd_fungal_haze" ), rng( 1, 2 ) );
+        here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 

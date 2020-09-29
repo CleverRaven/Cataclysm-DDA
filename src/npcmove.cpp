@@ -446,7 +446,7 @@ void npc::assess_danger()
         if( pt == pos() || here.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }
-        if( here.get_field( pt, field_type_id( "fd_fire" ) ) != nullptr ) {
+        if( here.get_field( pt, fd_fire ) != nullptr ) {
             int dist = rl_dist( pos(), pt );
             cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
             if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {

@@ -647,7 +647,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), field_type_id( "fd_web" ), 1 );
+        get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;

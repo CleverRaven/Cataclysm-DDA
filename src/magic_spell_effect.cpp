@@ -439,7 +439,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.make_sound( target );
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
-            here.add_field( target, field_type_id( "fd_fire" ), 1, 10_minutes );
+            here.add_field( target, fd_fire, 1, 10_minutes );
         }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
@@ -719,9 +719,9 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
     };
     // Moving fields.
-    move_field( spell_target::fire, field_type_id( "fd_fire" ) );
-    move_field( spell_target::blood, field_type_id( "fd_blood" ) );
-    move_field( spell_target::blood, field_type_id( "fd_gibs_flesh" ) );
+    move_field( spell_target::fire, fd_fire );
+    move_field( spell_target::blood, fd_blood );
+    move_field( spell_target::blood, fd_gibs_flesh );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
