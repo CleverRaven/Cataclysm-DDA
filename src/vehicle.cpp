@@ -87,6 +87,8 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id fuel_type_mana( "mana" );
 
+static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
+
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
