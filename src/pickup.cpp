@@ -341,43 +341,44 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            if( newit.count_by_charges() ) {
-                int remaining_charges = newit.charges;
-                if( player_character.weapon.can_contain_partial( newit ) ) {
-                    int used_charges = player_character.weapon.fill_with( newit, remaining_charges );
-                    remaining_charges -= used_charges;
-                }
-                for( item &i : player_character.worn ) {
-                    if( remaining_charges == 0 ) {
-                        break;
-                    }
-                    if( i.can_contain_partial( newit ) ) {
-                        int used_charges = i.fill_with( newit, remaining_charges );
+            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+                             !newit.count_by_charges() );
+            if( added_it.is_null() ) {
+                // failed to add, fill pockets if it's a stack
+                if( newit.count_by_charges() ) {
+                    int remaining_charges = newit.charges;
+                    if( player_character.weapon.can_contain_partial( newit ) ) {
+                        int used_charges = player_character.weapon.fill_with( newit, remaining_charges );
                         remaining_charges -= used_charges;
                     }
+                    for( item &i : player_character.worn ) {
+                        if( remaining_charges == 0 ) {
+                            break;
+                        }
+                        if( i.can_contain_partial( newit ) ) {
+                            int used_charges = i.fill_with( newit, remaining_charges );
+                            remaining_charges -= used_charges;
+                        }
+                    }
+                    newit.charges -= remaining_charges;
+                    if( newit.charges != 0 ) {
+                        auto &entry = mapPickup[newit.tname()];
+                        entry.second += newit.charges;
+                        entry.first = newit;
+                        picked_up = true;
+                    }
                 }
-                newit.charges -= remaining_charges;
-                if( newit.charges != 0 ) {
-                    auto &entry = mapPickup[newit.tname()];
-                    entry.second += newit.charges;
-                    entry.first = newit;
-                    picked_up = true;
-                }
+            } else if( &added_it == &it ) {
+                // merged to the original stack, restore original charges
+                it.charges -= newit.charges;
             } else {
-                item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false );
-                if( added_it.is_null() ) {
-                    // failed to add, do nothing
-                } else if( &added_it == &it ) {
-                    // merged to the original stack, restore original charges
-                    it.charges -= newit.charges;
-                } else {
-                    // successfully added
-                    auto &entry = mapPickup[newit.tname()];
-                    entry.second += newit.count();
-                    entry.first = newit;
-                    picked_up = true;
-                }
+                // successfully added
+                auto &entry = mapPickup[newit.tname()];
+                entry.second += newit.count();
+                entry.first = newit;
+                picked_up = true;
             }
+
             break;
         }
     }
