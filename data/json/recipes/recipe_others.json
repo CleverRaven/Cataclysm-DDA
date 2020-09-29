@@ -1250,8 +1250,7 @@
     "time": "10 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 50 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [ [ "tailoring_cotton", 7 ] ]
   },
   {
     "type": "recipe",
