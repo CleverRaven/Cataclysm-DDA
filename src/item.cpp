@@ -4633,12 +4633,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = label( quantity );
     }
 
-	if( !faults.empty() ) {
-		int amt = 0;
+    if( !faults.empty() ) {
+        int amt = 0;
         for( const fault_id &e : faults ) {
             amt++;
         }
-		maintext += string_format( "-%d", amt );
+        maintext += string_format( "-%d", amt );
     }
 
     Character &player_character = get_player_character();

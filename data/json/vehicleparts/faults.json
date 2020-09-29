@@ -50,7 +50,7 @@
         "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
       }
     ],
-	"flags": [ "NO_START" ]
+    "flags": [ "NO_START" ]
   },
   {
     "id": "fault_engine_pump_diesel",
