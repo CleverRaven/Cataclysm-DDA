@@ -118,28 +118,5 @@
       [ "smores", 2 ],
       [ "caff_gum", 2 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "dessert",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "milkshake_choc", "prob": 15 },
-      { "item": "milkshake_deluxe_choc", "prob": 5 },
-      { "item": "icecream_choc", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "fridgesnacks",
-    "subtype": "distribution",
-    "entries": [ { "item": "milk_choc", "prob": 25 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "fridge",
-    "//": "This is a terrible item group and should be phased out.  See SUS_fridge in SUS - > domestic.json for a more modern take on things.",
-    "subtype": "distribution",
-    "entries": [ { "item": "milk_choc", "prob": 25 } ]
   }
 ]

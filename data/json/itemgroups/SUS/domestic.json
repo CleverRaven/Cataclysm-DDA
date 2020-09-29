@@ -554,9 +554,10 @@
       { "group": "fresh_produce", "count": [ 1, 8 ], "prob": 50 },
       {
         "distribution": [
-          { "item": "milk", "charges-min": 1, "prob": 94 },
+          { "item": "milk", "charges-min": 1, "prob": 89 },
           { "item": "almond_milk", "charges-min": 1, "prob": 3 },
-          { "item": "soy_milk", "charges-min": 1, "prob": 3 }
+          { "item": "soy_milk", "charges-min": 1, "prob": 3 },
+          { "item": "milk_choc", "charges-min": 1, "prob": 5 }
         ],
         "prob": 95
       },
