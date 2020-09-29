@@ -1554,13 +1554,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "camera_pro", 90 ],
+      { "item": "camera_pro", "prob": 90, "charges-min": 0 },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      [ "camera", 30 ],
+      { "item": "camera", "prob": 30, "charges-min": 0 },
       [ "flashlight", 30 ],
       [ "binoculars", 20 ]
     ]

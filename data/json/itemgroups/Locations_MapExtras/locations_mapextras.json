@@ -181,7 +181,7 @@
       [ "weed", 10 ],
       [ "joint", 10 ],
       { "item": "smart_phone", "prob": 20, "charges-min": 0 },
-      [ "camera", 20 ],
+      { "item": "camera", "prob": 20, "charges-min": 0 },
       [ "chem_hexamine", 5 ]
     ]
   },

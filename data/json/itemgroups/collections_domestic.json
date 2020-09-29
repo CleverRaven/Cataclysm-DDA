@@ -413,7 +413,7 @@
       { "item": "file", "prob": 5 },
       { "item": "eink_tablet_pc", "prob": 2 },
       { "item": "mobile_memory_card", "prob": 8 },
-      { "item": "camera", "prob": 3 },
+      { "item": "camera", "prob": 3, "charges-min": 0 },
       { "item": "gum", "prob": 30 },
       { "item": "caff_gum", "prob": 3 },
       { "item": "flask_hip", "prob": 5 },

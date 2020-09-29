@@ -266,8 +266,8 @@
       [ "eink_tablet_pc", 12 ],
       [ "smart_lamp", 5 ],
       [ "mask_guy_fawkes", 5 ],
-      [ "camera", 10 ],
-      [ "camera_pro", 5 ],
+      { "item": "camera", "prob": 10, "charges-min": 0 },
+      { "item": "camera_pro", "prob": 5, "charges-min": 0 },
       [ "ruger_redhawk", 3 ],
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
@@ -1533,9 +1533,7 @@
     "id": "elecsto_cameras",
     "type": "item_group",
     "//": "For s_electronics shops",
-    "ammo": 75,
-    "magazine": 100,
-    "items": [ [ "camera", 75 ], [ "camera_pro", 25 ] ]
+    "items": [ { "item": "camera", "prob": 75, "charges": 150 }, { "item": "camera_pro", "prob": 25, "charges-min": 150 } ]
   },
   {
     "id": "elecsto_lights",
