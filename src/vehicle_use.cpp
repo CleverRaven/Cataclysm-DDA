@@ -985,7 +985,7 @@ bool vehicle::start_engine( const int e )
 
     // Engine with starter motors can fail on both battery and starter motor
     if( eng.faults_potential().count( fault_engine_starter ) ) {
-        if( eng.faults().count( fault_engine_starter ) ) {
+        if( eng.has_fault_flag( "BAD_STARTER" ) ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
