@@ -9570,7 +9570,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
                 here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, field_type_id( "fd_fire" ), 1 );
+                here.add_field( pos, fd_fire, 1 );
             }
         }
     }

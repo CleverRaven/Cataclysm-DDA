@@ -1181,7 +1181,7 @@ void monster::process_triggers()
         int ret = 0;
         map &here = get_map();
         for( const auto &p : here.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * here.get_field_intensity( p, field_type_id( "fd_fire" ) );
+            ret += 5 * here.get_field_intensity( p, fd_fire );
         }
         return ret;
     } );
@@ -2134,7 +2134,7 @@ void monster::process_turn()
                 const map_stack items = here.i_at( zap );
                 for( const auto &item : items ) {
                     if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
-                        here.add_field( zap, field_type_id( "fd_fire" ), 2, 1_minutes );
+                        here.add_field( zap, fd_fire, 2, 1_minutes );
                         sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;
                     }
@@ -2151,7 +2151,7 @@ void monster::process_turn()
                     } else {
                         add_msg_if_player_sees( zap, m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
                                                 name(), here.tername( zap ) );
-                        here.add_field( zap, field_type_id( "fd_fire" ), 1, 2_turns );
+                        here.add_field( zap, fd_fire, 1, 2_turns );
                     }
                 }
             }
@@ -2633,14 +2633,14 @@ bool monster::is_hallucination() const
 field_type_id monster::bloodType() const
 {
     if( is_hallucination() ) {
-        return field_type_id( "fd_null" );
+        return fd_null;
     }
     return type->bloodType();
 }
 field_type_id monster::gibType() const
 {
     if( is_hallucination() ) {
-        return field_type_id( "fd_null" );
+        return fd_null;
     }
     return type->gibType();
 }
