@@ -103,7 +103,7 @@ inline std::string string_from_int( const catacurses::chtype ch )
             break;
         case LINE_OXXO:
             charcode = LINE_OXXO_C;
-            break; 
+            break;
         case LINE_OOXX:
             charcode = LINE_OOXX_C;
             break;
