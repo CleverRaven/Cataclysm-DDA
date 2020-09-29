@@ -8340,7 +8340,8 @@ void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
-    const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
+    const float base_regen_rate = get_option<float>(player_base_stamina_regen_rate);
+    const float effective_regen_rate = base_regen_rate + get_cardio() / 100;
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -8350,7 +8351,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
+                        effective_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -8374,7 +8375,7 @@ void Character::update_stamina( int turns )
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
+        bonus = std::min( bonus, 4 * static_cast<int>( effective_regen_rate ) );
         if( bonus > 0 ) {
             stamina_recovery += bonus;
             bonus /= 10;
