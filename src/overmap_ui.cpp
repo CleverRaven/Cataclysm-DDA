@@ -1099,10 +1099,11 @@ void draw(
 void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = _( "Color codes: " );
-    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
+    for( const std::pair<const std::string, note_color> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                      _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
+        //~ %1$s: note color abbreviation, %2$s: note color name
+        color_notes += string_format( pgettext( "note color", "%1$s:%2$s, " ), color_pair.first,
+                                      colorize( color_pair.second.name, color_pair.second.color ) );
     }
 
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",

@@ -488,7 +488,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
             if( can_miss_recovery( *cur_weapon ) ) {
                 ma_technique tec = martial_arts_data->get_miss_recovery_tec( *cur_weapon );
-                add_msg( _( tec.avatar_message ), t.disp_name() );
+                add_msg( tec.avatar_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
@@ -2063,9 +2063,9 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             // Can't use <npcname> here
             // TODO: Fix
             if( is_player() ) {
-                tmp.text = string_format( _( mut_atk.attack_text_u ), target );
+                tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
-                tmp.text = string_format( _( mut_atk.attack_text_npc ), name, target );
+                tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
             }
 
             // Attack starts here
@@ -2167,9 +2167,9 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
-            message = _( tec.npc_message );
+            message = tec.npc_message.translated();
         } else {
-            message = _( tec.avatar_message );
+            message = tec.avatar_message.translated();
         }
         if( !message.empty() ) {
             return message;

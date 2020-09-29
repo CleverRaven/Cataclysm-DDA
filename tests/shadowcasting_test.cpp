@@ -7,9 +7,11 @@
 #include <functional>
 #include <memory>
 #include <random>
+#include <sstream>
 #include <type_traits>
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
@@ -407,199 +409,593 @@ static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
 static constexpr float V = LIGHT_TRANSPARENCY_OPEN_AIR;
 static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
-static const point ORIGIN( 65, 65 );
+static const tripoint ORIGIN( 65, 65, 11 );
 
 struct grid_overlay {
-    std::vector<std::vector<float>> data;
-    point offset;
+    std::vector<std::vector<std::vector<float>>> data;
+    std::vector<std::vector<std::vector<bool>>> floor;
+    tripoint offset;
     float default_value;
+    bool default_floor = true;
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
     grid_overlay( const point &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
+    grid_overlay( const tripoint origin_offset, const float default_value ) {
+        this->offset = ORIGIN - origin_offset;
+        this->default_value = default_value;
+    }
 
-    int height() const {
+    int depth() const {
         return data.size();
     }
-    int width() const {
+    int height() const {
         if( data.empty() ) {
             return 0;
         }
         return data[0].size();
     }
+    int width() const {
+        if( data.empty() || data[0].empty() ) {
+            return 0;
+        }
+        return data[0][0].size();
+    }
+    tripoint get_max() const {
+        return offset + tripoint( width(), height(), depth() );
+    }
 
-    float get_global( const point &p ) const {
-        if( p.y >= offset.y && p.y < offset.y + height() &&
-            p.x >= offset.x && p.x < offset.x + width() ) {
-            return data[ p.y - offset.y ][ p.x - offset.x ];
+    float get_transparency_global( const tripoint &p ) const {
+        const half_open_cuboid<tripoint> bounds( offset, get_max() );
+        if( bounds.contains( p ) ) {
+            return data[ p.z - offset.z ][ p.y - offset.y ][ p.x - offset.x ];
         }
         return default_value;
     }
-
-    float get_local( const point &p ) const {
-        return data[ p.y ][ p.x ];
+    bool get_floor_global( const tripoint &p ) const {
+        if( floor.empty() ) {
+            return default_floor;
+        }
+        const half_open_cuboid<tripoint> bounds( offset, get_max() );
+        if( bounds.contains( p ) ) {
+            return data[ p.z - offset.z ][ p.y - offset.y ][ p.x - offset.x ];
+        }
+        return default_floor;
     }
 };
 
-static void run_spot_check( const grid_overlay &test_case, const grid_overlay &expected_result )
+static void run_spot_check( const grid_overlay &test_case, const grid_overlay &expected,
+                            bool fov_3d )
 {
-    float seen_squares[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
-    float transparency_cache[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
-
-    for( int y = 0; y < static_cast<int>( sizeof( transparency_cache ) /
-                                          sizeof( transparency_cache[0] ) ); ++y ) {
-        for( int x = 0; x < static_cast<int>( sizeof( transparency_cache[0] ) /
-                                              sizeof( transparency_cache[0][0] ) ); ++x ) {
-            transparency_cache[ y ][ x ] = test_case.get_global( point( x, y ) );
-        }
+    // Reminder to not trigger 2D shadowcasting on 3D use cases.
+    if( !fov_3d ) {
+        REQUIRE( test_case.depth() == 1 );
     }
+    level_cache *caches[OVERMAP_LAYERS];
+    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_squares;
+    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_cache;
+    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_cache;
 
-    castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-        seen_squares, transparency_cache, ORIGIN );
-
-    // Compares the whole grid, but out-of-bounds compares will de-facto pass.
-    for( int y = 0; y < expected_result.height(); ++y ) {
-        for( int x = 0; x < expected_result.width(); ++x ) {
-            INFO( "x:" << x << " y:" << y << " expected:" << expected_result.data[y][x] << " actual:" <<
-                  seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] );
-            if( V == expected_result.get_local( point( x, y ) ) ) {
-                CHECK( seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] > 0 );
-            } else {
-                CHECK( seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] == 0 );
+    const int upper_bound = fov_3d ? OVERMAP_LAYERS : 12;
+    const int lower_bound = fov_3d ? 0 : 11;
+    for( int z = lower_bound; z < upper_bound; ++z ) {
+        caches[z] = new level_cache();
+        seen_squares[z] = &caches[z]->seen_cache;
+        transparency_cache[z] = &caches[z]->transparency_cache;
+        floor_cache[z] = &caches[z]->floor_cache;
+        for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
+            for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
+                caches[z]->transparency_cache[x][y] = test_case.get_transparency_global( { x, y, z } );
+                caches[z]->floor_cache[x][y] = test_case.get_floor_global( { x, y, z } );
             }
         }
     }
+
+    if( fov_3d ) {
+        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>( seen_squares,
+                transparency_cache, floor_cache, ORIGIN - tripoint( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
+    } else {
+        castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
+            *seen_squares[11], *transparency_cache[11], ORIGIN.xy() );
+
+    }
+    bool passed = true;
+    std::ostringstream trans_grid;
+    std::ostringstream expected_grid;
+    std::ostringstream actual_grid;
+    for( int gz = expected.offset.z; gz < expected.get_max().z; ++gz ) {
+        for( int gy = expected.offset.y; gy < expected.get_max().y; ++gy ) {
+            for( int gx = expected.offset.x; gx < expected.get_max().x; ++gx ) {
+                trans_grid << caches[gz]->transparency_cache[gx][gy];
+                expected_grid << ( expected.get_transparency_global( { gx, gy, gz } ) > 0 ? 'V' : 'O' );
+                actual_grid << ( ( *seen_squares[gz] )[gx][gy] > 0 ? 'V' : 'O' );
+                if( V == expected.get_transparency_global( { gx, gy, gz } ) &&
+                    ( *seen_squares[gz] )[gx][gy] == 0 ) {
+                    passed = false;
+                } else if( O == expected.get_transparency_global( { gx, gy, gz } ) &&
+                           ( *seen_squares[gz] )[gx][gy] > 0 ) {
+                    passed = false;
+                }
+            }
+            trans_grid << '\n';
+            expected_grid << '\n';
+            actual_grid << '\n';
+        }
+        trans_grid << '\n';
+        expected_grid << '\n';
+        actual_grid << '\n';
+    }
+
+    for( int z = lower_bound; z < upper_bound; ++z ) {
+        delete caches[z];
+    }
+
+    CAPTURE( fov_3d );
+    INFO( "transparency:\n" << trans_grid.str() );
+    INFO( "actual:\n" << actual_grid.str() );
+    INFO( "expected:\n" << expected_grid.str() );
+    CHECK( passed );
 }
 
 TEST_CASE( "shadowcasting_slope_inversion_regression_test", "[shadowcasting]" )
 {
     grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    test_case.data = {
-        {T, T, T, T, T, T, T, T, T, T},
-        {T, O, T, T, T, T, T, T, T, T},
-        {T, O, T, T, T, T, T, T, T, T},
-        {T, O, O, T, O, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, O, T},
-        {T, T, T, T, T, T, O, T, O, T},
-        {T, T, T, T, T, T, O, O, O, T},
-        {T, T, T, T, T, T, T, T, T, T}
+    test_case.data = { {
+            {T, T, T, T, T, T, T, T, T, T},
+            {T, O, T, T, T, T, T, T, T, T},
+            {T, O, T, T, T, T, T, T, T, T},
+            {T, O, O, T, O, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, O, T},
+            {T, T, T, T, T, T, O, T, O, T},
+            {T, T, T, T, T, T, O, O, O, T},
+            {T, T, T, T, T, T, T, T, T, T}
+        }
     };
 
     grid_overlay expected_results( { 7, 8 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    expected_results.data = {
-        {O, O, O, V, V, V, V, V, V, V},
-        {O, V, V, O, V, V, V, V, V, V},
-        {O, O, V, V, V, V, V, V, V, V},
-        {O, O, V, V, V, V, V, V, V, V},
-        {O, O, V, V, V, V, V, V, V, V},
-        {O, O, O, V, V, V, V, V, V, O},
-        {O, O, O, O, V, V, V, V, V, O},
-        {O, O, O, O, O, V, V, V, V, O},
-        {O, O, O, O, O, O, V, X, V, O},
-        {O, O, O, O, O, O, V, V, V, O},
-        {O, O, O, O, O, O, O, O, O, O}
+    expected_results.data = { {
+            {O, O, O, V, V, V, V, V, V, V},
+            {O, V, V, O, V, V, V, V, V, V},
+            {O, O, V, V, V, V, V, V, V, V},
+            {O, O, V, V, V, V, V, V, V, V},
+            {O, O, V, V, V, V, V, V, V, V},
+            {O, O, O, V, V, V, V, V, V, O},
+            {O, O, O, O, V, V, V, V, V, O},
+            {O, O, O, O, O, V, V, V, V, O},
+            {O, O, O, O, O, O, V, X, V, O},
+            {O, O, O, O, O, O, V, V, V, O},
+            {O, O, O, O, O, O, O, O, O, O}
+        }
     };
 
-    run_spot_check( test_case, expected_results );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]" )
 {
     grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    test_case.data = {
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, O, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T}
+    test_case.data = { {
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, O, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T}
+        }
     };
 
     grid_overlay expected_results( { 1, 4 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    expected_results.data = {
-        {V, V, V, V, V, V, V, O, O},
-        {V, V, V, V, V, V, O, O, O},
-        {V, V, V, V, V, O, O, O, O},
-        {V, V, V, V, O, O, O, O, O},
-        {V, X, V, O, O, O, O, O, O},
-        {V, V, V, V, O, O, O, O, O},
-        {V, V, V, V, V, O, O, O, O},
-        {V, V, V, V, V, V, O, O, O},
-        {V, V, V, V, V, V, V, O, O}
+    expected_results.data = { {
+            {V, V, V, V, V, V, V, O, O},
+            {V, V, V, V, V, V, O, O, O},
+            {V, V, V, V, V, O, O, O, O},
+            {V, V, V, V, O, O, O, O, O},
+            {V, X, V, O, O, O, O, O, O},
+            {V, V, V, V, O, O, O, O, O},
+            {V, V, V, V, V, O, O, O, O},
+            {V, V, V, V, V, V, O, O, O},
+            {V, V, V, V, V, V, V, O, O}
+        }
     };
 
-    run_spot_check( test_case, expected_results );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    test_case.data = {
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, O, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
+    test_case.data = { {
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, O, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
+        }
     };
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    expected_results.data = {
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, X, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, O, O, O, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, O, O, O, O, O, O, O, V, V, V, V, V},
-        {V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O, O, O},
-        {V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O, O},
-        {V, V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O},
-        {V, V, V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O},
+    expected_results.data = { {
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, X, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, O, O, O, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, O, O, O, O, O, O, O, V, V, V, V, V},
+            {V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O, O, O},
+            {V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O, O},
+            {V, V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O, O},
+            {V, V, V, V, V, V, V, V, V, V, O, O, O, O, O, O, O, O},
+        }
     };
 
-    run_spot_check( test_case, expected_results );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
 }
 
 TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 {
     grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    test_case.data = {
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
-        {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
+    test_case.data = { {
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
+        }
     };
 
     grid_overlay expected_results( { 8, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
-    expected_results.data = {
-        {O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, X, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
-        {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V}
+    expected_results.data = { {
+            {O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O, O},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, X, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},
+            {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V}
+        }
     };
 
-    run_spot_check( test_case, expected_results );
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
+}
+
+TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 1, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    test_case.data = { {
+            {T, T, O, T, T, T, T},
+            {T, T, O, T, T, T, T},
+            {T, T, O, O, O, T, T},
+            {T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T}
+        }
+    };
+
+    grid_overlay expected_results( { 1, 2 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    expected_results.data = { {
+            {V, V, V, O, O, O, O},
+            {V, V, V, O, O, O, O},
+            {V, X, V, O, O, O, O},
+            {V, V, V, V, O, O, O},
+            {V, V, V, V, V, O, O},
+            {V, V, V, V, V, V, O}
+        }
+    };
+
+    bool fov_3d = GENERATE( true, false );
+    run_spot_check( test_case, expected_results, fov_3d );
+}
+
+TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        }
+    };
+
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    expected_results.data = {
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
+}
+
+TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        }
+    };
+    test_case.default_floor = false;
+
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    expected_results.data = {
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
+}
+
+// From origin looking out, we should check every combination of 2x2 transparent and opaque patterns.
+// T T  O O
+// T T  O O
+//
+// T T  T T  O T  T O
+// O T  T O  T T  T T
+//
+// T T  O T  T O  O T  T O  O O
+// O O  O T  O T  T O  T O  T T
+//
+// O T  T O  O O  O O
+// O O  O O  O T  T O
+
+
+TEST_CASE( "shadowcasting_floating_wall", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 16, 3 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, O, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, X, T, T}
+        }
+    };
+    test_case.default_floor = false;
+
+    grid_overlay expected_results( { 2, 16, 3 }, LIGHT_TRANSPARENCY_OPEN_AIR );
+    expected_results.data = {
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, O, O, O, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, O, O, O, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, O, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
 }
 
 // Some random edge cases aren't matching.

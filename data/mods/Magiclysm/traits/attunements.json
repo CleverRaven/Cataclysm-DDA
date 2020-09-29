@@ -292,8 +292,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
+    "spells_learned": [ [ "quake", 5 ] ],
+    "armor": [
+      { "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ], "cut": 15 }
+    ],
+    "passive_mods": { "str_mod": 5 },
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -374,6 +379,8 @@
     "valid": false,
     "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
+    "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
+    "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -490,7 +497,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
     "cancels": [
       "ARTIFICER",
@@ -518,7 +525,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "STEADY" ]
   },
   {
     "id": "GRAVITY_MAGE",
@@ -530,6 +537,7 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
+    "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -556,7 +564,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMB_NO_LADDER" ]
   },
   {
     "id": "OVERCLOCKER",
@@ -568,6 +576,7 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "overaccelerate", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -606,6 +615,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
+    "enchantments": [ "ICE_ELEMENTAL" ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -646,6 +656,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected. ",
+    "spells_learned": [ [ "spear_of_light", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
@@ -763,8 +774,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhatten Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
+    "spells_learned": [ [ "shortwave", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -843,6 +855,8 @@
     "valid": false,
     "description": "The shapeshifter is the Biomancer refined - able to use a flicker of mana to change shape at the drop of a hat to make yourself more inviting or shape others into desired shapes.",
     "prereqs": [ "BIOMANCER", "MAGUS" ],
+    "//": "Purposefully omits torso, head, etc.",
+    "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
     "cancels": [
       "AURA_MAGE",
       "BIOTEK",
@@ -920,8 +934,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
+    "enchantments": [ "STORM_ELEMENTAL" ],
+    "spells_learned": [ [ "storm_chain_master", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -1000,9 +1016,11 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.",
     "prereqs": [ "MAGUS", "KELVINIST" ],
     "passive_mods": { "per_mod": 5 },
+    "enchantments": [ "SUN_MAGE" ],
+    "spells_learned": [ [ "solar_beam", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -1043,6 +1061,7 @@
     "valid": false,
     "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
     "prereqs": [ "DRUID", "KELVINIST" ],
+    "spells_learned": [ [ "cold_snap", 5 ], [ "summon_winter_wolf", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -1083,6 +1102,7 @@
     "valid": false,
     "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
+    "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -1161,8 +1181,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
     "prereqs": [ "DRUID", "MAGUS" ],
+    "spells_learned": [ [ "assassin_strike", 5 ] ],
     "cancels": [
       "AURA_MAGE",
       "BIOTEK",

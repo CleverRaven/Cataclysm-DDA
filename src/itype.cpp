@@ -17,6 +17,15 @@ std::string gunmod_location::name() const
     return _( _id );
 }
 
+std::string islot_book::recipe_with_description_t::name() const
+{
+    if( optional_name ) {
+        return optional_name->translated();
+    } else {
+        return recipe->result_name();
+    }
+}
+
 namespace io
 {
 template<>

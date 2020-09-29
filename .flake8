@@ -5,7 +5,6 @@ ignore =
     # to be triaged to determine which we should fix and which we should leave
     # permanently ignored
     E265,
-    E501,
     # W503 and W504 require line breaks after or before binary operators; you
     # can only have one enabled
     W504

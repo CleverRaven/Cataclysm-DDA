@@ -546,7 +546,7 @@ item &item::deactivate( const Character *ch, bool alert )
 
     if( is_tool() && type->tool->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
-            ch->add_msg_if_player( m_info, _( type->tool->revert_msg ), tname() );
+            ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
         convert( *type->tool->revert_to );
         active = false;
@@ -3115,9 +3115,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     const std::string name = elem.recipe->result_name();
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else if( !can_learn ) {
-                    recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+                    recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
                 } else {
-                    recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+                    recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
                 }
             }
 
@@ -3591,8 +3591,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
-                                      _( tid.obj().description ) );
+                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
+                                      tid.obj().description );
             } ) ) );
         }
     }
@@ -9570,7 +9570,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
                 here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, field_type_id( "fd_fire" ), 1 );
+                here.add_field( pos, fd_fire, 1 );
             }
         }
     }

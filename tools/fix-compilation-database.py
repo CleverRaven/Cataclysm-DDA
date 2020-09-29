@@ -16,7 +16,8 @@ def print_help():
           "Fix compilation database used by run-clang-tidy.py on Windows.\n"
           "\n"
           "    --help              prints this message\n"
-          "    --compile-db=<path> specify the path to compilation database. Defaults to build/compile_commands.json\n")
+          "    --compile-db=<path> specify the path to compilation database.\n"
+          "                        Defaults to build/compile_commands.json\n")
 
 
 def main(argv):
@@ -55,7 +56,8 @@ def main(argv):
                 else:
                     match_result = starts_with_drive_letter.match(command[i])
                     if match_result:
-                        command[i] = "{}:/{}".format(match_result.group(1), match_result.group(2))
+                        command[i] = "{}:/{}".format(match_result.group(1),
+                                                     match_result.group(2))
                     i = i + 1
             data[j]["command"] = " ".join([shlex.quote(s) for s in command])
 

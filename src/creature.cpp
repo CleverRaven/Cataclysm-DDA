@@ -546,6 +546,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
             add_effect( effect_stunned, 1_turns ); // 1 turn is enough
+            if( source->is_avatar() ) {
+                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
+            }
         }
     }
 

@@ -119,7 +119,6 @@ static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -302,8 +301,7 @@ void Character::suffer_from_addictions()
 
 void Character::suffer_while_awake( const int current_stim )
 {
-    if( !has_trait( trait_DEBUG_STORAGE ) &&
-        ( weight_carried() > 4 * weight_capacity() ) ) {
+    if( weight_carried() > 4 * weight_capacity() ) {
         if( has_effect( effect_downed ) ) {
             add_effect( effect_downed, 1_turns, false, 0, true );
         } else {
@@ -320,8 +318,8 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( has_trait( trait_NARCOLEPTIC ) ) {
         if( one_turn_in( 8_hours ) ) {
-            add_msg( m_bad,
-                     _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
+            add_msg_if_player( m_bad,
+                               _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
             fall_asleep( 20_minutes );
         }
     }
@@ -506,7 +504,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
                                      translation() );
-        add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), name, snip );
         return;
     }
 
@@ -526,7 +524,7 @@ void Character::suffer_from_schizophrenia()
         if( !followers.empty() ) {
             who_gets_angry = random_entry_ref( followers )->name;
         }
-        add_msg( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
+        add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
         return;
     }
 
@@ -537,14 +535,14 @@ void Character::suffer_from_schizophrenia()
                 mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
             }
         };
-        add_msg( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
+        add_msg_if_player( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
         return;
     }
 
     // Limb Breaks
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "broken_limb" ).value_or( translation() );
-        add_msg( m_bad, "%s", snip );
+        add_msg_if_player( m_bad, "%s", snip );
         return;
     }
 
@@ -556,15 +554,15 @@ void Character::suffer_from_schizophrenia()
                 translation() ).translated() );
         parse_tags( i_talk, *this, *this );
 
-        add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
         return;
     }
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
         skill_id raised_skill = Skill::random_skill();
-        add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                 get_skill_level( raised_skill ) + 1 );
+        add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
+                           get_skill_level( raised_skill ) + 1 );
         return;
     }
 
@@ -1015,7 +1013,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -1040,7 +1038,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), field_type_id( "fd_web" ), 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -1286,7 +1284,7 @@ void Character::suffer_from_bad_bionics()
             add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
             sfx::play_variant_sound( "bionics", "elec_blast", 100 );
         } else {
-            add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
+            add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
         sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
@@ -1351,19 +1349,19 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim > 170 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "You feel short of breath." ) );
+            add_msg_if_player( m_bad, _( "You feel short of breath." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
     if( current_stim > 110 ) {
         if( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( _( "You shake uncontrollably." ) );
+            add_msg_if_player( _( "You shake uncontrollably." ) );
             add_effect( effect_shakes, 15_minutes + 1_turns );
         }
     }
     if( current_stim > 75 ) {
         if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
-            add_msg( _( "You feel nauseous…" ) );
+            add_msg_if_player( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
     }
@@ -1380,7 +1378,7 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim < -120 || get_painkiller() > 160 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "Your breathing slows down." ) );
+            add_msg_if_player( m_bad, _( "Your breathing slows down." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
@@ -1396,7 +1394,7 @@ void Character::suffer_from_stimulants( const int current_stim )
     }
     if( current_stim < -60 || get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
-            add_msg( m_warning, _( "You feel tired…" ) );
+            add_msg_if_player( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
         }
     }
@@ -1483,7 +1481,8 @@ void Character::suffer_from_exertion()
     // Significantly slow the rate of messaging when in an activity
     int chance = activity ? 2000 : 60;
     if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
-        add_msg( m_bad, _( "You're tiring out, continuing to work at this rate will be slower." ) );
+        add_msg_if_player( m_bad,
+                           _( "You're tiring out, continuing to work at this rate will be slower." ) );
     }
 
     // This must happen at the end, for hopefully obvious reasons
@@ -1872,7 +1871,7 @@ void Character::sound_hallu()
         i_sound = std::make_pair( std::get<1>( desc[r_int] ), std::get<2>( desc[r_int] ) );
     }
 
-    add_msg( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
+    add_msg_if_player( m_warning, _( "From the %1$s you hear %2$s" ), i_dir, i_desc );
     sfx::play_variant_sound( i_sound.first, i_sound.second, rng( 20, 80 ) );
 }
 

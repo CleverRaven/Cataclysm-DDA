@@ -1,0 +1,25 @@
+[
+  {
+    "id": "solar_blinding",
+    "type": "SPELL",
+    "name": "Soul Pressure",
+    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "target_attack",
+    "effect_str": "blind",
+    "min_damage": 2,
+    "max_damage": 2,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "type": "enchantment",
+    "id": "SUN_MAGE",
+    "condition": "ALWAYS",
+    "values": [ { "value": "PERCEPTION", "add": 5 } ],
+    "hit_me_effect": [ { "id": "solar_blinding" } ]
+  }
+]

@@ -256,6 +256,9 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
+        // The game language may have changed after the blueprint was created,
+        // so translated the prototype name again.
+        name = proto.name.translated();
         init_state( init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
@@ -3823,8 +3826,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
 
                 if( ( exhaust_part == -1 ) && engine_on ) {
-                    spew_field( j, p, field_type_id( "fd_smoke" ),
-                                bad_filter ? field_type_id( "fd_smoke" )->get_max_intensity() : 1 );
+                    spew_field( j, p, fd_smoke, bad_filter ? fd_smoke->get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3839,8 +3841,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     /// TODO: handle other engine types: muscle / animal / wind / coal / ...
 
     if( exhaust_part != -1 && engine_on ) {
-        spew_field( mufflesmoke, exhaust_part, field_type_id( "fd_smoke" ),
-                    bad_filter ? field_type_id( "fd_smoke" )->get_max_intensity() : 1 );
+        spew_field( mufflesmoke, exhaust_part, fd_smoke,
+                    bad_filter ? fd_smoke->get_max_intensity() : 1 );
     }
     if( is_rotorcraft() ) {
         noise *= 2;

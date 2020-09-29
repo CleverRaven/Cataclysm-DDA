@@ -12,7 +12,6 @@
 #include "item.h"
 #include "json.h"
 #include "string_id.h"
-#include "translations.h"
 
 namespace
 {
@@ -37,10 +36,10 @@ const material_type &string_id<material_type>::obj() const
 
 material_type::material_type() :
     id( material_id::NULL_ID() ),
-    _bash_dmg_verb( translate_marker( "damages" ) ),
-    _cut_dmg_verb( translate_marker( "damages" ) )
+    _bash_dmg_verb( to_translation( "damages" ) ),
+    _cut_dmg_verb( to_translation( "damages" ) )
 {
-    _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
+    _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
 }
 
 static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
@@ -86,7 +85,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
 
-    mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj, string_reader() );
+    mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj );
 
     if( jsobj.has_array( "burn_data" ) ) {
         for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
@@ -142,7 +141,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _( _name );
+    return _name.translated();
 }
 
 cata::optional<itype_id> material_type::salvaged_into() const
@@ -172,12 +171,12 @@ int material_type::bullet_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _( _bash_dmg_verb );
+    return _bash_dmg_verb.translated();
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _( _cut_dmg_verb );
+    return _cut_dmg_verb.translated();
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -188,7 +187,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
+    return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
 }
 
 int material_type::acid_resist() const

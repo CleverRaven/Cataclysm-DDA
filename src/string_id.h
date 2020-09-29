@@ -142,6 +142,12 @@ class string_id
          */
         int_id<T> id() const;
         /**
+         * Translate the string based it to the matching integer based id.
+         * If this string_id is not valid, returns `fallback`.
+         * Does not produce debug message.
+         */
+        int_id<T> id_or( const int_id<T> &fallback ) const;
+        /**
          * Returns the actual object this id refers to. May show a debug message if the id is invalid.
          */
         const T &obj() const;
