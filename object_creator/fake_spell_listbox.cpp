@@ -27,7 +27,7 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
     add_spell_button.setParent( this );
     add_spell_button.setText( QString( "Add fake_spell" ) );
     add_spell_button.resize( default_text_box_size );
-    add_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row ) );
+    add_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
     add_spell_button.show();
     QObject::connect( &add_spell_button, &QPushButton::clicked,
     [&]() {
@@ -47,6 +47,23 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
             }
         } );
     } );
+    QObject::connect( &add_spell_button, &QPushButton::clicked, this, &fake_spell_listbox::modified );
+
+    del_spell_button.setParent( this );
+    del_spell_button.setText( QString( "Remove fake_spell" ) );
+    del_spell_button.resize( default_text_box_size );
+    del_spell_button.move( QPoint( default_text_box_width * col, default_text_box_height * row++ ) );
+    del_spell_button.show();
+    QObject::connect( &del_spell_button, &QPushButton::clicked,
+    [&]() {
+        const int index = fake_spell_list_box.currentIndex();
+        auto iter = windows.begin();
+        std::advance( iter, index );
+        ( *iter )->deleteLater();
+        windows.erase( iter );
+        fake_spell_list_box.removeItem( index );
+    } );
+    QObject::connect( &del_spell_button, &QPushButton::clicked, this, &fake_spell_listbox::modified );
 
     // =========================================================================================
     // second column of boxes
@@ -63,9 +80,20 @@ creator::fake_spell_listbox::fake_spell_listbox( QWidget *parent )
         for( fake_spell_window *win : windows ) {
             win->hide();
         }
+        if( windows.empty() ) {
+            return;
+        }
         const int cur_index = fake_spell_list_box.currentIndex();
         windows.at( cur_index )->show();
         fake_spell_list_box.setCurrentText( windows.at( cur_index )->get_fake_spell().id.c_str() );
+    } );
+    QObject::connect( &fake_spell_list_box, &QComboBox::currentTextChanged,
+    [&]() {
+        if( windows.empty() ) {
+            return;
+        }
+        fake_spell_list_box.setCurrentText( windows.at( fake_spell_list_box.currentIndex() )
+                                            ->get_fake_spell().id.c_str() );
     } );
     row += 4;
 }

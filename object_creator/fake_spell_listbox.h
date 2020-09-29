@@ -42,6 +42,7 @@ class fake_spell_listbox : public QListWidget
         QComboBox fake_spell_list_box;
 
         QPushButton add_spell_button;
+        QPushButton del_spell_button;
 };
 }
 
