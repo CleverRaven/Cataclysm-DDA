@@ -48,7 +48,6 @@
 #include "translations.h"
 #include "units.h"
 #include "units_fwd.h"
-#include "units_utility.h"
 #include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
