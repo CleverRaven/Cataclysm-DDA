@@ -108,7 +108,8 @@
           "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "REDUCE_ENG_POWER", "ENG_BACKFIRE" ]
   },
   {
     "id": "fault_engine_pump_fuel",
