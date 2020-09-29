@@ -534,49 +534,22 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
-            const std::string this_cell_title = _( "SATIETY" );
-            append_cell( [&p, this_cell_title]( const item_location & loc ) {
-                /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-                stomach fullness source code. Look at issue #44365*/
+            append_cell( [&p]( const item_location & loc ) {
                 const item &it = *loc;
-                const nutrients nutr = p.compute_effective_nutrients( it );
+                const int charges = std::max( it.charges, 1 );
+                const double converted_weight = convert_weight( it.weight() / charges );
+                if( converted_weight == 0 ) {
+                    return std::string( "---" );
+                }
+                const nutrients nutr = p.compute_effective_nutrients( *loc );
                 const int kcalories = nutr.kcal;
-                // Quit prematurely if there is no caloric content/the item is not food.
-                if( kcalories == 0 || !it.type->comestible ) {
+                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
+                if( kcalories == 0 ) {
                     return std::string();
                 }
-                units::volume water_vol = ( it.type->comestible->quench > 0 ) ? it.type->comestible->quench *
-                                          5_ml : 0_ml;
-                // Water volume is ignored.
-                units::volume food_vol = it.volume() - water_vol;
-                const double converted_volume = round_up( convert_volume( food_vol.value() / it.count() ), 2 );
-                const double energy_density_ratio = p.compute_effective_food_volume_ratio( it );
-                const double effective_volume = converted_volume * energy_density_ratio;
-                const int calories_per_effective_volume = std::round( kcalories / effective_volume );
-                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
-                bio_digestion, selfaware, high cooking skill etc*/
-                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
-                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
-                    return string_format( "%d", calories_per_effective_volume );
-                }
-                // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
-                constexpr int max_cal_per_effective_vol = 1500;
-                //Scaling the values.
-                const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
-                const int scaled_cal = std::sqrt( calories_per_effective_volume ) / 4;
-                const std::pair<std::string, nc_color> nourishment_bar = get_bar(
-                            scaled_cal, scaled_max, 5, true );
-                // Colorize the bar.
-                std::string result = colorize( nourishment_bar.first, nourishment_bar.second );
-                // Pad to 5 characters with dots.
-                result += std::string( 5 - nourishment_bar.first.length(), '.' );
-                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
-                if( utf8_width( this_cell_title ) > 5 ) {
-                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
-                }
-                return result;
-            }, _( this_cell_title ) );
+                const int calpergr = int( std::round( kcalories / converted_weight ) );
+                return string_format( _( "%d" ), calpergr );
+            }, _( "CAL/kg" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
