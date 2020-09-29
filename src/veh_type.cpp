@@ -30,6 +30,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "wcwidth.h"
 
 class npc;
 
@@ -438,6 +439,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         def.sym = jo.get_string( "symbol" )[ 0 ];
     }
     if( jo.has_bool( "standard_symbols" ) && jo.get_bool( "standard_symbols" ) ) {
+        // Fallback symbol for unknown variant
+        def.sym = '=';
         for( const auto &variant : vpart_variants_standard ) {
             def.symbols[ variant.first ] = variant.second;
         }
@@ -648,11 +651,24 @@ void vpart_info::check()
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
-        if( part.sym == 0 && part.symbols.empty() ) {
+        // Default symbol is always needed in case an unknown variant is encountered
+        if( part.sym == 0 ) {
             debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
+        } else if( mk_wcwidth( part.sym ) != 1 ) {
+            debugmsg( "vehicle part %s defined a symbol that is not 1 console cell wide.",
+                      part.id.str() );
         }
         if( part.sym_broken == 0 ) {
             debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
+        } else if( mk_wcwidth( part.sym_broken ) != 1 ) {
+            debugmsg( "vehicle part %s defined a broken symbol that is not 1 console cell wide.",
+                      part.id.str() );
+        }
+        for( const std::pair<const std::string, int> &sym : part.symbols ) {
+            if( mk_wcwidth( sym.second ) != 1 ) {
+                debugmsg( "vehicle part %s defined a variant symbol that is not 1 console cell wide.",
+                          part.id.str() );
+            }
         }
         if( part.durability <= 0 ) {
             debugmsg( "vehicle part %s has zero or negative durability", part.id.c_str() );
