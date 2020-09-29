@@ -98,7 +98,7 @@
       [ "crowbar", 20 ],
       [ "shovel", 20 ],
       [ "e_tool", 20 ],
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges-min": 0 },
       [ "radio", 20 ],
       [ "two_way_radio", 20 ],
       { "item": "handflare", "prob": 20, "charges": 300 },

@@ -254,8 +254,8 @@
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
-      [ "cell_phone", 15 ],
-      [ "smart_phone", 20 ],
+      { "item": "cell_phone", "prob": 15, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
       [ "tophat", 10 ],
       [ "bullwhip", 3 ],
       [ "bowhat", 10 ],
@@ -1130,8 +1130,8 @@
       [ "pie_maple", 70 ],
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 3 ],
+      { "item": "cell_phone", "prob": 1, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 3, "charges-min": 0 },
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
@@ -1240,7 +1240,7 @@
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
       [ "picklocks", 5 ],
-      [ "cell_phone", 10 ],
+      { "item": "cell_phone", "prob": 10, "charges-min": 0 },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ]
@@ -1287,7 +1287,7 @@
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
       [ "picklocks", 5 ],
-      [ "cell_phone", 10 ],
+      { "item": "cell_phone", "prob": 10, "charges-min": 0 },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ]
@@ -1366,7 +1366,7 @@
     "items": [
       [ "radio", 30 ],
       [ "rag", 30 ],
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges-min": 0 },
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
       [ "jack", 60 ],
@@ -1569,8 +1569,8 @@
     "magazine": 100,
     "items": [
       [ "portable_game", 65 ],
-      [ "cell_phone", 30 ],
-      [ "smart_phone", 65 ],
+      { "item": "cell_phone", "prob": 30, "charges": 150 },
+      { "item": "smart_phone", "prob": 65, "charges": 120 },
       [ "mp3", 65 ],
       [ "radio_car_box", 35 ],
       [ "vibrator", 1 ]
@@ -1694,7 +1694,7 @@
     "id": "ic_merch",
     "//": "for cs_internet_cafe",
     "items": [
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges-min": 0 },
       [ "mag_computer", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
       [ "radio", 20 ],
