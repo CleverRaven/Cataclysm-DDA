@@ -65,6 +65,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_redsmithing",
+    "name": { "str": "Redsmithing" },
+    "description": "Working copper and bronze shares a lot of techniques with blacksmithing, but the more ductile copper-containing metals have a trick all their own.",
+    "can_learn": true,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_armorsmithing",
     "name": { "str": "Armorsmithing" },
     "description": "How to make articulated armor from pieces of metal.",

@@ -1491,7 +1491,7 @@
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
     ],
-    "components": [ [ [ "cordage_36", 6 ], [ "withered", 36 ], [ "straw_pile", 36 ], [ "tanbark", 36 ], [ "willowbark", 36 ] ] ]
+    "components": [ [ [ "cordage_36", 6 ], [ "plant_cordage", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1507,16 +1507,7 @@
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [
-        [ "rope_makeshift_6", 5 ],
-        [ "cordage_36", 30 ],
-        [ "withered", 180 ],
-        [ "straw_pile", 180 ],
-        [ "tanbark", 180 ],
-        [ "willowbark", 180 ]
-      ]
-    ]
+    "components": [ [ [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "plant_cordage", 180, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4864,11 +4855,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
-    "time": "1 h",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 4 } ],
+    "components": [ [ [ "plant_cordage", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
