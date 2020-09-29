@@ -4860,14 +4860,14 @@ std::string Character::debug_weary_info() const
     std::string max_act = exert_lvl_to_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
-    int bmr = base_bmr();
+    int cardio_mult = get_cardio();
     int intake = weary.intake;
     int input = weary.tracker;
     int thresh = weary_threshold();
     int current = weariness_level();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCalories: %d",
-                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories );
+    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCalories: %d",
+                          amt, max_act, move_mult, cardio_mult, intake, input, thresh, current, stored_calories );
 }
 
 void weariness_tracker::clear()
@@ -5357,15 +5357,15 @@ item *Character::best_quality_item( const quality_id &qual )
 
 int Character::weary_threshold() const
 {
-    const int bmr = base_bmr();
-    int threshold = bmr * get_option<float>( "WEARY_BMR_MULT" );
+    const int cardio_mult = get_cardio();
+    int threshold = cardio_mult * get_option<float>( "WEARY_BMR_MULT" );
     // reduce by 1% per 14 points of fatigue after 150 points
     threshold *= 1.0f - ( ( fatigue - 150 ) / 1400.0f );
     // Each 2 points of morale increase or decrease by 1%
     threshold *= 1.0f + ( get_morale_level() / 200.0f );
     // TODO: Hunger effects this
 
-    return std::max( threshold, bmr / 10 );
+    return std::max( threshold, cardio_mult / 10 );
 }
 
 int Character::weariness() const
@@ -5444,10 +5444,10 @@ void Character::try_reduce_weariness( const float exertion )
 
     if( weary.low_activity_ticks >= 6 ) {
         int reduction = weary.tracker;
-        const int bmr = base_bmr();
+        const int cardio_mult = get_cardio();
         // 1/20 of whichever's bigger
-        if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
+        if( cardio_mult > reduction ) {
+            reduction = cardio_mult * recovery_mult;
         } else {
             reduction *= recovery_mult;
         }
@@ -8340,7 +8340,7 @@ void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
-    const float base_regen_rate = get_option<float>(player_base_stamina_regen_rate);
+    const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
     const float effective_regen_rate = base_regen_rate + get_cardio() / 100;
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;

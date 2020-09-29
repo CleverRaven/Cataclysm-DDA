@@ -1452,6 +1452,9 @@ bool game::do_turn()
 
     u.update_body();
 
+    if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
+        u.update_cardio();
+    }
     // Auto-save if autosave is enabled
     if( get_option<bool>( "AUTOSAVE" ) &&
         calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
