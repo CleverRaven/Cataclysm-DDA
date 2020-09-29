@@ -8342,7 +8342,7 @@ void Character::update_stamina( int turns )
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + get_cardio() / get_option<int>(stamina_cardio_regen_modifier);
+    const float effective_regen_rate = base_regen_rate + get_cardio() * get_option<int>(stamina_cardio_regen_modifier);
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
