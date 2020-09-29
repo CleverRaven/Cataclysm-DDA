@@ -19,7 +19,7 @@
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 5 },
       { "item": "matches", "prob": 60 },
-      { "item": "flashlight", "prob": 40 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "tazer", "prob": 3 },
       { "item": "mp3", "prob": 18 },
@@ -85,7 +85,7 @@
       [ "toilet_paper", 10 ],
       { "item": "handflare", "prob": 15, "charges": 300 },
       [ "duct_tape", 25 ],
-      [ "flashlight", 25 ],
+      { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
       [ "superglue", 25 ],
@@ -254,8 +254,8 @@
       [ "fc_hairpin", 5 ],
       [ "barrette", 5 ],
       [ "pearl_collar", 1 ],
-      [ "cell_phone", 15 ],
-      [ "smart_phone", 20 ],
+      { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 20, "charges-min": 0 },
       [ "tophat", 10 ],
       [ "bullwhip", 3 ],
       [ "bowhat", 10 ],
@@ -266,8 +266,8 @@
       [ "eink_tablet_pc", 12 ],
       [ "smart_lamp", 5 ],
       [ "mask_guy_fawkes", 5 ],
-      [ "camera", 10 ],
-      [ "camera_pro", 5 ],
+      { "item": "camera", "prob": 10, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "ruger_redhawk", 3 ],
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
@@ -667,8 +667,8 @@
       [ "howto_traps", 14 ],
       [ "recipe_bows", 7 ],
       [ "recipe_arrows", 7 ],
-      [ "flashlight", 40 ],
-      [ "heavy_flashlight", 30 ],
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "survival_kit", 35 ],
       [ "premium_survival_kit", 8 ],
       [ "mess_kit", 9 ],
@@ -1053,7 +1053,7 @@
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70 },
-      { "item": "misc_repairkit", "prob": 15 },
+      { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "group": "tools_toolbox", "prob": 2 }
     ]
   },
@@ -1109,7 +1109,7 @@
           { "item": "multitool", "prob": 30 },
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
-          { "item": "misc_repairkit", "prob": 25 },
+          { "item": "misc_repairkit", "prob": 25, "charges": 200 },
           { "group": "tools_toolbox", "prob": 2 }
         ]
       }
@@ -1130,8 +1130,8 @@
       [ "pie_maple", 70 ],
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 3 ],
+      { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 3, "charges-min": 0 },
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
@@ -1204,7 +1204,7 @@
       { "item": "catfood_dry", "prob": 5, "charges": 24, "container-item": "bag_plastic" },
       [ "birdfood", 15 ],
       [ "dog_whistle", 15 ],
-      [ "flashlight", 5 ]
+      { "item": "flashlight", "prob": 5, "charges": [ 0, 300 ] }
     ]
   },
   {
@@ -1240,7 +1240,7 @@
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
       [ "picklocks", 5 ],
-      [ "cell_phone", 10 ],
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ]
@@ -1287,7 +1287,7 @@
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
       [ "picklocks", 5 ],
-      [ "cell_phone", 10 ],
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ]
@@ -1303,8 +1303,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1331,8 +1331,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1366,7 +1366,7 @@
     "items": [
       [ "radio", 30 ],
       [ "rag", 30 ],
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
       [ "jack", 60 ],
@@ -1387,8 +1387,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1417,8 +1417,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1503,10 +1503,10 @@
     "type": "item_group",
     "items": [
       [ "magnifying_glass", 5 ],
-      [ "sewing_kit", 15 ],
+      { "item": "sewing_kit", "prob": 15, "charges-min": 0 },
       [ "scissors", 10 ],
       [ "gasoline_lantern", 7 ],
-      [ "flashlight", 25 ],
+      { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "hotplate", 20 ],
       [ "coffeemaker", 25 ],
       [ "textbook_firstaid", 2 ],
@@ -1533,9 +1533,7 @@
     "id": "elecsto_cameras",
     "type": "item_group",
     "//": "For s_electronics shops",
-    "ammo": 75,
-    "magazine": 100,
-    "items": [ [ "camera", 75 ], [ "camera_pro", 25 ] ]
+    "items": [ { "item": "camera", "prob": 75, "charges": 150 }, { "item": "camera_pro", "prob": 25, "charges": 150 } ]
   },
   {
     "id": "elecsto_lights",
@@ -1543,7 +1541,12 @@
     "//": "For s_electronics shops",
     "ammo": 75,
     "magazine": 100,
-    "items": [ [ "flashlight", 95 ], [ "wearable_light", 65 ], [ "floodlight", 10 ], [ "atomic_light", 1 ] ]
+    "items": [
+      { "item": "flashlight", "prob": 95, "charges": 300 },
+      [ "wearable_light", 65 ],
+      [ "floodlight", 10 ],
+      [ "atomic_light", 1 ]
+    ]
   },
   {
     "id": "elecsto_pcs",
@@ -1569,8 +1572,8 @@
     "magazine": 100,
     "items": [
       [ "portable_game", 65 ],
-      [ "cell_phone", 30 ],
-      [ "smart_phone", 65 ],
+      { "item": "cell_phone", "prob": 30, "charges": 150 },
+      { "item": "smart_phone", "prob": 65, "charges": 120 },
       [ "mp3", 65 ],
       [ "radio_car_box", 35 ],
       [ "vibrator", 1 ]
@@ -1614,7 +1617,7 @@
       [ "amplifier", 7 ],
       [ "transponder", 5 ],
       [ "receiver", 5 ],
-      [ "soldering_iron", 65 ],
+      { "item": "soldering_iron", "prob": 65, "charges": [ 0, 50 ] },
       [ "solder_wire", 50 ],
       [ "superglue", 55 ],
       [ "screwdriver", 60 ],
@@ -1694,7 +1697,7 @@
     "id": "ic_merch",
     "//": "for cs_internet_cafe",
     "items": [
-      [ "cell_phone", 20 ],
+      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
       [ "mag_computer", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
       [ "radio", 20 ],
@@ -1793,10 +1796,10 @@
     "type": "item_group",
     "items": [
       [ "magnifying_glass", 2 ],
-      [ "sewing_kit", 1 ],
+      { "item": "sewing_kit", "prob": 1, "charges-min": 0 },
       [ "scissors", 1 ],
       [ "phonebook", 2 ],
-      [ "flashlight", 2 ],
+      { "item": "flashlight", "prob": 2, "charges": [ 0, 300 ] },
       [ "petpack", 1 ],
       [ "mag_comic", 5 ]
     ]
@@ -1868,9 +1871,9 @@
       { "group": "tailoring_fabric", "prob": 30 },
       [ "awl_steel", 10 ],
       { "item": "loom_frame", "prob": 2 },
-      [ "sewing_kit", 1 ],
+      { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       { "item": "shed_stick", "prob": 2 },
-      [ "tailors_kit", 9 ],
+      { "item": "tailors_kit", "prob": 9, "charges-min": 0 },
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],

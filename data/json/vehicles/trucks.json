@@ -588,7 +588,7 @@
       { "x": 0, "y": 1, "chance": 30, "items": [ "folding_poncho" ] },
       { "x": 0, "y": 1, "chance": 10, "items": [ "folding_poncho" ] },
       { "x": 0, "y": 1, "chance": 30, "items": [ "towel" ] },
-      { "x": 0, "y": 1, "chance": 10, "items": [ "heavy_flashlight" ] },
+      { "x": 0, "y": 1, "chance": 10, "items": [ "heavy_flashlight" ], "ammo": 100 },
       { "x": 0, "y": 1, "chance": 5, "items": [ "1st_aid" ] },
       { "x": 0, "y": 1, "chance": 50, "items": [ "coffee" ] },
       { "x": 0, "y": 1, "chance": 25, "items": [ "coffee" ] },

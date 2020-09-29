@@ -53,7 +53,7 @@
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
-      [ "misc_repairkit", 25 ],
+      { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "saw", 60 ],
       [ "screwdriver", 100 ],
@@ -151,12 +151,12 @@
       [ "binoculars", 15 ],
       [ "canteen", 25 ],
       [ "e_tool", 20 ],
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       [ "goggles_nv", 5 ],
       [ "hand_crank_charger", 15 ],
       { "item": "handflare", "prob": 20, "charges": 300 },
       [ "hatchet", 10 ],
-      [ "heavy_flashlight", 15 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
       [ "knife_rambo", 10 ],
@@ -221,10 +221,10 @@
       [ "funnel", 200 ],
       [ "hand_drill", 10 ],
       [ "boltcutters", 150 ],
-      [ "flashlight", 100 ],
-      [ "heavy_flashlight", 60 ],
+      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] },
       [ "magnifying_glass", 20 ],
-      [ "soldering_iron", 150 ],
+      { "item": "soldering_iron", "prob": 150, "charges": [ 0, 50 ] },
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
       [ "clamp", 10 ],
@@ -237,7 +237,7 @@
     "//": "Portable tools used by electricians and for electronics repair",
     "items": [
       { "group": "tools_common", "prob": 100 },
-      [ "soldering_iron", 100 ],
+      { "item": "soldering_iron", "prob": 100, "charges": [ 0, 50 ] },
       [ "magnifying_glass", 100 ],
       [ "voltmeter", 100 ],
       [ "recharge_station", 10 ],
@@ -333,10 +333,10 @@
       [ "candle", 70 ],
       [ "electric_lantern", 20 ],
       { "item": "handflare", "prob": 50, "charges": 300 },
-      [ "flashlight", 100 ],
+      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "gasoline_lantern", 10 ],
       { "item": "glowstick", "prob": 60, "charges": 1400 },
-      [ "heavy_flashlight", 30 ],
       [ "oil_lamp", 10 ],
       [ "wearable_light", 15 ]
     ]
@@ -345,7 +345,11 @@
     "id": "tools_lighting_industrial",
     "type": "item_group",
     "//": "Light sources used as industrial working equipment.",
-    "items": [ [ "flashlight", 100 ], [ "heavy_flashlight", 40 ], [ "wearable_light", 60 ] ]
+    "items": [
+      { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      [ "wearable_light", 60 ]
+    ]
   },
   {
     "id": "tools_survival",
@@ -392,16 +396,22 @@
       { "item": "loom_frame", "prob": 5 },
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
-      [ "sewing_kit", 120 ],
+      { "item": "sewing_kit", "prob": 120, "charges-min": 0 },
       { "item": "shed_stick", "prob": 5 },
-      [ "tailors_kit", 10 ],
+      { "item": "tailors_kit", "prob": 10, "charges-min": 0 },
       [ "knitting_needles", 20 ]
     ]
   },
   {
     "id": "tools_commercial_tailor",
     "type": "item_group",
-    "items": [ [ "awl_steel", 150 ], [ "needle_curved", 30 ], [ "scissors", 1000 ], [ "sewing_kit", 10 ], [ "tailors_kit", 120 ] ]
+    "items": [
+      [ "awl_steel", 150 ],
+      [ "needle_curved", 30 ],
+      [ "scissors", 1000 ],
+      { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
+      { "item": "tailors_kit", "prob": 120, "charges-min": 0 }
+    ]
   },
   {
     "type": "item_group",
@@ -426,7 +436,7 @@
       [ "geiger_off", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
-      [ "camera", 3 ],
+      { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
       [ "thermos", 5 ],
@@ -484,16 +494,16 @@
       [ "matches", 10 ],
       [ "glasses_safety", 20 ],
       [ "duct_tape", 8 ],
-      [ "misc_repairkit", 15 ],
+      { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       [ "welder", 10 ],
-      [ "soldering_iron", 8 ],
+      { "item": "soldering_iron", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "extinguisher", "prob": 10, "charges": 100 },
       [ "magnifying_glass", 10 ],
       [ "multitool", 20 ],
       [ "screwdriver_set", 20 ],
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "mobile_memory_card_science", 40 ],
-      [ "camera_pro", 2 ],
+      { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
       [ "element", 5 ],
       [ "light_battery_cell", 10 ],
       [ "goggles_welding", 20 ],
@@ -508,7 +518,7 @@
     "id": "hand_tools",
     "type": "item_group",
     "items": [
-      [ "flashlight", 35 ],
+      { "item": "flashlight", "prob": 35, "charges": [ 0, 300 ] },
       [ "wrench", 50 ],
       [ "hammer", 40 ],
       [ "saw", 50 ],

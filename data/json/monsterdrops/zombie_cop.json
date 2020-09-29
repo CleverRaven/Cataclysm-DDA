@@ -33,7 +33,7 @@
       [ "bandages", 10 ],
       [ "adhesive_bandages", 10 ],
       [ "tacvest", 5 ],
-      [ "heavy_flashlight", 35 ],
+      { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
       [ "holster", 25 ],
       [ "kevlar", 35 ],
       [ "armguard_cut_resistant", 2 ],
@@ -124,7 +124,7 @@
       },
       {
         "collection": [
-          { "item": "heavy_flashlight", "prob": 20 },
+          { "item": "heavy_flashlight", "prob": 20, "charges": [ 0, 300 ] },
           { "item": "airhorn", "prob": 5 },
           { "item": "two_way_radio", "prob": 30 },
           { "item": "whistle", "prob": 5 },

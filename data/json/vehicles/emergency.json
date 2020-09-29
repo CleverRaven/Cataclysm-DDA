@@ -353,7 +353,13 @@
       { "x": -1, "y": 1, "chance": 8, "items": [ "smoxygen_tank", "1st_aid" ] },
       { "x": -1, "y": 1, "chance": 12, "items": [ "extinguisher" ] },
       { "x": -4, "y": 2, "chance": 4, "item_groups": [ "fireman_gear" ] },
-      { "x": -4, "y": 0, "chance": 8, "items": [ "flashlight", "oxygen_tank", "smoxygen_tank", "1st_aid" ] },
+      {
+        "x": -4,
+        "y": 0,
+        "chance": 8,
+        "items": [ "flashlight", "oxygen_tank", "smoxygen_tank", "1st_aid" ],
+        "ammo": 100
+      },
       { "x": -4, "y": -1, "chance": 4, "item_groups": [ "fireman_gear" ] },
       {
         "x": -5,

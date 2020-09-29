@@ -872,7 +872,7 @@
       [ "paper", 30 ],
       [ "rolling_paper", 20 ],
       { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges": [ 0, 300 ] },
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
@@ -1178,8 +1178,8 @@
       [ "bandana", 10 ],
       [ "mp3", 10 ],
       [ "portable_game", 5 ],
-      [ "cell_phone", 1 ],
-      [ "smart_phone", 5 ],
+      { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "smart_phone", "prob": 5, "charges-min": 0 },
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
       { "group": "tinware", "prob": 5 },
@@ -1271,11 +1271,11 @@
       [ "string_36", 40 ],
       [ "yarn", 40 ],
       { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
-      [ "sewing_kit", 30 ],
+      { "item": "sewing_kit", "prob": 30, "charges": [ 0, 25 ] },
       [ "rag", 30 ],
       [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
-      [ "tailors_kit", 20 ]
+      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -1295,7 +1295,7 @@
       [ "thread", 20 ],
       [ "purse", 20 ],
       [ "shavingkit", 10 ],
-      [ "sewing_kit", 10 ],
+      { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
       { "group": "harddrugs", "prob": 5 },
@@ -1554,14 +1554,14 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "camera_pro", 90 ],
+      { "item": "camera_pro", "prob": 90, "charges": [ 0, 150 ] },
       [ "hot_pants_leather", 50 ],
       [ "photo_album", 50 ],
       [ "sports_bra", 50 ],
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
-      [ "camera", 30 ],
-      [ "flashlight", 30 ],
+      { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
+      { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
       [ "binoculars", 20 ]
     ]
   },
@@ -1606,6 +1606,12 @@
     "id": "gear_butler",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "knife_butcher", 35 ], [ "cane", 25 ], [ "umbrella", 20 ], [ "heavy_flashlight", 15 ], [ "candlestick", 5 ] ]
+    "items": [
+      [ "knife_butcher", 35 ],
+      [ "cane", 25 ],
+      [ "umbrella", 20 ],
+      { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
+      [ "candlestick", 5 ]
+    ]
   }
 ]
