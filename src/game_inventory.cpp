@@ -488,25 +488,6 @@ item_location game_menus::inv::disassemble( Character &p )
 }
 
 
-/*CANNOT BE PLACED AT CONSUMPTION.CPP AS IT REQUIRES CONVERT_VOLUME, NOT DEFINED HERE.
-PLEASE PLACE THIS SOMEWHERE MORE APPROPRIATE, WHERE CONVERT_VOLUME IS DEFINED*/
-int Character::compute_calories_per_effective_volume( const item &food ) const
-{
-    /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
-    stomach fullness source code. Look at issue #44365*/
-    const nutrients nutr = compute_effective_nutrients( food );
-    const int kcalories = nutr.kcal;
-    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
-                              5_ml : 0_ml;
-    // Water volume is ignored.
-    units::volume food_vol = food.volume() - water_vol * food.count();
-    const double converted_volume = round_up( convert_volume( food_vol.value() / food.count() ), 2 );
-    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = converted_volume * energy_density_ratio;
-    return std::round( kcalories / effective_volume );
-}
-
-
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -573,7 +554,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
                     return string_format( "%d", calories_per_effective_volume );
                 }
-                std::string result = display_satiety_bar( calories_per_effective_volume );
+                std::string result = satiety_bar( calories_per_effective_volume );
                 // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
                 if( utf8_width( this_cell_title ) > 5 ) {
                     result += std::string( utf8_width( this_cell_title ) - 5, ' ' );

@@ -48,6 +48,7 @@
 #include "translations.h"
 #include "units.h"
 #include "units_fwd.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
@@ -1252,6 +1253,23 @@ void Character::modify_morale( item &food, const int nutr )
         }
         add_morale( MORALE_HONEY, honey_fun, 100 );
     }
+}
+
+int Character::compute_calories_per_effective_volume( const item &food ) const
+{
+    /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
+    stomach fullness source code. Look at issue #44365*/
+    const nutrients nutr = compute_effective_nutrients( food );
+    const int kcalories = nutr.kcal;
+    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
+                              5_ml : 0_ml;
+    // Water volume is ignored.
+    units::volume food_vol = food.volume() - water_vol * food.count();
+    // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
+    const double converted_volume = round_up( ( food_vol.value() / food.count() ) / 1000, 2 );
+    const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+    const double effective_volume = converted_volume * energy_density_ratio;
+    return std::round( kcalories / effective_volume );
 }
 
 // Used when determining stomach fullness from eating.
