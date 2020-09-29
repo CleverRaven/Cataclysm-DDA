@@ -223,7 +223,7 @@
       [ "wrench", 30 ],
       [ "hacksaw", 50 ],
       [ "xacto", 10 ],
-      [ "flashlight", 40 ],
+      { "item": "flashlight", "prob": 40, "charges-min": 0 },
       [ "crowbar", 30 ],
       [ "carver_off", 25 ],
       [ "press", 40 ],

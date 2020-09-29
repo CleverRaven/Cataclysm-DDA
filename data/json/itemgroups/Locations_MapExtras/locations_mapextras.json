@@ -149,7 +149,7 @@
       [ "lighter", 100 ],
       [ "ref_lighter", 20 ],
       [ "matches", 50 ],
-      [ "flashlight", 100 ],
+      { "item": "flashlight", "prob": 100, "charges-min": 0 },
       [ "radio", 20 ],
       [ "rollmat", 60 ],
       [ "tent_kit", 10 ],

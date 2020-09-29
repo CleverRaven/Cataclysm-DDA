@@ -109,7 +109,7 @@
       [ "coffeemaker", 30 ],
       [ "food_processor", 30 ],
       [ "waffleiron", 25 ],
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       [ "pastaextruder", 10 ],

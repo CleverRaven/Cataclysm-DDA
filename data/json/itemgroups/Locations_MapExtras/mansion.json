@@ -872,7 +872,7 @@
       [ "paper", 30 ],
       [ "rolling_paper", 20 ],
       { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
@@ -1561,7 +1561,7 @@
       [ "panties", 50 ],
       [ "mag_porn", 40 ],
       { "item": "camera", "prob": 30, "charges-min": 0 },
-      [ "flashlight", 30 ],
+      { "item": "flashlight", "prob": 30, "charges-min": 0 },
       [ "binoculars", 20 ]
     ]
   },
@@ -1606,6 +1606,12 @@
     "id": "gear_butler",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "knife_butcher", 35 ], [ "cane", 25 ], [ "umbrella", 20 ], [ "heavy_flashlight", 15 ], [ "candlestick", 5 ] ]
+    "items": [
+      [ "knife_butcher", 35 ],
+      [ "cane", 25 ],
+      [ "umbrella", 20 ],
+      { "item": "heavy_flashlight", "prob": 15, "charges-min": 0 },
+      [ "candlestick", 5 ]
+    ]
   }
 ]

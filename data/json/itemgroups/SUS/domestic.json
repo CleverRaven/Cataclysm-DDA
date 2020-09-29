@@ -101,7 +101,7 @@
       { "item": "screwdriver", "prob": 70 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },
-      { "item": "flashlight", "prob": 75 },
+      { "item": "flashlight", "prob": 75, "charges-min": 0 },
       { "item": "hammer", "prob": 75 },
       { "item": "permanent_marker", "prob": 75, "charges-min": 50 },
       { "item": "permanent_marker", "prob": 40, "charges-min": 50 },

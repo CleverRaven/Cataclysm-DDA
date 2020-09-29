@@ -539,7 +539,7 @@
       [ "fish_smoked", 1 ],
       [ "fishspear", 1 ],
       [ "flashbang", 1 ],
-      [ "flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
       [ "flask_hip", 5 ],
       [ "flour", 10 ],
       [ "flyer", 1 ],

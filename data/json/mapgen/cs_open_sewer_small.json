@@ -30,8 +30,8 @@
     "type": "item_group",
     "id": "os_items",
     "items": [
-      [ "flashlight", 50 ],
-      [ "heavy_flashlight", 40 ],
+      { "item": "flashlight", "prob": 50, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 40, "charges-min": 0 },
       [ "gloves_work", 30 ],
       [ "gloves_rubber", 60 ],
       [ "boots_rubber", 60 ],

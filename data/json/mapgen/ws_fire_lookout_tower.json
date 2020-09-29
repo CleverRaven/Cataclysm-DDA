@@ -93,8 +93,8 @@
     "id": "flt_loot_misc",
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 20 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 20, "charges-min": 0 },
       [ "crowbar", 20 ],
       [ "shovel", 20 ],
       [ "e_tool", 20 ],

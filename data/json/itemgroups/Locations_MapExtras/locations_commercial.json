@@ -19,7 +19,7 @@
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 5 },
       { "item": "matches", "prob": 60 },
-      { "item": "flashlight", "prob": 40 },
+      { "item": "flashlight", "prob": 40, "charges-min": 0 },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "tazer", "prob": 3 },
       { "item": "mp3", "prob": 18 },
@@ -85,7 +85,7 @@
       [ "toilet_paper", 10 ],
       { "item": "handflare", "prob": 15, "charges": 300 },
       [ "duct_tape", 25 ],
-      [ "flashlight", 25 ],
+      { "item": "flashlight", "prob": 25, "charges-min": 0 },
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
       [ "superglue", 25 ],
@@ -667,8 +667,8 @@
       [ "howto_traps", 14 ],
       [ "recipe_bows", 7 ],
       [ "recipe_arrows", 7 ],
-      [ "flashlight", 40 ],
-      [ "heavy_flashlight", 30 ],
+      { "item": "flashlight", "prob": 40, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 30, "charges-min": 0 },
       [ "survival_kit", 35 ],
       [ "premium_survival_kit", 8 ],
       [ "mess_kit", 9 ],
@@ -1204,7 +1204,7 @@
       { "item": "catfood_dry", "prob": 5, "charges": 24, "container-item": "bag_plastic" },
       [ "birdfood", 15 ],
       [ "dog_whistle", 15 ],
-      [ "flashlight", 5 ]
+      { "item": "flashlight", "prob": 5, "charges-min": 0 }
     ]
   },
   {
@@ -1303,8 +1303,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 10, "charges-min": 0 },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1331,8 +1331,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 10, "charges-min": 0 },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1387,8 +1387,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 10, "charges-min": 0 },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1417,8 +1417,8 @@
       [ "rag", 30 ],
       [ "jack", 20 ],
       [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
+      { "item": "flashlight", "prob": 20, "charges-min": 0 },
+      { "item": "heavy_flashlight", "prob": 10, "charges-min": 0 },
       [ "jumper_cable", 20 ],
       [ "jumper_cable_heavy", 10 ],
       [ "pliers", 10 ],
@@ -1506,7 +1506,7 @@
       { "item": "sewing_kit", "prob": 15, "charges-min": 0 },
       [ "scissors", 10 ],
       [ "gasoline_lantern", 7 ],
-      [ "flashlight", 25 ],
+      { "item": "flashlight", "prob": 25, "charges-min": 0 },
       [ "hotplate", 20 ],
       [ "coffeemaker", 25 ],
       [ "textbook_firstaid", 2 ],
@@ -1541,7 +1541,12 @@
     "//": "For s_electronics shops",
     "ammo": 75,
     "magazine": 100,
-    "items": [ [ "flashlight", 95 ], [ "wearable_light", 65 ], [ "floodlight", 10 ], [ "atomic_light", 1 ] ]
+    "items": [
+      { "item": "flashlight", "prob": 95, "charges-min": 0 },
+      [ "wearable_light", 65 ],
+      [ "floodlight", 10 ],
+      [ "atomic_light", 1 ]
+    ]
   },
   {
     "id": "elecsto_pcs",
@@ -1794,7 +1799,7 @@
       { "item": "sewing_kit", "prob": 1, "charges-min": 0 },
       [ "scissors", 1 ],
       [ "phonebook", 2 ],
-      [ "flashlight", 2 ],
+      { "item": "flashlight", "prob": 2, "charges-min": 0 },
       [ "petpack", 1 ],
       [ "mag_comic", 5 ]
     ]
