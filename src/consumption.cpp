@@ -1282,7 +1282,7 @@ int Character::compute_calories_per_effective_volume( const item &food ) const
     // Water volume is ignored.
     units::volume food_vol = food.volume() - water_vol * food.count();
     // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
-    const double converted_volume = round_up( ( food_vol.value() / food.count() ) * 0.001, 2 );
+    const double converted_volume = round_up((static_cast<float>(food_vol.value()) / food.count()) * 0.001, 2);
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
     const double effective_volume = converted_volume * energy_density_ratio;
     return std::round( kcalories / effective_volume );
