@@ -22,13 +22,13 @@ add_custom_target (
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-# Generate cataclysm-dda.pot
+# Generate cataclysm-bn.pot
 add_custom_target (
     translations
     COMMAND xgettext --default-domain="cataclysm-dda"
                      --sort-by-file
                      --add-comments="~"
-                     --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot"
+                     --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot"
                      --keyword="_"
                      --keyword="pgettext:1c,2"
                      --keyword="ngettext:1,2"
@@ -77,7 +77,7 @@ foreach (LANG ${LANGUAGES})
       add_custom_command (
         TARGET translations_prepare
         PRE_BUILD
-        COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
+        COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-bn.pot --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
       )
     ENDIF (${LANG} STREQUAL en)

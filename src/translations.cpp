@@ -219,7 +219,7 @@ void set_language()
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
     locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
-                              "/LC_MESSAGES/cataclysm-dda.mo" );
+                              "/LC_MESSAGES/cataclysm-bn.mo" );
 #elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
     if( !PATH_INFO::base_path().empty() ) {
         locale_dir = PATH_INFO::base_path() + "share/locale";
@@ -231,9 +231,9 @@ void set_language()
 #endif
 
     const char *locale_dir_char = locale_dir.c_str();
-    bindtextdomain( "cataclysm-dda", locale_dir_char );
-    bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
-    textdomain( "cataclysm-dda" );
+    bindtextdomain( "cataclysm-bn", locale_dir_char );
+    bind_textdomain_codeset( "cataclysm-bn", "UTF-8" );
+    textdomain( "cataclysm-bn" );
 
     reload_names();
 
