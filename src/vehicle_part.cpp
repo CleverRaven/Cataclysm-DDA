@@ -27,6 +27,7 @@
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
+#include "fault.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
@@ -422,6 +423,16 @@ bool vehicle_part::fill_with( item &liquid, int qty )
 const std::set<fault_id> &vehicle_part::faults() const
 {
     return base.faults;
+}
+
+const bool &vehicle_part::has_fault_flag( const std::string searched_flag ) const
+{
+    for( const fault_id &fault : faults() ) {
+            if( fault->has_flag( searched_flag ) ) {
+                return true;
+            }
+    }
+	return false;
 }
 
 std::set<fault_id> vehicle_part::faults_potential() const

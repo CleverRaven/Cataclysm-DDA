@@ -302,6 +302,9 @@ struct vehicle_part {
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
+		
+		/** Does any of the faults have this flag */
+		const bool &has_fault_flag( const std::string searched_flag ) const;
 
         /** Faults which could potentially occur with this part (if any) */
         std::set<fault_id> faults_potential() const;

@@ -49,7 +49,8 @@
         "skills": [ { "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 } ],
         "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
       }
-    ]
+    ],
+	"flags": [ "NO_START" ]
   },
   {
     "id": "fault_engine_pump_diesel",

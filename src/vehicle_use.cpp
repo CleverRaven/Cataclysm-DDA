@@ -976,7 +976,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Immobilizers need removing before the vehicle can be started
-    if( eng.faults().count( fault_engine_immobiliser ) ) {
+    if( eng.has_fault_flag( "NO_START" ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
