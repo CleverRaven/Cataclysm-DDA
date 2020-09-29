@@ -87,11 +87,6 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id fuel_type_mana( "mana" );
 
-static const fault_id fault_engine_belt_drive( "fault_engine_belt_drive" );
-static const fault_id fault_engine_filter_air( "fault_engine_filter_air" );
-static const fault_id fault_engine_filter_fuel( "fault_engine_filter_fuel" );
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
@@ -4501,7 +4496,7 @@ int vehicle::engine_fuel_usage( int e ) const
     const auto &info = part_info( engines[ e ] );
 
     int usage = info.energy_consumption;
-    if( parts[ engines[ e ] ].faults().count( fault_engine_filter_air ) ) {
+    if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }
 

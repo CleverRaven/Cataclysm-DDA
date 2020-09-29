@@ -78,12 +78,6 @@ static const itype_id itype_welder( "welder" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_tied( "tied" );
 
-static const fault_id fault_engine_pump_diesel( "fault_engine_pump_diesel" );
-static const fault_id fault_engine_glow_plug( "fault_engine_glow_plug" );
-static const fault_id fault_engine_immobiliser( "fault_engine_immobiliser" );
-static const fault_id fault_engine_pump_fuel( "fault_engine_pump_fuel" );
-static const fault_id fault_engine_starter( "fault_engine_starter" );
-
 static const skill_id skill_mechanics( "mechanics" );
 
 enum change_types : int {
