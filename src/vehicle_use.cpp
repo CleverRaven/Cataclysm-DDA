@@ -894,7 +894,7 @@ double vehicle::engine_cold_factor( const int e ) const
     }
 
     int eff_temp = get_weather().get_temperature( get_player_character().pos() );
-    if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
+    if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
@@ -1004,8 +1004,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engines always fail to start with faulty fuel pumps
-    if( eng.faults().count( fault_engine_pump_fuel ) ||
-        eng.faults().count( fault_engine_pump_diesel ) ) {
+    if( eng.has_fault_flag( "BAD_FUEL_PUMP" ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );

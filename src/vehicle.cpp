@@ -1195,7 +1195,7 @@ bool vehicle::is_alternator_on( const int a ) const
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
                fuel_left( eng.fuel_current() ) &&
-               !eng.faults().count( fault_engine_belt_drive );
+               !eng.has_fault_flag( "NO_ALTERNATOR_BELT" );
     } );
 }
 
@@ -3417,7 +3417,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
-                if( parts[ e ].faults().count( fault_engine_filter_air ) ) {
+                if( parts[ e ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
                     fcon *= 2;
                 }
             }

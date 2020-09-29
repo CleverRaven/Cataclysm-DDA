@@ -16,7 +16,8 @@
           "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "NO_ALTERNATOR_BELT" ]
   },
   {
     "id": "fault_engine_glow_plug",
@@ -32,7 +33,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_COLD_START" ]
   },
   {
     "id": "fault_engine_immobiliser",
@@ -66,7 +68,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
     "id": "fault_engine_filter_air",
@@ -85,7 +88,8 @@
           "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
         }
       }
-    ]
+    ],
+    "flags": [ "DOUBLE_FUEL_CONSUMPTION", "EXTRA_EXHAUST" ]
   },
   {
     "id": "fault_engine_filter_fuel",
@@ -120,7 +124,8 @@
         "skills": [ { "id": "mechanics", "level": 4 } ],
         "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
       }
-    ]
+    ],
+    "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
     "id": "fault_engine_pump_water",
