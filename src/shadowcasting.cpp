@@ -1,12 +1,11 @@
 #include "shadowcasting.h"
 
-#include <list>
-
 #include "cached_options.h"
 #include "cuboid_rectangle.h"
 #include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
+#include "list.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -60,7 +59,8 @@ struct span {
  * cast_vertical_zlight_segment to avoid as much code duplication as possible
  */
 template<typename T, bool( *is_transparent )( const T &, const T & ), T( *accumulate )( const T &, const T &, const int & )>
-static void split_span( std::list<span<T>> &spans, typename std::list<span<T>>::iterator &this_span,
+static void split_span( cata::list<span<T>> &spans,
+                        typename cata::list<span<T>>::iterator &this_span,
                         T &current_transparency, const T &new_transparency, const T &last_intensity,
                         const int distance, slope &new_start_minor,
                         const slope &trailing_edge_major, const slope &leading_edge_major,
@@ -165,7 +165,7 @@ void cast_horizontal_zlight_segment(
     // we are interested in.  Then as changes in transparency are encountered, we truncate
     // that initial span and insert new spans before/after it in the list, removing any that
     // are no longer needed as we go.
-    std::list<span<T>> spans = { {
+    cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
             LIGHT_TRANSPARENCY_OPEN_AIR
@@ -347,7 +347,7 @@ void cast_vertical_zlight_segment(
     // we are interested in.  Then as changes in transparency are encountered, we truncate
     // that initial span and insert new spans before/after it in the list, removing any that
     // are no longer needed as we go.
-    std::list<span<T>> spans = { {
+    cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
             LIGHT_TRANSPARENCY_OPEN_AIR
