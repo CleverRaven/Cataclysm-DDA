@@ -8404,19 +8404,19 @@ void Character::set_cardio( int new_cardio )
 void Character::update_cardio()
 {
     const int bmr = get_bmr();
-    //health scaling constant, value tbd
-    constexpr float health_const = 1;
-    //skill scaling constant, value tbd
-    constexpr float skill_const = 10;
-    //THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
-    const int athletics_mod = get_skill_level( skill_swimming ) * skill_const;
-    const int health_effect = get_healthy() * health_const;
-    //VERY WIP - traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
-    // Rename max_stamina_modifier
+    // health scaling constant, value tbd
+    constexpr float health_mult = 1;
+    // skill scaling constant, value tbd
+    constexpr float skill_mult = 10;
+    // THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
+    const int athletics_mod = get_skill_level( skill_swimming ) * skill_mult;
+    const int health_effect = get_healthy() * health_mult;
+    // VERY WIP - traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    // TODO: Rename max_stamina_modifier
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     // with no traits : trait_mod = 0. With indefatigable: trait_mod = 40 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -50 (too severe??).
-    int trait_mod = ( mutation_value( max_stamina_modifier ) - 1 ) * 200;
-    //WIP
+    const int trait_mod = std::round(( mutation_value( max_stamina_modifier ) - 1.0f ) * 200);
+    //WIP. Currently no proficiencies seem suitable as of build 11051
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
     set_cardio( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
