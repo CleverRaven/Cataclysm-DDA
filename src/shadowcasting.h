@@ -28,9 +28,9 @@ enum class quadrant : int {
 };
 
 enum class vertical_direction {
-    UP = 1,
-    DOWN = 2,
-    BOTH = 3
+    UP,
+    DOWN,
+    BOTH
 };
 
 struct four_quadrants {
