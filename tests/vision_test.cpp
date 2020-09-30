@@ -86,7 +86,6 @@ static const tile_predicate set_up_tiles_common =
     fail;
 
 struct vision_test_flags {
-    bool no_3d = false;
     bool crouching = false;
     bool headlamp = false;
 };
@@ -139,12 +138,9 @@ struct vision_test_case {
             player_add_headlamp();
         }
 
-        // Disabling 3d tests for now since 3d sight casting is actually
-        // different (it sees round corners more).
-        fov_3d = false;
-        if( !flags.no_3d ) {
-            fov_3d = GENERATE( false, true );
-        }
+        // test both 2d and 3d cases
+        fov_3d = GENERATE( false, true );
+
         std::stringstream section_name;
         section_name << section_prefix;
         section_name << ( fov_3d ? "3d" : "2d" ) << "_casting__";
