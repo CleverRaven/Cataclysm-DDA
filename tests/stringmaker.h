@@ -78,6 +78,14 @@ struct StringMaker<time_duration> {
 };
 
 template<>
+struct StringMaker<time_point> {
+    static std::string convert( const time_point &d ) {
+        return string_format(
+                   "time_point( %d ) [%s]", to_turns<int>( d - calendar::turn_zero ), to_string( d ) );
+    }
+};
+
+template<>
 struct StringMaker<talk_response> {
     static std::string convert( const talk_response &r ) {
         return string_format( "talk_response( text=\"%s\" )", r.text );
