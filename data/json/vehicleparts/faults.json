@@ -17,7 +17,7 @@
         }
       }
     ],
-    "flags": [ "NO_ALTERNATOR_BELT" ]
+    "flags": [ "NO_ALTERNATOR_CHARGE" ]
   },
   {
     "id": "fault_engine_glow_plug",

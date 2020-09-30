@@ -1192,7 +1192,7 @@ bool vehicle::is_alternator_on( const int a ) const
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
                fuel_left( eng.fuel_current() ) &&
-               !eng.has_fault_flag( "NO_ALTERNATOR_BELT" );
+               !eng.has_fault_flag( "NO_ALTERNATOR_CHARGE" );
     } );
 }
 
