@@ -172,7 +172,6 @@
     "sound_ambient": true,
     "sound_id": "test_sound",
     "sound_variant": "not_default",
-    "effect_filter": [ "none" ],
     "targeted_monster_ids": [ "mon_test" ],
     "extra_effects": [ { "id": "test_fake_spell" } ],
     "affected_body_parts": [ "head" ],

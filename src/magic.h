@@ -87,8 +87,7 @@ enum class spell_target : int {
     ground,
     none,
     item,
-    fire,
-    blood,
+    field,
     num_spell_targets
 };
 
@@ -288,9 +287,6 @@ class spell_type
         magic_energy_type energy_source = magic_energy_type::none;
 
         damage_type dmg_type = damage_type::NONE;
-
-        // list of valid targets to be affected by the area of effect.
-        enum_bitset<spell_target> effect_targets;
 
         // list of valid targets enum
         enum_bitset<spell_target> valid_targets;
@@ -518,7 +514,6 @@ class spell
         // is the target valid for this spell?
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( spell_target t ) const;
-        bool is_valid_effect_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area

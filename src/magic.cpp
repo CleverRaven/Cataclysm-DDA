@@ -64,8 +64,7 @@ std::string enum_to_string<spell_target>( spell_target data )
         case spell_target::ground: return "ground";
         case spell_target::none: return "none";
         case spell_target::item: return "item";
-        case spell_target::fire: return "fd_fire";
-        case spell_target::blood: return "fd_blood";
+        case spell_target::field: return "field";
         case spell_target::num_spell_targets: break;
     }
     debugmsg( "Invalid valid_target" );
@@ -267,9 +266,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         effect = found_effect->second;
     }
 
-    const auto effect_targets_reader = enum_flags_reader<spell_target> { "effect_targets" };
-    optional( jo, was_loaded, "effect_filter", effect_targets, effect_targets_reader );
-
     const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
@@ -363,7 +359,6 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "sound_ambient", sound_ambient, sound_ambient_default );
     json.member( "sound_id", sound_id, sound_id_default );
     json.member( "sound_variant", sound_variant, sound_variant_default );
-    json.member( "effect_filter", effect_targets, enum_bitset<spell_target> {} );
     json.member( "targeted_monster_ids", targeted_monster_ids, std::set<mtype_id> {} );
     json.member( "extra_effects", additional_spells, std::vector<fake_spell> {} );
     if( !affected_bps.none() ) {
@@ -1120,11 +1115,6 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
         valid = is_valid_target( spell_target::ground );
     }
     return valid;
-}
-
-bool spell::is_valid_effect_target( spell_target t ) const
-{
-    return type->effect_targets[t];
 }
 
 bool spell::target_by_monster_id( const tripoint &p ) const

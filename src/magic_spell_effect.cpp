@@ -678,26 +678,30 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving creatures
-    bool can_target_creature = sp.is_valid_effect_target( spell_target::self ) ||
-                               sp.is_valid_effect_target( spell_target::ally ) ||
-                               sp.is_valid_effect_target( spell_target::hostile );
+    const bool can_target_self = sp.is_valid_target( spell_target::self );
+    const bool can_target_ally = sp.is_valid_target( spell_target::ally );
+    const bool can_target_hostile = sp.is_valid_target( spell_target::hostile );
+    const bool can_target_creature = can_target_self || can_target_ally || can_target_hostile;
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( get_player_character() );
-            bool valid = cr_att != Creature::Attitude::FRIENDLY &&
-                         sp.is_valid_effect_target( spell_target::hostile );
-            valid |= cr_att == Creature::Attitude::FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
-            valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
+            bool valid = cr_att != Creature::Attitude::FRIENDLY && can_target_hostile;
+            if( victim == &caster ) {
+                valid = can_target_self;
+            } else {
+                valid |= cr_att == Creature::Attitude::FRIENDLY && can_target_ally;
+                valid |= victim == &caster && can_target_self;
+            }
             if( valid ) {
                 victim->knock_back_to( to );
             }
         }
     }
 
-    map &here = get_map();
     // Moving items
-    if( sp.is_valid_effect_target( spell_target::item ) ) {
+    if( sp.is_valid_target( spell_target::item ) ) {
+        map &here = get_map();
         map_stack src_items = here.i_at( from );
         map_stack dst_items = here.i_at( to );
         for( const item &item : src_items ) {
@@ -706,22 +710,22 @@ static void spell_move( const spell &sp, const Creature &caster,
         src_items.clear();
     }
 
-    // Helper function to move particular field type if corresponding target flag is enabled.
-    auto move_field = [&sp, from, to, &here]( spell_target target, field_type_id fid ) {
-        if( !sp.is_valid_effect_target( target ) ) {
-            return;
-        }
-        auto &src_field = here.field_at( from );
-        if( field_entry *entry = src_field.find_field( fid ) ) {
-            int intensity = entry->get_field_intensity();
-            here.remove_field( from, fid );
-            here.set_field_intensity( to, fid, intensity );
-        }
-    };
     // Moving fields.
-    move_field( spell_target::fire, fd_fire );
-    move_field( spell_target::blood, fd_blood );
-    move_field( spell_target::blood, fd_gibs_flesh );
+    if( sp.is_valid_target( spell_target::field ) ) {
+        map &here = get_map();
+        field &src_field = here.field_at( from );
+        std::map<field_type_id, int> moving_fields;
+        for( const std::pair<const field_type_id, field_entry> &fd : src_field ) {
+            if( fd.first.is_valid() && !fd.first.id().is_null() ) {
+                const int intensity = fd.second.get_field_intensity();
+                moving_fields.emplace( fd.first, intensity );
+            }
+        }
+        for( const std::pair<const field_type_id, int> &fd : moving_fields ) {
+            here.remove_field( from, fd.first );
+            here.set_field_intensity( to, fd.first, fd.second );
+        }
+    }
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
