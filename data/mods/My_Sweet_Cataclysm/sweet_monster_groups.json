@@ -35,13 +35,16 @@
     "default": "mon_gum_spider_wolf"
   },
   {
+    "name": "GROUP_EGG_CHOC_COW",
+    "type": "monstergroup",
+    "default": "mon_cow_calf_choc"
+  },
+  {
     "name": "GROUP_COWS",
     "type": "monstergroup",
-    "default": "mon_null",
-    "is_safe": true,
     "monsters": [
-      { "monster": "mon_cow_choc", "freq": 100, "cost_multiplier": 10, "ends": 168 },
-      { "monster": "mon_cow_choc", "freq": 50, "cost_multiplier": 5, "starts": 168 }
+      { "monster": "mon_cow_choc", "freq": 50, "cost_multiplier": 10, "ends": 168 },
+      { "monster": "mon_cow_choc", "freq": 25, "cost_multiplier": 5, "starts": 168 }
     ]
   }
 ]
