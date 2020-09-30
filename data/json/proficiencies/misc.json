@@ -26,6 +26,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_plumbing",
+    "name": { "str": "Plumbing" },
+    "description": "Working with pipes and pipe fittings to transport fluids without leakage.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_pottery",
     "name": { "str": "Pottery" },
     "description": "Basic pottery, from shaping to working with slip to fuse pieces.",

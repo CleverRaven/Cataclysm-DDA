@@ -44,6 +44,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_spinning",
+    "name": { "str": "Spinning" },
+    "description": "The art of spinning fiber into thread.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_knitting",
     "name": { "str": "Knitting" },
     "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
