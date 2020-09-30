@@ -572,3 +572,38 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
 
     t.test_all();
 }
+
+TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
+{
+    /**
+     * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
+     */
+    vision_test_case t {
+        {
+            "---------",
+            "-#######-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#--U--#-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#######-",
+            "---------",
+        },
+        {
+            "666666666",
+            "661111166",
+            "611111116",
+            "611141116",
+            "611444116",
+            "611141116",
+            "611111116",
+            "661111166",
+            "666666666",
+        },
+        midday,
+        vision_test_flags::none
+    };
+
+    t.test_all();
+}
