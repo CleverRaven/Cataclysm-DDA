@@ -114,6 +114,7 @@
     "description": "The brains from a chocolate cow.  Despite being chocolate, this organ is far too lifelike and strangely warm for you to really want to eat it in this form.",
     "fun": -10,
     "price_postapoc": 20,
+    "spoils_in": "60 days",
     "rot_spawn": "GROUP_EGG_CHOC_COW",
     "rot_spawn_chance": 100
   },
@@ -128,6 +129,7 @@
     "fun": -2,
     "price_postapoc": 3,
     "charges": 4,
+    "spoils_in": "60 days",
     "rot_spawn": "GROUP_EGG_CHOC_COW",
     "rot_spawn_chance": 100
   },
@@ -141,6 +143,7 @@
     "description": "A stomach from a chocolate cow.  Despite being chocolate, this organ is far too lifelike and strangely warm for you to really want to eat it in this form.",
     "fun": -2,
     "price_postapoc": 3,
+    "spoils_in": "60 days",
     "proportional": { "weight": 2.0, "volume": 2.0, "calories": 2.0 },
     "rot_spawn": "GROUP_EGG_CHOC_COW",
     "rot_spawn_chance": 100
