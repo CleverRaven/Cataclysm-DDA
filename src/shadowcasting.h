@@ -27,6 +27,12 @@ enum class quadrant : int {
     default_ = NE
 };
 
+enum class vertical_direction {
+    UP,
+    DOWN,
+    BOTH
+};
+
 struct four_quadrants {
     four_quadrants() = default;
     explicit constexpr four_quadrants( float v ) : values{{v, v, v, v}} {}
@@ -127,6 +133,7 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, T numerator );
+    const tripoint &origin, int offset_distance, T numerator,
+    vertical_direction dir = vertical_direction::BOTH );
 
 #endif // CATA_SRC_SHADOWCASTING_H
