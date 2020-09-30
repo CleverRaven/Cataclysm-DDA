@@ -39,9 +39,9 @@ class map_test_case
         // struct that is supplied as an argument to the per-tile functions (see below)
         struct tile {
             // current char from the `setup`
-            char sc;
+            char setup_c;
             // current char from `expected_results`
-            char ec;
+            char expect_c;
             // current point in map coords
             tripoint p;
             // current point in local coords [0..width) [0..height)
@@ -210,14 +210,14 @@ static inline std::function<bool( Args ... )> operator||(
 namespace tiles
 {
 /**
- * Wraps the give function in another function that stores a char and compares input `tile::sc` to this char.
- * If `tile::sc` matches the char, underlying function is called (with forwarded arguments) and `true` is returned.
+ * Wraps the give function in another function that stores a char and compares input `tile::setup_c` to this char.
+ * If `tile::setup_c` matches the char, underlying function is called (with forwarded arguments) and `true` is returned.
  * Otherwise underlying function is not called and `false` is returned.
  *
  * Intended usage:
  * ```auto set_up_tile = ifchar('#', brick_wall + roof_above) || ifchar('.', floor); ```
  *
- * @param c char that is tested against `tile::sc`
+ * @param c char that is tested against `tile::setup_c`
  * @param f function to call when char matches
  * @return function that returns true when char is matched and false otherwise
  */
@@ -225,7 +225,7 @@ static inline std::function<bool( map_test_case::tile )> ifchar( char c,
         std::function<void( map_test_case::tile )> f )
 {
     return [ = ]( map_test_case::tile t ) {
-        if( t.sc == c ) {
+        if( t.setup_c == c ) {
             f( t );
             return true;
         }
@@ -275,7 +275,7 @@ static inline std::function<void( map_test_case::tile t )> ter_set(
  */
 static const std::function<bool( map_test_case::tile )> fail = []( map_test_case::tile t )
 {
-    INFO( "Char is not handled: " << t.sc );
+    INFO( "Char is not handled: " << t.setup_c );
     REQUIRE( false );
     return false;
 };

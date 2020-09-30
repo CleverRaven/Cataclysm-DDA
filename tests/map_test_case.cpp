@@ -14,7 +14,7 @@ tripoint map_test_case::get_origin()
 
     if( anchor_char ) {
         for_each_tile( tripoint_zero, [&]( map_test_case::tile & t ) {
-            if( t.sc == *anchor_char ) {
+            if( t.setup_c == *anchor_char ) {
                 if( res ) {
                     FAIL( "Origin char '" << *anchor_char << "' is found more than once in setup" );
                 }
@@ -53,8 +53,8 @@ void map_test_case::for_each_tile( tripoint tmp_origin,
 
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
-            tile.sc = setup[y][x];
-            tile.ec = expected_results[y][x];
+            tile.setup_c = setup[y][x];
+            tile.expect_c = expected_results[y][x];
             tile.p = tmp_origin + point( x, y );
             tile.p_local = point( x, y );
             callback( tile );
@@ -90,10 +90,12 @@ void map_test_case::do_internal_checks()
     REQUIRE( width > 0 );
 
     for( const std::string &line : setup ) {
+        CAPTURE( line );
         REQUIRE( line.size() == static_cast<size_t>( width ) );
     }
 
     for( const std::string &line : expected_results ) {
+        CAPTURE( line );
         REQUIRE( line.size() == static_cast<size_t>( width ) );
     }
 
@@ -149,8 +151,8 @@ void map_test_case::reflect_y()
 void map_test_case::set_anchor_char_from( const std::set<char> &chars )
 {
     for_each_tile( tripoint_zero, [&]( tile t ) {
-        if( chars.count( t.sc ) ) {
-            anchor_char = t.sc;
+        if( chars.count( t.setup_c ) ) {
+            anchor_char = t.setup_c;
         }
     } );
 }
@@ -286,6 +288,6 @@ std::string map_test_case_common::printers::floor( map_test_case &t, int zshift 
 std::string map_test_case_common::printers::expected( map_test_case &t )
 {
     return format_2d_array( t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & out ) {
-        out << t.ec;
+        out << t.expect_c;
     } ) );
 }

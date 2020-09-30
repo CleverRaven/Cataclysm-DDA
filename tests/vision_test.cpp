@@ -57,10 +57,10 @@ static std::string vision_test_info( map_test_case &t )
 
 static void assert_tile_light_level( map_test_case::tile t )
 {
-    if( t.ec < '0' || t.ec > '9' ) {
-        FAIL( "unexpected result char '" << t.ec << "'" );
+    if( t.expect_c < '0' || t.expect_c > '9' ) {
+        FAIL( "unexpected result char '" << t.expect_c << "'" );
     }
-    const int expected_level = t.ec - '0';
+    const int expected_level = t.expect_c - '0';
     REQUIRE( expected_level == get_actual_light_level( t ) );
 }
 

@@ -93,7 +93,7 @@ TEST_CASE( "map_test_case_transform_consistency", "[map_test_case]" )
                 Catch::UnorderedEquals( neigh_vec ) );
 
     tst.for_each_tile( [&]( mtc::tile t ) {
-        CHECK( t.ec == t.sc );
+        CHECK( t.expect_c == t.setup_c );
         CHECK( tiles.count( t.p ) == 1 );
     } );
 }
@@ -129,6 +129,6 @@ TEST_CASE( "map_test_case_transform_non_square", "[map_test_case]" )
     } .count( tst.get_origin() ) );
 
     tst.for_each_tile( [&]( mtc::tile t ) {
-        CHECK( t.ec - 'a' == t.sc - '1' );
+        CHECK( t.expect_c - 'a' == t.setup_c - '1' );
     } );
 }
