@@ -66,6 +66,31 @@
     "no_dmg_msg_npc": "The %1$s tries to slam into <npcname>, but fails to."
   },
   {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "inject",
+    "cooldown": 1,
+    "move_cost": 200,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 5, "armor_multiplier": 0.25 } ],
+    "body_parts": [
+      [ "FOOT_L", 2 ],
+      [ "FOOT_R", 2 ],
+      [ "LEG_L", 3 ],
+      [ "LEG_R", 3 ],
+      [ "HAND_L", 2 ],
+      [ "HAND_R", 2 ],
+      [ "HEAD", 3 ],
+      [ "ARM_L", 3 ],
+      [ "ARM_R", 3 ],
+      [ "TORSO", 8 ]
+    ],
+    "effects": [ { "id": "bleed", "duration": 10, "affect_hit_bp": true }, { "id": "poison", "duration": 30, "bp": "TORSO" } ],
+    "hit_dmg_u": "The %1$s stabs you!",
+    "hit_dmg_npc": "The %1$s stabs <npcname>!",
+    "no_dmg_msg_u": "The %1$s tries to stab you, but fails to penetrate your armor.",
+    "no_dmg_msg_npc": "The %1$s tries to stab <npcname>, but fails to penetrate their armor!."
+  },
+  {
     "id": "acid_spray",
     "type": "GUN",
     "copy-from": "fake_item",
