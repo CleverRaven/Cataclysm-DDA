@@ -39,7 +39,7 @@
     "name": "PLAYER_CARDIO_STAMINA_MOD",
     "info": "Sets the effect of cardio on stamina regeneration.",
     "stype": "float",
-    "value": 100
+    "value": 0.01
   },
   {
     "type": "EXTERNAL_OPTION",
