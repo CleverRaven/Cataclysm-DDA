@@ -8273,7 +8273,6 @@ int Character::get_stamina_max() const
     const int baseStamina = get_option< int >( player_max_stamina );
     const int staminaMod = get_option< int >( player_cardio_stamina_mod );
     int maxStamina = baseStamina + staminaMod * get_cardio();
-    maxStamina *= Character::mutation_value( max_stamina_modifier );
     maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
 }
@@ -8412,7 +8411,8 @@ void Character::update_cardio()
     //THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
     const int athletics_mod = get_skill_level( skill_swimming ) * skill_const;
     const int health_effect = get_healthy() * health_const;
-    //VERY WIP - SHOULD GOODCARDIO EXCLUSIVELY INFLUENCE CARDIO, OR SHOULD IT AFFECT STAMINA_MAX AS WELL?
+    //VERY WIP - traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    // Rename max_stamina_modifier
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     // with no traits : trait_mod = 0. With indefatigable: trait_mod = 40 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -50 (too severe??).
     int trait_mod = ( mutation_value( max_stamina_modifier ) - 1 ) * 200;
