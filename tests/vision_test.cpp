@@ -48,8 +48,8 @@ static std::string vision_test_info( map_test_case &t )
 
     out << "expected:\n" <<  printers::expected( t ) << '\n';
     out << "actual:\n" << printers::format_2d_array(
-    t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & out ) {
-        out << get_actual_light_level( t );
+    t.map_tiles_str( [&]( map_test_case::tile t, std::ostringstream & os ) {
+        os << get_actual_light_level( t );
     } ) ) << '\n';
 
     return out.str();
