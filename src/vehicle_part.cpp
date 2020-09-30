@@ -27,7 +27,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
-#include "fault.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
