@@ -1,0 +1,25 @@
+[
+  {
+    "id": "summon_subzero_talons",
+    "type": "SPELL",
+    "name": "Subzero Talons",
+    "description": "Your fingers stiffen as condensation freezes into claws, intensifying your naturally cold touch and protecting your hands from damage.",
+    "valid_targets": [ "none" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "subzero_talons",
+    "energy_source": "MANA",
+    "spell_class": "ICE_ELEMENTAL",
+    "difficulty": 7,
+    "max_level": 35,
+    "base_casting_time": 400,
+    "base_energy_cost": 400,
+    "energy_increment": -10,
+    "final_energy_cost": 250,
+    "min_duration": 18000,
+    "max_duration": 120000,
+    "duration_increment": 4500
+  }
+]
