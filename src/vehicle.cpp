@@ -4589,9 +4589,9 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         int mod = 4 * st; // strain
         const int base_staminaRegen = static_cast<int>
                                       ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
-        const int staminaRegen_mod = get_option<int>( "PLAYER_CARDIO_STAMINA_MOD" );
+        const float staminaRegen_mod = get_option<float>( "PLAYER_CARDIO_STAMINA_MOD" );
         const int actual_staminaRegen = base_staminaRegen + static_cast<int>
-                                        ( static_cast<float>( player_character.get_cardio() ) / staminaRegen_mod );
+                                        (  player_character.get_cardio()  / staminaRegen_mod );
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
