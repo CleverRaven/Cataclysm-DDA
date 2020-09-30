@@ -110,6 +110,8 @@ struct vision_test_case {
         g->place_player( tripoint( 60, 60, 0 ) );
         player_character.worn.clear(); // Remove any light-emitting clothing
         player_character.clear_effects();
+        player_character.clear_bionics();
+        player_character.clear_mutations(); // remove mutations that potentially affect vision
         clear_map();
         g->reset_light_level();
 
