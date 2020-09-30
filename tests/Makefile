@@ -15,6 +15,9 @@ ODIR ?= obj
 
 LDFLAGS += -L.
 
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
+
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
 # Add no-sign-compare to fix MXE issue when compiling
@@ -70,8 +73,8 @@ clean:
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
+# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header

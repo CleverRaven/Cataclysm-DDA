@@ -770,7 +770,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
-            here.add_field( *pnt, field_type_id( "fd_fire" ), 1 );
+            here.add_field( *pnt, fd_fire, 1 );
             mod_moves( -100 );
         } else {
             refund_power();
@@ -2643,7 +2643,12 @@ std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_i
 
 int Character::get_total_bionics_slots( const bodypart_id &bp ) const
 {
-    return bp->bionic_slots();
+    const bodypart_str_id &id = bp.id();
+    int mut_bio_slots = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_bio_slots += mut->bionic_slot_bonus( id );
+    }
+    return bp->bionic_slots() + mut_bio_slots;
 }
 
 int Character::get_free_bionics_slots( const bodypart_id &bp ) const

@@ -617,7 +617,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 120 }
     },
@@ -1035,7 +1035,7 @@
       "type": "place_monster",
       "monster_id": "mon_chickenbot",
       "friendly_msg": "The chicken walker rises to its feet, sways away from you and begins surveying the area.",
-      "hostile_msg": "The chicken walker whirrs and aims directly at you. Take cover!",
+      "hostile_msg": "The chicken walker whirrs and aims directly at you.  Take cover!",
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
@@ -1061,7 +1061,7 @@
       "type": "place_monster",
       "monster_id": "mon_tankbot",
       "friendly_msg": "The tank drone rolls out and begins acquiring targets.",
-      "hostile_msg": "The tank drone swivels its turret and aims directly at you. Don your brown pants!",
+      "hostile_msg": "The tank drone swivels its turret and aims directly at you.  Don your brown pants!",
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
@@ -1113,7 +1113,7 @@
       "type": "place_monster",
       "monster_id": "mon_tripod",
       "friendly_msg": "The tribot rises to its feet and scans the area for contaminants.",
-      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower. Turns out you hate the smell of napalm.",
+      "hostile_msg": "The tribot glowers down at you and ignites its flamethrower.  Turns out you hate the smell of napalm.",
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
@@ -2732,6 +2732,18 @@
     "bashing": 8,
     "to_hit": -4,
     "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "rag_bloody",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str": "blood soaked rag" },
+    "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
+    "material": [ "cotton" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "weight": "80 g",
+    "volume": "250 ml"
   },
   {
     "id": "hybridbow",

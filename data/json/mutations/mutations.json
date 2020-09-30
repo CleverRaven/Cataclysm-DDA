@@ -716,7 +716,7 @@
     "id": "STRICT_HUMANITARIAN",
     "name": { "str": "Strict Humanitarian" },
     "points": 1,
-    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -6752,15 +6752,6 @@
     "points": 99,
     "valid": false,
     "description": "Mind the bugs, would you kindly?",
-    "debug": true
-  },
-  {
-    "type": "mutation",
-    "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Very Strong Back" },
-    "points": 99,
-    "valid": false,
-    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
     "debug": true
   },
   {

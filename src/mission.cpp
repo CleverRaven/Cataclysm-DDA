@@ -392,10 +392,11 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
-            const inventory &tmp_inv = player_character.crafting_inventory();
-            // TODO: check for count_by_charges and use appropriate player::has_* function
-            if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
-                return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
+            item item_sought( type->item_id );
+            if( item_sought.count_by_charges() ) {
+                return player_character.charges_of( type->item_id ) >= item_count;
+            } else {
+                return player_character.has_amount( type->item_id, item_count );
             }
         }
         return true;

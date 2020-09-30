@@ -33,6 +33,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "messages.h"
 #include "morale_types.h"
 #include "npc.h"
 #include "optional.h"
@@ -54,6 +55,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -501,6 +503,103 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void gunmod_remove_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void gunmod_remove_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *it_gun = gun.get_item();
+    if( !it_gun ) {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gun" );
+        act.set_to_null();
+        return;
+    }
+    item *it_mod = nullptr;
+    std::vector<item *> mods = it_gun->gunmods();
+    if( gunmod_idx >= 0 && mods.size() > static_cast<size_t>( gunmod_idx ) ) {
+        it_mod = mods[gunmod_idx];
+    } else {
+        debugmsg( "ACT_GUNMOD_REMOVE lost target gunmod" );
+        act.set_to_null();
+        return;
+    }
+    act.set_to_null();
+    gunmod_remove( who, *it_gun, *it_mod );
+}
+
+bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
+{
+    if( gunmod.has_flag( "BRASS_CATCHER" ) ) {
+        // Exclude brass catchers so that removing them wouldn't spill the casings
+        return true;
+    }
+    // TODO: unloading gunmods happens instantaneously in some cases, but should take time
+    item_location loc = item_location( who, &gunmod );
+    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+}
+
+void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
+{
+    if( !gunmod_unload( who, mod ) ) {
+        return;
+    }
+
+    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
+    const itype *modtype = mod.type;
+
+    who.i_add_or_drop( mod );
+    gun.remove_item( mod );
+
+    // If the removed gunmod added mod locations, check to see if any mods are in invalid locations
+    if( !modtype->gunmod->add_mod.empty() ) {
+        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
+        for( const auto &slot : mod_locations ) {
+            int free_slots = gun.get_free_mod_locations( slot.first );
+
+            for( item *the_mod : gun.gunmods() ) {
+                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
+                    gunmod_remove( who, gun, *the_mod );
+                    free_slots++;
+                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
+                           mod_locations.end() ) {
+                    gunmod_remove( who, gun, *the_mod );
+                }
+            }
+        }
+    }
+
+    //~ %1$s - gunmod, %2$s - gun.
+    who.add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
+                           gun.tname() );
+}
+
+void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "gun", gun );
+    jsout.member( "gunmod", gunmod_idx );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+{
+    gunmod_remove_activity_actor actor( 0, item_location(), -1 );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "gun", actor.gun );
+    data.read( "gunmod", actor.gunmod_idx );
+
+    return actor.clone();
+}
+
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 5_minutes );
@@ -783,7 +882,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             }
             const tripoint src = target.position();
             const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
-            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance );
+            // Yuck, I'm sticking weariness scaling based on activity level here
+            const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
+            who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( who, item_drop_reason::deliberate, { newit }, dest );
             } else {
@@ -1483,8 +1584,11 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // Current expected total moves, includes crafting speed modifiers and assistants
     const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
                                    assistants ) );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = crafter.get_moves() * base_total_moves / cur_total_moves;
+    // Delta progress in moves adjusted for current crafting speed /
+    //crafter.exertion_adjusted_move_multiplier( exertion_level() )
+    int spent_moves = crafter.get_moves() * crafter.exertion_adjusted_move_multiplier(
+                          exertion_level() );
+    const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
     const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
                                     delta_progress;
@@ -1819,6 +1923,222 @@ std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
+// TODO: Display costs in the multidrop menu
+static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const drop_or_stash_item_info &it : items ) {
+        item_location loc = it.loc();
+        if( !loc ) {
+            // some items could have been destroyed by e.g. monster attack
+            continue;
+        }
+        res += string_format( "Drop %d %s\n", it.count(), loc->display_name( it.count() ) );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+// Return a list of items to be dropped by the given item-dropping activity in the current turn.
+static std::list<item> obtain_activity_items(
+    std::vector<drop_or_stash_item_info> &items,
+    std::vector<item_location> &unhandled_containers,
+    Character &who )
+{
+    std::list<item> res;
+
+    debug_drop_list( items );
+
+    auto it = items.begin();
+    for( ; it != items.end(); ++it ) {
+        item_location loc = it->loc();
+        if( !loc ) {
+            // some items could have been destroyed by e.g. monster attack
+            continue;
+        }
+
+        const int consumed_moves = loc.obtain_cost( who, it->count() );
+        if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
+            break;
+        }
+
+        who.mod_moves( -consumed_moves );
+
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
+        if( loc.has_parent() ) {
+            item_location parent = loc.parent_item();
+            item_pocket *const parent_pocket = parent->contained_where( *loc );
+            if( parent_pocket ) {
+                parent_pocket->on_contents_changed();
+            }
+            // Update encumbrance on the parent item
+            parent->on_contents_changed();
+            // Save parent items to be handled when finishing or canceling activity,
+            // in case there are still other items to drop from the same container.
+            // This assumes that an item and any of its parents/ancestors are not
+            // dropped at the same time.
+            if( std::find( unhandled_containers.begin(), unhandled_containers.end(),
+                           parent ) == unhandled_containers.end() ) {
+                unhandled_containers.emplace_back( parent );
+            }
+        }
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+    }
+
+    // Remove handled items from activity
+    items.erase( items.begin(), it );
+    // And cancel if its empty. If its not, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which
+    // creates a brand new activity every turn and cancels the old activity
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
+
+    return res;
+}
+
+static void handle_containers(
+    std::vector<item_location> &unhandled_containers,
+    Character &who )
+{
+    // some containers could have been destroyed by e.g. monster attack
+    auto it = std::remove_if( unhandled_containers.begin(), unhandled_containers.end(),
+    []( const item_location & loc ) -> bool {
+        return !loc;
+    } );
+    unhandled_containers.erase( it, unhandled_containers.end() );
+    who.handle_contents_changed( unhandled_containers );
+    unhandled_containers.clear();
+}
+
+void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "loc", _loc );
+    jsout.member( "count", _count );
+    jsout.end_object();
+}
+
+void drop_or_stash_item_info::deserialize( JsonIn &jsin )
+{
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "loc", _loc );
+    jsobj.read( "count", _count );
+}
+
+void drop_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+    who.invalidate_weight_carried_cache();
+    put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
+                              obtain_activity_items( items, unhandled_containers, who ),
+                              pos, force_ground );
+}
+
+void drop_activity_actor::canceled( player_activity &, Character &who )
+{
+    handle_containers( unhandled_containers, who );
+}
+
+void drop_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "placement", placement );
+    jsout.member( "force_ground", force_ground );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+{
+    drop_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "placement", actor.placement );
+    jsobj.read( "force_ground", actor.force_ground );
+
+    return actor.clone();
+}
+
+static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
+{
+    units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
+    units::mass remaining_weight = pet.weight_capacity() - pet.get_carried_weight();
+    map &here = get_map();
+
+    for( const item &it : items ) {
+        if( it.volume() > remaining_volume ) {
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else if( it.weight() > remaining_weight ) {
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it.display_name(),
+                     here.name( pet.pos() ) );
+            here.add_item_or_charges( pet.pos(), it );
+        } else {
+            pet.add_item( it );
+            remaining_volume -= it.volume();
+            remaining_weight -= it.weight();
+        }
+        // TODO: if NPCs can have pets or move items onto pets
+        item( it ).handle_pickup_ownership( who );
+    }
+}
+
+
+void stash_activity_actor::do_turn( player_activity &, Character &who )
+{
+    const tripoint pos = placement + who.pos();
+
+    monster *pet = g->critter_at<monster>( pos );
+    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+        stash_on_pet( obtain_activity_items( items, unhandled_containers, who ),
+                      *pet, who );
+    } else {
+        who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
+        who.cancel_activity();
+    }
+}
+
+void stash_activity_actor::canceled( player_activity &, Character &who )
+{
+    handle_containers( unhandled_containers, who );
+}
+
+void stash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "items", items );
+    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "placement", placement );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+{
+    stash_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "items", actor.items );
+    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -1830,6 +2150,8 @@ deserialize_functions = {
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
+    { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
+    { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
@@ -1837,6 +2159,7 @@ deserialize_functions = {
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
+    { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },

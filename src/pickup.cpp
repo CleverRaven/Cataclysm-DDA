@@ -798,6 +798,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Continue until we hit return or space
         do {
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+            // -2 lines for border, -2 to preserve a line at top/bottom for context
+            const int scroll_lines = catacurses::getmaxy( w_item_info ) - 4;
             int idx = -1;
 
             if( action == "ANY_INPUT" &&
@@ -822,9 +824,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 }
 
             } else if( action == "SCROLL_UP" ) {
-                iScrollPos--;
+                iScrollPos -= scroll_lines;
             } else if( action == "SCROLL_DOWN" ) {
-                iScrollPos++;
+                iScrollPos += scroll_lines;
             } else if( action == "PREV_TAB" ) {
                 if( start > 0 ) {
                     start -= maxitems;

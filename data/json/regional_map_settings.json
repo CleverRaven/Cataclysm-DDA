@@ -116,6 +116,7 @@
           "f_lily": 1,
           "f_flower_tulip": 1,
           "f_flower_spurge": 1,
+          "f_burdock": 1,
           "f_chamomile": 1,
           "f_dandelion": 1,
           "f_datura": 1,
@@ -140,6 +141,7 @@
           "f_chamomile": 4,
           "f_datura": 3,
           "f_bluebell": 2,
+          "f_burdock": 1,
           "f_dahlia": 1,
           "f_black_eyed_susan": 1,
           "f_lily": 1,
@@ -231,6 +233,7 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
       "noise_threshold_forest_thick": 0.25,

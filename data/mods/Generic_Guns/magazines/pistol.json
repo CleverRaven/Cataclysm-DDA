@@ -5,7 +5,8 @@
     "type": "MAGAZINE",
     "name": { "str": "pistol magazine" },
     "description": "A flush fitting magazine for use with pistols and submachine guns.  Holds 15 rounds of standard pistol ammo.",
-    "ammo_type": [ "ammo_pistol" ]
+    "ammo_type": [ "ammo_pistol" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 15 } } ]
   },
   {
     "id": "pistol_smg_mag",
@@ -13,7 +14,8 @@
     "type": "MAGAZINE",
     "name": { "str": "SMG magazine" },
     "description": "A long stick magazine for use with pistols and submachine guns.  Holds 30 rounds of standard pistol ammo.",
-    "ammo_type": [ "ammo_pistol" ]
+    "ammo_type": [ "ammo_pistol" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 30 } } ]
   },
   {
     "id": "pistol_speedloader",
@@ -21,6 +23,7 @@
     "type": "MAGAZINE",
     "name": { "str": "revolver speedloader" },
     "description": "A 'speedloader', a metal block capable of holding and releasing ammunition to aid in loading revolvers.  Accepts 6 standard or magnum pistol cartridges.",
-    "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ]
+    "ammo_type": [ "ammo_pistol", "ammo_pistol_magnum" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_pistol": 6, "ammo_pistol_magnum": 6 } } ]
   }
 ]

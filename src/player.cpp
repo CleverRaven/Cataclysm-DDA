@@ -107,7 +107,6 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
@@ -456,7 +455,7 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+    if( weight_carried() > weight_capacity() ) {
         carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
     mod_speed_bonus( -carry_penalty );
@@ -1182,10 +1181,10 @@ void player::process_one_effect( effect &it, bool is_new )
     };
 
     // Handle miss messages
-    auto msgs = it.get_miss_msgs();
+    const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
         for( const auto &i : msgs ) {
-            add_miss_reason( _( i.first ), static_cast<unsigned>( i.second ) );
+            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
         }
     }
 
@@ -1839,10 +1838,11 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
 
             itype_id id = ammo->typeId();
             if( e->can_reload_with( id ) ) {
-                // Speedloaders require an empty target.
-                if( !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
-                    ammo_match_found = true;
-                }
+                ammo_match_found = true;
+            } else if( ammo->has_flag( "SPEEDLOADER" ) && e->allows_speedloader( id ) &&
+                       ammo->ammo_remaining() > 1 && e->ammo_remaining() < 1 ) {
+                id = ammo->ammo_current();
+                ammo_match_found = e->can_reload_with( id );
             }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
@@ -2665,64 +2665,29 @@ void player::reassign_item( item &it, int invlet )
     }
 }
 
-static bool has_mod( const item &gun, const item &mod )
-{
-    for( const item *toolmod : gun.gunmods() ) {
-        if( &mod == toolmod ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::gunmod_remove( item &gun, item &mod )
 {
-    if( !has_mod( gun, mod ) ) {
+    std::vector<item *> mods = gun.gunmods();
+    size_t gunmod_idx = mods.size();
+    for( size_t i = 0; i < mods.size(); i++ ) {
+        if( mods[i] == &mod ) {
+            gunmod_idx = i;
+            break;
+        }
+    }
+    if( gunmod_idx == mods.size() ) {
         debugmsg( "Cannot remove non-existent gunmod" );
         return false;
     }
 
-    item_location loc = item_location( *this, &mod );
-    if( mod.ammo_remaining() && !unload( loc, true ) ) {
+    if( !gunmod_remove_activity_actor::gunmod_unload( *this, mod ) ) {
         return false;
     }
 
-    gun.gun_set_mode( gun_mode_id( "DEFAULT" ) );
-    //TODO: add activity for removing gunmods
-
-    if( mod.typeId() == itype_brass_catcher ) {
-        gun.casings_handle( [&]( item & e ) {
-            return i_add_or_drop( e );
-        } );
-    }
-
-    const itype *modtype = mod.type;
-
-    i_add_or_drop( mod );
-    gun.remove_item( mod );
-
-    //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
-    if( !modtype->gunmod->add_mod.empty() ) {
-        std::map<gunmod_location, int> mod_locations = gun.get_mod_locations();
-        for( const auto &slot : mod_locations ) {
-            int free_slots = gun.get_free_mod_locations( slot.first );
-
-            for( item *the_mod : gun.gunmods() ) {
-                if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
-                    gunmod_remove( gun, *the_mod );
-                    free_slots++;
-                } else if( mod_locations.find( the_mod->type->gunmod->location ) ==
-                           mod_locations.end() ) {
-                    gunmod_remove( gun, *the_mod );
-                }
-            }
-        }
-    }
-
-    //~ %1$s - gunmod, %2$s - gun.
-    add_msg_if_player( _( "You remove your %1$s from your %2$s." ), modtype->nname( 1 ),
-                       gun.tname() );
-
+    // Removing gunmod takes only half as much time as installing it
+    const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
+    item_location gun_loc = item_location( *this, &gun );
+    assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
     return true;
 }
 
@@ -2960,7 +2925,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), field_type_id( "fd_web" ) );
+        int web = here.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -2970,7 +2935,7 @@ void player::try_to_sleep( const time_duration &dur )
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
                                    _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), field_type_id( "fd_web" ) );
+                here.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.

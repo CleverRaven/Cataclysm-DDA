@@ -14,7 +14,7 @@
     "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
-    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being ridden.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -26,7 +26,7 @@
     "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
-    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -621,7 +621,7 @@
     "type": "effect_type",
     "id": "boomered",
     "name": [ "Boomered" ],
-    "desc": [ "Range of Sight: 1;  You are covered in magenta bile!" ],
+    "desc": [ "Range of Sight: 1; You are covered in magenta bile!" ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] }
@@ -761,7 +761,7 @@
     "desc": [ "You have a nasty bite wound." ],
     "apply_memorial_log": "Received a deep bite wound.",
     "remove_memorial_log": "Recovered from a bite wound.",
-    "apply_message": "The bite wound feels really deep...",
+    "apply_message": "The bite wound feels really deep…",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
@@ -1200,7 +1200,7 @@
     "desc": [ "You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)." ],
     "apply_memorial_log": "Caught a cold.",
     "remove_memorial_log": "Got over the cold.",
-    "apply_message": "You feel a cold coming on...",
+    "apply_message": "You feel a cold coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
@@ -1226,7 +1226,7 @@
     ],
     "apply_memorial_log": "Caught the flu.",
     "remove_memorial_log": "Got over the flu.",
-    "apply_message": "You feel a flu coming on...",
+    "apply_message": "You feel a flu coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "base_mods": {
@@ -1378,7 +1378,7 @@
     ],
     "apply_message": "Mycal wrath fills our fibers, and we grow turgid.",
     "rating": "good",
-    "decay_messages": [ [ "We require repose; our fibers are nearly spent...", "bad" ] ],
+    "decay_messages": [ [ "We require repose; our fibers are nearly spent…", "bad" ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
     "base_mods": {
@@ -1498,7 +1498,7 @@
   {
     "type": "effect_type",
     "id": "amigara",
-    "apply_message": "You can't look away from the faultline...",
+    "apply_message": "You can't look away from the faultline…",
     "rating": "bad"
   },
   {
@@ -1647,7 +1647,7 @@
   {
     "type": "effect_type",
     "id": "lying_down",
-    "apply_message": "You lie down to go to sleep...",
+    "apply_message": "You lie down to go to sleep…",
     "rating": "neutral",
     "max_duration": "50 m"
   },
@@ -1898,8 +1898,8 @@
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost large amount of blood, and you're not feeling well.",
-      "You've lost an awful lot of blood, and your condition is severe. Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door. Transfusion might save you."
+      "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
     ],
     "apply_message": "You have lost lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
@@ -2104,7 +2104,7 @@
     "type": "effect_type",
     "id": "panacea",
     "name": [ "Panacea" ],
-    "desc": [ "You feel incredible! You could take on the world!" ],
+    "desc": [ "You feel incredible!  You could take on the world!" ],
     "max_duration": "10 s",
     "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ 2 ], "per_mod": [ 2 ] }
   },
@@ -2146,7 +2146,7 @@
     "type": "effect_type",
     "id": "grown_of_fuse",
     "name": [ "Grown of Fusion" ],
-    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
     "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
@@ -2239,6 +2239,58 @@
   },
   {
     "type": "effect_type",
+    "id": "weary_0"
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_1",
+    "name": [ "Lightly Weary" ],
+    "desc": [ "You've been pretty active for a while, operating at the highest levels of activity will be impaired." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_2",
+    "name": [ "Moderately Weary" ],
+    "desc": [ "You've been quite active for a while, operating at higher levels of activity will be impaired." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_3",
+    "name": [ "Weary" ],
+    "desc": [ "You've been very active for a while, and need to slow down for a bit." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_4",
+    "name": [ "Very Weary" ],
+    "desc": [ "You've been extremely active for a while, and need to slow down." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_5",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can't take much more activity." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_6",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and really need to get some rest." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_7",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, it's time to stop." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_8",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ]
+  },
+  {
+    "type": "effect_type",
     "id": "hunger_full",
     "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],
@@ -2250,8 +2302,8 @@
     "type": "effect_type",
     "id": "hunger_engorged",
     "name": [ "Engorged" ],
-    "desc": [ "Your stomach is full to bursting. This was a mistake." ],
-    "apply_message": "Your stomach is full to bursting. This was a mistake.",
+    "desc": [ "Your stomach is full to bursting.  This was a mistake." ],
+    "apply_message": "Your stomach is full to bursting.  This was a mistake.",
     "rating": "bad",
     "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 500 ], "vomit_tick": [ 10 ], "pain_amount": [ 3 ] }
   },

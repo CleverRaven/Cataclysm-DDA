@@ -245,7 +245,7 @@ struct map_data_common_t {
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
-        std::string name_;
+        translation name_;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.

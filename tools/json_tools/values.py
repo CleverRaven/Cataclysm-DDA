@@ -32,12 +32,12 @@ parser.add_argument(
 parser.add_argument(
     "-H", "--human",
     action="store_true",
-    help="if set, makes output human readable. default is to return output in JSON dictionary.")
+    help="if set, makes output human readable. default is JSON output.")
 parser.add_argument(
     "-L", "--list",
     action="store_true",
     help="print only a sorted list of values in JSON format,"
-        " or newline-separated plain text list if --human is also set.")
+         " or newline-separated plain text list if --human is also set.")
 parser.add_argument(
     "-k", "--key",
     required=True, type=str,
@@ -82,4 +82,3 @@ if __name__ == "__main__":
         print(json.dumps(sorted(stats.keys())))
     else:
         print(json.dumps(stats))
-

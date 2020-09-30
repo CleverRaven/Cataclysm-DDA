@@ -800,10 +800,13 @@ static void smash()
         smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
     }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    // Weariness scaling
+    float weary_mult = 1.0f;
     if( didit ) {
         if( !mech_smash ) {
             player_character.increase_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( player_character.weapon );
+            weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
@@ -831,7 +834,7 @@ static void smash()
                 player_character.check_dead_state();
             }
         }
-        player_character.moves -= move_cost;
+        player_character.moves -= move_cost * weary_mult;
 
         if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {

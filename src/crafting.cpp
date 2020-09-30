@@ -272,8 +272,9 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float light_multi = lighting_craft_speed_multiplier( rec );
     const float bench_multi = workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
+    const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
-    const float total_multi = light_multi * bench_multi * morale_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi;
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );

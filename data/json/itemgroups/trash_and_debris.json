@@ -67,7 +67,7 @@
       [ "wire_barbed", 1 ],
       [ "splinter", 3 ],
       [ "rag", 2 ],
-      [ "rag_bloody", 1 ],
+      { "item": "rag", "prob": 1, "custom-flags": [ "FILTHY" ] },
       [ "bone", 2 ],
       [ "syringe", 1 ],
       [ "spike", 1 ],

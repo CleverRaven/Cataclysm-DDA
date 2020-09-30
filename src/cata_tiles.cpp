@@ -2601,7 +2601,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
             const auto it = field_override.find( q );
             return it != field_override.end() ? it->second :
-            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : field_type_id( "fd_null" );
+            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
         };
         // for rotation information
         const int neighborhood[4] = {

@@ -50,7 +50,7 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( player &dummy, bool debug_storage )
+void clear_character( player &dummy )
 {
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
@@ -61,11 +61,6 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
-
-    // Prevent spilling, but don't cause encumbrance
-    if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
-        dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
-    }
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
@@ -88,6 +83,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
+    dummy.set_sleep_deprivation( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -113,9 +109,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.setpos( spot );
 }
 
-void clear_avatar( bool debug_storage )
+void clear_avatar()
 {
-    clear_character( get_avatar(), debug_storage );
+    clear_character( get_avatar() );
 }
 
 void process_activity( player &dummy )

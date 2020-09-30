@@ -239,8 +239,6 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
         },
         midday
     };
-    // 3D FOV gives different results here due to it seeing round corners more
-    t.flags.no_3d = true;
 
     t.test_all();
 }
@@ -416,6 +414,40 @@ TEST_CASE( "vision_player_opaque_neighbors_still_visible_night", "[shadowcasting
         };
         t.section_prefix = "smoke_";
     }
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
+{
+    /**
+     * Light shines through the single-tile hole in the roof. Apparent light should be symmetrical.
+     */
+    vision_test_case t {
+        {
+            "---------",
+            "-#######-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#--U--#-",
+            "-#-----#-",
+            "-#-----#-",
+            "-#######-",
+            "---------",
+        },
+        {
+            "666666666",
+            "661111166",
+            "611111116",
+            "611141116",
+            "611444116",
+            "611141116",
+            "611111116",
+            "661111166",
+            "666666666",
+        },
+        midday
+    };
 
     t.test_all();
 }

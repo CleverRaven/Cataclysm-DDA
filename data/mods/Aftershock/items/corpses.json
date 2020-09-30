@@ -33,5 +33,37 @@
     "cutting": 6,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "broken_cleanerbot",
+    "name": "broken utility robot",
+    "category": "other",
+    "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_utilibot_beehive",
+    "name": "broken beehive robot",
+    "copy-from": "broken_utilibot"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret_xray",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken xray laser turret" },
+    "weight": "110 kg",
+    "copy-from": "broken_turret"
   }
 ]

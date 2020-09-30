@@ -287,6 +287,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
+    if( qualities_needed.empty() ) {
+        return ret_val<bool>::make_success();
+    }
+
     std::map<quality_id, int> unmet_reqs;
     inventory inv;
     inv.form_from_map( p.pos(), 1, &p, true, true );
@@ -428,7 +432,7 @@ int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     if( p.sees( pos ) && !message.empty() ) {
-        p.add_msg_if_player( m_neutral, _( message ), it.tname() );
+        p.add_msg_if_player( m_neutral, message.translated(), it.tname() );
     }
 
     it.item_counter = interval > 0 ? interval : it.type->countdown_interval;
@@ -449,7 +453,7 @@ ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
 std::string countdown_actor::get_name() const
 {
     if( !name.empty() ) {
-        return name;
+        return name.translated();
     }
     return iuse_actor::get_name();
 }
@@ -528,7 +532,7 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     if( t ) {
         if( sound_volume >= 0 ) {
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
-                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg ), true, "misc", "bomb_ticking" );
+                           sound_msg.empty() ? _( "Tick." ) : sound_msg.translated(), true, "misc", "bomb_ticking" );
         }
         return 0;
     }
@@ -538,7 +542,7 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
                 p.add_msg_if_player( m_warning,
                                      _( "You've already set the %s's timer you might want to get away from it." ), it.tname() );
             } else {
-                p.add_msg_if_player( m_info, _( no_deactivate_msg ), it.tname() );
+                p.add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
         }
         return 0;
@@ -635,7 +639,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     // Store the id of the item the vehicle is made of.
     veh->tags.insert( std::string( "convertible:" ) + it.typeId().str() );
     if( !unfold_msg.empty() ) {
-        p.add_msg_if_player( _( unfold_msg ), it.tname() );
+        p.add_msg_if_player( unfold_msg.translated(), it.tname() );
     }
     p.moves -= moves;
     // Restore HP of parts if we stashed them previously.
@@ -808,7 +812,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Output message.
-    p.add_msg_if_player( _( activation_message ), it.type_name( 1 ) );
+    p.add_msg_if_player( activation_message.translated(), it.type_name( 1 ) );
     // Consume charges.
     for( const auto &consumable : charges_needed ) {
         if( consumable.second != -1 ) {
@@ -833,7 +837,7 @@ std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
 void delayed_transform_iuse::load( const JsonObject &obj )
 {
     iuse_transform::load( obj );
-    not_ready_msg = obj.get_string( "not_ready_msg" );
+    obj.get_member( "not_ready_msg" ).read( not_ready_msg );
     transform_age = obj.get_int( "transform_age" );
 }
 
@@ -846,7 +850,7 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
 int delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( time_to_do( it ) > 0 ) {
-        p.add_msg_if_player( m_info, _( not_ready_msg ) );
+        p.add_msg_if_player( m_info, "%s", not_ready_msg );
         return 0;
     }
     return iuse_transform::use( p, it, t, pos );
@@ -933,13 +937,13 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         if( hostile_msg.empty() ) {
             p.add_msg_if_player( m_bad, _( "You deploy the %s wrong.  It is hostile!" ), newmon.name() );
         } else {
-            p.add_msg_if_player( m_bad, "%s", _( hostile_msg ) );
+            p.add_msg_if_player( m_bad, "%s", hostile_msg );
         }
     } else {
         if( friendly_msg.empty() ) {
             p.add_msg_if_player( m_warning, _( "You deploy the %s." ), newmon.name() );
         } else {
-            p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
+            p.add_msg_if_player( m_warning, "%s", friendly_msg );
         }
         newmon.friendly = -1;
         if( is_pet ) {
@@ -981,7 +985,7 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 
     here.place_npc( target_pos.value().xy(), npc_class_id );
     p.mod_moves( -moves );
-    p.add_msg_if_player( m_info, "%s", _( summon_msg ) );
+    p.add_msg_if_player( m_info, "%s", summon_msg );
     return 1;
 }
 
@@ -1093,7 +1097,7 @@ std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
 void reveal_map_actor::load( const JsonObject &obj )
 {
     radius = obj.get_int( "radius" );
-    message = obj.get_string( "message" );
+    obj.get_member( "message" ).read( message );
     std::string ter;
     ot_match_type ter_match_type;
     for( const JsonValue entry : obj.get_array( "terrain" ) ) {
@@ -1142,7 +1146,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
     }
     if( !message.empty() ) {
-        p.add_msg_if_player( m_good, "%s", _( message ) );
+        p.add_msg_if_player( m_good, "%s", message );
     }
     it.mark_as_used_by_player( p );
     return 0;
@@ -1176,7 +1180,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         return false;
     }
     map &here = get_map();
-    if( here.get_field( pos, field_type_id( "fd_fire" ) ) ) {
+    if( here.get_field( pos, fd_fire ) ) {
         // check if there's already a fire
         p.add_msg_if_player( m_info, _( "There is already a fire." ) );
         return false;
@@ -1211,7 +1215,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
-    if( get_map().add_field( pos, field_type_id( "fd_fire" ), 1, 10_minutes ) ) {
+    if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
@@ -1808,9 +1812,9 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
 void fireweapon_off_actor::load( const JsonObject &obj )
 {
     obj.read( "target_id", target_id, true );
-    success_message     = obj.get_string( "success_message", "hsss" );
-    lacks_fuel_message  = obj.get_string( "lacks_fuel_message" );
-    failure_message     = obj.get_string( "failure_message", "hsss" );
+    obj.read( "success_message", success_message );
+    obj.get_member( "lacks_fuel_message" ).read( lacks_fuel_message );
+    obj.read( "failure_message", failure_message );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
     success_chance      = obj.get_int( "success_chance", INT_MIN );
@@ -1828,22 +1832,22 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     }
 
     if( it.charges <= 0 ) {
-        p.add_msg_if_player( _( lacks_fuel_message ) );
+        p.add_msg_if_player( "%s", lacks_fuel_message );
         return 0;
     }
 
     p.moves -= moves;
     if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
-            sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
+            sounds::sound( p.pos(), noise, sounds::sound_t::combat, success_message );
         } else {
-            p.add_msg_if_player( _( success_message ) );
+            p.add_msg_if_player( "%s", success_message );
         }
 
         it.convert( target_id );
         it.active = true;
     } else if( !failure_message.empty() ) {
-        p.add_msg_if_player( m_bad, _( failure_message ) );
+        p.add_msg_if_player( m_bad, "%s", failure_message );
     }
 
     return it.type->charges_to_use();
@@ -1865,15 +1869,15 @@ ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it,
 
 void fireweapon_on_actor::load( const JsonObject &obj )
 {
-    noise_message                   = obj.get_string( "noise_message", "hsss" );
-    voluntary_extinguish_message    = obj.get_string( "voluntary_extinguish_message" );
-    charges_extinguish_message      = obj.get_string( "charges_extinguish_message" );
-    water_extinguish_message        = obj.get_string( "water_extinguish_message" );
+    obj.read( "noise_message", noise_message );
+    obj.get_member( "voluntary_extinguish_message" ).read( voluntary_extinguish_message );
+    obj.get_member( "charges_extinguish_message" ).read( charges_extinguish_message );
+    obj.get_member( "water_extinguish_message" ).read( water_extinguish_message );
     noise                           = obj.get_int( "noise", 0 );
     noise_chance                    = obj.get_int( "noise_chance", 1 );
     auto_extinguish_chance          = obj.get_int( "auto_extinguish_chance", 0 );
     if( auto_extinguish_chance > 0 ) {
-        auto_extinguish_message         = obj.get_string( "auto_extinguish_message" );
+        obj.get_member( "auto_extinguish_message" ).read( auto_extinguish_message );
     }
 }
 
@@ -1886,13 +1890,13 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
 {
     bool extinguish = true;
     if( it.charges == 0 ) {
-        p.add_msg_if_player( m_bad, _( charges_extinguish_message ) );
+        p.add_msg_if_player( m_bad, "%s", charges_extinguish_message );
     } else if( p.is_underwater() ) {
-        p.add_msg_if_player( m_bad, _( water_extinguish_message ) );
+        p.add_msg_if_player( m_bad, "%s", water_extinguish_message );
     } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
-        p.add_msg_if_player( m_bad, _( auto_extinguish_message ) );
+        p.add_msg_if_player( m_bad, "%s", auto_extinguish_message );
     } else if( !t ) {
-        p.add_msg_if_player( _( voluntary_extinguish_message ) );
+        p.add_msg_if_player( "%s", voluntary_extinguish_message );
     } else {
         extinguish = false;
     }
@@ -1902,9 +1906,9 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
 
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
-            sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( noise_message ) );
+            sounds::sound( p.pos(), noise, sounds::sound_t::combat, noise_message );
         } else {
-            p.add_msg_if_player( _( noise_message ) );
+            p.add_msg_if_player( "%s", noise_message );
         }
     }
 
@@ -1913,9 +1917,9 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
 
 void manualnoise_actor::load( const JsonObject &obj )
 {
-    no_charges_message  = obj.get_string( "no_charges_message" );
-    use_message         = obj.get_string( "use_message" );
-    noise_message       = obj.get_string( "noise_message", "hsss" );
+    obj.get_member( "no_charges_message" ).read( no_charges_message );
+    obj.get_member( "use_message" ).read( use_message );
+    obj.read( "noise_message", noise_message );
     noise_id            = obj.get_string( "noise_id", "misc" );
     noise_variant       = obj.get_string( "noise_variant", "default" );
     noise               = obj.get_int( "noise", 0 );
@@ -1933,16 +1937,16 @@ int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) cons
         return 0;
     }
     if( it.type->charges_to_use() != 0 && it.charges < it.type->charges_to_use() ) {
-        p.add_msg_if_player( _( no_charges_message ) );
+        p.add_msg_if_player( "%s", no_charges_message );
         return 0;
     }
     {
         p.moves -= moves;
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::activity,
-                           noise_message.empty() ? _( "Hsss" ) : _( noise_message ), true, noise_id, noise_variant );
+                           noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
         }
-        p.add_msg_if_player( _( use_message ) );
+        p.add_msg_if_player( "%s", use_message );
     }
     return it.type->charges_to_use();
 }
@@ -1972,8 +1976,8 @@ void musical_instrument_actor::load( const JsonObject &obj )
     if( !obj.read( "description_frequency", description_frequency ) ) {
         obj.throw_error( "missing member \"description_frequency\"" );
     }
-    player_descriptions = obj.get_string_array( "player_descriptions" );
-    npc_descriptions = obj.get_string_array( "npc_descriptions" );
+    obj.read( "player_descriptions", player_descriptions );
+    obj.read( "npc_descriptions", npc_descriptions );
 }
 
 int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
@@ -2053,7 +2057,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_player() ) {
-            desc = _( random_entry( player_descriptions ) );
+            desc = random_entry( player_descriptions ).translated();
         } else if( !npc_descriptions.empty() && p.is_npc() ) {
             desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
@@ -2285,8 +2289,8 @@ std::unique_ptr<iuse_actor> holster_actor::clone() const
 
 void holster_actor::load( const JsonObject &obj )
 {
-    holster_prompt = obj.get_string( "holster_prompt", "" );
-    holster_msg = obj.get_string( "holster_msg", "" );
+    obj.read( "holster_prompt", holster_prompt );
+    obj.read( "holster_msg", holster_msg );
 }
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
@@ -2316,7 +2320,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                              obj.tname(), holster.tname() );
         return false;
     }
-    p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
+    p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : holster_msg.translated(),
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
@@ -2335,7 +2339,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
+    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
     std::list<item *> all_items = it.contents.all_items_top(
@@ -3019,7 +3023,7 @@ std::string repair_item_actor::get_name() const
 {
     const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
     []( const material_id & mid ) {
-        return _( mid->name() );
+        return mid->name();
     } );
     return string_format( _( "Repair %s" ), mats );
 }
@@ -3645,11 +3649,11 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
     const bool is_diggable = here.has_flag( "DIGGABLE", pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
-        bury = query_yn( _( bury_question ) );
+        bury = query_yn( "%s", bury_question );
     }
     const auto &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, _( data.done_message ), distance_to_trap_center );
+    p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
     p.practice( skill_id( "traps" ), data.practice );
     p.mod_moves( -data.moves );
 
@@ -3827,10 +3831,17 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
 
 int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    auto mods = it.gunmods();
+    auto filter_irremovable = []( std::vector<item *> &gunmods ) {
+        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::is_irremovable,
+                                       std::placeholders::_1 ) ), gunmods.end() );
+    };
 
-    mods.erase( std::remove_if( mods.begin(), mods.end(), std::bind( &item::is_irremovable,
-                                std::placeholders::_1 ) ), mods.end() );
+    item gun_copy = item( it );
+    std::vector<item *> mods = it.gunmods();
+    std::vector<item *> mods_copy = gun_copy.gunmods();
+
+    filter_irremovable( mods );
+    filter_irremovable( mods_copy );
 
     uilist prompt;
     prompt.text = _( "Remove which modification?" );
@@ -3842,12 +3853,15 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
     prompt.query();
 
     if( prompt.ret >= 0 ) {
-        item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
-    } else {
-        p.add_msg_if_player( _( "Never mind." ) );
+        gun_copy.remove_item( *mods_copy[prompt.ret] );
+
+        if( game_menus::inv::compare_items( it, gun_copy, _( "Remove modification?" ) ) ) {
+            p.gunmod_remove( it, *mods[ prompt.ret ] );
+            return 0;
+        }
     }
 
+    p.add_msg_if_player( _( "Never mind." ) );
     return 0;
 }
 
@@ -4269,28 +4283,31 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( !it.ammo_sufficient( thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
-                                        tolower( obj.implement_prompt ), thread_needed );
+                                        tolower( obj.implement_prompt.translated() ), thread_needed );
             } else if( !has_enough[obj.item_string] ) {
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
-                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ) );
             } else if( obj.restricted &&
                        std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
                 //~ %1$s: modification desc, %2$s: mod name
-                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         mod.tname( 1, false ) );
             } else {
                 // Modification is possible
                 enab = true;
                 //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
-                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), tolower( obj.implement_prompt ),
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ),
+                                        tolower( obj.implement_prompt.translated() ),
                                         items_needed, item::nname( obj.item_string, items_needed ), thread_needed );
             }
 
         } else {
             // Mod already present, give option to destroy
             enab = true;
-            prompt = _( obj.destroy_prompt );
+            prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
         desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );

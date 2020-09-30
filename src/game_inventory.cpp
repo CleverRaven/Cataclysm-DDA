@@ -534,6 +534,23 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
+            append_cell( [&p]( const item_location & loc ) {
+                const item &it = *loc;
+                const int charges = std::max( it.charges, 1 );
+                const double converted_weight = convert_weight( it.weight() / charges );
+                if( converted_weight == 0 ) {
+                    return std::string( "---" );
+                }
+                const nutrients nutr = p.compute_effective_nutrients( *loc );
+                const int kcalories = nutr.kcal;
+                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
+                if( kcalories == 0 ) {
+                    return std::string();
+                }
+                const int calpergr = int( std::round( kcalories / converted_weight ) );
+                return string_format( _( "%d" ), calpergr );
+            }, _( "CAL/kg" ) );
+
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
                 time_duration time = player_character.get_consume_time( *loc );
@@ -1265,7 +1282,7 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     const std::string title = ( actor ? actor->holster_prompt.empty() : true )
                               ? string_format( _( "Put item into %s" ), holster->tname() )
-                              : _( actor->holster_prompt );
+                              : actor->holster_prompt.translated();
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
@@ -1286,27 +1303,33 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    bool all_pockets_rigid = holster->contents.all_pockets_rigid();
     for( drop_location holstered_item : holstered_list ) {
         if( !holstered_item.first ) {
             continue;
         }
         item &it = *holstered_item.first;
         bool success = false;
-        if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster.parents_can_contain_recursive( &it ) ) {
+        if( !it.count_by_charges() ) {
+            if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER ).success();
                 if( success ) {
                     holstered_item.first.remove_item();
                 }
             }
         } else {
-            item item_copy( it );
-            item_copy.charges = holstered_item.second;
+            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
+                          holster.max_charges_by_parent_recursive( it ) );
 
-            if( holster.parents_can_contain_recursive( &item_copy ) ) {
-                success = holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER ).success();
+            if( charges > 0 ) {
+                int result = holster->fill_with( it, charges );
+                success = result > 0;
+
                 if( success ) {
-                    it.charges -= holstered_item.second;
+                    it.charges -= result;
+                    if( it.charges == 0 ) {
+                        holstered_item.first.remove_item();
+                    }
                 }
             }
         }

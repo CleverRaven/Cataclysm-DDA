@@ -2921,8 +2921,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 2: {
-            if( !here.get_field( examp, field_type_id( "fd_fire" ) ) &&
-                here.add_field( examp, field_type_id( "fd_fire" ), 1 ) ) {
+            if( !here.get_field( examp, fd_fire ) && here.add_field( examp, fd_fire, 1 ) ) {
                 p.mod_power_level( -bio_lighter->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
@@ -2944,7 +2943,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
             return;
         }
         case 4: {
-            here.remove_field( examp, field_type_id( "fd_fire" ) );
+            here.remove_field( examp, fd_fire );
             p.mod_moves( -200 );
             p.add_msg_if_player( m_info, _( "With a few determined moves you put out the fire in the %s." ),
                                  here.furnname( examp ) );
@@ -4491,6 +4490,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
     cmenu.query();
 
+    // Weariness scaling
+    float weary_mult = 1.0f;
     map &here = get_map();
     switch( cmenu.ret ) {
         case 1: {
@@ -4551,6 +4552,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else if( height == 1 ) {
                 const char *query;
                 p.increase_activity_level( MODERATE_EXERCISE );
+                weary_mult = 1.0f / p.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
                 if( !has_grapnel ) {
                     if( climb_cost <= 0 && fall_mod > 0.8 ) {
@@ -4571,7 +4573,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
             p.setpos( examp );
 
             if( has_grapnel ) {
@@ -5274,7 +5276,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
         if( it.type->milling_data ) {
             it.calc_rot_while_processing( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
-            item result( mdata.into_, start_time + milling_time, it.charges * mdata.conversion_rate_ );
+            item result( mdata.into_, start_time + milling_time,
+                         ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
             for( const std::string &f : it.type->item_tags ) {

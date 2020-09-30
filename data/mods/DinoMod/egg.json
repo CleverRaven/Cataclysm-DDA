@@ -65,6 +65,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_pachyrhinosaurus",
+    "name": "pachyrhinosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pachyrhinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pentaceratops",
+    "name": "pentaceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_pentaceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_torosaurus",
+    "name": "torosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_torosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_triceratops",
     "name": "triceratops egg",
     "copy-from": "egg_dino",

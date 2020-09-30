@@ -110,10 +110,10 @@
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
       },
       "place_signs": [
-        { "signage": "<city> Community Garden. Grow your own food!", "x": 2, "y": 2 },
-        { "signage": "<city> Community Garden. Grow your own food!", "x": 21, "y": 2 },
-        { "signage": "<city> Community Garden. Grow your own food!", "x": 2, "y": 21 },
-        { "signage": "<city> Community Garden. Grow your own food!", "x": 21, "y": 21 }
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 2, "y": 2 },
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 21, "y": 2 },
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 2, "y": 21 },
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 21, "y": 21 }
       ]
     },
     "om_terrain": "communitygarden",

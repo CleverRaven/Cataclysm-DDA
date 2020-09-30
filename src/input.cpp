@@ -192,17 +192,17 @@ void input_manager::init()
     try {
         load( PATH_INFO::keybindings(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::keybindings_vehicle(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings_vehicle() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::user_keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -267,7 +267,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         return;
     }
 
-    JsonIn jsin( data_file );
+    JsonIn jsin( data_file, file_name );
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();

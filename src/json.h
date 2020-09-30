@@ -170,6 +170,8 @@ class JsonIn
 {
     private:
         std::istream *stream;
+        // Used for error message and thus intentionally untranslated
+        std::string name = "<unknown source file>";
         bool ate_separator = false;
 
         void skip_separator();
@@ -178,6 +180,7 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( std::istream &s, const std::string &name ) : stream( &s ), name( name ) {}
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
 
@@ -506,6 +509,10 @@ class JsonIn
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        // if the next element is a string, throw error after the `offset`th unicode
+        // character in the parsed string. if `offset` is 0, throw error right after
+        // the starting quotation mark.
+        [[noreturn]] void string_error( const std::string &message, int offset );
 
         // If throw_, then call error( message, offset ), otherwise return
         // false

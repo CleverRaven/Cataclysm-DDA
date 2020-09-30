@@ -21,7 +21,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "stereo",
     "skill_used": "mechanics",
     "difficulty": 2,
@@ -32,7 +32,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "chimes",
     "skill_used": "mechanics",
     "difficulty": 2,

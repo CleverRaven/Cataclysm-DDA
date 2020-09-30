@@ -546,7 +546,7 @@ item &item::deactivate( const Character *ch, bool alert )
 
     if( is_tool() && type->tool->revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
-            ch->add_msg_if_player( m_info, _( type->tool->revert_msg ), tname() );
+            ch->add_msg_if_player( m_info, type->tool->revert_msg.translated(), tname() );
         }
         convert( *type->tool->revert_to );
         active = false;
@@ -3115,9 +3115,9 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     const std::string name = elem.recipe->result_name();
                     recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else if( !can_learn ) {
-                    recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+                    recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
                 } else {
-                    recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
+                    recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
                 }
             }
 
@@ -3271,10 +3271,10 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
     if( is_craft() ) {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Using: %s" ),
-                                  _( components_to_string() ) ) ) );
+                                  components_to_string() ) ) );
     } else {
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Made from: %s" ),
-                                  _( components_to_string() ) ) ) );
+                                  components_to_string() ) ) );
     }
 }
 
@@ -3312,7 +3312,8 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
-        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character() ) );
+        const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character(),
+                                        recipe_time_flag::ignore_proficiencies ) );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
         const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),
@@ -3590,8 +3591,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", _( tid.obj().name ),
-                                      _( tid.obj().description ) );
+                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
+                                      tid.obj().description );
             } ) ) );
         }
     }
@@ -3792,7 +3793,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         for( const std::string &e : flags ) {
             const json_flag &f = json_flag::get( e );
             if( !f.info().empty() ) {
-                info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.info() ) ) );
+                info.emplace_back( "DESCRIPTION", string_format( "* %s", f.info() ) );
             }
         }
     }
@@ -6672,38 +6673,34 @@ const mtype *item::get_mtype() const
 
 float item::get_specific_heat_liquid() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_liquid();
+    if( is_comestible() ) {
+        return get_comestible()->specific_heat_liquid;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_liquid;
+    return made_of_types()[0]->specific_heat_liquid();
 }
 
 float item::get_specific_heat_solid() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->specific_heat_solid();
+    if( is_comestible() ) {
+        return get_comestible()->specific_heat_solid;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->specific_heat_solid;
+    return made_of_types()[0]->specific_heat_solid();
 }
 
 float item::get_latent_heat() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->latent_heat();
+    if( is_comestible() ) {
+        return get_comestible()->latent_heat;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->latent_heat;
+    return made_of_types()[0]->latent_heat();
 }
 
 float item::get_freeze_point() const
 {
-    if( is_corpse() ) {
-        return made_of_types()[0]->freeze_point();
+    if( is_comestible() ) {
+        return get_comestible()->freeze_point;
     }
-    // If it is not a corpse it is a food
-    return get_comestible()->freeze_point;
+    return made_of_types()[0]->freeze_point();
 }
 
 template<typename Item>
@@ -6898,6 +6895,11 @@ bool item::is_container_full( bool allow_bucket ) const
 bool item::can_unload_liquid() const
 {
     return contents.can_unload_liquid();
+}
+
+bool item::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    return contents.allows_speedloader( speedloader_id );
 }
 
 bool item::can_reload_with( const itype_id &ammo ) const
@@ -8656,7 +8658,8 @@ int item::fill_with( const item &contained, const int amount )
         if( count_by_charges ) {
             contained_item.charges = std::min( { amount - num_contained,
                                                  contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() )
+                                               } );
         }
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
@@ -8723,10 +8726,10 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
-
                 // if can supply excess charges split required off leaving remainder in-situ
                 item obj = e->split( qty );
                 if( parent ) {
+                    parent->contained_where( *e )->on_contents_changed();
                     parent->on_contents_changed();
                 }
                 if( !obj.is_null() ) {
@@ -8875,7 +8878,8 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
-            explosion_handler::explosion( p, 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) ), 0.0f, false, 0 );
+            float power = 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) );
+            explosion_handler::explosion( p, power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -9566,7 +9570,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
                 here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
-                here.add_field( pos, field_type_id( "fd_fire" ), 1 );
+                here.add_field( pos, fd_fire, 1 );
             }
         }
     }
@@ -10389,7 +10393,8 @@ units::volume item::get_selected_stack_volume( const std::map<const item *, int>
 
 int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
-    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy,
+                recipe_time_flag::ignore_proficiencies );
     std::vector<item_comp> to_be_disassembled = get_uncraft_components();
     while( !to_be_disassembled.empty() ) {
         item_comp current_comp = to_be_disassembled.back();

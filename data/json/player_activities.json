@@ -571,6 +571,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_GUNMOD_REMOVE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "modifying gun",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TOOLMOD_ADD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

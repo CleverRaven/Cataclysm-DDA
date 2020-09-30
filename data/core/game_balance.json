@@ -148,6 +148,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "WEARY_BMR_MULT",
+    "info": "What portion of BMR is used as the base for determining weariness threshold.",
+    "stype": "float",
+    "value": 0.54
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_THRESH_SCALING",
+    "info": "What the weariness threshold is multiplied by to gain each successive level.",
+    "stype": "float",
+    "value": 0.75
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_INITIAL_STEP",
+    "info": "What the weariness threshold is multiplied by for the first level of weariness.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_RECOVERY_MULT",
+    "info": "What percentage of calorie intake and expenditure is reduced during each reduction tick.",
+    "stype": "float",
+    "value": 0.05
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "INT_BASED_LEARNING_BASE_VALUE",
     "info": "The amount of INT which is used as base point for focus adjustments",
     "stype": "int",

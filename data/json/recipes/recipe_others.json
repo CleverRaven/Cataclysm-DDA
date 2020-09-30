@@ -396,6 +396,7 @@
     "skills_required": [ "gun", 3 ],
     "difficulty": 4,
     "time": "20 m",
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "book_learn": [ [ "recipe_bullets", 6 ], [ "textbook_fabrication", 7 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "swage", -1 ] ] ],
@@ -1221,7 +1222,11 @@
     "time": "6 m",
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ]
+    "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "required": false, "time_multiplier": 2 },
+      { "proficiency": "prof_knitting_speed", "required": false, "time_multiplier": 3 }
+    ]
   },
   {
     "type": "recipe",
@@ -1245,8 +1250,7 @@
     "time": "10 m",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "sewing_standard", 50 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [ [ "tailoring_cotton", 7 ] ]
   },
   {
     "type": "recipe",
@@ -1486,7 +1490,7 @@
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
     ],
-    "components": [ [ [ "cordage_36", 6 ], [ "withered", 36 ], [ "straw_pile", 36 ], [ "tanbark", 36 ], [ "willowbark", 36 ] ] ]
+    "components": [ [ [ "cordage_36", 6 ], [ "plant_cordage", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1502,16 +1506,7 @@
       { "proficiency": "prof_fibers", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_fibers_rope", "required": false, "time_multiplier": 3 }
     ],
-    "components": [
-      [
-        [ "rope_makeshift_6", 5 ],
-        [ "cordage_36", 30 ],
-        [ "withered", 180 ],
-        [ "straw_pile", 180 ],
-        [ "tanbark", 180 ],
-        [ "willowbark", 180 ]
-      ]
-    ]
+    "components": [ [ [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "plant_cordage", 180, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1843,7 +1838,7 @@
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 200 ], [ "nail", 100 ] ],
       [
-        [ "gunpowder", 72 ],
+        [ "gunpowder", 720 ],
         [ "chem_black_powder", 72 ],
         [ "shot_bird", 24 ],
         [ "shot_00", 12 ],
@@ -2117,7 +2112,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": true,
+    "book_learn": [ [ "plastics_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
   },
@@ -2131,6 +2127,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
@@ -2144,6 +2142,8 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -2157,6 +2157,8 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 8 ] ] ]
   },
@@ -2383,6 +2385,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 2.5 } ],
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -2867,9 +2870,10 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "10 m",
+    "time": "20 m",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
@@ -2884,7 +2888,8 @@
     "difficulty": 4,
     "time": "10 m",
     "reversible": true,
-    "autolearn": true,
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
@@ -3267,6 +3272,7 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 4 } ],
     "result_mult": 4,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
@@ -3293,6 +3299,7 @@
     "difficulty": 7,
     "time": "1 h 30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ] ] ],
     "components": [ [ [ "glass_shard", 5 ], [ "flask_glass", 5 ], [ "test_tube", 10 ], [ "marble", 125 ] ] ]
@@ -3307,6 +3314,7 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
@@ -3321,6 +3329,7 @@
     "difficulty": 5,
     "time": "40 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
     "components": [ [ [ "glass_shard", 2 ], [ "flask_glass", 2 ], [ "test_tube", 4 ], [ "marble", 50 ] ] ]
@@ -3335,6 +3344,7 @@
     "difficulty": 4,
     "time": "20 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "test_tube", 2 ], [ "marble", 25 ] ] ]
@@ -3349,6 +3359,7 @@
     "difficulty": 4,
     "time": "4 m",
     "book_learn": [ [ "glassblowing_book", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "result_mult": 2,
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
@@ -3364,6 +3375,7 @@
     "difficulty": 5,
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 10 ] ] ]
   },
@@ -3392,6 +3404,7 @@
     "difficulty": 6,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
     "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
@@ -3406,6 +3419,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 182 ], [ "jar_glass_sealed", 91 ], [ "flask_glass", 182 ], [ "test_tube", 364 ] ] ]
   },
@@ -3738,6 +3752,7 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [
@@ -3917,6 +3932,8 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -3931,6 +3948,8 @@
     "difficulty": 4,
     "time": "45 m",
     "autolearn": true,
+    "book_learn": [ [ "plastics_book", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 15 ] ] ]
   },
@@ -4174,6 +4193,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
@@ -4188,6 +4208,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 1.5 } ],
     "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
@@ -4202,6 +4223,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery", "required": false, "time_multiplier": 4 } ],
     "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
@@ -4214,9 +4236,13 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
-    "using": [ [ "earthenware_firing", 40 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_pottery", "required": false, "time_multiplier": 4 },
+      { "proficiency": "prof_pottery_glazing", "required": false, "time_multiplier": 3 }
+    ],
+    "using": [ [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
   {
@@ -4395,6 +4421,8 @@
     "time": "35 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -4409,6 +4437,8 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
@@ -4824,11 +4854,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
-    "time": "1 h",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving", "required": false, "time_multiplier": 4 } ],
+    "components": [ [ [ "plant_cordage", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5006,6 +5037,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 4 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "glass_shard", 400 ], [ "flask_glass", 126 ], [ "jar_glass_sealed", 42 ] ] ]
   },
@@ -5019,6 +5051,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "plastic_chunk", 200 ] ] ]
   },
@@ -5032,6 +5065,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 3 } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [
@@ -5048,7 +5082,8 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "30 m",
-    "autolearn": true,
+    "book_learn": [ [ "plastics_book", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -5065,6 +5100,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "alder_bark", 6 ], [ "lye", 5 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "alder_bark", 6 ] ], [ [ "lye", 5 ] ], [ [ "water_clean", 10 ] ] ]
   }
 ]

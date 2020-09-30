@@ -50,15 +50,16 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 2,
-    "charges": 1,
+    "//": "Increased recipe size, due to such miniscule amounts would have excessive loss in the straining step otherwise. Made it X8",
+    "charges": 8,
     "book_learn": [ [ "cookbook_indian", 1 ] ],
     "time": "30 m",
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 70, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [
       [ [ "water_boiling_heat", 2, "LIST" ] ],
       [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ]
     ],
-    "components": [ [ [ "raw_butter", 1 ], [ "butter", 1 ] ] ]
+    "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ]
   }
 ]

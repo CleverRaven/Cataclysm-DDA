@@ -80,13 +80,13 @@ bool monster::wander()
 
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
-    if( fid == field_type_id( "fd_fungal_haze" ) ) {
+    if( fid == fd_fungal_haze ) {
         return has_flag( MF_NO_BREATHE ) || type->in_species( species_FUNGUS );
     }
-    if( fid == field_type_id( "fd_fungicidal_gas" ) ) {
+    if( fid == fd_fungicidal_gas ) {
         return !type->in_species( species_FUNGUS );
     }
-    if( fid == field_type_id( "fd_insecticidal_gas" ) ) {
+    if( fid == fd_insecticidal_gas ) {
         return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
     }
     const field_type &ft = fid.obj();
@@ -215,10 +215,10 @@ bool monster::will_move_to( const tripoint &p ) const
         }
 
         // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( field_type_id( "fd_fire" ) ) ) {
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
             return false;
         }
-        if( avoid_simple && target_field.find_field( field_type_id( "fd_electricity" ) ) ) {
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
             return false;
         }
     }
@@ -440,7 +440,14 @@ void monster::plan()
     }
 
     fleeing = fleeing || ( mood == MATT_FLEE );
-    if( friendly == 0 ) {
+    // Throttle monster thinking, if there are no apparent threats, stop paying attention.
+    constexpr int max_turns_for_rate_limiting = 1800;
+    constexpr double max_turns_to_skip = 600.0;
+    // Outputs a range from 0.0 - 1.0.
+    int rate_limiting_factor = 1.0 - logarithmic_range( 0, max_turns_for_rate_limiting,
+                               turns_since_target );
+    int turns_to_skip = max_turns_to_skip * rate_limiting_factor;
+    if( friendly == 0 && ( turns_to_skip == 0 || turns_since_target % turns_to_skip == 0 ) ) {
         for( const auto &fac_list : factions ) {
             mf_attitude faction_att = faction.obj().attitude( fac_list.first );
             if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -476,6 +483,12 @@ void monster::plan()
                 }
             }
         }
+    }
+    if( target == nullptr ) {
+        // Just avoiding overflow.
+        turns_since_target = std::min( turns_since_target + 1, max_turns_for_rate_limiting );
+    } else {
+        turns_since_target = 0;
     }
 
     // Friendly monsters here
@@ -800,7 +813,7 @@ void monster::move()
 
     if( current_attitude == MATT_IGNORE ||
         ( current_attitude == MATT_FOLLOW && rl_dist( pos(), goal ) <= MONSTER_FOLLOW_DIST ) ) {
-        moves -= 100;
+        moves = 0;
         stumble();
         return;
     }
@@ -808,29 +821,41 @@ void monster::move()
     bool moved = false;
     tripoint destination;
 
+    bool try_to_move = false;
+    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
+        if( dest != pos() ) {
+            if( can_move_to( dest ) &&
+                g->critter_at( dest, true ) == nullptr ) {
+                try_to_move = true;
+                break;
+            }
+        }
+    }
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
-    if( !wander() ) {
-        while( !path.empty() && path.front() == pos() ) {
-            path.erase( path.begin() );
-        }
+    if( try_to_move ) {
+        if( !wander() ) {
+            while( !path.empty() && path.front() == pos() ) {
+                path.erase( path.begin() );
+            }
 
-        const auto &pf_settings = get_pathfinding_settings();
-        if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-            ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-            // We need a new path
-            path = here.route( pos(), goal, pf_settings, get_path_avoid() );
-        }
+            const auto &pf_settings = get_pathfinding_settings();
+            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
+                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+                // We need a new path
+                path = here.route( pos(), goal, pf_settings, get_path_avoid() );
+            }
 
-        // Try to respect old paths, even if we can't pathfind at the moment
-        if( !path.empty() && path.back() == goal ) {
-            destination = path.front();
-            moved = true;
-            pathed = true;
-        } else {
-            // Straight line forward, probably because we can't pathfind (well enough)
-            destination = goal;
-            moved = true;
+            // Try to respect old paths, even if we can't pathfind at the moment
+            if( !path.empty() && path.back() == goal ) {
+                destination = path.front();
+                moved = true;
+                pathed = true;
+            } else {
+                // Straight line forward, probably because we can't pathfind (well enough)
+                destination = goal;
+                moved = true;
+            }
         }
     }
     if( !moved && has_flag( MF_SMELLS ) ) {
@@ -885,6 +910,11 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            // rare scenario when monster is on the border of the map and it's goal is outside of the map
+            if( !here.inbounds( candidate ) ) {
+                continue;
+            }
+
             bool via_ramp = false;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
@@ -1013,7 +1043,7 @@ void monster::move()
             }
         }
     } else {
-        moves -= 100;
+        moves = 0;
         stumble();
         path.clear();
     }
@@ -1144,6 +1174,11 @@ tripoint monster::scent_move()
     if( std::abs( posz() - get_map().get_abs_sub().z ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
+    scent_map &scents = get_scent();
+    bool in_range = scents.inbounds( pos() );
+    if( !in_range ) {
+        return { -1, -1, INT_MIN };
+    }
 
     const std::set<scenttype_id> &tracked_scents = type->scents_tracked;
     const std::set<scenttype_id> &ignored_scents = type->scents_ignored;
@@ -1159,43 +1194,49 @@ tripoint monster::scent_move()
 
     Character &player_character = get_player_character();
     const bool fleeing = is_fleeing( player_character );
+    int scent_here = scents.get_unsafe( pos() );
     if( fleeing ) {
-        bestsmell = get_scent().get( pos() );
+        bestsmell = scent_here;
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && get_scent().get( pos() ) > smell_threshold ) ||
-        ( fleeing && bestsmell == 0 ) ) {
+    // When the scent is *either* too strong or too weak, can't follow it.
+    if( ( !fleeing && scent_here > smell_threshold ) ||
+        ( scent_here == 0 ) ) {
         return next;
     }
+    // Check for the scent type being compatible.
+    const scenttype_id &type_scent = scents.get_type();
+    bool right_scent = false;
+    // is the monster tracking this scent
+    if( !tracked_scents.empty() ) {
+        right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
+    }
+    //is this scent recognised by the monster species
+    if( !type_scent.is_empty() ) {
+        const std::set<species_id> &receptive_species = type_scent->receptive_species;
+        const std::set<species_id> &monster_species = type->species;
+        std::vector<species_id> v_intersection;
+        std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
+                               monster_species.end(), std::back_inserter( v_intersection ) );
+        if( !v_intersection.empty() ) {
+            right_scent = true;
+        }
+    }
+    // is the monster actually ignoring this scent
+    if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+        right_scent = false;
+    }
+    if( !right_scent ) {
+        return { -1, -1, INT_MIN };
+    }
+
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
-    for( const auto &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = get_scent().get( dest );
-        const scenttype_id &type_scent = get_scent().get_type( dest );
+    for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+        int smell = scents.get( dest );
 
-        bool right_scent = false;
-        // is the monster tracking this scent
-        if( !tracked_scents.empty() ) {
-            right_scent = tracked_scents.find( type_scent ) != tracked_scents.end();
-        }
-        //is this scent recognised by the monster species
-        if( !type_scent.is_empty() ) {
-            const std::set<species_id> &receptive_species = type_scent->receptive_species;
-            const std::set<species_id> &monster_species = type->species;
-            std::vector<species_id> v_intersection;
-            std::set_intersection( receptive_species.begin(), receptive_species.end(), monster_species.begin(),
-                                   monster_species.end(), std::back_inserter( v_intersection ) );
-            if( !v_intersection.empty() ) {
-                right_scent = true;
-            }
-        }
-        // is the monster actually ignoring this scent
-        if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
-            right_scent = false;
-        }
-
-        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) || !right_scent ) {
+        if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
             continue;
         }
         if( here.valid_move( pos(), dest, can_bash, true ) &&
@@ -1647,13 +1688,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
-        here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
+        here.add_field( pos(), fd_acid, 3 );
     }
 
     // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
     if( has_flag( MF_SHORTACIDTRAIL ) ) {
         if( one_in( 5 ) ) {
-            here.add_field( pos(), field_type_id( "fd_acid" ), 3 );
+            here.add_field( pos(), fd_acid, 3 );
         }
     }
 
@@ -1661,7 +1702,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
             const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
             if( fstr >= 2 ) {
-                here.add_field( sludge_p, field_type_id( "fd_sludge" ), fstr );
+                here.add_field( sludge_p, fd_sludge, fstr );
             }
         }
     }

@@ -13,6 +13,7 @@
 #include "action.h"
 #include "activity_actor.h"
 #include "activity_type.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -166,6 +167,18 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         return false;
     }
 
+    Character &player_character = get_player_character();
+    if( test_mode ) {
+        switch( test_mode_spilling_action ) {
+            case test_mode_spilling_action_t::spill_all:
+                target.pos = player_character.pos();
+                target.dest_opt = LD_GROUND;
+                return true;
+            case test_mode_spilling_action_t::cancel_spill:
+                return false;
+        }
+    }
+
     uilist menu;
 
     map &here = get_map();
@@ -186,7 +199,6 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         //~ %s: liquid name
         menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
-    Character &player_character = get_player_character();
     std::vector<std::function<void()>> actions;
     if( player_character.can_consume( liquid ) && !source_mon && ( source_veh || source_pos ) ) {
         if( player_character.can_consume_for_bionic( liquid ) ) {

@@ -1018,10 +1018,29 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                 const int text_x = cell_index == 0 ? x1 : x2 -
                                    text_width; // Align either to the left or to the right
                 const std::string &text = entry_cell_cache.text[cell_index];
+                const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
 
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, point( text_x, yy ), text_width, selected ? h_white : c_dark_gray,
                                     remove_color_tags( text ) );
+                } else if( entry.is_item() && entry.highlight_as_parent ) {
+                    if( hl_option == "symbol" ) {
+                        trim_and_print( win, point( text_x - 1, yy ), 1, h_white, "<" );
+                        trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
+                    } else {
+                        trim_and_print( win, point( text_x, yy ), text_width, c_white_white,
+                                        remove_color_tags( text ) );
+                    }
+                    entry.highlight_as_parent = false;
+                } else if( entry.is_item() && entry.highlight_as_child ) {
+                    if( hl_option == "symbol" ) {
+                        trim_and_print( win, point( text_x - 1, yy ), 1, h_white, ">" );
+                        trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
+                    } else {
+                        trim_and_print( win, point( text_x, yy ), text_width, c_black_white,
+                                        remove_color_tags( text ) );
+                    }
+                    entry.highlight_as_child = false;
                 } else {
                     trim_and_print( win, point( text_x, yy ), text_width, entry_cell_cache.color, text );
                 }
@@ -2101,8 +2120,10 @@ item_location inventory_pick_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
     while( true ) {
+        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
+            highlight();
+        }
         ui_manager::redraw();
-
         const inventory_input input = get_input();
 
         if( input.entry != nullptr ) {
@@ -2121,6 +2142,47 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else {
             on_input( input );
+        }
+    }
+}
+
+void inventory_selector::highlight()
+{
+    const auto return_item = []( const inventory_entry & entry ) {
+        return entry.is_item();
+    };
+    const inventory_entry &selected = get_active_column().get_selected();
+    if( !selected.is_item() ) {
+        return;
+    }
+    item_location parent = item_location::nowhere;
+    bool selected_has_parent = false;
+    if( selected.is_item() && selected.any_item().has_parent() ) {
+        parent = selected.any_item().parent_item();
+        selected_has_parent = true;
+    }
+    for( const inventory_column *column : get_all_columns() ) {
+        for( inventory_entry *entry : column->get_entries( return_item ) ) {
+            // Find parent of selected.
+            if( selected_has_parent ) {
+                // Check if parent is in a stack.
+                for( const item_location &test_loc : entry->locations ) {
+                    if( test_loc == parent ) {
+                        entry->highlight_as_parent = true;
+                        break;
+                    }
+                }
+            }
+            // Find contents of selected.
+            if( !entry->any_item().has_parent() ) {
+                continue;
+            }
+            // More than one item can be highlighted when selected container is stacked.
+            for( const item_location &location : selected.locations ) {
+                if( entry->any_item().parent_item() == location ) {
+                    entry->highlight_as_child = true;
+                }
+            }
         }
     }
 }
@@ -2404,6 +2466,9 @@ drop_locations inventory_drop_selector::execute()
 
     int count = 0;
     while( true ) {
+        if( get_option<std::string>( "INVENTORY_HIGHLIGHT" ) != "disable" ) {
+            highlight();
+        }
         ui_manager::redraw();
 
         const inventory_input input = get_input();
