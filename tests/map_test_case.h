@@ -82,14 +82,6 @@ class map_test_case
 
         /**
          * Invokes callback for each tile of the input map.
-         * (parameter R needed to accept functions with any return type, return value is ignored)
-         * @param callback
-         */
-        template<typename R>
-        void for_each_tile( const std::function<R( tile )> &callback );
-
-        /**
-         * Invokes callback for each tile of the input map.
          * Gathers info written in out stream and arranges it into 2d grid which is returned.
          */
         std::vector<std::vector<std::string>> map_tiles_str( const
@@ -326,16 +318,6 @@ std::vector<std::vector<R>> map_test_case::map_tiles(
     } );
 
     return ret;
-}
-
-template<typename R>
-void map_test_case::for_each_tile( const std::function<R( tile )> &callback )
-{
-    do_internal_checks();
-    if( !origin ) {
-        origin = get_origin();
-    }
-    for_each_tile( *origin, callback );
 }
 
 #endif // CATA_TESTS_MAP_TEST_CASE_H

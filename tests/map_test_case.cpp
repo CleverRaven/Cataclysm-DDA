@@ -64,7 +64,11 @@ void map_test_case::for_each_tile( tripoint tmp_origin,
 
 void map_test_case::for_each_tile( const std::function<void( tile )> &callback )
 {
-    for_each_tile<void>( callback );
+    do_internal_checks();
+    if( !origin ) {
+        origin = get_origin();
+    }
+    for_each_tile( *origin, callback );
 }
 
 std::vector<std::vector<std::string>> map_test_case::map_tiles_str(
