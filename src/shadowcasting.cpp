@@ -496,7 +496,7 @@ void cast_zlight(
     const array_of_grids_of<const bool> &floor_caches,
     const tripoint &origin, const int offset_distance, const T numerator, vertical_direction dir )
 {
-    if( static_cast<int>( dir ) | static_cast<int>( vertical_direction::DOWN ) ) {
+    if( dir == vertical_direction::DOWN || dir == vertical_direction::BOTH ) {
         // Down lateral
         // @..
         //  ..
@@ -558,7 +558,7 @@ void cast_zlight(
             output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
     }
 
-    if( static_cast<int>( dir ) | static_cast<int>( vertical_direction::DOWN ) ) {
+    if( dir == vertical_direction::UP || dir == vertical_direction::BOTH ) {
         // Up lateral
         // @..
         //  ..
