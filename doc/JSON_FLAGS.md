@@ -1507,8 +1507,8 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 - ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder.
 - ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
 - ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
+- ```BAD_STARTER``` Prevents engine from starting and makes click noise.
 - ```DOUBLE_FUEL_CONSUMPTION``` Doubles fuel consumption of the engine. Does not stack with multiples of itself.
 - ```EXTRA_EXHAUST``` Makes the engine emit more exhaust smoke.
 - ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6.
 - ```ENG_BACKFIRE``` Causes the engine to backfire as if it had zero hp.
-- ```BAD_STARTER``` Prevents engine from starting and makes click noise.
