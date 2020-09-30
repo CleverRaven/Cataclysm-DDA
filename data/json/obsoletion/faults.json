@@ -10,8 +10,8 @@
         "name": "Replace faulty water pump",
         "success_msg": "You replace the faulty water pump of the %s.",
         "time": "0 m",
-        "skills": [ ],
-        "requirements": { }
+        "skills": [  ],
+        "requirements": {  }
       }
     ]
   }
