@@ -5,8 +5,12 @@
 #include <vector>
 
 #include "calendar.h"
+#include "cata_utility.h"
 #include "json.h"
 #include "units.h"
+#include "units_utility.h"
+
+#include "options_helpers.h"
 
 TEST_CASE( "units_have_correct_ratios", "[units]" )
 {
@@ -87,3 +91,156 @@ TEST_CASE( "time_duration parsing from JSON", "[units]" )
     CHECK( parse_time_duration( "\"1 turns -4 minutes 1 hours -4 days\"" ) == 1_turns - 4_minutes +
            1_hours - 4_days );
 }
+
+// convert_length and length_units work in tandem to give a succinct expression of length in
+// imperial or metric units, based on whether the length is evenly divisible by the natural
+// units in each system (millimeter|centimeter|meter|kilometer, or inch|foot|yard|mile)
+//
+// convert_length takes a units::length, and returns an integer number of the most appropriate
+// measurement unit for the configured DISTANCE_UNITS option, based on whether the length is evenly
+// divisible by that unit.
+//
+// length_units returns the corresponding unit string for that measurement ("mm", "in.", "ft" etc.)
+//
+// Thus, together they prefer (say) "15 cm" over "150 mm", and "2 m" over "200 cm" for metric units,
+// or "2 ft" over "24 in.", and "1 yd" over "36 in.", and "1 mi" over "5280 ft" for imperial units.
+//
+TEST_CASE( "convert_length", "[units][convert][length]" )
+{
+    SECTION( "imperial length" ) {
+        override_option opt_imperial( "DISTANCE_UNITS", "imperial" );
+
+        SECTION( "non-multiples of 12 inches expressed in inches" ) {
+            // 1 inch == 25.4 mm
+            CHECK( convert_length( 26_mm ) == 1 );
+            CHECK( length_units( 26_mm ) == "in." );
+            CHECK( convert_length( 254_mm ) == 10 );
+            CHECK( length_units( 254_mm ) == "in." );
+            CHECK( convert_length( 2540_mm ) == 100 );
+            CHECK( length_units( 2540_mm ) == "in." );
+        }
+        SECTION( "multiples of 12 inches expressed in feet" ) {
+            // 12 inches == 304.8 mm
+            CHECK( convert_length( 305_mm ) == 1 );
+            CHECK( length_units( 305_mm ) == "ft" );
+            CHECK( convert_length( 610_mm ) == 2 );
+            CHECK( length_units( 610_mm ) == "ft" );
+        }
+        SECTION( "multiples of 36 inches expressed in yards" ) {
+            // 1 yard == 914.4 mm
+            CHECK( convert_length( 915_mm ) == 1 );
+            CHECK( length_units( 915_mm ) == "yd" );
+            CHECK( convert_length( 1830_mm ) == 2 );
+            CHECK( length_units( 1830_mm ) == "yd" );
+        }
+        SECTION( "multiples of 63360 inches expressed in miles" ) {
+            // 1 mile == 1,609,344 mm
+            CHECK( convert_length( 1609344_mm ) == 1 );
+            CHECK( length_units( 1609344_mm ) == "mi" );
+        }
+    }
+
+    SECTION( "metric length" ) {
+        override_option opt_metric( "DISTANCE_UNITS", "metric" );
+
+        SECTION( "non-multiples of 10 mm expressed in millimeters" ) {
+            CHECK( convert_length( 1_mm ) == 1 );
+            CHECK( length_units( 1_mm ) == "mm" );
+            CHECK( convert_length( 51_mm ) == 51 );
+            CHECK( length_units( 51_mm ) == "mm" );
+            CHECK( convert_length( 99_mm ) == 99 );
+            CHECK( length_units( 99_mm ) == "mm" );
+        }
+        SECTION( "multiples of 10 mm in centimeters" ) {
+            CHECK( convert_length( 10_mm ) == 1 );
+            CHECK( length_units( 10_mm ) == "cm" );
+            CHECK( convert_length( 50_mm ) == 5 );
+            CHECK( length_units( 50_mm ) == "cm" );
+            CHECK( convert_length( 100_mm ) == 10 );
+            CHECK( length_units( 100_mm ) == "cm" );
+            CHECK( convert_length( 150_mm ) == 15 );
+            CHECK( length_units( 150_mm ) == "cm" );
+        }
+        SECTION( "multiples of 1,000 mm expressed in meters" ) {
+            CHECK( convert_length( 1000_mm ) == 1 );
+            CHECK( length_units( 1000_mm ) == "m" );
+            CHECK( convert_length( 5000_mm ) == 5 );
+            CHECK( length_units( 5000_mm ) == "m" );
+            CHECK( convert_length( 25000_mm ) == 25 );
+            CHECK( length_units( 25000_mm ) == "m" );
+        }
+        SECTION( "multiples of 1,000,000 mm expressed in kilometers" ) {
+            CHECK( convert_length( 1000000_mm ) == 1 );
+            CHECK( length_units( 1000000_mm ) == "km" );
+            CHECK( convert_length( 5000000_mm ) == 5 );
+            CHECK( length_units( 5000000_mm ) == "km" );
+        }
+    }
+}
+
+// convert_volume takes an integer number of milliliters, and returns equivalent floating-point
+// number of cups, liters, or quarts, depending on the configured VOLUME_UNITS option (c, l, or qt)
+TEST_CASE( "convert_volume", "[units][convert][volume]" )
+{
+    SECTION( "convert to metric cups" ) {
+        override_option opt_cup( "VOLUME_UNITS", "c" );
+        CHECK( convert_volume( 250 ) == Approx( 1.0f ) );
+        CHECK( convert_volume( 1000 ) == Approx( 4.0f ) );
+        CHECK( convert_volume( 1500 ) == Approx( 6.0f ) );
+        CHECK( convert_volume( 2000 ) == Approx( 8.0f ) );
+    }
+
+    SECTION( "convert to liters" ) {
+        override_option opt_liter( "VOLUME_UNITS", "l" );
+        CHECK( convert_volume( 1000 ) == Approx( 1.0f ) );
+        CHECK( convert_volume( 1500 ) == Approx( 1.5f ) );
+        CHECK( convert_volume( 2000 ) == Approx( 2.0f ) );
+    }
+    SECTION( "convert to quarts" ) {
+        override_option opt_quart( "VOLUME_UNITS", "qt" );
+        CHECK( convert_volume( 1000 ) == Approx( 1.057f ).margin( 0.001f ) );
+        CHECK( convert_volume( 2000 ) == Approx( 2.114f ).margin( 0.001f ) );
+    }
+}
+
+// convert_weight takes a units::mass weight, and returns equivalent floating-point number of
+// kilograms or pounds, depending on the configured USE_METRIC_WEIGHTS option (kg or lbs).
+TEST_CASE( "convert_weight", "[units][convert][weight]" )
+{
+    // Kilograms (metric)
+    override_option opt_kg( "USE_METRIC_WEIGHTS", "kg" );
+    CHECK( convert_weight( 100_gram ) == Approx( 0.1f ) );
+    CHECK( convert_weight( 500_gram ) == Approx( 0.5f ) );
+    CHECK( convert_weight( 1000_gram ) == Approx( 1.0f ) );
+    CHECK( convert_weight( 5000_gram ) == Approx( 5.0f ) );
+
+    // Pounds (imperial)
+    override_option opt_lbs( "USE_METRIC_WEIGHTS", "lbs" );
+    const double g_per_lb = 453.6;
+    CHECK( convert_weight( 100_gram ) == Approx( 100.0f / g_per_lb ) );
+    CHECK( convert_weight( 1000_gram ) == Approx( 1000.0f / g_per_lb ) );
+    CHECK( convert_weight( 5000_gram ) == Approx( 5000.0f / g_per_lb ) );
+}
+
+// convert_velocity takes an integer in "internal units", and returns a floating-point number based
+// on configured USE_METRIC_SPEEDS (mph, km/h, or t/t).
+//
+// For "km/h", return value is in different units depending on whether it is VEHICLE or WIND speed.
+TEST_CASE( "convert_velocity", "[units][convert][velocity]" )
+{
+    // 100 internal units == 1 mph, for both VEHICLE and WIND type
+    override_option opt_mph( "USE_METRIC_SPEEDS", "mph" );
+    CHECK( convert_velocity( 100, VU_VEHICLE ) == Approx( 1.0f ) );
+    CHECK( convert_velocity( 100, VU_WIND ) == Approx( 1.0f ) );
+
+    // Tiles-per-turn == 1/4 of mph for both VEHICLE and WIND type
+    override_option opt_tpt( "USE_METRIC_SPEEDS", "t/t" );
+    CHECK( convert_velocity( 100, VU_VEHICLE ) == Approx( 0.25f ) );
+    CHECK( convert_velocity( 100, VU_WIND ) == Approx( 0.25f ) );
+
+    // For metric velocity, VEHICLE speed uses km/h, while WIND speed uses meters/sec
+    override_option opt_kph( "USE_METRIC_SPEEDS", "km/h" );
+    CHECK( convert_velocity( 100, VU_VEHICLE ) == Approx( 1.609f ) );
+    CHECK( convert_velocity( 100, VU_WIND ) == Approx( 0.447f ) );
+}
+
