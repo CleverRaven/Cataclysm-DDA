@@ -425,7 +425,7 @@ const std::set<fault_id> &vehicle_part::faults() const
     return base.faults;
 }
 
-const bool &vehicle_part::has_fault_flag( const std::string searched_flag ) const
+const bool &vehicle_part::has_fault_flag( const std::string &searched_flag ) const
 {
     for( const fault_id &fault : faults() ) {
         if( fault->has_flag( searched_flag ) ) {
