@@ -743,7 +743,6 @@ static void smash()
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            // do activity forever. ACT_PULP stops itself
             if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
@@ -754,6 +753,7 @@ static void smash()
     }
 
     if( should_pulp ) {
+        // do activity forever. ACT_PULP stops itself
         player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
         player_character.activity.placement = here.getabs( smashp );
         return; // don't smash terrain if we've smashed a corpse
