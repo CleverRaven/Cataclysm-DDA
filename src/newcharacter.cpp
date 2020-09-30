@@ -1536,14 +1536,15 @@ tab_direction set_profession( avatar &u, points_left &points,
                         buffer_inventory += it.display_name() + "\n";
                     }
                 }
-                buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
-                buffer += !buffer_wielded.empty() ? buffer_wielded : pgettext( "set_profession_item_wielded",
-                          "None\n" );
-                buffer += colorize( _( "Worn:" ), c_cyan ) + "\n";
-                buffer += !buffer_worn.empty() ? buffer_worn : pgettext( "set_profession_item_worn", "None\n" );
-                buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n";
-                buffer += !buffer_inventory.empty() ? buffer_inventory : pgettext( "set_profession_item_inventory",
-                          "None\n" );
+                if( !buffer_wielded.empty() ) {
+                    buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n" + buffer_wielded;
+                }
+                if( !buffer_worn.empty() ) {
+                    buffer += colorize( _( "Worn:" ), c_cyan ) + "\n" + buffer_worn;
+                }
+                if( !buffer_inventory.empty() ) {
+                    buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n" + buffer_inventory;
+                }
             }
 
             // Profession bionics, active bionics shown first
