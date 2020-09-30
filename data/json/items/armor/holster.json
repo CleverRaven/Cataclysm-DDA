@@ -88,7 +88,7 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
-        "max_item_length": "160 cm",
+        "max_item_length": "200 cm",
         "moves": 50
       }
     ],
