@@ -8342,7 +8342,8 @@ void Character::update_stamina( int turns )
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
     static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
-    const float effective_regen_rate = base_regen_rate + get_cardio() / get_option<float>(stamina_cardio_regen_modifier);
+    const float effective_regen_rate = base_regen_rate + get_cardio() / get_option<float>
+                                       ( stamina_cardio_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -8411,8 +8412,10 @@ void Character::update_cardio()
     //THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
     const int athletics_mod = get_skill_level( skill_swimming ) * skill_const;
     const int health_effect = get_healthy() * health_const;
-    //WIP
-    const int trait_mod = 0;
+    //VERY WIP - SHOULD GOODCARDIO EXCLUSIVELY INFLUENCE CARDIO, OR SHOULD IT AFFECT STAMINA_MAX AS WELL?
+    static const std::string max_stamina_modifier( "max_stamina_modifier" );
+    // with no traits : trait_mod = 0. With indefatigable: trait_mod = 40 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -50 (too severe??).
+    int trait_mod = ( mutation_value( max_stamina_modifier ) - 1 ) * 200;
     //WIP
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
