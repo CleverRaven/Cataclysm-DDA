@@ -1504,11 +1504,11 @@ The requirement for other vehicle parts is defined for a json flag by setting ``
 ## Faults
 
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
-- ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder.
+- ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder. Does not stack with multiples of itself.
 - ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
 - ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
 - ```BAD_STARTER``` Prevents engine from starting and makes click noise.
 - ```DOUBLE_FUEL_CONSUMPTION``` Doubles fuel consumption of the engine. Does not stack with multiples of itself.
-- ```EXTRA_EXHAUST``` Makes the engine emit more exhaust smoke.
-- ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6.
+- ```EXTRA_EXHAUST``` Makes the engine emit more exhaust smoke. Does not stack with multiples of itself.
+- ```REDUCE_ENG_POWER``` Multiplies engine power by 0.6. Does not stack with multiples of itself.
 - ```ENG_BACKFIRE``` Causes the engine to backfire as if it had zero hp.
