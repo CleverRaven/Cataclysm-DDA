@@ -693,7 +693,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     } else {
         // This is the simple case, for a non-opaque tile light from all
         // directions is equivalent
-        apparent_light = vis * map_cache.lm[p.x][p.y][quadrant::default_];
+        apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
     return { obstructed, apparent_light };
 }
