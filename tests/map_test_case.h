@@ -151,51 +151,43 @@ class map_test_case
 // common helpers, used together with map_test_case
 namespace map_test_case_common
 {
+using tile_predicate = std::function<bool( map_test_case::tile )>;
+
 /**
- * Combines two arbitrary functions `f` and `g` into a single one.
- * `f` and `g` must have same signature
+ * Combines two functions `f` and `g` into a single one.
+ * `f` and `g` must have same signature.
+ * Returns tile_predicate that always returns "true" for easier chaning.
  */
-template<typename R, typename ... Args>
-static inline std::function<R( Args ... )> operator+(
-    const std::function<R( Args ... )> f,
-    const std::function<R( Args ... )> g )
+static inline tile_predicate operator+(
+    const std::function<void( map_test_case::tile )> &f,
+    const std::function<void( map_test_case::tile )> &g )
 {
-    // note: avoids std::forward for simplicity and safety
-    return [ = ]( Args ... args ) {
-        f( args ... );
-        return g( args ... );
+    return [ = ]( map_test_case::tile t ) {
+        f( t );
+        g( t );
+        return true;
     };
 }
 
 /**
- * Combines two boolean functions `f(args)` and `g(args)` into single function that returns `f(args) && g(args)`.
+ * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) && g(tile)`.
  * Note, if `f` returns false, `g` is not invoked!  (&& semantics)
  */
-template<typename ... Args>
-static inline std::function<bool( Args ... )> operator&&(
-    const std::function<bool( Args  ... )> &f,
-    const std::function<bool( Args ... )> &g
-)
+static inline tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g )
 {
-    // note: avoids std::forward for simplicity and safety
-    return [ = ]( Args ... args ) {
-        return f( args... ) && g( args... );
+    return [ = ]( map_test_case::tile t ) {
+        return f( t ) && g( t );
     };
 }
 
 /**
- * Combines two boolean functions `f(args)` and `g(args)` into single function that returns `f(args) || g(args)`.
+ * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) || g(tile)`.
  * Note, if `f` returns true, `g` is not invoked!  (|| semantics)
  */
-template<typename ... Args>
-static inline std::function<bool( Args ... )> operator||(
-    const std::function<bool( Args  ... )> &f,
-    const std::function<bool( Args ... )> &g
-)
+static inline tile_predicate operator||( const tile_predicate &f, const tile_predicate &g )
 {
-    return [ = ]( Args ... args ) {
-        return f( args... ) ||
-               g( std::forward<Args>( args )... );
+    return [ = ]( map_test_case::tile t ) {
+        return f( t ) || g( t );
     };
 }
 
@@ -213,8 +205,7 @@ namespace tiles
  * @param f function to call when char matches
  * @return function that returns true when char is matched and false otherwise
  */
-static inline std::function<bool( map_test_case::tile )> ifchar( char c,
-        std::function<void( map_test_case::tile )> f )
+static inline tile_predicate ifchar( char c, tile_predicate f )
 {
     return [ = ]( map_test_case::tile t ) {
         if( t.setup_c == c ) {
@@ -231,25 +222,7 @@ static inline std::function<bool( map_test_case::tile )> ifchar( char c,
  * @param shift shift from the current tile coordinates (e.g. to have the ability to set tiles above)
  * @return function that sets tiles
  */
-static inline std::function<void( map_test_case::tile t )> ter_set(
-    ter_id ter,
-    tripoint shift = tripoint_zero
-)
-{
-    return [ = ]( map_test_case::tile t ) {
-        REQUIRE( ter );
-        tripoint p = t.p + shift;
-        get_map().ter_set( p, ter );
-    };
-}
-
-/**
- * Returns the function that sets the map `ter` at the `map_test_case::tile` coords to the given ter_id
- * @param ter ter id to set
- * @param shift shift from the current tile coordinates (e.g. to have the ability to set tiles above)
- * @return function that sets tiles
- */
-static inline std::function<void( map_test_case::tile t )> ter_set(
+static inline tile_predicate ter_set(
     ter_str_id ter,
     tripoint shift = tripoint_zero
 )
@@ -258,6 +231,7 @@ static inline std::function<void( map_test_case::tile t )> ter_set(
         REQUIRE( ter.is_valid() );
         tripoint p = t.p + shift;
         get_map().ter_set( p, ter );
+        return true;
     };
 }
 
@@ -265,14 +239,16 @@ static inline std::function<void( map_test_case::tile t )> ter_set(
  * Function that prints encountered char and fails.
  * Use at the end of the chain of char handlers.
  */
-static const std::function<bool( map_test_case::tile )> fail = []( map_test_case::tile t )
+static const tile_predicate fail = []( map_test_case::tile t )
 {
-    INFO( "Char is not handled: " << t.setup_c );
-    REQUIRE( false );
+    FAIL( "Setup char is not handled: " << t.setup_c );
     return false;
 };
 
-static const auto noop = []( map_test_case::tile ) {};
+static const tile_predicate noop = []( map_test_case::tile )
+{
+    return true;
+};
 
 } // namespace tiles
 

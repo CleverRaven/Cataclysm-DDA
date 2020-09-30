@@ -75,7 +75,7 @@ using namespace map_test_case_common::tiles;
 
 auto static const ter_set_flat_roof_above = ter_set( ter_str_id( "t_flat_roof" ), tripoint_above );
 
-static const std::function<bool( map_test_case::tile )> set_up_tiles_common =
+static const tile_predicate set_up_tiles_common =
     ifchar( ' ', noop ) ||
     ifchar( 'U', noop ) ||
     ifchar( 'u', ter_set( ter_str_id( "t_floor" ) ) + ter_set_flat_roof_above ) ||
@@ -97,7 +97,7 @@ struct vision_test_case {
     std::vector<std::string> expected_results;
     time_point time = midday;
     vision_test_flags flags;
-    std::function<bool( map_test_case::tile )> set_up_tiles = set_up_tiles_common;
+    tile_predicate set_up_tiles = set_up_tiles_common;
     std::string section_prefix;
 
     vision_test_case( const std::vector<std::string> &setup,

@@ -7,45 +7,55 @@
 TEST_CASE( "map_test_case_common", "[map_test_case]" )
 {
     using namespace map_test_case_common;
+    using tile = map_test_case::tile;
+
+    auto test_tile = []( int c ) {
+        tile t;
+        t.setup_c = c;
+        return t;
+    };
+
     SECTION( "|| and &&" ) {
-        std::function<bool( int )> a = []( int arg ) {
-            return arg > 0;
+        tile_predicate f_positive = []( tile t ) {
+            return t.setup_c > 0;
         };
-        std::function<bool( int )> b = []( int arg ) {
-            return arg < 5;
+        tile_predicate f_negative = []( tile t ) {
+            return t.setup_c < 0;
+        };
+        tile_predicate f_less_than_five = []( tile t ) {
+            return t.setup_c < 5;
         };
 
-        auto a_and_b = a && b;
-        auto a_or_b = a || b;
+        CHECK( ( f_positive && f_less_than_five )( test_tile( 3 ) ) );
+        CHECK_FALSE( ( f_positive && f_less_than_five )( test_tile( -1 ) ) );
+        CHECK_FALSE( ( f_positive && f_less_than_five )( test_tile( 6 ) ) );
 
-        CHECK( a_and_b( 1 ) );
-        CHECK_FALSE( a_and_b( -1 ) );
-
-        CHECK( a_or_b( -1 ) );
-        CHECK( a_or_b( 1 ) );
-        CHECK( a_or_b( 6 ) );
+        CHECK( ( f_positive || f_less_than_five )( test_tile( -1 ) ) );
+        CHECK( ( f_positive || f_less_than_five )( test_tile( 6 ) ) );
+        CHECK_FALSE( ( f_positive || f_negative )( test_tile( 0 ) ) );
     }
     SECTION( "a && a && a" ) {
-        std::function<bool()> a = []() {
+        tile_predicate f_true = []( auto ) {
             return true;
         };
-        std::function<bool()> b = []() {
+        tile_predicate f_false = []( auto ) {
             return false;
         };
 
-        auto aaa = a && a && a; // NOLINT it's a test, it's fine
-        auto aab = a && a && b; // NOLINT
-        CHECK( aaa() );
-        CHECK_FALSE( aab() );
+        CHECK( ( f_true && f_true && f_true )( {} ) );
+        CHECK_FALSE( ( f_true && f_true && f_false )( {} ) );
+        CHECK( ( f_true || f_false || f_false )( {} ) );
+        CHECK( ( f_false || f_false || f_true )( {} ) );
     }
     SECTION( "inc + inc + inc" ) {
         int counter = 0;
-        std::function<void()> inc = [&]() {
+        tile_predicate inc = [&]( auto ) {
             counter++;
+            return true;
         };
         auto f = inc + inc + inc;
         CHECK( counter == 0 );
-        f();
+        f( {} );
         CHECK( counter == 3 );
     }
 }
