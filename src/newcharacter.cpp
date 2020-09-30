@@ -829,6 +829,7 @@ tab_direction set_stats( avatar &u, points_left &points )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_character_tabs( w, _( "STATS" ) );
+        // Helptext stats tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
                            "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
@@ -1741,7 +1742,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 6;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 5 ) );
+        w_description = catacurses::newwin( iContentHeight - 5, TERMX - 35, point( 31, 5 ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -1776,6 +1777,18 @@ tab_direction set_skills( avatar &u, points_left &points )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_character_tabs( w, _( "SKILLS" ) );
+
+        // Helptext skills tab
+        fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                           "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
+                           "Press <color_light_green>%s</color> to increase skill or "
+                           "<color_light_green>%s</color> to decrease skill.\n"
+                           "Press <color_light_green>%s</color> to go to the next tab or "
+                           "<color_light_green>%s</color> to return to the previous tab." ),
+                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 
         draw_points( w, points );
         // Clear the bottom of the screen.
