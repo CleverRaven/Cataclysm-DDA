@@ -1451,8 +1451,8 @@ bool game::do_turn()
     }
 
     u.update_body();
-
-    if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
+    // Recalculate cardio every 10 min
+    if( calendar::once_every( time_duration::from_minutes( 10 ) ) ) {
         u.update_cardio();
     }
     // Auto-save if autosave is enabled
