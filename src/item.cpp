@@ -978,7 +978,10 @@ bool item::combine( const item &rhs )
     if( !count_by_charges() ) {
         return false;
     }
-    if( has_temperature() && typeId() == rhs.typeId() ) {
+    if( !stacks_with( rhs, true ) ) {
+        return false;
+    }
+    if( has_temperature() ) {
         if( goes_bad() ) {
             //use maximum rot between the two
             set_relative_rot( std::max( get_relative_rot(),
@@ -992,8 +995,6 @@ bool item::combine( const item &rhs )
             set_item_specific_energy( combined_specific_energy );
         }
 
-    } else if( !stacks_with( rhs, true ) ) {
-        return false;
     }
     charges += rhs.charges;
     return true;
