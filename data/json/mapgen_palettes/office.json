@@ -38,14 +38,18 @@
       "s": "t_sidewalk",
       "V": "t_wall_glass",
       "w": "t_window",
-      "-": "t_wall",
-      "|": "t_wall",
+      "-": "t_brick_wall",
+      "|": "t_brick_wall",
       "z": "t_flat_roof",
       "1": "t_gutter_north",
       "2": "t_gutter_east",
       "3": "t_gutter_south",
       "4": "t_gutter_west",
-      "5": "t_gutter_drop"
+      "5": "t_gutter_drop",
+      "Δ": "t_ramp_up_low",
+      "Ʌ": "t_ramp_up_high",
+      "Ŧ": "t_ramp_down_high",
+      "±": "t_ramp_down_low"
     },
     "furniture": {
       "?": "f_sofa",
