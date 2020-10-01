@@ -930,6 +930,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "primitive_axe",
     "id_suffix": "by grinding",
+    "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "skills_required": [ "fabrication", 2 ],
@@ -1760,6 +1761,19 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "broadsword", 1 ], [ "machete", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "screwdriver",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "using": [ [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "duct_tape", 30 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
