@@ -14,7 +14,7 @@
     "components": [ [ [ "dragon_scale", 4, "LIST" ], [ "meat_dragon", 40 ] ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 2 } ],
     "time": "2 h",
-    "skill_used": "chesmistry",
+    "skill_used": "chemistry",
     "difficulty": 3,
     "skills_required": [ "spellcraft", 2 ],
     "book_learn": [ [ "black_dragons", 2 ] ],
