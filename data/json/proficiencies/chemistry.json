@@ -1,0 +1,10 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_metallurgy",
+    "name": { "str": "Metallurgy" },
+    "description": "An understanding of the chemistry of metalworking and alloys.",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  }
+]
