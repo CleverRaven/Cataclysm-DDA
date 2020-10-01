@@ -78,6 +78,7 @@ enum vpart_bitflags : int {
     VPFLAG_REACTOR,
     VPFLAG_RAIL,
     VPFLAG_TURRET_CONTROLS,
+    VPFLAG_ROOF,
 
     NUM_VPFLAGS
 };
