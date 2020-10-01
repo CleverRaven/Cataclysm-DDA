@@ -449,7 +449,7 @@
       [ "file", 99 ],
       [ "paper", 60 ],
       [ "laptop", 2 ],
-      [ "inhaler", 1 ],
+      { "item": "inhaler", "prob": 1, "charges-min": 10, "charges-max": 100 },
       [ "mbag", 2 ],
       [ "mop", 5 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },

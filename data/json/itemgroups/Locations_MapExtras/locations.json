@@ -1643,7 +1643,7 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
-      [ "inhaler", 14 ],
+      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       [ "eyedrops", 20 ],
       [ "clock", 10 ],
       { "group": "tobacco_products", "prob": 151 },

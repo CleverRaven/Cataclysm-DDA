@@ -934,7 +934,7 @@
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
-      [ "inhaler", 20 ],
+      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
       [ "hairpin", 20 ],
       [ "lighter", 20 ],
       [ "matches", 20 ],
