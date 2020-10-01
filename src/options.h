@@ -21,16 +21,7 @@ class JsonOut;
 class options_manager
 {
     public:
-        class id_and_option : public std::pair<std::string, translation>
-        {
-            public:
-                id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, to_translation( second ) ) {
-                }
-                id_and_option( const std::string &first, const translation &second )
-                    : std::pair<std::string, translation>( first, second ) {
-                }
-        };
+        using id_and_option = std::pair<std::string, translation>;
         static std::vector<id_and_option> get_lang_options();
     private:
         /**

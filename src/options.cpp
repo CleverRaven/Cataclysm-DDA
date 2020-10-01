@@ -1006,7 +1006,7 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
     std::vector<id_and_option> lang_options = {
-        { "", translate_marker( "System language" ) },
+        { "", to_translation( "System language" ) },
         // Note: language names are in their own language and are *not* translated at all.
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
@@ -1157,7 +1157,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_zombie_only", translate_marker( "Pulp Zombies Only" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", translate_marker( "Pulp Adjacent Zombie Only" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", to_translation( "Pulp" ) }, { "pulp_zombie_only", to_translation( "Pulp Zombies Only" ) }, { "pulp_adjacent", to_translation( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", to_translation( "Pulp Adjacent Zombie Only" ) }, { "butcher", to_translation( "Butcher" ) } },
     "off"
        );
 
@@ -1172,7 +1172,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
          translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", to_translation( "Bushes" ) }, { "trees", to_translation( "Trees" ) }, { "both", to_translation( "Everything" ) } },
     "off"
        );
 
@@ -1188,7 +1188,7 @@ void options_manager::add_options_general()
     add( "DANGEROUS_TERRAIN_WARNING_PROMPT", "general",
          translate_marker( "Dangerous terrain warning prompt" ),
          translate_marker( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
-    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", translate_marker( "Running" ) }, { "CROUCHING", translate_marker( "Crouching" ) }, { "NEVER", translate_marker( "Never" ) } },
+    { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", to_translation( "Running" ) }, { "CROUCHING", to_translation( "Crouching" ) }, { "NEVER", to_translation( "Never" ) } },
     "ALWAYS"
        );
 
@@ -1282,13 +1282,13 @@ void options_manager::add_options_general()
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
          translate_marker( "Set to drop empty containers after use.  No: Don't drop any.  - Watertight: All except watertight containers.  - All: Drop all containers." ),
-    { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
+    { { "no", to_translation( "No" ) }, { "watertight", to_translation( "Watertight" ) }, { "all", to_translation( "All" ) } },
     "no"
        );
 
     add( "DEATHCAM", "general", translate_marker( "DeathCam" ),
          translate_marker( "Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam." ),
-    { { "always", translate_marker( "Always" ) }, { "ask", translate_marker( "Ask" ) }, { "never", translate_marker( "Never" ) } },
+    { { "always", to_translation( "Always" ) }, { "ask", to_translation( "Ask" ) }, { "never", to_translation( "Never" ) } },
     "ask"
        );
 
@@ -1341,39 +1341,39 @@ void options_manager::add_options_interface()
 
     add( "USE_CELSIUS", "interface", translate_marker( "Temperature units" ),
          translate_marker( "Switch between Celsius, Fahrenheit and Kelvin." ),
-    { { "fahrenheit", translate_marker( "Fahrenheit" ) }, { "celsius", translate_marker( "Celsius" ) }, { "kelvin", translate_marker( "Kelvin" ) } },
+    { { "fahrenheit", to_translation( "Fahrenheit" ) }, { "celsius", to_translation( "Celsius" ) }, { "kelvin", to_translation( "Kelvin" ) } },
     "fahrenheit"
        );
 
     add( "USE_METRIC_SPEEDS", "interface", translate_marker( "Speed units" ),
          translate_marker( "Switch between mph, km/h and tiles/turn." ),
-    { { "mph", translate_marker( "mph" ) }, { "km/h", translate_marker( "km/h" ) }, { "t/t", translate_marker( "tiles/turn" ) } },
+    { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
     "mph"
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", translate_marker( "Mass units" ),
          translate_marker( "Switch between kg and lbs." ),
-    { { "lbs", translate_marker( "lbs" ) }, { "kg", translate_marker( "kg" ) } }, "lbs"
+    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
        );
 
     add( "VOLUME_UNITS", "interface", translate_marker( "Volume units" ),
          translate_marker( "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )." ),
-    { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
+    { { "c", to_translation( "Cup" ) }, { "l", to_translation( "Liter" ) }, { "qt", to_translation( "Quart" ) } },
     "l"
        );
     add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
          translate_marker( "Metric or Imperial" ),
-    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
     "imperial" );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
          //~ 12h time, e.g.  11:59pm
-    {   { "12h", translate_marker( "12h" ) },
+    {   { "12h", to_translation( "12h" ) },
         //~ Military time, e.g.  2359
-        { "military", translate_marker( "Military" ) },
+        { "military", to_translation( "Military" ) },
         //~ 24h time, e.g.  23:59
-        { "24h", translate_marker( "24h" ) }
+        { "24h", to_translation( "24h" ) }
     },
     "12h" );
 
@@ -1384,7 +1384,7 @@ void options_manager::add_options_interface()
                            "Symbol is recommended for non-qwerty layouts since currently "
                            "the default keybindings for key code mode only supports qwerty.  "
                            "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
-    { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
+    { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
     add( "FORCE_CAPITAL_YN", "interface",
@@ -1436,9 +1436,9 @@ void options_manager::add_options_interface()
          translate_marker( "Inventory highlight mode" ),
          translate_marker( "Highlight selected item's contents and parent container in inventory screen.  "
     "\"Symbol\" shows a highlighted caret and \"Highlight\" uses font highlighting." ), {
-        { "symbol", translate_marker( "Symbol" ) },
-        { "highlight", translate_marker( "Highlight" ) },
-        { "disable", translate_marker( "Disable" ) }
+        { "symbol", to_translation( "Symbol" ) },
+        { "highlight", to_translation( "Highlight" ) },
+        { "disable", to_translation( "Disable" ) }
     },
     "symbol"
        );
@@ -1482,7 +1482,7 @@ void options_manager::add_options_interface()
          * `Ctrl` + `Cursor Right` -> `1` = `Move Southwest`.
 
          */
-    translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
+    translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
@@ -1512,7 +1512,7 @@ void options_manager::add_options_interface()
     add( "SIDEBAR_POSITION", "interface", translate_marker( "Sidebar position" ),
          translate_marker( "Switch between sidebar on the left or on the right side.  Requires restart." ),
          //~ sidebar position
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "right"
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } }, "right"
        );
 
     add( "SIDEBAR_SPACERS", "interface", translate_marker( "Draw sidebar spacers" ),
@@ -1523,7 +1523,7 @@ void options_manager::add_options_interface()
     add( "LOG_FLOW", "interface", translate_marker( "Message log flow" ),
          translate_marker( "Where new log messages should show." ),
          //~ sidebar/message log flow direction
-    { { "new_top", translate_marker( "Top" ) }, { "new_bottom", translate_marker( "Bottom" ) } },
+    { { "new_top", to_translation( "Top" ) }, { "new_bottom", to_translation( "Bottom" ) } },
     "new_bottom"
        );
 
@@ -1553,33 +1553,33 @@ void options_manager::add_options_interface()
          translate_marker( "Whether to trigger a popup window when completing an achievement.  "
                            "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
-        { "never", translate_marker( "Never" ) },
-        { "always", translate_marker( "Always" ) },
-        { "first", translate_marker( "First" ) }
+        { "never", to_translation( "Never" ) },
+        { "always", to_translation( "Always" ) },
+        { "first", to_translation( "First" ) }
     },
     "first" );
 
     add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
          translate_marker( "Switch between look around panel being left or right." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } },
     "right"
        );
 
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
          translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) }, { "overlapping", to_translation( "Overlapping" ) } },
     "left"
        );
 
     add( "ACCURACY_DISPLAY", "interface", translate_marker( "Aim window display style" ),
          translate_marker( "How should confidence and steadiness be communicated to the player." ),
          //~ aim bar style - bars or numbers
-    { { "numbers", translate_marker( "Numbers" ) }, { "bars", translate_marker( "Bars" ) } }, "bars"
+    { { "numbers", to_translation( "Numbers" ) }, { "bars", to_translation( "Bars" ) } }, "bars"
        );
 
     add( "MORALE_STYLE", "interface", translate_marker( "Morale style" ),
          translate_marker( "Morale display style in sidebar." ),
-    { { "vertical", translate_marker( "Vertical" ) }, { "horizontal", translate_marker( "Horizontal" ) } },
+    { { "vertical", to_translation( "Vertical" ) }, { "horizontal", to_translation( "Horizontal" ) } },
     "Vertical"
        );
 
@@ -1607,16 +1607,16 @@ void options_manager::add_options_interface()
 
     add( "SHIFT_LIST_ITEM_VIEW", "interface", translate_marker( "Shift list item view" ),
          translate_marker( "Centered or to edge, shift the view toward the selected item if it is outside of your current viewport." ),
-    { { "false", translate_marker( "False" ) }, { "centered", translate_marker( "Centered" ) }, { "edge", translate_marker( "To edge" ) } },
+    { { "false", to_translation( "False" ) }, { "centered", to_translation( "Centered" ) }, { "edge", to_translation( "To edge" ) } },
     "centered"
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
          translate_marker( "Enabled: automatically assign letters to any carried items that lack them.  Disabled: do not auto-assign letters.  "
     "Favorites: only auto-assign letters to favorited items." ), {
-        { "disabled", translate_marker( "Disabled" ) },
-        { "enabled", translate_marker( "Enabled" ) },
-        { "favorites", translate_marker( "Favorites" ) }
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "favorites", to_translation( "Favorites" ) }
     },
     "favorites" );
 
@@ -1645,11 +1645,11 @@ void options_manager::add_options_interface()
     add( "HIDE_CURSOR", "interface", translate_marker( "Hide mouse cursor" ),
          translate_marker( "Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement." ),
          //~ show mouse cursor
-    {   { "show", translate_marker( "Show" ) },
+    {   { "show", to_translation( "Show" ) },
         //~ hide mouse cursor
-        { "hide", translate_marker( "Hide" ) },
+        { "hide", to_translation( "Hide" ) },
         //~ hide mouse cursor when keyboard is used
-        { "hidekb", translate_marker( "HideKB" ) }
+        { "hidekb", to_translation( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
 
@@ -1808,11 +1808,11 @@ void options_manager::add_options_graphics()
 
     add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map overlay preset" ),
     translate_marker( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
-        { "color_pixel_darken", translate_marker( "Darkened" ) },
-        { "color_pixel_sepia_light", translate_marker( "Sepia" ) },
-        { "color_pixel_sepia_dark", translate_marker( "Sepia Dark" ) },
-        { "color_pixel_blue_dark", translate_marker( "Blue Dark" ) },
-        { "color_pixel_custom", translate_marker( "Custom" ) },
+        { "color_pixel_darken", to_translation( "Darkened" ) },
+        { "color_pixel_sepia_light", to_translation( "Sepia" ) },
+        { "color_pixel_sepia_dark", to_translation( "Sepia Dark" ) },
+        { "color_pixel_blue_dark", to_translation( "Blue Dark" ) },
+        { "color_pixel_custom", to_translation( "Custom" ) },
     }, "color_pixel_sepia_light", COPT_CURSES_HIDE
        );
 
@@ -1871,9 +1871,9 @@ void options_manager::add_options_graphics()
 
     add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel minimap drawing mode" ),
     translate_marker( "Specified the mode in which the minimap drawn." ), {
-        { "solid", translate_marker( "Solid" ) },
-        { "squares", translate_marker( "Squares" ) },
-        { "dots", translate_marker( "Dots" ) }
+        { "solid", to_translation( "Solid" ) },
+        { "squares", to_translation( "Squares" ) },
+        { "dots", to_translation( "Dots" ) }
     }, "dots", COPT_CURSES_HIDE
        );
 
@@ -1935,7 +1935,7 @@ void options_manager::add_options_graphics()
 #if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
-    { { "no", translate_marker( "No" ) }, { "maximized", translate_marker( "Maximized" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
+    { { "no", to_translation( "No" ) }, { "maximized", to_translation( "Maximized" ) }, { "fullscreen", to_translation( "Fullscreen" ) }, { "windowedbl", to_translation( "Windowed borderless" ) } },
     "windowedbl", COPT_CURSES_HIDE
        );
 #endif
@@ -1944,7 +1944,7 @@ void options_manager::add_options_graphics()
 #   if !defined(TILES)
     // No renderer selection in non-TILES mode
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
-    translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
+    translate_marker( "Set which renderer to use.  Requires restart." ), { { "software", to_translation( "software" ) } },
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
@@ -1987,20 +1987,20 @@ void options_manager::add_options_graphics()
     add( "SCALING_MODE", "graphics", translate_marker( "Scaling mode" ),
          translate_marker( "Sets the scaling mode, 'none' ( default ) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling." ),
          //~ Do not scale the game image to the window size.
-    {   { "none", translate_marker( "No scaling" ) },
+    {   { "none", to_translation( "No scaling" ) },
         //~ An algorithm for image scaling.
-        { "nearest", translate_marker( "Nearest neighbor" ) },
+        { "nearest", to_translation( "Nearest neighbor" ) },
         //~ An algorithm for image scaling.
-        { "linear", translate_marker( "Linear filtering" ) }
+        { "linear", to_translation( "Linear filtering" ) }
     },
     "none", COPT_CURSES_HIDE );
 
 #if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
     translate_marker( "Factor by which to scale the display.  Requires restart." ), {
-        { "1", translate_marker( "1x" ) },
-        { "2", translate_marker( "2x" )},
-        { "4", translate_marker( "4x" )}
+        { "1", to_translation( "1x" ) },
+        { "2", to_translation( "2x" )},
+        { "4", to_translation( "4x" )}
     },
     "1", COPT_CURSES_HIDE );
 #endif
@@ -2022,8 +2022,8 @@ void options_manager::add_options_world_default()
 
     add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
     translate_marker( "Handling of game world when last character dies." ), {
-        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
-        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+        { "reset", to_translation( "Reset" ) }, { "delete", to_translation( "Delete" ) },
+        { "query", to_translation( "Query" ) }, { "keep", to_translation( "Keep" ) }
     }, "reset"
        );
 
@@ -2081,7 +2081,7 @@ void options_manager::add_options_world_default()
 
     add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
          translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
-    { { "default", "default" } }, "default"
+    { { "default", to_translation( "default" ) } }, "default"
        );
 
     add_empty_line();
@@ -2139,7 +2139,7 @@ void options_manager::add_options_world_default()
 
     add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
          translate_marker( "Allowed point pools for character generation." ),
-    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
+    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
 }
@@ -2189,14 +2189,14 @@ void options_manager::add_options_debug()
     add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
          //~ plain, default, normal
-    {   { "vanilla", translate_marker( "Vanilla" ) },
+    {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
-        { "capped", translate_marker( "Capped" ) },
+        { "capped", to_translation( "Capped" ) },
         //~ based on intelligence
-        { "int", translate_marker( "Int" ) },
+        { "int", to_translation( "Int" ) },
         //~ based on intelligence and capped
-        { "intcap", translate_marker( "IntCap" ) },
-        { "off", translate_marker( "Off" ) }
+        { "intcap", to_translation( "IntCap" ) },
+        { "off", to_translation( "Off" ) }
     },
     "off" );
 
@@ -2418,7 +2418,7 @@ void options_manager::add_options_android()
 
     add( "ANDROID_SHORTCUT_POSITION", "android", translate_marker( "Shortcuts position" ),
          translate_marker( "Switch between shortcuts on the left or on the right side of the screen." ),
-    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } }, "left"
+    { { "left", to_translation( "Left" ) }, { "right", to_translation( "Right" ) } }, "left"
        );
 
     add( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE", "android",
