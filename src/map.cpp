@@ -159,12 +159,15 @@ map::map( int mapsize, bool zlev )
         grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
     }
 
-    for( auto &ptr : caches ) {
-        ptr = std::make_unique<level_cache>();
-    }
+    // tinymaps don't get caches.
+    if( mapsize == MAPSIZE ) {
+        for( auto &ptr : caches ) {
+            ptr = std::make_unique<level_cache>();
+        }
 
-    for( auto &ptr : pathfinding_caches ) {
-        ptr = std::make_unique<pathfinding_cache>();
+        for( auto &ptr : pathfinding_caches ) {
+            ptr = std::make_unique<pathfinding_cache>();
+        }
     }
 
     dbg( D_INFO ) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " z-levels enabled:" << zlevels;
