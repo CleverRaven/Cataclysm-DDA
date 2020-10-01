@@ -201,10 +201,10 @@ std::string JsonObject::str() const
 
 void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
+    mark_visited( name );
     if( !jsin ) {
         throw JsonError( err );
     }
-    mark_visited( name );
     jsin->seek( verify_position( name, false ) );
     jsin->error( err );
 }
