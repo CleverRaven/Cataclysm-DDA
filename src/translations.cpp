@@ -642,19 +642,26 @@ std::string text_style_check_reader::get_next( JsonIn &jsin ) const
 {
 #ifndef CATA_IN_TOOL
     int origin = 0;
-    if( test_mode ) {
-        origin = jsin.tell();
-    }
 #endif
     std::string raw;
     bool check_style = true;
     if( object_allowed == allow_object::yes && jsin.test_object() ) {
         JsonObject jsobj = jsin.get_object();
+#ifndef CATA_IN_TOOL
+        if( test_mode ) {
+            origin = jsobj.get_raw( "str" )->tell();
+        }
+#endif
         raw = jsobj.get_string( "str" );
         if( jsobj.has_member( "//NOLINT(cata-text-style)" ) ) {
             check_style = false;
         }
     } else {
+#ifndef CATA_IN_TOOL
+        if( test_mode ) {
+            origin = jsin.tell();
+        }
+#endif
         raw = jsin.get_string();
     }
 #ifndef CATA_IN_TOOL
