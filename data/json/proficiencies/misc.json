@@ -33,6 +33,14 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_fletching",
+    "name": { "str": "Fletching" },
+    "description": "The skill involved in making arrows that fly true.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_basketweaving",
     "name": { "str": "Basketweaving" },
     "description": "Forming coarse fibers into shapes.",
