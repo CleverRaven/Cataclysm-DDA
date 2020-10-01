@@ -175,7 +175,13 @@ struct level_cache {
     // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
     // This is only valid for the duration of generate_lightmap
     float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+
+    // if false, means tile is under the roof ("inside"), true means tile is "outside"
+    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+
+    // false, if corresponding terrain has flag "NO_FLOOR", true otherwise
+    // i.e. true == has floor
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
 
     // stores cached transparency of the tiles
@@ -1115,7 +1121,7 @@ class map
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
-        item &add_item_or_charges( const point &p, item obj, bool overflow = true ) {
+        item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z ), obj, overflow );
         }
 
@@ -1127,7 +1133,7 @@ class map
          * @returns The item that got added, or nulitem.
          */
         item &add_item( const tripoint &p, item new_item );
-        void add_item( const point &p, item new_item ) {
+        void add_item( const point &p, const item &new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
 

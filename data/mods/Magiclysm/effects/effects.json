@@ -270,5 +270,14 @@
     "rating": "bad",
     "max_duration": "12 s",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 6 ], "speed_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "neuro_boost",
+    "name": [ "Mental Boost" ],
+    "desc": [ "Your mind is working incredibly fast, but your body cannot keep up" ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "speed_mod": [ 20 ] }
   }
 ]

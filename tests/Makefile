@@ -15,6 +15,9 @@ ODIR ?= obj
 
 LDFLAGS += -L.
 
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
+
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
 # Add no-sign-compare to fix MXE issue when compiling

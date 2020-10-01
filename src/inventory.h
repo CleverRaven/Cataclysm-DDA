@@ -120,8 +120,8 @@ class inventory : public visitable<inventory>
         // returns a reference to the added item
         item &add_item( item newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
-        void add_item_keep_invlet( item newit );
-        void push_back( item newit );
+        void add_item_keep_invlet( const item &newit );
+        void push_back( const item &newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with

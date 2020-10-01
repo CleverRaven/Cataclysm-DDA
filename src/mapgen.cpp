@@ -918,11 +918,11 @@ class jmapgen_faction : public jmapgen_piece
 class jmapgen_sign : public jmapgen_piece
 {
     public:
-        std::string signage;
+        translation signage;
         std::string snippet;
         jmapgen_sign( const JsonObject &jsi ) :
-            signage( jsi.get_string( "signage", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "signage", signage );
             if( signage.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_sign: needs either signage or snippet" );
             }
@@ -939,12 +939,10 @@ class jmapgen_sign : public jmapgen_piece
                 // select a snippet from the category
                 signtext = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !signage.empty() ) {
-                signtext = signage;
+                signtext = signage.translated();
             }
             if( !signtext.empty() ) {
                 // replace tags
-                signtext = _( signtext );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
@@ -973,11 +971,11 @@ class jmapgen_sign : public jmapgen_piece
 class jmapgen_graffiti : public jmapgen_piece
 {
     public:
-        std::string text;
+        translation text;
         std::string snippet;
         jmapgen_graffiti( const JsonObject &jsi ) :
-            text( jsi.get_string( "text", "" ) )
-            , snippet( jsi.get_string( "snippet", "" ) ) {
+            snippet( jsi.get_string( "snippet", "" ) ) {
+            jsi.read( "text", text );
             if( text.empty() && snippet.empty() ) {
                 jsi.throw_error( "jmapgen_graffiti: needs either text or snippet" );
             }
@@ -992,12 +990,10 @@ class jmapgen_graffiti : public jmapgen_piece
                 // select a snippet from the category
                 graffiti = SNIPPET.random_from_category( snippet ).value_or( translation() ).translated();
             } else if( !text.empty() ) {
-                graffiti = text;
+                graffiti = text.translated();
             }
             if( !graffiti.empty() ) {
                 // replace tags
-                graffiti = _( graffiti );
-
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
@@ -4047,9 +4043,9 @@ void map::draw_lab( mapgendata &dat )
                             if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
                                                    t_strconc_floor == ter( point( i, j ) ) ) ) {
                                 if( is_toxic ) {
-                                    add_field( {i, j, abs_sub.z}, field_type_id( "fd_gas_vent" ), 1 );
+                                    add_field( {i, j, abs_sub.z}, fd_gas_vent, 1 );
                                 } else {
-                                    add_field( {i, j, abs_sub.z}, field_type_id( "fd_smoke_vent" ), 2 );
+                                    add_field( {i, j, abs_sub.z}, fd_smoke_vent, 2 );
                                 }
                             }
                         }
@@ -4504,8 +4500,8 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
-                        add_field( {SEEX, i, abs_sub.z}, field_type_id( "fd_fire_vent" ), rng( 1, 3 ) );
-                        add_field( {SEEX + 1, i, abs_sub.z}, field_type_id( "fd_fire_vent" ), rng( 1, 3 ) );
+                        add_field( {SEEX, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( {SEEX + 1, i, abs_sub.z}, fd_fire_vent, rng( 1, 3 ) );
                     }
                     break;
 
@@ -4835,7 +4831,7 @@ void map::draw_mine( mapgendata &dat )
                     int cx = rng( 9, 14 );
                     int cy = rng( 9, 14 );
                     ter_set( point( cx, cy ), t_rock );
-                    add_field( {cx, cy, abs_sub.z}, field_type_id( "fd_gas_vent" ), 2 );
+                    add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
                 }
                 break;
 
@@ -5252,7 +5248,7 @@ void map::draw_spider_pit( const mapgendata &dat )
                     one_in( 4 ) ) {
                     ter_set( point( i, j ), t_rock_floor );
                     if( !one_in( 3 ) ) {
-                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_web" ), rng( 1, 3 ) );
+                        add_field( {i, j, abs_sub.z}, fd_web, rng( 1, 3 ) );
                     }
                 } else {
                     ter_set( point( i, j ), t_rock );
@@ -5355,7 +5351,7 @@ void map::draw_triffid( const mapgendata &dat )
                 } else {
                     for( int webx = node2.x; webx <= node2.x + 3; webx++ ) {
                         for( int weby = node2.y; weby <= node2.y + 3; weby++ ) {
-                            add_field( {webx, weby, abs_sub.z}, field_type_id( "fd_web" ), rng( 1, 3 ) );
+                            add_field( {webx, weby, abs_sub.z}, fd_web, rng( 1, 3 ) );
                         }
                     }
                     place_spawns( GROUP_SPIDER, 1, spawn, spawn, 1, true );
@@ -6793,7 +6789,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_push_items" ), 1 );
+                        add_field( {i, j, abs_sub.z}, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point( i, j ), "rock" );
                         }
@@ -6870,19 +6866,18 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
 
         case ARTPROP_ELECTRIC:
         case ARTPROP_CRACKLING:
-            add_field( {c, abs_sub.z}, field_type_id( "fd_shock_vent" ), 3 );
+            add_field( {c, abs_sub.z}, fd_shock_vent, 3 );
             break;
 
         case ARTPROP_SLIMY:
-            add_field( {c, abs_sub.z}, field_type_id( "fd_acid_vent" ), 3 );
+            add_field( {c, abs_sub.z}, fd_acid_vent, 3 );
             break;
 
         case ARTPROP_WARM:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z}, field_type_id( "fd_fire_vent" ), 1 + ( rl_dist( c, point( i,
-                                   j ) ) % 3 ) );
+                        add_field( {i, j, abs_sub.z}, fd_fire_vent, 1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
                     }
                 }
             }

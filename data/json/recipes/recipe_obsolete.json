@@ -2502,6 +2502,11 @@
   },
   {
     "type": "recipe",
+    "result": "rag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "can_medium_unsealed",
     "obsolete": true
   },

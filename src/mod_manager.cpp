@@ -15,7 +15,6 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "string_id.h"
-#include "translations.h"
 #include "worldfactory.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
@@ -46,37 +45,37 @@ std::string MOD_INFORMATION::name() const
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_ );
+        return name_.translated();
     }
 }
 
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
+const std::vector<std::pair<std::string, translation>> &get_mod_list_categories()
 {
-    static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", translate_marker( "CORE CONTENT PACKS" )},
-        {"items", translate_marker( "ITEM ADDITION MODS" )},
-        {"creatures", translate_marker( "CREATURE MODS" )},
-        {"misc_additions", translate_marker( "MISC ADDITIONS" )},
-        {"buildings", translate_marker( "BUILDINGS MODS" )},
-        {"vehicles", translate_marker( "VEHICLE MODS" )},
-        {"rebalance", translate_marker( "REBALANCING MODS" )},
-        {"magical", translate_marker( "MAGICAL MODS" )},
-        {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
-        {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
-        {"graphical", translate_marker( "GRAPHICAL MODS" )},
-        {"", translate_marker( "NO CATEGORY" )}
+    static const std::vector<std::pair<std::string, translation>> mod_list_categories = {
+        {"content", to_translation( "CORE CONTENT PACKS" )},
+        {"items", to_translation( "ITEM ADDITION MODS" )},
+        {"creatures", to_translation( "CREATURE MODS" )},
+        {"misc_additions", to_translation( "MISC ADDITIONS" )},
+        {"buildings", to_translation( "BUILDINGS MODS" )},
+        {"vehicles", to_translation( "VEHICLE MODS" )},
+        {"rebalance", to_translation( "REBALANCING MODS" )},
+        {"magical", to_translation( "MAGICAL MODS" )},
+        {"item_exclude", to_translation( "ITEM EXCLUSION MODS" )},
+        {"monster_exclude", to_translation( "MONSTER EXCLUSION MODS" )},
+        {"graphical", to_translation( "GRAPHICAL MODS" )},
+        {"", to_translation( "NO CATEGORY" )}
     };
 
     return mod_list_categories;
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
+const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs()
 {
-    static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
-        {"tab_default", translate_marker( "Default" )},
-        {"tab_blacklist", translate_marker( "Blacklist" )},
-        {"tab_balance", translate_marker( "Balance" )}
+    static const std::vector<std::pair<std::string, translation>> mod_list_tabs = {
+        {"tab_default", to_translation( "Default" )},
+        {"tab_blacklist", to_translation( "Blacklist" )},
+        {"tab_balance", to_translation( "Balance" )}
     };
 
     return mod_list_tabs;
@@ -218,10 +217,11 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         return;
     }
 
-    const std::string m_name = jo.get_string( "name", "" );
+    translation m_name;
+    jo.read( "name", m_name );
 
     std::string m_cat = jo.get_string( "category", "" );
-    std::pair<int, std::string> p_cat = {-1, ""};
+    std::pair<int, translation> p_cat = {-1, translation()};
     bool bCatFound = false;
 
     do {

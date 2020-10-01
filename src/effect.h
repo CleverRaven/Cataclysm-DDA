@@ -121,7 +121,7 @@ class effect_type
         std::vector<efftype_id> removes_effects;
         std::vector<efftype_id> blocks_effects;
 
-        std::vector<std::pair<std::string, int>> miss_msgs;
+        std::vector<std::pair<translation, int>> miss_msgs;
 
         bool pain_sizing = false;
         bool hurt_sizing = false;
@@ -283,7 +283,7 @@ class effect
         int get_int_add_val() const;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
-        std::vector<std::pair<std::string, int>> get_miss_msgs() const;
+        const std::vector<std::pair<translation, int>> &get_miss_msgs() const;
 
         /** Returns the value used for display on the speed modifier window in the player status menu. */
         std::string get_speed_name() const;

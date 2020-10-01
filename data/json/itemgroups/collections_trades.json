@@ -40,7 +40,7 @@
           { "item": "cable", "prob": 60 },
           { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
           { "item": "grapnel", "prob": 1 },
-          { "item": "misc_repairkit", "prob": 5 },
+          { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
           { "item": "knitting_needles", "prob": 1 }
         ]
       }

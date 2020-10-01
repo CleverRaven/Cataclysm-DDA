@@ -1,0 +1,22 @@
+[
+  {
+    "type": "SPELL",
+    "id": "ICE_ELEMENTAL_COLD_DAMAGE",
+    "name": "Ice Elemental Cold Damage",
+    "description": "The cold damage effect from the Ice Elemental Attunement.",
+    "effect": "target_attack",
+    "min_damage": 5,
+    "max_damage": 5,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "cold",
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "ICE_ELEMENTAL",
+    "condition": "ALWAYS",
+    "values": [ { "value": "ARMOR_COLD", "multiply": -0.4 } ],
+    "hit_you_effect": [ { "id": "ICE_ELEMENTAL_COLD_DAMAGE" } ]
+  }
+]

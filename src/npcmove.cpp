@@ -446,7 +446,7 @@ void npc::assess_danger()
         if( pt == pos() || here.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }
-        if( here.get_field( pt, field_type_id( "fd_fire" ) ) != nullptr ) {
+        if( here.get_field( pt, fd_fire ) != nullptr ) {
             int dist = rl_dist( pos(), pt );
             cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
             if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
@@ -2089,7 +2089,7 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     double max_dispersion = get_weapon_dispersion( *( gun.target ) ).max() + at_recoil;
     double even_chance_range = range_with_even_chance_of_good_hit( max_dispersion );
     double confident_range = even_chance_range * confidence_mult();
-    add_msg_debug( "confident_gun (%s<=%.2f) at %.1f", gun.name(), confident_range,
+    add_msg_debug( "confident_gun (%s<=%.2f) at %.1f", gun.tname(), confident_range,
                    max_dispersion );
     return std::max<int>( confident_range, 1 );
 }

@@ -1914,7 +1914,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // (to prevent taking out wood off the lit brazier)
             // and inaccessible furniture, like filled charcoal kiln
             if( mgr.has( zone_type_LOOT_IGNORE, src ) ||
-                here.get_field( src_loc, field_type_id( "fd_fire" ) ) != nullptr ||
+                here.get_field( src_loc, fd_fire ) != nullptr ||
                 !here.can_put_items_ter_furn( src_loc ) ) {
                 continue;
             }
@@ -2777,7 +2777,7 @@ static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &fro
     time_duration best_fire_age = 1_days;
     map &here = get_map();
     for( const tripoint &pt : from ) {
-        field_entry *fire = here.get_field( pt, field_type_id( "fd_fire" ) );
+        field_entry *fire = here.get_field( pt, fd_fire );
         if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !here.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -2939,7 +2939,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // Special case: fire containers allow burning logs, so use them as fuel if fire is contained
     bool contained = here.has_flag_furn( TFLAG_FIRE_CONTAINER, *best_fire );
     fire_data fd( 1, contained );
-    time_duration fire_age = here.get_field_age( *best_fire, field_type_id( "fd_fire" ) );
+    time_duration fire_age = here.get_field_age( *best_fire, fd_fire );
 
     // Maybe TODO: - refueling in the rain could use more fuel
     // First, simulate expected burn per turn, to see if we need more fuel

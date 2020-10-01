@@ -329,7 +329,7 @@ furn_t null_furniture_t()
 {
     furn_t new_furniture;
     new_furniture.id = furn_str_id::NULL_ID();
-    new_furniture.name_ = translate_marker( "nothing" );
+    new_furniture.name_ = to_translation( "nothing" );
     new_furniture.symbol_.fill( ' ' );
     new_furniture.color_.fill( c_white );
     new_furniture.light_emitted = 0;
@@ -351,7 +351,7 @@ ter_t null_terrain_t()
     ter_t new_terrain;
 
     new_terrain.id = ter_str_id::NULL_ID();
-    new_terrain.name_ = translate_marker( "nothing" );
+    new_terrain.name_ = to_translation( "nothing" );
     new_terrain.symbol_.fill( ' ' );
     new_terrain.color_.fill( c_white );
     new_terrain.light_emitted = 0;
@@ -391,7 +391,7 @@ void load_season_array( const JsonObject &jo, const std::string &key, C &contain
 
 std::string map_data_common_t::name() const
 {
-    return _( name_ );
+    return name_.translated();
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -1329,7 +1329,7 @@ void map_data_common_t::check() const
 {
     for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && examine == iexamine::none ) {
-            debugmsg( "Harvest data defined without examine function for %s", name_.c_str() );
+            debugmsg( "Harvest data defined without examine function for %s", name_ );
         }
     }
 }

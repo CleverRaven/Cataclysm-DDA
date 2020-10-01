@@ -1091,7 +1091,7 @@ void veh_interact::do_install()
                         std::string disp_name = sel_vpart_info->name();
                         for( const auto &vp_variant_pair : vpart_variants ) {
                             if( vp_variant_pair.first == vp_variant.first ) {
-                                disp_name += " " + _( vp_variant_pair.second );
+                                disp_name += " " + vp_variant_pair.second;
                                 break;
                             }
                         }
