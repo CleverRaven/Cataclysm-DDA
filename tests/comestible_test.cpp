@@ -207,6 +207,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     // If kcal per gram < 1.0, return 1.0
     CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( apple ) == 396 );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 396 ) == "<color_c_yellow>||</color>..." );
 
     // Egg: 80 kcal / 40 g (1 serving)
@@ -241,9 +242,13 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
 //
 TEST_CASE( "food satiety bar", "[character][food][satiety]" )
 {
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 0 ) == "<color_c_red></color>....." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 100 ) == "<color_c_light_red>|</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 200 ) == "<color_c_light_red>|\\</color>..." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 300 ) == "<color_c_yellow>||</color>..." );
     CHECK( satiety_bar( 400 ) == "<color_c_yellow>||\\</color>.." );
     CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
@@ -258,4 +263,3 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     CHECK( satiety_bar( 1400 ) == "<color_c_green>|||||</color>" );
     CHECK( satiety_bar( 1500 ) == "<color_c_green>|||||</color>" );
 }
-
