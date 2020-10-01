@@ -451,7 +451,8 @@ void translation::deserialize( JsonIn &jsin )
             raw = jsin.get_string();
             raw_pl = raw + "s";
         } else {
-            raw = text_style_check_reader().get_next( jsin );
+            raw = text_style_check_reader( text_style_check_reader::allow_object::no )
+                  .get_next( jsin );
         }
         needs_translation = true;
     } else {
@@ -487,7 +488,8 @@ void translation::deserialize( JsonIn &jsin )
                 // need no text style check.
                 raw = jsobj.get_string( "str" );
             } else {
-                raw = text_style_check_reader().get_next( *jsobj.get_raw( "str" ) );
+                raw = text_style_check_reader( text_style_check_reader::allow_object::no )
+                      .get_next( *jsobj.get_raw( "str" ) );
             }
             // if plural form is enabled
             if( raw_pl ) {
@@ -631,6 +633,11 @@ std::string operator+( const translation &lhs, const translation &rhs )
     return lhs.translated() + rhs.translated();
 }
 
+text_style_check_reader::text_style_check_reader( const allow_object object_allowed )
+    : object_allowed( object_allowed )
+{
+}
+
 std::string text_style_check_reader::get_next( JsonIn &jsin ) const
 {
 #ifndef CATA_IN_TOOL
@@ -639,9 +646,19 @@ std::string text_style_check_reader::get_next( JsonIn &jsin ) const
         origin = jsin.tell();
     }
 #endif
-    std::string raw = jsin.get_string();
+    std::string raw;
+    bool check_style = true;
+    if( object_allowed == allow_object::yes && jsin.test_object() ) {
+        JsonObject jsobj = jsin.get_object();
+        raw = jsobj.get_string( "str" );
+        if( jsobj.has_member( "//NOLINT(cata-text-style)" ) ) {
+            check_style = false;
+        }
+    } else {
+        raw = jsin.get_string();
+    }
 #ifndef CATA_IN_TOOL
-    if( test_mode ) {
+    if( test_mode && check_style ) {
         const auto text_style_callback =
             [&jsin, origin]
             ( const text_style_fix type, const std::string & msg,

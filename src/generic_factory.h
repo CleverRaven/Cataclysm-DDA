@@ -1054,7 +1054,17 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
 class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
 {
     public:
+        enum class allow_object : int {
+            no,
+            yes,
+        };
+
+        text_style_check_reader( allow_object object_allowed = allow_object::yes );
+
         std::string get_next( JsonIn &jin ) const;
+
+    private:
+        allow_object object_allowed;
 };
 
 #endif // CATA_SRC_GENERIC_FACTORY_H
