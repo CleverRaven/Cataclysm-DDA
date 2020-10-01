@@ -1061,7 +1061,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
         text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
-        std::string get_next( JsonIn &jin ) const;
+        std::string get_next( JsonIn &jsin ) const;
 
     private:
         allow_object object_allowed;
