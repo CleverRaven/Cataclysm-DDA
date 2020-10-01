@@ -16,7 +16,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
-      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 },
+      { "proficiency": "prof_chitinworking", "required": false, "time_multiplier": 3 }
     ],
     "difficulty": 7,
     "time": "4 h",
