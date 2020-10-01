@@ -2421,6 +2421,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     catacurses::window w_stats;
     catacurses::window w_traits;
     catacurses::window w_bionics;
+    catacurses::window w_proficiencies;
     catacurses::window w_addictions;
     catacurses::window w_scenario;
     catacurses::window w_profession;
@@ -2439,6 +2440,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         w_stats = catacurses::newwin( 6, 20, point( 2, 9 ) );
         w_traits = catacurses::newwin( TERMY - 10, 24, point( 22, 9 ) );
         w_bionics = catacurses::newwin( TERMY - 10, TERMX - 92, point( 90, 9 ) );
+        w_proficiencies = catacurses::newwin( TERMY - 20, 20, point( 2, 15 ) );
         w_scenario = catacurses::newwin( 1, 40, point( 46, 9 ) );
         w_profession = catacurses::newwin( 1, 40, point( 46, 10 ) );
         w_skills = catacurses::newwin( TERMY - 12, 40, point( 46, 11 ) );
@@ -2626,6 +2628,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             }
         }
         wnoutrefresh( w_bionics );
+
+        werase( w_proficiencies );
+        // Proficiencies description tab
+        std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
+        mvwprintz( w_proficiencies, point_zero, COL_HEADER, _( "Proficiencies:" ) );
+        if( prof_proficiencies.empty() ) {
+            wprintz( w_proficiencies, c_light_red, _( "\nNone!" ) );
+        } else {
+            for( const proficiency_id &prof : prof_proficiencies ) {
+                wprintz( w_proficiencies, c_light_gray, "\n" + prof->name() );
+            }
+        }
+        wnoutrefresh( w_proficiencies );
 
         // Helptext description window
         fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), ( TERMX ), c_light_gray,
