@@ -1237,9 +1237,7 @@
     "id": "RANDOMIZE_CHAR_NAME",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Pick random character name",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "n" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
   },
   {
     "type": "keybinding",
