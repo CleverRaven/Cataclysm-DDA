@@ -32,7 +32,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_bladesmithing", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
