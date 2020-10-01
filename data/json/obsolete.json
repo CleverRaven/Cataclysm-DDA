@@ -91,6 +91,7 @@
     "volume": "1 L",
     "price": 10000,
     "price_postapoc": 500,
+    "install_time": "0 s",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
