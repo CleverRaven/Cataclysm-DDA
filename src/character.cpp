@@ -8411,7 +8411,7 @@ void Character::update_cardio()
     // THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
     const int athletics_mod = get_skill_level( skill_swimming ) * skill_mult;
     const int health_effect = get_healthy() * health_mult;
-    // VERY WIP - traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
     // TODO: Rename max_stamina_modifier
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     // with no traits : trait_mod = 0. With indefatigable: trait_mod = 64 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -80 (too severe??).
