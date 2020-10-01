@@ -308,12 +308,20 @@ material_list materials::get_compactable()
 
 std::set<material_id> materials::get_rotting()
 {
-    material_list all = get_all();
-    std::set<material_id> rotting;
-    for( const material_type &m : all ) {
-        if( m.rotting() ) {
-            rotting.emplace( m.ident() );
+    static generic_factory<material_type>::Version version;
+    static std::set<material_id> rotting;
+
+    // freshly created version is guaranteed to be invalid
+    if( !material_data.is_valid( version ) ) {
+        material_list all = get_all();
+        rotting.clear();
+        for( const material_type &m : all ) {
+            if( m.rotting() ) {
+                rotting.emplace( m.ident() );
+            }
         }
+        version = material_data.get_version();
     }
+
     return rotting;
 }
