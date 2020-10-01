@@ -2458,6 +2458,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
     ctxt.register_cardinal();
     ctxt.register_action( "SAVE_TEMPLATE" );
+    ctxt.register_action( "RANDOMIZE_CHAR_NAME" );
     ctxt.register_action( "RANDOMIZE_CHAR_DESCRIPTION" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "PREV_TAB" );
@@ -2653,15 +2654,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to randomize description values, "
+                            _( "Press <color_light_green>%s</color> to pick a random name, "
+                               "<color_light_green>%s</color> to randomize all description values, "
                                "<color_light_green>%s</color> to randomize all but scenario or "
                                "<color_light_green>%s</color> to randomize everything." ),
+                            ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
                             ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
                             ctxt.get_desc( "REROLL_CHARACTER" ),
                             ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
         } else {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), ( TERMX ), c_light_gray,
-                            _( "Press <color_light_green>%s</color> to randomize description values." ),
+                            _( "Press <color_light_green>%s</color> to pick a random name, "
+                               "<color_light_green>%s</color> to randomize all description values." ),
+                            ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
                             ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
         }
 
@@ -2905,6 +2910,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
                 you.save_template( *name, points );
+            }
+        } else if( action == "RANDOMIZE_CHAR_NAME" ) {
+            if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
+                you.pick_name();
+                no_name_entered = you.name.empty();
             }
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
             you.male = one_in( 2 );
