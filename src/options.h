@@ -20,6 +20,7 @@ class JsonOut;
 class options_manager
 {
     public:
+        // first is internal value, second is text
         using id_and_option = std::pair<std::string, translation>;
         using int_and_option = std::pair<int, translation>;
         static std::vector<id_and_option> get_lang_options();
@@ -144,10 +145,10 @@ class options_manager
             private:
                 std::string sName;
                 std::string sPage;
-                // The *untranslated* displayed option name ( short string ).
-                std::string sMenuText;
-                // The *untranslated* displayed option tool tip ( longer string ).
-                std::string sTooltip;
+                // The displayed option name ( short string ).
+                translation sMenuText;
+                // The displayed option tool tip ( longer string ).
+                translation sTooltip;
                 std::string sType;
                 bool verbose = false;
 
@@ -162,7 +163,6 @@ class options_manager
 
                 //sType == "string"
                 std::string sSet;
-                // first is internal value, second is untranslated text
                 std::vector<id_and_option> vItems;
                 std::string sDefault;
 
@@ -225,43 +225,43 @@ class options_manager
 
         //add hidden external option with value
         void add_external( const std::string &sNameIn, const std::string &sPageIn, const std::string &sType,
-                           const std::string &sMenuTextIn, const std::string &sTooltipIn );
+                           const translation &sMenuTextIn, const translation &sTooltipIn );
 
         //add string select option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   // first is option value, second is display name of that value
                   const std::vector<id_and_option> &sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   const std::string &sDefaultIn, int iMaxLengthIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add bool option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add int option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   int iMinIn, int iMaxIn, int iDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
                   const std::string &format = "%i" );
 
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   const std::vector<int_and_option> &mIntValuesIn,
                   int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
                   bool verbose = false );
 
         //add float option
         void add( const std::string &sNameIn, const std::string &sPageIn,
-                  const std::string &sMenuTextIn, const std::string &sTooltipIn,
+                  const translation &sMenuTextIn, const translation &sTooltipIn,
                   float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
