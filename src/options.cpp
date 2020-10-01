@@ -2061,7 +2061,7 @@ void options_manager::add_options_world_default()
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
          translate_marker( "Monster evolution scaling factor" ),
          translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 4.0, 0.01
+         0.0, 100, 1.0, 0.01
        );
 
     add_empty_line();
@@ -2092,7 +2092,7 @@ void options_manager::add_options_world_default()
 
     add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
          translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         -1, 999, 60
+         -1, 999, 7
        );
 
     add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
@@ -2102,7 +2102,7 @@ void options_manager::add_options_world_default()
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
          translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-         14, 127, 91
+         14, 127, 14
        );
 
     add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
