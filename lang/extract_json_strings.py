@@ -1030,7 +1030,8 @@ def writestr(filename, string, context=None, format_strings=False,
         if context is None:
             context = string.get("ctxt")
         elif "ctxt" in string:
-            raise WrongJSONItem("ERROR: 'ctxt' found in json when `context` parameter is specified", string)
+            raise WrongJSONItem("ERROR: 'ctxt' found in json when `context` "
+                                "parameter is specified", string)
         str_pl = None
         if pl_fmt:
             if "str_pl" in string:
