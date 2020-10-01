@@ -725,14 +725,14 @@ int item::damage() const
 
 int item::damage_level() const
 {
-    if( damage_ == 0 || 4 <= 0 ) {
+    if( damage_ == 0 ) {
         return 0;
     } else if( max_damage() <= 1 ) {
-        return damage_ > 0 ? 4 : damage_;
+        return damage_ > 0 ? 4 : 0;
     } else if( damage_ < 0 ) {
-        return -( ( 4 - 1 ) * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
+        return -( 3 * ( -damage_ - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
-        return ( 4 - 1 ) * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
+        return 3 * ( damage_ - 1 ) / ( max_damage() - 1 ) + 1;
     }
 }
 
