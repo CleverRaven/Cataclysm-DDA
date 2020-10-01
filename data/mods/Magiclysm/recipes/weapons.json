@@ -14,9 +14,7 @@
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
     "components": [
       [ [ "q_staff", 1 ] ],
       [ [ "jar_glass_sealed", 2 ] ],
