@@ -459,8 +459,8 @@ Character::Character() :
     reactor_plut = 0;
     slow_rad = 0;
     set_stim( 0 );
-    //TODO - PLACEHOLDER VALUE
-    set_cardio( 1600 );
+    set_cardio( 1600 ); //Temporary value for stamina. It will be recalculated at game start.
+    set_cardio_acc( 0 ); // Temporary value for cardio_acc. Will be changed once it is implemented.
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     set_anatomy( anatomy_id("human_anatomy") );
     update_type_of_scent( true );
@@ -8405,17 +8405,17 @@ void Character::update_cardio()
 {
     const int bmr = get_bmr();
     // health scaling constant, value tbd
-    constexpr float health_mult = 1;
+    constexpr float health_mult = 4;
     // skill scaling constant, value tbd
-    constexpr float skill_mult = 10;
+    constexpr float skill_mult = 100;
     // THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
     const int athletics_mod = get_skill_level( skill_swimming ) * skill_mult;
     const int health_effect = get_healthy() * health_mult;
     // VERY WIP - traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
     // TODO: Rename max_stamina_modifier
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    // with no traits : trait_mod = 0. With indefatigable: trait_mod = 40 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -50 (too severe??).
-    const int trait_mod = std::round(( mutation_value( max_stamina_modifier ) - 1.0f ) * 200);
+    // with no traits : trait_mod = 0. With indefatigable: trait_mod = 400 (40% of what maximum athletics skill gives you). With the bad cardio trait: trait_mod = -500 (too severe??).
+    const int trait_mod = std::round( ( mutation_value( max_stamina_modifier ) - 1.0f ) * 2000 );
     //WIP. Currently no proficiencies seem suitable as of build 11051
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
