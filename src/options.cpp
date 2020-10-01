@@ -334,7 +334,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
+                           const std::vector<int_and_option> &mIntValuesIn,
                            int iInitialIn, int iDefaultIn, copt_hide_t opt_hide, const bool verbose )
 {
     cOpt thisOpt;
@@ -355,12 +355,12 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     auto item = thisOpt.findInt( iInitialIn );
     if( !item ) {
-        iInitialIn = std::get<0>( mIntValuesIn[0] );
+        iInitialIn = mIntValuesIn[0].first;
     }
 
     item = thisOpt.findInt( iDefaultIn );
     if( !item ) {
-        iDefaultIn = std::get<0>( mIntValuesIn[0] );
+        iDefaultIn = mIntValuesIn[0].first;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -626,11 +626,13 @@ std::string options_manager::cOpt::getValueName() const
         return bSet ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const std::string name = std::get<1>( *findInt( iSet ) );
-        if( verbose ) {
-            return string_format( _( "%d: %s" ), iSet, name );
-        } else {
-            return string_format( _( "%s" ), name );
+        const cata::optional<int_and_option> opt = findInt( iSet );
+        if( opt ) {
+            if( verbose ) {
+                return string_format( _( "%d: %s" ), iSet, opt->second );
+            } else {
+                return opt->second.translated();
+            }
         }
     }
 
@@ -662,11 +664,13 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const std::string name = std::get<1>( *findInt( iDefault ) );
-        if( verbose ) {
-            return string_format( _( "Default: %d: %s" ), iDefault, name );
-        } else {
-            return string_format( _( "Default: %s" ), name );
+        const cata::optional<int_and_option> opt = findInt( iDefault );
+        if( opt ) {
+            if( verbose ) {
+                return string_format( _( "Default: %d: %s" ), iDefault, opt->second );
+            } else {
+                return string_format( _( "Default: %s" ), opt->second );
+            }
         }
 
     } else if( sType == "float" ) {
@@ -698,7 +702,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 {
     if( sType == "int_map" ) {
         for( size_t i = 0; i < mIntValues.size(); i++ ) {
-            if( std::get<0>( mIntValues[i] ) == iSearch ) {
+            if( mIntValues[i].first == iSearch ) {
                 return i;
             }
         }
@@ -707,7 +711,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
+cata::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
@@ -759,7 +763,7 @@ void options_manager::cOpt::setNext()
         if( iNext >= mIntValues.size() ) {
             iNext = 0;
         }
-        iSet = std::get<0>( mIntValues[iNext] );
+        iSet = mIntValues[iNext].first;
 
     } else if( sType == "float" ) {
         fSet += fStep;
@@ -797,7 +801,7 @@ void options_manager::cOpt::setPrev()
         if( iPrev < 0 ) {
             iPrev = mIntValues.size() - 1;
         }
-        iSet = std::get<0>( mIntValues[iPrev] );
+        iSet = mIntValues[iPrev].first;
 
     } else if( sType == "float" ) {
         fSet -= fStep;
@@ -1655,10 +1659,10 @@ void options_manager::add_options_interface()
 
     add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
     translate_marker( "Edge scrolling with the mouse." ), {
-        std::make_tuple( -1, translate_marker( "Disabled" ) ),
-        std::make_tuple( 100, translate_marker( "Slow" ) ),
-        std::make_tuple( 30, translate_marker( "Normal" ) ),
-        std::make_tuple( 10, translate_marker( "Fast" ) )
+        { -1, to_translation( "options", "Disabled" ) },
+        { 100, to_translation( "Slow" ) },
+        { 30, to_translation( "Normal" ) },
+        { 10, to_translation( "Fast" ) },
     },
     30, 30, COPT_CURSES_HIDE );
 

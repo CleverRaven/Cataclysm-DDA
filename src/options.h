@@ -6,7 +6,6 @@
 #include <functional>
 #include <map>
 #include <string>
-#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -22,6 +21,7 @@ class options_manager
 {
     public:
         using id_and_option = std::pair<std::string, translation>;
+        using int_and_option = std::pair<int, translation>;
         static std::vector<id_and_option> get_lang_options();
     private:
         /**
@@ -99,7 +99,7 @@ class options_manager
                 std::vector<id_and_option> getItems() const;
 
                 int getIntPos( int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
+                cata::optional<int_and_option> findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -177,7 +177,7 @@ class options_manager
                 int iMin = 0;
                 int iMax = 0;
                 int iDefault = 0;
-                std::vector< std::tuple<int, std::string> > mIntValues;
+                std::vector<int_and_option> mIntValues;
 
                 //sType == "float"
                 float fSet = 0.0f;
@@ -255,7 +255,7 @@ class options_manager
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
+                  const std::vector<int_and_option> &mIntValuesIn,
                   int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
                   bool verbose = false );
 
