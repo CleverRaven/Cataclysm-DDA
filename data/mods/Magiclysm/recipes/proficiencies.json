@@ -1,0 +1,10 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_alchemy",
+    "name": { "str": "Alchemy" },
+    "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
+    "can_learn": true,
+    "time_to_learn": "8 h"
+  }
+]
