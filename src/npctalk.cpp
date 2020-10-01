@@ -15,7 +15,6 @@
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
@@ -32,6 +31,7 @@
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
@@ -2601,12 +2601,8 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             return tmp;
         };
     } else if( jo.has_string( "gendered_line" ) ) {
-        const std::string line = jo.get_string( "gendered_line" );
-        if( test_mode ) {
-            // HACK: check text style by reading it as a translation object
-            translation dummy;
-            jo.read( "gendered_line", dummy );
-        }
+        std::string line;
+        mandatory( jo, false, "gendered_line", line, text_style_check_reader() );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );

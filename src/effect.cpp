@@ -7,10 +7,10 @@
 #include <unordered_set>
 
 #include "bodypart.h"
-#include "cached_options.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
 #include "messages.h"
@@ -1283,14 +1283,10 @@ void load_effect_type( const JsonObject &jo )
     }
     jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
-    jo.read( "apply_memorial_log", new_etype.apply_memorial_log );
-    jo.read( "remove_memorial_log", new_etype.remove_memorial_log );
-    if( test_mode ) {
-        // HACK: read again using class translation to check text style
-        translation dummy;
-        jo.read( "apply_memorial_log", dummy );
-        jo.read( "remove_memorial_log", dummy );
-    }
+    optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
+              text_style_check_reader() );
+    optional( jo, false, "remove_memorial_log", new_etype.remove_memorial_log,
+              text_style_check_reader() );
 
     jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 

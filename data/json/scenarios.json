@@ -85,7 +85,7 @@
     "id": "isolationist",
     "name": "Safe Place",
     "points": 1,
-    "description": "You've found some distant safe place, devoid of the living dead.  Looks like you're on your own...",
+    "description": "You've found some distant safe place, devoid of the living dead.  Looks like you're on your own…",
     "allowed_locs": [
       "sloc_refugee_center",
       "sloc_hermit_shack",
@@ -537,7 +537,7 @@
     "type": "scenario",
     "id": "cyberpunk",
     "name": "High Tech, Low Life",
-    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose could get you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
+    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose could get you what you wanted.  If you went too deep, however, your augmentation may have come at a price…",
     "flags": [ "CITY_START", "LONE_START" ],
     "points": 2,
     "start_name": "Shady Basement",

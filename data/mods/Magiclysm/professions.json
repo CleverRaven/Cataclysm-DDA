@@ -291,7 +291,7 @@
     "type": "profession",
     "id": "techno_prepper",
     "name": "Techno-Prepper",
-    "description": "You've long suspected the world might suddenly turn over. With your training, spells, and revolver, your chances are far better than most.",
+    "description": "You've long suspected the world might suddenly turn over.  With your training, spells, and revolver, your chances are far better than most.",
     "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
     "points": 5,
     "skills": [
@@ -324,7 +324,7 @@
     "type": "profession",
     "id": "magic_vamp",
     "name": "Bionic Pseudovamp",
-    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night. Your neglect to your health in your pursuit has left you pale and unlively.",
+    "description": "You've long had an obsession with horror novels, and used your wealth to augment yourself with spells and bionics into a denizen of the night.  Your neglect to your health in your pursuit has left you pale and unlively.",
     "points": 7,
     "spells": [
       { "id": "recover_mana", "level": 2 },
@@ -354,7 +354,7 @@
     "type": "profession",
     "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells. With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
     "points": 4,
     "spells": [
       { "id": "magic_missile", "level": 6 },
@@ -382,7 +382,7 @@
     "type": "profession",
     "id": "biomancer_musician",
     "name": "Corrosive Rocker",
-    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips. It seems the Cataclysm is now your final tour.",
+    "description": "Your metal career soared to new heights when you swapped special effects for acrid gore and spiked whips.  It seems the Cataclysm is now your final tour.",
     "points": 4,
     "spells": [
       { "id": "vicious_tentacle", "level": 2 },
@@ -441,7 +441,7 @@
     "type": "profession",
     "id": "earth_boxer",
     "name": "Earthquake Brawler",
-    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine. Now that all your opponents are undead, there's no need to hold back.",
+    "description": "You've made a name for yourself in underground magic boxing rings as an unstoppable punching machine.  Now that all your opponents are undead, there's no need to hold back.",
     "points": 4,
     "spells": [
       { "id": "earthshaper_stoneskin", "level": 2 },
