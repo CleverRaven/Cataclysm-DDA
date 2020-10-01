@@ -47,9 +47,7 @@
     "message": "As you butcher the chocolate corpse, you break the large chunks of flesh down into bars.",
     "entries": [
       { "drop": "chocolate", "type": "flesh", "mass_ratio": 0.52 },
-      { "drop": "lung_choc", "type": "flesh", "mass_ratio": 0.0035 },
-      { "drop": "brain_choc", "type": "flesh", "mass_ratio": 0.005 },
-      { "drop": "stomach_large_choc", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" }
+      { "drop": "cow_candy", "base_num": [ 0, 2 ], "max": 2, "type": "offal" }
     ]
   }
 ]

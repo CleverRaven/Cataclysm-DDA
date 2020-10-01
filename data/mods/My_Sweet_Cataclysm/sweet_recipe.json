@@ -16,26 +16,6 @@
   },
   {
     "type": "recipe",
-    "result": "chocolate",
-    "id_suffix": "from_organ",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "time": "30 s",
-    "autolearn": true,
-    "components": [ [ [ "brain_choc", 1 ], [ "lung_choc", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "chocolate_2",
-    "id_suffix": "from_large_organ",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_OTHER",
-    "time": "1 m",
-    "autolearn": true,
-    "components": [ [ [ "stomach_large_choc", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "milk_choc",
     "id_suffix": "from_raw",
     "copy-from": "milk",
