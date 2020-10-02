@@ -52,6 +52,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
@@ -415,6 +416,31 @@ void character_id::serialize( JsonOut &jsout ) const
 void character_id::deserialize( JsonIn &jsin )
 {
     value = jsin.get_int();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// effect_source.h
+
+void effect_source::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "character_id", this->character );
+    json.member( "faction_id", this->fac );
+    if( this->mfac ) {
+        json.member( "mfaction_id", this->mfac->id().str() );
+    }
+    json.end_object();
+}
+
+void effect_source::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "character_id", this->character );
+    data.read( "faction_id", this->fac );
+    const std::string mfac_id = data.get_string( "mfaction_id", "" );
+    this->mfac = !mfac_id.empty()
+                 ? cata::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
+                 : cata::optional<mfaction_id>();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -4042,8 +4042,8 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( const bodypart_id &bp, time_duration duration, int intensity,
-                            bool permanent, bool force, bool defferred )
+void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
+                            time_duration duration, int intensity, bool permanent, bool force, bool defferred )
 {
     int b_resist = 0;
     for( const trait_id &mut : get_mutations() ) {
@@ -4054,7 +4054,7 @@ void Character::make_bleed( const bodypart_id &bp, time_duration duration, int i
         return;
     }
 
-    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+    add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
 }
 
 void Character::normalize()
@@ -8926,8 +8926,8 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id( "bp_null" ), false, 1,
-                                   calendar::turn );
+        const effect dummy_nausea( effect_source( this ), &effect_nausea.obj(), 0_turns,
+                                   bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
