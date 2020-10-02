@@ -1832,7 +1832,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
         if( parts->test( iteminfo_parts::FOOD_SATIATION ) ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
-                            satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
+                                      satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
         }
     }
 
