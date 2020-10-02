@@ -720,6 +720,7 @@ bool game::start_game()
 
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
+    u.update_cardio();
     u.set_stamina( u.get_stamina_max() );
     weather.temperature = SPRING_TEMPERATURE;
     weather.update_weather();
@@ -1450,7 +1451,10 @@ bool game::do_turn()
     }
 
     u.update_body();
-
+    // Recalculate cardio every 10 min
+    if( calendar::once_every( time_duration::from_minutes( 10 ) ) ) {
+        u.update_cardio();
+    }
     // Auto-save if autosave is enabled
     if( get_option<bool>( "AUTOSAVE" ) &&
         calendar::once_every( 1_turns * get_option<int>( "AUTOSAVE_TURNS" ) ) &&
