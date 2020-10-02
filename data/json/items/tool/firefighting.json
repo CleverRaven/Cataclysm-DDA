@@ -70,7 +70,7 @@
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
     "use_action": [ "CROWBAR" ],
-		"pocket_data": [
+    "pocket_data": [
       {
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "5500 g",
@@ -80,7 +80,7 @@
         "holster": true
       }
     ]
-	},
+  },
   {
     "id": "halligan",
     "type": "TOOL",
