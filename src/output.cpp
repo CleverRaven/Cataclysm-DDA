@@ -1965,6 +1965,23 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
     wattroff( w, FG );
 }
 
+
+std::string satiety_bar( const int calpereffv )
+{
+    // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
+    constexpr int max_cal_per_effective_vol = 1500;
+    //Scaling the values.
+    const int scaled_max = std::sqrt( max_cal_per_effective_vol ) / 4;
+    const int scaled_cal = std::sqrt( calpereffv ) / 4;
+    const std::pair<std::string, nc_color> nourishment_bar = get_bar(
+                scaled_cal, scaled_max, 5, true );
+    // Colorize the bar.
+    std::string result = colorize( nourishment_bar.first, nourishment_bar.second );
+    // Pad to 5 characters with dots.
+    result += std::string( 5 - nourishment_bar.first.length(), '.' );
+    return result;
+}
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,

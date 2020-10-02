@@ -487,6 +487,7 @@ item_location game_menus::inv::disassemble( Character &p )
                          _( "You don't have any items you could disassemble." ) );
 }
 
+
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -534,22 +535,32 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            append_cell( [&p]( const item_location & loc ) {
+            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
+            const std::string this_cell_title = _( "SATIETY" );
+            append_cell( [&p, this_cell_title]( const item_location & loc ) {
                 const item &it = *loc;
-                const int charges = std::max( it.charges, 1 );
-                const double converted_weight = convert_weight( it.weight() / charges );
-                if( converted_weight == 0 ) {
-                    return std::string( "---" );
-                }
-                const nutrients nutr = p.compute_effective_nutrients( *loc );
-                const int kcalories = nutr.kcal;
-                // Experimental: if calories are 0 (medicine, batteries etc), don't display anything.
-                if( kcalories == 0 ) {
+                // Quit prematurely if the item is not food.
+                if( !it.type->comestible ) {
                     return std::string();
                 }
-                const int calpergr = int( std::round( kcalories / converted_weight ) );
-                return string_format( _( "%d" ), calpergr );
-            }, _( "CAL/kg" ) );
+                const int calories_per_effective_volume = p.compute_calories_per_effective_volume( it );
+                // Show empty cell instead of 0.
+                if( calories_per_effective_volume == 0 ) {
+                    return std::string();
+                }
+                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
+                bio_digestion, selfaware, high cooking skill etc*/
+                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
+                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
+                    return string_format( "%d", calories_per_effective_volume );
+                }
+                std::string result = satiety_bar( calories_per_effective_volume );
+                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
+                if( utf8_width( this_cell_title ) > 5 ) {
+                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
+                }
+                return result;
+            }, _( this_cell_title ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
