@@ -125,6 +125,7 @@ class RemovePartHandler
         virtual void unboard( const tripoint &loc ) = 0;
         virtual void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) = 0;
         virtual void set_transparency_cache_dirty( int z ) = 0;
+        virtual void set_floor_cache_dirty( int z ) = 0;
         virtual void removed( vehicle &veh, int part ) = 0;
         virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
 };
@@ -144,6 +145,9 @@ class DefaultRemovePartHandler : public RemovePartHandler
             map &here = get_map();
             here.set_transparency_cache_dirty( z );
             here.set_seen_cache_dirty( tripoint_zero );
+        }
+        void set_floor_cache_dirty( const int z ) override {
+            get_map().set_floor_cache_dirty( z );
         }
         void removed( vehicle &veh, const int part ) override {
             avatar &player_character = get_avatar();
@@ -207,6 +211,9 @@ class MapgenRemovePartHandler : public RemovePartHandler
         }
         void set_transparency_cache_dirty( const int /*z*/ ) override {
             // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
+        }
+        void set_floor_cache_dirty( const int /*z*/ ) override {
+            // Ignored for now. We don't initialize the floor cache in mapgen anyway.
         }
         void removed( vehicle &veh, const int /*part*/ ) override {
             // TODO: check if this is necessary, it probably isn't during mapgen
@@ -1956,6 +1963,10 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     // attached to it.
     if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
         handler.set_transparency_cache_dirty( sm_pos.z );
+    }
+
+    if( part_flag( p, VPFLAG_ROOF ) || part_flag( p, VPFLAG_OPAQUE ) ) {
+        handler.set_floor_cache_dirty( sm_pos.z + 1 );
     }
 
     remove_dependent_part( "SEAT", "SEATBELT" );

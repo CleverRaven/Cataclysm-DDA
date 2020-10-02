@@ -180,7 +180,9 @@ struct level_cache {
     // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
     bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
 
-    // false, if corresponding terrain has flag "NO_FLOOR", true otherwise
+    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
+    //      or terrain doesn't have "NO_FLOOR" flag
+    // false otherwise
     // i.e. true == has floor
     bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
 
