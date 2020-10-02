@@ -125,6 +125,28 @@ static void randomly_fill_transparency(
     }
 }
 
+static void randomly_fill_transparency(
+    int_least8_t ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
+{
+    // Construct a rng that produces integers in a range selected to provide the probability
+    // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
+    // with 0 indicating the bit is set.
+    std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
+    auto rng = std::bind( distribution, rng_get_engine() );
+
+    // Initialize the transparency value of each square to a random value.
+    for( auto &inner : transparency_cache ) {
+        for( int_least8_t &square : inner ) {
+            if( rng() < numerator ) {
+                square = 0;
+            } else {
+                square = 1;
+            }
+        }
+    }
+}
+
 static bool is_nonzero( const float x )
 {
     return x != 0;
@@ -341,14 +363,15 @@ static void shadowcasting_float_quad(
 }
 
 static void do_3d_benchmark(
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
+    std::array<const int_least8_t ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS>
+    &transparency_caches,
     const int iterations )
 {
-    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    int_least8_t seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
 
     const tripoint origin( 65, 65, 0 );
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
+    std::array<int_least8_t ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
     std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
 
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
@@ -358,7 +381,7 @@ static void do_3d_benchmark(
 
     const auto start = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
-        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+        cast_zlight<int_least8_t, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
     }
     const auto end = std::chrono::high_resolution_clock::now();
@@ -373,8 +396,9 @@ static void do_3d_benchmark(
 
 static void shadowcasting_3d_benchmark( const int iterations )
 {
-    float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
+    int_least8_t transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    std::array<const int_least8_t ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS>
+    transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
         transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache[z + OVERMAP_DEPTH];
@@ -384,14 +408,14 @@ static void shadowcasting_3d_benchmark( const int iterations )
     // Flat plain
     // TODO: add roofs
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        float value_to_set = LIGHT_TRANSPARENCY_SOLID;
+        int_least8_t value_to_set = LIGHT_TRANSPARENCY_SOLID;
         if( z < 0 ) {
             value_to_set = LIGHT_TRANSPARENCY_SOLID;
         } else {
-            value_to_set = LIGHT_TRANSPARENCY_OPEN_AIR;
+            value_to_set = 1;
         }
         for( auto &inner : transparency_cache[z + OVERMAP_DEPTH] ) {
-            for( float &square : inner ) {
+            for( int_least8_t &square : inner ) {
                 square = value_to_set;
             }
         }
@@ -399,7 +423,7 @@ static void shadowcasting_3d_benchmark( const int iterations )
     do_3d_benchmark( transparency_caches, iterations );
 
     // Add some obstacles, a ring at distance 5
-    float ( &ground_level )[MAPSIZE * SEEX][MAPSIZE * SEEY] = transparency_cache[OVERMAP_DEPTH];
+    int_least8_t ( &ground_level )[MAPSIZE * SEEX][MAPSIZE * SEEY] = transparency_cache[OVERMAP_DEPTH];
     ground_level[60][65] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[63][63] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[65][60] = LIGHT_TRANSPARENCY_SOLID;
