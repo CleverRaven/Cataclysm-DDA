@@ -2764,20 +2764,55 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
                         const bool allow_wield )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, /*allow_wield=*/allow_wield );
+    item *added = try_add( it, avoid, /*allow_wield=*/false );
     if( added == nullptr ) {
+        if( it.count_by_charges() ) {
+            int remaining_charges = it.charges;
+            if( weapon.can_contain_partial( it ) ) {
+                int used_charges = weapon.fill_with( it, remaining_charges );
+                remaining_charges -= used_charges;
+            }
+            for( item &i : worn ) {
+                if( remaining_charges == 0 ) {
+                    break;
+                }
+                if( i.can_contain_partial( it ) ) {
+                    int used_charges = i.fill_with( it, remaining_charges );
+                    remaining_charges -= used_charges;
+                }
+            }
+            if( remaining_charges == 0 ) {
+                return it;
+            }
+            if( it.charges != remaining_charges ) {
+                added = &item( it );
+                added->charges -= remaining_charges;
+                it.charges = remaining_charges;
+            }
+        }
+        bool is_added = added != nullptr;
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return get_map().add_item_or_charges( pos(), it );
+                item dropped = get_map().add_item_or_charges( pos(), it );
+                if( !is_added ) {
+                    return dropped;
+                } else {
+                    added->charges += dropped.charges;
+                }
             } else {
-                return null_item_reference();
+                if( !is_added ) {
+                    return null_item_reference();
+                }
             }
         } else {
-            return weapon;
+            if( !is_added ) {
+                return weapon;
+            } else {
+                added->charges += it.charges;
+            }
         }
-    } else {
-        return *added;
     }
+    return *added;
 }
 
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
