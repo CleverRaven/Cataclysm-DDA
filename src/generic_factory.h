@@ -17,7 +17,6 @@
 #include "json.h"
 #include "output.h"
 #include "string_id.h"
-#include "translations.h"
 #include "units.h"
 #include "wcwidth.h"
 
@@ -1079,5 +1078,25 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
     value = legacy_value * units::legacy_volume_factor;
     return true;
 }
+
+/**
+ * Only for external use in legacy code where migrating to `class translation`
+ * is impractical. For new code load with `class translation` instead.
+ */
+class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
+{
+    public:
+        enum class allow_object : int {
+            no,
+            yes,
+        };
+
+        text_style_check_reader( allow_object object_allowed = allow_object::yes );
+
+        std::string get_next( JsonIn &jsin ) const;
+
+    private:
+        allow_object object_allowed;
+};
 
 #endif // CATA_SRC_GENERIC_FACTORY_H
