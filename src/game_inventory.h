@@ -69,6 +69,7 @@ void common( item_location &loc, avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
+std::string satiety_bar( const int calpereffv, const Character &p );
 
 /**
 * Compares two items, if confirm_message isn't empty then it will be printed
