@@ -1831,8 +1831,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                       food_item->get_comestible()->quench ) );
         }
         if( parts->test( iteminfo_parts::FOOD_SATIATION ) ) {
-            info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
-                                      satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
+
+            if( max_nutr.kcal == min_nutr.kcal ) {
+                info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
+            } else {
+                info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ), "", iteminfo::no_newline,
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &min_nutr ) ) ) );
+                info.push_back( iteminfo( "FOOD", _( "-" ),
+                                          satiety_bar( player_character.compute_calories_per_effective_volume( *food_item, &max_nutr ) ) ) );
+            }
         }
     }
 
