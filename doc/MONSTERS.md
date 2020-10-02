@@ -116,7 +116,7 @@ or, if the singular and plural forms are the same:
 
 Name displayed in-game, and optionally the plural name and a translation context (ctxt).
 
-If the plural name is not specified, it defaults to singular name + "s".
+If the plural name is not specified, it defaults to singular name + "s". "str_pl" may also be needed if the unit test cannot determine if the correct plural form can be formed by simply appending "s".
 
 Ctxt is used to help translators in case of homonyms (two different things with the same name). For example, pike the fish and pike the weapon.
 

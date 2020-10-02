@@ -316,6 +316,21 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
+    std::string check_plural_str = extract_argument( arg_vec, "--check-plural=" );
+    if( check_plural_str == "none" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::none;
+    } else if( check_plural_str == "certain" || check_plural_str.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::certain;
+    } else if( check_plural_str == "possible" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
+        check_plural = check_plural_t::possible;
+    } else {
+        printf( "Unknown check_plural value %s", check_plural_str.c_str() );
+        return EXIT_FAILURE;
+    }
+
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
