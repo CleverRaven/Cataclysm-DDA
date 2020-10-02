@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "character.h"
+#include "game_inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
