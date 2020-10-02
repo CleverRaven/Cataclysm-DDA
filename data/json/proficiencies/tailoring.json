@@ -44,6 +44,15 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_spinning",
+    "name": { "str": "Spinning" },
+    "description": "The art of spinning fiber into thread.",
+    "//": "In the future, having this proficiency could give a boost to learning rope making and vice versa",
+    "can_learn": true,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_millinery",
     "name": { "str": "Millinery" },
     "description": "Like a solitary mouse, you've learned how to construct hats by hand.",
