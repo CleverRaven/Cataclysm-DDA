@@ -2724,8 +2724,10 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         const vproto_id scen_veh = get_scenario()->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
         if( scen_veh ) {
+            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (scenario): " ) );
             wprintz( w_vehicle, c_white, "%s", scen_veh->name );
         } else if( prof_veh ) {
+            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
             wprintz( w_vehicle, c_white, "%s", prof_veh->name );
         }
         wnoutrefresh( w_vehicle );
