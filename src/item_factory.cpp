@@ -1316,6 +1316,12 @@ void Item_factory::check_definitions() const
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
             }
+            if( type->gunmod->usable.empty() ) {
+                msg += "gunmod does not specify mod targets\n";
+            }
+            if( type->gunmod->install_time < 0 ) {
+                msg += "gunmod does not specify install time\n";
+            }
         }
         if( type->mod ) {
             for( const ammotype &at : type->mod->ammo_modifier ) {

@@ -1102,6 +1102,7 @@
     "volume": "750 ml",
     "price": 480,
     "price_postapoc": 250,
+    "install_time": "30 s",
     "to_hit": 1,
     "bashing": 3,
     "material": [ "steel" ],
