@@ -970,7 +970,7 @@ bool item::display_stacked_with( const item &rhs, bool check_components ) const
     return !count_by_charges() && stacks_with( rhs, check_components );
 }
 
-bool item::combine( const item &rhs )
+bool item::can_combine( const item &rhs ) const
 {
     if( !contents.empty() || !rhs.contents.empty() ) {
         return false;
@@ -979,6 +979,14 @@ bool item::combine( const item &rhs )
         return false;
     }
     if( !stacks_with( rhs, true ) ) {
+        return false;
+    }
+    return true;
+}
+
+bool item::combine( const item &rhs )
+{
+    if( !can_combine( rhs ) ) {
         return false;
     }
     if( has_temperature() ) {

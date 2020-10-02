@@ -537,6 +537,7 @@ class item : public visitable<item>
         bool stacks_with( const item &rhs, bool check_components = false ) const;
         /** combines two items together if possible. returns false if it fails. */
         bool combine( const item &rhs );
+        bool can_combine( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
