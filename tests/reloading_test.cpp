@@ -310,9 +310,9 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     player &dummy = get_avatar();
     clear_avatar();
     clear_map();
-    item &backpack( item( "bigback" ) );
+    item backpack( item( "bigback" ) );
     dummy.wear_item( backpack );
-    item &canteen( item( "2lcanteen" ) );
+    item canteen( item( "2lcanteen" ) );
     REQUIRE( dummy.wield( canteen ) ) ;
 
     item &ammo_jug = dummy.i_add( item( "jug_plastic" ) );
