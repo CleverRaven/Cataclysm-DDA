@@ -562,6 +562,11 @@ Successfully attacking will extend the targeting for this many turns. Can be neg
 ### "targeting_cost"
 Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns.
 
+### "no_crits"
+If true then attacking create will be unable to score ranged critical hit on target,
+also good hits no longer has high change to go to the head, instead there is high change to score hit to the body and limbs.
+If false then default behavior used - critical hits are allowed and good hit has high chance to reach head.
+
 ### "laser_lock"
 If true and attacking a creature that isn't laser-locked but needs to be targeted,
 the monster will act as if it had no targeting status (and waste time targeting),
