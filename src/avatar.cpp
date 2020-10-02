@@ -1538,9 +1538,11 @@ bool avatar::wield( item &target, const int obtain_cost )
         return false;
     }
 
-    if( !unwield() ) {
+    bool combine_stacks = target.stacks_with( weapon, true );
+    if( !combine_stacks && !unwield() ) {
         return false;
     }
+
     cached_info.erase( "weapon_value" );
     if( target.is_null() ) {
         return true;
@@ -1571,9 +1573,18 @@ bool avatar::wield( item &target, const int obtain_cost )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        item removed = i_rem( &target );
+        if( combine_stacks ) {
+            weapon.charges += removed.charges;
+        } else {
+            weapon = removed;
+        }
     } else {
-        weapon = target;
+        if( combine_stacks ) {
+            weapon.charges += target.charges;
+        } else {
+            weapon = target;
+        }
     }
 
     last_item = weapon.typeId();

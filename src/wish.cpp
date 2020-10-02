@@ -606,8 +606,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            if( p->can_stash( granted ) ) {
-                                p->i_add( granted );
+                            bool stacks = p->weapon.stacks_with( granted, true );
+                            if( stacks || p->can_stash( granted ) ) {
+                                p->i_add( granted, true, nullptr, true, stacks );
                             } else {
                                 get_map().add_item_or_charges( p->pos(), granted );
                             }
