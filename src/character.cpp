@@ -2765,7 +2765,6 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
 {
     invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, /*allow_wield=*/false );
-    item copy = it;
     if( added == nullptr ) {
         if( it.count_by_charges() ) {
             int remaining_charges = it.charges;
@@ -2782,7 +2781,11 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
                     remaining_charges -= used_charges;
                 }
             }
+            item &copy = item( it.type );
             if( remaining_charges == 0 ) {
+                copy.charges = it.charges;
+                flag_encumbrance();
+                invalidate_weight_carried_cache();
                 return copy;
             }
             if( it.charges != remaining_charges ) {
@@ -2796,23 +2799,26 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
             if( allow_drop ) {
                 item &dropped = get_map().add_item_or_charges( pos(), it );
                 if( !is_added ) {
-                    return dropped;
+                    added = &dropped;
                 } else {
                     added->charges += dropped.charges;
                 }
             } else {
                 if( !is_added ) {
-                    return null_item_reference();
+                    added = &null_item_reference();
                 }
             }
         } else {
             if( !is_added ) {
-                return weapon;
+                added = &weapon;
             } else {
                 added->charges += it.charges;
             }
         }
     }
+
+    flag_encumbrance();
+    invalidate_weight_carried_cache();
     return *added;
 }
 
