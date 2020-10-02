@@ -1485,8 +1485,10 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::string buffer;
             // Profession addictions
             const auto prof_addictions = sorted_profs[cur_id]->addictions();
-            if( !prof_addictions.empty() ) {
-                buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
+            if( prof_addictions.empty() ) {
+                buffer += pgettext( "set_profession_addictions", "None" ) + std::string( "\n" );
+            } else {
                 for( const addiction &a : prof_addictions ) {
                     const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
                     buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
@@ -1495,8 +1497,10 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Profession traits
             const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-            if( !prof_traits.empty() ) {
-                buffer += colorize( _( "Profession traits:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Profession traits:" ), c_light_blue ) + "\n";
+            if( prof_traits.empty() ) {
+                buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
+            } else {
                 for( const auto &t : prof_traits ) {
                     buffer += mutation_branch::get_name( t ) + "\n";
                 }
@@ -1504,8 +1508,10 @@ tab_direction set_profession( avatar &u, points_left &points,
 
             // Profession skills
             const auto prof_skills = sorted_profs[cur_id]->skills();
-            if( !prof_skills.empty() ) {
-                buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Profession skills:" ), c_light_blue ) + "\n";
+            if( prof_skills.empty() ) {
+                buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
+            } else {
                 for( const auto &sl : prof_skills ) {
                     const char *format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
                     buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
@@ -1536,15 +1542,14 @@ tab_direction set_profession( avatar &u, points_left &points,
                         buffer_inventory += it.display_name() + "\n";
                     }
                 }
-                if( !buffer_wielded.empty() ) {
-                    buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n" + buffer_wielded;
-                }
-                if( !buffer_worn.empty() ) {
-                    buffer += colorize( _( "Worn:" ), c_cyan ) + "\n" + buffer_worn;
-                }
-                if( !buffer_inventory.empty() ) {
-                    buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n" + buffer_inventory;
-                }
+                buffer += colorize( _( "Wielded:" ), c_cyan ) + "\n";
+                buffer += !buffer_wielded.empty() ? buffer_wielded : pgettext( "set_profession_item_wielded",
+                          "None\n" );
+                buffer += colorize( _( "Worn:" ), c_cyan ) + "\n";
+                buffer += !buffer_worn.empty() ? buffer_worn : pgettext( "set_profession_item_worn", "None\n" );
+                buffer += colorize( _( "Inventory:" ), c_cyan ) + "\n";
+                buffer += !buffer_inventory.empty() ? buffer_inventory : pgettext( "set_profession_item_inventory",
+                          "None\n" );
             }
 
             // Profession bionics, active bionics shown first
@@ -1552,11 +1557,12 @@ tab_direction set_profession( avatar &u, points_left &points,
             std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
                 return a->activated && !b->activated;
             } );
-            if( !prof_CBMs.empty() ) {
-                buffer += colorize( _( "Profession bionics:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Profession bionics:" ), c_light_blue ) + "\n";
+            if( prof_CBMs.empty() ) {
+                buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
+            } else {
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
-
                     if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
@@ -1569,25 +1575,31 @@ tab_direction set_profession( avatar &u, points_left &points,
             // Proficiencies
             const std::string newline = "\n";
             std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
-            if( !prof_proficiencies.empty() ) {
-                buffer += colorize( _( "Profession proficiencies:" ), c_light_blue ) + newline;
+            buffer += colorize( _( "Profession proficiencies:" ), c_light_blue ) + newline;
+            if( prof_proficiencies.empty() ) {
+                buffer += pgettext( "Profession has no proficiencies", "None" ) + newline;
+            } else {
                 for( const proficiency_id &prof : prof_proficiencies ) {
                     buffer += prof->name() + newline;
                 }
             }
             // Profession pet
-            if( !sorted_profs[cur_id]->pets().empty() ) {
-                buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
+            buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
+            if( sorted_profs[cur_id]->pets().empty() ) {
+                buffer += pgettext( "set_profession_pets", "None" ) + std::string( "\n" );
+            } else {
                 for( const auto &elem : sorted_profs[cur_id]->pets() ) {
                     monster mon( elem );
                     buffer += mon.get_name() + "\n";
                 }
             }
             // Profession vehicle
+            buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
             if( sorted_profs[cur_id]->vehicle() ) {
-                buffer += colorize( _( "Vehicle:" ), c_light_blue ) + "\n";
                 vproto_id veh_id = sorted_profs[cur_id]->vehicle();
                 buffer += veh_id->name.translated();
+            } else {
+                buffer += pgettext( "set_profession_vehicle", "None" ) + std::string( "\n" );
             }
             // Profession spells
             if( !sorted_profs[cur_id]->spells().empty() ) {
@@ -1596,6 +1608,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                     buffer += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
                 }
             }
+
             const auto scroll_msg = string_format(
                                         _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
                                         ctxt.get_desc( "LEFT" ),
@@ -2729,13 +2742,19 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else if( prof_veh ) {
             mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle (profession): " ) );
             wprintz( w_vehicle, c_white, "%s", prof_veh->name );
+        } else {
+            mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting vehicle: " ) );
+            wprintz( w_vehicle, c_light_red, _( "None!" ) );
         }
         wnoutrefresh( w_vehicle );
 
         werase( w_addictions );
         // Profession addictions description tab
         const auto prof_addictions = you.prof->addictions();
-        if( !prof_addictions.empty() ) {
+        if( prof_addictions.empty() ) {
+            mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
+            wprintz( w_addictions, c_light_red, _( "None!" ) );
+        } else {
             mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
             for( const addiction &a : prof_addictions ) {
                 const char *format = "%1$s (%2$d) ";
