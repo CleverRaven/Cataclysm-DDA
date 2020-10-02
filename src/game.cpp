@@ -1867,10 +1867,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
         temp_mod += 6 * heat_intensity * heat_intensity / fire_dist;
-        if( fire_dist <= 1 ) {
-            // Extend limbs/lean over a single adjacent fire to warm up
-            best_fire = std::max( best_fire, heat_intensity );
-        }
+        best_fire = std::max( best_fire, heat_intensity );
     }
     if( direct ) {
         return best_fire;
