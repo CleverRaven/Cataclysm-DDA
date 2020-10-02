@@ -109,6 +109,32 @@ TEST_CASE( "generic_factory_common_null_ids", "[generic_factory]" )
     CHECK( field_type_str_id::NULL_ID().is_valid() );
 }
 
+TEST_CASE( "generic_factory_version_wrapper", "[generic_factory]" )
+{
+    generic_factory<test_obj> test_factory( "test_factory" );
+    generic_factory<test_obj>::Version v1;
+    generic_factory<test_obj>::Version v2;
+
+    CHECK_FALSE( test_factory.is_valid( v1 ) );
+    test_factory.reset();
+    CHECK_FALSE( test_factory.is_valid( v1 ) );
+
+    v1 = test_factory.get_version();
+
+    CHECK( test_factory.is_valid( v1 ) );
+    CHECK_FALSE( v1 == v2 );
+    CHECK( v1 != v2 );
+
+    v2 = v1;
+
+    CHECK( v1 == v2 );
+    CHECK_FALSE( v1 != v2 );
+
+    test_factory.reset();
+    CHECK_FALSE( test_factory.is_valid( v1 ) );
+    CHECK_FALSE( test_factory.is_valid( v2 ) );
+}
+
 TEST_CASE( "string_ids_comparison", "[generic_factory][string_id]" )
 {
     //  checks equality correctness for the following combinations of parameters:
