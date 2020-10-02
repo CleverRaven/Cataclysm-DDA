@@ -75,31 +75,25 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Freakazoid
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_1" ).value_or(
                                          translation() ) );
                 return;
             case 1:
-                // Simpsons
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_1" ).value_or(
                                          translation() ) );
                 p.mod_hunger( 2 );
                 return;
             case 2:
                 if( smarts > 8 ) {
-                    // Timothy Leary
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Timothy_Leary" ).value_or(
                                              translation() ) );
                 } else if( smarts < 3 ) {
-                    // It's Always Sunny in Philadelphia
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_IASIF" ).value_or( translation() ) );
                 } else {
-                    // Durr
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Durr" ).value_or( translation() ) );
                 }
                 return;
             case 3:
-                // Dazed and Confused
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_1" ).value_or(
                                          translation() ) );
                 if( one_in( 2 ) ) {
@@ -125,7 +119,7 @@ void weed_msg( player &p )
                     }
                 } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bible" ).value_or( translation() ) );
-                } else { // Big Lebowski
+                } else {
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Big_Lebowski" ).value_or(
                                              translation() ) );
                 }
@@ -140,17 +134,14 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Bob Marley
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bob_Marley" ).value_or(
                                          translation() ) );
                 return;
             case 1:
-                // Freakazoid
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_2" ).value_or(
                                          translation() ) );
                 return;
             case 2:
-                // Simpsons
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_2" ).value_or(
                                          translation() ) );
                 if( smarts > 2 && one_in( 2 ) ) {
@@ -159,12 +150,10 @@ void weed_msg( player &p )
                 }
                 return;
             case 3:
-                // Bill Hicks
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bill_Hicks" ).value_or(
                                          translation() ) );
                 return;
             case 4:
-                // Steve Martin
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_1" ).value_or(
                                          translation() ) );
                 if( one_in( 4 ) ) {
@@ -196,12 +185,10 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Cheech and Chong
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Cheech_and_Chong" ).value_or(
                                          translation() ) );
                 return;
             case 1:
-                // Real Life
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_1" ).value_or(
                                          translation() ) );
                 p.mod_hunger( 4 );
@@ -214,12 +201,10 @@ void weed_msg( player &p )
                 }
                 return;
             case 2:
-                // Dazed and Confused
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_4" ).value_or(
                                          translation() ) );
                 return;
             case 3:
-                // Half Baked
                 p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_4" ).value_or(
                                          translation() ) );
                 return;
