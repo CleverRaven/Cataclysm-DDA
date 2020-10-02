@@ -2765,6 +2765,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
 {
     invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, /*allow_wield=*/false );
+    item &copy = it;
     if( added == nullptr ) {
         if( it.count_by_charges() ) {
             int remaining_charges = it.charges;
@@ -2782,10 +2783,10 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
                 }
             }
             if( remaining_charges == 0 ) {
-                return it;
+                return copy;
             }
             if( it.charges != remaining_charges ) {
-                added = &item( it );
+                added = &copy;
                 added->charges -= remaining_charges;
                 it.charges = remaining_charges;
             }
@@ -2793,7 +2794,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
         bool is_added = added != nullptr;
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                item dropped = get_map().add_item_or_charges( pos(), it );
+                item &dropped = get_map().add_item_or_charges( pos(), it );
                 if( !is_added ) {
                     return dropped;
                 } else {
