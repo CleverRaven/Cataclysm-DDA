@@ -978,7 +978,7 @@ bool item::can_combine( const item &rhs ) const
     if( !count_by_charges() ) {
         return false;
     }
-    if( !stacks_with( rhs, true ) ) {
+    if( !stacks_with( rhs, true, true ) ) {
         return false;
     }
     return true;
@@ -1008,7 +1008,7 @@ bool item::combine( const item &rhs )
     return true;
 }
 
-bool item::stacks_with( const item &rhs, bool check_components ) const
+bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
 {
     if( type != rhs.type ) {
         return false;
@@ -1034,8 +1034,29 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( active != rhs.active ) {
         return false;
     }
-    if( item_tags != rhs.item_tags ) {
-        return false;
+    if( combine_liquid && has_temperature() && made_of_from_type( phase_id::LIQUID ) ) {
+        //we can combine liquids of same type and different temperatures
+        //compare ranges between "COLD", "FROZEN", "HOT".
+        if( !std::equal( rhs.item_tags.begin(), rhs.item_tags.lower_bound( flag_COLD ),
+                         item_tags.begin(), item_tags.lower_bound( flag_COLD ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_COLD ), rhs.item_tags.lower_bound( flag_FROZEN ),
+                         item_tags.upper_bound( flag_COLD ), item_tags.lower_bound( flag_FROZEN ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_FROZEN ), rhs.item_tags.lower_bound( flag_HOT ),
+                         item_tags.upper_bound( flag_FROZEN ), item_tags.lower_bound( flag_HOT ) ) ) {
+            return false;
+        }
+        if( !std::equal( rhs.item_tags.upper_bound( flag_HOT ), rhs.item_tags.end(),
+                         item_tags.upper_bound( flag_HOT ), item_tags.end() ) ) {
+            return false;
+        }
+    } else {
+        if( item_tags != rhs.item_tags ) {
+            return false;
+        }
     }
     if( faults != rhs.faults ) {
         return false;
