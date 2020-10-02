@@ -45,8 +45,8 @@ bool construction_id::is_valid() const;
 struct construction {
         // Construction type category
         construction_category_id category;
-        // How the action is displayed to the player
-        std::string description;
+        // Which group does this construction belong to.
+        construction_group_str_id group;
         // Additional note displayed along with construction requirements.
         translation pre_note;
         // Beginning terrain for construction
