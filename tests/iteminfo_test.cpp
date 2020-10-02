@@ -388,7 +388,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             item( "test_pine_nuts" ), q,
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
-            " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
+            " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
             "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
 
@@ -399,7 +399,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
             nuts, q,
             "--\n"
             "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
-            " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
+            " an estimated nominal shelf life of <color_c_cyan>3 seasons</color>.\n"
             "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
     }
 }

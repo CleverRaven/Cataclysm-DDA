@@ -2101,7 +2101,7 @@ void options_manager::add_options_world_default()
        );
 
     add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
-         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
+         translate_marker( "Season length, in days.  Warning: Food rot duration scales with this." ),
          14, 127, 14
        );
 

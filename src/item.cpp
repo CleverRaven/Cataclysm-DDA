@@ -5433,7 +5433,7 @@ std::string item::get_pet_armor_bodytype() const
 
 time_duration item::brewing_time() const
 {
-    return is_brewable() ? type->brewable->time * calendar::season_from_default_ratio() : 0_turns;
+    return is_brewable() ? type->brewable->time * calendar::season_ratio() : 0_turns;
 }
 
 const std::vector<itype_id> &item::brewing_results() const

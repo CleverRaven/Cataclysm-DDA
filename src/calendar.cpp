@@ -62,11 +62,14 @@ double default_daylight_level()
 
 moon_phase get_moon_phase( const time_point &p )
 {
-    static constexpr time_duration synodic_month = 29.530588853 * 1_days;
+    // Seasons last 14 days, not 91 like in real life
+    static constexpr time_duration synodic_month = ( 14 / 3.0f ) * 1_days;
     const time_duration moon_phase_duration =
-        calendar::season_from_default_ratio() * synodic_month;
+        calendar::season_ratio() * synodic_month;
+    // Reset moon phase at start of the year
+    time_point p_year = calendar::turn_zero + time_past_new_year( p );
     // Switch moon phase at noon so it stays the same all night
-    const int num_middays = to_days<int>( p - calendar::turn_zero + 1_days / 2 );
+    const int num_middays = to_days<int>( p_year - calendar::turn_zero + 1_days / 2 );
     const time_duration nearest_midnight = num_middays * 1_days;
     const double phase_change = nearest_midnight / moon_phase_duration;
     const int current_phase = static_cast<int>( std::round( phase_change * MOON_PHASE_MAX ) ) %
@@ -469,15 +472,9 @@ void calendar::set_season_length( const int dur )
     cur_season_length = dur;
 }
 
-static constexpr int real_world_season_length = 91;
-static constexpr int default_season_length = real_world_season_length;
+static constexpr int default_season_length = 14;
 
 float calendar::season_ratio()
-{
-    return to_days<float>( season_length() ) / real_world_season_length;
-}
-
-float calendar::season_from_default_ratio()
 {
     return to_days<float>( season_length() ) / default_season_length;
 }

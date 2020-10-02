@@ -207,6 +207,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     INFO( "player: " << g->u.pos() );
     INFO( "unimpaired_range: " << g->u.unimpaired_range() );
     INFO( "vision_threshold: " << vvcache.vision_threshold );
+    INFO( "time: " << to_string( time ) );
     INFO( "fields:\n" << fields.str() );
     INFO( "transparency:\n" << transparency.str() );
     INFO( "seen:\n" << seen.str() );
@@ -507,7 +508,7 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
     t.test_all();
 }
 
-TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
+TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 {
     const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
     // Verify that I've picked the full_moon time correctly.

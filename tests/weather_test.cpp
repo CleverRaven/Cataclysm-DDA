@@ -38,7 +38,7 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
-TEST_CASE( "weather realism" )
+TEST_CASE( "weather realism", "[.]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
 // are based on NOAA's Local Climatological Data (LCD). Analysis code
@@ -336,4 +336,3 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         }
     }
 }
-

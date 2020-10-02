@@ -91,15 +91,12 @@ time_duration year_length();
 time_duration season_length();
 void set_season_length( int dur );
 
-/// @returns relative length of game season to real life season.
-float season_ratio();
-
 /**
  * @returns ratio of actual season length (a world option) to default season length. This
  * should be used to convert JSON values (that assume the default for the season length
  * option) to actual in-game length.
  */
-float season_from_default_ratio();
+float season_ratio();
 
 /** Returns the translated name of the season (with first letter being uppercase). */
 std::string name_season( season_type s );

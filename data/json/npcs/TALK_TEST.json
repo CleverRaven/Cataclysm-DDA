@@ -246,9 +246,9 @@
         "condition": { "is_season": "spring" }
       },
       {
-        "text": "This is a days since Cataclysm 30 test response.",
+        "text": "This is a days since Cataclysm 5 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 30 }
+        "condition": { "days_since_cataclysm": 5 }
       },
       {
         "text": "This is a season summer test response.",
@@ -256,9 +256,9 @@
         "condition": { "is_season": "summer" }
       },
       {
-        "text": "This is a days since Cataclysm 120 test response.",
+        "text": "This is a days since Cataclysm 20 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 120 }
+        "condition": { "days_since_cataclysm": 20 }
       },
       {
         "text": "This is a season autumn test response.",
@@ -266,9 +266,9 @@
         "condition": { "is_season": "autumn" }
       },
       {
-        "text": "This is a days since Cataclysm 210 test response.",
+        "text": "This is a days since Cataclysm 35 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 210 }
+        "condition": { "days_since_cataclysm": 35 }
       },
       {
         "text": "This is a season winter test response.",
@@ -276,9 +276,9 @@
         "condition": { "is_season": "winter" }
       },
       {
-        "text": "This is a days since Cataclysm 300 test response.",
+        "text": "This is a days since Cataclysm 50 test response.",
         "topic": "TALK_DONE",
-        "condition": { "days_since_cataclysm": 300 }
+        "condition": { "days_since_cataclysm": 50 }
       }
     ]
   },

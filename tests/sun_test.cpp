@@ -123,7 +123,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 }
 
 // The calendar `sunlight` function returns light level for both sun and moon.
-TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
+TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight][.]" )
 {
     // Use sunrise/sunset on the first day (spring equinox)
     static const time_point midnight = calendar::turn_zero;
@@ -223,100 +223,3 @@ TEST_CASE( "current daylight level", "[sun][daylight][equinox][solstice]" )
         CHECK( 75.0f == sunlight( winter + 12_hours ) );
     }
 }
-
-// The times of sunrise and sunset vary throughout the year. For simplicity, equinoxes occur on the
-// first day of spring and autumn, and solstices occur on the first day of summer and winter.
-TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
-{
-    // Due to the "NN_days" math below, this test requires a default 91-day season length
-    REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
-
-    static const time_duration one_season = calendar::season_length();
-    static const time_point spring = calendar::turn_zero;
-    static const time_point summer = spring + one_season;
-    static const time_point autumn = summer + one_season;
-    static const time_point winter = autumn + one_season;
-
-    // The expected sunrise/sunset times depend on internal values in `calendar.cpp` including:
-    // - sunrise_winter, sunrise_summer, sunrise_equinox
-    // - sunset_winter, sunset_summer, sunset_equinox
-    // These being constants based on the default game setting in New England, planet Earth.
-    // Were these to become variable, the tests would need to adapt.
-
-    SECTION( "spring equinox is day 1 of spring" ) {
-        // 11 hours of daylight
-        CHECK( "Year 1, Spring, day 1 6:00:00 AM" == to_string( sunrise( spring ) ) );
-        CHECK( "Year 1, Spring, day 1 7:00:00 PM" == to_string( sunset( spring ) ) );
-
-        THEN( "sunrise gets earlier" ) {
-            CHECK( "6:00:00 AM" == to_string_time_of_day( sunrise( spring ) ) );
-            CHECK( "5:40:00 AM" == to_string_time_of_day( sunrise( spring + 30_days ) ) );
-            CHECK( "5:20:00 AM" == to_string_time_of_day( sunrise( spring + 60_days ) ) );
-            CHECK( "5:00:00 AM" == to_string_time_of_day( sunrise( spring + 90_days ) ) );
-        }
-        THEN( "sunset gets later" ) {
-            CHECK( "7:00:00 PM" == to_string_time_of_day( sunset( spring ) ) );
-            CHECK( "7:39:00 PM" == to_string_time_of_day( sunset( spring + 30_days ) ) );
-            CHECK( "8:19:00 PM" == to_string_time_of_day( sunset( spring + 60_days ) ) );
-            CHECK( "8:58:00 PM" == to_string_time_of_day( sunset( spring + 90_days ) ) );
-        }
-    }
-
-    SECTION( "summer solstice is day 1 of summer" ) {
-        // 14 hours of daylight
-        CHECK( "Year 1, Summer, day 1 5:00:00 AM" == to_string( sunrise( summer ) ) );
-        CHECK( "Year 1, Summer, day 1 9:00:00 PM" == to_string( sunset( summer ) ) );
-
-        THEN( "sunrise gets later" ) {
-            CHECK( "5:00:00 AM" == to_string_time_of_day( sunrise( summer ) ) );
-            CHECK( "5:19:00 AM" == to_string_time_of_day( sunrise( summer + 30_days ) ) );
-            CHECK( "5:39:00 AM" == to_string_time_of_day( sunrise( summer + 60_days ) ) );
-            CHECK( "5:59:00 AM" == to_string_time_of_day( sunrise( summer + 90_days ) ) );
-        }
-        THEN( "sunset gets earlier" ) {
-            CHECK( "9:00:00 PM" == to_string_time_of_day( sunset( summer ) ) );
-            CHECK( "8:20:00 PM" == to_string_time_of_day( sunset( summer + 30_days ) ) );
-            CHECK( "7:40:00 PM" == to_string_time_of_day( sunset( summer + 60_days ) ) );
-            CHECK( "7:01:00 PM" == to_string_time_of_day( sunset( summer + 90_days ) ) );
-        }
-    }
-
-    SECTION( "autumn equinox is day 1 of autumn" ) {
-        // 11 hours of daylight
-        CHECK( "Year 1, Autumn, day 1 6:00:00 AM" == to_string( sunrise( autumn ) ) );
-        CHECK( "Year 1, Autumn, day 1 7:00:00 PM" == to_string( sunset( autumn ) ) );
-
-        THEN( "sunrise gets later" ) {
-            CHECK( "6:00:00 AM" == to_string_time_of_day( sunrise( autumn ) ) );
-            CHECK( "6:19:00 AM" == to_string_time_of_day( sunrise( autumn + 30_days ) ) );
-            CHECK( "6:39:00 AM" == to_string_time_of_day( sunrise( autumn + 60_days ) ) );
-            CHECK( "6:59:00 AM" == to_string_time_of_day( sunrise( autumn + 90_days ) ) );
-        }
-        THEN( "sunset gets earlier" ) {
-            CHECK( "7:00:00 PM" == to_string_time_of_day( sunset( autumn ) ) );
-            CHECK( "6:20:00 PM" == to_string_time_of_day( sunset( autumn + 30_days ) ) );
-            CHECK( "5:40:00 PM" == to_string_time_of_day( sunset( autumn + 60_days ) ) );
-            CHECK( "5:01:00 PM" == to_string_time_of_day( sunset( autumn + 90_days ) ) );
-        }
-    }
-
-    SECTION( "winter solstice is day 1 of winter" ) {
-        // 10 hours of daylight
-        CHECK( "Year 1, Winter, day 1 7:00:00 AM" == to_string( sunrise( winter ) ) );
-        CHECK( "Year 1, Winter, day 1 5:00:00 PM" == to_string( sunset( winter ) ) );
-
-        THEN( "sunrise gets earlier" ) {
-            CHECK( "7:00:00 AM" == to_string_time_of_day( sunrise( winter ) ) );
-            CHECK( "6:40:00 AM" == to_string_time_of_day( sunrise( winter + 30_days ) ) );
-            CHECK( "6:20:00 AM" == to_string_time_of_day( sunrise( winter + 60_days ) ) );
-            CHECK( "6:00:00 AM" == to_string_time_of_day( sunrise( winter + 90_days ) ) );
-        }
-        THEN( "sunset gets later" ) {
-            CHECK( "5:00:00 PM" == to_string_time_of_day( sunset( winter ) ) );
-            CHECK( "5:39:00 PM" == to_string_time_of_day( sunset( winter + 30_days ) ) );
-            CHECK( "6:19:00 PM" == to_string_time_of_day( sunset( winter + 60_days ) ) );
-            CHECK( "6:58:00 PM" == to_string_time_of_day( sunset( winter + 90_days ) ) );
-        }
-    }
-}
-
