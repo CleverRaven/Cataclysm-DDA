@@ -1221,7 +1221,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-	if( tec.block_counter || tec.dodge_counter ) {
+        if( tec.block_counter || tec.dodge_counter ) {
             // skip dodge counter techniques
             if( dodge_counter != tec.dodge_counter ) {
                 continue;
