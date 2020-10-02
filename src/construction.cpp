@@ -142,6 +142,7 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 static bool can_construct( const std::string &desc );
 static bool can_construct( const construction &con );
 static bool player_can_build( player &p, const inventory &inv, const std::string &desc );
+static bool player_can_see_to_build( player &p, const std::string &desc );
 static void place_construction( const std::string &desc );
 
 // Color standardization for string streams
