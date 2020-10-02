@@ -548,10 +548,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( calories_per_effective_volume == 0 ) {
                     return std::string();
                 }
-                /* This is for screen readers. I will make a PR to discuss what these prerequisites could be -
-                bio_digestion, selfaware, high cooking skill etc*/
-                constexpr bool ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE = false;
-                if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
+                if( p.has_trait( trait_id( "SELFAWARE" ) ) || ( p.get_skill_level( skill_id( "COOKING" )) > 6 )  ||  p.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     return string_format( "%d", calories_per_effective_volume );
                 }
                 std::string result = satiety_bar( calories_per_effective_volume );
