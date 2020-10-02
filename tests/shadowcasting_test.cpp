@@ -340,6 +340,77 @@ static void shadowcasting_float_quad(
     REQUIRE( passed );
 }
 
+static void do_3d_benchmark(
+    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
+    const int iterations )
+{
+    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{false}};
+
+    const tripoint origin( 65, 65, 0 );
+    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
+    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
+
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        seen_caches[z + OVERMAP_DEPTH] = &seen_squares[z + OVERMAP_DEPTH];
+        floor_caches[z + OVERMAP_DEPTH] = &floor_cache[z + OVERMAP_DEPTH];
+    }
+
+    const auto start = std::chrono::high_resolution_clock::now();
+    for( int i = 0; i < iterations; i++ ) {
+        cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );
+    }
+    const auto end = std::chrono::high_resolution_clock::now();
+
+    if( iterations > 1 ) {
+        const long long diff =
+            std::chrono::duration_cast<std::chrono::microseconds>( end - start ).count();
+        printf( "cast_zlight() executed %d times in %lld microseconds.\n",
+                iterations, diff );
+    }
+}
+
+static void shadowcasting_3d_benchmark( const int iterations )
+{
+    float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
+    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
+        transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache[z + OVERMAP_DEPTH];
+    }
+    do_3d_benchmark( transparency_caches, iterations );
+
+    // Flat plain
+    // TODO: add roofs
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        float value_to_set = LIGHT_TRANSPARENCY_SOLID;
+        if( z < 0 ) {
+            value_to_set = LIGHT_TRANSPARENCY_SOLID;
+        } else {
+            value_to_set = LIGHT_TRANSPARENCY_OPEN_AIR;
+        }
+        for( auto &inner : transparency_cache[z + OVERMAP_DEPTH] ) {
+            for( float &square : inner ) {
+                square = value_to_set;
+            }
+        }
+    }
+    do_3d_benchmark( transparency_caches, iterations );
+
+    // Add some obstacles, a ring at distance 5
+    float ( &ground_level )[MAPSIZE * SEEX][MAPSIZE * SEEY] = transparency_cache[OVERMAP_DEPTH];
+    ground_level[60][65] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[63][63] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[65][60] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[68][63] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[65][70] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[68][68] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[70][65] = LIGHT_TRANSPARENCY_SOLID;
+    ground_level[63][68] = LIGHT_TRANSPARENCY_SOLID;
+    do_3d_benchmark( transparency_caches, iterations );
+}
+
 static void shadowcasting_3d_2d( const int iterations )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
@@ -1017,6 +1088,11 @@ TEST_CASE( "shadowcasting_3d_2d", "[.]" )
 TEST_CASE( "shadowcasting_3d_2d_performance", "[.]" )
 {
     shadowcasting_3d_2d( 100000 );
+}
+
+TEST_CASE( "shadowcasting_3d_performance", "[.]" )
+{
+    shadowcasting_3d_benchmark( 10000 );
 }
 
 TEST_CASE( "shadowcasting_float_quad_equivalence", "[shadowcasting]" )
