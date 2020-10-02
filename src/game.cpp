@@ -9301,7 +9301,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
         // if the field is dangerous but has no effects apparently this
         // means effects are hardcoded in map_field.cpp so we should...
-        bool warn = e.second.field_effects().size() == 0; // ... warn if effects are empty
+        bool warn = e.second.field_effects().empty(); // ... warn if effects are empty
         for( const field_effect &fe : e.second.field_effects() ) {
             if( entering_veh && fe.immune_in_vehicle ) {
                 continue;
