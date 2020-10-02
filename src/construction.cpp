@@ -51,7 +51,6 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
-#include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -486,7 +485,7 @@ construction_id construction_menu( const bool blueprint )
                     add_line( _( "Requires: " ) + colorize( require_string, pre_color ) );
                 }
                 if( !current_con->pre_note.empty() ) {
-                    add_line( _( "Annotation: " ) + colorize( _( current_con->pre_note ), color_data ) );
+                    add_line( _( "Annotation: " ) + colorize( current_con->pre_note, color_data ) );
                 }
                 // get pre-folded versions of the rest of the construction project to be displayed later
 
@@ -1564,7 +1563,7 @@ void load_construction( const JsonObject &jo )
         }
     }
 
-    con.pre_note = jo.get_string( "pre_note", "" );
+    jo.read( "pre_note", con.pre_note );
     con.pre_terrain = jo.get_string( "pre_terrain", "" );
     if( con.pre_terrain.size() > 1
         && con.pre_terrain[0] == 'f'
