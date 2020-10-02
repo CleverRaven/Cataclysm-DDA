@@ -1273,6 +1273,7 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
 // Used when displaying effective food satiation values.
 int Character::compute_calories_per_effective_volume( const item &food, const nutrients *nutrient )const
 {
+    // ^^ nutrient is nullptr by default.
     /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
     stomach fullness source code. Look at issue #44365*/
     const nutrients* nutr;
