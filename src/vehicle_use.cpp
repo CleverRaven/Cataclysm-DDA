@@ -1994,7 +1994,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                              dishwasher_on ? _( "Deactivate the dishwasher" ) :
                              _( "Activate the dishwasher (1.5 hours)" ) );
     }
-    if( from_vehicle && !washing_machine_on && !dishwasher_on ) {
+    if( from_vehicle && !washing_machine_on && !dishwasher_on && !autoclave_on ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
     if( has_items_on_ground && !items_are_sealed ) {
