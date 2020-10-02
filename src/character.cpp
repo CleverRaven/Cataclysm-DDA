@@ -2765,7 +2765,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid, con
 {
     invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, /*allow_wield=*/false );
-    item &copy = it;
+    item copy = it;
     if( added == nullptr ) {
         if( it.count_by_charges() ) {
             int remaining_charges = it.charges;
