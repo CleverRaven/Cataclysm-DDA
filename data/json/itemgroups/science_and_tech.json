@@ -14,7 +14,7 @@
       [ "purifier", 12 ],
       [ "iodine", 5 ],
       [ "prussian_blue", 5 ],
-      [ "inhaler", 14 ],
+      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       [ "eyedrops", 20 ],
       [ "adderall", 10 ],
       [ "id_science", 2 ],

@@ -45,7 +45,13 @@
     "id": "drugs_emergency",
     "type": "item_group",
     "//": "Medical consumables for emergency use excluduing painkillers",
-    "items": [ [ "adrenaline_injector", 50 ], [ "inhaler", 100 ], [ "quikclot", 50 ], [ "smoxygen_tank", 70 ], [ "ifak", 40 ] ]
+    "items": [
+      [ "adrenaline_injector", 50 ],
+      { "item": "inhaler", "prob": 100, "charges-min": 10, "charges-max": 100 },
+      [ "quikclot", 50 ],
+      [ "smoxygen_tank", 70 ],
+      [ "ifak", 40 ]
+    ]
   },
   {
     "id": "drugs_misc",
@@ -172,7 +178,7 @@
     "type": "item_group",
     "id": "harddrugs",
     "items": [
-      [ "inhaler", 14 ],
+      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
       [ "codeine", 15 ],
       [ "oxycodone", 4 ],
       [ "morphine", 4 ],

@@ -29,7 +29,7 @@
       [ "aspirin", 100 ],
       [ "vitamins", 100 ],
       [ "eyedrops", 50 ],
-      [ "inhaler", 50 ],
+      { "item": "inhaler", "prob": 50, "charges-min": 10, "charges-max": 100 },
       { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       { "item": "camera", "prob": 30, "charges": [ 0, 150 ] },
