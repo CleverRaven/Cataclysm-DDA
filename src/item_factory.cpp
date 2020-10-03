@@ -1480,6 +1480,22 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "count", def_charges, 1 );
     optional( jo, was_loaded, "loudness", loudness, -1 );
     optional( jo, was_loaded, "effects", ammo_effects );
+    if( jo.has_object( "extend" ) ) {
+        JsonObject tmp = jo.get_object( "extend" );
+        std::set<std::string> ammo_effects_ext;
+        optional( tmp, was_loaded, "effects", ammo_effects_ext );
+        ammo_effects.insert( ammo_effects_ext.begin(), ammo_effects_ext.end() );
+    }
+    if( jo.has_object( "delete" ) ) {
+        JsonObject tmp = jo.get_object( "delete" );
+        std::set<std::string> ammo_effects_ext;
+        optional( tmp, was_loaded, "effects", ammo_effects_ext );
+        for( auto it : ammo_effects_ext ) {
+            if( ammo_effects.count( it ) ) {
+                ammo_effects.erase( it );
+            }
+        }
+    }
     optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
 }
 
