@@ -133,7 +133,7 @@ item_location sterilize_cbm( player &p );
 
 } // namespace game_menus
 
-std::string satiety_bar( const int calpereffv, const Character &p );
+std::pair<bool, std::string> satiety_bar( const int calpereffv, const Character &p );
 
 
 #endif // CATA_SRC_GAME_INVENTORY_H

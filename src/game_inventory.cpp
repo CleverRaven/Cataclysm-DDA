@@ -487,8 +487,7 @@ item_location game_menus::inv::disassemble( Character &p )
                          _( "You don't have any items you could disassemble." ) );
 }
 
-
-std::string satiety_bar( const int calpereffv, const Character &p )
+std::pair<bool, std::string> satiety_bar( const int calpereffv, const Character &p )
 {
     // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
     constexpr int max_cal_per_effective_vol = 1500;
@@ -500,12 +499,13 @@ std::string satiety_bar( const int calpereffv, const Character &p )
     // Colorize the bar.
     if( p.has_trait( trait_id( "SELFAWARE" ) ) || ( p.get_skill_level( skill_id( "cooking" ) ) > 6 ) ||
         p.has_bionic( bionic_id( "bio_digestion" ) ) ) {
-        return colorize( to_string( calpereffv ), nourishment_bar.second );
+        return std::pair<bool, std::string>( true, colorize( to_string( calpereffv ),
+                                             nourishment_bar.second ) );
     }
     std::string result = colorize( nourishment_bar.first, nourishment_bar.second );
     // Pad to 5 characters with dots.
     result += std::string( 5 - nourishment_bar.first.length(), '.' );
-    return result;
+    return std::pair<bool, std::string>( false, result );
 }
 
 class comestible_inventory_preset : public inventory_selector_preset
@@ -568,9 +568,11 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( calories_per_effective_volume == 0 ) {
                     return std::string();
                 }
-                std::string result = satiety_bar( calories_per_effective_volume, p );
-                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
-                if( utf8_width( this_cell_title ) > 5 ) {
+                std::string result;
+                bool player_can_see_values;
+                std::tie( player_can_see_values, result ) = satiety_bar( calories_per_effective_volume, p );
+                // if this_cell_title is larger than 5 characters and we have a vague value, pad to match its length, preserving alignment.
+                if( ( utf8_width( this_cell_title ) > 5 ) && !player_can_see_values ) {
                     result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
                 }
                 return result;
