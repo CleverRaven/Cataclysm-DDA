@@ -315,6 +315,15 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zrontosaurus",
+    "name": { "str": "Brontosaurus zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "hp": 530,
+    "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail."
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zapatosaurus",
     "name": { "str": "Apatosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
@@ -336,6 +345,33 @@
     ],
     "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is upright and the neck looks like it would still make a good strong club.",
     "upgrades": { "half_life": 14, "into": "mon_zapatosaurus_brute" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zalamosaurus",
+    "name": { "str": "Alamosaurus zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "melee_dice": 5,
+    "armor_bash": 15,
+    "armor_cut": 19,
+    "armor_bullet": 3,
+    "hp": 1500,
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a long neck and spiked tail protected by natural bone armor."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zrachiosaurus",
+    "name": { "str": "Brachiosaurus zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "speed": 40,
+    "melee_dice": 6,
+    "armor_bash": 8,
+    "armor_cut": 8,
+    "armor_bullet": 3,
+    "hp": 2000,
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with longer forelegs and a whip-like tail."
   },
   {
     "type": "MONSTER",
