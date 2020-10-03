@@ -1340,5 +1340,12 @@
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 }
     ]
+  },
+  {
+    "id": "SUS_fridge_full_partial_or_empty",
+    "type": "item_group",
+    "//": "70% chance for a full-stocked fridge, 15% chance for a partially-emptied fridge, 15% chance for an empty fridge",
+    "subtype": "distribution",
+    "items": [ { "group": "SUS_fridge", "prob": 70 }, { "group": "SUS_fridge_partial_empty", "prob": 15 }, [ "null", 15 ] ]
   }
 ]
