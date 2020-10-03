@@ -6535,7 +6535,6 @@ int vehicle::break_off( int p, int dmg )
         }
     }
 
-
     return dmg;
 }
 
