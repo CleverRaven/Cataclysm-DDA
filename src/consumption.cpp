@@ -1275,15 +1275,14 @@ int Character::compute_calories_per_effective_volume( const item &food, const nu
 {
     /* Understanding how Calories Per Effective Volume are calculated requires a dive into the
     stomach fullness source code. Look at issue #44365*/
-    const nutrients* nutr;
+    int kcalories;
     if( nutrient ) {
         // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-        nutr = nutrient;
+        kcalories = nutrient->kcal;
     }
     else {
-        nutr = &compute_effective_nutrients(food);
+        kcalories = compute_effective_nutrients(food).kcal;
     }
-    const int kcalories = nutr->kcal;
     units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
                               5_ml : 0_ml;
     // Water volume is ignored.
