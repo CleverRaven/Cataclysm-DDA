@@ -16,7 +16,7 @@
     "damage": { "damage_type": "stab", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG" ]
   },
   {
     "id": "40x46mm_m1006",
