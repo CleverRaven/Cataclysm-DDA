@@ -5748,7 +5748,6 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                                       const tripoint &p2, const bool ongrass, const time_point &turn,
                                       const int magazine, const int ammo )
 {
-    // TODO: implement for 3D
     std::vector<item *> res;
 
     if( chance > 100 || chance <= 0 ) {
@@ -5770,7 +5769,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( const point & p ) {
+        auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
             const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
@@ -5778,14 +5777,15 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
                    !terrain.has_flag( "FLAT" );
         };
 
-        point p;
+        tripoint p;
         do {
             p.x = rng( p1.x, p2.x );
             p.y = rng( p1.y, p2.y );
+            p.z = rng( p1.z, p2.z );
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
-            auto put = put_items_from_loc( loc, tripoint( p, abs_sub.z ), turn );
+            auto put = put_items_from_loc( loc, p, turn );
             res.insert( res.end(), put.begin(), put.end() );
         }
     }
