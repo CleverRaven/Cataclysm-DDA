@@ -1194,7 +1194,7 @@ void veh_interact::do_repair()
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repariable_part();
-        if( most_repairable ) {
+        if( most_repairable && most_repairable->damage_percent() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
         }
