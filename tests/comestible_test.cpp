@@ -207,8 +207,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     // If kcal per gram < 1.0, return 1.0
     CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( apple ) == 396 );
-    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
-    CHECK( satiety_bar( 396 ) == "<color_c_yellow>||</color>..." );
+    CHECK( satiety_bar( 396 ) == "<color_c_yellow>||\\</color>.." );
 
     // Egg: 80 kcal / 40 g (1 serving)
     const item egg( "test_egg" );
@@ -220,7 +219,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     // If kcal per gram > 1.0 but less than 3.0, return ( kcal / gram )
     CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
     CHECK( u.compute_calories_per_effective_volume( egg ) == 1333 );
-    CHECK( satiety_bar( 1333 ) == "<color_c_green>|||||</color>" );
+    CHECK( satiety_bar( 1333 ) == "<color_c_green>||||\\</color>" );
 
     // Pine nuts: 202 kcal / 30 g (4 servings)
     const item nuts( "test_pine_nuts" );
@@ -245,6 +244,10 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 0 ) == "<color_c_red></color>....." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 1 ) == "<color_c_red>:</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 50 ) == "<color_c_red>\\</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 100 ) == "<color_c_light_red>|</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 200 ) == "<color_c_light_red>|\\</color>..." );
@@ -256,10 +259,10 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     CHECK( satiety_bar( 700 ) == "<color_c_light_green>|||</color>.." );
     CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||\\</color>." );
     CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||\\</color>." );
-    CHECK( satiety_bar( 1000 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 1000 ) == "<color_c_green>||||</color>." );
     CHECK( satiety_bar( 1100 ) == "<color_c_green>||||</color>." );
     CHECK( satiety_bar( 1200 ) == "<color_c_green>||||</color>." );
-    CHECK( satiety_bar( 1300 ) == "<color_c_green>|||||</color>" );
-    CHECK( satiety_bar( 1400 ) == "<color_c_green>|||||</color>" );
+    CHECK( satiety_bar( 1300 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 1400 ) == "<color_c_green>||||\\</color>" );
     CHECK( satiety_bar( 1500 ) == "<color_c_green>|||||</color>" );
 }

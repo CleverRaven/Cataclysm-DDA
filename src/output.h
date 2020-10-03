@@ -597,8 +597,6 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
  * @param extra_resolution Double the resolution of displayed values with \ symbols.
  * @param colors A vector containing N colors with which to color the bar at different values
  */
-// The last color is used for an empty bar
-// extra_resolution
 std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
         bool extra_resolution = true,
         const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
