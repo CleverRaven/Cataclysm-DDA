@@ -161,6 +161,10 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "vertical_2_left", to_translation( "vpart_variants", "Left Thick Vertical" ) },
     { "vertical_T_right", to_translation( "vpart_variants", "Right T Joint" ) },
     { "vertical_T_left", to_translation( "vpart_variants", "Left T Joint" ) },
+    { "front_right", to_translation( "vpart_variants", "Front Right" ) },
+    { "front_left", to_translation( "vpart_variants", "Front Left" ) },
+    { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
+    { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
     // these have to be last to avoid false positives
     { "vertical", to_translation( "vpart_variants", "Vertical" ) },
     { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
