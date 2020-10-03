@@ -1,6 +1,6 @@
 # Cataclysm: Bright Nights
 
-Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. 
+Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world. It is a fork of Cataclysm: Dark Days Ahead; [see the differences from its ancestor on the wiki](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Changes-so-far).
 
 
 While some have described it as a "zombie game", there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there. 
