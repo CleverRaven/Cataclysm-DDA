@@ -175,7 +175,7 @@ TEST_CASE( "Gaining a mutation in category makes mutations from other categories
 }
 
 TEST_CASE( "Mutating with full mutagen accumulation results in multiple mutations",
-           "[mutations]" )
+           "[mutations][.]" )
 {
     REQUIRE( get_option<bool>( "BALANCED_MUTATIONS" ) );
     GIVEN( "Player with maximum intensity accumulated mutagen" ) {

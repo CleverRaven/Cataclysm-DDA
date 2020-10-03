@@ -1250,10 +1250,10 @@ void avatar::reset_stats()
                      ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
-        mod_dodge_bonus( 1 );
+        mod_dodge_bonus( 1.5 );
     }
     if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
-        mod_dodge_bonus( 2 );
+        mod_dodge_bonus( 3 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
     // if they hit the player, the player cannot dodge as effectively.

@@ -61,5 +61,40 @@
     "description": "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
     "valid": false,
     "cancels": [ "ILLITERATE", "LOVES_BOOKS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TRIGGERHAPPY",
+    "name": { "str": "Trigger Happy" },
+    "points": -1,
+    "description": "Unimplemented.  To be removed after 0.F. to preserve save compatibility.",
+    "starting_trait": false,
+    "player_display": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "FORGETFUL",
+    "name": { "str": "Forgetful" },
+    "points": -3,
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
+    "social_modifiers": { "lie": -5 },
+    "map_memory_capacity_multiplier": 0.5,
+    "skill_rust_multiplier": 0.66,
+    "valid": false,
+    "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
+    "cancels": [ "GOODMEMORY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAWS_RETRACT_active",
+    "name": { "str": "Extended Claws" },
+    "copy-from": "CLAWS_RETRACT",
+    "valid": false,
+    "ugliness": 1,
+    "cut_dmg_bonus": 4,
+    "description": "Sharp claws are extended from the end of your fingers.",
+    "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
+    "cost": 0
   }
 ]

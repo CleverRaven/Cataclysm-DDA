@@ -372,6 +372,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
+    optional( jo, was_loaded, "night_vision_range", night_vision_range, 0.0f );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );

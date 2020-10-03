@@ -130,14 +130,7 @@ void Creature::reset_bonuses()
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
-    bash_bonus = 0;
-    cut_bonus = 0;
-    size_bonus = 0;
 
-    bash_mult = 1.0f;
-    cut_mult = 1.0f;
-
-    melee_quiet = false;
     grab_resist = 0;
     throw_resist = 0;
 }
@@ -1424,28 +1417,6 @@ float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
-int Creature::get_bash_bonus() const
-{
-    return bash_bonus;
-}
-int Creature::get_cut_bonus() const
-{
-    return cut_bonus;
-}
-
-float Creature::get_bash_mult() const
-{
-    return bash_mult;
-}
-float Creature::get_cut_mult() const
-{
-    return cut_mult;
-}
-
-bool Creature::get_melee_quiet() const
-{
-    return melee_quiet;
-}
 int Creature::get_grab_resist() const
 {
     return grab_resist;
@@ -1466,10 +1437,6 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         mod_block_bonus( modifier );
     } else if( stat == "hit" ) {
         mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
     } else if( stat == "pain" ) {
         mod_pain( modifier );
     } else if( stat == "moves" ) {
@@ -1518,14 +1485,6 @@ void Creature::set_hit_bonus( float nhit )
 {
     hit_bonus = nhit;
 }
-void Creature::set_bash_bonus( int nbash )
-{
-    bash_bonus = nbash;
-}
-void Creature::set_cut_bonus( int ncut )
-{
-    cut_bonus = ncut;
-}
 void Creature::mod_speed_bonus( int nspeed )
 {
     speed_bonus += nspeed;
@@ -1542,32 +1501,7 @@ void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
 }
-void Creature::mod_bash_bonus( int nbash )
-{
-    bash_bonus += nbash;
-}
-void Creature::mod_cut_bonus( int ncut )
-{
-    cut_bonus += ncut;
-}
-void Creature::mod_size_bonus( int nsize )
-{
-    size_bonus += nsize;
-}
 
-void Creature::set_bash_mult( float nbashmult )
-{
-    bash_mult = nbashmult;
-}
-void Creature::set_cut_mult( float ncutmult )
-{
-    cut_mult = ncutmult;
-}
-
-void Creature::set_melee_quiet( bool nquiet )
-{
-    melee_quiet = nquiet;
-}
 void Creature::set_grab_resist( int ngrabres )
 {
     grab_resist = ngrabres;
