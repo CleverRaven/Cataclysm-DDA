@@ -50,6 +50,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "charged_powered_earmuffs",
+    "entries": [ { "item": "light_minus_battery_cell", "ammo-item": "battery", "charges": 50, "container-item": "powered_earmuffs" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_tazer",
     "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
   },
@@ -1346,11 +1352,11 @@
           "hat_ball",
           "badge_deputy",
           "wristwatch",
-          "powered_earmuffs",
           "tacvest"
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "762_51", "charges": 20 },
