@@ -72,5 +72,42 @@
       "palettes": [ "lodge_2ndfloor_palette" ]
     }
   },
-
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lodge_basement" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%##W###W###W###W###+##W#################%.....",
+        ".*#c B#c B#B c#B c#  #h s#             <#*.....",
+        ".*Wd B#d B#B d#B d#  #h T#              W*.....",
+        ".*##=###=###=###=##  ##=##              #*.....",
+        ".*#                                     #*.....",
+        ".*W                                     W*.....",
+        ".*#    YY   YY  AAAAAAAA  a  OOO       <#*.....",
+        ".%########+########################   ###%.....",
+        ".*********G~~~~~~~~~~~~~~~~~~~~~~%#   #***.....",
+        "~~~~~~~~~~G~~~~~~~~~~~*############   #*.......",
+        "oooooooooooooooo~~~~~~*w              #%.......",
+        "oooooooooooooooo~~~~~~*#Y             w*.......",
+        "ooooooooooooooooGGGGGGG+    ttttt    bw*.......",
+        "ooooooooooooooooGGGGGGG+    ttttt    bw*.......",
+        "oooooooooooooooo~~~~~G*#Y             w*.......",
+        "oooooooooooooooo~~~~~G*w              w*.......",
+        "~~~~~~~~~~~~~~~~~~~~~G*#####   ########*.......",
+        "~~~~~~~~~~~~~~~~~~~~~G***#<#   #********.......",
+        "~~~~~~~~~~~~~~~~%~~~~GGGG+ #   #%****..........",
+        "......*###-###-###-#########   #####*..........",
+        ".....0*#UU URU URU URU #12C     5 F#*..........",
+        ".....0*#R              +      C   uW*..........",
+        ".....0*#UU URU URU URU #3CC&  4CVuF#*..........",
+        "......%###-###-###-##########+######%.........."
+      ],
+      "palettes": [ "lodge_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
+      "place_nested": [ { "chunks": [ [ "lodge_pantry", 80 ], [ "lodge_cannibal", 20 ], [ "lodge_hunting", 50 ] ], "x": 8, "y": 19 } ]
+    }
+  }
 ]
