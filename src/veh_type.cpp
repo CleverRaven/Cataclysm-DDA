@@ -1078,6 +1078,11 @@ void vehicle_prototype::load( const JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
+    if( jo.has_member( "blueprint" ) ) {
+        // currently unused, read to suppress unvisited members warning
+        jo.get_array( "blueprint" );
+    }
+
     for( JsonObject part : jo.get_array( "parts" ) ) {
         point pos = point( part.get_int( "x" ), part.get_int( "y" ) );
 
