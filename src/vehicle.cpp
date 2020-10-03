@@ -5392,7 +5392,6 @@ void vehicle::place_spawn_items()
         if( part < 0 ) {
             debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
         } else {
-
             bool broken = parts[ part ].is_broken();
 
             std::vector<item> created;
