@@ -1139,15 +1139,17 @@ void Character::modify_morale( item &food, const int nutr )
     // Morale bonus for eating unspoiled food with chair/table nearby
     // Does not apply to non-ingested consumables like bandages or drugs,
     // nor to drinks.
-    if( !food.rotten() && !food.has_flag( "NO_INGEST" ) &&
+    if( !food.has_flag( "NO_INGEST" ) &&
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
         if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
-            } else {
+                if( !food.rotten() ) {
+                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
+                }
+            } else if( !food.rotten() ) {
                 add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
             }
         } else {
