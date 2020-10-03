@@ -195,7 +195,7 @@
         { "item": "harddrugs", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
-      "Z": { "item": "laundry", "chance": 100 },
+      "Z": { "item": "laundry", "chance": 80 },
       "W": { "item": "laundry", "chance": 50 },
       "z": [
         { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },

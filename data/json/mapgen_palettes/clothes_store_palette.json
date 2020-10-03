@@ -48,12 +48,12 @@
         { "item": "clothing_outdoor_pants", "chance": 50, "repeat": 3 }
       ],
       "B": { "item": "bags", "chance": 50, "repeat": 3 },
-      "$": { "item": "SUS_office_filing_cabinet", "chance": 100 },
+      "$": { "item": "SUS_office_filing_cabinet", "chance": 80 },
       "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 70 },
-      "d": { "item": "SUS_office_desk", "chance": 100 },
-      "L": { "item": "SUS_janitors_closet", "chance": 100 }
+      "d": { "item": "SUS_office_desk", "chance": 80 },
+      "L": { "item": "SUS_janitors_closet", "chance": 80 }
     }
   },
   {
@@ -83,7 +83,7 @@
         { "item": "shirts_summer_womens", "chance": 70 },
         { "item": "pants_summer_womens", "chance": 70 }
       ],
-      "]": { "item": "SUS_tailoring_bookcase", "chance": 100 },
+      "]": { "item": "SUS_tailoring_bookcase", "chance": 80 },
       "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
       "@": { "item": "SUS_mannequin_dresses", "chance": 50 },
       "d": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
