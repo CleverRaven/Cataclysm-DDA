@@ -206,7 +206,7 @@
       },
       { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
-      { "item": "goggles_ir", "prob": 10, "chrges": [ 0, 100 ] }
+      { "item": "goggles_ir", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -383,8 +383,8 @@
     "entries": [
       { "item": "hat_hard", "prob": 60 },
       { "item": "hat_hard_hooded", "prob": 15 },
-      { "item": "miner_hat", "prob": 10, "chrges": [ 0, 100 ] },
-      { "item": "wearable_light", "prob": 15, "chrges": [ 0, 100 ] }
+      { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] }
     ]
   },
   {
