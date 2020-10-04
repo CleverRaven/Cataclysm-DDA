@@ -2601,7 +2601,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         auto field_at = [&]( const tripoint & q, const bool invis ) -> field_type_id {
             const auto it = field_override.find( q );
             return it != field_override.end() ? it->second :
-            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : field_type_id( "fd_null" );
+            ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
         };
         // for rotation information
         const int neighborhood[4] = {
@@ -3792,11 +3792,11 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
     std::vector<options_manager::id_and_option> renderer_names;
     std::vector<options_manager::id_and_option> default_renderer_names = {
 #   if defined(_WIN32)
-        { "direct3d", translate_marker( "direct3d" ) },
+        { "direct3d", to_translation( "direct3d" ) },
 #   endif
-        { "software", translate_marker( "software" ) },
-        { "opengl", translate_marker( "opengl" ) },
-        { "opengles2", translate_marker( "opengles2" ) },
+        { "software", to_translation( "software" ) },
+        { "opengl", to_translation( "opengl" ) },
+        { "opengles2", to_translation( "opengles2" ) },
     };
     int numRenderDrivers = SDL_GetNumRenderDrivers();
     DebugLog( D_INFO, DC_ALL ) << "Number of render drivers on your system: " << numRenderDrivers;
@@ -3809,7 +3809,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_renderer_list()
         if( ri.name == default_renderer_names.front().first ) {
             renderer_names.emplace( renderer_names.begin(), default_renderer_names.front() );
         } else {
-            renderer_names.emplace_back( ri.name, ri.name );
+            renderer_names.emplace_back( ri.name, no_translation( ri.name ) );
         }
 
     }
@@ -3821,12 +3821,12 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
 {
     std::vector<options_manager::id_and_option> display_names;
     std::vector<options_manager::id_and_option> default_display_names = {
-        { "0", translate_marker( "Display 0" ) }
+        { "0", to_translation( "Display 0" ) }
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
     for( int i = 0 ; i < numdisplays ; i++ ) {
-        display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
+        display_names.emplace_back( std::to_string( i ), no_translation( SDL_GetDisplayName( i ) ) );
     }
 
     return display_names.empty() ? default_display_names : display_names;

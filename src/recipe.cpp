@@ -565,24 +565,21 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_proficiencies_string( const Character &c ) const
+std::string recipe::required_proficiencies_string( const Character *c ) const
 {
     std::vector<proficiency_id> required_profs;
-    std::vector<std::pair<proficiency_id, float>> used_profs;
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( rec.required ) {
             required_profs.push_back( rec.id );
-        } else {
-            used_profs.push_back( { rec.id, rec.time_multiplier } );
         }
     }
     std::string required = enumerate_as_string( required_profs.begin(),
     required_profs.end(), [&]( const proficiency_id & id ) {
         nc_color color;
-        if( c.has_proficiency( id ) ) {
+        if( c != nullptr && c->has_proficiency( id ) ) {
             color = c_green;
-        } else if( helpers_have_proficiencies( c, id ) ) {
+        } else if( c != nullptr && helpers_have_proficiencies( *c, id ) ) {
             color = c_yellow;
         } else {
             color = c_red;
@@ -590,11 +587,24 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         return colorize( id->name(), color );
     } );
 
+    return required;
+}
+
+std::string recipe::used_proficiencies_string( const Character *c ) const
+{
+    std::vector<std::pair<proficiency_id, float>> used_profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( !rec.required ) {
+            used_profs.push_back( { rec.id, rec.time_multiplier } );
+        }
+    }
+
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
         std::string color;
-        if( c.has_proficiency( pair.first ) ||
-            helpers_have_proficiencies( c, pair.first ) ) {
+        if( c != nullptr && ( c->has_proficiency( pair.first ) ||
+                              helpers_have_proficiencies( *c, pair.first ) ) ) {
             color = "white";
         } else {
             color = "yellow";
@@ -602,9 +612,8 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
                               pair.second );
     } );
-    used = string_format( _( "Proficiencies Used: %s" ), used );
 
-    return string_format( "%s\n%s", required, used );
+    return used;
 }
 
 std::set<proficiency_id> recipe::required_proficiencies() const

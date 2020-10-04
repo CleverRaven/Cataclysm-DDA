@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
-"""Run this script with -h for usage info and docs.
-"""
-
-import sys
-import json
-import argparse
-from util import import_data, key_counter, ui_counts_to_columns,\
-    WhereAction
-
-parser = argparse.ArgumentParser(description="""Count the number of times a specific key occurs.
+"""Count the number of times a specific key occurs.
 
 Example usages:
 
@@ -17,7 +8,17 @@ Example usages:
 
     # List keys on JSON objects of type "bionic", output in JSON.
     %(prog)s type=bionic
-""", formatter_class=argparse.RawDescriptionHelpFormatter)
+
+"""
+
+import sys
+import json
+import argparse
+from util import import_data, key_counter, ui_counts_to_columns,\
+    WhereAction
+
+parser = argparse.ArgumentParser(
+    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument(
     "--fnmatch",
@@ -26,7 +27,7 @@ parser.add_argument(
 parser.add_argument(
     "-H", "--human",
     action="store_true",
-    help="if set, makes output human readable. default is to return output in JSON.")
+    help="if set, makes output human readable. default is JSON output.")
 parser.add_argument(
     "-L", "--list",
     action="store_true",

@@ -756,6 +756,17 @@
   },
   {
     "type": "effect_type",
+    "id": "sludged",
+    "name": [ "sludged" ],
+    "desc": [ "You're standing in sludge!" ],
+    "apply_message": "You're stepped into some sludge!",
+    "rating": "bad",
+    "miss_messages": [ [ "The sludge constricts your movement.", 4 ] ],
+    "max_intensity": 3,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "bite",
     "name": [ "Bite", "Painful Bite" ],
     "desc": [ "You have a nasty bite wound." ],

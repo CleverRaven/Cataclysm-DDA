@@ -723,5 +723,34 @@
         }
       ]
     }
+  },
+  {
+    "id": "subzero_talons",
+    "type": "GENERIC",
+    "name": { "str_sp": "subzero talons" },
+    "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 1,
+    "bashing": 6,
+    "cutting": 12,
+    "material": [ "superalloy" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
+    }
   }
 ]

@@ -134,6 +134,7 @@ static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_mute( "mute" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
@@ -254,6 +255,7 @@ static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
@@ -290,11 +292,11 @@ static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEAF( "DEAF" );
+static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -371,6 +373,7 @@ static const std::string flag_AURA( "AURA" );
 static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_DEAF( "DEAF" );
+static const std::string flag_MUTE( "MUTE" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
@@ -380,6 +383,7 @@ static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -508,22 +512,22 @@ void Character::randomize_blood()
 field_type_id Character::bloodType() const
 {
     if( has_trait( trait_ACIDBLOOD ) ) {
-        return field_type_id( "fd_acid" );
+        return fd_acid;
     }
     if( has_trait( trait_THRESH_PLANT ) ) {
-        return field_type_id( "fd_blood_veggy" );
+        return fd_blood_veggy;
     }
     if( has_trait( trait_THRESH_INSECT ) || has_trait( trait_THRESH_SPIDER ) ) {
-        return field_type_id( "fd_blood_insect" );
+        return fd_blood_insect;
     }
     if( has_trait( trait_THRESH_CEPHALOPOD ) ) {
-        return field_type_id( "fd_blood_invertebrate" );
+        return fd_blood_invertebrate;
     }
-    return field_type_id( "fd_blood" );
+    return fd_blood;
 }
 field_type_id Character::gibType() const
 {
-    return field_type_id( "fd_gibs_flesh" );
+    return fd_gibs_flesh;
 }
 
 bool Character::in_species( const species_id &spec ) const
@@ -677,8 +681,17 @@ double Character::aim_speed_encumbrance_modifier() const
 
 double Character::aim_cap_from_volume( const item &gun ) const
 {
+    const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
+
     skill_id gun_skill = gun.gun_skill();
-    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+
+    units::volume wielded_volume = gun.volume();
+    if( gun.has_flag( flag_COLLAPSIBLE_STOCK ) ) {
+        // use the unfolded volume
+        wielded_volume += gun.collapsed_volume_delta();
+    }
+
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( wielded_volume / 75_ml ) );
     // TODO: also scale with skill level.
     if( gun_skill == skill_smg ) {
         aim_cap = std::max( 12.0, aim_cap );
@@ -3170,38 +3183,65 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             itype_id contents_id = obj.contents.legacy_front().typeId();
 
             // Look for containers with the same type of liquid as that already in our container
-            src.visit_items( [&src, &nested, &out, &contents_id, &obj]( item * node, item * parent ) {
+            src.visit_items( [&src, &nested, &out, &obj]( item * node, item * parent ) {
                 if( node == &obj ) {
                     // This stops containers and magazines counting *themselves* as ammo sources
                     return VisitResponse::SKIP;
                 }
-                // prevents reloading with items frozen in watertight containers.
-                if( node->is_frozen_liquid() && parent->is_watertight_container() ) {
+                // Prevents reloading with items frozen in watertight containers.
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( node->is_container() && !node->is_container_empty() ) {
-                    return VisitResponse::NEXT;
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
 
-                if( node->typeId() == contents_id ) {
-                    out = item_location( src, node );
-                    return VisitResponse::ABORT;
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
 
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         } else {
             // Look for containers with any liquid and loose frozen liquids
             src.visit_items( [&src, &nested, &out]( item * node, item * parent ) {
-                if( parent->is_watertight_container() && node->is_frozen_liquid() ) {
+                // Prevents reloading with items frozen in watertight containers.
+                if( parent != nullptr && parent->is_watertight_container() && node->is_frozen_liquid() ) {
                     return VisitResponse::SKIP;
                 }
 
-                if( ( parent->is_container() && node->made_of( phase_id::LIQUID ) ) || node->is_frozen_liquid() ) {
-                    out = item_location( src, node );
+                // Liquids not in a watertight container are skipped.
+                if( parent != nullptr && !parent->is_watertight_container() &&
+                    node->made_of( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
                 }
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+
+                // Spills have no parent.
+                if( parent == nullptr && node->made_of_from_type( phase_id::LIQUID ) ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( !nested && node->is_container() && parent != nullptr && parent->is_container() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                if( node->made_of_from_type( phase_id::LIQUID ) ) {
+                    out = item_location( item_location( src, parent ), node );
+                }
+
+                return VisitResponse::NEXT;
             } );
         }
     }
@@ -3441,10 +3481,6 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
 
 units::mass Character::weight_capacity() const
 {
-    if( has_trait( trait_DEBUG_STORAGE ) ) {
-        // Infinite enough
-        return units::mass_max;
-    }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     units::mass ret = Creature::weight_capacity();
@@ -3498,8 +3534,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_DEBUG_STORAGE ) ?
-                 units::mass_max : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
     } else {
         return ( weight_carried() + it.weight() <= weight_capacity() );
     }
@@ -4528,17 +4563,31 @@ int Character::encumb( const bodypart_id &bp ) const
 }
 
 static void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals,
-                                   const trait_id &mut,
+                                   const std::vector<trait_id> &all_muts,
                                    const body_part_set &oversize )
 {
-    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
-        vals[enc.first.id()].encumbrance += enc.second;
+    std::map<bodypart_str_id, float> total_enc;
+
+    for( const trait_id &mut : all_muts ) {
+        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_always ) {
+            total_enc[enc.first] += enc.second;
+        }
+
+        for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
+            if( !oversize.test( enc.first ) ) {
+                total_enc[enc.first] += enc.second;
+            }
+        }
     }
 
-    for( const std::pair<const bodypart_str_id, int> &enc : mut->encumbrance_covered ) {
-        if( !oversize.test( enc.first ) ) {
-            vals[enc.first.id()].encumbrance += enc.second;
+    for( const trait_id &mut : all_muts ) {
+        for( const std::pair<const bodypart_str_id, float> &enc : mut->encumbrance_multiplier_always ) {
+            total_enc[enc.first] *= enc.second;
         }
+    }
+
+    for( const std::pair<const bodypart_str_id, float> &enc : total_enc ) {
+        vals[enc.first.id()].encumbrance += enc.second;
     }
 }
 
@@ -4560,9 +4609,7 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
 
     // Lower penalty for bps covered only by XL armor
     const body_part_set oversize = exclusive_flag_coverage( flag_OVERSIZE );
-    for( const trait_id &mut : get_mutations() ) {
-        apply_mut_encumbrance( vals, mut, oversize );
-    }
+    apply_mut_encumbrance( vals, get_mutations(), oversize );
 }
 
 body_part_set Character::exclusive_flag_coverage( const std::string &flag ) const
@@ -4648,6 +4695,10 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
+    if( has_trait_flag( "STEADY" ) ) {
+        return get_speed_base() + std::max( 0, get_speed_bonus() ) + std::max( 0,
+                get_speedydex_bonus( get_dex() ) );
+    }
     return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
@@ -5101,6 +5152,13 @@ bool Character::is_deaf() const
              && in_sleep_state() );
 }
 
+bool Character::is_mute() const
+{
+    return get_effect_int( effect_mute ) || worn_with_flag( flag_MUTE ) ||
+           ( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) ||
+           has_trait( trait_MUTE );
+}
 void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
 {
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
@@ -6649,7 +6707,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = here.get_field_intensity( p, field_type_id( "fd_web" ) );
+    int web = here.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -7166,6 +7224,8 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
                has_bionic( bio_ears ) ||
                is_wearing( itype_rm13_armor_on );
+    } else if( eff == effect_mute ) {
+        return has_bionic( bio_voice );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
@@ -7739,6 +7799,7 @@ mutation_value_map = {
     { "map_memory_capacity_multiplier", calc_mutation_value_multiplicative<&mutation_branch::map_memory_capacity_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
+    { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
@@ -8859,7 +8920,7 @@ void Character::vomit()
 
     if( stomach.contains() != 0_ml ) {
         stomach.empty();
-        get_map().add_field( adjacent_tile(), field_type_id( "fd_bile" ), 1 );
+        get_map().add_field( adjacent_tile(), fd_bile, 1 );
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
 
@@ -9974,7 +10035,7 @@ void Character::blossoms()
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
-        here.add_field( tmp, field_type_id( "fd_fungal_haze" ), rng( 1, 2 ) );
+        here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
 
@@ -10012,7 +10073,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
@@ -10117,11 +10178,17 @@ double Character::armwear_factor() const
 double Character::footwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_l" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
-    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_r" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
     return ret;
 }

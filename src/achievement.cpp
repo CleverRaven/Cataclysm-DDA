@@ -880,7 +880,9 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    jo.read( "enabled", enabled_ ) || ( enabled_ = true );
+    if( !jo.read( "enabled", enabled_ ) ) {
+        enabled_ = true;
+    }
     jo.read( "initial_achievements", initial_achievements_ );
     jo.read( "achievements_status", achievements_status_ );
 

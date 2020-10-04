@@ -322,12 +322,12 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     return items.back().back();
 }
 
-void inventory::add_item_keep_invlet( item newit )
+void inventory::add_item_keep_invlet( const item &newit )
 {
     add_item( newit, true );
 }
 
-void inventory::push_back( item newit )
+void inventory::push_back( const item &newit )
 {
     add_item( newit );
 }

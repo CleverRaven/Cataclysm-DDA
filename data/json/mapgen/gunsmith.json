@@ -148,7 +148,7 @@
         "V": "t_chainfence",
         "^": "t_chaingate_l",
         ">": "t_stairs_down",
-        "+": "t_door_locked"
+        "+": "t_door_metal_pickable"
       },
       "furniture": { "W": "f_water_heater" },
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },

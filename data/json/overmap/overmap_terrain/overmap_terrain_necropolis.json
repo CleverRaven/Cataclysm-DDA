@@ -710,7 +710,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "necropolis_d_38", "necropolis_d_39" ],
-    "name": "Vault - Maint. Bay",
+    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "copy-from": "generic_necropolis_underground"
   },

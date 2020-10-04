@@ -632,7 +632,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take a dab. Wow that's got some killer terpenes!",
+      "activation_message": "You take a dab.  Wow that's got some killer terpenes!",
       "effects": [
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
@@ -951,7 +951,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take a dab of some distillate.  Sooooo smooth...",
+      "activation_message": "You take a dab of some distillate.  Sooooo smooth…",
       "effects": [
         { "id": "weed_high", "duration": "180 m" },
         { "id": "pkill1", "duration": "120 m" },
@@ -986,7 +986,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You hit your dab pen.  Sooooo smooth...",
+      "activation_message": "You hit your dab pen.  Sooooo smooth…",
       "effects": [
         { "id": "weed_high", "duration": "90 m" },
         { "id": "pkill1", "duration": "90 m" },

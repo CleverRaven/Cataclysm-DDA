@@ -455,7 +455,7 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+    if( weight_carried() > weight_capacity() ) {
         carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
     mod_speed_bonus( -carry_penalty );
@@ -1181,10 +1181,10 @@ void player::process_one_effect( effect &it, bool is_new )
     };
 
     // Handle miss messages
-    auto msgs = it.get_miss_msgs();
+    const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
     if( !msgs.empty() ) {
         for( const auto &i : msgs ) {
-            add_miss_reason( _( i.first ), static_cast<unsigned>( i.second ) );
+            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
         }
     }
 
@@ -2158,7 +2158,7 @@ void player::mend_item( item_location &&obj, bool interactive )
 
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
-    if( ammo.is_ammo() || ammo.is_frozen_liquid() ) {
+    if( ammo.is_ammo() || ammo.is_frozen_liquid() || ammo.made_of_from_type( phase_id::LIQUID ) ) {
         qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
@@ -2925,7 +2925,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( pos(), field_type_id( "fd_web" ) );
+        int web = here.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -2935,7 +2935,7 @@ void player::try_to_sleep( const time_duration &dur )
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
                                    _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                here.remove_field( pos(), field_type_id( "fd_web" ) );
+                here.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.

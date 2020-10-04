@@ -233,6 +233,7 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
       "noise_threshold_forest_thick": 0.25,

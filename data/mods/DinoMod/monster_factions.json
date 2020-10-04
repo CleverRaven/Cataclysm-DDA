@@ -36,88 +36,93 @@
     "type": "MONSTER_FACTION",
     "name": "albertosaurus",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "allosaurus",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acrocanthosaurus",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "siats",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "velociraptor",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human", "small_animal" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "deinonychus",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "utahraptor",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dimorphodon",
-    "base_faction": "fishing_dino"
+    "base_faction": "fishing_dino",
+    "friendly": "dimorphodon"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "pteranodon",
-    "base_faction": "fishing_dino"
+    "base_faction": "fishing_dino",
+    "friendly": "pteranodon"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "quetzalcoatlus",
-    "base_faction": "fishing_dino"
+    "base_faction": "fishing_dino",
+    "friendly": "quetzalcoatlus"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "eoraptor",
-    "base_faction": "predator_dino",
-    "hate": [ "small_animal", "fishing_dino" ]
+    "base_faction": "fishing_dino",
+    "friendly": "eoraptor"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "coelophysis",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human" ],
+    "friendly": "coelophysis"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dilophosaurus",
-    "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "base_faction": "fishing_dino",
+    "friendly": "dilophosaurus"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "Ceratosaurus",
-    "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human" ]
+    "base_faction": "fishing_dino",
+    "friendly": "Ceratosaurus"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "mosasaurus",
     "base_faction": "predator_dino",
-    "hate": [ "herbivore_dino", "animal", "zombie", "human", "fishing_dino" ]
+    "hate": [ "herbivore_dino", "herbivore", "zombie", "human", "fishing_dino" ],
+    "friendly": "mosasaurus"
   },
   {
     "type": "MONSTER_FACTION",

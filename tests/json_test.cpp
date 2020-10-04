@@ -73,7 +73,6 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.sound_ambient == true );
         CHECK( test_spell.sound_id == "test_sound" );
         CHECK( test_spell.sound_variant == "not_default" );
-        CHECK( test_spell.effect_targets.test( spell_target::none ) );
         CHECK( test_spell.targeted_monster_ids == test_fake_mon );
         CHECK( test_spell.additional_spells == test_fake_spell_vec );
         CHECK( test_spell.affected_bps.test( bodypart_str_id( "head" ) ) );
@@ -135,7 +134,6 @@ TEST_CASE( "spell_type handles all members", "[json]" )
             R"("sound_ambient":true,)"
             R"("sound_id":"test_sound",)"
             R"("sound_variant":"not_default",)"
-            R"("effect_filter":["none"],)"
             R"("targeted_monster_ids":["mon_test"],)"
             R"("extra_effects":[{"id":"test_fake_spell"}],)"
             R"("affected_body_parts":["head"],)"
@@ -239,9 +237,21 @@ static void test_translation_text_style_check( Matcher &&matcher, const std::str
     CHECK_THAT( dmsg, matcher );
 }
 
+template<typename Matcher>
+static void test_pl_translation_text_style_check( Matcher &&matcher, const std::string &json )
+{
+    std::istringstream iss( json );
+    JsonIn jsin( iss );
+    translation trans( translation::plural_tag {} );
+    const std::string dmsg = capture_debugmsg_during( [&]() {
+        jsin.read( trans );
+    } );
+    CHECK_THAT( dmsg, matcher );
+}
+
 TEST_CASE( "translation_text_style_check", "[json][translation]" )
 {
-    // this test case is mainly for checking the caret position.
+    // this test case is mainly for checking the format of debug messages.
     // the text style check itself is tested in the lit test of clang-tidy.
 
     // string, ascii
@@ -322,6 +332,68 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
             R"(                  ^)" "\n"
             R"(                    bar."})" "\n" ),
         R"({"str": "\u2026foo. bar."})" ); // NOLINT(cata-text-style)
+
+    // test unexpected plural forms
+    test_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:11: str_sp not supported here)" "\n"
+            R"()" "\n"
+            R"({"str_sp":)" "\n"
+            R"(          ^)" "\n"
+            R"(           "foo"})" "\n" ),
+        R"({"str_sp": "foo"})" );
+    test_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:25: str_pl not supported here)" "\n"
+            R"()" "\n"
+            R"({"str": "foo", "str_pl":)" "\n"
+            R"(                        ^)" "\n"
+            R"(                         "foo"})" "\n" ),
+        R"({"str": "foo", "str_pl": "foo"})" );
+
+    // test plural forms
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:25: "str_pl" is not necessary here since the plural form can be automatically generated.)"
+            "\n"
+            R"()" "\n"
+            R"({"str": "foo", "str_pl":)" "\n"
+            R"(                        ^)" "\n"
+            R"(                         "foos"})" "\n" ),
+        R"({"str": "foo", "str_pl": "foos"})" );
+    test_pl_translation_text_style_check(
+        Catch::Equals(
+            R"((json-error))" "\n"
+            R"(Json error: <unknown source file>:1:25: Please use "str_sp" instead of "str" and "str_pl" for text with identical singular and plural forms)"
+            "\n"
+            R"()" "\n"
+            R"({"str": "foo", "str_pl":)" "\n"
+            R"(                        ^)" "\n"
+            R"(                         "foo"})" "\n" ),
+        R"({"str": "foo", "str_pl": "foo"})" );
+
+    // ensure nolint member suppresses text style check
+    test_translation_text_style_check(
+        Catch::Equals( "" ),
+        // NOLINTNEXTLINE(cata-text-style)
+        R"~({"str": "foo. bar", "//NOLINT(cata-text-style)": "blah"})~" );
+
+    // ensure sentence text style check is disabled when plural form is enabled
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"("foo. bar")" ); // NOLINT(cata-text-style)
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "foo. bar"})" ); // NOLINT(cata-text-style)
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str": "foo. bar", "str_pl": "foo. baz"})" ); // NOLINT(cata-text-style)
+    test_pl_translation_text_style_check(
+        Catch::Equals( "" ),
+        R"({"str_sp": "foo. bar"})" ); // NOLINT(cata-text-style)
 }
 
 TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )

@@ -170,6 +170,8 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SUBWAY", oter_flags::subway_connection },
     { "LAKE", oter_flags::lake },
     { "LAKE_SHORE", oter_flags::lake_shore },
+    { "RAVINE", oter_flags::ravine },
+    { "RAVINE_EDGE", oter_flags::ravine_edge },
     { "GENERIC_LOOT", oter_flags::generic_loot },
     { "RISK_HIGH", oter_flags::risk_high },
     { "RISK_LOW", oter_flags::risk_low },
@@ -436,6 +438,7 @@ class overmap
         void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
+        void place_ravines();
 
         // Connection laying
         pf::path<point_om_omt> lay_out_connection(

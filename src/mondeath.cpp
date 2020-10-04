@@ -241,7 +241,7 @@ void mdeath::acid( monster &z )
             add_msg( m_warning, _( "The %s's body leaks acid." ), z.name() );
         }
     }
-    get_map().add_field( z.pos(), field_type_id( "fd_acid" ), 3 );
+    get_map().add_field( z.pos(), fd_acid, 3 );
 }
 
 void mdeath::boomer( monster &z )
@@ -262,7 +262,7 @@ void mdeath::boomer( monster &z )
         player_character.add_env_effect( effect_boomered, bodypart_id( "eyes" ), 2, 24_turns );
     }
 
-    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 15, 1 );
+    here.propagate_field( z.pos(), fd_bile, 15, 1 );
 }
 
 void mdeath::boomer_glow( monster &z )
@@ -289,7 +289,7 @@ void mdeath::boomer_glow( monster &z )
         }
     }
 
-    here.propagate_field( z.pos(), field_type_id( "fd_bile" ), 30, 2 );
+    here.propagate_field( z.pos(), fd_bile, 30, 2 );
 }
 
 void mdeath::kill_vines( monster &z )
@@ -603,7 +603,7 @@ void mdeath::focused_beam( monster &z )
             if( !here.is_transparent( elem ) ) {
                 break;
             }
-            here.add_field( elem, field_type_id( "fd_dazzling" ), 2 );
+            here.add_field( elem, fd_dazzling, 2 );
         }
     }
 
@@ -716,7 +716,7 @@ void mdeath::fungalburst( monster &z )
 {
     map &here = get_map();
     // If the fungus died from anti-fungal poison, don't pouf
-    if( here.get_field_intensity( z.pos(), field_type_id( "fd_fungicidal_gas" ) ) ) {
+    if( here.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
         add_msg_if_player_sees( z, m_good, _( "The %s inflates and melts away." ), z.name() );
         return;
     }
@@ -800,7 +800,7 @@ void mdeath::preg_roach( monster &z )
 void mdeath::fireball( monster &z )
 {
     if( one_in( 10 ) ) {
-        get_map().propagate_field( z.pos(), field_type_id( "fd_fire" ), 15, 3 );
+        get_map().propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
                                              z.name() );
         sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "default" );
@@ -814,7 +814,7 @@ void mdeath::conflagration( monster &z )
 {
     map &here = get_map();
     for( const auto &dest : here.points_in_radius( z.pos(), 1 ) ) {
-        here.propagate_field( dest, field_type_id( "fd_fire" ), 18, 3 );
+        here.propagate_field( dest, fd_fire, 18, 3 );
     }
     const std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
