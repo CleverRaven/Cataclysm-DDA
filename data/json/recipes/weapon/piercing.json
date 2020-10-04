@@ -15,7 +15,13 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.2, "fail_multiplier": 1.2, "learning_time_multiplier": 0.2 }
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -37,7 +43,13 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.2, "fail_multiplier": 1.2, "learning_time_multiplier": 0.2 }
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -59,7 +71,13 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.2, "fail_multiplier": 1.2, "learning_time_multiplier": 0.2 }
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -98,7 +116,13 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.2, "fail_multiplier": 1.2, "learning_time_multiplier": 0.2 }
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -140,7 +164,13 @@
       { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_carving", "required": false, "time_multiplier": 1.2, "fail_multiplier": 1.2, "learning_time_multiplier": 0.2 }
+      {
+        "proficiency": "prof_carving",
+        "required": false,
+        "time_multiplier": 1.2,
+        "fail_multiplier": 1.2,
+        "learning_time_multiplier": 0.2
+      }
     ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
