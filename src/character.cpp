@@ -379,6 +379,7 @@ static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -10023,7 +10024,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
@@ -10128,11 +10129,17 @@ double Character::armwear_factor() const
 double Character::footwear_factor() const
 {
     double ret = 0;
-    if( wearing_something_on( bodypart_id( "foot_l" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_l" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
-    if( wearing_something_on( bodypart_id( "foot_r" ) ) ) {
-        ret += .5;
+    for( const item &i : worn ) {
+        if( i.covers( bodypart_id( "foot_r" ) ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
+            ret += 0.5f;
+            break;
+        }
     }
     return ret;
 }
