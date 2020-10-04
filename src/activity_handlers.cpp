@@ -241,6 +241,7 @@ static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
